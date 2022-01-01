@@ -19,8 +19,12 @@ function Artworks() {
     isFetching,
     data: artworks,
     isError,
-  } = useQuery(["artworks"], () =>
-    axiosAuth.get(`/art-piece/creator`).then((res) => res.data.artPieces),
+  } = useQuery(
+    ["artworks"],
+    () => axiosAuth.get(`/art-piece/creator`).then((res) => res.data.artPieces),
+    {
+      refetchOnWindowFocus: false,
+    },
   );
 
   return (

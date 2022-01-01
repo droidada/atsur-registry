@@ -26,21 +26,46 @@ const VerificationAccepted: React.FC<Props> = ({ artPiece }) => {
         <p className="w-full   text-justify text-[17px] leading-[20px] font-[300]">
           Congratulations your artwork has been verified
         </p>
-        <Stack direction="row" spacing={2}>
+        <div className="flex flex-wrap gap-4">
           <Button
             // onClick={() => setActiveIndex(0)}
             variant="contained"
-            className="w-fit bg-[#00FF94] text-primary"
+            className="w-[151px] h-[46px] text-xs leading-[13px] bg-[#00FF94] text-primary"
           >
             Download
           </Button>
-          <Button variant="outlined" className="w-fit">
-            Sign
+          <Button
+            variant="outlined"
+            className="w-[151px] h-[46px] text-xs leading-[13px]"
+          >
+            View Certificate
           </Button>
-          <Button variant="outlined" className="w-fit">
-            Mint
+          <Button
+            variant="outlined"
+            className="w-[151px] h-[46px] text-xs leading-[13px]"
+          >
+            Mint to blockchain
           </Button>
-        </Stack>
+
+          <Button
+            variant="outlined"
+            className="w-[151px] h-[46px] text-xs leading-[13px]"
+          >
+            Order physical certificate
+          </Button>
+          <Button
+            variant="outlined"
+            className="w-[151px] h-[46px] text-xs leading-[13px]"
+          >
+            Order RFID Tag
+          </Button>
+          <Button
+            variant="outlined"
+            className="w-[151px] h-[46px] text-xs leading-[13px]"
+          >
+            Order QR Sticker
+          </Button>
+        </div>
       </div>
     </div>
   );

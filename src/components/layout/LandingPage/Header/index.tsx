@@ -29,65 +29,67 @@ const LandindingPageHeader = () => {
 
   const { status } = useSession();
   return (
-    <header className="page-container">
-      <Stack
-        direction="row"
-        alignItems={"center"}
-        justifyContent={"space-between"}
-      >
-        <Stack direction="row" alignItems={"center"} spacing={4}>
-          <Link href={"/"}>
-            <Image src={logo} width={66} height={58.98} alt="Atsur" />
-          </Link>
-          <div className="hidden md:flex items-center gap-8 ">
-            {landingPageNavMenu.map((item) => (
-              <Link
-                className={`text-[17px] leading-[16px] hover:font-bold duration-500 text-justified ${
-                  isCurrentPath(item.link) ? "font-[600]" : "font-[400]"
-                }`}
-                href={item.link}
-                key={item.title}
+    <header className="border-b-[1px]">
+      <div className="page-container ">
+        <Stack
+          direction="row"
+          alignItems={"center"}
+          justifyContent={"space-between"}
+        >
+          <Stack direction="row" alignItems={"center"} spacing={4}>
+            <Link href={"/"}>
+              <Image src={logo} width={66} height={58.98} alt="Atsur" />
+            </Link>
+            <div className="hidden md:flex items-center gap-8 ">
+              {landingPageNavMenu.map((item) => (
+                <Link
+                  className={`text-[17px] leading-[16px] hover:font-bold duration-500 text-justified ${
+                    isCurrentPath(item.link) ? "font-[600]" : "font-[400]"
+                  }`}
+                  href={item.link}
+                  key={item.title}
+                >
+                  {item.title}
+                </Link>
+              ))}
+            </div>
+          </Stack>
+          <Stack spacing={1} alignItems={"center"} direction={"row"}>
+            {status == "authenticated" ? (
+              <Button
+                onClick={() => router.push("/dashboard")}
+                variant="contained"
+                className="h-[29px] hover:scale-95 duration-500 bg-black text-white text-[15px] leading-[16px]"
               >
-                {item.title}
-              </Link>
-            ))}
-          </div>
-        </Stack>
-        <Stack spacing={1} alignItems={"center"} direction={"row"}>
-          {status == "authenticated" ? (
+                Dashboard
+              </Button>
+            ) : (
+              <Button
+                onClick={() => router.push("/login")}
+                variant="contained"
+                className="h-[29px] hover:scale-95 duration-500 bg-black text-white text-[15px] leading-[16px]"
+              >
+                Login
+              </Button>
+            )}
             <Button
-              onClick={() => router.push("/dashboard")}
-              variant="contained"
-              className="h-[29px] hover:scale-95 duration-500 bg-black text-white text-[15px] leading-[16px]"
+              onClick={() => setOpen(true)}
+              variant="text"
+              className="rotate-[180] hover:bg-gray-400 duration-500 text-black text-[15px] leading-[16px]"
             >
-              Dashboard
+              <BiMenuAltRight size={24} />
             </Button>
-          ) : (
-            <Button
-              onClick={() => router.push("/login")}
-              variant="contained"
-              className="h-[29px] hover:scale-95 duration-500 bg-black text-white text-[15px] leading-[16px]"
-            >
-              Login
-            </Button>
-          )}
-          <Button
-            onClick={() => setOpen(true)}
-            variant="text"
-            className="rotate-[180] hover:bg-gray-400 duration-500 text-black text-[15px] leading-[16px]"
-          >
-            <BiMenuAltRight size={24} />
-          </Button>
+          </Stack>
         </Stack>
-      </Stack>
-      <SwipeableDrawer
-        anchor="right"
-        open={open}
-        onOpen={() => setOpen(true)}
-        onClose={() => setOpen(false)}
-      >
-        <MobileMenuContent />
-      </SwipeableDrawer>
+        <SwipeableDrawer
+          anchor="right"
+          open={open}
+          onOpen={() => setOpen(true)}
+          onClose={() => setOpen(false)}
+        >
+          <MobileMenuContent />
+        </SwipeableDrawer>
+      </div>
     </header>
   );
 };

@@ -28,6 +28,7 @@ const ReadyForVerification = () => {
       ),
     {
       keepPreviousData: true,
+      refetchOnWindowFocus: false,
       onSuccess: () => {
         if (currentPage < artworks?.data?.meta?.totalPages) {
           queryClient.prefetchQuery([

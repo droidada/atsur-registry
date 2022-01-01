@@ -117,6 +117,7 @@ export default function UserList() {
         }),
     {
       keepPreviousData: true,
+       refetchOnWindowFocus: false,
       onSuccess: () => {
         if (page < meta.totalPages) {
           queryClient.prefetchQuery([
