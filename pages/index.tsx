@@ -5,6 +5,7 @@ import Account from "../components/Account";
 import ETHBalance from "../components/ETHBalance";
 import TokenBalance from "../components/TokenBalance";
 import useEagerConnect from "../hooks/useEagerConnect";
+import Paystack from "../components/Paystack";
 
 const DAI_TOKEN_ADDRESS = "0x6b175474e89094c44da98b954eedeac495271d0f";
 
@@ -45,6 +46,9 @@ function Home() {
             <TokenBalance tokenAddress={DAI_TOKEN_ADDRESS} symbol="DAI" />
           </section>
         )}
+
+        <h2>Pay with Paystack</h2>
+        <Paystack />
       </main>
 
       <style jsx>{`

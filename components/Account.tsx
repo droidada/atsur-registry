@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { injected } from "../connectors";
 import useENSName from "../hooks/useENSName";
 import useMetaMaskOnboarding from "../hooks/useMetaMaskOnboarding";
-import { formatEtherscanLink, shortenHex } from "../util";
+import { formatEtherscanLink, shortenHex } from "../utils/util";
 
 type AccountProps = {
   triedToEagerConnect: boolean;
