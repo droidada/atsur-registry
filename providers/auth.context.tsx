@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 import {
   GoogleAuthProvider,
   browserSessionPersistence,
@@ -11,12 +11,18 @@ import {
   signInWithEmailAndPassword,
   signInWithEmailLink,
   signInWithPopup,
-  signOut
-} from 'firebase/auth';
-import Router from 'next/router';
-import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { auth } from '../services/auth/firebase';
-import { IMember, IUser } from '../types/models';
+  signOut,
+} from "firebase/auth";
+import Router from "next/router";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { auth } from "../services/auth/firebase";
+import { IMember, IUser } from "../types/models";
 
 export type NewLogin = {
   isFirstLogin: boolean;
@@ -30,7 +36,13 @@ export type AuthContextData = {
   emailSignUp: (newSignUp: IMember, url: string) => Promise<void>;
   signInWithGoogle: () => Promise<NewLogin | undefined>;
   anonymousSignIn: () => Promise<NewLogin | undefined>;
-  sendArtistInvite: (email: string, type: string, userName: string, orgName: string, orgId?: string) => Promise<void>;
+  sendArtistInvite: (
+    email: string,
+    type: string,
+    userName: string,
+    orgName: string,
+    orgId?: string
+  ) => Promise<void>;
   sendLoginLink: (email: string) => Promise<void>;
   loading: boolean;
   isNewUser: boolean;
@@ -46,20 +58,19 @@ export function AuthContextProvider({ children }: any) {
   const [galleryId, setGalleryId] = useState<string | undefined>();
   const [loading, setLoading] = useState<boolean>(true);
   const [isNewUser, setIsNewUser] = useState<boolean>(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   console.log({ user });
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-          // update user state
+        // update user state
       }
       setLoading(false);
     });
 
     return unsubscribe;
   }, []);
-
 
   const signInWithGoogle = async (): Promise<NewLogin | undefined> => {
     setLoading(true);
@@ -70,9 +81,11 @@ export function AuthContextProvider({ children }: any) {
     setIsNewUser(additionalInfo?.isNewUser || false);
 
     setLoading(false);
-    return { isFirstLogin: additionalInfo?.isNewUser || false, uuid: credential.user.uid };
+    return {
+      isFirstLogin: additionalInfo?.isNewUser || false,
+      uuid: credential.user.uid,
+    };
   };
-
 
   const signInWithEmail = async (email: string, password: string) => {
     setLoading(true);
@@ -88,10 +101,13 @@ export function AuthContextProvider({ children }: any) {
   const signUpWithEmail = async (email: string, password: string) => {
     setLoading(true);
     await setPersistence(auth, browserSessionPersistence);
-    const credential = await createUserWithEmailAndPassword(auth, email, password);
+    const credential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     const additionalInfo = getAdditionalUserInfo(credential);
     if (additionalInfo?.isNewUser) {
-
     }
 
     setUser({ ...credential.user });
@@ -99,31 +115,37 @@ export function AuthContextProvider({ children }: any) {
     setLoading(false);
   };
 
-  const emailSignUp = async (newSignUp: IMember, url?: string): Promise<void> => {
+  const emailSignUp = async (
+    newSignUp: IMember,
+    url?: string
+  ): Promise<void> => {
     setLoading(true);
     // first time user
     await setPersistence(auth, browserSessionPersistence);
 
-    const isValidLink = isSignInWithEmailLink(auth, url || '');
-    if (!isValidLink || !newSignUp.email) throw new Error('invalid sign url');
+    const isValidLink = isSignInWithEmailLink(auth, url || "");
+    if (!isValidLink || !newSignUp.email) throw new Error("invalid sign url");
 
     const credential = await signInWithEmailLink(auth, newSignUp.email, url);
     const additionalInfo = getAdditionalUserInfo(credential);
     if (additionalInfo?.isNewUser) setIsNewUser(additionalInfo.isNewUser);
 
-
     setUser({ ...credential.user });
     setLoading(false);
   };
 
-
   const sendLoginLink = async (email: string): Promise<void> => {
     setLoading(true);
     //TODO: abstract api calls
-    await axios.post(`${window.location.origin || process.env.NEXT_PUBLIC_DOMAIN_NAME}/api/email/login`, {
-      email,
-      // newUser: member ? false : true
-    });
+    await axios.post(
+      `${
+        window.location.origin || process.env.NEXT_PUBLIC_DOMAIN_NAME
+      }/api/email/login`,
+      {
+        email,
+        // newUser: member ? false : true
+      }
+    );
     setLoading(false);
   };
 
@@ -136,13 +158,16 @@ export function AuthContextProvider({ children }: any) {
   ): Promise<void> => {
     setLoading(true);
     //TODO: extract api calls
-    await axios.post(`${process.env.NEXT_PUBLIC_DOMAIN_NAME}/api/email/artist-invite`, {
-      email,
-      type,
-      galleryId,
-      orgName,
-      name
-    });
+    await axios.post(
+      `${process.env.NEXT_PUBLIC_DOMAIN_NAME}/api/email/artist-invite`,
+      {
+        email,
+        type,
+        galleryId,
+        orgName,
+        name,
+      }
+    );
     setLoading(false);
   };
 
@@ -150,10 +175,16 @@ export function AuthContextProvider({ children }: any) {
     setLoading(true);
     const credential = await signInAnonymously(auth);
     const additionalInfo = getAdditionalUserInfo(credential);
-    setUser({ ...credential.user, memberInfo: { type: 'anonymous', name: 'anonymous', org_id: '' } });
+    setUser({
+      ...credential.user,
+      memberInfo: { type: "anonymous", name: "anonymous", org_id: "" },
+    });
     setLoading(false);
     if (additionalInfo?.isNewUser) setIsNewUser(additionalInfo.isNewUser);
-    return { isFirstLogin: additionalInfo?.isNewUser || false, uuid: credential.user.uid };
+    return {
+      isFirstLogin: additionalInfo?.isNewUser || false,
+      uuid: credential.user.uid,
+    };
   };
 
   const refreshUser = async (): Promise<void> => {
@@ -165,9 +196,8 @@ export function AuthContextProvider({ children }: any) {
   const logOut = async () => {
     await signOut(auth);
     setUser(undefined);
-    Router.replace('/onboarding');
+    Router.replace("/onboarding");
   };
-
 
   const memoedValue = useMemo(
     () => ({
@@ -188,15 +218,15 @@ export function AuthContextProvider({ children }: any) {
     [user, loading, error, isNewUser]
   );
 
-  useEffect(() => {
+  useEffect(() => {}, [user]);
 
-  }, [user]);
-
-  return <AuthContext.Provider value={memoedValue}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={memoedValue}>{children}</AuthContext.Provider>
+  );
 }
 
 export default AuthContext;
 
 export const useAuthContext = () => ({
-  ...useContext(AuthContext)
+  ...useContext(AuthContext),
 });
