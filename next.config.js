@@ -1,8 +1,21 @@
 // @ts-check
-
+const config = require("./src/data/config.json");
 /**
  * @type {import('next').NextConfig}
  **/
+
 module.exports = {
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      // don't resolve 'fs' module on the client to prevent this error on build --> Error: Can't resolve 'fs'
+      config.resolve.fallback = {
+        fs: false,
+      };
+    }
+
+    return config;
+  },
   reactStrictMode: true,
+  basePath: config.site.base_path !== "/" ? config.site.base_path : "",
+  trailingSlash: config.site.trailing_slash,
 };
