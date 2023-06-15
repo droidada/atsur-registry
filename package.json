@@ -16,7 +16,7 @@
     "lint": "next lint --fix",
     "format": "prettier --check --ignore-path .gitignore .",
     "format:fix": "prettier --write --ignore-path .gitignore .",
-    "compile-contract-types": "typechain --target ethers-v5 --out-dir './contracts/types' './contracts/*.json'",
+    "compile-contract-types": "typechain --target ethers-v5 --out-dir './src/contracts/types' './src/contracts/*.json'",
     "postinstall": "yarn compile-contract-types",
     "generate-json": "node scripts/jsonGenerator.js",
     "remove-darkmode": "node scripts/removeDarkMode.js && yarn format"
