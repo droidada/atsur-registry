@@ -26,6 +26,7 @@
     "@metamask/onboarding": "^1.0.1",
     "@samvera/clover-iiif": "^1.14.3",
     "@sendgrid/mail": "^7.7.0",
+    "@vercel/analytics": "^1.0.1",
     "@web3-react/core": "^6.1.9",
     "@web3-react/injected-connector": "^6.0.7",
     "@web3-react/network-connector": "^6.2.9",
