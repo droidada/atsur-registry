@@ -12,10 +12,10 @@ import {
 } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
 import Image from "next/image";
-import image from "../assets/image.jpeg";
-import image1 from "../assets/image1.png";
-import image2 from "../assets/image2.png";
-import image3 from "../assets/image3.png";
+import image from "../../../assets/image.jpeg";
+import image1 from "../../../assets/image1.png";
+import image2 from "../../../assets/image2.png";
+import image3 from "../../../assets/image3.png";
 
 const Artwork = () => {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -42,7 +42,7 @@ const Artwork = () => {
               isPlaying={true}
               currentSlide={activeSlide}
               playDirection="forward"
-            //   onChange={handleSlideChange}
+              //   onChange={handleSlideChange}
             >
               <Slider className="w-full">
                 <Slide index={0}>

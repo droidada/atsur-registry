@@ -9,7 +9,7 @@ const Header = () => {
   return (
     <div className="flex flex-col sm:flex-row justify-between gap-6 p-10">
       <div className="text-lg">
-        <Link href={'/'}>
+        <Link href={"/"}>
           <Image className="w-[60px] h-[30px]" src={logo} alt="logo" />
         </Link>
       </div>
@@ -25,8 +25,8 @@ const Header = () => {
         />
       </div>
       <div className="flex flex-wrap justify-between gap-12">
-        <Link href={'/explore'}>Explore</Link>
-        <Link href={'/institution'}>Resources Editorial</Link>
+        <Link href={"/explore"}>Explore</Link>
+        <Link href={"/institution"}>Resources Editorial</Link>
         <div>Login</div>
       </div>
     </div>

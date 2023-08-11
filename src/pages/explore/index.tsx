@@ -96,9 +96,7 @@ const Explore = () => {
         <div className="flex flex-wrap">
           <h1 className="text-[48px] font-[300]">Explore |</h1>
           <select className="text-[48px] font-[300] italic" name="" id="">
-            <option value="Galleries">
-              Galleries
-            </option>
+            <option value="Galleries">Galleries</option>
             <option value="Artworks">Artworks</option>
           </select>
         </div>
@@ -144,9 +142,7 @@ const Explore = () => {
             <div className="flex justify-between">
               <p>132 Results</p>
               <select name="" id="">
-                <option value="Recommended">
-                  Recommended
-                </option>
+                <option value="Recommended">Recommended</option>
               </select>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 mt-12 gap-x-4 gap-y-6">

@@ -3,6 +3,7 @@ import Image from "next/image";
 import image1 from "../../assets/image1.png";
 import image2 from "../../assets/image2.png";
 import image3 from "../../assets/image3.png";
+import Link from "next/link";
 
 const data = [
   {
@@ -58,7 +59,13 @@ const CuratorsPick = ({ title, length }) => {
         >
           {data.slice(0, length).map((item, idx) => (
             <div key={idx}>
-              <Image src={item.image} alt="art" className="w-full h-[259px]" />
+              <Link href={"/artwork"}>
+                <Image
+                  src={item.image}
+                  alt="art"
+                  className="w-full h-[259px]"
+                />
+              </Link>
               <div>
                 <h6 className="text-left text-[20px] font-[700]">
                   {item.title}

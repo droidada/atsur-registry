@@ -37,15 +37,12 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const inter = Inter({ subsets: ["latin"] });
 
-
 const DAI_TOKEN_ADDRESS = "0x6b175474e89094c44da98b954eedeac495271d0f";
 
 function Home() {
-
   const { account, library } = useWeb3React();
   const triedToEagerConnect = useEagerConnect();
   const isConnected = typeof account === "string" && !!library;
-
 
   const [activeSlide, setActiveSlide] = useState(0);
 
@@ -75,71 +72,71 @@ function Home() {
       </header> */}
 
       <main>
-      <Layout>
-      <div className="px-10">
-        <div className="h-[700px]">
-          <CarouselProvider
-            naturalSlideWidth={90}
-            naturalSlideHeight={35}
-            totalSlides={totalSlides}
-            interval={3000}
-            isPlaying={true}
-            currentSlide={activeSlide}
-            playDirection="forward"
-            // onChange={() => handleSlideChange}
-          >
-            <Slider className="w-full">
-              <Slide index={0}>
-                <Image alt="" className="w-full h-[90%]" src={image} />
-              </Slide>
-              <Slide index={1}>
-                <Image alt="" className="w-full h-[90%]" src={image1} />
-              </Slide>
-              <Slide onFocus={()=> handleSlideChange} index={2}>
-                <Image alt="" className="w-full h-[90%]" src={image2} />
-              </Slide>
-              <Slide index={3}>
-                <Image alt="" className="w-full h-[90%]" src={image3} />
-              </Slide>
-            </Slider>
-            <DotGroup className="custom-dots-container flex justify-center items-center">
-              {Array.from({ length: totalSlides }).map((_, index) => (
-                <div
-                  key={index}
-                  className={`flex-1 h-[3px] ${
-                    activeSlide === index ? "bg-black" : "bg-gray-300"
-                  }`}
-                  onClick={() => handleDotClick(index)}
-                ></div>
-              ))}
-              <div className="flex gap-2 ml-6">
-                <ButtonBack>
-                  <ArrowBackIosIcon />
-                </ButtonBack>
-                <ButtonNext>
-                  <ArrowForwardIosIcon />
-                </ButtonNext>
-              </div>
-            </DotGroup>
-          </CarouselProvider>
-        </div>
-        <FeaturedSection />
-        <CuratorsPick title={"Curator's Pick"} length={6} />
-        <div className="bg-black py-[61px] flex justify-center">
-          <p className="text-[#FFB800] text-center text-[32px]">
-            Register Artwork Ad
-          </p>
-        </div>
-        <Editorial />
-        <TrendingArtists />
-        <FeaturedInstitution />
-        <div className="bg-black py-[61px] flex justify-center mx-[35px] my-[50px]">
-          <p className="text-[#FFB800] text-center text-[32px]">
-            Join our Creative Community
-          </p>
-        </div>
-      </div>
-    </Layout>
+        <Layout>
+          <div className="px-10">
+            <div className="h-[700px]">
+              <CarouselProvider
+                naturalSlideWidth={90}
+                naturalSlideHeight={35}
+                totalSlides={totalSlides}
+                interval={3000}
+                isPlaying={true}
+                currentSlide={activeSlide}
+                playDirection="forward"
+                // onChange={() => handleSlideChange}
+              >
+                <Slider className="w-full">
+                  <Slide index={0}>
+                    <Image alt="" className="w-full h-[90%]" src={image} />
+                  </Slide>
+                  <Slide index={1}>
+                    <Image alt="" className="w-full h-[90%]" src={image1} />
+                  </Slide>
+                  <Slide onFocus={() => handleSlideChange} index={2}>
+                    <Image alt="" className="w-full h-[90%]" src={image2} />
+                  </Slide>
+                  <Slide index={3}>
+                    <Image alt="" className="w-full h-[90%]" src={image3} />
+                  </Slide>
+                </Slider>
+                <DotGroup className="custom-dots-container flex justify-center items-center">
+                  {Array.from({ length: totalSlides }).map((_, index) => (
+                    <div
+                      key={index}
+                      className={`flex-1 h-[3px] ${
+                        activeSlide === index ? "bg-black" : "bg-gray-300"
+                      }`}
+                      onClick={() => handleDotClick(index)}
+                    ></div>
+                  ))}
+                  <div className="flex gap-2 ml-6">
+                    <ButtonBack>
+                      <ArrowBackIosIcon />
+                    </ButtonBack>
+                    <ButtonNext>
+                      <ArrowForwardIosIcon />
+                    </ButtonNext>
+                  </div>
+                </DotGroup>
+              </CarouselProvider>
+            </div>
+            <FeaturedSection />
+            <CuratorsPick title={"Curator's Pick"} length={6} />
+            <div className="bg-black py-[61px] flex justify-center">
+              <p className="text-[#FFB800] text-center text-[32px]">
+                Register Artwork Ad
+              </p>
+            </div>
+            <Editorial />
+            <TrendingArtists />
+            <FeaturedInstitution />
+            <div className="bg-black py-[61px] flex justify-center mx-[35px] my-[50px]">
+              <p className="text-[#FFB800] text-center text-[32px]">
+                Join our Creative Community
+              </p>
+            </div>
+          </div>
+        </Layout>
 
         {/* {isConnected && (
           <section>
