@@ -3,6 +3,7 @@ import Image from "next/image";
 import image1 from "../../assets/image1.png";
 import image2 from "../../assets/image2.png";
 import image3 from "../../assets/image3.png";
+import Link from "next/link";
 
 const data = [
   {
@@ -29,7 +30,13 @@ const FeaturedSection = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 justify-between gap-4">
           {data.map((item, idx) => (
             <div key={idx}>
-              <Image src={item.image} alt="art" className="w-full h-[259px]" />
+              <Link href={"/artwork"}>
+                <Image
+                  src={item.image}
+                  alt="art"
+                  className="w-full h-[259px]"
+                />
+              </Link>
               <div>
                 <h6 className="text-center text-[12px] font-[400]">
                   {item.title}
