@@ -1,7 +1,7 @@
 import Layout from "@/components/layout";
 import { Checkbox, Divider, FormControlLabel, FormGroup } from "@mui/material";
 import React from "react";
-import image from "../../../assets/image1.png";
+import image from "../../../../assets/image1.png";
 import Image from "next/image";
 import directus from "@/lib/directus";
 import { notFound } from "next/navigation";

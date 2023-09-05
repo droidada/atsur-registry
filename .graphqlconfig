@@ -1,0 +1,15 @@
+{
+    "name": "Remote Schema",
+    "schemaPath": "remote-schema.graphql",
+    "extensions": {
+        "endpoints": {
+            "Remote GraphQL Endpoint": {
+                "url": "https://directus-admin-service-mr73ptziua-uc.a.run.app/graphql",
+                "headers": {
+                    "user-agent": "JS GraphQL"
+                },
+                "introspect": true
+            }
+        }
+    }
+}
