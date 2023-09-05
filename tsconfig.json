@@ -30,6 +30,12 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/lib/axios/index.ts",
+    "src/lib/axios/refreshToken.ts"
+  ],
   "exclude": ["node_modules"]
 }
