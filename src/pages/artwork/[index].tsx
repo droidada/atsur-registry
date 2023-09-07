@@ -123,8 +123,8 @@ const Artwork = ({ data }) => {
   );
 };
 
-export const getServerSideProps = async () => {
-  const entry = await directus.request(readItem("entry", 2));
+export const getServerSideProps = async (ctx) => {
+  const entry = await directus.request(readItem("entry", ctx.params.index));
   const assets = await directus.request(
     readItems("assets_files", {
       filter: {

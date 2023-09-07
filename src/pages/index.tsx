@@ -34,12 +34,14 @@ import image3 from "../../assets/image3.png";
 import { useState } from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import directus from "@/lib/directus";
+import { readItems } from "@directus/sdk";
 
 const inter = Inter({ subsets: ["latin"] });
 
 const DAI_TOKEN_ADDRESS = "0x6b175474e89094c44da98b954eedeac495271d0f";
 
-function Home() {
+function Home({ data }) {
   const { account, library } = useWeb3React();
   const triedToEagerConnect = useEagerConnect();
   const isConnected = typeof account === "string" && !!library;
@@ -120,7 +122,7 @@ function Home() {
                 </DotGroup>
               </CarouselProvider>
             </div>
-            <FeaturedSection />
+            <FeaturedSection data={data} />
             <CuratorsPick title={"Curator's Pick"} length={6} />
             <div className="bg-black py-[61px] flex justify-center">
               <p className="text-[#FFB800] text-center text-[32px]">
@@ -168,5 +170,29 @@ function Home() {
     </div>
   );
 }
+export const getServerSideProps = async () => {
+  const entry = await directus.request(readItems("entry"));
 
+  const promise = entry.map(async (entry) => {
+    return directus.request(
+      readItems("assets_files", {
+        filter: {
+          assets_id: {
+            _eq: entry?.primary_image?.key,
+          },
+        },
+      }),
+    );
+  });
+  const assets = await Promise.all(promise);
+
+  return {
+    props: {
+      data: {
+        assets,
+        entry,
+      },
+    },
+  };
+};
 export default Home;
