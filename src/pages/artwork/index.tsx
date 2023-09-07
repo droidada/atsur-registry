@@ -1,6 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable @next/next/no-typos */
 import CuratorsPick from "@/components/curatorsPick";
 import Layout from "@/components/layout";
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import CardMembershipIcon from "@mui/icons-material/CardMembership";
 import WorkOutlineIcon from "@mui/icons-material/WorkOutline";
 import {
@@ -12,12 +14,10 @@ import {
 } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
 import Image from "next/image";
-import image from "../../../assets/image.jpeg";
-import image1 from "../../../assets/image1.png";
-import image2 from "../../../assets/image2.png";
-import image3 from "../../../assets/image3.png";
+import directus from "@/lib/directus";
+import { readItem, readItems } from "@directus/sdk";
 
-const Artwork = () => {
+const Artwork = ({ data }) => {
   const [activeSlide, setActiveSlide] = useState(0);
 
   const handleDotClick = (index) => {
@@ -45,16 +45,20 @@ const Artwork = () => {
               //   onChange={handleSlideChange}
             >
               <Slider className="w-full">
-                <Slide index={0}>
-                  <Image alt="" className="w-full h-[90%]" src={image1} />
-                </Slide>
-                <Slide index={1}>
-                  <Image alt="" className="w-full h-[90%]" src={image2} />
-                </Slide>
-                <Slide index={2}>
-                  <Image alt="" className="w-full h-[90%]" src={image3} />
-                </Slide>
+                {data.assets.map((asset) => (
+                  <Slide key={asset.id} index={asset.id}>
+                    <Image
+                      alt={data.entry.artwork_title}
+                      width={600}
+                      priority={true}
+                      height={600}
+                      className="w-full h-[90%]"
+                      src={`${process.env.NEXT_PUBLIC_DIRECTUS_API_ENDPOINT}assets/${asset.directus_files_id}?width=600`}
+                    />
+                  </Slide>
+                ))}
               </Slider>
+
               <DotGroup className="custom-dots-container flex justify-center gap-2">
                 {Array.from({ length: totalSlides }).map((_, index) => (
                   <div
@@ -68,10 +72,17 @@ const Artwork = () => {
               </DotGroup>
             </CarouselProvider>
           </div>
+
           <div>
-            <h3 className="text-[24px] font-normal">Minne Atairu</h3>
-            <h3 className="text-[24px] font-normal">Blonde Braids Study II</h3>
-            <p className="text-[16px] font-normal mt-5">Oil on canvas</p>
+            <h3 className="text-[24px] font-normal">
+              {data.entry.artwork_title}
+            </h3>
+            <h3 className="text-[24px] font-normal">
+              {data.entry.series_title}
+            </h3>
+            <p className="text-[16px] font-normal mt-5">
+              {data.entry.subject_matter}
+            </p>
             <p className="text-[16px] font-normal">
               11 4/5 × 15 7/10 × 1 3/5 in | 30 × 40 × 4 cm
             </p>
@@ -85,16 +96,11 @@ const Artwork = () => {
               <p>Includes a</p>
               <p className="underline">Certificate of authenticity</p>
             </div>
-            <p className="text-[16px] font-normal mt-5">
-              “In ‘Blonde Braids Study II,’ I examine the ways in which a
-              text-to-image algorithm — Midjourney (v4) — renders a portrait of
-              Black identical twins adorned with blonde braids. The resulting
-              image underscores significant gaps in the training data, which
-              inevitably precipitates a flattened representation of the Black
-              identity outlined in the text prompt. Instead, the algorithm
-              generates an interpretation that evokes the semblance of fraternal
-              twins, their hair styled in blonde, permed waves.” — Minne Atairu
-            </p>
+            <div className="text-[16px] font-normal mt-5">
+              <div
+                dangerouslySetInnerHTML={{ __html: data.entry.description }}
+              ></div>
+            </div>
             <p className="text-[16px] font-normal mt-5">Bartha Contemporary</p>
             <p className="text-[12px] font-normal">London</p>
             <div className="flex flex-wrap gap-8 mt-10">
@@ -115,6 +121,28 @@ const Artwork = () => {
       </div>
     </Layout>
   );
+};
+
+export const getServerSideProps = async () => {
+  const entry = await directus.request(readItem("entry", 2));
+  const assets = await directus.request(
+    readItems("assets_files", {
+      filter: {
+        assets_id: {
+          _eq: entry.primary_image.key,
+        },
+      },
+    }),
+  );
+
+  return {
+    props: {
+      data: {
+        assets,
+        entry,
+      },
+    },
+  };
 };
 
 export default Artwork;
