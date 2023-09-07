@@ -22,7 +22,7 @@
     "remove-darkmode": "node scripts/removeDarkMode.js && yarn format"
   },
   "dependencies": {
-    "@directus/sdk": "^11.0.1",
+    "@directus/sdk": "^11.0.3",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@metamask/detect-provider": "^2.0.0",
