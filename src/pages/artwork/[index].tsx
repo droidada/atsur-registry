@@ -78,18 +78,24 @@ const Artwork = ({ data }) => {
               {data.entry.artwork_title}
             </h3>
             <h3 className="text-[24px] font-normal">
-              {data.entry.series_title}
+              {data?.entry?.series_title}
             </h3>
             <p className="text-[16px] font-normal mt-5">
-              {data.entry.subject_matter}
+              {data?.entry?.subject_matter}
             </p>
             <p className="text-[16px] font-normal">
-              11 4/5 × 15 7/10 × 1 3/5 in | 30 × 40 × 4 cm
+              {decimalToMixedNumber(data?.entry?.height)} ×{" "}
+              {decimalToMixedNumber(data?.entry?.width)} ×{" "}
+              {decimalToMixedNumber(data?.entry?.weight)} in |{" "}
+              {inchesToCentimetersAndRoundUp(data?.entry?.height)} ×{" "}
+              {inchesToCentimetersAndRoundUp(data?.entry?.width)} ×
+              {inchesToCentimetersAndRoundUp(data?.entry?.weight)}
+              cm
             </p>
             <p className="text-[16px] font-normal">Frame included</p>
             <div className="flex items-center gap-3 mt-5 mb-2">
               <WorkOutlineIcon />
-              <p className="underline">Unique work</p>
+              <p className="underline">{data?.entry?.rarity}</p>
             </div>
             <div className="flex items-center gap-3">
               <CardMembershipIcon />
@@ -122,7 +128,38 @@ const Artwork = ({ data }) => {
     </Layout>
   );
 };
+const decimalToMixedNumber = (decimal) => {
+  const tolerance = 1e-8; // A small value to account for floating-point precision
+  let wholePart = Math.floor(decimal);
+  let fractionalPart = decimal - wholePart;
 
+  let numerator = 0;
+  let denominator = 1;
+
+  while (Math.abs(fractionalPart - Math.round(fractionalPart)) > tolerance) {
+    fractionalPart *= 10;
+    numerator = Math.round(fractionalPart);
+    denominator *= 10;
+    fractionalPart -= numerator;
+  }
+
+  if (numerator === 0) {
+    return wholePart.toString();
+  }
+
+  const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));
+  const commonDivisor = gcd(numerator, denominator);
+
+  numerator /= commonDivisor;
+  denominator /= commonDivisor;
+
+  return `${wholePart} ${numerator}/${denominator}`;
+};
+const inchesToCentimetersAndRoundUp = (inches: number) => {
+  const centimeters = inches * 2.54; // Convert inches to centimeters
+  const roundedCentimeters = Math.ceil(centimeters); // Round up to the nearest whole number
+  return roundedCentimeters;
+};
 export const getServerSideProps = async (ctx) => {
   const entry = await directus.request(readItem("entry", ctx.params.index));
   const assets = await directus.request(
