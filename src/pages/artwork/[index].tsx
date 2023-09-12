@@ -16,10 +16,25 @@ import "pure-react-carousel/dist/react-carousel.es.css";
 import Image from "next/image";
 import directus from "@/lib/directus";
 import { readItem, readItems } from "@directus/sdk";
+import RequestInfo from "@/components/artwork/RequestInfo";
+import ContactGallery from "@/components/artwork/ContactGallery";
 
 const Artwork = ({ data }) => {
   const [activeSlide, setActiveSlide] = useState(0);
-
+  const [openRequestInfo, setOpenRequestInfo] = useState(false);
+  const [openContactGallery, setOpenContactGallery] = useState(false);
+  const handleOpenRequestInfo = () => {
+    setOpenRequestInfo(true);
+  };
+  const handleCloseRequestInfo = () => {
+    setOpenRequestInfo(false);
+  };
+  const handleOpenContactGallery = () => {
+    setOpenContactGallery(true);
+  };
+  const handleCloseContactGallery = () => {
+    setOpenContactGallery(false);
+  };
   const handleDotClick = (index) => {
     setActiveSlide(index);
   };
@@ -110,10 +125,16 @@ const Artwork = ({ data }) => {
             <p className="text-[16px] font-normal mt-5">Bartha Contemporary</p>
             <p className="text-[12px] font-normal">London</p>
             <div className="flex flex-wrap gap-8 mt-10">
-              <button className="border border-solid border-black px-12 py-5">
+              <button
+                className="border border-solid border-black px-12 py-5"
+                onClick={handleOpenRequestInfo}
+              >
                 Request Info
               </button>
-              <button className="border border-solid border-black px-12 py-5">
+              <button
+                className="border border-solid border-black px-12 py-5"
+                onClick={handleOpenContactGallery}
+              >
                 Contact Gallery
               </button>
             </div>
@@ -125,6 +146,14 @@ const Artwork = ({ data }) => {
           length={4}
         />
       </div>
+      <RequestInfo
+        open={openRequestInfo}
+        handleClose={handleCloseRequestInfo}
+      />
+      <ContactGallery
+        open={openContactGallery}
+        handleClose={handleCloseContactGallery}
+      />
     </Layout>
   );
 };
