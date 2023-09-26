@@ -1,17 +1,4 @@
-import getConfig from "next/config";
-import {
-  createDirectus,
-  rest,
-  auth,
-  withToken,
-  authentication,
-} from "@directus/sdk";
+import { createDirectus, rest } from "@directus/sdk";
 
-const directus = createDirectus(
-  // `https://directus-admin-service-mr73ptziua-uc.a.run.app/`
-  process.env.NEXT_PUBLIC_API_DOMAIN
-)
-  .with(rest())
-  .with(authentication());
-
+const directus = createDirectus(process.env.NEXT_PUBLIC_DIRECTUS_API_ENDPOINT).with(rest());
 export default directus;

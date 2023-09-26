@@ -41,7 +41,7 @@ export type AuthContextData = {
     type: string,
     userName: string,
     orgName: string,
-    orgId?: string
+    orgId?: string,
   ) => Promise<void>;
   sendLoginLink: (email: string) => Promise<void>;
   loading: boolean;
@@ -60,7 +60,6 @@ export function AuthContextProvider({ children }: any) {
   const [isNewUser, setIsNewUser] = useState<boolean>(false);
   const [error, setError] = useState("");
 
-  console.log({ user });
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -109,7 +108,7 @@ export function AuthContextProvider({ children }: any) {
     const credential = await createUserWithEmailAndPassword(
       auth,
       email,
-      password
+      password,
     );
     const additionalInfo = getAdditionalUserInfo(credential);
     if (additionalInfo?.isNewUser) {
@@ -122,7 +121,7 @@ export function AuthContextProvider({ children }: any) {
 
   const emailSignUp = async (
     newSignUp: IMember,
-    url?: string
+    url?: string,
   ): Promise<void> => {
     setLoading(true);
     // first time user
@@ -149,7 +148,7 @@ export function AuthContextProvider({ children }: any) {
       {
         email,
         // newUser: member ? false : true
-      }
+      },
     );
     setLoading(false);
   };
@@ -159,7 +158,7 @@ export function AuthContextProvider({ children }: any) {
     type: string,
     name: string,
     orgName: string,
-    galleryId?: string
+    galleryId?: string,
   ): Promise<void> => {
     setLoading(true);
     //TODO: extract api calls
@@ -171,7 +170,7 @@ export function AuthContextProvider({ children }: any) {
         galleryId,
         orgName,
         name,
-      }
+      },
     );
     setLoading(false);
   };
@@ -220,7 +219,7 @@ export function AuthContextProvider({ children }: any) {
       logOut,
       error,
     }),
-    [user, loading, error, isNewUser]
+    [user, loading, error, isNewUser],
   );
 
   useEffect(() => {}, [user]);
