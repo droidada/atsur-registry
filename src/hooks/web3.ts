@@ -17,7 +17,7 @@ export function getContract(
   address: string,
   ABI: any,
   library: Web3Provider,
-  account?: string
+  account?: string,
 ): Contract {
   if (!isAddress(address) || address === AddressZero) {
     throw Error(`Invalid 'address' parameter '${address}'.`);
@@ -26,13 +26,13 @@ export function getContract(
   return new Contract(
     address,
     ABI,
-    getProviderOrSigner(library, account) as any
+    getProviderOrSigner(library, account) as any,
   );
 }
 
 function getProviderOrSigner(
   library: Web3Provider,
-  account?: string
+  account?: string,
 ): Web3Provider | JsonRpcSigner {
   return account ? library.getSigner(account).connectUnchecked() : library;
 }
@@ -40,7 +40,7 @@ function getProviderOrSigner(
 export function useContract<T extends Contract = Contract>(
   addressOrAddressMap: string | { [chainId: number]: string } | undefined,
   ABI: any,
-  withSignerIfPossible = true
+  withSignerIfPossible = true,
 ): T | null {
   const { library, account, chainId } = useWeb3React();
 
@@ -55,7 +55,7 @@ export function useContract<T extends Contract = Contract>(
         address,
         ABI,
         library,
-        withSignerIfPossible && account ? account : undefined
+        withSignerIfPossible && account ? account : undefined,
       );
     } catch (error) {
       console.error("Failed to get contract", error);

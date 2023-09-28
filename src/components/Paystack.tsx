@@ -57,7 +57,7 @@ const Paystack: React.FC = (): JSX.Element => {
     e.preventDefault();
     initializePayment(
       () => onSuccess,
-      () => onClose
+      () => onClose,
     );
   };
 

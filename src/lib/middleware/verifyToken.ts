@@ -9,14 +9,14 @@ interface Handler {
   (
     req: NextApiRequest,
     res: NextApiResponse<any>,
-    auth?: string
+    auth?: string,
   ): Promise<void>;
   (req: NextApiRequest, res: NextApiResponse<any>): Promise<void>;
   (req: NextApiRequest, res: NextApiResponse<any>): Promise<void>;
   (
     arg0: NextApiRequest,
     arg1: NextApiResponse<any>,
-    arg2: string | undefined
+    arg2: string | undefined,
   ): any;
 }
 
@@ -30,7 +30,7 @@ const verifyToken = (handler: Handler) => {
         req.headers.authorization && req.headers.authorization.split(" ")[1];
       const decodeToken = jwt.verify(
         token as string,
-        process.env.JWT_KEY as Secret
+        process.env.JWT_KEY as Secret,
       ) as JwtPayload;
       const address = decodeToken.address;
       const auth = address;

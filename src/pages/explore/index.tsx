@@ -99,7 +99,7 @@ async function getEntries() {
       readItems("entry", {
         fields: ["slug", "title", "publish_date", { author: ["name"] }],
         sort: ["-created_at"],
-      })
+      }),
     );
 
     return entries;

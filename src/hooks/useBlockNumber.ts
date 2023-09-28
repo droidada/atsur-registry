@@ -11,6 +11,6 @@ export default function useBlockNumber() {
     () => library.getBlockNumber(),
     {
       refreshInterval: 10 * 1000,
-    }
+    },
   );
 }

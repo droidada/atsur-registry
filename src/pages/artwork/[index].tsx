@@ -14,12 +14,23 @@ import {
 } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
 import Image from "next/image";
-import directus from "@/lib/directus";
-import { readItem, readItems } from "@directus/sdk";
 import RequestInfo from "@/components/artwork/RequestInfo";
 import ContactGallery from "@/components/artwork/ContactGallery";
 
-const Artwork = ({ data }) => {
+
+const Artwork = ({data}) => {
+  // const [data, setData] = useState<any>();
+  // const axiosAuth = useAxiosAuth();
+  // useEffect(() => {
+
+  //   async () => {
+  //     const res = await axiosAuth.get("/items/entry/2");
+  //     setData(res.data.data);
+  //     console.log("we have data here ", data)
+  //   };
+  // },[])
+
+
   const [activeSlide, setActiveSlide] = useState(0);
   const [openRequestInfo, setOpenRequestInfo] = useState(false);
   const [openContactGallery, setOpenContactGallery] = useState(false);
@@ -60,15 +71,15 @@ const Artwork = ({ data }) => {
               //   onChange={handleSlideChange}
             >
               <Slider className="w-full">
-                {data.assets.map((asset) => (
-                  <Slide key={asset.id} index={asset.id}>
+                {data?.assets.map((asset) => (
+                  <Slide key={asset} index={asset}>
                     <Image
-                      alt={data.entry.artwork_title}
+                      alt={data?.artwork_title || 'title'}
                       width={600}
                       priority={true}
                       height={600}
                       className="w-full h-[90%]"
-                      src={`${process.env.NEXT_PUBLIC_DIRECTUS_API_ENDPOINT}assets/${asset.directus_files_id}?width=600`}
+                      src={`${process.env.NEXT_PUBLIC_DIRECTUS_API_ENDPOINT}assets/${asset}?width=600`}
                     />
                   </Slide>
                 ))}
@@ -90,27 +101,27 @@ const Artwork = ({ data }) => {
 
           <div>
             <h3 className="text-[24px] font-normal">
-              {data.entry.artwork_title}
+              {data?.artwork_title}
             </h3>
             <h3 className="text-[24px] font-normal">
-              {data?.entry?.series_title}
+              {data?.series_title}
             </h3>
             <p className="text-[16px] font-normal mt-5">
-              {data?.entry?.subject_matter}
+              {data?.subject_matter}
             </p>
             <p className="text-[16px] font-normal">
-              {decimalToMixedNumber(data?.entry?.height)} ×{" "}
-              {decimalToMixedNumber(data?.entry?.width)} ×{" "}
-              {decimalToMixedNumber(data?.entry?.weight)} in |{" "}
-              {inchesToCentimetersAndRoundUp(data?.entry?.height)} ×{" "}
-              {inchesToCentimetersAndRoundUp(data?.entry?.width)} ×
-              {inchesToCentimetersAndRoundUp(data?.entry?.weight)}
+              {decimalToMixedNumber(data?.height)} ×{" "}
+              {decimalToMixedNumber(data?.width)} ×{" "}
+              {decimalToMixedNumber(data?.weight)} in |{" "}
+              {inchesToCentimetersAndRoundUp(data?.height)} ×{" "}
+              {inchesToCentimetersAndRoundUp(data?.width)} ×
+              {inchesToCentimetersAndRoundUp(data?.weight)}
               cm
             </p>
             <p className="text-[16px] font-normal">Frame included</p>
             <div className="flex items-center gap-3 mt-5 mb-2">
               <WorkOutlineIcon />
-              <p className="underline">{data?.entry?.rarity}</p>
+              <p className="underline">{data?.rarity}</p>
             </div>
             <div className="flex items-center gap-3">
               <CardMembershipIcon />
@@ -119,7 +130,7 @@ const Artwork = ({ data }) => {
             </div>
             <div className="text-[16px] font-normal mt-5">
               <div
-                dangerouslySetInnerHTML={{ __html: data.entry.description }}
+                dangerouslySetInnerHTML={{ __html: data?.description }}
               ></div>
             </div>
             <p className="text-[16px] font-normal mt-5">Bartha Contemporary</p>
@@ -189,26 +200,27 @@ const inchesToCentimetersAndRoundUp = (inches: number) => {
   const roundedCentimeters = Math.ceil(centimeters); // Round up to the nearest whole number
   return roundedCentimeters;
 };
-export const getServerSideProps = async (ctx) => {
-  const entry = await directus.request(readItem("entry", ctx.params.index));
-  const assets = await directus.request(
-    readItems("assets_files", {
-      filter: {
-        assets_id: {
-          _eq: entry.primary_image.key,
-        },
-      },
-    }),
-  );
 
+export const getStaticPaths = (async () => {
   return {
-    props: {
-      data: {
-        assets,
-        entry,
+    paths: [],
+    fallback: true, // false or "blocking"
+  }
+})
+
+export const getStaticProps = async (ctx) => {
+  try {
+    const res = await fetch(`https://admin.atsur.art/items/entry/${ctx.params.index}`);
+    const data = await res.json();
+    console.log(" we have data here ", data.data)
+    return {
+      props: {
+        data: data.data
       },
-    },
-  };
-};
+    };
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 export default Artwork;

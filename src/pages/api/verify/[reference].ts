@@ -20,7 +20,7 @@ export default async (req: NextApiRequest, resp: NextApiResponse<Data>) => {
         headers: {
           Authorization: `Bearer ${process.env.PAYSTACK_SECRET_TEST_KEY}`,
         },
-      }
+      },
     );
     const data = await res.json();
     resp.status(200).json({ success: true, data: data.data });

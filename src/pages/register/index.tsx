@@ -24,7 +24,7 @@ const MainContent = styled(Box)(
       display: flex;
       flex: 1;
       flex-direction: column;
-  `
+  `,
 );
 
 const TopWrapper = styled(Box)(
@@ -35,7 +35,7 @@ const TopWrapper = styled(Box)(
     align-items: center;
     justify-content: center;
     padding: 5%;
- `
+ `,
 );
 
 const registerSchema = object({

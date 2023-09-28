@@ -4,7 +4,7 @@ import { useMemo } from "react";
 
 export default function useContract<T extends Contract = Contract>(
   address: string,
-  ABI: any
+  ABI: any,
 ): T | null {
   const { library, account, chainId } = useWeb3React();
 

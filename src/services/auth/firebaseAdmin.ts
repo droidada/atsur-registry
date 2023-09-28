@@ -10,7 +10,7 @@ export const firebaseAdmin = admin.apps.length
         privateKey: process.env.FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY
           ? process.env.FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY.replace(
               /\\n/g,
-              "\n"
+              "\n",
             )
           : "",
         projectId: process.env.FIREBASE_SERVICE_ACCOUNT_PROJECT_ID,

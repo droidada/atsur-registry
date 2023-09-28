@@ -6,7 +6,7 @@ import directus from "@/lib/directus";
 
 dotenv.config();
 
-export const authOptions = {
+export const authOptions: any = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -39,7 +39,7 @@ export const authOptions = {
               "Content-Type": "application/json",
               "Accept-Language": "en-US",
             },
-          }
+          },
         );
 
         const user = await res.json();
