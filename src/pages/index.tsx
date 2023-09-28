@@ -1,14 +1,5 @@
-import { useWeb3React } from "@web3-react/core";
-import Head from "next/head";
-import Link from "next/link";
-import Account from "@/components/web3/Account";
-import ETHBalance from "@/components/web3/ETHBalance";
-import TokenBalance from "@/components/web3/TokenBalance";
-import useEagerConnect from "@/hooks/useEagerConnect";
-import Paystack from "@/components/Paystack";
-import CloverIIIF from "@/components/CloverIIIF";
-import SignIn from "@/components/SignIn";
 
+import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "@next/font/google";
 import Layout from "@/components/layout";
@@ -31,21 +22,26 @@ import image from "../../assets/image.jpeg";
 import image1 from "../../assets/image1.png";
 import image2 from "../../assets/image2.png";
 import image3 from "../../assets/image3.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import directus from "@/lib/directus";
-import { readItems } from "@directus/sdk";
 
-const inter = Inter({ subsets: ["latin"] });
-const DAI_TOKEN_ADDRESS = "0x6b175474e89094c44da98b954eedeac495271d0f";
+import useAxiosAuth from "@/hooks/useAxiosAuth";
 
-function Home({ data }) {
-  const { account, library } = useWeb3React();
-  const triedToEagerConnect = useEagerConnect();
-  const isConnected = typeof account === "string" && !!library;
+function Home({data}: {data:[]}) {
+
 
   const [activeSlide, setActiveSlide] = useState(0);
+
+  // const [data, setData] = useState<[]>();
+  // const axiosAuth = useAxiosAuth();
+  // useEffect(() => {
+  //   async () => {
+  //     const res = await axiosAuth.get("/items/entry");
+  //     setData(res.data);
+  //     console.log("we have data here")
+  //   };
+  // },[])
 
   const handleDotClick = (index) => {
     setActiveSlide(index);
@@ -64,18 +60,10 @@ function Home({ data }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {/* <header>
-        <nav>
-          <Link href="/">next-web3-boilerplate</Link>
-
-          <Account triedToEagerConnect={triedToEagerConnect} />
-        </nav>
-      </header> */}
-
       <main>
         <Layout>
-          <div className="px-10">
-            <div className="h-[700px]">
+          <div>
+            <div className="h-[700px] px-10">
               <CarouselProvider
                 naturalSlideWidth={90}
                 naturalSlideHeight={35}
@@ -121,16 +109,16 @@ function Home({ data }) {
                 </DotGroup>
               </CarouselProvider>
             </div>
-            <FeaturedSection data={data} />
-            <CuratorsPick title={"Curator's Pick"} length={6} />
+            <div className="px-10"><FeaturedSection data={data} /></div>
+            <div className="px-10"><CuratorsPick title={"Curator's Pick"} length={6} /></div>
             <div className="bg-black py-[61px] flex justify-center">
               <p className="text-[#FFB800] text-center text-[32px]">
                 Register Artwork Ad
               </p>
             </div>
-            <Editorial />
-            <TrendingArtists />
-            <FeaturedInstitution />
+            <div className="px-10"><Editorial /></div>
+            <div className="px-10"><TrendingArtists /></div>
+            <div className="px-10"><FeaturedInstitution /></div>
             <div className="bg-black py-[61px] flex justify-center mx-[35px] my-[50px]">
               <p className="text-[#FFB800] text-center text-[32px]">
                 Join our Creative Community
@@ -155,43 +143,23 @@ function Home({ data }) {
         />
         ; */}
       </main>
-
-      {/* <style jsx>{`
-        nav {
-          display: flex;
-          justify-content: space-between;
-        }
-
-        main {
-          text-align: center;
-        }
-      `}</style> */}
     </div>
   );
 }
-export const getServerSideProps = async () => {
-  const entry = await directus.request(readItems("entry"));
 
-  const promise = entry.map(async (entry) => {
-    return directus.request(
-      readItems("assets_files", {
-        filter: {
-          assets_id: {
-            _eq: entry?.primary_image?.key,
-          },
-        },
-      }),
-    );
-  });
-  const assets = await Promise.all(promise);
+export const getStaticProps = async () => {
+  try {
+    const res = await fetch("https://admin.atsur.art/items/entry");
+    const data = await res.json();
 
-  return {
-    props: {
-      data: {
-        assets,
-        entry,
+    return {
+      props: {
+        data: data.data
       },
-    },
-  };
-};
+    };
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export default Home;

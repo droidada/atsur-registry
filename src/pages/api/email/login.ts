@@ -11,7 +11,7 @@ type Data = {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<Data>,
 ) {
   const { email, newUser } = req.body;
   const baseUrl = process.env.NEXT_PUBLIC_DOMAIN_NAME;

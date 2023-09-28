@@ -1,14 +1,14 @@
 import { Web3ReactProvider } from "@web3-react/core";
 import type { AppProps } from "next/app";
 import { Analytics } from "@vercel/analytics/react";
-import { QueryClientProvider, QueryClient } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
+// import { QueryClientProvider, QueryClient } from "react-query";
+// import { ReactQueryDevtools } from "react-query/devtools";
 import { SessionProvider } from "next-auth/react";
 import getLibrary from "../../getLibrary";
 import { AuthContextProvider } from "../providers/auth.context";
 import "@/styles/globals.css";
 
-const queryClient = new QueryClient();
+// const queryClient = new QueryClient();
 
 export default function NextWeb3App({
   Component,
@@ -16,15 +16,15 @@ export default function NextWeb3App({
 }: AppProps) {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
-      <QueryClientProvider client={queryClient}>
+      {/* <QueryClientProvider client={queryClient}> */}
         <SessionProvider session={session}>
           <AuthContextProvider>
             <Component {...pageProps} />
-            <ReactQueryDevtools initialIsOpen={false} />
-            <Analytics />
+            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+            {/* <Analytics /> */}
           </AuthContextProvider>
         </SessionProvider>
-      </QueryClientProvider>
+      {/* </QueryClientProvider> */}
     </Web3ReactProvider>
   );
 }
