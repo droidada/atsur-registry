@@ -1066,11 +1066,6 @@
     "@babel/helper-validator-identifier" "^7.22.20"
     to-fast-properties "^2.0.0"
 
-"@directus/sdk@^11.0.3":
-  version "11.0.3"
-  resolved "https://registry.yarnpkg.com/@directus/sdk/-/sdk-11.0.3.tgz#f88cbcd8915afa206b5c300d0168aad5f8c09128"
-  integrity sha512-fHvHFcDhl8AY5quRP4cgLMHTU6F4c4ynmMpXRsi8dnSd38mIvciFyYmOVOh34Wp2N+a1YNYpXPU+NsHkfIheHw==
-
 "@emotion/babel-plugin@^11.11.0":
   version "11.11.0"
   resolved "https://registry.yarnpkg.com/@emotion/babel-plugin/-/babel-plugin-11.11.0.tgz#c2d872b6a7767a9d176d007f5b31f7d504bb5d6c"

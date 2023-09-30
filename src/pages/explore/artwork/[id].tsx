@@ -3,9 +3,7 @@ import { Checkbox, Divider, FormControlLabel, FormGroup } from "@mui/material";
 import React from "react";
 import image from "../../../../assets/image1.png";
 import Image from "next/image";
-import directus from "@/lib/directus";
 import { notFound } from "next/navigation";
-import { readItems } from "@directus/sdk";
 
 const data = {
   galleries: {
@@ -93,24 +91,24 @@ const data = {
   ],
 };
 
-async function getEntries() {
-  try {
-    const entries = await directus.request(
-      readItems("entry", {
-        fields: ["slug", "title", "publish_date", { author: ["name"] }],
-        sort: ["-created_at"],
-      }),
-    );
+// async function getEntries() {
+//   try {
+//     const entries = await directus.request(
+//       readItems("entry", {
+//         fields: ["slug", "title", "publish_date", { author: ["name"] }],
+//         sort: ["-created_at"],
+//       }),
+//     );
 
-    return entries;
-    console.log("we have entries here");
-  } catch (error) {
-    console.log(error);
-    notFound();
-  }
-}
+//     return entries;
+//     console.log("we have entries here");
+//   } catch (error) {
+//     console.log(error);
+//     notFound();
+//   }
+// }
 
-console.log("we have get entries here ", getEntries());
+// console.log("we have get entries here ", getEntries());
 
 const Explore = () => {
   return (
