@@ -2,7 +2,6 @@ import NextAuth from "next-auth";
 import { GetSessionParams } from "next-auth/react";
 import CredentialsProvider from "next-auth/providers/credentials";
 import dotenv from "dotenv";
-import directus from "@/lib/directus";
 
 dotenv.config();
 
@@ -22,8 +21,8 @@ export const authOptions: any = {
           placeholder: "Enter your password",
         },
       },
-      requestTokenUrl: `${process.env.DIRECTUS_API_ENDPOINT}/auth/login`,
-      retrieveTokenUrl: `${process.env.DIRECTUS_API_ENDPOINT}/auth/refresh`,
+      // requestTokenUrl: `${process.env.DIRECTUS_API_ENDPOINT}/auth/login`,
+      // retrieveTokenUrl: `${process.env.DIRECTUS_API_ENDPOINT}/auth/refresh`,
       async authorize(credentials) {
         const payload = {
           email: credentials.email,
@@ -31,7 +30,7 @@ export const authOptions: any = {
         };
 
         const res = await fetch(
-          `${process.env.DIRECTUS_API_ENDPOINT}/auth/login`,
+          `https://directus-admin-service-mr73ptziua-uc.a.run.app/auth/login`,
           {
             method: "POST",
             body: JSON.stringify(payload),

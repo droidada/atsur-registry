@@ -17,13 +17,13 @@ export default function NextWeb3App({
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
       {/* <QueryClientProvider client={queryClient}> */}
-        <SessionProvider session={session}>
-          <AuthContextProvider>
-            <Component {...pageProps} />
-            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-            {/* <Analytics /> */}
-          </AuthContextProvider>
-        </SessionProvider>
+      <SessionProvider session={session}>
+        <AuthContextProvider>
+          <Component {...pageProps} />
+          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+          {/* <Analytics /> */}
+        </AuthContextProvider>
+      </SessionProvider>
       {/* </QueryClientProvider> */}
     </Web3ReactProvider>
   );

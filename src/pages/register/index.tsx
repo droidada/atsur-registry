@@ -15,8 +15,6 @@ import { useEffect, useState } from "react";
 import { LoadingButton } from "@mui/lab";
 import Checkbox from "@mui/material/Checkbox";
 import Layout from "@/components/layout";
-import directus from "@/lib/directus";
-import { createUser } from "@directus/sdk";
 
 const MainContent = styled(Box)(
   () => `
@@ -80,8 +78,8 @@ const RegisterPage = () => {
   const onSubmitHandler: SubmitHandler<RegisterInput> = async (values) => {
     try {
       console.log(values);
-      await directus.request(createUser(["directory_users"], {}));
-      await directus.login(values.email, values.password, { mode: "json" });
+      // await directus.request(createUser(["directory_users"], {}));
+      // await directus.login(values.email, values.password, { mode: "json" });
     } catch (error) {
       console.error(error);
     }

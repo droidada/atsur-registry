@@ -1,4 +1,3 @@
-
 import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "@next/font/google";
@@ -28,9 +27,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 
-function Home({data}: {data:[]}) {
-
-
+function Home({ data }: { data: [] }) {
   const [activeSlide, setActiveSlide] = useState(0);
 
   // const [data, setData] = useState<[]>();
@@ -109,16 +106,26 @@ function Home({data}: {data:[]}) {
                 </DotGroup>
               </CarouselProvider>
             </div>
-            <div className="px-10"><FeaturedSection data={data} /></div>
-            <div className="px-10"><CuratorsPick title={"Curator's Pick"} length={6} /></div>
+            <div className="px-10">
+              <FeaturedSection data={data} />
+            </div>
+            {/* <div className="px-10">
+              <CuratorsPick title={"Curator's Pick"} length={6} />
+            </div> */}
             <div className="bg-black py-[61px] flex justify-center">
               <p className="text-[#FFB800] text-center text-[32px]">
                 Register Artwork Ad
               </p>
             </div>
-            <div className="px-10"><Editorial /></div>
-            <div className="px-10"><TrendingArtists /></div>
-            <div className="px-10"><FeaturedInstitution /></div>
+            <div className="px-10">
+              <Editorial />
+            </div>
+            <div className="px-10">
+              <TrendingArtists />
+            </div>
+            <div className="px-10">
+              <FeaturedInstitution />
+            </div>
             <div className="bg-black py-[61px] flex justify-center mx-[35px] my-[50px]">
               <p className="text-[#FFB800] text-center text-[32px]">
                 Join our Creative Community
@@ -149,17 +156,19 @@ function Home({data}: {data:[]}) {
 
 export const getStaticProps = async () => {
   try {
-    const res = await fetch("https://admin.atsur.art/items/entry");
+    const res = await fetch(
+      "https://admin.atsur.art/items/entry?fields=*,assets.*, asset_files.*",
+    );
     const data = await res.json();
 
     return {
       props: {
-        data: data.data
+        data: data.data,
       },
     };
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export default Home;

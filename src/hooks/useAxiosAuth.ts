@@ -18,13 +18,16 @@ const useAxiosAuth = () => {
         }
         return config;
       },
-      (error) => {console.log("request intercepteor error here ", error ); return Promise.reject(error)},
+      (error) => {
+        console.log("request intercepteor error here ", error);
+        return Promise.reject(error);
+      },
     );
 
     const responseIntercept = axiosAuth.interceptors.response.use(
       (response) => response,
       async (error) => {
-        console.log("response interceptor error here ", error)
+        console.log("response interceptor error here ", error);
         const prevRequest = error?.config;
         if (error?.response?.status === 401 && !prevRequest?.sent) {
           prevRequest.sent = true;
