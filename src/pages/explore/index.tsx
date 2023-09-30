@@ -3,9 +3,7 @@ import { Checkbox, Divider, FormControlLabel, FormGroup } from "@mui/material";
 import React from "react";
 import image from "../../../assets/image1.png";
 import Image from "next/image";
-import directus from "@/lib/directus";
 import { notFound } from "next/navigation";
-import { readItems } from "@directus/sdk";
 import Link from "next/link";
 
 const data = {
@@ -214,6 +212,7 @@ export const getStaticProps = async () => {
     };
   } catch (error) {
     console.log(error);
+    notFound();
   }
 };
 
