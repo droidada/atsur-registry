@@ -1,9 +1,15 @@
-import Head from 'next/head';
-import { Box, Container, Stack, Typography, Unstable_Grid2 as Grid } from '@mui/material';
+import Head from "next/head";
+import {
+  Box,
+  Container,
+  Stack,
+  Typography,
+  Unstable_Grid2 as Grid,
+} from "@mui/material";
 
-import { AccountProfile } from '@/components/profile/profile';
-import { AccountProfileDetails } from '@/components/profile/profileDetails';
-import Layout from '@/components/layout';
+import { AccountProfile } from "@/components/profile/profile";
+import { AccountProfileDetails } from "@/components/profile/profileDetails";
+import Layout from "@/components/layout";
 
 const Page = () => (
   <Layout>
@@ -11,33 +17,20 @@ const Page = () => (
       component="main"
       sx={{
         flexGrow: 1,
-        py: 8
+        py: 8,
       }}
     >
       <Container maxWidth="lg">
         <Stack spacing={3}>
           <div>
-            <Typography variant="h4">
-              Account
-            </Typography>
+            <Typography variant="h4">Account</Typography>
           </div>
           <div>
-            <Grid
-              container
-              spacing={3}
-            >
-              <Grid
-                xs={12}
-                md={6}
-                lg={4}
-              >
+            <Grid container spacing={3}>
+              <Grid xs={12} md={6} lg={4}>
                 <AccountProfile />
               </Grid>
-              <Grid
-                xs={12}
-                md={6}
-                lg={8}
-              >
+              <Grid xs={12} md={6} lg={8}>
                 <AccountProfileDetails />
               </Grid>
             </Grid>

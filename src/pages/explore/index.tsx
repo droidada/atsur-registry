@@ -6,6 +6,7 @@ import Image from "next/image";
 import directus from "@/lib/directus";
 import { notFound } from "next/navigation";
 import { readItems } from "@directus/sdk";
+import Link from "next/link";
 
 const data = {
   galleries: {
@@ -93,26 +94,26 @@ const data = {
   ],
 };
 
-async function getEntries() {
-  try {
-    const entries = await directus.request(
-      readItems("entry", {
-        fields: ["slug", "title", "publish_date", { author: ["name"] }],
-        sort: ["-created_at"],
-      }),
-    );
+// async function getEntries() {
+//   try {
+//     const entries = await directus.request(
+//       readItems("entry", {
+//         fields: ["slug", "title", "publish_date", { author: ["name"] }],
+//         sort: ["-created_at"],
+//       }),
+//     );
 
-    return entries;
-    console.log("we have entries here");
-  } catch (error) {
-    console.log(error);
-    notFound();
-  }
-}
+//     return entries;
+//     console.log("we have entries here");
+//   } catch (error) {
+//     console.log(error);
+//     notFound();
+//   }
+// }
+// console.log("we have get entries here ", getEntries());
 
-console.log("we have get entries here ", getEntries());
-
-const Explore = () => {
+const Explore = ({ entries }) => {
+  console.log("entries here ", entries);
   return (
     <Layout>
       <div className="p-10 flex flex-col gap-6">
@@ -169,29 +170,51 @@ const Explore = () => {
               </select>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 mt-12 gap-x-4 gap-y-6">
-              {data.items.map((item, idx) => (
-                <div key={idx}>
-                  <Image
-                    src={item.image}
-                    alt="art"
-                    className="w-full h-[259px]"
-                  />
-                  <div>
-                    <h6 className="text-left text-[24px] font-[400]">
-                      {item.title}
-                    </h6>
-                    <p className="text-left text-[16px] font-[400]">
-                      {item.location}
-                    </p>
+              {entries &&
+                entries?.map((item, idx) => (
+                  <div key={idx}>
+                    <Link href={"/artwork/" + item.id}>
+                      <Image
+                        src={`${process.env.NEXT_PUBLIC_DIRECTUS_API_ENDPOINT}assets/${item.assets[0]?.directus_files_id}?height=259`}
+                        alt={item.artwork_title || `art`}
+                        className="w-full h-[259px]"
+                        width={300}
+                        height={259}
+                      />
+                    </Link>
+                    <div>
+                      <h6 className="text-left text-[24px] font-[400]">
+                        {item.title}
+                      </h6>
+                      <p className="text-left text-[16px] font-[400]">
+                        {item.location}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
         </div>
       </div>
     </Layout>
   );
+};
+
+export const getStaticProps = async () => {
+  try {
+    const res = await fetch(
+      "https://admin.atsur.art/items/entry?fields=*,assets.*, asset_files.*",
+    );
+    const data = await res.json();
+
+    return {
+      props: {
+        entries: data.data,
+      },
+    };
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export default Explore;

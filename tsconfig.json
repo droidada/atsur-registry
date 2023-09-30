@@ -35,7 +35,8 @@
     "**/*.ts",
     "**/*.tsx",
     "src/lib/axios/index.ts",
-    "src/lib/axios/refreshToken.ts"
+    "src/lib/axios/refreshToken.ts",
+    "next-auth.d.__ts__"
   ],
   "exclude": ["node_modules"]
 }

@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next/types";
 import jwt, { Secret } from "jsonwebtoken";
 
 interface JwtPayload {

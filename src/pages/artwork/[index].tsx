@@ -17,8 +17,7 @@ import Image from "next/image";
 import RequestInfo from "@/components/artwork/RequestInfo";
 import ContactGallery from "@/components/artwork/ContactGallery";
 
-
-const Artwork = ({data}) => {
+const Artwork = ({ data }) => {
   // const [data, setData] = useState<any>();
   // const axiosAuth = useAxiosAuth();
   // useEffect(() => {
@@ -29,7 +28,6 @@ const Artwork = ({data}) => {
   //     console.log("we have data here ", data)
   //   };
   // },[])
-
 
   const [activeSlide, setActiveSlide] = useState(0);
   const [openRequestInfo, setOpenRequestInfo] = useState(false);
@@ -74,12 +72,12 @@ const Artwork = ({data}) => {
                 {data?.assets.map((asset) => (
                   <Slide key={asset} index={asset}>
                     <Image
-                      alt={data?.artwork_title || 'title'}
+                      alt={data?.artwork_title || "title"}
                       width={600}
                       priority={true}
                       height={600}
                       className="w-full h-[90%]"
-                      src={`${process.env.NEXT_PUBLIC_DIRECTUS_API_ENDPOINT}assets/${asset}?width=600`}
+                      src={`${process.env.NEXT_PUBLIC_DIRECTUS_API_ENDPOINT}assets/${asset?.directus_files_id}?width=600`}
                     />
                   </Slide>
                 ))}
@@ -100,12 +98,8 @@ const Artwork = ({data}) => {
           </div>
 
           <div>
-            <h3 className="text-[24px] font-normal">
-              {data?.artwork_title}
-            </h3>
-            <h3 className="text-[24px] font-normal">
-              {data?.series_title}
-            </h3>
+            <h3 className="text-[24px] font-normal">{data?.artwork_title}</h3>
+            <h3 className="text-[24px] font-normal">{data?.series_title}</h3>
             <p className="text-[16px] font-normal mt-5">
               {data?.subject_matter}
             </p>
@@ -151,11 +145,17 @@ const Artwork = ({data}) => {
             </div>
           </div>
         </div>
-        <CuratorsPick title={"Other works from Minne Atairu"} length={4} />
-        <CuratorsPick
-          title={"Other works from Bartha Contemporary"}
-          length={4}
-        />
+        {data?.artists &&
+          data?.artists.map((artist: any, idx) => (
+            <CuratorsPick
+              key={idx}
+              artist_id={data.id}
+              data={artist}
+              title={`Other works from ${artist?.directus_users_id?.first_name} ${artist?.directus_users_id?.last_name}`}
+              length={4}
+            />
+          ))}
+        {/* <CuratorsPick title={"Other works from Minne Atairu"} length={4} /> */}
       </div>
       <RequestInfo
         open={openRequestInfo}
@@ -201,26 +201,29 @@ const inchesToCentimetersAndRoundUp = (inches: number) => {
   return roundedCentimeters;
 };
 
-export const getStaticPaths = (async () => {
+export const getStaticPaths = async () => {
   return {
     paths: [],
     fallback: true, // false or "blocking"
-  }
-})
+  };
+};
 
 export const getStaticProps = async (ctx) => {
   try {
-    const res = await fetch(`https://admin.atsur.art/items/entry/${ctx.params.index}`);
+    const res = await fetch(
+      `https://admin.atsur.art/items/entry/${ctx.params.index}?fields=*,assets.*,asset_files.*,artists.directus_users_id.first_name,artists.directus_users_id.last_name,artists.directus_users_id.avatar,artists.directus_users_id.artworks.entry_id.id,artists.directus_users_id.artworks.entry_id.artwork_title,artists.directus_users_id.artworks.entry_id.year_created,artists.directus_users_id.artworks.entry_id.series_title,artists.directus_users_id.artworks.entry_id.assets.*`,
+      // `https://admin.atsur.art/items/entry/${ctx.params.index}?fields=*,assets.*, asset_files.*`,
+    );
     const data = await res.json();
-    console.log(" we have data here ", data.data)
+    console.log(" we have data here ", data.data);
     return {
       props: {
-        data: data.data
+        data: data.data,
       },
     };
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export default Artwork;
