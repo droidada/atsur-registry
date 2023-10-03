@@ -52,15 +52,10 @@ function Home({ data }: { data: [] }) {
 
   return (
     <div>
-      <Head>
-        <title>Atsur</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       <main>
         <Layout>
           <div>
-            <div className="h-[700px] px-10">
+            <div className="h-700 px-10">
               <CarouselProvider
                 naturalSlideWidth={90}
                 naturalSlideHeight={35}
@@ -106,31 +101,31 @@ function Home({ data }: { data: [] }) {
                 </DotGroup>
               </CarouselProvider>
             </div>
-            <div className="px-10">
+            <div className="px-10 mt-10">
               <FeaturedSection data={data} />
             </div>
             {/* <div className="px-10">
               <CuratorsPick title={"Curator's Pick"} length={6} />
             </div> */}
-            <div className="bg-black py-[61px] flex justify-center">
+            {/* <div className="bg-black py-[61px] flex justify-center">
               <p className="text-[#FFB800] text-center text-[32px]">
                 Register Artwork Ad
               </p>
-            </div>
-            <div className="px-10">
+            </div> */}
+            <div className="px-10 mt-20">
               <Editorial />
             </div>
-            <div className="px-10">
+            <div className="px-10 mt-20">
               <TrendingArtists />
             </div>
-            <div className="px-10">
+            <div className="px-10 mt-20 mb-2">
               <FeaturedInstitution />
             </div>
-            <div className="bg-black py-[61px] flex justify-center mx-[35px] my-[50px]">
+            {/* <div className="bg-black py-[61px] flex justify-center mx-[35px] my-[50px]">
               <p className="text-[#FFB800] text-center text-[32px]">
                 Join our Creative Community
               </p>
-            </div>
+            </div> */}
           </div>
         </Layout>
 
