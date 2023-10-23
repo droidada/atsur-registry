@@ -12,6 +12,8 @@ import {
   CHAIN_TO_USDC_ADDRESS,
 } from "./coins";
 
+import { Roles, ROLES_TO_IDS, ROLE_IDS_TO_ROLES } from "./roles";
+
 export {
   SupportedChainId,
   CHAIN_IDS_TO_NAMES,
@@ -21,4 +23,7 @@ export {
   CHAIN_TO_WETH_ADDRESS,
   CHAIN_TO_DAI_ADDRESS,
   CHAIN_TO_USDC_ADDRESS,
+  Roles,
+  ROLES_TO_IDS,
+  ROLE_IDS_TO_ROLES,
 };

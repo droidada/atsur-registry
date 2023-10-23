@@ -30,6 +30,7 @@
     "@mui/icons-material": "^5.14.3",
     "@mui/lab": "^5.0.0-alpha.146",
     "@mui/material": "^5.14.4",
+    "@mui/styles": "^5.14.14",
     "@next/font": "^13.4.13",
     "@samvera/clover-iiif": "^1.14.3",
     "@sendgrid/mail": "^7.7.0",

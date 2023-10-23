@@ -16,6 +16,7 @@ import "pure-react-carousel/dist/react-carousel.es.css";
 import Image from "next/image";
 import RequestInfo from "@/components/artwork/RequestInfo";
 import ContactGallery from "@/components/artwork/ContactGallery";
+import { notFound } from "next/navigation";
 
 const Artwork = ({ data }) => {
   // const [data, setData] = useState<any>();
@@ -61,14 +62,14 @@ const Artwork = ({ data }) => {
             <CarouselProvider
               naturalSlideWidth={90}
               naturalSlideHeight={90}
-              totalSlides={totalSlides}
+              totalSlides={data?.assets.length}
               interval={3000}
               isPlaying={true}
               currentSlide={activeSlide}
               playDirection="forward"
               //   onChange={handleSlideChange}
             >
-              <Slider className="w-full">
+              <Slider className="w-full h-[100%]">
                 {data?.assets.map((asset) => (
                   <Slide key={asset} index={asset}>
                     <Image
@@ -76,7 +77,7 @@ const Artwork = ({ data }) => {
                       width={600}
                       priority={true}
                       height={600}
-                      className="w-full h-[90%]"
+                      className="w-full h-[100%]"
                       src={`${process.env.NEXT_PUBLIC_DIRECTUS_API_ENDPOINT}assets/${asset?.directus_files_id}?width=600`}
                     />
                   </Slide>
@@ -84,7 +85,7 @@ const Artwork = ({ data }) => {
               </Slider>
 
               <DotGroup className="custom-dots-container flex justify-center gap-2">
-                {Array.from({ length: totalSlides }).map((_, index) => (
+                {Array.from({ length: data?.assets.length }).map((_, index) => (
                   <div
                     key={index}
                     className={`w-20 m-2 h-[2px] ${
@@ -152,7 +153,7 @@ const Artwork = ({ data }) => {
               artist_id={data.id}
               data={artist}
               title={`Other works from ${artist?.directus_users_id?.first_name} ${artist?.directus_users_id?.last_name}`}
-              length={4}
+              length={6}
             />
           ))}
         {/* <CuratorsPick title={"Other works from Minne Atairu"} length={4} /> */}
@@ -224,6 +225,7 @@ export const getStaticProps = async (ctx) => {
   } catch (error) {
     console.log(error);
   }
+  // return notFound()
 };
 
 export default Artwork;

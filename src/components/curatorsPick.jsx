@@ -57,7 +57,7 @@ const CuratorsPick = ({ artist_id, title, length, data }) => {
       <h3 className="text-left text-[32px] font-[400] mb-[22px]">{title}</h3>
       <div className="flex justify-between gap-6">
         <div
-          className={`grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-${length} justify-between gap-4`}
+          className={`grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 justify-between gap-6`}
         >
           {/* .filter((item) => item.entry_id.id !== artist_id) */}
           {artist_data &&

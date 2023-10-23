@@ -8,6 +8,7 @@ const useAxiosAuth = () => {
   const { data: session } = useSession();
   const refreshToken = useRefreshToken();
 
+  console.log("do we have a session user?? ", session?.user);
   useEffect(() => {
     const requestIntercept = axiosAuth.interceptors.request.use(
       (config) => {
@@ -19,7 +20,7 @@ const useAxiosAuth = () => {
         return config;
       },
       (error) => {
-        console.log("request intercepteor error here ", error);
+        console.log("request interceptor error here ", error);
         return Promise.reject(error);
       },
     );

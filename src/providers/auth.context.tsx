@@ -1,18 +1,4 @@
 import axios from "axios";
-import {
-  GoogleAuthProvider,
-  browserSessionPersistence,
-  createUserWithEmailAndPassword,
-  getAdditionalUserInfo,
-  isSignInWithEmailLink,
-  onAuthStateChanged,
-  setPersistence,
-  signInAnonymously,
-  signInWithEmailAndPassword,
-  signInWithEmailLink,
-  signInWithPopup,
-  signOut,
-} from "firebase/auth";
 import Router from "next/router";
 import React, {
   createContext,
@@ -20,9 +6,11 @@ import React, {
   useEffect,
   useMemo,
   useState,
+  useCallback,
 } from "react";
-import { auth } from "../services/auth/firebase";
-import { IMember, IUser } from "../types/models";
+import { signOut, signIn, useSession } from "next-auth/react";
+import { IUser, IProfile } from "../types/models";
+import useAxiosAuth from "@/hooks/useAxiosAuth";
 
 export type NewLogin = {
   isFirstLogin: boolean;
@@ -31,11 +19,6 @@ export type NewLogin = {
 
 export type AuthContextData = {
   user: IUser | undefined;
-  signUpWithEmail: (email: string, password: string) => Promise<void>;
-  signInWithEmail: (email: string, password: string) => Promise<void>;
-  emailSignUp: (newSignUp: IMember, url: string) => Promise<void>;
-  signInWithGoogle: () => Promise<NewLogin | undefined>;
-  anonymousSignIn: () => Promise<NewLogin | undefined>;
   sendArtistInvite: (
     email: string,
     type: string,
@@ -43,115 +26,37 @@ export type AuthContextData = {
     orgName: string,
     orgId?: string,
   ) => Promise<void>;
-  sendLoginLink: (email: string) => Promise<void>;
   loading: boolean;
-  isNewUser: boolean;
+  logIn: (email: string, password: string) => Promise<void>;
   logOut: () => Promise<void>;
-  refreshUser: () => Promise<void>;
+  updateUserProfile: (data: IProfile) => Promise<void>;
   error: string;
 };
 
 const AuthContext = createContext({} as AuthContextData);
 
 export function AuthContextProvider({ children }: any) {
-  const [user, setUser] = useState<IUser | undefined>();
+  const [user, setUser] = useState<IUser>(null);
   const [galleryId, setGalleryId] = useState<string | undefined>();
   const [loading, setLoading] = useState<boolean>(true);
-  const [isNewUser, setIsNewUser] = useState<boolean>(false);
   const [error, setError] = useState("");
 
+  const axiosAuth = useAxiosAuth();
+
+  const fetchUser = useCallback(async (): Promise<void> => {
+    setLoading(true);
+    const res = await axiosAuth.get("users/me");
+    const data = res.data.data;
+    console.log("we have current user here ", data);
+    setUser(data);
+    setLoading(false);
+  }, [axiosAuth]);
+
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        user.getIdToken().then(function (idToken) {
-          console.log("id token is = ", idToken); // It shows the Firebase token now
-          return idToken;
-        });
-      } else {
-        setUser(null);
-      }
-      setLoading(false);
-    });
-
-    return unsubscribe;
-  }, []);
-
-  const signInWithGoogle = async (): Promise<NewLogin | undefined> => {
-    setLoading(true);
-    await setPersistence(auth, browserSessionPersistence);
-    const credential = await signInWithPopup(auth, new GoogleAuthProvider());
-    const additionalInfo = getAdditionalUserInfo(credential);
-
-    setIsNewUser(additionalInfo?.isNewUser || false);
-
-    setLoading(false);
-    return {
-      isFirstLogin: additionalInfo?.isNewUser || false,
-      uuid: credential.user.uid,
+    async () => {
+      await fetchUser();
     };
-  };
-
-  const signInWithEmail = async (email: string, password: string) => {
-    setLoading(true);
-    await setPersistence(auth, browserSessionPersistence);
-    const credential = await signInWithEmailAndPassword(auth, email, password);
-
-    const additionalInfo = getAdditionalUserInfo(credential);
-
-    setIsNewUser(additionalInfo?.isNewUser || false);
-    setLoading(false);
-  };
-
-  const signUpWithEmail = async (email: string, password: string) => {
-    setLoading(true);
-    await setPersistence(auth, browserSessionPersistence);
-    const credential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password,
-    );
-    const additionalInfo = getAdditionalUserInfo(credential);
-    if (additionalInfo?.isNewUser) {
-    }
-
-    setUser({ ...credential.user });
-    setIsNewUser(additionalInfo?.isNewUser || false);
-    setLoading(false);
-  };
-
-  const emailSignUp = async (
-    newSignUp: IMember,
-    url?: string,
-  ): Promise<void> => {
-    setLoading(true);
-    // first time user
-    await setPersistence(auth, browserSessionPersistence);
-
-    const isValidLink = isSignInWithEmailLink(auth, url || "");
-    if (!isValidLink || !newSignUp.email) throw new Error("invalid sign url");
-
-    const credential = await signInWithEmailLink(auth, newSignUp.email, url);
-    const additionalInfo = getAdditionalUserInfo(credential);
-    if (additionalInfo?.isNewUser) setIsNewUser(additionalInfo.isNewUser);
-
-    setUser({ ...credential.user });
-    setLoading(false);
-  };
-
-  const sendLoginLink = async (email: string): Promise<void> => {
-    setLoading(true);
-    //TODO: abstract api calls
-    await axios.post(
-      `${
-        window.location.origin || process.env.NEXT_PUBLIC_DOMAIN_NAME
-      }/api/email/login`,
-      {
-        email,
-        // newUser: member ? false : true
-      },
-    );
-    setLoading(false);
-  };
+  }, [fetchUser]);
 
   const sendArtistInvite = async (
     email: string,
@@ -161,6 +66,7 @@ export function AuthContextProvider({ children }: any) {
     galleryId?: string,
   ): Promise<void> => {
     setLoading(true);
+
     //TODO: extract api calls
     await axios.post(
       `${process.env.NEXT_PUBLIC_DOMAIN_NAME}/api/email/artist-invite`,
@@ -175,51 +81,57 @@ export function AuthContextProvider({ children }: any) {
     setLoading(false);
   };
 
-  const anonymousSignIn = async (): Promise<NewLogin | undefined> => {
+  const updateUserProfile = async (info: IProfile): Promise<void> => {
     setLoading(true);
-    const credential = await signInAnonymously(auth);
-    const additionalInfo = getAdditionalUserInfo(credential);
-    setUser({
-      ...credential.user,
-      memberInfo: { type: "anonymous", name: "anonymous", org_id: "" },
+    const res = await axiosAuth.patch("users/me", {
+      ...info,
+      isProfileSetup: true,
     });
+    const data = res.data.data;
+    console.log("we have current user here ", data);
+    setUser(data);
     setLoading(false);
-    if (additionalInfo?.isNewUser) setIsNewUser(additionalInfo.isNewUser);
-    return {
-      isFirstLogin: additionalInfo?.isNewUser || false,
-      uuid: credential.user.uid,
-    };
   };
 
-  const refreshUser = async (): Promise<void> => {
-    setLoading(true);
-    const user = auth.currentUser;
-    if (!user) return;
+  const logIn = async (email: string, password: string) => {
+    try {
+      setLoading(true);
+      await signIn("credentials", {
+        redirect: false,
+        email: email,
+        password: password,
+        // callbackUrl: `/`,
+      });
+      await fetchUser();
+      console.log("user here is ", user);
+      if (!user.isProfileSetup) {
+        Router.replace("profile/setup");
+        return;
+      }
+      Router.replace("/");
+    } catch (error) {
+      console.log("error here ", error.message);
+      setError(error.message);
+      setLoading(false);
+    }
   };
 
   const logOut = async () => {
-    await signOut(auth);
-    setUser(undefined);
-    Router.replace("/onboarding");
+    await signOut();
+    setUser(null);
   };
 
   const memoedValue = useMemo(
     () => ({
       user,
-      signUpWithEmail,
-      signInWithEmail,
-      emailSignUp,
-      signInWithGoogle,
-      anonymousSignIn,
       sendArtistInvite,
-      sendLoginLink,
       loading,
-      isNewUser,
-      refreshUser,
+      logIn,
       logOut,
+      updateUserProfile,
       error,
     }),
-    [user, loading, error, isNewUser],
+    [user, loading, error],
   );
 
   useEffect(() => {}, [user]);
@@ -234,3 +146,13 @@ export default AuthContext;
 export const useAuthContext = () => ({
   ...useContext(AuthContext),
 });
+
+export const ProtectRoute = ({ children }) => {
+  const { status } = useSession();
+  if (status === "loading") {
+    // return <LoadingScreen />;
+    console.log("LOADING SCREEN");
+    return <>LOADING</>;
+  }
+  return children;
+};

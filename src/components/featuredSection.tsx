@@ -27,24 +27,24 @@ const FeaturedSection = ({ data }: any) => {
     <div>
       <h3 className="text-left text-[32px] font-[400] mb-[22px]">Featured</h3>
       <div className="flex justify-between gap-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 justify-between gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 justify-between gap-4 px-10 py-10">
           {data &&
             data.map((item, idx) => (
               <div key={idx}>
                 <Link href={"/artwork/" + item.id}>
                   <Image
                     src={`${process.env.NEXT_PUBLIC_DIRECTUS_API_ENDPOINT}assets/${item.assets[0]?.directus_files_id}?width=300`}
-                    width={300}
-                    height={259}
+                    width={400}
+                    height={459}
                     alt="art"
-                    className="w-full h-[259px]"
+                    className="w-full h-[400px]"
                   />
                 </Link>
                 <div>
-                  <h6 className="text-center text-[12px] font-[400]">
+                  <h6 className="text-center text-[24px] font-[400]">
                     {item.artwork_title}
                   </h6>
-                  <p className="text-left text-[24px] font-[400]">
+                  <p className="text-center text-[18px] font-[400]">
                     {item.series_title}
                   </p>
                 </div>

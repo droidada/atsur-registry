@@ -5,7 +5,7 @@ import { Analytics } from "@vercel/analytics/react";
 // import { ReactQueryDevtools } from "react-query/devtools";
 import { SessionProvider } from "next-auth/react";
 import getLibrary from "../../getLibrary";
-import { AuthContextProvider } from "../providers/auth.context";
+import { AuthContextProvider, ProtectRoute } from "../providers/auth.context";
 import "@/styles/globals.css";
 
 // const queryClient = new QueryClient();
@@ -19,9 +19,11 @@ export default function NextWeb3App({
       {/* <QueryClientProvider client={queryClient}> */}
       <SessionProvider session={session}>
         <AuthContextProvider>
-          <Component {...pageProps} />
-          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-          {/* <Analytics /> */}
+          <ProtectRoute>
+            <Component {...pageProps} />
+            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+            {/* <Analytics /> */}
+          </ProtectRoute>
         </AuthContextProvider>
       </SessionProvider>
       {/* </QueryClientProvider> */}
