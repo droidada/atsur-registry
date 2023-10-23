@@ -1,30 +1,10 @@
-import Head from "next/head";
 import Image from "next/image";
-import { Inter } from "@next/font/google";
 import Layout from "@/components/layout";
 import FeaturedSection from "@/components/featuredSection";
-import CuratorsPick from "@/components/curatorsPick";
-import Editorial from "@/components/editorial";
-import FeaturedInstitution from "@/components/featuredInstitute";
-import TrendingArtists from "@/components/trendinArtist";
-import {
-  CarouselProvider,
-  Slider,
-  Slide,
-  DotGroup,
-  Dot,
-  ButtonBack,
-  ButtonNext,
-} from "pure-react-carousel";
+import { CarouselProvider, Slider, Slide } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
 import image from "../../assets/image.jpeg";
-import image1 from "../../assets/image1.png";
-import image2 from "../../assets/image2.png";
-import image3 from "../../assets/image3.png";
 import { useEffect, useState } from "react";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 
 function Home({ data }: { data: [] }) {
@@ -48,7 +28,7 @@ function Home({ data }: { data: [] }) {
     handleDotClick(newSlide); // Call handleDotClick when slide changes
   };
 
-  const totalSlides = 4;
+  const totalSlides = 1;
 
   return (
     <div>
@@ -70,7 +50,7 @@ function Home({ data }: { data: [] }) {
                   <Slide index={0}>
                     <Image alt="" className="w-full h-[90%]" src={image} />
                   </Slide>
-                  <Slide index={1}>
+                  {/* <Slide index={1}>
                     <Image alt="" className="w-full h-[90%]" src={image1} />
                   </Slide>
                   <Slide onFocus={() => handleSlideChange} index={2}>
@@ -78,9 +58,9 @@ function Home({ data }: { data: [] }) {
                   </Slide>
                   <Slide index={3}>
                     <Image alt="" className="w-full h-[90%]" src={image3} />
-                  </Slide>
+                  </Slide> */}
                 </Slider>
-                <DotGroup className="custom-dots-container flex justify-center items-center">
+                {/* <DotGroup className="custom-dots-container flex justify-center items-center">
                   {Array.from({ length: totalSlides }).map((_, index) => (
                     <div
                       key={index}
@@ -98,7 +78,7 @@ function Home({ data }: { data: [] }) {
                       <ArrowForwardIosIcon />
                     </ButtonNext>
                   </div>
-                </DotGroup>
+                </DotGroup> */}
               </CarouselProvider>
             </div>
             <div className="px-10 mt-10">
@@ -112,7 +92,7 @@ function Home({ data }: { data: [] }) {
                 Register Artwork Ad
               </p>
             </div> */}
-            <div className="px-10 mt-20">
+            {/* <div className="px-10 mt-20">
               <Editorial />
             </div>
             <div className="px-10 mt-20">
@@ -120,7 +100,7 @@ function Home({ data }: { data: [] }) {
             </div>
             <div className="px-10 mt-20 mb-2">
               <FeaturedInstitution />
-            </div>
+            </div> */}
             {/* <div className="bg-black py-[61px] flex justify-center mx-[35px] my-[50px]">
               <p className="text-[#FFB800] text-center text-[32px]">
                 Join our Creative Community
@@ -150,20 +130,23 @@ function Home({ data }: { data: [] }) {
 }
 
 export const getStaticProps = async () => {
+  let props = {};
   try {
     const res = await fetch(
       "https://admin.atsur.art/items/entry?fields=*,assets.*, asset_files.*",
     );
     const data = await res.json();
 
-    return {
-      props: {
-        data: data.data,
-      },
+    props = {
+      data: data?.data,
     };
   } catch (error) {
     console.log(error);
   }
+
+  return {
+    props,
+  };
 };
 
 export default Home;

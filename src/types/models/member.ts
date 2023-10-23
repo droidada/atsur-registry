@@ -1,4 +1,4 @@
-import { User as FirebaseUser } from "firebase/auth";
+// import { User as FirebaseUser } from "firebase/auth";
 
 export interface IAddress {
   walletAddress: string;
@@ -27,6 +27,21 @@ export interface IMember {
   updatedAt?: number;
 }
 
-export interface IUser extends FirebaseUser {
-  memberInfo?: IMember;
+export interface IUser {
+  id: string;
+  email: string;
+  first_name?: string;
+  last_name?: string;
+  description?: string;
+  role: string;
+  token: string;
+  status?: string;
+  isProfileSetup: boolean;
+}
+
+export interface IProfile {
+  first_name?: string;
+  last_name?: string;
+  description?: string;
+  isProfileSetup: boolean;
 }

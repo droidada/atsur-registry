@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
-import { getCsrfToken } from "next-auth/react";
+import { getCsrfToken, signIn } from "next-auth/react";
+import { useRouter } from "next/router";
 import {
   Avatar,
+  Button,
   CssBaseline,
   TextField,
   FormControlLabel,
@@ -11,16 +13,19 @@ import {
   Box,
   Grid,
   Typography,
+  createTheme,
+  ThemeProvider,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Layout from "@/components/layout";
 import { literal, object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
-import { useRouter } from "next/router";
-import { useAuthContext } from "../../providers/auth.context";
+
+// import axios from "@/lib/axios";
+import axios from "axios";
+import ConfirmationDialog from "@/components/signup/confirmation-dialog";
 
 function Copyright(props: any) {
   return (
@@ -40,30 +45,45 @@ function Copyright(props: any) {
   );
 }
 
-function Login() {
-  const loginSchema = object({
-    email: string().nonempty("Email is required").email("Email is invalid"),
+function SignUpPassword() {
+  const signUpSchema = object({
     password: string()
       .nonempty("Password is required")
       .min(8, "Password must be more than 8 characters")
       .max(32, "Password must be less than 32 characters"),
-  });
+    confirmPassword: string().nonempty("Confirm password is required"),
+  }).refine(
+    (values) => {
+      return values.password === values.confirmPassword;
+    },
+    {
+      message: "Passwords must match!",
+      path: ["confirmPassword"],
+    },
+  );
 
-  type LoginInput = TypeOf<typeof loginSchema>;
+  type SignUpInput = TypeOf<typeof signUpSchema>;
 
   const {
     register,
     formState: { errors, isSubmitSuccessful },
     reset,
     handleSubmit,
-  } = useForm<LoginInput>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<SignUpInput>({
+    resolver: zodResolver(signUpSchema),
   });
 
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
   const [error, setError] = useState(false);
-  const { logIn, logOut } = useAuthContext();
+  const [tokenParam, setTokenParam] = useState("");
+  const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const { token } = router.query;
+
+  useEffect(() => {
+    setTokenParam(token?.toString());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -72,13 +92,30 @@ function Login() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSubmitSuccessful]);
 
-  const onSubmitHandler: SubmitHandler<LoginInput> = async (values) => {
+  const onSubmitHandler: SubmitHandler<SignUpInput> = async (values) => {
     try {
       console.log(values);
-      await logIn(values.email, values.password);
+      setLoading(true);
+      await axios.post("/api/signup", {
+        token: tokenParam,
+        password: values.password,
+      });
+      //success message
+      setLoading(false);
+      setOpen(true);
+      //router.push("/");
     } catch (error) {
       console.error(error);
+      setLoading(false);
       setError(true);
+    }
+  };
+
+  const handleConfirm = (confirmed: boolean) => {
+    setOpen(false);
+
+    if (confirmed) {
+      router.push("/login");
     }
   };
   console.log(errors);
@@ -111,20 +148,10 @@ function Login() {
           >
             {error && (
               <div className="bg-red-300 p-2 text-white rounded">
-                Wrong email or password
+                Something happened. Please try again.
               </div>
             )}
 
-            <TextField
-              sx={{ mb: 2 }}
-              label="Email"
-              fullWidth
-              required
-              type="email"
-              error={!!errors["email"]}
-              helperText={errors["email"] ? errors["email"].message : ""}
-              {...register("email")}
-            />
             <TextField
               sx={{ mb: 2 }}
               label="Password"
@@ -135,18 +162,33 @@ function Login() {
               helperText={errors["password"] ? errors["password"].message : ""}
               {...register("password")}
             />
+            <TextField
+              sx={{ mb: 2 }}
+              label="Confirm Password"
+              fullWidth
+              required
+              type="password"
+              error={!!errors["confirmPassword"]}
+              helperText={
+                errors["confirmPassword"]
+                  ? errors["confirmPassword"].message
+                  : ""
+              }
+              {...register("confirmPassword")}
+            />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
             <LoadingButton
+              color="secondary"
               variant="contained"
               fullWidth
               type="submit"
               loading={loading}
               sx={{ mt: 3, mb: 2 }}
             >
-              Login
+              Sign Up
             </LoadingButton>
 
             {/* <Button
@@ -164,12 +206,27 @@ function Login() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/signup" variant="body2">
+                <Link href="#" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
             </Grid>
             <Copyright sx={{ mt: 5 }} />
+            <ConfirmationDialog
+              id="ringtone-menu"
+              keepMounted
+              open={open}
+              onConfirm={handleConfirm}
+              showCancel={false}
+              content={
+                <>
+                  <h6>
+                    Congratulations you have successfully been registered.
+                  </h6>
+                  <h6>Please login to continue using your account.</h6>
+                </>
+              }
+            />
           </Box>
         </Box>
       </Grid>
@@ -193,12 +250,17 @@ function Login() {
   );
 }
 
-export async function getServerSideProps(context) {
-  return {
-    props: {
-      csrfToken: await getCsrfToken(context),
-    },
-  };
-}
+// export async function getServerSideProps(context) {
+//   const {
+//     params: { token },
+//   } = context;
 
-export default Login;
+//   console.log("we have token on client side here pls ", token )
+//   return {
+//     props: {
+//       token,
+//     },
+//   };
+// }
+
+export default SignUpPassword;

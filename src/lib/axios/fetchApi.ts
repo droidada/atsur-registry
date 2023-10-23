@@ -1,5 +1,5 @@
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../pages/api/auth/[...nextauth]";
+import { options } from "../../pages/api/auth/[...nextauth]";
 const BASE_URL = "https://directus-admin-service-mr73ptziua-uc.a.run.app/";
 async function refreshToken(refreshToken: string) {
   const res = await fetch(BASE_URL + "/auth/refresh", {
@@ -16,7 +16,7 @@ async function refreshToken(refreshToken: string) {
 }
 
 export async function AuthGetApi(url: string) {
-  const session: any = await getServerSession(authOptions);
+  const session: any = await getServerSession(options);
   console.log("before: ", session?.user.accessToken);
 
   let res = await fetch(BASE_URL + url, {

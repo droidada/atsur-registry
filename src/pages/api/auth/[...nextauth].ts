@@ -1,50 +1,35 @@
-import NextAuth from "next-auth";
-import { GetSessionParams } from "next-auth/react";
+import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { signIn } from "next-auth/react";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-export const authOptions: any = {
+const pubAPI = process.env.DIRECTUS_API_ENDPOINT;
+
+export const options: any = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: {
-          label: "Email",
-          type: "text",
-          placeholder: "Enter your email",
-        },
-        password: {
-          label: "Password",
-          type: "password",
-          placeholder: "Enter your password",
-        },
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" },
       },
-      // requestTokenUrl: `${process.env.DIRECTUS_API_ENDPOINT}/auth/login`,
-      // retrieveTokenUrl: `${process.env.DIRECTUS_API_ENDPOINT}/auth/refresh`,
-      async authorize(credentials) {
+      async authorize(credentials, req) {
         const payload = {
           email: credentials.email,
           password: credentials.password,
         };
-
-        const res = await fetch(
-          `https://directus-admin-service-mr73ptziua-uc.a.run.app/auth/login`,
-          {
-            method: "POST",
-            body: JSON.stringify(payload),
-            headers: {
-              "Content-Type": "application/json",
-              "Accept-Language": "en-US",
-            },
-          },
-        );
-
+        const res = await fetch(pubAPI + "auth/login", {
+          method: "POST",
+          body: JSON.stringify(payload),
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        });
         const user = await res.json();
 
         if (!res.ok) {
-          throw new Error("Wrong username or password");
+          throw new Error("Email or password incorrect.");
         }
 
         if (res.ok && user) {
@@ -58,34 +43,78 @@ export const authOptions: any = {
   session: {
     jwt: true,
   },
-  jwt: {
-    secret: "SUPER_SECRET_JWT_SECRET",
-  },
   callbacks: {
     async jwt({ token, user, account }) {
       if (account && user) {
         return {
           ...token,
           accessToken: user.data.access_token,
+          expires: Date.now() + user.data.expires,
           refreshToken: user.data.refresh_token,
+          error: user.data.error,
         };
       }
 
-      return token;
+      if (Date.now() < token.expires) {
+        return token;
+      }
+
+      const refreshed = await refreshAccessToken(token);
+      return await refreshed;
     },
 
     async session({ session, token }) {
       session.user.accessToken = token.accessToken;
       session.user.refreshToken = token.refreshToken;
+      session.user.expires = token.expires;
+      session.user.error = token.error;
 
       return session;
     },
   },
+  secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: "/login",
   },
   debug: true,
 };
 
-const Auth = (req, res) => NextAuth(req, res, authOptions);
-export default Auth;
+async function refreshAccessToken(token) {
+  try {
+    const response = await fetch(pubAPI + "auth/refresh", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refresh_token: token.refreshToken }),
+      credentials: "include",
+    });
+
+    const refreshedTokens = await response.json();
+
+    if (!response.ok) {
+      signIn();
+    }
+
+    if (response.ok && refreshedTokens) {
+      return {
+        ...token,
+        accessToken: refreshedTokens.data.access_token,
+        expires: Date.now() + refreshedTokens.data.expires,
+        refreshToken: refreshedTokens.data.refresh_token,
+      };
+    }
+  } catch (error) {
+    console.log(
+      new Date().toUTCString() + " Error in refreshAccessToken:",
+      error,
+    );
+
+    return {
+      ...token,
+      error: "RefreshAccessTokenError",
+    };
+  }
+}
+
+const nextauthfunc = (req, res) => NextAuth(req, res, options);
+
+export default nextauthfunc;
