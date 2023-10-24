@@ -51,11 +51,13 @@ function ProfileSetUp() {
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep((prevActiveStep) =>
+      !completed[prevActiveStep - 1] ? prevActiveStep - 1 : prevActiveStep,
+    );
   };
 
   const handleStep = (step: number) => () => {
-    setActiveStep(step);
+    if (!completed[step]) setActiveStep(step);
   };
 
   const handleComplete = () => {
@@ -130,12 +132,16 @@ function ProfileSetUp() {
             ) : (
               <>
                 <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
-                  <SignUpFlow activeStep={activeStep} />
+                  <SignUpFlow
+                    activeStep={activeStep}
+                    setActiveStep={setActiveStep}
+                    setCompleted={setCompleted}
+                  />
                 </Typography>
                 <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                   <Button
                     color="inherit"
-                    disabled={activeStep === 0}
+                    disabled={activeStep === 0 || completed[activeStep - 1]}
                     onClick={handleBack}
                     sx={{ mr: 1 }}
                   >

@@ -59,15 +59,15 @@ export const options: any = {
         return token;
       }
 
-      const refreshed = await refreshAccessToken(token);
-      return await refreshed;
+      return refreshAccessToken(token);
+      // return await refreshed;
     },
 
     async session({ session, token }) {
-      session.user.accessToken = token.accessToken;
-      session.user.refreshToken = token.refreshToken;
-      session.user.expires = token.expires;
-      session.user.error = token.error;
+      session.user.accessToken = token?.accessToken;
+      session.user.refreshToken = token?.refreshToken;
+      session.user.expires = token?.expires;
+      session.user.error = token?.error;
 
       return session;
     },
@@ -84,7 +84,9 @@ async function refreshAccessToken(token) {
     const response = await fetch(pubAPI + "auth/refresh", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ refresh_token: token.refreshToken }),
+      body: JSON.stringify({
+        refresh_token: token?.accessToken || token?.refreshToken,
+      }),
       credentials: "include",
     });
 
@@ -97,9 +99,9 @@ async function refreshAccessToken(token) {
     if (response.ok && refreshedTokens) {
       return {
         ...token,
-        accessToken: refreshedTokens.data.access_token,
-        expires: Date.now() + refreshedTokens.data.expires,
-        refreshToken: refreshedTokens.data.refresh_token,
+        accessToken: refreshedTokens?.data?.access_token,
+        expires: Date.now() + refreshedTokens?.data?.expires,
+        refreshToken: refreshedTokens?.data?.refresh_token,
       };
     }
   } catch (error) {

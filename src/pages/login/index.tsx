@@ -63,7 +63,7 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [error, setError] = useState(false);
-  const { logIn, logOut } = useAuthContext();
+  const { logIn, user } = useAuthContext();
 
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -76,6 +76,12 @@ function Login() {
     try {
       console.log(values);
       await logIn(values.email, values.password);
+      setLoading(false);
+      if (!user?.isProfileSetup) {
+        router.replace("/profile/setup");
+        return;
+      }
+      router.replace("/");
     } catch (error) {
       console.error(error);
       setError(true);
