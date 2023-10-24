@@ -1,5 +1,6 @@
 import axios from "axios";
 import Router from "next/router";
+import Cookies from "js-cookie";
 import React, {
   createContext,
   useContext,
@@ -36,27 +37,30 @@ export type AuthContextData = {
 const AuthContext = createContext({} as AuthContextData);
 
 export function AuthContextProvider({ children }: any) {
+  const { data: session } = useSession();
   const [user, setUser] = useState<IUser>(null);
-  const [galleryId, setGalleryId] = useState<string | undefined>();
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState("");
 
   const axiosAuth = useAxiosAuth();
 
-  const fetchUser = useCallback(async (): Promise<void> => {
-    setLoading(true);
-    const res = await axiosAuth.get("users/me");
-    const data = res.data.data;
-    console.log("we have current user here ", data);
-    setUser(data);
-    setLoading(false);
-  }, [axiosAuth]);
+  const fetchUser = async (): Promise<void> => {
+    try {
+      setLoading(true);
+      const res = await axiosAuth.get("users/me");
+      const data = res.data.data;
+      console.log("we have current user here ", data);
+      setUser(data);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    async () => {
-      await fetchUser();
-    };
-  }, [fetchUser]);
+    console.log("fetching user");
+    fetchUser();
+  }, [session?.user]);
 
   const sendArtistInvite = async (
     email: string,
@@ -96,19 +100,16 @@ export function AuthContextProvider({ children }: any) {
   const logIn = async (email: string, password: string) => {
     try {
       setLoading(true);
-      await signIn("credentials", {
+      const res = await signIn("credentials", {
         redirect: false,
         email: email,
         password: password,
-        // callbackUrl: `/`,
+        callbackUrl: `/`,
       });
-      await fetchUser();
+      Cookies.set("token", session?.user?.accessToken);
+      console.log("res from login here ", res);
+      //  await fetchUser();
       console.log("user here is ", user);
-      if (!user.isProfileSetup) {
-        Router.replace("profile/setup");
-        return;
-      }
-      Router.replace("/");
     } catch (error) {
       console.log("error here ", error.message);
       setError(error.message);
@@ -154,5 +155,10 @@ export const ProtectRoute = ({ children }) => {
     console.log("LOADING SCREEN");
     return <>LOADING</>;
   }
+  // console.log("path name here is ", Router.pathname )
+  // if ((!!status || status === "unauthenticated") && Router.pathname !== "/login") {
+  //    Router.replace("/login");
+  //    return;
+  // }
   return children;
 };
