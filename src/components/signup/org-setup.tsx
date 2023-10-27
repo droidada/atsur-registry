@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getCsrfToken, signIn } from "next-auth/react";
 import { useRouter } from "next/router";
-import { literal, object, string, TypeOf } from "zod";
+import { array, coerce, object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
@@ -23,7 +23,12 @@ import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useAuthContext } from "@/providers/auth.context";
 import { ROLE_IDS_TO_ROLES, Roles } from "../../types/constants";
 
-const CompanySetup = ({ activeStep: number, handleOrgCreate: Function }) => {
+const CompanySetup = ({
+  activeStep: number,
+  setActiveStep,
+  setCompleted,
+  handleOrgCreate: Function,
+}) => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [autocompleteOpen, setAutocompleteOpen] = useState(false);
@@ -36,9 +41,10 @@ const CompanySetup = ({ activeStep: number, handleOrgCreate: Function }) => {
 
   const orgSchema = object({
     name: string().nonempty("Organization name is required"),
-    type: string().nonempty("Organization type is required"),
     description: string().nonempty("Organization description is required"),
-    specialties: string().nonempty("Organization specialties is required"),
+    specialties: array(coerce.string()).nonempty(
+      "Organization specialties is required",
+    ),
     address: string().nonempty("Organization address is required"),
   });
   type OrgInput = TypeOf<typeof orgSchema>;
@@ -46,7 +52,7 @@ const CompanySetup = ({ activeStep: number, handleOrgCreate: Function }) => {
     register,
     formState: { errors, isSubmitSuccessful },
     reset,
-    handleSubmit,
+    handleSubmit: handleOrgSubmit,
   } = useForm<OrgInput>({
     resolver: zodResolver(orgSchema),
   });
@@ -80,8 +86,8 @@ const CompanySetup = ({ activeStep: number, handleOrgCreate: Function }) => {
   }, [isSubmitSuccessful]);
 
   const handleOrgChange = async (event) => {
-    event.preventDefault();
     try {
+      event.preventDefault();
       setLoading(true);
       console.log("search value is ", event.target.value);
       const res = await axiosAuth.get(
@@ -97,15 +103,30 @@ const CompanySetup = ({ activeStep: number, handleOrgCreate: Function }) => {
     }
   };
 
-  const onSubmitHandler: SubmitHandler<OrgInput> = async (values) => {
-    console.log(values);
+  const onOrgSubmitHandler: SubmitHandler<OrgInput> = async (values, e) => {
     try {
+      e.preventDefault();
       setLoading(true);
       console.log(values);
+      const res = await axiosAuth.post("items/organization", {
+        ...values,
+        type: "gallery",
+      });
+      console.log("we have new org here ", res?.data?.data);
+
+      const res_ = await axiosAuth.post("/items/organization_directus_users", {
+        organization_id: res.data?.data?.id,
+        directus_users_id: user.id,
+      });
+      console.log("we have new org binding here ", res_.data);
+
+      setActiveStep(2);
+      setCompleted({ 1: true });
       setLoading(false);
     } catch (error) {
       console.error(error);
       setError(false);
+      setLoading(false);
     }
   };
 
@@ -188,7 +209,7 @@ const CompanySetup = ({ activeStep: number, handleOrgCreate: Function }) => {
               component="form"
               autoComplete="off"
               noValidate
-              onSubmit={handleSubmit(onSubmitHandler)}
+              onSubmit={handleOrgSubmit(onOrgSubmitHandler)}
               sx={{
                 mt: 1,
                 width: 400,
@@ -241,6 +262,8 @@ const CompanySetup = ({ activeStep: number, handleOrgCreate: Function }) => {
                 <Select
                   labelId="specialties"
                   id="specialties"
+                  multiple
+                  defaultValue={[]}
                   label="What's your organization specialties"
                   error={!!errors["specialties"]}
                   {...register("specialties")}
@@ -248,9 +271,12 @@ const CompanySetup = ({ activeStep: number, handleOrgCreate: Function }) => {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={"male"}>Male</MenuItem>
-                  <MenuItem value={"female"}>Female</MenuItem>
-                  <MenuItem value={"other"}>Other</MenuItem>
+                  <MenuItem value={"paintings"}>Paintings</MenuItem>
+                  <MenuItem value={"photography"}>Photography</MenuItem>
+                  <MenuItem value={"ceramics"}>Ceramics</MenuItem>
+                  <MenuItem value={"antiques"}>Antiques</MenuItem>
+                  <MenuItem value={"artifacts"}>Artifacts</MenuItem>
+                  <MenuItem value={"nfts"}>NFTs</MenuItem>
                 </Select>
                 {errors["specialties"] && (
                   <FormHelperText error={!!errors["specialties"]}>

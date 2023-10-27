@@ -131,7 +131,7 @@ function ProfileSetUp() {
               </>
             ) : (
               <>
-                <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
+                <Typography sx={{ mb: 1, py: 1 }}>
                   <SignUpFlow
                     activeStep={activeStep}
                     setActiveStep={setActiveStep}

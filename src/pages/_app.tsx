@@ -15,13 +15,13 @@ import { AuthContextProvider, ProtectRoute } from "../providers/auth.context";
 import "@/styles/globals.css";
 
 // // const queryClient = new QueryClient();
-// type CustomPage = NextPage & {
-//   requiresAuth?: boolean;
-//   redirectUnauthenticatedTo?: string;
-// };
-// interface CustomAppProps extends Omit<AppProps, "Component"> {
-//   Component: CustomPage;
-// }
+type CustomPage = NextPage & {
+  requiresAuth?: boolean;
+  redirectUnauthenticatedTo?: string;
+};
+interface CustomAppProps extends Omit<AppProps, "Component"> {
+  Component: CustomPage;
+}
 
 export default function NextWeb3App({
   Component,
@@ -31,7 +31,7 @@ export default function NextWeb3App({
     <Web3ReactProvider getLibrary={getLibrary}>
       {/* <QueryClientProvider client={queryClient}> */}
       <SessionProvider session={session}>
-        {/* {Component.requiresAuth && (
+        {Component.requiresAuth && (
           <Head>
             <script
               // If no token is found, redirect inmediately
@@ -45,7 +45,7 @@ export default function NextWeb3App({
               }}
             />
           </Head>
-        )} */}
+        )}
         <AuthContextProvider>
           <ProtectRoute>
             <Component {...pageProps} />

@@ -1,9 +1,9 @@
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { signIn } from "next-auth/react";
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
 
-dotenv.config();
+// dotenv.config();
 
 const pubAPI = process.env.DIRECTUS_API_ENDPOINT;
 
@@ -92,9 +92,9 @@ async function refreshAccessToken(token) {
 
     const refreshedTokens = await response.json();
 
-    if (!response.ok) {
-      signIn();
-    }
+    // if (!response.ok) {
+    //   signIn();
+    // }
 
     if (response.ok && refreshedTokens) {
       return {
