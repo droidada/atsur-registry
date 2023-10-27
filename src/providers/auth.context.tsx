@@ -1,5 +1,5 @@
 import axios from "axios";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import React, {
   createContext,
@@ -148,17 +148,18 @@ export const useAuthContext = () => ({
   ...useContext(AuthContext),
 });
 
-export const ProtectRoute = ({ children }) => {
-  const { status } = useSession();
+export const ProtectRoute = ({ children }: any) => {
+  const { status, data: session } = useSession();
+  const router = useRouter();
   if (status === "loading") {
     // return <LoadingScreen />;
     console.log("LOADING SCREEN");
     return <>LOADING</>;
   }
   // console.log("path name here is ", Router.pathname )
-  // if ((!!status || status === "unauthenticated") && Router.pathname !== "/login") {
-  //    Router.replace("/login");
-  //    return;
-  // }
+  if (!session) {
+    router.replace("/login");
+    return;
+  }
   return children;
 };

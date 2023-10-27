@@ -24,6 +24,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useAuthContext } from "@/providers/auth.context";
 import CompanySetup from "./org-setup";
+import InvitesStep from "./invites-step";
 
 const SignUpFlow = ({ activeStep, setActiveStep, setCompleted }) => {
   const profileSchema = object({
@@ -166,7 +167,23 @@ const SignUpFlow = ({ activeStep, setActiveStep, setCompleted }) => {
 
       {activeStep == 1 && (
         <>
-          <CompanySetup activeStep={activeStep} handleOrgCreate={() => {}} />
+          <CompanySetup
+            activeStep={activeStep}
+            setActiveStep={setActiveStep}
+            setCompleted={setCompleted}
+            handleOrgCreate={() => {}}
+          />
+        </>
+      )}
+
+      {activeStep == 2 && (
+        <>
+          <InvitesStep
+            activeStep={activeStep}
+            setActiveStep={setActiveStep}
+            setCompleted={setCompleted}
+            handleOrgCreate={() => {}}
+          />
         </>
       )}
       <Grid container></Grid>

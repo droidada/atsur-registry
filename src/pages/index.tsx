@@ -7,18 +7,22 @@ import image from "../../assets/image.jpeg";
 import { useEffect, useState } from "react";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 
-function Home({ data }: { data: [] }) {
+function Home() {
   const [activeSlide, setActiveSlide] = useState(0);
 
-  // const [data, setData] = useState<[]>();
-  // const axiosAuth = useAxiosAuth();
-  // useEffect(() => {
-  //   async () => {
-  //     const res = await axiosAuth.get("/items/entry");
-  //     setData(res.data);
-  //     console.log("we have data here")
-  //   };
-  // },[])
+  const [data, setData] = useState<[]>();
+  const axiosAuth = useAxiosAuth();
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch(
+        "https://admin.atsur.art/items/entry?fields=*,assets.*, asset_files.*",
+      );
+      const data = await res.json();
+      setData(data ? data.data : []);
+      console.log("we have data here");
+    };
+    fetchData();
+  }, []);
 
   const handleDotClick = (index) => {
     setActiveSlide(index);
@@ -128,25 +132,5 @@ function Home({ data }: { data: [] }) {
     </div>
   );
 }
-
-export const getStaticProps = async () => {
-  let props = {};
-  try {
-    const res = await fetch(
-      "https://admin.atsur.art/items/entry?fields=*,assets.*, asset_files.*",
-    );
-    const data = await res.json();
-
-    props = {
-      data: data?.data,
-    };
-  } catch (error) {
-    console.log(error);
-  }
-
-  return {
-    props,
-  };
-};
 
 export default Home;
