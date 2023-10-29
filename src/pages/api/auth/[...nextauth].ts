@@ -83,11 +83,14 @@ async function refreshAccessToken(token) {
   try {
     const response = await fetch(pubAPI + "auth/refresh", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token?.accessToken}`,
+      },
       body: JSON.stringify({
         refresh_token: token?.accessToken || token?.refreshToken,
       }),
-      credentials: "include",
+      // credentials: "include",
     });
 
     const refreshedTokens = await response.json();

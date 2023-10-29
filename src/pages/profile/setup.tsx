@@ -15,10 +15,12 @@ import {
 import { AccountCircleOutlined } from "@mui/icons-material";
 import SignUpFlow from "@/components/signup/signup-flow";
 import { ProtectRoute } from "@/providers/auth.context";
+import { useRouter } from "next/router";
 
 const steps = ["Personal Information", "Company Information", "Invites"];
 
 function ProfileSetUp() {
+  const router = useRouter();
   const [activeStep, setActiveStep] = useState(0);
   const [completed, setCompleted] = useState<{
     [k: number]: boolean;
@@ -65,6 +67,7 @@ function ProfileSetUp() {
     newCompleted[activeStep] = true;
     setCompleted(newCompleted);
     handleNext();
+    if (completedSteps() === totalSteps()) router.replace("/dashboard");
   };
 
   const handleReset = () => {
