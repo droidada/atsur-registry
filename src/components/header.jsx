@@ -1,6 +1,14 @@
 import React from "react";
 import { signOut, useSession } from "next-auth/react";
-import Input from "@mui/material/Input";
+import {
+  Stack,
+  Tooltip,
+  IconButton,
+  SvgIcon,
+  Badge,
+  Avatar,
+  Input,
+} from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import logo from "../../assets/logo.jpeg";
@@ -36,6 +44,39 @@ const Header = () => {
         ) : (
           <Link href={"/login"}>Login</Link>
         )}
+
+        <Stack alignItems="center" direction="row" spacing={2}>
+          {/* <Tooltip title="Contacts">
+          <IconButton>
+            <SvgIcon fontSize="small">
+              <UsersIcon />
+            </SvgIcon>
+          </IconButton>
+        </Tooltip> */}
+          {/* <Tooltip title="Notifications">
+          <IconButton>
+            <Badge
+              badgeContent={4}
+              color="success"
+              variant="dot"
+            >
+              <SvgIcon fontSize="small">
+                <BellIcon />
+              </SvgIcon>
+            </Badge>
+          </IconButton>
+        </Tooltip> */}
+          <Avatar
+            // onClick={accountPopover.handleOpen}
+            // ref={accountPopover.anchorRef}
+            sx={{
+              cursor: "pointer",
+              height: 40,
+              width: 40,
+            }}
+            src="/assets/avatars/avatar-anika-visser.png"
+          />
+        </Stack>
       </div>
     </div>
   );

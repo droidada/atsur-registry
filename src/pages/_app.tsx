@@ -13,6 +13,7 @@ import { SessionProvider } from "next-auth/react";
 import getLibrary from "../../getLibrary";
 import { AuthContextProvider, ProtectRoute } from "../providers/auth.context";
 import "@/styles/globals.css";
+import ThemeProvider from "@/styles/theme";
 
 // // const queryClient = new QueryClient();
 type CustomPage = NextPage & {
@@ -48,7 +49,9 @@ export default function NextWeb3App({
         )}
         <AuthContextProvider>
           <ProtectRoute>
-            <Component {...pageProps} />
+            <ThemeProvider>
+              <Component {...pageProps} />
+            </ThemeProvider>
             {/* <ReactQueryDevtools initialIsOpen={false} /> */}
             {/* <Analytics /> */}
           </ProtectRoute>

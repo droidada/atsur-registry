@@ -22,6 +22,16 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useAuthContext } from "@/providers/auth.context";
 import { ROLE_IDS_TO_ROLES, Roles } from "../../types/constants";
+import Button from "../Form/Button";
+
+interface Org {
+  name: string;
+  address: string;
+  specialties: string[];
+  type?: string;
+  description?: string;
+  images?: string[];
+}
 
 const CompanySetup = ({
   activeStep: number,
@@ -34,6 +44,7 @@ const CompanySetup = ({
   const [autocompleteOpen, setAutocompleteOpen] = useState(false);
   const [addOrg, setAddOrg] = useState(false);
   const [options, setOptions] = useState([]);
+  const [selectedOrg, setSelectedOrg] = useState<Org[]>();
   const { user } = useAuthContext();
   const axiosAuth = useAxiosAuth();
   const autocompleteLoading =
@@ -55,6 +66,24 @@ const CompanySetup = ({
     handleSubmit: handleOrgSubmit,
   } = useForm<OrgInput>({
     resolver: zodResolver(orgSchema),
+  });
+
+  const inviteOrgSchema = object({
+    name: string().nonempty("Gallery name is required"),
+    first_name: string().nonempty("Organization description is required"),
+    email: string().email().nonempty("Organization address is required"),
+  });
+  type InviteOrgInput = TypeOf<typeof inviteOrgSchema>;
+  const {
+    register: registerInviteOrg,
+    formState: {
+      errors: inviteOrgErrors,
+      isSubmitSuccessful: inviteOrgIsSubmitSuccessful,
+    },
+    reset: resetInviteOrg,
+    handleSubmit: handleInviteOrgSubmit,
+  } = useForm<InviteOrgInput>({
+    resolver: zodResolver(inviteOrgSchema),
   });
 
   console.log("user is ", user);
@@ -147,18 +176,22 @@ const CompanySetup = ({
         </div>
       )}
 
-      {user && ROLE_IDS_TO_ROLES[user.role] === Roles.GALLERY && (
+      {user && (
         <>
           {!addOrg && (
             <>
               <Typography component="h1" variant="h6">
-                We see you represent a gallery.
+                We see you represent a {ROLE_IDS_TO_ROLES[user.role]}.
               </Typography>
               <Typography component="h1" variant="h6">
                 Please search for your gallery to join.
               </Typography>
               <Autocomplete
-                multiple
+                // multiple
+                // value={selectedOrg}
+                onChange={(event: any, newValue: any) => {
+                  setSelectedOrg([newValue.name]);
+                }}
                 style={{ width: 400, marginTop: 5 }}
                 id="size-small-outlined-multi"
                 size="medium"
@@ -204,7 +237,76 @@ const CompanySetup = ({
             </>
           )}
 
-          {addOrg && (
+          {addOrg && ROLE_IDS_TO_ROLES[user.role] === Roles.ARTIST && (
+            <Box
+              component="form"
+              autoComplete="off"
+              noValidate
+              onSubmit={handleInviteOrgSubmit(() => {})}
+              display="grid"
+              gridTemplateColumns="repeat(12, 1fr)"
+              gap={1}
+              sx={{ mt: 5 }}
+            >
+              <Box gridColumn="span 6">
+                <TextField
+                  label="Gallery Name"
+                  fullWidth
+                  required
+                  type="text"
+                  error={!!inviteOrgErrors["name"]}
+                  helperText={
+                    inviteOrgErrors["name"]
+                      ? inviteOrgErrors["name"].message
+                      : ""
+                  }
+                  {...registerInviteOrg("name")}
+                />
+              </Box>
+              <Box gridColumn="span 6">
+                <TextField
+                  label="Full Name"
+                  fullWidth
+                  required
+                  type="text"
+                  error={!!inviteOrgErrors["first_name"]}
+                  helperText={
+                    inviteOrgErrors["first_name"]
+                      ? inviteOrgErrors["first_name"].message
+                      : ""
+                  }
+                  {...registerInviteOrg("first_name")}
+                />
+              </Box>
+              <Box gridColumn="span 8">
+                <TextField
+                  label="Email"
+                  fullWidth
+                  type="email"
+                  error={!!inviteOrgErrors["email"]}
+                  helperText={
+                    inviteOrgErrors["email"]
+                      ? inviteOrgErrors["email"].message
+                      : ""
+                  }
+                  {...registerInviteOrg("email")}
+                />
+              </Box>
+              <Box gridColumn="span 4">
+                <LoadingButton
+                  variant="contained"
+                  fullWidth
+                  type="submit"
+                  loading={loading}
+                  // sx={{ mt: 3, mb: 2 }}
+                >
+                  Invite
+                </LoadingButton>
+              </Box>
+            </Box>
+          )}
+
+          {addOrg && ROLE_IDS_TO_ROLES[user.role] === Roles.GALLERY && (
             <Box
               component="form"
               autoComplete="off"
@@ -294,6 +396,23 @@ const CompanySetup = ({
                 Add Gallery
               </LoadingButton>
             </Box>
+          )}
+
+          {selectedOrg && selectedOrg.length > 0 && (
+            <>
+              {selectedOrg.length > 0 &&
+                selectedOrg.map((o) => (
+                  <>
+                    <Typography component="h1" variant="h6">
+                      {o.name}
+                    </Typography>
+                    <Typography component="h1" variant="h6">
+                      {o.address}
+                    </Typography>
+                    <Button onClick={() => {}}>Request to join</Button>
+                  </>
+                ))}
+            </>
           )}
         </>
       )}
