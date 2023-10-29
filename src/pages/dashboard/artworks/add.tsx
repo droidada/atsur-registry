@@ -20,8 +20,9 @@ import WidgetSummary from "@/components/nav/widget-summary";
 import NewsUpdate from "@/components/nav/news-updates";
 import DashboardLayout from "@/components/dashboard-layout";
 import { ArtistCard } from "@/components/artist-card";
+import AddArtworkMeta from "@/components/artwork/add-artwork-meta";
 
-const steps = ["Personal Information", "Company Information", "Invites"];
+const steps = ["Metadata", "Assets", "Series", "Artists", "Agreements"];
 
 function AddArtwork() {
   const [activeStep, setActiveStep] = useState(0);
@@ -95,19 +96,17 @@ function AddArtwork() {
       >
         <Box
           sx={{
-            my: 15,
+            // my: 15,
             mx: 4,
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
+            // alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <AccountCircleOutlined />
-          </Avatar>
           <Typography component="h1" variant="h5">
-            Setup Your Profile
+            Add Artwork
           </Typography>
+          <p>Add an artwork to your organization</p>
           <Stepper sx={{ mt: 5 }} nonLinear activeStep={activeStep}>
             {steps.map((label, index) => (
               <Step key={label} completed={completed[index]}>
@@ -130,15 +129,16 @@ function AddArtwork() {
               </>
             ) : (
               <>
-                <Typography sx={{ mb: 1, py: 1 }}>
-                  {/* <SignUpFlow
+                <Typography sx={{ py: 1 }}>
+                  <AddArtworkMeta
                     activeStep={activeStep}
                     setActiveStep={setActiveStep}
                     setCompleted={setCompleted}
-                  /> */}
-                  <h2>Metadata info here </h2>
+                  />
                 </Typography>
-                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                <Box
+                  sx={{ display: "flex", flexDirection: "row", pt: 2, mb: 4 }}
+                >
                   <Button
                     color="inherit"
                     disabled={activeStep === 0 || completed[activeStep - 1]}
