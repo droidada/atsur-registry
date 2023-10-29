@@ -12,15 +12,13 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Layout from "@/components/layout";
 import { literal, object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next/router";
 import { useAuthContext } from "../../providers/auth.context";
+import bg from "assets/image6.png";
 
 function Copyright(props: any) {
   return (
@@ -92,21 +90,23 @@ function Login() {
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
       <CssBaseline />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+      <Grid item xs={12} sm={8} md={6} component={Paper} elevation={6} square>
         <Box
           sx={{
             my: 45,
             mx: 4,
+            p: 5,
+            px: 22,
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
+            // alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
+          <Typography component="h1" variant="h3" sx={{ p: 1 }}>
+            Welcome Back
+          </Typography>
+          <Typography component="p" sx={{ p: 1, mb: 5, mt: -2 }}>
+            Sign in to have access to your art
           </Typography>
           <Box
             component="form"
@@ -122,6 +122,7 @@ function Login() {
             )}
 
             <TextField
+              // className="border border-[#D5D6DE] rounded-lg p-2 w-[441px] px-[14px] py-[12px"
               sx={{ mb: 2 }}
               label="Email"
               fullWidth
@@ -132,6 +133,7 @@ function Login() {
               {...register("email")}
             />
             <TextField
+              // className="border border-[#D5D6DE] rounded-lg p-2 w-[441px] px-[14px] py-[12px"
               sx={{ mb: 2 }}
               label="Password"
               fullWidth
@@ -146,11 +148,12 @@ function Login() {
               label="Remember me"
             />
             <LoadingButton
+              // className="w-fit cursor-pointer rounded-lg px-[12px] py-[8px] text-center bg-black text-white"
               variant="contained"
               fullWidth
               type="submit"
               loading={loading}
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, p: 2 }}
             >
               Login
             </LoadingButton>
@@ -183,9 +186,9 @@ function Login() {
         item
         xs={false}
         sm={4}
-        md={7}
+        md={6}
         sx={{
-          backgroundImage: "url(https://source.unsplash.com/random?africanart)",
+          backgroundImage: `url(${bg.src})`,
           backgroundRepeat: "no-repeat",
           backgroundColor: (t) =>
             t.palette.mode === "light"

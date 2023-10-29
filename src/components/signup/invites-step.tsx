@@ -202,7 +202,7 @@ const InvitesStep = ({
                 fullWidth
                 type="submit"
                 loading={loading}
-                // sx={{ mt: 3, mb: 2 }}
+                sx={{ py: 2 }}
               >
                 Invite
               </LoadingButton>
@@ -269,7 +269,7 @@ const InvitesStep = ({
                 fullWidth
                 type="submit"
                 loading={loading}
-                // sx={{ mt: 3, mb: 2 }}
+                sx={{ py: 2 }}
               >
                 Invite
               </LoadingButton>
@@ -336,7 +336,7 @@ const InvitesStep = ({
                 fullWidth
                 type="submit"
                 loading={loading}
-                // sx={{ mt: 3, mb: 2 }}
+                sx={{ py: 2 }}
               >
                 Invite
               </LoadingButton>
