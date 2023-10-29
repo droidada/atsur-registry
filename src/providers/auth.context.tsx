@@ -60,7 +60,7 @@ export function AuthContextProvider({ children }: any) {
   useEffect(() => {
     console.log("fetching user");
     fetchUser();
-  }, [session?.user]);
+  }, []);
 
   const sendArtistInvite = async (
     email: string,
@@ -135,8 +135,6 @@ export function AuthContextProvider({ children }: any) {
     [user, loading, error],
   );
 
-  useEffect(() => {}, [user]);
-
   return (
     <AuthContext.Provider value={memoedValue}>{children}</AuthContext.Provider>
   );
@@ -156,10 +154,10 @@ export const ProtectRoute = ({ children }: any) => {
     console.log("LOADING SCREEN");
     return <>LOADING</>;
   }
-  // console.log("path name here is ", Router.pathname )
-  if (!session) {
-    router.replace("/login");
-    return;
-  }
+  // console.log("path name here is ", router.pathname )
+  // if (!session && router.pathname !== "login") {
+  //   router.replace("/login");
+  //   return;
+  // }
   return children;
 };
