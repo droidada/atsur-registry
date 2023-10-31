@@ -1,28 +1,5 @@
-import { useState, useEffect } from "react";
-import {
-  Avatar,
-  CssBaseline,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-  Link,
-  Paper,
-  Box,
-  Grid,
-  Typography,
-  Stack,
-  ListItemButton,
-} from "@mui/material";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { alpha, createTheme, ThemeProvider } from "@mui/material/styles";
-import Layout from "@/components/layout";
-import { literal, object, string, TypeOf } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { LoadingButton } from "@mui/lab";
-import { useRouter } from "next/router";
-import { useAuthContext, ProtectRoute } from "../../providers/auth.context";
-import NavItem from "@/components/nav/nav-item";
+import { useEffect } from "react";
+import { Grid } from "@mui/material";
 import WidgetSummary from "@/components/nav/widget-summary";
 import NewsUpdate from "@/components/nav/news-updates";
 import DashboardLayout from "@/components/dashboard-layout";
@@ -96,12 +73,5 @@ function Dashboard() {
   );
 }
 
-// export const getStaticPaths = async () => {
-//   return {
-//     paths: [],
-//     fallback: true, // false or "blocking"
-//   };
-// };
-
-// export default ProtectRoute(Dashboard);
+Dashboard.requireAuth = true;
 export default Dashboard;

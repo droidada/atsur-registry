@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import { AccountCircleOutlined } from "@mui/icons-material";
 import SignUpFlow from "@/components/signup/signup-flow";
-import { ProtectRoute } from "@/providers/auth.context";
 import { useRouter } from "next/router";
 
 const steps = ["Personal Information", "Company Information", "Invites"];
@@ -77,19 +76,14 @@ function ProfileSetUp() {
 
   function Copyright(props: any) {
     return (
-      <Typography
-        variant="body2"
-        color="text.secondary"
-        align="center"
-        {...props}
-      >
+      <Box variant="body2" color="text.secondary" align="center" {...props}>
         {"Copyright © "}
         <Link color="inherit" href="https://mui.com/">
           Your Website
         </Link>{" "}
         {new Date().getFullYear()}
         {"."}
-      </Typography>
+      </Box>
     );
   }
 

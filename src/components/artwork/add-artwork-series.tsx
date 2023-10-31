@@ -19,37 +19,36 @@ import {
   MenuItem,
   FormHelperText,
   Autocomplete,
+  CircularProgress,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useAuthContext } from "@/providers/auth.context";
+import { ROLE_IDS_TO_ROLES } from "@/types/constants";
+import InviteArtist from "../add-artist";
 
-const AddArtworkMeta = ({ activeStep, setActiveStep, setCompleted }) => {
-  const artworkSchema = object({
-    title: string().nonempty("First name is required"),
-    type: string().nonempty("type is required"),
+interface Author {
+  first_name: string;
+  last_name: string;
+  email: string;
+}
+
+const AddArtworkSeries = ({ activeStep, setActiveStep, setCompleted }) => {
+  const artworkSeriesSchema = object({
+    title: string().nonempty("Title is required"),
+    type: string().nonempty("Type is required"),
     description: string().nonempty("Description is required"),
     subject_matter: string(),
-    height: number()
-      .int("Artwork height is required")
-      .min(0, "Artwork height cannot be less than zero"),
-    width: number()
-      .int("Artwork width is required")
-      .min(0, "Artwork width cannot be less than zero"),
-    depth: number()
-      .int("Artwork depth is required")
-      .min(0, "Artwork depth cannot be less than zero"),
-    rarity: string().nonempty("Rarity is required"),
-    materials: array(string()).nonempty("Select materials for artwork"),
+    author: string().nonempty("Author is required"),
   });
-  type ArtworkMetaInput = TypeOf<typeof artworkSchema>;
+  type ArtworkSeriesInput = TypeOf<typeof artworkSeriesSchema>;
   const {
     register,
     formState: { errors, isSubmitSuccessful },
     reset,
     handleSubmit,
-  } = useForm<ArtworkMetaInput>({
-    resolver: zodResolver(artworkSchema),
+  } = useForm<ArtworkSeriesInput>({
+    resolver: zodResolver(artworkSeriesSchema),
   });
 
   const [loading, setLoading] = useState(false);
@@ -65,7 +64,7 @@ const AddArtworkMeta = ({ activeStep, setActiveStep, setCompleted }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSubmitSuccessful]);
 
-  const onSubmitHandler: SubmitHandler<ArtworkMetaInput> = async (values) => {
+  const onSubmitHandler: SubmitHandler<ArtworkSeriesInput> = async (values) => {
     setLoading(true);
     try {
       console.log(values);
@@ -109,6 +108,9 @@ const AddArtworkMeta = ({ activeStep, setActiveStep, setCompleted }) => {
           {...register("title")}
         />
       </Box>
+
+      <InviteArtist prompt="Please add the author of this series." />
+
       <Box gridColumn="span 12">
         <TextField
           sx={{ mb: 2 }}
@@ -124,15 +126,30 @@ const AddArtworkMeta = ({ activeStep, setActiveStep, setCompleted }) => {
           {...register("description")}
         />
       </Box>
-      <Box gridColumn="span 6">
+      <Box gridColumn="span 12">
+        <TextField
+          sx={{ mb: 2 }}
+          label="Subject matter"
+          fullWidth
+          multiline
+          rows={4}
+          type="text"
+          error={!!errors["subject_matter"]}
+          helperText={
+            errors["subject_matter"] ? errors["subject_matter"].message : ""
+          }
+          {...register("subject_matter")}
+        />
+      </Box>
+      <Box gridColumn="span 12">
         <FormControl fullWidth variant="outlined">
-          <InputLabel id="role-label">What is the rarity?</InputLabel>
+          <InputLabel id="role-label">What type of series?</InputLabel>
           <Select
-            labelId="rarity"
-            id="rarity"
-            label="What type rarity"
-            error={!!errors["rarity"]}
-            {...register("rarity")}
+            labelId="type"
+            id="type"
+            label="What type of series?"
+            error={!!errors["type"]}
+            {...register("type")}
           >
             <MenuItem value="">
               <em>None</em>
@@ -142,29 +159,6 @@ const AddArtworkMeta = ({ activeStep, setActiveStep, setCompleted }) => {
             <MenuItem value={"open_edition"}>Open Edition</MenuItem>
             <MenuItem value={"unknown"}>Unknown</MenuItem>
           </Select>
-          {errors["rarity"] && (
-            <FormHelperText error={!!errors["rarity"]}>
-              {errors["rarity"].message}
-            </FormHelperText>
-          )}
-        </FormControl>
-      </Box>
-      <Box gridColumn="span 6">
-        <FormControl fullWidth variant="outlined">
-          <InputLabel id="role-label">What type of artwork?</InputLabel>
-          <Select
-            labelId="type"
-            id="type"
-            label="What type of artwork?"
-            error={!!errors["type"]}
-            {...register("type")}
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={"artifact"}>Artifact</MenuItem>
-            <MenuItem value={"artwork"}>Artwork</MenuItem>
-          </Select>
           {errors["type"] && (
             <FormHelperText error={!!errors["type"]}>
               {errors["type"].message}
@@ -172,42 +166,7 @@ const AddArtworkMeta = ({ activeStep, setActiveStep, setCompleted }) => {
           )}
         </FormControl>
       </Box>
-      <Box gridColumn="span 4">
-        <TextField
-          sx={{ mb: 2 }}
-          label="Height"
-          fullWidth
-          required
-          type="number"
-          error={!!errors["height"]}
-          helperText={errors["height"] ? errors["height"].message : ""}
-          {...register("height")}
-        />
-      </Box>
-      <Box gridColumn="span 4">
-        <TextField
-          sx={{ mb: 2 }}
-          label="Width"
-          fullWidth
-          required
-          type="number"
-          error={!!errors["width"]}
-          helperText={errors["width"] ? errors["width"].message : ""}
-          {...register("width")}
-        />
-      </Box>
-      <Box gridColumn="span 4">
-        <TextField
-          sx={{ mb: 2 }}
-          label="Depth"
-          fullWidth
-          required
-          type="number"
-          error={!!errors["depth"]}
-          helperText={errors["depth"] ? errors["depth"].message : ""}
-          {...register("depth")}
-        />
-      </Box>
+
       <Box gridColumn="span 12">
         <LoadingButton
           variant="contained"
@@ -216,11 +175,11 @@ const AddArtworkMeta = ({ activeStep, setActiveStep, setCompleted }) => {
           loading={loading}
           sx={{ mt: 3, mb: 2, p: 2 }}
         >
-          Add Meta
+          Add Series
         </LoadingButton>
       </Box>
     </Box>
   );
 };
 
-export default AddArtworkMeta;
+export default AddArtworkSeries;

@@ -28,7 +28,7 @@ export type AuthContextData = {
     orgId?: string,
   ) => Promise<void>;
   loading: boolean;
-  logIn: (email: string, password: string) => Promise<void>;
+  logIn: (email: string, password: string) => Promise<any>;
   logOut: () => Promise<void>;
   updateUserProfile: (data: IProfile) => Promise<void>;
   error: string;
@@ -37,7 +37,7 @@ export type AuthContextData = {
 const AuthContext = createContext({} as AuthContextData);
 
 export function AuthContextProvider({ children }: any) {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [user, setUser] = useState<IUser>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState("");
@@ -60,7 +60,8 @@ export function AuthContextProvider({ children }: any) {
   useEffect(() => {
     console.log("fetching user");
     fetchUser();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status]);
 
   const sendArtistInvite = async (
     email: string,
@@ -98,23 +99,15 @@ export function AuthContextProvider({ children }: any) {
   };
 
   const logIn = async (email: string, password: string) => {
-    try {
-      setLoading(true);
-      const res = await signIn("credentials", {
-        redirect: false,
-        email: email,
-        password: password,
-        callbackUrl: `/`,
-      });
-      Cookies.set("token", session?.user?.accessToken);
-      console.log("res from login here ", res);
-      //  await fetchUser();
-      console.log("user here is ", user);
-    } catch (error) {
-      console.log("error here ", error.message);
-      setError(error.message);
-      setLoading(false);
-    }
+    setLoading(true);
+    const res = await signIn("credentials", {
+      redirect: false,
+      email: email,
+      password: password,
+    });
+    await fetchUser();
+    setLoading(false);
+    return res;
   };
 
   const logOut = async () => {
@@ -145,19 +138,3 @@ export default AuthContext;
 export const useAuthContext = () => ({
   ...useContext(AuthContext),
 });
-
-export const ProtectRoute = ({ children }: any) => {
-  const { status, data: session } = useSession();
-  const router = useRouter();
-  if (status === "loading") {
-    // return <LoadingScreen />;
-    console.log("LOADING SCREEN");
-    return <>LOADING</>;
-  }
-  // console.log("path name here is ", router.pathname )
-  // if (!session && router.pathname !== "login") {
-  //   router.replace("/login");
-  //   return;
-  // }
-  return children;
-};

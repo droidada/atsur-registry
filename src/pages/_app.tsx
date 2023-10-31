@@ -11,17 +11,18 @@ import { Analytics } from "@vercel/analytics/react";
 // import { ReactQueryDevtools } from "react-query/devtools";
 import { SessionProvider } from "next-auth/react";
 import getLibrary from "../../getLibrary";
-import { AuthContextProvider, ProtectRoute } from "../providers/auth.context";
+import { AuthContextProvider } from "../providers/auth.context";
 import "@/styles/globals.css";
 import ThemeProvider from "@/styles/theme";
+import { ProtectedLayout } from "@/components/protected-layout";
 
 // // const queryClient = new QueryClient();
-type CustomPage = NextPage & {
+type AppPropsWithAuth = NextPage & {
   requiresAuth?: boolean;
   redirectUnauthenticatedTo?: string;
 };
 interface CustomAppProps extends Omit<AppProps, "Component"> {
-  Component: CustomPage;
+  Component: AppPropsWithAuth;
 }
 
 export default function NextWeb3App({
@@ -32,29 +33,18 @@ export default function NextWeb3App({
     <Web3ReactProvider getLibrary={getLibrary}>
       {/* <QueryClientProvider client={queryClient}> */}
       <SessionProvider session={session}>
-        {Component.requiresAuth && (
-          <Head>
-            <script
-              // If no token is found, redirect inmediately
-              dangerouslySetInnerHTML={{
-                __html: `if(!document.cookie || document.cookie.indexOf('token') === -1)
-                {location.replace(
-                  "/login?next=" +
-                    encodeURIComponent(location.pathname + location.search)
-                )}
-                else {document.documentElement.classList.add("render")}`,
-              }}
-            />
-          </Head>
-        )}
         <AuthContextProvider>
-          <ProtectRoute>
-            <ThemeProvider>
+          <ThemeProvider>
+            {Component.requireAuth ? (
+              <ProtectedLayout>
+                <Component {...pageProps} />
+              </ProtectedLayout>
+            ) : (
               <Component {...pageProps} />
-            </ThemeProvider>
-            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-            {/* <Analytics /> */}
-          </ProtectRoute>
+            )}
+          </ThemeProvider>
+          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+          {/* <Analytics /> */}
         </AuthContextProvider>
       </SessionProvider>
       {/* </QueryClientProvider> */}
