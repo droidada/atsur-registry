@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getCsrfToken } from "next-auth/react";
+import Cookies from "js-cookie";
 import {
   Avatar,
   CssBaseline,
@@ -61,7 +62,7 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [error, setError] = useState(false);
-  const { logIn, user } = useAuthContext();
+  const { logIn, user, error: loginError } = useAuthContext();
 
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -72,25 +73,47 @@ function Login() {
 
   const onSubmitHandler: SubmitHandler<LoginInput> = async (values) => {
     try {
+      setLoading(true);
       console.log(values);
-      await logIn(values.email, values.password);
+      const usr = await logIn(values.email, values.password);
+
+      console.log("usr is ", usr);
+      console.log("login user is ", user);
+
       setLoading(false);
-      if (!user?.isProfileSetup) {
+
+      if (usr?.error) {
+        setError(true);
+        return;
+      }
+
+      if (usr.ok && !user?.isProfileSetup) {
         router.replace("/profile/setup");
         return;
       }
+
       router.replace("/");
     } catch (error) {
       console.error(error);
       setError(true);
+      setLoading(false);
     }
   };
   console.log(errors);
 
   return (
-    <Grid container component="main" sx={{ height: "100vh" }}>
+    <Grid container component="main">
       <CssBaseline />
-      <Grid item xs={12} sm={8} md={6} component={Paper} elevation={6} square>
+      <Grid
+        item
+        xs={12}
+        sm={8}
+        md={8}
+        lg={6}
+        component={Paper}
+        elevation={6}
+        square
+      >
         <Box
           sx={{
             my: 45,
@@ -115,7 +138,7 @@ function Login() {
             onSubmit={handleSubmit(onSubmitHandler)}
             sx={{ mt: 1 }}
           >
-            {error && (
+            {(error || loginError) && (
               <div className="bg-red-300 p-2 text-white rounded">
                 Wrong email or password
               </div>
@@ -186,7 +209,8 @@ function Login() {
         item
         xs={false}
         sm={4}
-        md={6}
+        md={4}
+        lg={6}
         sx={{
           backgroundImage: `url(${bg.src})`,
           backgroundRepeat: "no-repeat",

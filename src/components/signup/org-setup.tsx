@@ -178,7 +178,174 @@ const CompanySetup = ({
 
       {user && (
         <>
-          {!addOrg && (
+          {addOrg ? (
+            <>
+              {ROLE_IDS_TO_ROLES[user.role] === Roles.ARTIST ? (
+                <Box
+                  component="form"
+                  autoComplete="off"
+                  noValidate
+                  onSubmit={handleInviteOrgSubmit(() => {})}
+                  display="grid"
+                  gridTemplateColumns="repeat(12, 1fr)"
+                  gap={1}
+                  sx={{ mt: 5 }}
+                >
+                  <Box gridColumn="span 6">
+                    <TextField
+                      label="Gallery Name"
+                      fullWidth
+                      required
+                      type="text"
+                      error={!!inviteOrgErrors["name"]}
+                      helperText={
+                        inviteOrgErrors["name"]
+                          ? inviteOrgErrors["name"].message
+                          : ""
+                      }
+                      {...registerInviteOrg("name")}
+                    />
+                  </Box>
+                  <Box gridColumn="span 6">
+                    <TextField
+                      label="Full Name"
+                      fullWidth
+                      required
+                      type="text"
+                      error={!!inviteOrgErrors["first_name"]}
+                      helperText={
+                        inviteOrgErrors["first_name"]
+                          ? inviteOrgErrors["first_name"].message
+                          : ""
+                      }
+                      {...registerInviteOrg("first_name")}
+                    />
+                  </Box>
+                  <Box gridColumn="span 8">
+                    <TextField
+                      label="Email"
+                      fullWidth
+                      type="email"
+                      error={!!inviteOrgErrors["email"]}
+                      helperText={
+                        inviteOrgErrors["email"]
+                          ? inviteOrgErrors["email"].message
+                          : ""
+                      }
+                      {...registerInviteOrg("email")}
+                    />
+                  </Box>
+                  <Box gridColumn="span 4">
+                    <LoadingButton
+                      variant="contained"
+                      fullWidth
+                      type="submit"
+                      loading={loading}
+                      // sx={{ mt: 3, mb: 2 }}
+                    >
+                      Invite
+                    </LoadingButton>
+                  </Box>
+                </Box>
+              ) : (
+                <Box
+                  component="form"
+                  autoComplete="off"
+                  noValidate
+                  onSubmit={handleOrgSubmit(onOrgSubmitHandler)}
+                  sx={{
+                    mt: 1,
+                    width: 400,
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography
+                    align="center"
+                    marginBottom={4}
+                    component="h1"
+                    variant="h5"
+                  >
+                    {ROLE_IDS_TO_ROLES[user.role] === Roles.GALLERY
+                      ? "Add Gallery"
+                      : "Add Organization"}
+                  </Typography>
+                  <TextField
+                    sx={{ mb: 2 }}
+                    label="Name"
+                    fullWidth
+                    required
+                    type="text"
+                    error={!!errors["name"]}
+                    helperText={errors["name"] ? errors["name"].message : ""}
+                    {...register("name")}
+                  />
+                  <TextField
+                    sx={{ mb: 2 }}
+                    label="Address"
+                    fullWidth
+                    required
+                    type="text"
+                    error={!!errors["address"]}
+                    helperText={
+                      errors["address"] ? errors["address"].message : ""
+                    }
+                    {...register("address")}
+                  />
+                  <TextField
+                    sx={{ mb: 2 }}
+                    label="Description"
+                    fullWidth
+                    multiline
+                    rows={4}
+                    type="text"
+                    error={!!errors["description"]}
+                    helperText={
+                      errors["description"] ? errors["description"].message : ""
+                    }
+                    {...register("description")}
+                  />
+                  <FormControl fullWidth variant="outlined">
+                    <InputLabel id="role-label">Specialties</InputLabel>
+                    <Select
+                      labelId="specialties"
+                      id="specialties"
+                      multiple
+                      defaultValue={[]}
+                      label="What's your organization specialties"
+                      error={!!errors["specialties"]}
+                      {...register("specialties")}
+                    >
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      <MenuItem value={"paintings"}>Paintings</MenuItem>
+                      <MenuItem value={"photography"}>Photography</MenuItem>
+                      <MenuItem value={"ceramics"}>Ceramics</MenuItem>
+                      <MenuItem value={"antiques"}>Antiques</MenuItem>
+                      <MenuItem value={"artifacts"}>Artifacts</MenuItem>
+                      <MenuItem value={"nfts"}>NFTs</MenuItem>
+                    </Select>
+                    {errors["specialties"] && (
+                      <FormHelperText error={!!errors["specialties"]}>
+                        {errors["specialties"].message}
+                      </FormHelperText>
+                    )}
+                  </FormControl>
+                  <LoadingButton
+                    variant="contained"
+                    fullWidth
+                    type="submit"
+                    loading={loading}
+                    sx={{ mt: 3, mb: 2 }}
+                  >
+                    {ROLE_IDS_TO_ROLES[user.role] === Roles.GALLERY
+                      ? "Add Gallery"
+                      : "Add Organization"}
+                  </LoadingButton>
+                </Box>
+              )}
+            </>
+          ) : (
             <>
               <Typography component="h1" variant="h6">
                 We see you represent a {ROLE_IDS_TO_ROLES[user.role]}.
@@ -235,167 +402,6 @@ const CompanySetup = ({
                 )}
               />
             </>
-          )}
-
-          {addOrg && ROLE_IDS_TO_ROLES[user.role] === Roles.ARTIST && (
-            <Box
-              component="form"
-              autoComplete="off"
-              noValidate
-              onSubmit={handleInviteOrgSubmit(() => {})}
-              display="grid"
-              gridTemplateColumns="repeat(12, 1fr)"
-              gap={1}
-              sx={{ mt: 5 }}
-            >
-              <Box gridColumn="span 6">
-                <TextField
-                  label="Gallery Name"
-                  fullWidth
-                  required
-                  type="text"
-                  error={!!inviteOrgErrors["name"]}
-                  helperText={
-                    inviteOrgErrors["name"]
-                      ? inviteOrgErrors["name"].message
-                      : ""
-                  }
-                  {...registerInviteOrg("name")}
-                />
-              </Box>
-              <Box gridColumn="span 6">
-                <TextField
-                  label="Full Name"
-                  fullWidth
-                  required
-                  type="text"
-                  error={!!inviteOrgErrors["first_name"]}
-                  helperText={
-                    inviteOrgErrors["first_name"]
-                      ? inviteOrgErrors["first_name"].message
-                      : ""
-                  }
-                  {...registerInviteOrg("first_name")}
-                />
-              </Box>
-              <Box gridColumn="span 8">
-                <TextField
-                  label="Email"
-                  fullWidth
-                  type="email"
-                  error={!!inviteOrgErrors["email"]}
-                  helperText={
-                    inviteOrgErrors["email"]
-                      ? inviteOrgErrors["email"].message
-                      : ""
-                  }
-                  {...registerInviteOrg("email")}
-                />
-              </Box>
-              <Box gridColumn="span 4">
-                <LoadingButton
-                  variant="contained"
-                  fullWidth
-                  type="submit"
-                  loading={loading}
-                  // sx={{ mt: 3, mb: 2 }}
-                >
-                  Invite
-                </LoadingButton>
-              </Box>
-            </Box>
-          )}
-
-          {addOrg && ROLE_IDS_TO_ROLES[user.role] === Roles.GALLERY && (
-            <Box
-              component="form"
-              autoComplete="off"
-              noValidate
-              onSubmit={handleOrgSubmit(onOrgSubmitHandler)}
-              sx={{
-                mt: 1,
-                width: 400,
-                alignItems: "center",
-              }}
-            >
-              <Typography
-                align="center"
-                marginBottom={4}
-                component="h1"
-                variant="h5"
-              >
-                Add Gallery
-              </Typography>
-              <TextField
-                sx={{ mb: 2 }}
-                label="Name"
-                fullWidth
-                required
-                type="text"
-                error={!!errors["name"]}
-                helperText={errors["name"] ? errors["name"].message : ""}
-                {...register("name")}
-              />
-              <TextField
-                sx={{ mb: 2 }}
-                label="Address"
-                fullWidth
-                required
-                type="text"
-                error={!!errors["address"]}
-                helperText={errors["address"] ? errors["address"].message : ""}
-                {...register("address")}
-              />
-              <TextField
-                sx={{ mb: 2 }}
-                label="Description"
-                fullWidth
-                multiline
-                rows={4}
-                type="text"
-                error={!!errors["description"]}
-                helperText={
-                  errors["description"] ? errors["description"].message : ""
-                }
-                {...register("description")}
-              />
-              <FormControl fullWidth variant="outlined">
-                <InputLabel id="role-label">Specialties</InputLabel>
-                <Select
-                  labelId="specialties"
-                  id="specialties"
-                  multiple
-                  defaultValue={[]}
-                  label="What's your organization specialties"
-                  error={!!errors["specialties"]}
-                  {...register("specialties")}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={"paintings"}>Paintings</MenuItem>
-                  <MenuItem value={"photography"}>Photography</MenuItem>
-                  <MenuItem value={"ceramics"}>Ceramics</MenuItem>
-                  <MenuItem value={"antiques"}>Antiques</MenuItem>
-                  <MenuItem value={"artifacts"}>Artifacts</MenuItem>
-                  <MenuItem value={"nfts"}>NFTs</MenuItem>
-                </Select>
-                {errors["specialties"] && (
-                  <FormHelperText error={!!errors["specialties"]}>
-                    {errors["specialties"].message}
-                  </FormHelperText>
-                )}
-              </FormControl>
-              <LoadingButton
-                variant="contained"
-                fullWidth
-                type="submit"
-                loading={loading}
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Add Gallery
-              </LoadingButton>
-            </Box>
           )}
 
           {selectedOrg && selectedOrg.length > 0 && (

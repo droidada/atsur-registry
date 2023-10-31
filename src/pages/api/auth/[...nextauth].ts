@@ -1,9 +1,11 @@
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { signIn } from "next-auth/react";
-// import dotenv from "dotenv";
+import Cookies from "js-cookie";
+import dotenv from "dotenv";
+import axios from "axios";
 
-// dotenv.config();
+dotenv.config();
 
 const pubAPI = process.env.DIRECTUS_API_ENDPOINT;
 
@@ -33,6 +35,7 @@ export const options: any = {
         }
 
         if (res.ok && user) {
+          Cookies.set("token", user?.data?.access_token);
           return user;
         }
 
@@ -59,8 +62,7 @@ export const options: any = {
         return token;
       }
 
-      return refreshAccessToken(token);
-      // return await refreshed;
+      return await refreshAccessToken(token);
     },
 
     async session({ session, token }) {
@@ -76,35 +78,37 @@ export const options: any = {
   pages: {
     signIn: "/login",
   },
-  debug: true,
+  // debug: true,
 };
 
 async function refreshAccessToken(token) {
   try {
-    const response = await fetch(pubAPI + "auth/refresh", {
+    const res = await fetch(pubAPI + "auth/refresh", {
       method: "POST",
+      body: JSON.stringify({
+        refresh_token: token?.accessToken || token?.refreshToken,
+      }),
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token?.accessToken}`,
       },
-      body: JSON.stringify({
-        refresh_token: token?.accessToken || token?.refreshToken,
-      }),
-      // credentials: "include",
+      credentials: "include",
     });
+    const response = await res.json();
 
-    const refreshedTokens = await response.json();
+    const refreshedTokens = await response.data;
+    console.log("refreshed tokens ", refreshedTokens);
 
-    // if (!response.ok) {
-    //   signIn();
-    // }
+    if (!response.ok) {
+      signIn();
+    }
 
     if (response.ok && refreshedTokens) {
       return {
         ...token,
-        accessToken: refreshedTokens?.data?.access_token,
-        expires: Date.now() + refreshedTokens?.data?.expires,
-        refreshToken: refreshedTokens?.data?.refresh_token,
+        accessToken: refreshedTokens?.access_token,
+        expires: Date.now() + refreshedTokens?.expires,
+        refreshToken: refreshedTokens?.refresh_token,
       };
     }
   } catch (error) {

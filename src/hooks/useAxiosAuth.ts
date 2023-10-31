@@ -17,7 +17,7 @@ const useAxiosAuth = () => {
       (config) => {
         if (!config.headers["Authorization"]) {
           config.headers["Authorization"] = `Bearer ${
-            session?.user?.accessToken //?? Cookies.get("token")
+            session?.user?.accessToken || Cookies.get("token")
           }`;
         }
         return config;
@@ -37,7 +37,7 @@ const useAxiosAuth = () => {
           prevRequest.sent = true;
           await refreshToken();
           prevRequest.headers["Authorization"] = `Bearer ${
-            session?.user?.accessToken //?? Cookies.get("token")
+            session?.user?.accessToken || Cookies.get("token")
           }`;
           return axiosAuth(prevRequest);
         }

@@ -14,11 +14,22 @@ export const useRefreshToken = () => {
         session?.user?.refreshToken
       } || cookie token ${Cookies.get("token")}`,
     );
-    const res = await axios.post(`${BASE_URL}auth/refresh`, {
-      refresh_token:
-        session?.user?.accessToken ||
-        session?.user?.refreshToken ||
-        Cookies.get("token"),
+    const res = await axios(`${BASE_URL}auth/refresh`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${
+          session?.user?.accessToken ||
+          session?.user?.refreshToken ||
+          Cookies.get("token")
+        }`,
+      },
+      data: {
+        refresh_token:
+          session?.user?.accessToken ||
+          session?.user?.refreshToken ||
+          Cookies.get("token"),
+      },
     });
 
     if (session) {

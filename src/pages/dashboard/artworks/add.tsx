@@ -21,6 +21,7 @@ import NewsUpdate from "@/components/nav/news-updates";
 import DashboardLayout from "@/components/dashboard-layout";
 import { ArtistCard } from "@/components/artist-card";
 import AddArtworkMeta from "@/components/artwork/add-artwork-meta";
+import AddArtworkFlow from "@/components/artwork/add-artwork-flow";
 
 const steps = ["Metadata", "Assets", "Series", "Artists", "Agreements"];
 
@@ -130,7 +131,7 @@ function AddArtwork() {
             ) : (
               <>
                 <Typography sx={{ py: 1 }}>
-                  <AddArtworkMeta
+                  <AddArtworkFlow
                     activeStep={activeStep}
                     setActiveStep={setActiveStep}
                     setCompleted={setCompleted}
