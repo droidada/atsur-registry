@@ -1,6 +1,6 @@
+import React from "react";
 import Layout from "@/components/layout";
 import Image from "next/image";
-import React from "react";
 import image1 from "../../../assets/image1.png";
 
 const Institution = () => {
