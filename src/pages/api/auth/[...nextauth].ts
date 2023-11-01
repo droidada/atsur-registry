@@ -26,7 +26,7 @@ export const options: any = {
           method: "POST",
           body: JSON.stringify(payload),
           headers: { "Content-Type": "application/json" },
-          credentials: "include",
+          // credentials: "include",
         });
         const user = await res.json();
 
@@ -92,7 +92,7 @@ async function refreshAccessToken(token) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token?.accessToken}`,
       },
-      credentials: "include",
+      // credentials: "include",
     });
     const response = await res.json();
 
