@@ -22,19 +22,22 @@ export const options: any = {
           email: credentials.email,
           password: credentials.password,
         };
-        const res = await fetch(pubAPI + "auth/login", {
-          method: "POST",
-          body: JSON.stringify(payload),
-          headers: { "Content-Type": "application/json" },
-          // credentials: "include",
-        });
-        const user = await res.json();
+        console.log("pubapi here is ", pubAPI)
+        const res = await axios.post(`${pubAPI}auth/login`, {...payload, mode: "json"});
+        // const res = await fetch(pubAPI + "auth/login", {
+        //   method: "POST",
+        //   body: JSON.stringify(payload),
+        //   headers: { "Content-Type": "application/json" },
+        //   // credentials: "include",
+        // });
+        const user = res.data;
 
-        if (!res.ok) {
+        console.log("response data here ", user)
+        if (!user.data.access_token) {
           throw new Error("Email or password incorrect.");
         }
 
-        if (res.ok && user) {
+        if (user.data && user.data.access_token) {
           Cookies.set("accessToken", user?.data?.access_token);
           Cookies.set("refreshToken", user?.data?.refresh_token);
           return user;
