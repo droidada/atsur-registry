@@ -1,10 +1,11 @@
-import Layout from "@/components/layout";
-import { Checkbox, Divider, FormControlLabel, FormGroup } from "@mui/material";
-import React from "react";
-import image from "../../../assets/image1.png";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Layout from "@/components/layout";
+import { Checkbox, Divider, FormControlLabel, FormGroup } from "@mui/material";
+import image from "../../../assets/image1.png";
+import axios from "axios";
 
 const data = {
   galleries: {
@@ -92,7 +93,20 @@ const data = {
   ],
 };
 
-const Explore = ({ entries }) => {
+const Explore = () => {
+  const [entries, setEntries] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch(
+        "https://admin.atsur.art/items/entry?fields=*,assets.*, asset_files.*",
+      );
+      const data = await res.json();
+      setEntries(data ? data.data : []);
+      console.log("we have data here");
+    };
+    fetchData();
+  }, []);
+
   console.log("entries here ", entries);
   return (
     <Layout>
@@ -180,22 +194,21 @@ const Explore = ({ entries }) => {
   );
 };
 
-export const getStaticProps = async () => {
-  try {
-    const res = await fetch(
-      "https://admin.atsur.art/items/entry?fields=*,assets.*, asset_files.*",
-    );
-    const data = await res.json();
+// export const getStaticProps = async () => {
+//   try {
+//     const res = await axios.get(
+//       "https://admin.atsur.art/items/entry?fields=*,assets.*, asset_files.*",
+//     );
 
-    return {
-      props: {
-        entries: data.data,
-      },
-    };
-  } catch (error) {
-    console.log(error);
-    notFound();
-  }
-};
+//     return {
+//       props: {
+//         entries: res?.data?.data,
+//       },
+//     };
+//   } catch (error) {
+//     console.log(error);
+//     return notFound();
+//   }
+// };
 
 export default Explore;

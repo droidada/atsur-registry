@@ -22,8 +22,11 @@ export const options: any = {
           email: credentials.email,
           password: credentials.password,
         };
-        console.log("pubapi here is ", pubAPI)
-        const res = await axios.post(`${pubAPI}auth/login`, {...payload, mode: "json"});
+        console.log("pubapi here is ", pubAPI);
+        const res = await axios.post(`${pubAPI}auth/login`, {
+          ...payload,
+          mode: "json",
+        });
         // const res = await fetch(pubAPI + "auth/login", {
         //   method: "POST",
         //   body: JSON.stringify(payload),
@@ -32,7 +35,7 @@ export const options: any = {
         // });
         const user = res.data;
 
-        console.log("response data here ", user)
+        console.log("response data here ", user);
         if (!user.data.access_token) {
           throw new Error("Email or password incorrect.");
         }
