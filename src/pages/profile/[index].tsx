@@ -11,7 +11,7 @@ import { AccountProfile } from "@/components/profile/profile";
 import { AccountProfileDetails } from "@/components/profile/profileDetails";
 import Layout from "@/components/layout";
 
-const Page = () => (
+const Profile = () => (
   <Layout>
     <Box
       component="main"
@@ -41,4 +41,5 @@ const Page = () => (
   </Layout>
 );
 
-export default Page;
+Profile.requiredAuth = true;
+export default Profile;

@@ -1,17 +1,5 @@
 import { useEffect } from "react";
-import {
-  Grid,
-  Card,
-  CardActions,
-  CardContent,
-  Box,
-  Button,
-  Avatar,
-  Typography,
-  Divider,
-} from "@mui/material";
-import WidgetSummary from "@/components/nav/widget-summary";
-import NewsUpdate from "@/components/nav/news-updates";
+import { Grid } from "@mui/material";
 import DashboardLayout from "@/components/dashboard-layout";
 import { ArtistCard } from "@/components/artist-card";
 
@@ -45,4 +33,5 @@ function Artists() {
   );
 }
 
+Artists.requiredAuth = true;
 export default Artists;

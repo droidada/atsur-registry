@@ -1,26 +1,14 @@
 import { useEffect, useState } from "react";
 import {
   Grid,
-  Card,
-  CardActions,
-  CardContent,
   Box,
   Button,
   Typography,
   Stepper,
   Step,
   StepButton,
-  Paper,
-  CssBaseline,
-  Link,
-  Avatar,
 } from "@mui/material";
-import { AccountCircleOutlined } from "@mui/icons-material";
-import WidgetSummary from "@/components/nav/widget-summary";
-import NewsUpdate from "@/components/nav/news-updates";
 import DashboardLayout from "@/components/dashboard-layout";
-import { ArtistCard } from "@/components/artist-card";
-import AddArtworkMeta from "@/components/artwork/add-artwork-meta";
 import AddArtworkFlow from "@/components/artwork/add-artwork-flow";
 
 const steps = ["Metadata", "Assets", "Series", "Artists", "Agreements"];
@@ -177,4 +165,5 @@ function AddArtwork() {
   );
 }
 
+AddArtwork.requiredAuth = true;
 export default AddArtwork;

@@ -35,7 +35,8 @@ export const options: any = {
         }
 
         if (res.ok && user) {
-          Cookies.set("token", user?.data?.access_token);
+          Cookies.set("accessToken", user?.data?.access_token);
+          Cookies.set("refreshToken", user?.data?.refresh_token);
           return user;
         }
 
@@ -62,7 +63,8 @@ export const options: any = {
         return token;
       }
 
-      return await refreshAccessToken(token);
+      return null;
+      // return await refreshAccessToken(token);
     },
 
     async session({ session, token }) {
@@ -78,7 +80,7 @@ export const options: any = {
   pages: {
     signIn: "/login",
   },
-  // debug: true,
+  debug: true,
 };
 
 async function refreshAccessToken(token) {
@@ -86,11 +88,11 @@ async function refreshAccessToken(token) {
     const res = await fetch(pubAPI + "auth/refresh", {
       method: "POST",
       body: JSON.stringify({
-        refresh_token: token?.accessToken || token?.refreshToken,
+        refresh_token: token?.refreshToken,
       }),
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token?.accessToken}`,
+        // Authorization: `Bearer ${token?.accessToken}`,
       },
       // credentials: "include",
     });

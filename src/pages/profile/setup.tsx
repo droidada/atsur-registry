@@ -128,13 +128,13 @@ function ProfileSetUp() {
               </>
             ) : (
               <>
-                <Typography sx={{ mb: 1, py: 1 }}>
+                <Box sx={{ mb: 1, py: 1 }}>
                   <SignUpFlow
                     activeStep={activeStep}
                     setActiveStep={setActiveStep}
                     setCompleted={setCompleted}
                   />
-                </Typography>
+                </Box>
                 <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                   <Button
                     color="inherit"
@@ -174,4 +174,5 @@ function ProfileSetUp() {
   );
 }
 
+ProfileSetUp.requireAuth = true;
 export default ProfileSetUp;
