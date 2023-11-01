@@ -10,16 +10,12 @@ import {
   Checkbox,
   Box,
   Button,
-  Avatar,
   TextField,
   Typography,
   Divider,
   Stack,
 } from "@mui/material";
-import WidgetSummary from "@/components/nav/widget-summary";
-import NewsUpdate from "@/components/nav/news-updates";
 import DashboardLayout from "@/components/dashboard-layout";
-import { ArtistCard } from "@/components/artist-card";
 
 function Settings() {
   useEffect(() => {
@@ -129,4 +125,5 @@ function Settings() {
   );
 }
 
+Settings.requiredAuth = true;
 export default Settings;

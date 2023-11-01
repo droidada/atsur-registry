@@ -15,7 +15,6 @@ import {
   Avatar,
 } from "@mui/material";
 import DashboardLayout from "@/components/dashboard-layout";
-import { ArtistCard } from "@/components/artist-card";
 import { literal, object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -134,6 +133,7 @@ function Account() {
                     component="form"
                     autoComplete="off"
                     noValidate
+                    onSubmit={handleSubmit(onSubmitHandler)}
                     // onSubmit={handleSubmit}
                   >
                     <Card>
@@ -143,10 +143,6 @@ function Account() {
                       />
                       <CardContent sx={{ pt: 1 }}>
                         <Box
-                          component="form"
-                          autoComplete="off"
-                          noValidate
-                          onSubmit={handleSubmit(onSubmitHandler)}
                           display="grid"
                           gridTemplateColumns="repeat(12, 1fr)"
                           gap={1}
@@ -253,4 +249,5 @@ function Account() {
   );
 }
 
+Account.requiredAuth = true;
 export default Account;

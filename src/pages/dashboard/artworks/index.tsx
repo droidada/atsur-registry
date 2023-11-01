@@ -1,20 +1,6 @@
 import { useEffect, useState } from "react";
-import {
-  Grid,
-  Card,
-  CardActions,
-  CardContent,
-  Box,
-  Button,
-  Avatar,
-  Typography,
-  Divider,
-  Select,
-} from "@mui/material";
-import WidgetSummary from "@/components/nav/widget-summary";
-import NewsUpdate from "@/components/nav/news-updates";
+import { Grid, Button, Select } from "@mui/material";
 import DashboardLayout from "@/components/dashboard-layout";
-import { ArtistCard } from "@/components/artist-card";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -83,4 +69,5 @@ function Artworks() {
   );
 }
 
+Artworks.requiredAuth = true;
 export default Artworks;

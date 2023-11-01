@@ -34,17 +34,19 @@ export default function NextWeb3App({
       {/* <QueryClientProvider client={queryClient}> */}
       <SessionProvider session={session}>
         <AuthContextProvider>
-          <ThemeProvider>
-            {Component.requireAuth ? (
-              <ProtectedLayout>
+          {Component.requireAuth ? (
+            <ProtectedLayout>
+              <ThemeProvider>
                 <Component {...pageProps} />
-              </ProtectedLayout>
-            ) : (
+              </ThemeProvider>
+            </ProtectedLayout>
+          ) : (
+            <ThemeProvider>
               <Component {...pageProps} />
-            )}
-          </ThemeProvider>
+            </ThemeProvider>
+          )}
           {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-          {/* <Analytics /> */}
+          <Analytics />
         </AuthContextProvider>
       </SessionProvider>
       {/* </QueryClientProvider> */}

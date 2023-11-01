@@ -12,32 +12,24 @@ export const useRefreshToken = () => {
     console.log(
       `access token: ${session?.user?.accessToken} || refresh token: ${
         session?.user?.refreshToken
-      } || cookie token ${Cookies.get("token")}`,
+      } || cookie refresh token ${Cookies.get("refreshToken")}`,
     );
-    const res = await axios(`${BASE_URL}auth/refresh`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${
-          session?.user?.accessToken ||
-          session?.user?.refreshToken ||
-          Cookies.get("token")
-        }`,
-      },
-      data: {
-        refresh_token:
-          session?.user?.accessToken ||
-          session?.user?.refreshToken ||
-          Cookies.get("token"),
-      },
-    });
+    const refreshToken =
+      session?.user?.refreshToken || Cookies.get("refreshToken");
+    if (refreshToken) {
+      await axios.post(`${BASE_URL}auth/refresh`, {
+        refresh_token: refreshToken,
+        mode: "json",
+      });
+    }
 
-    if (session) {
-      console.log("new refresh session here ", session);
-      Cookies.set("token", res.data.accessToken);
-      session.user.accessToken = res.data.accessToken;
-      update({ ...res.data, accessToken: res.data.accessToken });
-    } else signIn();
+    // if (session) {
+    //   console.log("new refresh session here ", session);
+    //   Cookies.set("accessToken", res.data.accessToken);
+    //   Cookies.set("refreshToken", res.data.refreshToken);
+    //   session.user.accessToken = res.data.accessToken;
+    //   update({ ...res.data, accessToken: res.data.accessToken });
+    // }
   };
   return refreshToken;
 };

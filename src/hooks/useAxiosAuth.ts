@@ -10,14 +10,15 @@ const useAxiosAuth = () => {
   const refreshToken = useRefreshToken();
 
   console.log("token here is  ", session?.user?.accessToken);
-  console.log("or token here is  ", Cookies.get("token"));
+  console.log("or token here is  ", Cookies.get("accessToken"));
   useEffect(() => {
-    Cookies.set("token", session?.user?.accessToken);
+    Cookies.set("accessToken", session?.user?.accessToken);
+    Cookies.set("refreshToken", session?.user?.refreshToken);
     const requestIntercept = axiosAuth.interceptors.request.use(
       (config) => {
         if (!config.headers["Authorization"]) {
           config.headers["Authorization"] = `Bearer ${
-            session?.user?.accessToken || Cookies.get("token")
+            session?.user?.accessToken || Cookies.get("accessToken")
           }`;
         }
         return config;
@@ -37,7 +38,7 @@ const useAxiosAuth = () => {
           prevRequest.sent = true;
           await refreshToken();
           prevRequest.headers["Authorization"] = `Bearer ${
-            session?.user?.accessToken || Cookies.get("token")
+            session?.user?.accessToken || Cookies.get("accessToken")
           }`;
           return axiosAuth(prevRequest);
         }
