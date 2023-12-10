@@ -9,11 +9,11 @@ const useAxiosAuth = () => {
   const { data: session } = useSession();
   const refreshToken = useRefreshToken();
 
-  console.log("token here is  ", session?.user?.accessToken);
-  console.log("or token here is  ", Cookies.get("accessToken"));
   useEffect(() => {
-    Cookies.set("accessToken", session?.user?.accessToken);
-    Cookies.set("refreshToken", session?.user?.refreshToken);
+    if(session?.user) {
+      Cookies.set("accessToken", session?.user?.accessToken);
+      Cookies.set("refreshToken", session?.user?.refreshToken);
+    }
     const requestIntercept = axiosAuth.interceptors.request.use(
       (config) => {
         if (!config.headers["Authorization"]) {

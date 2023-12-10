@@ -10,7 +10,7 @@ import useAxiosAuth from "@/hooks/useAxiosAuth";
 function Home() {
   const [activeSlide, setActiveSlide] = useState(0);
 
-  const [data, setData] = useState<[]>();
+  const [entries, setEntries] = useState<[]>();
   const axiosAuth = useAxiosAuth();
   useEffect(() => {
     const fetchData = async () => {
@@ -18,7 +18,7 @@ function Home() {
         "https://admin.atsur.art/items/entry?fields=*,assets.*, asset_files.*",
       );
       const data = await res.json();
-      setData(data ? data.data : []);
+      setEntries(data ? data.data : []);
       console.log("we have data here");
     };
     fetchData();
@@ -86,7 +86,7 @@ function Home() {
               </CarouselProvider>
             </div>
             <div className="px-10 mt-10">
-              <FeaturedSection data={data} />
+              <FeaturedSection data={entries} />
             </div>
             {/* <div className="px-10">
               <CuratorsPick title={"Curator's Pick"} length={6} />

@@ -1,7 +1,6 @@
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { signIn } from "next-auth/react";
-import Cookies from "js-cookie";
 import dotenv from "dotenv";
 import axios from "axios";
 
@@ -23,17 +22,18 @@ export const options: any = {
           password: credentials.password,
         };
         console.log("pubapi here is ", pubAPI);
-        const res = await axios.post(`${pubAPI}auth/login`, {
-          ...payload,
-          mode: "json",
-        });
-        // const res = await fetch(pubAPI + "auth/login", {
-        //   method: "POST",
-        //   body: JSON.stringify(payload),
-        //   headers: { "Content-Type": "application/json" },
-        //   // credentials: "include",
+        // const res = await axios.post(`${pubAPI}auth/login`, {
+        //   ...payload,
+        //   mode: "json",
         // });
-        const user = res.data;
+
+        const res = await fetch(pubAPI + "auth/login", {
+          method: "POST",
+          body: JSON.stringify(payload),
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        });
+        const user = await res.json();
 
         console.log("response data here ", user);
         if (!user.data.access_token) {
@@ -41,8 +41,6 @@ export const options: any = {
         }
 
         if (user.data && user.data.access_token) {
-          Cookies.set("accessToken", user?.data?.access_token);
-          Cookies.set("refreshToken", user?.data?.refresh_token);
           return user;
         }
 
@@ -69,8 +67,8 @@ export const options: any = {
         return token;
       }
 
-      return null;
-      // return await refreshAccessToken(token);
+      // return null;
+      return await refreshAccessToken(token);
     },
 
     async session({ session, token }) {
