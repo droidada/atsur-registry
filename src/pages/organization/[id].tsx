@@ -1,4 +1,8 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import useAxiosAuth from "@/hooks/useAxiosAuth";
+import { notFound } from "next/navigation";
+
 import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
 import CameraIcon from "@mui/icons-material/PhotoCamera";
@@ -17,25 +21,34 @@ import Link from "@mui/material/Link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Layout from "@/components/layout";
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function Album() {
+function Organization() {
+
+  const router = useRouter();
+  const axiosAuth = useAxiosAuth();
+  const [org, setOrg] = useState<any>();
+
+  useEffect(() => {
+    const fetchOrganizations = async () => {
+      try {
+        const res = await axiosAuth(`items/organization/${router.query.id}?fields=*,images.*,images.assets.*, images.asset_files.*`);
+        const data = res.data;
+        setOrg(data.data);
+        console.log("org here is ", data.data)
+      } catch (error) {
+        console.error(error);
+        
+      }
+    };
+    fetchOrganizations();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   return (
     <Layout>
       <main>
@@ -55,7 +68,7 @@ export default function Album() {
               color="text.primary"
               gutterBottom
             >
-              Album layout
+              {org?.name}
             </Typography>
             <Typography
               variant="h5"
@@ -119,4 +132,17 @@ export default function Album() {
       </main>
     </Layout>
   );
+}
+
+// Organization.requiredAuth = true;
+export default Organization;
+
+export async function getServerSideProps(context) {
+  console.log("context here is ", context)
+  console.log("session here is ", context.session)
+
+
+  return {
+    props: { data: {} }, // will be passed to the page component as props
+  }
 }

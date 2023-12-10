@@ -18,25 +18,35 @@ const DashboardLayout = ({ children }) => {
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-6">
             <div className="flex flex-col gap-4 py-10 mt-20">
               <Divider />
-              <p style={{ padding: 5 }}>
-                <Link href="/dashboard/artists">Artists</Link>
-              </p>
+              <Link href="/dashboard/artists">
+                <p style={{ padding: 5 }}>
+                  Artists
+                </p>
+              </Link>
               <Divider />
+              <Link href="/dashboard/organizations">
               <p style={{ padding: 5 }}>
-                <Link href="/dashboard/organizations">Organizations</Link>
+                Organizations
               </p>
+              </Link>
               <Divider />
+              <Link href="/dashboard/artworks">
               <p style={{ padding: 5 }}>
-                <Link href="/dashboard/artworks">Artworks</Link>
+                Artworks
               </p>
+              </Link>
               <Divider />
+              <Link href="/dashboard/account">
               <p style={{ padding: 5 }}>
-                <Link href="/dashboard/account">Account</Link>
+                Account
               </p>
+              </Link>
               <Divider />
+              <Link href="/dashboard/settings">
               <p style={{ padding: 5 }}>
-                <Link href="/dashboard/settings">Settings</Link>
+                Settings
               </p>
+              </Link>
               <Divider />
             </div>
             <div className="col-span-3">{children}</div>

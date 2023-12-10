@@ -46,7 +46,7 @@ export default function NextWeb3App({
             </ThemeProvider>
           )}
           {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-          <Analytics />
+          {/* <Analytics /> */}
         </AuthContextProvider>
       </SessionProvider>
       {/* </QueryClientProvider> */}

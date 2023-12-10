@@ -118,13 +118,13 @@ function AddArtwork() {
               </>
             ) : (
               <>
-                <Typography sx={{ py: 1 }}>
+                <div style={{ padding: '0, 1px' }}>
                   <AddArtworkFlow
                     activeStep={activeStep}
                     setActiveStep={setActiveStep}
                     setCompleted={setCompleted}
                   />
-                </Typography>
+                </div>
                 <Box
                   sx={{ display: "flex", flexDirection: "row", pt: 2, mb: 4 }}
                 >

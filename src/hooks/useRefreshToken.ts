@@ -23,13 +23,11 @@ export const useRefreshToken = () => {
       });
     }
 
-    // if (session) {
-    //   console.log("new refresh session here ", session);
-    //   Cookies.set("accessToken", res.data.accessToken);
-    //   Cookies.set("refreshToken", res.data.refreshToken);
-    //   session.user.accessToken = res.data.accessToken;
-    //   update({ ...res.data, accessToken: res.data.accessToken });
-    // }
+    if (session) {
+      console.log("new refresh session here ", session);
+      Cookies.set("accessToken", session?.user?.accessToken);
+      Cookies.set("refreshToken", session?.user?.refreshToken);
+    }
   };
   return refreshToken;
 };
