@@ -2,6 +2,8 @@ export enum SupportedChainId {
   MAINNET = 1,
   ROPSTEN = 3,
   GOERLI = 5,
+  CELO = 42220,
+  ALFAJORES = 44787,
   KOVAN = 42,
   BINANCE = 56,
   POLYGON = 137,
@@ -21,6 +23,7 @@ interface Network {
   explorer: string;
   multisigTxUrl: string;
 }
+
 type SupportedChainsType = {
   [P in SupportedChainId]: Network;
 };
@@ -52,6 +55,24 @@ export const prodSupportedChains: SupportedChainsType = {
     rpc: "https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
     explorer: "https://goerli.etherscan.io",
     multisigTxUrl: "https://safe-transaction-goerli.safe.global",
+  },
+  [SupportedChainId.CELO]: {
+    id: 42220,
+    icon: "/icons/chains/ethereum.svg",
+    title: "Celo",
+    code: "CELO",
+    rpc: "https://alfajores-forno.celo-testnet.org",
+    explorer: "https://clelo.etherscan.io",
+    multisigTxUrl: "https://alfajores-forno.celo-testnet.org",
+  },
+  [SupportedChainId.ALFAJORES]: {
+    id: 44787,
+    icon: "/icons/chains/ethereum.svg",
+    title: "Alfajores",
+    code: "CELO-TESTNET",
+    rpc: "https://alfajores-forno.celo-testnet.org",
+    explorer: "https://celo.etherscan.io",
+    multisigTxUrl: "https://alfajores-forno.celo-testnet.org",
   },
   [SupportedChainId.KOVAN]: {
     id: 42,
@@ -154,6 +175,24 @@ const devSupportedChains: SupportedChainsType = {
     rpc: "https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
     explorer: "https://goerli.etherscan.io",
     multisigTxUrl: "https://safe-transaction-goerli.safe.global",
+  },
+  [SupportedChainId.CELO]: {
+    id: 42220,
+    icon: "/icons/chains/ethereum.svg",
+    title: "CELO",
+    code: "CELO",
+    rpc: "https://alfajores-forno.celo-testnet.org",
+    explorer: "https://alfajores-forno.celo-testnet.org",
+    multisigTxUrl: "https://alfajores-forno.celo-testnet.org",
+  },
+  [SupportedChainId.ALFAJORES]: {
+    id: 44787,
+    icon: "/icons/chains/ethereum.svg",
+    title: "Alfajores",
+    code: "CELO-TEST",
+    rpc: "https://alfajores-forno.celo-testnet.org",
+    explorer: "https://alfajores-forno.celo-testnet.org",
+    multisigTxUrl: "https://alfajores-forno.celo-testnet.org",
   },
   [SupportedChainId.KOVAN]: {
     id: 42,
