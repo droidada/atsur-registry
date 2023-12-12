@@ -8,7 +8,7 @@ import {
   Step,
   StepButton,
 } from "@mui/material";
-import DashboardLayout from "@/components/dashboard-layout";
+import DashboardLayout from "@/components/layout/dashboard-layout";
 import AddArtworkFlow from "@/components/artwork/add-artwork-flow";
 
 const steps = ["Metadata", "Assets", "Series", "Artists", "Agreements"];

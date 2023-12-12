@@ -1,8 +1,8 @@
 import React from "react";
 import Layout from "./layout";
-import Footer from "./footer";
+import Footer from "../common/footer";
 import { ListItem, Divider, Link } from "@mui/material";
-import NavItem from "./nav/nav-item";
+import NavItem from "../nav/nav-item";
 
 const DashboardLayout = ({ children }) => {
   return (

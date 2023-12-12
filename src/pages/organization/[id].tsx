@@ -19,7 +19,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Layout from "@/components/layout";
+import Layout from "@/components/layout/layout";
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 

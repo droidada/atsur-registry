@@ -1,6 +1,6 @@
 import React from "react";
 import Input from "@mui/material/Input";
-import logo2 from "../../assets/logo2.png";
+import logo2 from "@/assets/logo2.png";
 import Image from "next/image";
 
 const Footer = () => {

@@ -15,7 +15,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { CompanyCard } from "@/components/org/company-card";
-import Layout from "@/components/layout";
+import Layout from "@/components/layout/layout";
 import SearchIcon from "@mui/icons-material/Search";
 
 const companies = [

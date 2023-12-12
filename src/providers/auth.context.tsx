@@ -10,7 +10,7 @@ import React, {
   useCallback,
 } from "react";
 import { signOut, signIn, useSession } from "next-auth/react";
-import { IUser, IProfile } from "../types/models";
+import { IUser } from "../types/models";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 
 export type NewLogin = {
@@ -30,7 +30,7 @@ export type AuthContextData = {
   loading: boolean;
   logIn: (email: string, password: string) => Promise<any>;
   logOut: () => Promise<void>;
-  updateUserProfile: (data: IProfile) => Promise<void>;
+  updateUserProfile: (data: IUser) => Promise<void>;
   error: string;
 };
 
@@ -86,7 +86,7 @@ export function AuthContextProvider({ children }: any) {
     setLoading(false);
   };
 
-  const updateUserProfile = async (info: IProfile): Promise<void> => {
+  const updateUserProfile = async (info: IUser): Promise<void> => {
     setLoading(true);
     const res = await axiosAuth.patch("users/me", {
       ...info,

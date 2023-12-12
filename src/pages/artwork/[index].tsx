@@ -4,7 +4,7 @@ import React, { use, useEffect, useState } from "react";
 import { useConnect } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import CuratorsPick from "@/components/curatorsPick";
-import Layout from "@/components/layout";
+import Layout from "@/components/layout/layout";
 import CardMembershipIcon from "@mui/icons-material/CardMembership";
 import WorkOutlineIcon from "@mui/icons-material/WorkOutline";
 import {

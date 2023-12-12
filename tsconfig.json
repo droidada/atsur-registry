@@ -27,7 +27,8 @@
       "@/shortcodes/*": ["src/components/layouts/shortcodes/*"],
       "@/partials/*": ["src/components/layouts/partials/*"],
       "@/connectors/*": ["./src/connectors/*"],
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@/assets/*": ["./assets/*"]
     }
   },
   "include": [

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Grid } from "@mui/material";
 import WidgetSummary from "@/components/nav/widget-summary";
 import NewsUpdate from "@/components/nav/news-updates";
-import DashboardLayout from "@/components/dashboard-layout";
+import DashboardLayout from "@/components/layout/dashboard-layout";
 
 function Dashboard() {
   useEffect(() => {
