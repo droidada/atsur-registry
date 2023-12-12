@@ -17,7 +17,7 @@ import logo from "@/assets/logo.jpeg";
 import Image from "next/image";
 import DropdownIcon from "../icons/DropdownIcon";
 import NotificationIcon from "../icons/NotificationIcon";
-import SideBar from "./SideBar";
+import SideBar from "./sideBar";
 import { useAuthContext } from "@/providers/auth.context";
 
 const Header = () => {
