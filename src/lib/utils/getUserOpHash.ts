@@ -27,11 +27,11 @@ export default async function getUserOpHash(userOp: IUserOperation) {
       userOp.maxFeePerGas,
       userOp.maxPriorityFeePerGas,
       keccak256(userOp.paymasterAndData),
-    ]
+    ],
   );
   const encodedUserOpWithChainIdAndEntryPoint = defaultAbiCoder.encode(
     ["bytes32", "address", "uint256"],
-    [keccak256(encodedUserOp), Constants.ERC4337.EntryPoint, goerli.id]
+    [keccak256(encodedUserOp), Constants.ERC4337.EntryPoint, goerli.id],
   );
 
   return keccak256(encodedUserOpWithChainIdAndEntryPoint);

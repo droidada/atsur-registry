@@ -1,6 +1,6 @@
 import { WagmiConfig, configureChains, createConfig, mainnet } from "wagmi";
-import { InjectedConnector } from 'wagmi/connectors/injected';
-import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
+import { InjectedConnector } from "wagmi/connectors/injected";
+import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { publicProvider } from "wagmi/providers/public";
 import { Alfajores, Celo } from "@celo/rainbowkit-celo/chains";
 import celoGroups from "@celo/rainbowkit-celo/lists";
@@ -15,7 +15,6 @@ import "@/styles/globals.css";
 import ThemeProvider from "@/styles/theme";
 import { ProtectedLayout } from "@/components/protected-layout";
 
-
 type AppPropsWithAuth = NextPage & {
   requiresAuth?: boolean;
   redirectUnauthenticatedTo?: string;
@@ -28,7 +27,7 @@ const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID as string; /
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [mainnet, Celo, Alfajores],
-  [publicProvider()]
+  [publicProvider()],
 );
 
 // const connectors = celoGroups({
@@ -44,13 +43,13 @@ const appInfo = {
 const wagmiConfig = createConfig({
   autoConnect: true,
   connectors: [
-      new MetaMaskConnector({ chains }) ,
-      new InjectedConnector({
+    new MetaMaskConnector({ chains }),
+    new InjectedConnector({
       chains,
       options: {
-        name: 'Injected',
+        name: "Injected",
         shimDisconnect: true,
-      }
+      },
     }),
   ],
   webSocketPublicClient,
@@ -62,26 +61,26 @@ export default function NextWeb3App({
   pageProps: { session, ...pageProps },
 }: AppProps) {
   return (
-      <WagmiConfig config={wagmiConfig}>
-        <RainbowKitProvider chains={chains} appInfo={appInfo} coolMode={true}>
-          <SessionProvider session={session}>
-            <AuthContextProvider>
-              {Component.requireAuth ? (
-                <ProtectedLayout>
-                  <ThemeProvider>
-                    <Component {...pageProps} />
-                  </ThemeProvider>
-                </ProtectedLayout>
-              ) : (
+    <WagmiConfig config={wagmiConfig}>
+      <RainbowKitProvider chains={chains} appInfo={appInfo} coolMode={true}>
+        <SessionProvider session={session}>
+          <AuthContextProvider>
+            {Component.requireAuth ? (
+              <ProtectedLayout>
                 <ThemeProvider>
                   <Component {...pageProps} />
                 </ThemeProvider>
-              )}
-              {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-              {/* <Analytics /> */}
-            </AuthContextProvider>
-          </SessionProvider>
-        </RainbowKitProvider>
-      </WagmiConfig>
+              </ProtectedLayout>
+            ) : (
+              <ThemeProvider>
+                <Component {...pageProps} />
+              </ThemeProvider>
+            )}
+            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+            {/* <Analytics /> */}
+          </AuthContextProvider>
+        </SessionProvider>
+      </RainbowKitProvider>
+    </WagmiConfig>
   );
 }

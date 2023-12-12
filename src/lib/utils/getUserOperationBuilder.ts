@@ -7,7 +7,7 @@ export async function getUserOperationBuilder(
   nonce: BigNumber,
   initCode: Uint8Array,
   encodedCallData: string,
-  signatures: string[]
+  signatures: string[],
 ) {
   try {
     const encodedSignatures = defaultAbiCoder.encode(["bytes[]"], [signatures]);

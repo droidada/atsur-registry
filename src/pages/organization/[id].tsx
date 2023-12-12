@@ -21,15 +21,12 @@ import Link from "@mui/material/Link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Layout from "@/components/layout";
 
-
-
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 function Organization() {
-
   const router = useRouter();
   const axiosAuth = useAxiosAuth();
   const [org, setOrg] = useState<any>();
@@ -37,18 +34,19 @@ function Organization() {
   useEffect(() => {
     const fetchOrganizations = async () => {
       try {
-        const res = await axiosAuth(`items/organization/${router.query.id}?fields=*,images.*,images.assets.*, images.asset_files.*`);
+        const res = await axiosAuth(
+          `items/organization/${router.query.id}?fields=*,images.*,images.assets.*, images.asset_files.*`,
+        );
         const data = res.data;
         setOrg(data.data);
-        console.log("org here is ", data.data)
+        console.log("org here is ", data.data);
       } catch (error) {
         console.error(error);
-        
       }
     };
     fetchOrganizations();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
   return (
     <Layout>
       <main>
@@ -138,11 +136,10 @@ function Organization() {
 export default Organization;
 
 export async function getServerSideProps(context) {
-  console.log("context here is ", context)
-  console.log("session here is ", context.session)
-
+  console.log("context here is ", context);
+  console.log("session here is ", context.session);
 
   return {
     props: { data: {} }, // will be passed to the page component as props
-  }
+  };
 }

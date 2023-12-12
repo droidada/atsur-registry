@@ -1,12 +1,12 @@
-import { prisma } from "@/utils/db";
+import { prisma } from "@/lib/utils/db";
 import { isAddress } from "ethers/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
-import { Transaction, TransactionSignature, Wallet } from "@prisma/client";
+import { transaction, transaction_signature, wallet } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
-export type TransactionWithSignatures = Transaction & {
-  signatures: TransactionSignature[];
-  wallet: Wallet;
+export type TransactionWithSignatures = transaction & {
+  signatures: transaction_signature[];
+  wallet: wallet;
   pendingSigners: string[];
 };
 
@@ -26,12 +26,12 @@ export async function GET(req: NextRequest) {
     const transactions = await prisma.transaction.findMany({
       where: {
         wallet: {
-          address: walletAddress,
+          //  address: walletAddress,
         },
       },
       include: {
-        signatures: true,
-        wallet: true,
+        //  signatures: true,
+        // wallet: true,
       },
       orderBy: {
         txHash: {
@@ -41,23 +41,24 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    const augmentedTransactions: TransactionWithSignatures[] = transactions.map(
-      (transaction) => {
-        const pendingSigners = transaction.wallet.signers.filter(
-          (signer) =>
-            !transaction.signatures.find(
-              (signature) => signature.signerAddress === signer
-            )
-        );
+    // const augmentedTransactions: TransactionWithSignatures[] = transactions.map(
+    //   (transaction) => {
+    //     const pendingSigners = transaction.wallet.signers.filter(
+    //       (signer) =>
+    //         !transaction.signatures.find(
+    //           (signature) => signature.signerAddress === signer,
+    //         ),
+    //     );
 
-        return {
-          ...transaction,
-          pendingSigners,
-        };
-      }
-    );
+    //     return {
+    //       ...transaction,
+    //       pendingSigners,
+    //     };
+    //   },
+    // );
 
-    return NextResponse.json({ transactions: augmentedTransactions });
+    //  return NextResponse.json({ transactions: augmentedTransactions });
+    return NextResponse.json({ success: "yes" });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error });

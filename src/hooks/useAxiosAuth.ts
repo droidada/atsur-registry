@@ -10,7 +10,7 @@ const useAxiosAuth = () => {
   const refreshToken = useRefreshToken();
 
   useEffect(() => {
-    if(session?.user) {
+    if (session?.user) {
       Cookies.set("accessToken", session?.user?.accessToken);
       Cookies.set("refreshToken", session?.user?.refreshToken);
     }

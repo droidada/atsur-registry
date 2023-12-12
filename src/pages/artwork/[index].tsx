@@ -18,10 +18,9 @@ import "pure-react-carousel/dist/react-carousel.es.css";
 import Image from "next/image";
 import RequestInfo from "@/components/artwork/RequestInfo";
 import ContactGallery from "@/components/artwork/ContactGallery";
-import { notFound } from "next/navigation";
-import { ethers } from "ethers";
-
-
+import { TransakConfig, Transak } from "@transak/transak-sdk";
+import { defaultTransakConfig } from "@/lib/utils/transkConfig";
+import { useAuthContext } from "@/providers/auth.context";
 
 const Artwork = ({ data }) => {
   // const [data, setData] = useState<any>();
@@ -34,17 +33,21 @@ const Artwork = ({ data }) => {
   //     console.log("we have data here ", data)
   //   };
   // },[])
-  // const { activate, active } = useWeb3React();
 
- // useEffect(()=>{activateMetamask()},[])
-
-
+  const { user } = useAuthContext();
   const { connect } = useConnect({
     connector: new InjectedConnector(),
   });
 
   useEffect(() => {
-    connect();
+    //  connect();
+  }, []);
+
+  useEffect(() => {
+    // Cleanup code
+    return () => {
+      // transak.close();
+    };
   }, []);
 
   const [activeSlide, setActiveSlide] = useState(0);
@@ -72,14 +75,27 @@ const Artwork = ({ data }) => {
 
   const totalSlides = 3;
 
-  // const activateMetamask = async () => {
-  //   try {
-  //     console.log("....activating metamask...");
-  //     await activate(injected);
-  //   } catch (error) {
-  //     console.log("error activating metamask ", error);
-  //   }
-  // }
+  const buy = async () => {
+    try {
+      if (!user) {
+        alert("you need to be logged in to buy. Please login.");
+        return;
+      }
+
+      const transakConfig: TransakConfig = {
+        ...defaultTransakConfig,
+        // .....
+        fiatAmount: 130,
+        partnerCustomerId: user.id,
+        email: user.email,
+      };
+
+      const transak = new Transak(transakConfig);
+      transak.init();
+    } catch (error) {
+      console.log("error activating metamask ", error);
+    }
+  };
 
   return (
     <Layout>
@@ -97,8 +113,8 @@ const Artwork = ({ data }) => {
               //   onChange={handleSlideChange}
             >
               <Slider className="w-full h-[100%]">
-                {data?.assets.map((asset) => (
-                  <Slide key={asset} index={asset}>
+                {data?.assets.map((asset, idx) => (
+                  <Slide key={idx} index={asset}>
                     <Image
                       alt={data?.artwork_title || "title"}
                       width={600}
@@ -172,7 +188,7 @@ const Artwork = ({ data }) => {
               </button>
               <button
                 className="border border-solid border-black px-12 py-5"
-                onClick={()=>connect()}
+                onClick={buy}
               >
                 Buy
               </button>
