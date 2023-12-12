@@ -1,3 +1,3 @@
-import { IAddress, IInvitee, IMember, IUser, IProfile } from "./member";
+import { IAddress, IInvitee, IMember, IUser, IWallet } from "./member";
 
-export type { IMember, IUser, IAddress, IInvitee, IProfile };
+export type { IMember, IUser, IAddress, IInvitee, IWallet };

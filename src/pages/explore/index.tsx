@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Layout from "@/components/layout";
+import Layout from "@/components/layout/layout";
 import { Checkbox, Divider, FormControlLabel, FormGroup } from "@mui/material";
 import image from "../../../assets/image1.png";
 import axios from "axios";

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Grid, Button, Select } from "@mui/material";
-import DashboardLayout from "@/components/dashboard-layout";
+import DashboardLayout from "@/components/layout/dashboard-layout";
 import Link from "next/link";
 import Image from "next/image";
 

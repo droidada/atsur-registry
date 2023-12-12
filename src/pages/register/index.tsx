@@ -14,7 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { LoadingButton } from "@mui/lab";
 import Checkbox from "@mui/material/Checkbox";
-import Layout from "@/components/layout";
+import Layout from "@/components/layout/layout";
 
 const MainContent = styled(Box)(
   () => `

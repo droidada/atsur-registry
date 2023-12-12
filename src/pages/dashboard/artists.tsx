@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Grid } from "@mui/material";
-import DashboardLayout from "@/components/dashboard-layout";
+import DashboardLayout from "@/components/layout/dashboard-layout";
 import { ArtistCard } from "@/components/artist-card";
 
 function Artists() {

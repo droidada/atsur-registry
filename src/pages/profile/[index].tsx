@@ -9,7 +9,7 @@ import {
 
 import { AccountProfile } from "@/components/profile/profile";
 import { AccountProfileDetails } from "@/components/profile/profileDetails";
-import Layout from "@/components/layout";
+import Layout from "@/components/layout/layout";
 
 const Profile = () => (
   <Layout>

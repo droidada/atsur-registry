@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Layout from "@/components/layout";
+import Layout from "@/components/layout/layout";
 import FeaturedSection from "@/components/featuredSection";
 import { CarouselProvider, Slider, Slide } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";

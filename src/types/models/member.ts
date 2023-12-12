@@ -39,7 +39,7 @@ export interface IUser {
   isProfileSetup: boolean;
 }
 
-export interface IProfile {
+export interface IWallet {
   first_name?: string;
   last_name?: string;
   description?: string;
