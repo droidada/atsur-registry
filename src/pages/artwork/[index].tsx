@@ -1,8 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable @next/next/no-typos */
+import React, { use, useEffect, useState } from "react";
+import { useConnect } from "wagmi";
+import { InjectedConnector } from "wagmi/connectors/injected";
 import CuratorsPick from "@/components/curatorsPick";
 import Layout from "@/components/layout";
-import React, { use, useEffect, useState } from "react";
 import CardMembershipIcon from "@mui/icons-material/CardMembership";
 import WorkOutlineIcon from "@mui/icons-material/WorkOutline";
 import {
@@ -17,6 +19,9 @@ import Image from "next/image";
 import RequestInfo from "@/components/artwork/RequestInfo";
 import ContactGallery from "@/components/artwork/ContactGallery";
 import { notFound } from "next/navigation";
+import { ethers } from "ethers";
+
+
 
 const Artwork = ({ data }) => {
   // const [data, setData] = useState<any>();
@@ -29,6 +34,18 @@ const Artwork = ({ data }) => {
   //     console.log("we have data here ", data)
   //   };
   // },[])
+  // const { activate, active } = useWeb3React();
+
+ // useEffect(()=>{activateMetamask()},[])
+
+
+  const { connect } = useConnect({
+    connector: new InjectedConnector(),
+  });
+
+  useEffect(() => {
+    connect();
+  }, []);
 
   const [activeSlide, setActiveSlide] = useState(0);
   const [openRequestInfo, setOpenRequestInfo] = useState(false);
@@ -54,6 +71,16 @@ const Artwork = ({ data }) => {
   };
 
   const totalSlides = 3;
+
+  // const activateMetamask = async () => {
+  //   try {
+  //     console.log("....activating metamask...");
+  //     await activate(injected);
+  //   } catch (error) {
+  //     console.log("error activating metamask ", error);
+  //   }
+  // }
+
   return (
     <Layout>
       <div className="p-10 flex flex-col gap-6">
@@ -142,6 +169,12 @@ const Artwork = ({ data }) => {
                 onClick={handleOpenContactGallery}
               >
                 Contact Gallery
+              </button>
+              <button
+                className="border border-solid border-black px-12 py-5"
+                onClick={()=>connect()}
+              >
+                Buy
               </button>
             </div>
           </div>
