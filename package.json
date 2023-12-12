@@ -72,6 +72,7 @@
     "react-lite-youtube-embed": "^2.3.52",
     "react-paystack": "^4.0.3",
     "react-slick": "^0.29.0",
+    "react-tabs": "^6.0.2",
     "remark-gfm": "^3.0.1",
     "sass": "^1.63.3",
     "swr": "^2.0.0",
