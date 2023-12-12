@@ -16,27 +16,27 @@ export async function getUserOpForETHTransfer(
   salt: string,
   toAddress: string,
   value: BigNumber,
-  isDeployed?: boolean
+  isDeployed?: boolean,
 ) {
   try {
     let initCode = Uint8Array.from([]);
     if (!isDeployed) {
       const data = walletFactoryContract.interface.encodeFunctionData(
         "createAccount",
-        [owners, salt]
+        [owners, salt],
       );
       initCode = concat([WALLET_FACTORY_ADDRESS, data]);
     }
 
     const nonce: BigNumber = await entryPointContract.getNonce(
       walletAddress,
-      0
+      0,
     );
 
     const walletContract = getWalletContract(walletAddress);
     const encodedCallData = walletContract.interface.encodeFunctionData(
       "execute",
-      [toAddress, value, initCode]
+      [toAddress, value, initCode],
     );
 
     const builder = await getUserOperationBuilder(
@@ -44,7 +44,7 @@ export async function getUserOpForETHTransfer(
       nonce,
       initCode,
       encodedCallData,
-      []
+      [],
     );
 
     builder.useMiddleware(Presets.Middleware.getGasPrice(provider));

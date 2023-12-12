@@ -118,7 +118,7 @@ function AddArtwork() {
               </>
             ) : (
               <>
-                <div style={{ padding: '0, 1px' }}>
+                <div style={{ padding: "0, 1px" }}>
                   <AddArtworkFlow
                     activeStep={activeStep}
                     setActiveStep={setActiveStep}

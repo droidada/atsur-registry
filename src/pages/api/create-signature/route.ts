@@ -1,4 +1,4 @@
-import { prisma } from "@/utils/db";
+import { prisma } from "@/lib/utils/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -10,12 +10,12 @@ export async function POST(req: NextRequest) {
         id: transactionId,
       },
       data: {
-        signatures: {
-          create: {
-            signature,
-            signerAddress: signerAddress.toLowerCase(),
-          },
-        },
+        // signatures: {
+        //   create: {
+        //     signature,
+        //     signerAddress: signerAddress.toLowerCase(),
+        //   },
+        // },
       },
     });
 

@@ -19,33 +19,23 @@ const DashboardLayout = ({ children }) => {
             <div className="flex flex-col gap-4 py-10 mt-20">
               <Divider />
               <Link href="/dashboard/artists">
-                <p style={{ padding: 5 }}>
-                  Artists
-                </p>
+                <p style={{ padding: 5 }}>Artists</p>
               </Link>
               <Divider />
               <Link href="/dashboard/organizations">
-              <p style={{ padding: 5 }}>
-                Organizations
-              </p>
+                <p style={{ padding: 5 }}>Organizations</p>
               </Link>
               <Divider />
               <Link href="/dashboard/artworks">
-              <p style={{ padding: 5 }}>
-                Artworks
-              </p>
+                <p style={{ padding: 5 }}>Artworks</p>
               </Link>
               <Divider />
               <Link href="/dashboard/account">
-              <p style={{ padding: 5 }}>
-                Account
-              </p>
+                <p style={{ padding: 5 }}>Account</p>
               </Link>
               <Divider />
               <Link href="/dashboard/settings">
-              <p style={{ padding: 5 }}>
-                Settings
-              </p>
+                <p style={{ padding: 5 }}>Settings</p>
               </Link>
               <Divider />
             </div>

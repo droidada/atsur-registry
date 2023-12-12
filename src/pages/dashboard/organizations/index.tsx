@@ -12,7 +12,9 @@ function Organizations() {
   useEffect(() => {
     const fetchOrganizations = async () => {
       try {
-        const res = await axiosAuth("users/me?fields=organizations,organizations.organization_id.*,organizations.organization_id.assets.*, organizations.organization_id.asset_files.*");
+        const res = await axiosAuth(
+          "users/me?fields=organizations,organizations.organization_id.*,organizations.organization_id.assets.*, organizations.organization_id.asset_files.*",
+        );
         const data = res.data;
         setEntries(data.data.organizations);
       } catch (error) {
@@ -39,12 +41,16 @@ function Organizations() {
         md={12}
         px={10}
       >
-        {entries && entries.length > 0 ?
+        {entries && entries.length > 0 ? (
           entries?.map((item, idx) => (
             <div key={idx}>
               <Link href={"/organization/" + item.organization_id.id}>
                 <Image
-                  src={ item.assets ? `${process.env.NEXT_PUBLIC_DIRECTUS_API_ENDPOINT}assets/${item.assets[0]?.directus_files_id}?height=259` : DefaultOrg }
+                  src={
+                    item.assets
+                      ? `${process.env.NEXT_PUBLIC_DIRECTUS_API_ENDPOINT}assets/${item.assets[0]?.directus_files_id}?height=259`
+                      : DefaultOrg
+                  }
                   alt={item.artwork_title || `art`}
                   className="w-full h-[259px]"
                   width={300}
@@ -61,8 +67,9 @@ function Organizations() {
               </div>
             </div>
           ))
-          : <p>You do not have any organizations for now</p>
-        }
+        ) : (
+          <p>You do not have any organizations for now</p>
+        )}
       </Grid>
     </DashboardLayout>
   );
