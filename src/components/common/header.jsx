@@ -2,15 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
-import {
-  Stack,
-  Tooltip,
-  IconButton,
-  SvgIcon,
-  Badge,
-  Avatar,
-  Input,
-} from "@mui/material";
+import { Input } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import logo from "@/assets/logo.jpeg";

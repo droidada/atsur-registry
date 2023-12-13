@@ -37,6 +37,7 @@ export interface IUser {
   token: string;
   status?: string;
   isProfileSetup: boolean;
+  wallets: IWallet[];
 }
 
 export interface IWallet {
