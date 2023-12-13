@@ -91,7 +91,8 @@ const Artwork = ({ data }) => {
       };
 
       const transak = new Transak(transakConfig);
-      transak.init();
+      //  transak.init();
+      alert("transk onboading and on-ramping stuff here...");
     } catch (error) {
       console.log("error activating metamask ", error);
     }
