@@ -24,7 +24,11 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useAuthContext } from "@/providers/auth.context";
 
-const AddArtworkMeta = ({ activeStep = true, setActiveStep = ({})=>{}, setCompleted = ({})=>{} }) => {
+const AddArtworkMeta = ({
+  activeStep = true,
+  setActiveStep = ({}) => {},
+  setCompleted = ({}) => {},
+}) => {
   const artworkSchema = object({
     title: string().nonempty("First name is required"),
     type: string().nonempty("type is required"),

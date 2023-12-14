@@ -5,7 +5,7 @@ import type { NextApiRequest, NextApiResponse } from "next/types";
 
 export default async function POST(req: NextApiRequest, resp: NextApiResponse) {
   try {
-    const { signers, userId }: { signers: string[], userId:string } = req.body;
+    const { signers, userId }: { signers: string[]; userId: string } = req.body;
     const salt = "0x" + randomBytes(32).toString("hex");
 
     const walletAddress = await walletFactoryContract.getAddress(signers, salt);
@@ -16,7 +16,7 @@ export default async function POST(req: NextApiRequest, resp: NextApiResponse) {
         salt: salt,
         signers: signers.map((s) => s.toLowerCase()),
         isDeployed: false,
-        address: walletAddress
+        address: walletAddress,
       },
     });
 
@@ -26,4 +26,3 @@ export default async function POST(req: NextApiRequest, resp: NextApiResponse) {
     return resp.status(500).json({ error });
   }
 }
-

@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/utils/db";
 import type { NextApiRequest, NextApiResponse } from "next/types";
 
-export default async function POST(req: NextApiRequest, resp:NextApiResponse ) {
+export default async function POST(req: NextApiRequest, resp: NextApiResponse) {
   try {
     const { signature, signerAddress, transactionId } = await req.body;
 
