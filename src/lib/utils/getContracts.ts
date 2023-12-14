@@ -10,7 +10,7 @@ import {
 
 export const provider = new providers.JsonRpcProvider(BUNDLER_RPC_URL);
 
-export const signer = new Wallet("your_private_key_string", provider);
+export const signer = new Wallet(process.env.PRIVATE_KEY, provider);
 
 export const entryPointContract = new Contract(
   Constants.ERC4337.EntryPoint,

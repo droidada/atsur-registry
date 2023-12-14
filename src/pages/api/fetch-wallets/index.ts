@@ -1,10 +1,10 @@
 import { prisma } from "@/lib/utils/db";
 import { isAddress } from "ethers/lib/utils";
-import { NextRequest, NextResponse } from "next/server";
+import type { NextApiRequest, NextApiResponse } from "next/types";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(req: NextRequest) {
+export default async function GET(req: NextApiRequest, resp: NextApiResponse) {
   try {
     const { searchParams } = new URL(req.url);
     const address = searchParams.get("address");
@@ -19,22 +19,22 @@ export async function GET(req: NextRequest) {
 
     const wallets = await prisma.wallet.findMany({
       where: {
-        // signers: {
-        //   has: address.toLowerCase(),
-        // },
+        signers: {
+          array_contains: address.toLowerCase(),
+        },
       },
       include: {
         _count: {
-          // select: {
-          //   transactions: true,
-          // },
+          select: {
+           // transactions: true,
+          },
         },
       },
     });
 
-    return NextResponse.json(wallets);
+    return resp.status(200).json(wallets);
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error });
+    return resp.status(200).json({ error });
   }
 }

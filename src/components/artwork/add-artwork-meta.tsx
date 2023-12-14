@@ -24,7 +24,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useAuthContext } from "@/providers/auth.context";
 
-const AddArtworkMeta = ({ activeStep, setActiveStep, setCompleted }) => {
+const AddArtworkMeta = ({ activeStep = true, setActiveStep = ({})=>{}, setCompleted = ({})=>{} }) => {
   const artworkSchema = object({
     title: string().nonempty("First name is required"),
     type: string().nonempty("type is required"),
@@ -87,7 +87,7 @@ const AddArtworkMeta = ({ activeStep, setActiveStep, setCompleted }) => {
       autoComplete="off"
       noValidate
       onSubmit={handleSubmit(onSubmitHandler)}
-      sx={{ mt: 1, width: 600 }}
+      sx={{ mt: 1, width: 500 }}
       display="grid"
       gridTemplateColumns="repeat(12, 1fr)"
       gap={1}
