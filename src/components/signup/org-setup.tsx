@@ -348,7 +348,7 @@ const CompanySetup = ({
           ) : (
             <>
               <Typography component="h1" variant="h6">
-                We see you represent a {ROLE_IDS_TO_ROLES[user.role]}.
+                We see you are an {ROLE_IDS_TO_ROLES[user.role]}.
               </Typography>
               <Typography component="h1" variant="h6">
                 Please search for your gallery to join.

@@ -4,7 +4,7 @@ import React, { use, useEffect, useState } from "react";
 import { useConnect } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import CuratorsPick from "@/components/curatorsPick";
-import Layout from "@/components/layout/layout";
+import DashbordLayout from "@/components/layout/dashboard-layout";
 import CardMembershipIcon from "@mui/icons-material/CardMembership";
 import WorkOutlineIcon from "@mui/icons-material/WorkOutline";
 import {
@@ -16,12 +16,11 @@ import {
 } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
 import Image from "next/image";
-import RequestInfo from "@/components/artwork/RequestInfo";
-import ContactGallery from "@/components/artwork/ContactGallery";
 import { TransakConfig, Transak } from "@transak/transak-sdk";
 import { defaultTransakConfig } from "@/lib/utils/transkConfig";
 import { useAuthContext } from "@/providers/auth.context";
 import { useRouter } from "next/router";
+import EditMetadata from "@/components/artwork/EditMetadata";
 
 const Artwork = ({ data }) => {
   // const [data, setData] = useState<any>();
@@ -75,9 +74,8 @@ const Artwork = ({ data }) => {
     handleDotClick(newSlide); // Call handleDotClick when slide changes
   };
 
-  const totalSlides = 3;
 
-  const buy = async () => {
+  const mint = async () => {
     try {
       if (!user) {
         alert("you need to be logged in to buy. Please login.");
@@ -93,7 +91,7 @@ const Artwork = ({ data }) => {
       };
 
       const transak = new Transak(transakConfig);
-      transak.init();
+      //transak.init();
       // alert("transk onboading and on-ramping stuff here...");
       router.push("/wallet/74899349834938");
     } catch (error) {
@@ -102,7 +100,7 @@ const Artwork = ({ data }) => {
   };
 
   return (
-    <Layout>
+    <DashbordLayout>
       <div className="p-10 flex flex-col gap-6">
         <div className="mb-12 grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div className="w-full px-[50px] py-0">
@@ -167,8 +165,9 @@ const Artwork = ({ data }) => {
             </div>
             <div className="flex items-center gap-3">
               <CardMembershipIcon />
-              <p>Includes a</p>
-              <p className="underline">Certificate of authenticity</p>
+              <p>UNVERIFIED</p>
+              {/* <p>Includes a</p>
+              <p className="underline">Certificate of authenticity</p> */}
             </div>
             <div className="text-[16px] font-normal mt-5">
               <div
@@ -182,44 +181,23 @@ const Artwork = ({ data }) => {
                 className="border border-solid border-black px-12 py-5"
                 onClick={handleOpenRequestInfo}
               >
-                Request Info
+                Edit Metadata
               </button>
               <button
                 className="border border-solid border-black px-12 py-5"
-                onClick={handleOpenContactGallery}
+                onClick={mint}
               >
-                Contact Gallery
-              </button>
-              <button
-                className="border border-solid border-black px-12 py-5"
-                onClick={buy}
-              >
-                Buy
+                Mint
               </button>
             </div>
           </div>
         </div>
-        {data?.artists &&
-          data?.artists.map((artist: any, idx) => (
-            <CuratorsPick
-              key={idx}
-              artist_id={data.id}
-              data={artist}
-              title={`Other works from ${artist?.directus_users_id?.first_name} ${artist?.directus_users_id?.last_name}`}
-              length={6}
-            />
-          ))}
-        {/* <CuratorsPick title={"Other works from Minne Atairu"} length={4} /> */}
       </div>
-      <RequestInfo
+      <EditMetadata
         open={openRequestInfo}
         handleClose={handleCloseRequestInfo}
       />
-      <ContactGallery
-        open={openContactGallery}
-        handleClose={handleCloseContactGallery}
-      />
-    </Layout>
+    </DashbordLayout>
   );
 };
 const decimalToMixedNumber = (decimal) => {

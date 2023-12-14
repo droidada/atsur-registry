@@ -409,6 +409,7 @@ model directus_users {
   email_notifications                                                            Boolean?                      @default(true)
   bio                                                                            String?
   gender                                                                         String?                       @db.VarChar(255)
+  isOnboarded                                                                    Boolean?                      @default(false)
   appraisals_appraisals_appraiserTodirectus_users                                appraisals[]                  @relation("appraisals_appraiserTodirectus_users")
   appraisals_appraisals_created_byTodirectus_users                               appraisals[]                  @relation("appraisals_created_byTodirectus_users")
   appraisals_appraisals_updated_byTodirectus_users                               appraisals[]                  @relation("appraisals_updated_byTodirectus_users")
@@ -703,6 +704,8 @@ model wallet {
   hostaddress                                        String?         @db.VarChar(255)
   isFactoryWallet                                    Boolean?        @default(false)
   isDeployed                                         Boolean?        @default(false)
+  salt                                               String?         @db.VarChar(255)
+  signers                                            Json?           @db.Json
   transaction_transaction_walletTowallet             transaction[]   @relation("transaction_walletTowallet")
   directus_users_wallet_user_createdTodirectus_users directus_users? @relation("wallet_user_createdTodirectus_users", fields: [user_created], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "wallet_user_created_foreign")
   directus_users_wallet_userTodirectus_users         directus_users  @relation("wallet_userTodirectus_users", fields: [user], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "wallet_user_foreign")

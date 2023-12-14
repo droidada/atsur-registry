@@ -32,17 +32,46 @@ export interface IUser {
   email: string;
   first_name?: string;
   last_name?: string;
+  gender?: string;
   description?: string;
+  bio?: string;
   role: string;
-  token: string;
+  token?: string;
   status?: string;
-  isProfileSetup: boolean;
+  isOnboarded: boolean;
   wallets: IWallet[];
+  artworks: IWallet[];
+  organizations: IOrganization[];
 }
 
 export interface IWallet {
-  first_name?: string;
-  last_name?: string;
-  description?: string;
-  isProfileSetup: boolean;
+  salt?: string;
+  address: string;
+  isDeployed: boolean;
+  isFactoryWallet: boolean;
+  signers: string[];
+  hostaddress: string;
+}
+
+export interface IEntry {
+  artwork_title: string;
+  series_title?: string;
+  record_type: string;
+  description: string;
+  subject_matter?: string;
+  height?: number;
+  width?: number;
+  depth?: number;
+  weight?: number;
+  materials?: string[];
+  mediums?: string[];
+}
+export interface IOrganization {
+  name: string;
+  type: string;
+  email: string;
+  description: string;
+  specialties: string[];
+  address: string;
+  owners: IUser[];
 }

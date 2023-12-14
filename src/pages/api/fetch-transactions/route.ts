@@ -26,12 +26,12 @@ export async function GET(req: NextRequest) {
     const transactions = await prisma.transaction.findMany({
       where: {
         wallet: {
-          //  address: walletAddress,
+          address: walletAddress,
         },
       },
       include: {
-        //  signatures: true,
-        // wallet: true,
+        signatures: true,
+        wallet: true,
       },
       orderBy: {
         txHash: {
@@ -41,24 +41,24 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    // const augmentedTransactions: TransactionWithSignatures[] = transactions.map(
-    //   (transaction) => {
-    //     const pendingSigners = transaction.wallet.signers.filter(
-    //       (signer) =>
-    //         !transaction.signatures.find(
-    //           (signature) => signature.signerAddress === signer,
-    //         ),
-    //     );
+    const augmentedTransactions: TransactionWithSignatures[] = transactions.map(
+      (transaction) => {
+        const pendingSigners = transaction.wallet.signers.filter(
+          (signer) =>
+            !transaction.signatures.find(
+              (signature) => signature.signerAddress === signer,
+            ),
+        );
 
-    //     return {
-    //       ...transaction,
-    //       pendingSigners,
-    //     };
-    //   },
-    // );
+        return {
+          ...transaction,
+          pendingSigners,
+        };
+      },
+    );
 
-    //  return NextResponse.json({ transactions: augmentedTransactions });
-    return NextResponse.json({ success: "yes" });
+    return NextResponse.json({ transactions: augmentedTransactions });
+    //  return NextResponse.json({ success: "yes" });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error });
