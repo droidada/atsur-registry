@@ -74,7 +74,6 @@ const Artwork = ({ data }) => {
     handleDotClick(newSlide); // Call handleDotClick when slide changes
   };
 
-
   const mint = async () => {
     try {
       if (!user) {

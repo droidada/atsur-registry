@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/utils/db";
 import { isAddress } from "ethers/lib/utils";
-import { NextRequest, NextResponse } from "next/server";
+import type { NextApiRequest, NextApiResponse } from "next/types";
 import { transaction, transaction_signature, wallet } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
@@ -10,7 +10,7 @@ export type TransactionWithSignatures = transaction & {
   pendingSigners: string[];
 };
 
-export async function GET(req: NextRequest) {
+export async function GET(req: NextApiRequest, resp: NextApiResponse) {
   try {
     const { searchParams } = new URL(req.url);
     const walletAddress = searchParams.get("walletAddress");
@@ -26,12 +26,13 @@ export async function GET(req: NextRequest) {
     const transactions = await prisma.transaction.findMany({
       where: {
         wallet: {
-          address: walletAddress,
+          //  address: walletAddress,
         },
       },
       include: {
-        signatures: true,
-        wallet: true,
+        transaction_signature_transaction_signature_transactionTotransaction:
+          true,
+        wallet_transaction_walletTowallet: true,
       },
       orderBy: {
         txHash: {
@@ -41,26 +42,26 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    const augmentedTransactions: TransactionWithSignatures[] = transactions.map(
-      (transaction) => {
-        const pendingSigners = transaction.wallet.signers.filter(
-          (signer) =>
-            !transaction.signatures.find(
-              (signature) => signature.signerAddress === signer,
-            ),
-        );
+    // const augmentedTransactions: TransactionWithSignatures[] = transactions.map(
+    //   (transaction) => {
+    //     const pendingSigners = transaction.wallet.signers.filter(
+    //       (signer) =>
+    //         !transaction.signatures.find(
+    //           (signature) => signature.signerAddress === signer,
+    //         ),
+    //     );
 
-        return {
-          ...transaction,
-          pendingSigners,
-        };
-      },
-    );
+    //     return {
+    //       ...transaction,
+    //       pendingSigners,
+    //     };
+    //   },
+    // );
 
-    return NextResponse.json({ transactions: augmentedTransactions });
-    //  return NextResponse.json({ success: "yes" });
+    //return NextResponse.json({ transactions: augmentedTransactions });
+    return resp.status(200).json({ success: "yes" });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error });
+    return resp.status(500).json({ error });
   }
 }

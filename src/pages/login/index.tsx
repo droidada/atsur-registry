@@ -87,7 +87,7 @@ function Login() {
         return;
       }
 
-      if (usr.ok && !user?.isProfileSetup) {
+      if (usr.ok && !user?.isOnboarded) {
         router.replace("/profile/setup");
         return;
       }

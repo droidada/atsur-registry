@@ -4,11 +4,19 @@ import type { NextApiRequest, NextApiResponse } from "next/types";
 
 export default async function POST(req: NextApiRequest, resp: NextApiResponse) {
   try {
-    const
-    { walletAddress, userOp, signerAddress, signature, walletId }
-    : { walletAddress: string, userOp: string, signerAddress: string, signature: string, walletId: number} =
-      req.body;
-
+    const {
+      walletAddress,
+      userOp,
+      signerAddress,
+      signature,
+      walletId,
+    }: {
+      walletAddress: string;
+      userOp: string;
+      signerAddress: string;
+      signature: string;
+      walletId: number;
+    } = req.body;
 
     if (!isAddress(walletAddress)) throw new Error("Invalid walletAddress");
 
