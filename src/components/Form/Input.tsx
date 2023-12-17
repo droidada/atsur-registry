@@ -29,7 +29,7 @@ const Input = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className={`border border-[#D5D6DE] rounded-lg p-2 w-[441px] px-[14px] py-[12px]  ${className}`}
+        className={`border border-[#D5D6DE] focus:border-0 focus:outline-0 rounded-lg p-2 w-[441px] px-[14px] py-[12px]  ${className}`}
         {...props}
       />
     </div>

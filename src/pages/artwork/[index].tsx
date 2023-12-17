@@ -22,9 +22,15 @@ import { TransakConfig, Transak } from "@transak/transak-sdk";
 import { defaultTransakConfig } from "@/lib/utils/transkConfig";
 import { useAuthContext } from "@/providers/auth.context";
 import { useRouter } from "next/router";
+import { Dialog } from "@mui/material";
+import { ClickAwayListener } from "@mui/base/ClickAwayListener";
+import ConfirmPurchase from "@/components/artwork/ConfirmPurchase";
+import ConfirmSuccess from "@/components/artwork/ConfirmSuccess";
 
 const Artwork = ({ data }) => {
-  // const [data, setData] = useState<any>();
+  const [open, setOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
   // const axiosAuth = useAxiosAuth();
   // useEffect(() => {
 
@@ -83,24 +89,41 @@ const Artwork = ({ data }) => {
         alert("you need to be logged in to buy. Please login.");
         return;
       }
+      setOpen(true);
+      // const transakConfig: TransakConfig = {
+      //   ...defaultTransakConfig,
+      //   // .....
+      //   fiatAmount: 130,
+      //   partnerCustomerId: user.id,
+      //   email: user.email,
+      // };
 
-      const transakConfig: TransakConfig = {
-        ...defaultTransakConfig,
-        // .....
-        fiatAmount: 130,
-        partnerCustomerId: user.id,
-        email: user.email,
-      };
-
-      const transak = new Transak(transakConfig);
-      transak.init();
+      // const transak = new Transak(transakConfig);
+      // transak.init();
       // alert("transk onboading and on-ramping stuff here...");
-      router.push("/wallet/74899349834938");
+      // router.push("/wallet/74899349834938");
     } catch (error) {
       console.log("error activating metamask ", error);
     }
   };
 
+  const simulateLoading = () => {
+    // Set loading state to true
+    setLoading(true);
+
+    // Simulate loading for 2 seconds
+    setTimeout(() => {
+      // After 2 seconds, set loading state to false and show success modal
+      setOpen(false);
+      setLoading(false);
+      setShowModal(true);
+
+      // Reset modal after 3 seconds
+      setTimeout(() => {
+        setShowModal(false);
+      }, 3000);
+    }, 2000);
+  };
   return (
     <Layout>
       <div className="p-10 flex flex-col gap-6">
@@ -218,6 +241,17 @@ const Artwork = ({ data }) => {
       <ContactGallery
         open={openContactGallery}
         handleClose={handleCloseContactGallery}
+      />
+      <ConfirmPurchase
+        open={open}
+        handleClose={() => setOpen(false)}
+        handleSubmit={simulateLoading}
+        name={data?.artwork_title}
+        loading={loading}
+      />
+      <ConfirmSuccess
+        open={showModal}
+        handleClose={() => setShowModal(false)}
       />
     </Layout>
   );
