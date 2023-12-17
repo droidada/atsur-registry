@@ -12,6 +12,7 @@ import {
   Box,
   Grid,
   Typography,
+  Button,
 } from "@mui/material";
 import { literal, object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -150,13 +151,14 @@ function Login() {
               label="Email"
               fullWidth
               required
+              variant="outlined"
               type="email"
               error={!!errors["email"]}
               helperText={errors["email"] ? errors["email"].message : ""}
               {...register("email")}
             />
             <TextField
-              // className="border border-[#D5D6DE] rounded-lg p-2 w-[441px] px-[14px] py-[12px"
+              // className="border border-[#D5D6DE] rounded-lg p-2 w-[441px] px-[14px] py-[12px]"
               sx={{ mb: 2 }}
               label="Password"
               fullWidth
@@ -170,7 +172,8 @@ function Login() {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
-            <LoadingButton
+            <div />
+            {/* <LoadingButton
               // className="w-fit cursor-pointer rounded-lg px-[12px] py-[8px] text-center bg-black text-white"
               variant="contained"
               fullWidth
@@ -179,16 +182,21 @@ function Login() {
               sx={{ mt: 3, mb: 2, p: 2 }}
             >
               Login
-            </LoadingButton>
-
+            </LoadingButton> */}
+            <button
+              type="submit"
+              className="bg-black p-3 w-full text-white rounded-lg my-3"
+            >
+              Login
+            </button>
             {/* <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Sign In
-          </Button> */}
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Login
+            </Button> */}
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
