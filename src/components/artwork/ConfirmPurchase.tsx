@@ -39,7 +39,7 @@ const ConfirmPurchase = ({
         </Backdrop>
       ) : (
         <Dialog open={open} onClose={handleClose}>
-          <div className="w-[400px] flex flex-col relative p-2">
+          <div className="w-[350px] flex flex-col relative p-2">
             <button
               onClick={handleClose}
               className="bg-black w-[36px] rounded-md self-end h-[36px] text-white"
@@ -63,16 +63,16 @@ const ConfirmPurchase = ({
 
               <div className="flex justify-between items-center">
                 <Typography className="text-sm">Art Price: </Typography>
-                <Typography className="text-sm">23,815.00</Typography>
+                <Typography className="text-sm">3,815.00 <b>cUSD</b></Typography>
               </div>
               <div className="flex justify-between items-center">
                 <Typography className="text-sm">Network fee: </Typography>
-                <Typography className="text-sm">523.00</Typography>
+                <Typography className="text-sm">23.00 <b>cUSD</b></Typography>
               </div>
               <Divider />
               <div className="flex justify-between items-center">
                 <Typography className="text-sm">Total: </Typography>
-                <Typography className="text-sm">24,338.00</Typography>
+                <Typography className="text-sm">3,838.00 <b>cUSD</b></Typography>
               </div>
             </DialogContent>
             <DialogActions>

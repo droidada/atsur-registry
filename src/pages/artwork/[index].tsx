@@ -117,7 +117,8 @@ const Artwork = ({ data }) => {
       setOpen(false);
       setLoading(false);
       setShowModal(true);
-
+      router.push("/");
+      
       // Reset modal after 3 seconds
       setTimeout(() => {
         setShowModal(false);
@@ -126,9 +127,9 @@ const Artwork = ({ data }) => {
   };
   return (
     <Layout>
-      <div className="p-10 flex flex-col gap-6">
+      <div className="p-2 flex flex-col gap-6">
         <div className="mb-12 grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div className="w-full px-[50px] py-0">
+          <div className="w-full py-0">
             <CarouselProvider
               naturalSlideWidth={90}
               naturalSlideHeight={90}
@@ -144,11 +145,11 @@ const Artwork = ({ data }) => {
                   <Slide key={idx} index={asset}>
                     <Image
                       alt={data?.artwork_title || "title"}
-                      width={600}
+                      width={900}
                       priority={true}
-                      height={600}
+                      height={900}
                       className="w-full h-[100%]"
-                      src={`${process.env.NEXT_PUBLIC_DIRECTUS_API_ENDPOINT}assets/${asset?.directus_files_id}?width=600`}
+                      src={`${process.env.NEXT_PUBLIC_DIRECTUS_API_ENDPOINT}assets/${asset?.directus_files_id}?width=900`}
                     />
                   </Slide>
                 ))}
@@ -168,7 +169,7 @@ const Artwork = ({ data }) => {
             </CarouselProvider>
           </div>
 
-          <div>
+          <div className="p-5">
             <h3 className="text-[24px] font-normal">{data?.artwork_title}</h3>
             <h3 className="text-[24px] font-normal">{data?.series_title}</h3>
             <p className="text-[16px] font-normal mt-5">
@@ -207,12 +208,12 @@ const Artwork = ({ data }) => {
               >
                 Request Info
               </button>
-              <button
+              {/* <button
                 className="border border-solid border-black px-12 py-5"
                 onClick={handleOpenContactGallery}
               >
                 Contact Gallery
-              </button>
+              </button> */}
               <button
                 className="border border-solid border-black px-12 py-5"
                 onClick={buy}

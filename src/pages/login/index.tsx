@@ -120,7 +120,7 @@ function Login() {
             my: 45,
             mx: 4,
             p: 5,
-            px: 22,
+            // px: 22,
             display: "flex",
             flexDirection: "column",
             // alignItems: "center",
