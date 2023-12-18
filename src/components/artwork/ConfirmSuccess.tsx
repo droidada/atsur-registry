@@ -28,7 +28,9 @@ const ConfirmSuccess = ({ open, handleClose }) => {
         </DialogTitle>
         <DialogContent className="flex flex-col gap-6">
           <p className="text-center text-sm mb-8">
-            Congratulations you have successfully purchased the artwork.
+            Congratulations you have successfully submitted a purchase request
+            for this artwork. Check your email and we will get back to you with
+            next steps.
           </p>
         </DialogContent>
         <DialogActions>

@@ -85,10 +85,10 @@ const Artwork = ({ data }) => {
 
   const buy = async () => {
     try {
-      if (!user) {
-        alert("you need to be logged in to buy. Please login.");
-        return;
-      }
+      // if (!user) {
+      //   alert("you need to be logged in to buy. Please login.");
+      //   return;
+      // }
       setOpen(true);
       // const transakConfig: TransakConfig = {
       //   ...defaultTransakConfig,
@@ -117,12 +117,11 @@ const Artwork = ({ data }) => {
       setOpen(false);
       setLoading(false);
       setShowModal(true);
-      router.push("/");
-      
+
       // Reset modal after 3 seconds
-      setTimeout(() => {
-        setShowModal(false);
-      }, 3000);
+      // setTimeout(() => {
+      //   setShowModal(false);
+      // }, 3000);
     }, 2000);
   };
   return (
@@ -252,7 +251,10 @@ const Artwork = ({ data }) => {
       />
       <ConfirmSuccess
         open={showModal}
-        handleClose={() => setShowModal(false)}
+        handleClose={() => {
+          setShowModal(false);
+          router.push("/");
+        }}
       />
     </Layout>
   );

@@ -63,16 +63,22 @@ const ConfirmPurchase = ({
 
               <div className="flex justify-between items-center">
                 <Typography className="text-sm">Art Price: </Typography>
-                <Typography className="text-sm">3,815.00 <b>cUSD</b></Typography>
+                <Typography className="text-sm">
+                  3,815.00 <b>cUSD</b>
+                </Typography>
               </div>
               <div className="flex justify-between items-center">
                 <Typography className="text-sm">Network fee: </Typography>
-                <Typography className="text-sm">23.00 <b>cUSD</b></Typography>
+                <Typography className="text-sm">
+                  23.00 <b>cUSD</b>
+                </Typography>
               </div>
               <Divider />
               <div className="flex justify-between items-center">
                 <Typography className="text-sm">Total: </Typography>
-                <Typography className="text-sm">3,838.00 <b>cUSD</b></Typography>
+                <Typography className="text-sm">
+                  3,838.00 <b>cUSD</b>
+                </Typography>
               </div>
             </DialogContent>
             <DialogActions>
