@@ -15,7 +15,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 const ConfirmSuccess = ({ open, handleClose }) => {
   return (
     <Dialog open={open} onClose={handleClose}>
-      <div className="w-[400px] flex flex-col relative p-4">
+      <div className="w-[350px] flex flex-col relative p-4">
         {/* <button
           onClick={handleClose}
           className="bg-black w-[36px] rounded-md self-end h-[36px] text-white"
