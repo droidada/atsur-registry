@@ -68,7 +68,7 @@ const AddArtworkSeries = ({ activeStep, setActiveStep, setCompleted }) => {
     setLoading(true);
     try {
       console.log(values);
-      //   const res = await axiosAuth.patch("users/me", { ...values });
+      //   const res = await axiosAuth.patch("user/me", { ...values });
       //   console.log(res?.data);
       setActiveStep(1);
       setCompleted({ 0: true });

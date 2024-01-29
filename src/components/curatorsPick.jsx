@@ -65,7 +65,7 @@ const CuratorsPick = ({ artist_id, title, length, data }) => {
               <div key={idx}>
                 <Link href={`/artwork/${item?.entry_id?.id}`}>
                   <Image
-                    src={`${process.env.NEXT_PUBLIC_DIRECTUS_API_ENDPOINT}assets/${item?.entry_id?.assets[0]?.directus_files_id}?width=200`}
+                    src={`${process.env.NEXT_PUBLIC_API_ENDPOINT}assets/${item?.entry_id?.assets[0]?.directus_files_id}?width=200`}
                     alt={item?.entry_id?.artwork_title || "art"}
                     className="w-full h-[259px]"
                     width={200}

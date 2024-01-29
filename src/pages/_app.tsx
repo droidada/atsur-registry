@@ -15,6 +15,11 @@ import "@/styles/globals.css";
 import ThemeProvider from "@/styles/theme";
 import { ProtectedLayout } from "@/components/protected-layout";
 
+import Preloader from "@/open9/elements/Preloader"
+import AddClassBody from "@/open9/elements/AddClassBody"
+import "/public/assets/css/style.css"
+import "/public/assets/css/responsive.css"
+
 type AppPropsWithAuth = NextPage & {
   requiresAuth?: boolean;
   redirectUnauthenticatedTo?: string;
@@ -68,6 +73,7 @@ export default function NextWeb3App({
             {Component.requireAuth ? (
               <ProtectedLayout>
                 <ThemeProvider>
+                  <AddClassBody />
                   <Component {...pageProps} />
                 </ThemeProvider>
               </ProtectedLayout>

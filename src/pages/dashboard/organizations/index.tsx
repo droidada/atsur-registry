@@ -13,7 +13,7 @@ function Organizations() {
     const fetchOrganizations = async () => {
       try {
         const res = await axiosAuth(
-          "users/me?fields=organizations,organizations.organization_id.*,organizations.organization_id.assets.*, organizations.organization_id.asset_files.*",
+          "user/me?fields=organizations,organizations.organization_id.*,organizations.organization_id.assets.*, organizations.organization_id.asset_files.*",
         );
         const data = res.data;
         setEntries(data.data.organizations);
@@ -48,7 +48,7 @@ function Organizations() {
                 <Image
                   src={
                     item.assets
-                      ? `${process.env.NEXT_PUBLIC_DIRECTUS_API_ENDPOINT}assets/${item.assets[0]?.directus_files_id}?height=259`
+                      ? `${process.env.NEXT_PUBLIC_API_ENDPOINT}assets/${item.assets[0]?.directus_files_id}?height=259`
                       : DefaultOrg
                   }
                   alt={item.artwork_title || `art`}

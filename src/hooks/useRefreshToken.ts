@@ -3,7 +3,8 @@
 import axios from "axios";
 import { signIn, useSession } from "next-auth/react";
 import Cookies from "js-cookie";
-const BASE_URL = "https://directus-admin-service-mr73ptziua-uc.a.run.app/";
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 export const useRefreshToken = () => {
   const { data: session, update } = useSession();
@@ -17,8 +18,8 @@ export const useRefreshToken = () => {
     const refreshToken =
       session?.user?.refreshToken || Cookies.get("refreshToken");
     if (refreshToken) {
-      await axios.post(`${BASE_URL}auth/refresh`, {
-        refresh_token: refreshToken,
+      await axios.post(`${BASE_URL}auth/token`, {
+        refreshToken: refreshToken,
         mode: "json",
       });
     }

@@ -47,7 +47,7 @@ export function AuthContextProvider({ children }: any) {
   const fetchUser = async (): Promise<void> => {
     try {
       setLoading(true);
-      const res = await axiosAuth.get("users/me");
+      const res = await axiosAuth.get("user/me");
       const data = res.data.data;
       console.log("we have current user here ", data);
       setUser(data);
@@ -88,7 +88,7 @@ export function AuthContextProvider({ children }: any) {
 
   const updateUserProfile = async (info: IUser): Promise<void> => {
     setLoading(true);
-    const res = await axiosAuth.patch("users/me", {
+    const res = await axiosAuth.patch("user/me", {
       ...info,
       isProfileSetup: true,
     });
