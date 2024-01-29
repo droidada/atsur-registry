@@ -17,7 +17,7 @@ export default async (req: NextApiRequest, resp: NextApiResponse<Data>) => {
     console.log("token he rei s", token);
     console.log("password he rei s", password);
 
-    const baseUrl = process.env.NEXT_PUBLIC_DIRECTUS_API_ENDPOINT;
+    const baseUrl = process.env.NEXT_PUBLIC_API_ENDPOINT;
     const serviceResponse = await axios.post(`${baseUrl}users/invite/accept`, {
       token,
       password,

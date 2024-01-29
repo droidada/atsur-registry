@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_URL = "https://directus-admin-service-mr73ptziua-uc.a.run.app/";
+const BASE_URL = process.env.NEXT_PUBLIC_API_ENDPOINT;
 export default axios.create({
   baseURL: BASE_URL,
   headers: { "Content-Type": "application/json" },

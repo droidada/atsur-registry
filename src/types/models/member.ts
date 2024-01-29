@@ -30,15 +30,15 @@ export interface IMember {
 export interface IUser {
   id: string;
   email: string;
-  first_name?: string;
-  last_name?: string;
+  firstName?: string;
+  lastName?: string;
   gender?: string;
   description?: string;
   bio?: string;
   role: string;
   token?: string;
   status?: string;
-  isOnboarded: boolean;
+  onboarded: boolean;
   wallets: IWallet[];
   artworks: IWallet[];
   organizations: IOrganization[];

@@ -47,7 +47,7 @@ function Artworks() {
             <div key={idx}>
               <Link href={"/dashboard/artworks/" + item.id}>
                 <Image
-                  src={`${process.env.NEXT_PUBLIC_DIRECTUS_API_ENDPOINT}assets/${item.assets[0]?.directus_files_id}?height=259`}
+                  src={`${process.env.NEXT_PUBLIC_API_ENDPOINT}assets/${item.assets[0]?.directus_files_id}?height=259`}
                   alt={item.artwork_title || `art`}
                   className="w-full h-[259px]"
                   width={300}

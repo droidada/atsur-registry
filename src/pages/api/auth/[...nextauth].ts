@@ -6,7 +6,7 @@ import axios from "axios";
 
 dotenv.config();
 
-const pubAPI = process.env.DIRECTUS_API_ENDPOINT;
+const pubAPI = process.env.API_ENDPOINT;
 
 export const options: any = {
   providers: [
@@ -27,7 +27,7 @@ export const options: any = {
         //   mode: "json",
         // });
 
-        const res = await fetch(pubAPI + "auth/login", {
+        const res = await fetch(pubAPI + "/auth/login", {
           method: "POST",
           body: JSON.stringify(payload),
           headers: { "Content-Type": "application/json" },
@@ -36,11 +36,11 @@ export const options: any = {
         const user = await res.json();
 
         console.log("response data here ", user);
-        if (!user.data.access_token) {
+        if (!user.accessToken) {
           throw new Error("Email or password incorrect.");
         }
 
-        if (user.data && user.data.access_token) {
+        if (user && user.accessToken) {
           return user;
         }
 
@@ -53,13 +53,12 @@ export const options: any = {
   },
   callbacks: {
     async jwt({ token, user, account }) {
+      console.log(`token: ${token}`)
       if (account && user) {
+        console.log(`account: ${account} && user ${user}`)
         return {
           ...token,
-          accessToken: user.data.access_token,
-          expires: Date.now() + user.data.expires,
-          refreshToken: user.data.refresh_token,
-          error: user.data.error,
+          user: user,
         };
       }
 
@@ -72,9 +71,11 @@ export const options: any = {
     },
 
     async session({ session, token }) {
-      session.user.accessToken = token?.accessToken;
-      session.user.refreshToken = token?.refreshToken;
-      session.user.expires = token?.expires;
+      console.log("session=================")
+      console.log(`session: ${JSON.stringify(session)}  token: ${JSON.stringify(token)}`)
+      session.user.accessToken = token?.user.accessToken;
+      session.user.refreshToken = token?.user.user.refreshToken;
+      session.user.expires = token?.user.user.expires;
       session.user.error = token?.error;
 
       return session;
@@ -89,32 +90,30 @@ export const options: any = {
 
 async function refreshAccessToken(token) {
   try {
-    const res = await fetch(pubAPI + "auth/refresh", {
+    const res = await fetch(pubAPI + "/auth/token", {
       method: "POST",
       body: JSON.stringify({
-        refresh_token: token?.refreshToken,
+        refreshToken: token?.refreshToken,
       }),
       headers: {
         "Content-Type": "application/json",
-        // Authorization: `Bearer ${token?.accessToken}`,
       },
-      // credentials: "include",
+       credentials: "include",
     });
     const response = await res.json();
 
-    const refreshedTokens = await response.data;
-    console.log("refreshed tokens ", refreshedTokens);
+    console.log("refreshed tokens ", response);
 
     if (!response.ok) {
       signIn();
     }
 
-    if (response.ok && refreshedTokens) {
+    if (response) {
       return {
         ...token,
-        accessToken: refreshedTokens?.access_token,
-        expires: Date.now() + refreshedTokens?.expires,
-        refreshToken: refreshedTokens?.refresh_token,
+        accessToken: response?.accessToken,
+        expires: Date.now() + response?.expires,
+        refreshToken: response?.refreshToken,
       };
     }
   } catch (error) {

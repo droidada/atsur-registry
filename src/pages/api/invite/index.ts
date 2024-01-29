@@ -18,7 +18,7 @@ export default async (req: NextApiRequest, resp: NextApiResponse<Data>) => {
   console.log("we have a role emum here ", ROLES_TO_IDS);
   console.log("we have a role id here ", ROLES_TO_IDS[role]);
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_DIRECTUS_API_ENDPOINT;
+    const baseUrl = process.env.NEXT_PUBLIC_API_ENDPOINT;
     const serviceResponse = await axios(`${baseUrl}users/invite`, {
       method: "POST",
       headers: {

@@ -1,77 +1,98 @@
-import { useEffect } from "react";
-import { Grid } from "@mui/material";
-import WidgetSummary from "@/components/nav/widget-summary";
-import NewsUpdate from "@/components/nav/news-updates";
-import DashboardLayout from "@/components/layout/dashboard-layout";
+import ActiveBid from "@/open9/sections/ActiveBid"
+import Collection from "@/open9/sections/Collection"
+import Create from "@/open9/sections/Create"
+import Explore from "@/open9/sections/Explore"
+import Favourite from "@/open9/sections/Favourite"
+import History from "@/open9/sections/History"
+import Market from "@/open9/sections/Market"
+import Settings from "@/open9/sections/Settings"
+import Wallet from "@/open9/sections/Wallet"
+import DashboardLayout from "@/open9/layout/DashboardLayout"
+import Link from "next/link"
+import { useState } from "react"
 
-function Dashboard() {
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+export default function Home() {
 
-  return (
-    <DashboardLayout>
-      <Grid
-        container
-        spacing={2}
-        columnSpacing={3}
-        xs={12}
-        sm={8}
-        md={12}
-        px={10}
-      >
-        {/* <Grid container> */}
-        <Grid item spacing={0.5} xs={12} sm={6} md={3}>
-          <WidgetSummary
-            title="Total Artists"
-            total={2}
-            color="success"
-            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
-          />
-        </Grid>
-        <Grid item spacing={0.5} xs={12} sm={6} md={3}>
-          <WidgetSummary
-            title="Total Artworks"
-            total={2}
-            color="info"
-            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
-          />
-        </Grid>
-        <Grid item spacing={0.5} xs={12} sm={6} md={3}>
-          <WidgetSummary
-            title="Total Contracts"
-            total={2}
-            color="info"
-            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
-          />
-        </Grid>
-        <Grid item spacing={0.5} xs={12} sm={6} md={3}>
-          <WidgetSummary
-            title="Total Sales"
-            total={2}
-            color="info"
-            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
-          />
-        </Grid>
-        {/* </Grid> */}
-        {/* <h2>Dashboard</h2><br /> */}
-        <Grid xs={12} md={8} lg={12} mt={4}>
-          <NewsUpdate
-            title="Activities Update"
-            subheader="See all your account activity updates"
-            list={[...Array(5)].map((_, index) => ({
-              id: "5268263738",
-              title: "Person Name",
-              description: "A new person  here",
-              // image: `/assets/images/covers/cover_${index + 1}.jpg`,
-              postedAt: 5268263738,
-            }))}
-          />
-        </Grid>
-      </Grid>
-    </DashboardLayout>
-  );
+    const [activeIndex, setActiveIndex] = useState(9)
+    const handleOnClick = (index) => {
+        setActiveIndex(index)
+    }
+
+    return (
+        <>
+            <DashboardLayout
+                handleOnClick={handleOnClick}
+                activeIndex={activeIndex}
+                >
+                {activeIndex === 9 &&
+                    <div id="create">
+                        <Create />
+                    </div>
+                }
+                {activeIndex === 1 &&
+                    <div id="market">
+                        <Market />
+                    </div>
+                }
+                {activeIndex === 2 &&
+                    <div id="bid">
+                        <ActiveBid />
+                    </div>
+                }
+                { activeIndex === 3 &&
+                    <div id="explore">
+                        <Explore />
+                    </div>
+                }
+                { activeIndex === 4 &&
+                    <div id="tf-collection">
+                        <Collection />
+                    </div>
+                }
+                { activeIndex === 5 &&
+                    <div id="favorite">
+                        <Favourite />
+                    </div>
+                }
+                { activeIndex === 6 &&
+                    <div id="wallet">
+                        <Wallet />
+                    </div>
+                }
+                { activeIndex === 7 &&
+                    <div id="history">
+                        <History />
+                    </div>
+                }
+                { activeIndex === 8 &&
+                    <div id="settings">
+                        <Settings />
+                    </div>
+                }
+            </DashboardLayout>
+            <div className="modal fade popup" id="popup_bid" tabIndex={-1} role="dialog" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered" role="document">
+                    <div className="modal-content">
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <div className="modal-body">
+                            <div className="image">
+                                <img src="assets/images/backgroup-section/popup.png" alt="" />
+                            </div>
+                            <div className="logo-rotate">
+                                <img src="assets/images/item-background/item6-img.png" alt="" />
+                            </div>
+                            <h2>Subscribe to our newsletter</h2>
+                            <p>Subscribe for our newsletter to stay in the loop</p>
+                            <fieldset className="email">
+                                <input type="email" className="style-1" id="email" placeholder="Email address*" name="email" tabIndex={2} aria-required="true" required />
+                            </fieldset>
+                            <Link href="#" className="tf-button style-1 h50">Subscribe<i className="icon-arrow-up-right2" /></Link>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+    )
 }
-
-Dashboard.requireAuth = true;
-export default Dashboard;

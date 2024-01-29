@@ -23,6 +23,9 @@ export default function ThemeProvider({ children }) {
       shadows: shadows(),
       customShadows: customShadows(),
       shape: { borderRadius: 8 },
+      background: {
+        default: '#fff'
+      },
     }),
     [],
   );

@@ -122,7 +122,7 @@ const Artwork = ({ data }) => {
                       priority={true}
                       height={600}
                       className="w-full h-[100%]"
-                      src={`${process.env.NEXT_PUBLIC_DIRECTUS_API_ENDPOINT}assets/${asset?.directus_files_id}?width=600`}
+                      src={`${process.env.NEXT_PUBLIC_API_ENDPOINT}assets/${asset?.directus_files_id}?width=600`}
                     />
                   </Slide>
                 ))}

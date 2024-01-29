@@ -38,7 +38,7 @@ const FeaturedSection = ({ data }: any) => {
               <Box key={idx}>
                 <Link href={"/artwork/" + item.id}>
                   <Image
-                    src={`${process.env.NEXT_PUBLIC_DIRECTUS_API_ENDPOINT}assets/${item.assets[0]?.directus_files_id}?width=300`}
+                    src={`${process.env.NEXT_PUBLIC_API_ENDPOINT}assets/${item.assets[0]?.directus_files_id}?width=300`}
                     width={200}
                     height={259}
                     alt="art"

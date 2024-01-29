@@ -5,6 +5,9 @@ const config = require("./src/data/config.json");
  **/
 
 module.exports = {
+  env: {
+    PUBLIC_URL: '/',
+  },
   webpack: (config, { isServer }) => {
     if (!isServer) {
       // don't resolve 'fs' module on the client to prevent this error on build --> Error: Can't resolve 'fs'
@@ -24,6 +27,7 @@ module.exports = {
   images: {
     domains: [
       "directus-admin-service-mr73ptziua-uc.a.run.app",
+      "localhost",
       "admin.atsur.art",
       "registry.atsur.art",
       "images.unsplash.com",
