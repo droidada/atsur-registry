@@ -23,6 +23,7 @@
     ],
     "paths": {
       "@/components/*": ["./src/components/*"],
+      "@/providers/*": ["./src/providers/*"],
       "@/open9/*": ["./src/components/open9/*"],
       "@/layouts/*": ["src/components/layouts/*"],
       "@/shortcodes/*": ["src/components/layouts/shortcodes/*"],
@@ -40,6 +41,6 @@
     "src/lib/axios/refreshToken.ts",
     "next-auth.d.__ts__",
     "src/styles/theme/index.jsx"
-, "src/components/open9/elements/AddClassBody.js", "src/components/open9/layout/Layout.js", "src/pages/index.jsx", "src/pages/404.jsx", "src/pages/signup/index.tsx"  ],
+, "src/components/open9/elements/AddClassBody.js", "src/components/open9/layout/Layout.js", "src/pages/index.jsx", "src/pages/404.jsx", "src/pages/signup/index.tsx", "src/components/open9/layout/DashboardLayoutWithSidebar.js"  ],
   "exclude": ["node_modules"]
 }

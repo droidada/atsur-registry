@@ -4,7 +4,7 @@ export default function Custom404() {
 
     return (
         <>
-            <Layout headerStyle={1} footerStyle={1}>
+            <Layout headerStyle={2} footerStyle={2}>
                 <div className="section-404-page relative">
                     <div className="content">
                         4<span className="tf-color">0</span>4

@@ -30,10 +30,10 @@ export default function Create() {
         setActiveIndex(index)
     }
     return (
-        <>
+        <div id="create">
             <div className="wrapper-content-create">
                 <div className="heading-section">
-                    <h2 className="tf-title pb-30">Create Art Record</h2>
+                    <h2 className="tf-title pb-30">Create Artwork</h2>
                 </div>
                 <div className="widget-tabs relative">
                     <ul className="widget-menu-tab">
@@ -263,6 +263,6 @@ export default function Create() {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     )
 }
