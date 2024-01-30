@@ -3663,6 +3663,7 @@ form label i.icon-star.active {
 
 .admin_active .popup-user .user {
     cursor: pointer;
+    display: flex;
 }
 
 .admin_active .popup-user .user img {
