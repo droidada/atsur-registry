@@ -7,7 +7,6 @@ import FlatTitle5 from "@/open9/sections/FlatTitle5"
 import Seller7 from "@/open9/sections/Seller7"
 import Seller8 from "@/open9/sections/Seller8"
 import TopCollections5 from "@/open9/sections/TopCollections5"
-import { useEffect } from "react"
 
 function Home() {
     return (

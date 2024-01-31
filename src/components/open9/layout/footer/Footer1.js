@@ -11,12 +11,12 @@ export default function Footer1() {
                                 <div className="widget-logo flex-grow">
                                     <div className="logo-footer" id="logo-footer">
                                         <Link href="/">
-                                            <img id="logo_footer" src="/assets/images/logo/logo.png" data-retina="assets/images/logo/logo@2x.png" />
+                                            <img id="logo_footer" src="/images/atsur-logo.svg" data-retina="/images/atsur-logo.svg" />
                                         </Link>
                                     </div>
                                 </div>
                                 <div className="widget widget-menu style-1">
-                                    <h5 className="title-widget">Marketplace</h5>
+                                    <h5 className="title-widget tf-color">Marketplace</h5>
                                     <ul>
                                         <li><Link href="#">All NFTs</Link></li>
                                         <li><Link href="#">Virtual worlds</Link></li>
@@ -27,7 +27,7 @@ export default function Footer1() {
                                     </ul>
                                 </div>
                                 <div className="widget widget-menu style-2">
-                                    <h5 className="title-widget">Resource</h5>
+                                    <h5 className="title-widget tf-color">Resource</h5>
                                     <ul>
                                         <li><Link href="#">Help center</Link></li>
                                         <li><Link href="#">Platform status</Link></li>
@@ -38,7 +38,7 @@ export default function Footer1() {
                                     </ul>
                                 </div>
                                 <div className="widget widget-menu style-3">
-                                    <h5 className="title-widget">Account</h5>
+                                    <h5 className="title-widget tf-color">Account</h5>
                                     <ul>
                                         <li><Link href="#">Authors</Link></li>
                                         <li><Link href="#">My Collection</Link></li>
@@ -50,13 +50,13 @@ export default function Footer1() {
                                 </div>
                                 <div className="widget-last">
                                     <div className="widget-menu style-4">
-                                        <h5 className="title-widget">Company</h5>
+                                        <h5 className="title-widget tf-color">Company</h5>
                                         <ul>
                                             <li><Link href="#">Help center</Link></li>
                                             <li><Link href="#">Platform status</Link></li>
                                         </ul>
                                     </div>
-                                    <h5 className="title-widget mt-30">Join the community</h5>
+                                    <h5 className="title-widget mt-30 tf-color">Join the community</h5>
                                     <div className="widget-social">
                                         <ul className="flex">
                                             <li><Link href="#" className="icon-facebook" /></li>
@@ -71,7 +71,7 @@ export default function Footer1() {
                         </div>
                     </div>
                     <div className="footer-bottom">
-                        <p>© {new Date().getFullYear()} OpeN9 - Made By Themesflat</p>
+                        <p>© {new Date().getFullYear()} Registry - Made By Atsur Team</p>
                         <ul className="flex">
                             <li>
                                 <Link href="#">Privacy Policy</Link>

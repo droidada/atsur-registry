@@ -2,27 +2,25 @@ import Link from "next/link"
 import { useState } from "react"
 import { useAuthContext } from "@/providers/auth.context";
 
-  
 export const DashboardPages  = {
-    CREATE: 0,
-    CREATIONS: 1,
-    COLLECTIONS: 2,
-    WISHLIST: 3,
-    DEALS: 4,
-    MY_COLLECTION: 5,
-    ACTIVITIES: 6,
-    WALLET: 7,
-    VERIFICATION: 8,
-    SETTINGS: 9,
+    CREATE: 'create',
+    CREATIONS: 'creations',
+    COLLECTIONS: 'collections',
+    WISHLIST: 'wishlist',
+    DEALS: 'deals',
+    MY_COLLECTION: 'my-collection',
+    ACTIVITIES: 'activities',
+    WALLET: 'wallet',
+    VERIFICATION: 'verification',
+    SETTINGS: 'settings',
 }
 
 const DashboardLayoutWithSidebar = ({
     children,
+    activePage = ''
  }) => {
 
     const { user, logIn, logOut } = useAuthContext();
-
-    const [activePage, setActivePage] = useState(null);
 
     const [isToggled, setToggled] = useState(false);
     const handleToggle = () => setToggled(!isToggled);
@@ -146,10 +144,10 @@ const DashboardLayoutWithSidebar = ({
                         <div className="flat-tabs">
                             <div className={`section-menu-left ${isMobileSidebar ? "null" : ""}`}>
                                 <div className="box-logo">
-                                    <Link href=""><img src="/images/atsur-logo-white.svg" alt="" /></Link>
+                                    <Link href="/"><img src="/images/atsur-logo-white.svg" alt="" /></Link>
                                 </div>
                                 <div className="create menu-tab">
-                                    <Link href="/dashboard" className="tf-button style-1 type-1 tablinks" data-tabs="create" onClick={() => setActivePage(0)}>
+                                    <Link href="/dashboard" className="tf-button style-1 type-1 tablinks" data-tabs="create">
                                         <span>Create</span>
                                         <i className="icon-create" />
                                     </Link>
@@ -158,7 +156,7 @@ const DashboardLayoutWithSidebar = ({
                                     <div className="content">
                                         <h6>Artwork</h6>
                                         <ul className="menu-tab">
-                                            <li className={activePage === DashboardPages.CREATIONS ? "tablinks active" : "tablinks"} data-tabs="creations" onClick={() => setActivePage(DashboardPages.CREATIONS)}>
+                                            <li className={activePage === DashboardPages.CREATIONS ? "tablinks active" : "tablinks"} data-tabs="creations">
                                                 <svg width={22} height={22} viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <g opacity="0.2">
                                                         <path d="M6.75731 9.35159V15.64" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -172,7 +170,7 @@ const DashboardLayoutWithSidebar = ({
                                                 </svg>
                                                 Creations
                                             </li>
-                                            <li className={activePage === DashboardPages.COLLECTIONS ? "tablinks active" : "tablinks"} data-tabs="collections" onClick={() => setActivePage(DashboardPages.COLLECTIONS)}>
+                                            <li className={activePage === DashboardPages.COLLECTIONS ? "tablinks active" : "tablinks"} data-tabs="collections">
                                                 <svg width={22} height={22} viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <g opacity="0.2">
                                                         <path fillRule="evenodd" clipRule="evenodd" d="M6.61499 14.6693C6.46832 14.6693 6.32074 14.6226 6.19607 14.5272C5.89541 14.2953 5.83857 13.8636 6.07049 13.5629L8.81407 9.99708C8.92591 9.85133 9.09182 9.75691 9.27332 9.73399C9.45849 9.71016 9.63999 9.76149 9.78391 9.87608L12.3689 11.9065L14.6303 8.98874C14.8632 8.68716 15.294 8.63124 15.5947 8.86591C15.8953 9.09874 15.9503 9.53049 15.7175 9.83024L13.0317 13.2952C12.9198 13.4401 12.7548 13.5345 12.5733 13.5565C12.39 13.5812 12.2085 13.5281 12.0637 13.4153L9.48049 11.3858L7.16041 14.4007C7.02474 14.5767 6.82124 14.6693 6.61499 14.6693Z" fill="white" />
@@ -195,7 +193,7 @@ const DashboardLayoutWithSidebar = ({
                                                 </svg>
                                                 Collections
                                             </li>
-                                            <li className={activePage === DashboardPages.WISHLIST  ? "tablinks active" : "tablinks"} data-tabs="wishlist" onClick={() => setActivePage(DashboardPages.WISHLIST)}>
+                                            <li className={activePage === DashboardPages.WISHLIST  ? "tablinks active" : "tablinks"} data-tabs="wishlist">
                                                 <svg width={22} height={22} viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <g opacity="0.2">
                                                         <path fillRule="evenodd" clipRule="evenodd" d="M5.73177 3.20834C3.21094 3.20834 3.21094 3.39901 3.21094 5.72918V5.75209C3.21094 6.76684 3.21094 7.50018 3.45935 7.81001C3.70227 8.11068 4.42369 8.25001 5.73177 8.25001C7.03985 8.25001 7.76127 8.10976 8.00419 7.80909C8.2526 7.50018 8.2526 6.76684 8.2526 5.75118C8.2526 3.39901 8.2526 3.20834 5.73177 3.20834ZM5.73177 9.62501C4.18627 9.62501 3.02669 9.46276 2.3896 8.67168C1.83594 7.98509 1.83594 7.04826 1.83594 5.75209L2.52344 5.72918H1.83594C1.83594 3.09834 2.00185 1.83334 5.73177 1.83334C9.46169 1.83334 9.6276 3.09834 9.6276 5.72918C9.6276 7.04734 9.6276 7.98509 9.07394 8.67168C8.43685 9.46276 7.27727 9.62501 5.73177 9.62501Z" fill="white" />
@@ -209,7 +207,7 @@ const DashboardLayoutWithSidebar = ({
                                                 </svg>
                                                 Wishlist
                                             </li>
-                                            <li className={activePage === DashboardPages.DEALS  ? "tablinks active" : "tablinks"} data-tabs="deals" onClick={() => setActivePage(DashboardPages.DEALS)}>
+                                            <li className={activePage === DashboardPages.DEALS  ? "tablinks active" : "tablinks"} data-tabs="deals">
                                                 <svg width={22} height={22} viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <g opacity="0.2">
                                                         <path fillRule="evenodd" clipRule="evenodd" d="M5.73177 3.20834C3.21094 3.20834 3.21094 3.39901 3.21094 5.72918V5.75209C3.21094 6.76684 3.21094 7.50018 3.45935 7.81001C3.70227 8.11068 4.42369 8.25001 5.73177 8.25001C7.03985 8.25001 7.76127 8.10976 8.00419 7.80909C8.2526 7.50018 8.2526 6.76684 8.2526 5.75118C8.2526 3.39901 8.2526 3.20834 5.73177 3.20834ZM5.73177 9.62501C4.18627 9.62501 3.02669 9.46276 2.3896 8.67168C1.83594 7.98509 1.83594 7.04826 1.83594 5.75209L2.52344 5.72918H1.83594C1.83594 3.09834 2.00185 1.83334 5.73177 1.83334C9.46169 1.83334 9.6276 3.09834 9.6276 5.72918C9.6276 7.04734 9.6276 7.98509 9.07394 8.67168C8.43685 9.46276 7.27727 9.62501 5.73177 9.62501Z" fill="white" />
@@ -228,7 +226,7 @@ const DashboardLayoutWithSidebar = ({
                                     <div className="content mt-30">
                                         <h6>Account</h6>
                                         <ul className="menu-tab">
-                                            <li className={activePage === DashboardPages.MY_COLLECTION  ? "tablinks active" : "tablinks"} data-tabs="my-collection" onClick={() => setActivePage(DashboardPages.MY_COLLECTION)}>
+                                            <li className={activePage === DashboardPages.MY_COLLECTION  ? "tablinks active" : "tablinks"} data-tabs="my-collection">
                                                 <svg width={22} height={22} viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <g opacity="0.2">
                                                         <mask id="mask0_1075_14628" style={{ maskType: 'luminance' }} maskUnits="userSpaceOnUse" x={1} y={1} width={20} height={20}>
@@ -245,7 +243,7 @@ const DashboardLayoutWithSidebar = ({
                                                 </svg>
                                                 My collection
                                             </li>
-                                            <li className={activePage === DashboardPages.ACTIVITIES  ? "tablinks active" : "tablinks"} data-tabs="activities" onClick={() => setActivePage(DashboardPages.ACTIVITIES)}>
+                                            <li className={activePage === DashboardPages.ACTIVITIES  ? "tablinks active" : "tablinks"} data-tabs="activities">
                                                 <svg width={22} height={22} viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <g opacity="0.2">
                                                         <path fillRule="evenodd" clipRule="evenodd" d="M2.63385 10.6318C1.65026 7.56096 2.79976 4.05104 6.02368 3.01246C7.71951 2.46521 9.59135 2.78788 11.0012 3.84846C12.3349 2.81721 14.2755 2.46888 15.9695 3.01246C19.1934 4.05104 20.3503 7.56096 19.3676 10.6318C17.8368 15.4993 11.0012 19.2485 11.0012 19.2485C11.0012 19.2485 4.21601 15.5561 2.63385 10.6318Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -257,7 +255,7 @@ const DashboardLayoutWithSidebar = ({
                                                 </svg>
                                                 Activities
                                             </li>
-                                            <li className={activePage === DashboardPages.WALLET  ? "tablinks active" : "tablinks"} data-tabs="wallet" onClick={() => setActivePage(DashboardPages.WALLET)}>
+                                            <li className={activePage === DashboardPages.WALLET  ? "tablinks active" : "tablinks"} data-tabs="wallet">
                                                 <svg width={22} height={22} viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <g opacity="0.2">
                                                         <path fillRule="evenodd" clipRule="evenodd" d="M20.0651 14.571H16.3544C14.6155 14.571 13.2001 13.1565 13.1992 11.4185C13.1992 9.6787 14.6146 8.26337 16.3544 8.26245H20.0651C20.4446 8.26245 20.7526 8.57045 20.7526 8.94995C20.7526 9.32945 20.4446 9.63745 20.0651 9.63745H16.3544C15.3726 9.63837 14.5742 10.4368 14.5742 11.4176C14.5742 12.3975 15.3736 13.196 16.3544 13.196H20.0651C20.4446 13.196 20.7526 13.504 20.7526 13.8835C20.7526 14.263 20.4446 14.571 20.0651 14.571Z" fill="white" />
@@ -276,7 +274,7 @@ const DashboardLayoutWithSidebar = ({
                                                 </svg>
                                                 Wallet
                                             </li>
-                                            <li className={activePage === DashboardPages.VERIFICATION  ? "tablinks active" : "tablinks"} data-tabs="verification" onClick={() => setActivePage(DashboardPages.VERIFICATION)}>
+                                            <li className={activePage === DashboardPages.VERIFICATION  ? "tablinks active" : "tablinks"} data-tabs="verification">
                                                 <svg width={22} height={22} viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <g opacity="0.2">
                                                         <path fillRule="evenodd" clipRule="evenodd" d="M7.0269 3.20831C4.70773 3.20831 3.20898 4.7969 3.20898 7.25631V14.7436C3.20898 17.2031 4.70773 18.7916 7.0269 18.7916H14.9726C17.2927 18.7916 18.7923 17.2031 18.7923 14.7436V7.25631C18.7923 4.7969 17.2936 3.20831 14.9735 3.20831H7.0269ZM14.9726 20.1666H7.0269C3.92032 20.1666 1.83398 17.9868 1.83398 14.7436V7.25631C1.83398 4.01315 3.92032 1.83331 7.0269 1.83331H14.9735C18.0801 1.83331 20.1673 4.01315 20.1673 7.25631V14.7436C20.1673 17.9868 18.0801 20.1666 14.9726 20.1666Z" fill="white" />
@@ -288,8 +286,8 @@ const DashboardLayoutWithSidebar = ({
                                                 </svg>
                                                 Verification
                                             </li>
-                                            <li className={activePage === DashboardPages.SETTINGS ? "tablinks active" : "tablinks"} data-tabs="settings" onClick={() => setActivePage(DashboardPages.SETTINGS)}>
-                                                <Link href="/dashboard/settings">
+                                            <li className={activePage === DashboardPages.SETTINGS ? "tablinks active" : "tablinks"} data-tabs="settings">
+                                                <Link href="/dashboard/settings" className={activePage === DashboardPages.SETTINGS ? "tf-color" : ""}>
                                                     <svg width={22} height={22} viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <g opacity="0.2">
                                                             <path fillRule="evenodd" clipRule="evenodd" d="M19.0713 6.98827L18.5008 5.99819C18.0181 5.16043 16.9484 4.87142 16.1095 5.35212V5.35212C15.7101 5.58736 15.2336 5.6541 14.785 5.53762C14.3364 5.42115 13.9526 5.13102 13.7182 4.73122C13.5673 4.4771 13.4863 4.18765 13.4832 3.89216V3.89216C13.4968 3.41841 13.3181 2.95933 12.9877 2.61949C12.6574 2.27965 12.2035 2.088 11.7296 2.0882H10.5801C10.1158 2.08819 9.67059 2.27321 9.34306 2.60233C9.01552 2.93144 8.83263 3.3775 8.83486 3.84182V3.84182C8.8211 4.80047 8.03999 5.57037 7.08124 5.57027C6.78575 5.5672 6.49631 5.48616 6.24219 5.33534V5.33534C5.40328 4.85464 4.33358 5.14365 3.85088 5.98141L3.23837 6.98827C2.75626 7.82499 3.04134 8.89401 3.87605 9.37958V9.37958C4.41863 9.69283 4.75288 10.2718 4.75288 10.8983C4.75288 11.5248 4.41863 12.1037 3.87605 12.417V12.417C3.0424 12.8992 2.75701 13.9657 3.23837 14.7999V14.7999L3.81732 15.7983C4.04348 16.2064 4.42294 16.5076 4.87173 16.6351C5.32052 16.7627 5.80164 16.7061 6.20862 16.478V16.478C6.60871 16.2445 7.08548 16.1806 7.53295 16.3003C7.98042 16.4201 8.36152 16.7136 8.59154 17.1157C8.74236 17.3698 8.8234 17.6592 8.82647 17.9547V17.9547C8.82647 18.9232 9.6116 19.7083 10.5801 19.7083H11.7296C12.6948 19.7083 13.4786 18.9283 13.4832 17.9631V17.9631C13.481 17.4973 13.665 17.05 13.9944 16.7206C14.3237 16.3913 14.7711 16.2072 15.2368 16.2095C15.5316 16.2174 15.8199 16.2981 16.0759 16.4444V16.4444C16.9126 16.9265 17.9816 16.6414 18.4672 15.8067V15.8067L19.0713 14.7999C19.3052 14.3985 19.3693 13.9205 19.2497 13.4716C19.13 13.0228 18.8363 12.6402 18.4336 12.4086V12.4086C18.031 12.1769 17.7373 11.7943 17.6176 11.3455C17.4979 10.8967 17.5621 10.4186 17.796 10.0173C17.948 9.75177 18.1682 9.53164 18.4336 9.37958V9.37958C19.2634 8.89428 19.5478 7.83149 19.0713 6.99666V6.99666V6.98827Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />

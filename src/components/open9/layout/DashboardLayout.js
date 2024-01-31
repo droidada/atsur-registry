@@ -302,8 +302,8 @@ const DashboardLayout = ({
                                 </div>
                             </div>
                             <div className="bottom">
-                                <p>© 2023 OpeN9</p>
-                                <p>Made By Themesflat</p>
+                                <p>© 2023 Atsur Registry</p>
+                                <p>Made By The Atsur team</p>
                             </div>
                         </div>
                         <div className="content-tabs">

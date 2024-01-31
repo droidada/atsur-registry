@@ -79,7 +79,7 @@ export default function Login() {
 
     return (
         <>
-            <Layout headerStyle={2} footerStyle={2}>
+            <Layout headerStyle={2} footerStyle={1}>
                 <div className="tf-section-2 pt-60 widget-box-icon">
                     <div className="themesflat-container w920">
                         <div className="row">
