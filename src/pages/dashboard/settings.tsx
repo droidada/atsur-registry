@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import DashboardLayoutWithSidebar from "@/open9/layout/DashboardLayoutWithSidebar";
+import DashboardLayoutWithSidebar, {DashboardPages} from "@/open9/layout/DashboardLayoutWithSidebar";
 import AutoSlider1 from "@/open9/slider/AutoSlider1";
 import AutoSlider2 from "@/open9/slider/AutoSlider2";
 
 function Settings() {
 
   return (
-    <DashboardLayoutWithSidebar>
+    <DashboardLayoutWithSidebar activePage={DashboardPages.SETTINGS}>
             <>
                 <div className="action__body w-full mb-40">
                     <div className="tf-tsparticles">
