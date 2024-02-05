@@ -13,7 +13,7 @@ export default function Home() {
     return (
         <>
 
-            <Layout headerStyle={2} footerStyle={1}>
+            <Layout headerStyle={2} footerStyle={1} currentMenuItem={'explore'}>
 
                 <div>
                     <div className="flat-title-page">

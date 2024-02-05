@@ -228,7 +228,7 @@ body,
 button,
 input,
 select,
-textarea {
+textarea, .textarea {
     font-family            : 'Manrope', sans-serif;
     color                  : #fff;
     -webkit-font-smoothing : antialiased;
@@ -464,7 +464,7 @@ input {
 button,
 input,
 select,
-textarea {
+textarea, .textarea {
     font-size     : 100%;
     line-height   : inherit;
     margin        : 0;
@@ -472,7 +472,7 @@ textarea {
 }
 
 input,
-textarea,
+textarea, .textarea,
 select {
     font-size       : 14px;
     max-width       : 100%;
@@ -480,7 +480,7 @@ select {
     /* Removing the inner shadow on iOS inputs */
 }
 
-textarea {
+textarea, .textarea {
     overflow      : auto;
     /* Removes default vertical scrollbar in IE6/7/8/9 */
     vertical-align: top;
@@ -550,6 +550,7 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 textarea.style-1,
+.textarea.style-1,
 input.style-1 {
     background-color: #232323 !important;
 }
@@ -594,6 +595,7 @@ input[type=radio]:checked + div {
 
 .wpcf7-form select,
 .wpcf7-form textarea,
+.wpcf7-form .textarea,
 .wpcf7-form input {
     margin-bottom: 0;
 }
@@ -656,6 +658,7 @@ select option{
 }
 
 textarea,
+.textarea,
 input[type="text"],
 input[type="password"],
 input[type="datetime"],
@@ -687,6 +690,7 @@ input[type="color"] {
 
 /* Input focus */
 textarea:focus,
+.textarea:focus,
 input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="datetime"]:focus,
@@ -709,6 +713,7 @@ input[type="color"]:focus {
 }
 
 textarea::placeholder,
+.textarea::placeholder,
 input[type="text"]::placeholder,
 input[type="password"]::placeholder,
 input[type="datetime"]::placeholder,
@@ -810,7 +815,7 @@ input.style-1[type="submit"]:focus {
     color: rgba(22, 22, 22, 1);
 }
 
-textarea {
+textarea, .textarea {
     height: 180px;
 }
 
@@ -1228,7 +1233,7 @@ a:focus {
     font-size: 16px;
     line-height: 22px;
     font-weight: 500;
-    color: #fff;
+    color: #161616;
 }
 
 #main-nav>ul>li.menu-item-has-children>a {

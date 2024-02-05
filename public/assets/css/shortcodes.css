@@ -1531,7 +1531,7 @@
     margin-bottom: 22px;
 }
 
-.tf-blog-detail .inner-content .widget-reply textarea {
+.tf-blog-detail .inner-content .widget-reply textarea, .textarea {
     margin-bottom: 22px;
 }
 

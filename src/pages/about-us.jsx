@@ -55,7 +55,7 @@ export default function Home() {
     return (
         <>
 
-            <Layout headerStyle={2} footerStyle={1} pageCls="about-us-page">
+            <Layout headerStyle={2} footerStyle={1} currentMenuItem={'about-us'} pageCls="about-us-page">
                 <div>
                     <div className="page-title about-us relative">
                         <div className="themesflat-container">
