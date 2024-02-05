@@ -136,7 +136,7 @@ button,
 input,
 optgroup,
 select,
-textarea {
+textarea, .textarea {
   font-family: sans-serif;
   font-size: 100%;
   line-height: 1.15;
@@ -196,7 +196,7 @@ progress {
   vertical-align: baseline;
 }
 
-textarea {
+textarea, .textarea {
   overflow: auto;
 }
 
@@ -447,7 +447,7 @@ input,
 label,
 select,
 summary,
-textarea {
+textarea, .textarea {
   -ms-touch-action: manipulation;
       touch-action: manipulation;
 }
@@ -482,7 +482,7 @@ button:focus {
 input,
 button,
 select,
-textarea {
+textarea, .textarea {
   line-height: inherit;
 }
 
@@ -498,7 +498,7 @@ input[type="month"] {
   -webkit-appearance: listbox;
 }
 
-textarea {
+textarea, .textarea {
   resize: vertical;
 }
 

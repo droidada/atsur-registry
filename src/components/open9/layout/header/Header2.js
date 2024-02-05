@@ -2,12 +2,12 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import MobileMenu from '../MobileMenu'
-export default function Header2({ scroll, isMobileMenu, handleMobileMenu }) {
+export default function Header2({ scroll, isMobileMenu, handleMobileMenu, currentMenuItem='' }) {
     const [isSidebar, setSidebar] = useState(false)
     const handleSidebar = () => setSidebar(!isSidebar)
     return (
         <>
-            <header id="header_main" className={`header_1 header-fixed style-white ${scroll ? "is-fixed is-small" : ""}`}>
+            <header id="header_main" className={`header_1 header-fixed  ${scroll ? "is-fixed is-small" : ""}`}>
                 <div className="themesflat-container">
                     <div className="row">
                         <div className="col-md-12">
@@ -25,24 +25,24 @@ export default function Header2({ scroll, isMobileMenu, handleMobileMenu }) {
                                     </div>{/* /.mobile-button */}
                                     <nav id="main-nav" className="main-nav">
                                         <ul id="menu-primary-menu" className="menu">
-                                            <li className="menu-item current-menu-item">
+                                            <li className={`menu-item ${currentMenuItem === 'home' ? "current-menu-item" : ""}`}>
                                                 <Link href="/">Home</Link>
                                             </li>
-                                            <li className="menu-item">
+                                            <li className={`menu-item ${currentMenuItem === 'about-us' ? "current-menu-item" : ""}`}>
                                                 <Link href="/about-us">About us</Link>
                                             </li>
-                                            <li className="menu-item">
+                                            <li className={`menu-item ${currentMenuItem === 'explore' ? "current-menu-item" : ""}`}>
                                                 <Link href="/explore">Explore</Link>
                                             </li>
-                                            <li className="menu-item">
+                                            <li className={`menu-item ${currentMenuItem === 'contact-us' ? "current-menu-item" : ""}`}>
                                                 <Link href="/contact-us">Contact</Link>
                                             </li>
                                         </ul>
                                     </nav>{/* /#main-nav */}
                                     <div className="flat-wallet flex">
                                         <div id="wallet-header">
-                                            <Link href="/market-wallet" id="connectbtn" className="tf-button style-1">
-                                                <span>Wallet connect</span>
+                                            <Link href="/login" id="connectbtn" className="tf-button style-1">
+                                                <span>Login</span>
                                                 <i className="icon-wa" />
                                             </Link>
                                         </div>

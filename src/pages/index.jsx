@@ -10,7 +10,7 @@ import TopCollections5 from "@/open9/sections/TopCollections5"
 
 function Home() {
     return (
-        <Layout headerStyle={2} footerStyle={1}>
+        <Layout headerStyle={2} footerStyle={1} currentMenuItem={"home"}>
             <FlatTitle5 />
             <FeaturedItem5 />
             <Seller7 />

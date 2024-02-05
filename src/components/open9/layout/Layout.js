@@ -8,7 +8,7 @@ import Header1 from "./header/Header1"
 import Header2 from './header/Header2'
 import Header3 from "./header/Header3"
 
-export default function Layout({ headerStyle, footerStyle, children, headTitle="", breadcrumbTitle="", pageCls="" }) {
+export default function Layout({ headerStyle, footerStyle, currentMenuItem="", children, headTitle="", breadcrumbTitle="", pageCls="" }) {
     const [scroll, setScroll] = useState(0)
     // Moblile Menu
     const [isMobileMenu, setMobileMenu] = useState(false)
@@ -39,7 +39,7 @@ export default function Layout({ headerStyle, footerStyle, children, headTitle="
                 <div id="page" className={`pt-40 ${pageCls ? pageCls : ""}`}>
                     {!headerStyle && <Header1 scroll={scroll} isMobileMenu={isMobileMenu} handleMobileMenu={handleMobileMenu} />}
                     {headerStyle == 1 ? <Header1 scroll={scroll} isMobileMenu={isMobileMenu} handleMobileMenu={handleMobileMenu} /> : null}
-                    {headerStyle == 2 ? <Header2 scroll={scroll} isMobileMenu={isMobileMenu} handleMobileMenu={handleMobileMenu} /> : null}
+                    {headerStyle == 2 ? <Header2 currentMenuItem={currentMenuItem} scroll={scroll} isMobileMenu={isMobileMenu} handleMobileMenu={handleMobileMenu} /> : null}
                     {headerStyle == 3 ? <Header3 scroll={scroll} isMobileMenu={isMobileMenu} handleMobileMenu={handleMobileMenu} /> : null}
 
                     {/* <MobileMenu /> */}
