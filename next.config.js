@@ -27,6 +27,7 @@ module.exports = {
   images: {
     domains: [
       "directus-admin-service-mr73ptziua-uc.a.run.app",
+      "atsur-registry-artifacts-dev.s3.eu-north-1.amazonaws.com",
       "localhost",
       "admin.atsur.art",
       "registry.atsur.art",

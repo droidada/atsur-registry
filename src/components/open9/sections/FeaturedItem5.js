@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import FeaturedSlider5 from "../slider/FeaturedSlider5"
+
 export default function FeaturedItem5() {
     return (
         <>

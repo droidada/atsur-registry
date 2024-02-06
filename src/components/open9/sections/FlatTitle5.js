@@ -13,7 +13,7 @@ export default function FlatTitle5() {
                                 <h1 data-wow-delay="0s" className="wow fadeInUp">Discover the world of <br /> Afrocentric Art</h1>
                                 <p data-wow-delay="0.1s" className="wow fadeInUp">Find verified information on African art and artifacts.</p>
                                 <div data-wow-delay="0.2s" className="wow fadeInUp flat-button flex justify-center">
-                                    <Link href="#" className="tf-button style-1 h50 w140 mr-16">Explore <i className="icon-arrow-up-right2" /></Link>
+                                    <Link href="/explore" className="tf-button style-1 h50 w140 mr-16">Explore <i className="icon-arrow-up-right2" /></Link>
                                     <Link href="#" className="tf-button style-1 h50 w140 active">Create <i className="icon-arrow-up-right2" /></Link>
                                 </div>
                             </div>
