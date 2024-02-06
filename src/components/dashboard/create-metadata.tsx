@@ -8,7 +8,7 @@ import { LoadingButton } from "@mui/lab";
 import { useAuthContext } from "@/providers/auth.context";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 
-export default function CreateMetadata() {
+export default function CreateMetadata({nextPage=(x)=>{}}) {
 
     const axiosAuth = useAxiosAuth();
     const metadataSchema = object({
@@ -35,7 +35,7 @@ export default function CreateMetadata() {
       const [previewImg, setPreviewImg] = useState(null);
       const [loading, setLoading] = useState(false);
       const router = useRouter();
-      const [error, setError] = useState(false);
+      const [error, setError] = useState('');
       const { logIn, user, error: loginError } = useAuthContext();
 
       useEffect(() => {
@@ -45,16 +45,13 @@ export default function CreateMetadata() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [isSubmitSuccessful]);
 
-      useEffect(() => {
-        setError(false);
-        // setSuccess(false);
-      }, []);
-
       const onSubmitHandler: SubmitHandler<MetadataInput> = async (values) => {
         try {
+
+          if(!previewImg) {setError("Image attachment is required"); return;}
+
           setLoading(true);
           console.log(values);
-
           const formData = new FormData()
           formData.append("file", previewImg);
           formData.append("title", values.title);
@@ -70,11 +67,12 @@ export default function CreateMetadata() {
           console.log("result here is ",result.data);
 
             setLoading(false);
+            nextPage(12);
           //  router.replace("/dashboard");
            return;
         } catch (error) {
           console.error(error);
-          setError(true);
+          setError(error.message);
           setLoading(false);
         }
       };
@@ -125,6 +123,7 @@ return (
             </form>
         </div>
         <div className="wrap-content w-full">
+            {error && <h5 style={{color: 'red'}}>{error}</h5>}
             <form
                 id="commentform"
                 className="comment-form"

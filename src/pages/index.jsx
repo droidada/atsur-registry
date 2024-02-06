@@ -15,8 +15,8 @@ function Home() {
             <FeaturedItem5 />
             <Seller7 />
             <FeaturedItem6 />
-            <Seller8 />
-            <DiscoverItem5 />
+            {/* <Seller8 />
+            <DiscoverItem5 /> */}
             <TopCollections5 />
             <Action5 />
         </Layout>

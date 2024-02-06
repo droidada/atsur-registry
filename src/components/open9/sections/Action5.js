@@ -12,9 +12,9 @@ export default function Action5() {
                                 <div className="tf-tsparticles">
                                     <div id="tsparticles1" data-color="#161616" data-line="#000" />
                                 </div>
-                                <h2 className="text-center capitalize mx-auto mw-667">Join the world’s largest nFT community &amp; start collecting NFTS</h2>
+                                <h2 className="text-center capitalize mx-auto mw-667">Explore the largest catalogue of African art and artifacts. </h2>
                                 <div className="flat-button flex justify-center">
-                                    <Link href="#" className="tf-button style-2 h50 w190">Explore now<i className="icon-arrow-up-right2" /></Link>
+                                    <Link href="/explore" className="tf-button style-2 h50 w190">Explore now<i className="icon-arrow-up-right2" /></Link>
                                 </div>
                             </div>
                         </div>

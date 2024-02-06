@@ -35,7 +35,7 @@ export default function Home() {
                             </ul>
                             <div className="widget-content-tab">
                                 <div className={activeIndex === 11 ? "widget-content-inner description active" : "widget-content-inner description"} style={{ display: `${activeIndex == 11 ? "" : "none"}` }}>
-                                    <CreateMetadata />
+                                    <CreateMetadata nextPage={handleOnClick} />
                                 </div>
 
                                 <div className={activeIndex === 12 ? "widget-content-inner upload active" : "widget-content-inner upload"} style={{ display: `${activeIndex == 12 ? "" : "none"}` }}>
