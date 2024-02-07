@@ -61,7 +61,7 @@ export default function TitileSlider5() {
                 </Link>
               </div>
               <div className="button-place-bid">
-                <Link href={`/artwork/${artwork._id}`} className="tf-button">
+                <Link href={`/explore/artwork/${artwork._id}`} className="tf-button">
                   <span>View</span>
                 </Link>
               </div>
