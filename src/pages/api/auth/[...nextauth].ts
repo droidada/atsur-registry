@@ -53,9 +53,9 @@ export const options: any = {
   },
   callbacks: {
     async jwt({ token, user, account }) {
-      console.log(`token: ${token}`)
+      console.log(`token: ${token}`);
       if (account && user) {
-        console.log(`account: ${account} && user ${user}`)
+        console.log(`account: ${account} && user ${user}`);
         return {
           ...token,
           user: user,
@@ -71,8 +71,10 @@ export const options: any = {
     },
 
     async session({ session, token }) {
-      console.log("session=================")
-      console.log(`session: ${JSON.stringify(session)}  token: ${JSON.stringify(token)}`)
+      console.log("session=================");
+      console.log(
+        `session: ${JSON.stringify(session)}  token: ${JSON.stringify(token)}`,
+      );
       session.user.accessToken = token?.user.accessToken;
       session.user.refreshToken = token?.user.user.refreshToken;
       session.user.expires = token?.user.user.expires;
@@ -98,7 +100,7 @@ async function refreshAccessToken(token) {
       headers: {
         "Content-Type": "application/json",
       },
-       credentials: "include",
+      credentials: "include",
     });
     const response = await res.json();
 

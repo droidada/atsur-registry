@@ -6,7 +6,7 @@ const config = require("./src/data/config.json");
 
 module.exports = {
   env: {
-    PUBLIC_URL: '/',
+    PUBLIC_URL: "/",
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {
