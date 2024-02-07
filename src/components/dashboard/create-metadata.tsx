@@ -37,12 +37,12 @@ export default function CreateMetadata({ nextPage = (x) => {} }) {
   const [error, setError] = useState("");
   const { logIn, user, error: loginError } = useAuthContext();
 
-  useEffect(() => {
-    if (isSubmitSuccessful) {
-      reset();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSubmitSuccessful]);
+  // useEffect(() => {
+  //   if (isSubmitSuccessful) {
+  //     reset();
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [isSubmitSuccessful]);
 
   const onSubmitHandler: SubmitHandler<MetadataInput> = async (values) => {
     try {
@@ -79,7 +79,6 @@ export default function CreateMetadata({ nextPage = (x) => {} }) {
   };
 
   const handleUploadClick = (event) => {
-    console.log();
     var file = event.target.files[0];
     const reader = new FileReader();
     var url = reader.readAsDataURL(file);

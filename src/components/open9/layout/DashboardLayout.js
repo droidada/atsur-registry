@@ -228,7 +228,7 @@ const DashboardLayout = ({ children, handleOnClick, activeIndex }) => {
               className={`section-menu-left ${isMobileSidebar ? "null" : ""}`}
             >
               <div className="box-logo">
-                <Link href="">
+                <Link href="/">
                   <img src="/images/atsur-logo-white.svg" alt="" />
                 </Link>
               </div>
