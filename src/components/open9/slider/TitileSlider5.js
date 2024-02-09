@@ -30,14 +30,14 @@ const swiperOptions = {
 };
 
 export default function TitileSlider5() {
-  const [artworks, setArtworks] = useState([]);
+  const [pieces, setPieces] = useState([]);
   useEffect(() => {
     try {
-      const fetchArtworks = async () => {
-        const res = await axios.get("/artwork/home");
-        setArtworks(res.data.artworks);
+      const fetchPieces = async () => {
+        const res = await axios.get("/art-piece/home");
+        setPieces(res.data.artPieces);
       };
-      fetchArtworks();
+      fetchPieces();
     } catch (error) {
       console.error(error);
     }
@@ -46,14 +46,14 @@ export default function TitileSlider5() {
   return (
     <>
       <Swiper {...swiperOptions} className="swiper-container swiper-rotate-3">
-        {artworks?.map((artwork, idx) => (
+        {pieces?.map((artPiece, idx) => (
           <SwiperSlide key={idx}>
             <div className="tf-card-box style-2 type-1">
               <div className="card-media">
                 <Link href="#">
                   <Image
                     img
-                    src={artwork.assets[0]?.url}
+                    src={artPiece.assets[0]?.url}
                     width={180}
                     height={200}
                     alt=""
@@ -61,7 +61,7 @@ export default function TitileSlider5() {
                 </Link>
               </div>
               <div className="button-place-bid">
-                <Link href={`/explore/artwork/${artwork._id}`} className="tf-button">
+                <Link href={`/explore/art-piece/${artPiece._id}`} className="tf-button">
                   <span>View</span>
                 </Link>
               </div>

@@ -38,7 +38,7 @@ const swiperOptions = {
   },
 };
 
-import Countdown from "@/open9/elements/Countdown";
+// import Countdown from "@/open9/elements/Countdown";
 import { useState } from "react";
 import BidModal from "../elements/BidModal";
 const currentTime = new Date();
@@ -61,9 +61,9 @@ export default function FeaturedSlider1() {
                 </Link>
                 <span className="wishlist-button icon-heart" />
                 <div className="featured-countdown">
-                  <Countdown
+                  {/* <Countdown
                     endDateTime={currentTime.setDate(currentTime.getDate() + 2)}
-                  />
+                  /> */}
                 </div>
                 <div className="button-place-bid">
                   <a onClick={handleBidModal} href="#" className="tf-button">
@@ -106,9 +106,9 @@ export default function FeaturedSlider1() {
                 </Link>
                 <span className="wishlist-button icon-heart" />
                 <div className="featured-countdown">
-                  <Countdown
+                  {/* <Countdown
                     endDateTime={currentTime.setDate(currentTime.getDate() + 2)}
-                  />
+                  /> */}
                 </div>
                 <div className="button-place-bid">
                   <a onClick={handleBidModal} href="#" className="tf-button">
@@ -151,9 +151,9 @@ export default function FeaturedSlider1() {
                 </Link>
                 <span className="wishlist-button icon-heart" />
                 <div className="featured-countdown">
-                  <Countdown
+                  {/* <Countdown
                     endDateTime={currentTime.setDate(currentTime.getDate() + 2)}
-                  />
+                  /> */}
                 </div>
                 <div className="button-place-bid">
                   <a onClick={handleBidModal} href="#" className="tf-button">
@@ -196,9 +196,9 @@ export default function FeaturedSlider1() {
                 </Link>
                 <span className="wishlist-button icon-heart" />
                 <div className="featured-countdown">
-                  <Countdown
+                  {/* <Countdown
                     endDateTime={currentTime.setDate(currentTime.getDate() + 2)}
-                  />
+                  /> */}
                 </div>
                 <div className="button-place-bid">
                   <a onClick={handleBidModal} href="#" className="tf-button">
@@ -241,9 +241,9 @@ export default function FeaturedSlider1() {
                 </Link>
                 <span className="wishlist-button icon-heart" />
                 <div className="featured-countdown">
-                  <Countdown
+                  {/* <Countdown
                     endDateTime={currentTime.setDate(currentTime.getDate() + 2)}
-                  />
+                  /> */}
                 </div>
                 <div className="button-place-bid">
                   <a onClick={handleBidModal} href="#" className="tf-button">
@@ -286,9 +286,9 @@ export default function FeaturedSlider1() {
                 </Link>
                 <span className="wishlist-button icon-heart" />
                 <div className="featured-countdown">
-                  <Countdown
+                  {/* <Countdown
                     endDateTime={currentTime.setDate(currentTime.getDate() + 2)}
-                  />
+                  /> */}
                 </div>
                 <div className="button-place-bid">
                   <a onClick={handleBidModal} href="#" className="tf-button">
@@ -331,9 +331,9 @@ export default function FeaturedSlider1() {
                 </Link>
                 <span className="wishlist-button icon-heart" />
                 <div className="featured-countdown">
-                  <Countdown
+                  {/* <Countdown
                     endDateTime={currentTime.setDate(currentTime.getDate() + 2)}
-                  />
+                  /> */}
                 </div>
                 <div className="button-place-bid">
                   <a onClick={handleBidModal} href="#" className="tf-button">
@@ -376,9 +376,9 @@ export default function FeaturedSlider1() {
                 </Link>
                 <span className="wishlist-button icon-heart" />
                 <div className="featured-countdown">
-                  <Countdown
+                  {/* <Countdown
                     endDateTime={currentTime.setDate(currentTime.getDate() + 2)}
-                  />
+                  /> */}
                 </div>
                 <div className="button-place-bid">
                   <a onClick={handleBidModal} href="#" className="tf-button">

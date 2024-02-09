@@ -1,12 +1,40 @@
-import BarChart from "@/open9/elements/BarChart"
-import Countdown from "@/open9/elements/Countdown"
-import Layout from "@/open9/layout/Layout"
-import FeaturedSlider1 from "@/open9/slider/FeaturedSlider1"
+import { useEffect, useState } from "react";
 import { Menu } from '@headlessui/react'
-import Link from "next/link"
+import Link from "next/link";
+import Image from "next/image";
+import BarChart from "@/open9/elements/BarChart";
+import Layout from "@/open9/layout/Layout";
+import FeaturedSlider1 from "@/open9/slider/FeaturedSlider1";
+import { Autoplay, FreeMode, Navigation, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+import { getToken} from 'next-auth/jwt';
+import axios from "@/lib/axios";
+import { CollectionsOutlined } from "@mui/icons-material";
+
+export const getServerSideProps = async ({req, query}) => {
+    try {
+        const id = query?.id;
+        const token: any = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+        const res = await axios.get(token ? `/art-piece/${id}` : `/art-piece/public/${id}` , { headers: { authorization: `Bearer ${token?.user?.accessToken}`}});
+
+        return { props: { artwork: res.data.artPiece } }
+    } catch (error) {
+        console.error("error here looks like ", error);
+        if(error.response.status === 404){
+            return {
+                notFound: true,
+            };
+        }
+       throw new Error(error);
+    }
+  }
+
 const currentTime = new Date()
 
-export default function Artwork() {
+export default function Artwork({ artwork }) {
+
+    console.log("we have page artwork ", artwork);
 
     return (
         <>
@@ -19,13 +47,13 @@ export default function Artwork() {
                                     <div className="tf-card-box style-5 mb-0">
                                         <div className="card-media mb-0">
                                             <Link href="#">
-                                                <img src="/assets/images/box-item/product-detail-01.jpg" alt="" />
+                                                <img src={artwork?.assets[0].url} alt="" />
                                             </Link>
                                         </div>
                                         <h6 className="price gem"><i className="icon-gem" /></h6>
                                         <div className="wishlist-button">10<i className="icon-heart" /></div>
                                         <div className="featured-countdown">
-                                            <Countdown endDateTime={currentTime.setDate(currentTime.getDate() + 2)} />
+                                            {/* <Countdown endDateTime={currentTime.setDate(currentTime.getDate() + 2)} /> */}
                                         </div>
                                     </div>
                                 </div>
@@ -57,14 +85,14 @@ export default function Artwork() {
                                                 </div>
                                             </Menu>
                                         </div>
-                                        <h2>Atsur #0270</h2>
+                                        <h2>{artwork?.title}</h2>
                                         <div className="author flex items-center mb-30">
                                             <div className="avatar">
                                                 <img src="/assets/images/avatar/avatar-box-05.jpg" alt="Image" />
                                             </div>
                                             <div className="info">
                                                 <span>Owned by:</span>
-                                                <h6><Link href="/author01">Marvin McKinney</Link> </h6>
+                                                <h6><Link className="tf-color" href="/author01">Marvin McKinney</Link> </h6>
                                             </div>
                                         </div>
                                         <div className="meta mb-20">
@@ -80,7 +108,7 @@ export default function Artwork() {
                                         </div>
                                     </div>
                                     <div data-wow-delay="0s" className="wow fadeInRight product-item time-sales">
-                                        <h6><i className="icon-clock" />Sale ends May 22 at 9:39</h6>
+                                        <h6 className="to-white"><i className="icon-clock" />Sale ends May 22 at 9:39</h6>
                                         <div className="content">
                                             <div className="text">Current price</div>
                                             <div className="flex justify-between">
@@ -90,14 +118,14 @@ export default function Artwork() {
                                         </div>
                                     </div>
                                     <div data-wow-delay="0s" className="wow fadeInRight product-item description">
-                                        <h6><i className="icon-description" />Description</h6>
+                                        <h6 className="to-white"><i className="icon-description" />Description</h6>
                                         <i className="icon-keyboard_arrow_down" />
                                         <div className="content">
-                                            <p>8,888 NFTs of beautiful, Asian women painstakingly-crafted where even the most intricate details are steeped in historical significance. We envision 8SIAN being a global, inclusive community <span>see more</span></p>
+                                            <p>{artwork?.description}</p>
                                         </div>
                                     </div>
                                     <div data-wow-delay="0s" className="wow fadeInRight product-item history">
-                                        <h6><i className="icon-description" />Price History</h6>
+                                        <h6 className="to-white"><i className="icon-description" />Price History</h6>
                                         <i className="icon-keyboard_arrow_down" />
                                         <div className="content">
                                             {/* <div className="chart">
@@ -107,7 +135,7 @@ export default function Artwork() {
                                         </div>
                                     </div>
                                 </div>
-                                {/* <div data-wow-delay="0s" className="wow fadeInUp col-12">
+                                <div data-wow-delay="0s" className="wow fadeInUp col-12">
                                     <div className="product-item details">
                                         <h6><i className="icon-description" />Details</h6>
                                         <i className="icon-keyboard_arrow_down" />
@@ -297,7 +325,7 @@ export default function Artwork() {
                                             </div>
                                         </div>
                                     </div>
-                                </div> */}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -321,3 +349,4 @@ export default function Artwork() {
         </>
     )
 }
+

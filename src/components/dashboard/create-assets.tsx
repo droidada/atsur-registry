@@ -34,7 +34,7 @@ export default function CreateAssets({ nextPage = (x) => {} }) {
         formData.append("fileRight", rightImg);
         formData.append("fileMounted", mountedImg);
 
-        const result = await axiosAuth.post("/artwork/add-assets", formData);
+        const result = await axiosAuth.post("/art-piece/add-assets", formData);
         //setPreviewImg(result.data.imageName)
         console.log("result here is ", result.data);
 

@@ -1,3 +1,6 @@
+import type { AppProps } from "next/app";
+import { NextPage } from "next/types";
+
 import { WagmiConfig, configureChains, createConfig, mainnet } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
@@ -5,8 +8,7 @@ import { publicProvider } from "wagmi/providers/public";
 import { Alfajores, Celo } from "@celo/rainbowkit-celo/chains";
 import celoGroups from "@celo/rainbowkit-celo/lists";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import type { AppProps } from "next/app";
-import { NextPage } from "next/types";
+
 import { Analytics } from "@vercel/analytics/react";
 import { SessionProvider } from "next-auth/react";
 import { AuthContextProvider } from "../providers/auth.context";
@@ -14,11 +16,11 @@ import "@rainbow-me/rainbowkit/styles.css";
 import "@/styles/globals.css";
 import ThemeProvider from "@/styles/theme";
 import { ProtectedLayout } from "@/components/protected-layout";
-
 import Preloader from "@/open9/elements/Preloader";
 import AddClassBody from "@/open9/elements/AddClassBody";
 import "/public/assets/css/style.css";
 import "/public/assets/css/responsive.css";
+import 'wowjs/css/libs/animate.css';
 
 type AppPropsWithAuth = NextPage & {
   requiresAuth?: boolean;
@@ -65,6 +67,7 @@ export default function NextWeb3App({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps) {
+
   return (
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider chains={chains} appInfo={appInfo} coolMode={true}>

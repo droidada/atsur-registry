@@ -16,6 +16,8 @@ export default function CreateMetadata({ nextPage = (x) => {} }) {
     height: number().gte(0),
     width: number().gte(0),
     depth: number().gte(0),
+    medium: string().nonempty("Medium is required"),
+    subjectMatter: string().nonempty("Subject matter is required"),
     rarity: string().nonempty("Rarity is required"),
     type: string().nonempty("Type is required"),
   });
@@ -58,12 +60,14 @@ export default function CreateMetadata({ nextPage = (x) => {} }) {
       formData.append("title", values.title);
       formData.append("description", values.description);
       formData.append("rarity", values.rarity);
+      formData.append("medium", values.medium);
+      formData.append("subjectMatter", values.subjectMatter);
       formData.append("type", values.type);
       formData.append("depth", values.depth.toString());
       formData.append("width", values.width.toString());
       formData.append("height", values.height.toString());
 
-      const result = await axiosAuth.post("/artwork/add", formData);
+      const result = await axiosAuth.post("/art-piece/add", formData);
       //setPreviewImg(result.data.imageName)
       console.log("result here is ", result.data);
 
@@ -168,6 +172,38 @@ export default function CreateMetadata({ nextPage = (x) => {} }) {
             />
           </fieldset>
           <div className="flex gap30">
+          <fieldset className="price">
+              <label>Medium *</label>
+              <TextField
+                type="text"
+                id="medium"
+                placeholder="Paint, Oil"
+                name="medium"
+                tabIndex={2}
+                aria-required="true"
+                fullWidth
+                error={!!errors["medium"]}
+                helperText={errors["medium"] ? errors["medium"].message : ""}
+                {...register("medium")}
+              />
+            </fieldset>
+            <fieldset className="properties">
+              <label>Subject Matter *</label>
+              <TextField
+                type="text"
+                id="subjectMatter"
+                placeholder="Landscape, etc"
+                name="subjectMatter"
+                tabIndex={2}
+                aria-required="true"
+                fullWidth
+                error={!!errors["subjectMatter"]}
+                helperText={errors["subjectMatter"] ? errors["subjectMatter"].message : ""}
+                {...register("subjectMatter")}
+              />
+            </fieldset>
+          </div>
+          <div className="flex gap30">
             <fieldset className="price">
               <label>Height (in inches) *</label>
               <TextField
@@ -253,7 +289,7 @@ export default function CreateMetadata({ nextPage = (x) => {} }) {
                 {...register("type")}
               >
                 <option>Select</option>
-                <option value="artwork">Artwork</option>
+                <option value="art-piece">Art Piece</option>
                 <option value="artifact">Artifact</option>
               </select>
             </fieldset>
