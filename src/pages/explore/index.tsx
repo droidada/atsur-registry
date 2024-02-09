@@ -1,15 +1,40 @@
+import axios from "@/lib/axios";
 import BidModal from "@/open9/elements/BidModal";
 import Layout from "@/open9/layout/Layout";
 import { Menu } from "@headlessui/react";
 import Link from "next/link";
-import { useState } from "react";
-export default function Home() {
+import { useEffect, useState } from "react";
+
+
+export default function Explore() {
+
   const [isBidModal, setBidModal] = useState(false);
   const handleBidModal = () => setBidModal(!isBidModal);
   const [activeIndex, setActiveIndex] = useState(1);
+  const [searchItem, setSearchItem] = useState('');
+  const [pieces, setPieces] = useState([]);
+
   const handleOnClick = (index) => {
     setActiveIndex(index);
   };
+
+  const handleSearch = (e) => { 
+    const searchTerm = e.target.value;
+    setSearchItem(searchTerm);
+    if (!searchTerm || searchTerm === '') return;
+
+
+  }
+  const filterPieces = async () => {
+    const res = await axios.get('/public/explore');
+    console.log("res here is ", res)
+    setPieces(res.data?.artPieces);
+  }
+
+  useEffect(() => {
+    filterPieces();
+  },[])
+
   return (
     <>
       <Layout headerStyle={2} footerStyle={1} currentMenuItem={"explore"}>
@@ -19,7 +44,7 @@ export default function Home() {
               <div className="row">
                 <div className="col-12">
                   <h1 className="heading text-center tf-color">
-                    Explore Artworks
+                    Explore Art Pieces
                   </h1>
                   <ul className="breadcrumbs flex justify-center">
                     <li className="icon-keyboard_arrow_right">
@@ -54,7 +79,8 @@ export default function Home() {
                         placeholder="Search..."
                         name="s"
                         title="Search for"
-                        required
+                        value={searchItem}
+                        onChange={handleSearch}
                       />
                       <button
                         className="search search-submit"
@@ -84,6 +110,7 @@ export default function Home() {
                             id="dropdownMenuButton4"
                             aria-haspopup="true"
                             aria-expanded="false"
+                            style={{background: 'black'}}
                           >
                             <svg
                               width={20}
@@ -132,18 +159,10 @@ export default function Home() {
                                 </span>
                               </div>
                             </Link>
-                            <Link href="#" className="dropdown-item">
-                              <div className="sort-filter">
-                                <span>Auction ending soon</span>
-                                <span className="icon-tick">
-                                  <span className="path2" />
-                                </span>
-                              </div>
-                            </Link>
                             <h6>Options</h6>
                             <Link href="#" className="dropdown-item">
                               <div className="sort-filter">
-                                <span>Auction ending soon</span>
+                                <span>For Sale</span>
                                 <input
                                   className="check"
                                   type="checkbox"
@@ -154,7 +173,7 @@ export default function Home() {
                             </Link>
                             <Link href="#" className="dropdown-item">
                               <div className="sort-filter">
-                                <span>Show lazy minted</span>
+                                <span>Tokenized</span>
                                 <input
                                   className="check"
                                   type="checkbox"
@@ -173,7 +192,7 @@ export default function Home() {
                         }
                         onClick={() => handleOnClick(1)}
                       >
-                        <span className="inner">Category</span>
+                        <span className="inner">Contemporary</span>
                       </li>
                       <li
                         className={
@@ -181,7 +200,7 @@ export default function Home() {
                         }
                         onClick={() => handleOnClick(2)}
                       >
-                        <span className="inner">Items</span>
+                        <span className="inner">Historical</span>
                       </li>
                       <li
                         className={
@@ -189,16 +208,16 @@ export default function Home() {
                         }
                         onClick={() => handleOnClick(3)}
                       >
-                        <span className="inner">Status</span>
+                        <span className="inner">Verified</span>
                       </li>
-                      <li
+                      {/* <li
                         className={
                           activeIndex === 4 ? "item-title active" : "item-title"
                         }
                         onClick={() => handleOnClick(4)}
                       >
                         <span className="inner">Price range</span>
-                      </li>
+                      </li> */}
                     </ul>
                     <div className="widget-content-tab pt-10">
                       <div
@@ -208,49 +227,51 @@ export default function Home() {
                         }}
                       >
                         <div className="row">
-                          <div className="fl-item col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                            <div className="tf-card-box style-1">
-                              <div className="card-media">
-                                <Link href="#">
-                                  <img
-                                    src="/assets/images/box-item/card-item-53.jpg"
-                                    alt=""
-                                  />
-                                </Link>
-                                <span className="wishlist-button icon-heart" />
-                                <div className="button-place-bid">
-                                  <Link href="/profile" className="tf-button">
-                                    <span>Place Bid</span>
+                        {pieces?.map((artPiece, idx) => (
+                            <div key={idx} className="fl-item col-xl-3 col-lg-4 col-md-6 col-sm-6">
+                              <div className="tf-card-box style-1">
+                                <div className="card-media">
+                                  <Link href="#">
+                                    <img
+                                      src={artPiece.assets[0].url}
+                                      alt=""
+                                    />
                                   </Link>
+                                  <span className="wishlist-button icon-heart" />
+                                  <div className="button-place-bid">
+                                    <Link href={`/explore/art-piece/${artPiece.id}`} className="tf-button">
+                                      <span>View</span>
+                                    </Link>
+                                  </div>
                                 </div>
-                              </div>
-                              <h5 className="name">
-                                <Link href="#">Dayco serpentine belt</Link>
-                              </h5>
-                              <div className="author flex items-center">
-                                <div className="avatar">
-                                  <img
-                                    src="/assets/images/avatar/avatar-box-03.jpg"
-                                    alt="Image"
-                                  />
+                                <h5 className="name">
+                                  <Link href="#">{artPiece.title}</Link>
+                                </h5>
+                                <div className="author flex items-center">
+                                  <div className="avatar">
+                                    <img
+                                      src={artPiece?.author?.avatar ? artPiece?.author?.avatar : "/assets/images/avatar/avatar-box-03.jpg"}
+                                      alt="Image"
+                                    />
+                                  </div>
+                                  <div className="info">
+                                    <span className="tf-color">Created by:</span>
+                                    <h6>
+                                      <Link href="/author-2">{`${artPiece?.author ? `${artPiece?.author?.firstName} ${artPiece?.author?.lastName}` : 'Kathryn Murphy'}`}</Link>{" "}
+                                    </h6>
+                                  </div>
                                 </div>
-                                <div className="info">
-                                  <span>Created by:</span>
-                                  <h6>
-                                    <Link href="/author-2">Kathryn Murphy</Link>{" "}
+                                <div className="divider" />
+                                <div className="meta-info flex items-center justify-between">
+                                  <span className="text-bid">Price</span>
+                                  <h6 className="price gem to-white">
+                                    <i className="icon-gem" />
+                                    0,34
                                   </h6>
                                 </div>
                               </div>
-                              <div className="divider" />
-                              <div className="meta-info flex items-center justify-between">
-                                <span className="text-bid">Current Bid</span>
-                                <h6 className="price gem">
-                                  <i className="icon-gem" />
-                                  0,34
-                                </h6>
-                              </div>
                             </div>
-                          </div>
+                        ))}
                           <div className="fl-item col-xl-3 col-lg-4 col-md-6 col-sm-6">
                             <div className="tf-card-box style-1">
                               <div className="card-media">
@@ -707,7 +728,7 @@ export default function Home() {
                                 </div>
                               </div>
                               <h5 className="name">
-                                <Link href="#">Dayco serpentine belt</Link>
+                                <Link href="#">ADA serpentine belt</Link>
                               </h5>
                               <div className="author flex items-center">
                                 <div className="avatar">

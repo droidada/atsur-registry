@@ -18,7 +18,7 @@ export const useRefreshToken = () => {
     const refreshToken =
       session?.user?.refreshToken || Cookies.get("refreshToken");
     if (refreshToken) {
-      await axios.post(`${BASE_URL}auth/token`, {
+      await axios.post(`${BASE_URL}auth/refresh-token`, {
         refreshToken: refreshToken,
         mode: "json",
       });

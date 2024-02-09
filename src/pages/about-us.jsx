@@ -403,10 +403,10 @@ export default function Home() {
               <div className="row">
                 <div className="col-md-12">
                   <div className="heading-section-1">
-                    <h2 className="tf-title pb-40">Why choose us</h2>
+                    <h2 className="tf-title pb-40 to-black">Why choose us</h2>
                   </div>
                 </div>
-                <div data-wow-delay="0s" className="wow fadeInUp col-md-4">
+                <div className="col-md-4">
                   <div className="box-icon-item">
                     <img
                       src="/assets/images/item-background/about-01.png"
@@ -421,7 +421,7 @@ export default function Home() {
                     </p>
                   </div>
                 </div>
-                <div data-wow-delay="0.1s" className="wow fadeInUp col-md-4">
+                <div className="col-md-4">
                   <div className="box-icon-item">
                     <img
                       src="/assets/images/item-background/about-02.png"
@@ -436,7 +436,7 @@ export default function Home() {
                     </p>
                   </div>
                 </div>
-                <div data-wow-delay="0.2s" className="wow fadeInUp col-md-4">
+                <div className="col-md-4">
                   <div className="box-icon-item">
                     <img
                       src="/assets/images/item-background/about-03.png"
@@ -462,10 +462,7 @@ export default function Home() {
                     <h2 className="tf-title pb-40">Meet Our Amazing Team</h2>
                   </div>
                 </div>
-                <div
-                  data-wow-delay="0s"
-                  className="wow fadeInUp col-md-2 col-6"
-                >
+                <div className="col-md-2 col-6">
                   <div className="our-team-item pb-38 text-center">
                     <img src="/assets/images/avatar/team-01.png" alt="" />
                     <div className="name">
@@ -484,10 +481,7 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-                <div
-                  data-wow-delay="0.1s"
-                  className="wow fadeInUp col-md-2 col-6"
-                >
+                <div className="col-md-2 col-6">
                   <div className="our-team-item pb-38 text-center">
                     <img src="/assets/images/avatar/team-02.png" alt="" />
                     <div className="name">
@@ -506,10 +500,7 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-                <div
-                  data-wow-delay="0.2s"
-                  className="wow fadeInUp col-md-2 col-6"
-                >
+                <div className="col-md-2 col-6">
                   <div className="our-team-item pb-38 text-center">
                     <img src="/assets/images/avatar/team-03.png" alt="" />
                     <div className="name">
@@ -528,10 +519,7 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-                <div
-                  data-wow-delay="0.3s"
-                  className="wow fadeInUp col-md-2 col-6"
-                >
+                <div className="col-md-2 col-6">
                   <div className="our-team-item pb-38 text-center">
                     <img src="/assets/images/avatar/team-04.png" alt="" />
                     <div className="name">
@@ -550,10 +538,7 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-                <div
-                  data-wow-delay="0.4s"
-                  className="wow fadeInUp col-md-2 col-6"
-                >
+                <div className="col-md-2 col-6">
                   <div className="our-team-item pb-38 text-center">
                     <img src="/assets/images/avatar/team-05.png" alt="" />
                     <div className="name">
@@ -572,10 +557,7 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-                <div
-                  data-wow-delay="0.5s"
-                  className="wow fadeInUp col-md-2 col-6"
-                >
+                <div className="col-md-2 col-6">
                   <div className="our-team-item pb-38 text-center">
                     <img src="/assets/images/avatar/team-06.png" alt="" />
                     <div className="name">
@@ -596,10 +578,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="row justify-center">
-                <div
-                  data-wow-delay="0s"
-                  className="wow fadeInUp col-md-2 col-6"
-                >
+                <div className="col-md-2 col-6">
                   <div className="our-team-item pb-40 text-center">
                     <img src="/assets/images/avatar/team-07.png" alt="" />
                     <div className="name">
@@ -618,10 +597,7 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-                <div
-                  data-wow-delay="0.1s"
-                  className="wow fadeInUp col-md-2 col-6"
-                >
+                <div className="col-md-2 col-6">
                   <div className="our-team-item pb-40 text-center">
                     <img src="/assets/images/avatar/team-08.png" alt="" />
                     <div className="name">
@@ -640,10 +616,7 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-                <div
-                  data-wow-delay="0.2s"
-                  className="wow fadeInUp col-md-2 col-6"
-                >
+                <div className="col-md-2 col-6">
                   <div className="our-team-item pb-40 text-center">
                     <img src="/assets/images/avatar/team-09.png" alt="" />
                     <div className="name">
@@ -662,10 +635,7 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-                <div
-                  data-wow-delay="0.3s"
-                  className="wow fadeInUp col-md-2 col-6"
-                >
+                <div className="col-md-2 col-6">
                   <div className="our-team-item pb-40 text-center">
                     <img src="/assets/images/avatar/team-10.png" alt="" />
                     <div className="name">
@@ -684,10 +654,7 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-                <div
-                  data-wow-delay="0.4s"
-                  className="wow fadeInUp col-md-2 col-6"
-                >
+                <div className="col-md-2 col-6">
                   <div className="our-team-item pb-40 text-center">
                     <img src="/assets/images/avatar/team-11.png" alt="" />
                     <div className="name">
@@ -729,15 +696,12 @@ export default function Home() {
                 </div>
                 <div className="col-md-6">
                   <div className="flat-accordion">
-                    <div
-                      data-wow-delay="0s"
-                      className="wow fadeInUp flat-toggle"
-                    >
+                    <div className="flat-toggle">
                       <h6
                         className={
                           isActive.key == 1
                             ? "toggle-title active"
-                            : "toggle-title"
+                            : "toggle-title to-white"
                         }
                         onClick={() => handleToggle(1)}
                       >
@@ -758,15 +722,12 @@ export default function Home() {
                         </p>
                       </div>
                     </div>
-                    <div
-                      data-wow-delay="0s"
-                      className="wow fadeInUp flat-toggle"
-                    >
+                    <div className="flat-toggle">
                       <h6
                         className={
                           isActive.key == 2
                             ? "toggle-title active"
-                            : "toggle-title"
+                            : "toggle-title to-white"
                         }
                         onClick={() => handleToggle(2)}
                       >
@@ -787,15 +748,12 @@ export default function Home() {
                         </p>
                       </div>
                     </div>
-                    <div
-                      data-wow-delay="0s"
-                      className="wow fadeInUp flat-toggle"
-                    >
+                    <div className="flat-toggle">
                       <h6
                         className={
                           isActive.key == 3
                             ? "toggle-title active"
-                            : "toggle-title"
+                            : "toggle-title to-white"
                         }
                         onClick={() => handleToggle(3)}
                       >
@@ -819,15 +777,12 @@ export default function Home() {
                         </p>
                       </div>
                     </div>
-                    <div
-                      data-wow-delay="0s"
-                      className="wow fadeInUp flat-toggle"
-                    >
+                    <div className="flat-toggle">
                       <h6
                         className={
                           isActive.key == 4
                             ? "toggle-title active"
-                            : "toggle-title"
+                            : "toggle-title to-white"
                         }
                         onClick={() => handleToggle(4)}
                       >
@@ -848,15 +803,12 @@ export default function Home() {
                         </p>
                       </div>
                     </div>
-                    <div
-                      data-wow-delay="0s"
-                      className="wow fadeInUp flat-toggle"
-                    >
+                    <div className="flat-toggle">
                       <h6
                         className={
                           isActive.key == 5
                             ? "toggle-title active"
-                            : "toggle-title"
+                            : "toggle-title to-white"
                         }
                         onClick={() => handleToggle(5)}
                       >
@@ -881,15 +833,12 @@ export default function Home() {
                 </div>
                 <div className="col-md-6">
                   <div className="flat-accordion2">
-                    <div
-                      data-wow-delay="0s"
-                      className="wow fadeInUp flat-toggle2"
-                    >
+                    <div className="flat-toggle2">
                       <h6
                         className={
                           isActive.key == 6
                             ? "toggle-title active"
-                            : "toggle-title"
+                            : "toggle-title to-white"
                         }
                         onClick={() => handleToggle(6)}
                       >
@@ -910,15 +859,12 @@ export default function Home() {
                         </p>
                       </div>
                     </div>
-                    <div
-                      data-wow-delay="0s"
-                      className="wow fadeInUp flat-toggle2"
-                    >
+                    <div className="flat-toggle2">
                       <h6
                         className={
                           isActive.key == 7
                             ? "toggle-title active"
-                            : "toggle-title"
+                            : "toggle-title to-white"
                         }
                         onClick={() => handleToggle(7)}
                       >
@@ -939,15 +885,12 @@ export default function Home() {
                         </p>
                       </div>
                     </div>
-                    <div
-                      data-wow-delay="0s"
-                      className="wow fadeInUp flat-toggle2"
-                    >
+                    <div className="flat-toggle2">
                       <h6
                         className={
                           isActive.key == 8
                             ? "toggle-title active"
-                            : "toggle-title"
+                            : "toggle-title to-white"
                         }
                         onClick={() => handleToggle(8)}
                       >
@@ -971,15 +914,12 @@ export default function Home() {
                         </p>
                       </div>
                     </div>
-                    <div
-                      data-wow-delay="0s"
-                      className="wow fadeInUp flat-toggle2"
-                    >
+                    <div className="flat-toggle2">
                       <h6
                         className={
                           isActive.key == 9
                             ? "toggle-title active"
-                            : "toggle-title"
+                            : "toggle-title to-white"
                         }
                         onClick={() => handleToggle(9)}
                       >
@@ -1000,15 +940,12 @@ export default function Home() {
                         </p>
                       </div>
                     </div>
-                    <div
-                      data-wow-delay="0s"
-                      className="wow fadeInUp flat-toggle2"
-                    >
+                    <div className="flat-toggle2">
                       <h6
                         className={
                           isActive.key == 10
                             ? "toggle-title active"
-                            : "toggle-title"
+                            : "toggle-title to-white"
                         }
                         onClick={() => handleToggle(10)}
                       >
@@ -1034,7 +971,7 @@ export default function Home() {
                 <div className="col-12">
                   <div className="content">
                     <div className="text">Still have question?</div>
-                    <p>
+                    <p className="to-black">
                       Can&lsquo;t find what you&lsquo;re looking for? Please{" "}
                       <Link href="#" className="tf-color">
                         chat to our friendly team
@@ -1050,7 +987,7 @@ export default function Home() {
               <div className="row">
                 <div className="col-12">
                   <div className="widget-income">
-                    <div className="title">
+                    <div className="title to-white">
                       Generate passive income with the platform{" "}
                       <span className="tf-color">Open9</span>
                     </div>

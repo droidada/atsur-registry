@@ -92,7 +92,7 @@ export const options: any = {
 
 async function refreshAccessToken(token) {
   try {
-    const res = await fetch(pubAPI + "/auth/token", {
+    const res = await fetch(pubAPI + "/auth/refresh-token", {
       method: "POST",
       body: JSON.stringify({
         refreshToken: token?.refreshToken,

@@ -1,3 +1,4 @@
+import axios from "@/lib/axios";
 import Layout from "@/open9/layout/Layout";
 import Action5 from "@/open9/sections/Action5";
 import DiscoverItem5 from "@/open9/sections/DiscoverItem5";
@@ -7,6 +8,16 @@ import FlatTitle5 from "@/open9/sections/FlatTitle5";
 import Seller7 from "@/open9/sections/Seller7";
 import Seller8 from "@/open9/sections/Seller8";
 import TopCollections5 from "@/open9/sections/TopCollections5";
+
+// export const getServerSideProps = async ({req, query}) => {
+//   try {
+//       const res = await axios.get(`/home`);
+//       return { props: { data: res.data } }
+
+//   } catch (error) {
+//      throw new Error(error);
+//   }
+// }
 
 function Home() {
   return (

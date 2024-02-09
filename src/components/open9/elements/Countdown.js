@@ -15,17 +15,19 @@ const getPartsofTimeDuration = (duration) => {
 };
 
 const Countdown = (endDateTime) => {
-  const [time, setTime] = useState(new Date().toLocaleTimeString());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const date = new Date();
+  const [time, setTime] = useState(date.toLocaleTimeString());
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      const date = new Date();
+      
       setTime(date.toLocaleTimeString());
     }, 1000);
     return () => {
       clearTimeout(timeout);
     };
-  }, [time]);
+  }, [time,date]);
 
   const now = Date.now(); // Number of milliseconds from begining of time
 
