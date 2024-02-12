@@ -239,7 +239,7 @@ export default function Explore() {
                                   </Link>
                                   <span className="wishlist-button icon-heart" />
                                   <div className="button-place-bid">
-                                    <Link href={`/explore/art-piece/${artPiece.id}`} className="tf-button">
+                                    <Link href={`/explore/art-piece/${artPiece._id}`} className="tf-button">
                                       <span>View</span>
                                     </Link>
                                   </div>

@@ -3,6 +3,7 @@ import DashboardLayout from "@/open9/layout/DashboardLayout";
 import { useState } from "react";
 import CreateMetadata from "@/components/dashboard/create-metadata";
 import CreateAssets from "@/components/dashboard/create-assets";
+import DashboardLayoutWithSidebar, { DashboardPages } from "@/components/open9/layout/DashboardLayoutWithSidebar";
 
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(11);
@@ -12,7 +13,7 @@ export default function Home() {
 
   return (
     <>
-      <DashboardLayout handleOnClick={handleOnClick} activeIndex={activeIndex}>
+      <DashboardLayoutWithSidebar activePage={DashboardPages.CREATE} hideSidebar={true}>
         <div id="create">
           <div className="wrapper-content-create">
             <div className="heading-section">
@@ -86,7 +87,7 @@ export default function Home() {
                   }
                   style={{ display: `${activeIndex == 13 ? "" : "none"}` }}
                 >
-                  <div className="wrap-upload w-full">
+                  {/* <div className="wrap-upload w-full">
                     <form id="commentform" className="comment-form">
                       <fieldset className="name">
                         <label>Product name *</label>
@@ -185,13 +186,13 @@ export default function Home() {
                         </button>
                       </div>
                     </form>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </DashboardLayout>
+      </DashboardLayoutWithSidebar>
       <div
         className="modal fade popup"
         id="popup_bid"

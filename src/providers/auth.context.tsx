@@ -1,6 +1,3 @@
-import axios from "axios";
-import Router, { useRouter } from "next/router";
-import Cookies from "js-cookie";
 import React, {
   createContext,
   useContext,
@@ -20,13 +17,6 @@ export type NewLogin = {
 
 export type AuthContextData = {
   user: IUser | undefined;
-  sendArtistInvite: (
-    email: string,
-    type: string,
-    userName: string,
-    orgName: string,
-    orgId?: string,
-  ) => Promise<void>;
   loading: boolean;
   logIn: (email: string, password: string) => Promise<any>;
   logOut: () => Promise<void>;
@@ -44,7 +34,12 @@ export function AuthContextProvider({ children }: any) {
 
   const axiosAuth = useAxiosAuth();
 
-  const fetchUser = async (): Promise<void> => {
+  useEffect(() => {
+    fetchUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status]);
+
+  const fetchUser = useCallback(async (): Promise<void> => {
     try {
       setLoading(true);
       const res = await axiosAuth.get("user/me");
@@ -55,38 +50,9 @@ export function AuthContextProvider({ children }: any) {
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [axiosAuth]);
 
-  useEffect(() => {
-    console.log("fetching user");
-    fetchUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status]);
-
-  const sendArtistInvite = async (
-    email: string,
-    type: string,
-    name: string,
-    orgName: string,
-    galleryId?: string,
-  ): Promise<void> => {
-    setLoading(true);
-
-    //TODO: extract api calls
-    await axios.post(
-      `${process.env.NEXT_PUBLIC_DOMAIN_NAME}/api/email/artist-invite`,
-      {
-        email,
-        type,
-        galleryId,
-        orgName,
-        name,
-      },
-    );
-    setLoading(false);
-  };
-
-  const updateUserProfile = async (info: IUser): Promise<void> => {
+  const updateUserProfile = useCallback(async (info: IUser): Promise<void> => {
     setLoading(true);
     const res = await axiosAuth.patch("user/me", {
       ...info,
@@ -96,9 +62,9 @@ export function AuthContextProvider({ children }: any) {
     console.log("we have current user here ", data);
     setUser(data);
     setLoading(false);
-  };
+  }, [axiosAuth])
 
-  const logIn = async (email: string, password: string) => {
+  const logIn = useCallback(async (email: string, password: string) => {
     setLoading(true);
     const res = await signIn("credentials", {
       redirect: false,
@@ -108,7 +74,7 @@ export function AuthContextProvider({ children }: any) {
     await fetchUser();
     setLoading(false);
     return res;
-  };
+  }, [fetchUser])
 
   const logOut = async () => {
     await signOut();
@@ -118,14 +84,13 @@ export function AuthContextProvider({ children }: any) {
   const memoedValue = useMemo(
     () => ({
       user,
-      sendArtistInvite,
       loading,
       logIn,
       logOut,
       updateUserProfile,
       error,
     }),
-    [user, loading, error],
+    [user, logIn, updateUserProfile, loading, error],
   );
 
   return (

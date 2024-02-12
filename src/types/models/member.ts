@@ -35,6 +35,7 @@ export interface IUser {
   gender?: string;
   description?: string;
   bio?: string;
+  avatar?: string;
   role: string;
   token?: string;
   status?: string;

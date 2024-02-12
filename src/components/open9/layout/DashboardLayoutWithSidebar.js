@@ -15,7 +15,7 @@ export const DashboardPages = {
   SETTINGS: "settings",
 };
 
-const DashboardLayoutWithSidebar = ({ children, activePage = "" }) => {
+const DashboardLayoutWithSidebar = ({ children, activePage = "", hideSidebar = false }) => {
   const { user, logIn, logOut } = useAuthContext();
 
   const [isToggled, setToggled] = useState(false);
@@ -620,47 +620,56 @@ const DashboardLayoutWithSidebar = ({ children, activePage = "" }) => {
                         }
                         data-tabs="activities"
                       >
-                        <svg
-                          width={22}
-                          height={22}
-                          viewBox="0 0 22 22"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
+                        <Link
+                          href="/dashboard/activities"
+                          className={
+                            activePage === DashboardPages.ACTIVITIES
+                              ? "tf-color"
+                              : ""
+                          }
                         >
-                          <g opacity="0.2">
+                          <svg
+                            width={22}
+                            height={22}
+                            viewBox="0 0 22 22"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <g opacity="0.2">
+                              <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M2.63385 10.6318C1.65026 7.56096 2.79976 4.05104 6.02368 3.01246C7.71951 2.46521 9.59135 2.78788 11.0012 3.84846C12.3349 2.81721 14.2755 2.46888 15.9695 3.01246C19.1934 4.05104 20.3503 7.56096 19.3676 10.6318C17.8368 15.4993 11.0012 19.2485 11.0012 19.2485C11.0012 19.2485 4.21601 15.5561 2.63385 10.6318Z"
+                                stroke="white"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                              <path
+                                d="M14.668 6.14166C15.6488 6.45883 16.3418 7.33425 16.4252 8.36183"
+                                stroke="white"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </g>
+                          </svg>
+                          <svg
+                            width={22}
+                            height={22}
+                            viewBox="0 0 22 22"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
                             <path
                               fillRule="evenodd"
                               clipRule="evenodd"
-                              d="M2.63385 10.6318C1.65026 7.56096 2.79976 4.05104 6.02368 3.01246C7.71951 2.46521 9.59135 2.78788 11.0012 3.84846C12.3349 2.81721 14.2755 2.46888 15.9695 3.01246C19.1934 4.05104 20.3503 7.56096 19.3676 10.6318C17.8368 15.4993 11.0012 19.2485 11.0012 19.2485C11.0012 19.2485 4.21601 15.5561 2.63385 10.6318Z"
-                              stroke="white"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
+                              d="M14.5279 2.29232C15.1063 2.29232 15.6838 2.3739 16.2329 2.55815C19.6163 3.65815 20.8355 7.37066 19.817 10.6157C19.2395 12.2739 18.2954 13.7873 17.0588 15.0239C15.2887 16.7381 13.3463 18.2597 11.2554 19.5706L11.0262 19.709L10.7879 19.5614C8.68963 18.2597 6.73621 16.7381 4.94963 15.0147C3.7213 13.7782 2.77621 12.2739 2.18955 10.6157C1.15371 7.37066 2.37288 3.65815 5.79296 2.5389C6.0588 2.44724 6.33288 2.38307 6.60788 2.34732H6.71788C6.97546 2.30974 7.23121 2.29232 7.48788 2.29232H7.58871C8.16621 2.30974 8.72538 2.41057 9.26713 2.59482H9.32121C9.35788 2.61224 9.38538 2.63149 9.40371 2.6489C9.6063 2.71399 9.79788 2.78732 9.98121 2.88815L10.3295 3.04399C10.4137 3.08888 10.5082 3.15747 10.5898 3.21675C10.6416 3.25431 10.6882 3.28813 10.7237 3.30982C10.7387 3.31865 10.7539 3.32752 10.7692 3.33647C10.8478 3.38235 10.9297 3.43014 10.9987 3.48307C12.0171 2.70482 13.2537 2.28315 14.5279 2.29232ZM16.9674 8.8923C17.3432 8.88222 17.6641 8.58063 17.6916 8.19472V8.08563C17.7191 6.80138 16.9408 5.63813 15.7574 5.18897C15.3816 5.05972 14.9691 5.2623 14.8316 5.6473C14.7032 6.0323 14.9049 6.45397 15.2899 6.59055C15.8775 6.81055 16.2707 7.38897 16.2707 8.02972V8.05813C16.2533 8.26805 16.3166 8.47063 16.4449 8.62647C16.5732 8.7823 16.7657 8.87305 16.9674 8.8923Z"
+                              fill="#A4442B"
                             />
-                            <path
-                              d="M14.668 6.14166C15.6488 6.45883 16.3418 7.33425 16.4252 8.36183"
-                              stroke="white"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </g>
-                        </svg>
-                        <svg
-                          width={22}
-                          height={22}
-                          viewBox="0 0 22 22"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M14.5279 2.29232C15.1063 2.29232 15.6838 2.3739 16.2329 2.55815C19.6163 3.65815 20.8355 7.37066 19.817 10.6157C19.2395 12.2739 18.2954 13.7873 17.0588 15.0239C15.2887 16.7381 13.3463 18.2597 11.2554 19.5706L11.0262 19.709L10.7879 19.5614C8.68963 18.2597 6.73621 16.7381 4.94963 15.0147C3.7213 13.7782 2.77621 12.2739 2.18955 10.6157C1.15371 7.37066 2.37288 3.65815 5.79296 2.5389C6.0588 2.44724 6.33288 2.38307 6.60788 2.34732H6.71788C6.97546 2.30974 7.23121 2.29232 7.48788 2.29232H7.58871C8.16621 2.30974 8.72538 2.41057 9.26713 2.59482H9.32121C9.35788 2.61224 9.38538 2.63149 9.40371 2.6489C9.6063 2.71399 9.79788 2.78732 9.98121 2.88815L10.3295 3.04399C10.4137 3.08888 10.5082 3.15747 10.5898 3.21675C10.6416 3.25431 10.6882 3.28813 10.7237 3.30982C10.7387 3.31865 10.7539 3.32752 10.7692 3.33647C10.8478 3.38235 10.9297 3.43014 10.9987 3.48307C12.0171 2.70482 13.2537 2.28315 14.5279 2.29232ZM16.9674 8.8923C17.3432 8.88222 17.6641 8.58063 17.6916 8.19472V8.08563C17.7191 6.80138 16.9408 5.63813 15.7574 5.18897C15.3816 5.05972 14.9691 5.2623 14.8316 5.6473C14.7032 6.0323 14.9049 6.45397 15.2899 6.59055C15.8775 6.81055 16.2707 7.38897 16.2707 8.02972V8.05813C16.2533 8.26805 16.3166 8.47063 16.4449 8.62647C16.5732 8.7823 16.7657 8.87305 16.9674 8.8923Z"
-                            fill="#A4442B"
-                          />
-                        </svg>
-                        Activities
+                          </svg>
+                          Activities
+                        </Link>
                       </li>
                       <li
                         className={
@@ -670,73 +679,82 @@ const DashboardLayoutWithSidebar = ({ children, activePage = "" }) => {
                         }
                         data-tabs="wallet"
                       >
-                        <svg
-                          width={22}
-                          height={22}
-                          viewBox="0 0 22 22"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
+                        <Link
+                            href="/dashboard/wallet"
+                            className={
+                              activePage === DashboardPages.WALLET
+                                ? "tf-color"
+                                : ""
+                            }
                         >
-                          <g opacity="0.2">
-                            <path
-                              fillRule="evenodd"
-                              clipRule="evenodd"
-                              d="M20.0651 14.571H16.3544C14.6155 14.571 13.2001 13.1565 13.1992 11.4185C13.1992 9.6787 14.6146 8.26337 16.3544 8.26245H20.0651C20.4446 8.26245 20.7526 8.57045 20.7526 8.94995C20.7526 9.32945 20.4446 9.63745 20.0651 9.63745H16.3544C15.3726 9.63837 14.5742 10.4368 14.5742 11.4176C14.5742 12.3975 15.3736 13.196 16.3544 13.196H20.0651C20.4446 13.196 20.7526 13.504 20.7526 13.8835C20.7526 14.263 20.4446 14.571 20.0651 14.571Z"
-                              fill="white"
-                            />
-                            <path
-                              fillRule="evenodd"
-                              clipRule="evenodd"
-                              d="M16.7743 12.0483H16.4883C16.1088 12.0483 15.8008 11.7403 15.8008 11.3608C15.8008 10.9813 16.1088 10.6733 16.4883 10.6733H16.7743C17.1538 10.6733 17.4618 10.9813 17.4618 11.3608C17.4618 11.7403 17.1538 12.0483 16.7743 12.0483Z"
-                              fill="white"
-                            />
-                            <mask
-                              id="mask0_1075_5813"
-                              style={{ maskType: "luminance" }}
-                              maskUnits="userSpaceOnUse"
-                              x={1}
-                              y={2}
-                              width={20}
-                              height={19}
-                            >
+                          <svg
+                            width={22}
+                            height={22}
+                            viewBox="0 0 22 22"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <g opacity="0.2">
                               <path
                                 fillRule="evenodd"
                                 clipRule="evenodd"
-                                d="M1.83398 2.75H20.7527V20.3252H1.83398V2.75Z"
+                                d="M20.0651 14.571H16.3544C14.6155 14.571 13.2001 13.1565 13.1992 11.4185C13.1992 9.6787 14.6146 8.26337 16.3544 8.26245H20.0651C20.4446 8.26245 20.7526 8.57045 20.7526 8.94995C20.7526 9.32945 20.4446 9.63745 20.0651 9.63745H16.3544C15.3726 9.63837 14.5742 10.4368 14.5742 11.4176C14.5742 12.3975 15.3736 13.196 16.3544 13.196H20.0651C20.4446 13.196 20.7526 13.504 20.7526 13.8835C20.7526 14.263 20.4446 14.571 20.0651 14.571Z"
                                 fill="white"
                               />
-                            </mask>
-                            <g mask="url(#mask0_1075_5813)">
                               <path
                                 fillRule="evenodd"
                                 clipRule="evenodd"
-                                d="M7.33215 4.125C5.05882 4.125 3.20898 5.97483 3.20898 8.24817V14.8271C3.20898 17.1004 5.05882 18.9503 7.33215 18.9503H15.2558C17.5292 18.9503 19.3781 17.1004 19.3781 14.8271V8.24817C19.3781 5.97483 17.5292 4.125 15.2558 4.125H7.33215ZM15.2558 20.3253H7.33215C4.30073 20.3253 1.83398 17.8585 1.83398 14.8271V8.24817C1.83398 5.21583 4.30073 2.75 7.33215 2.75H15.2558C18.2872 2.75 20.7531 5.21583 20.7531 8.24817V14.8271C20.7531 17.8585 18.2872 20.3253 15.2558 20.3253Z"
+                                d="M16.7743 12.0483H16.4883C16.1088 12.0483 15.8008 11.7403 15.8008 11.3608C15.8008 10.9813 16.1088 10.6733 16.4883 10.6733H16.7743C17.1538 10.6733 17.4618 10.9813 17.4618 11.3608C17.4618 11.7403 17.1538 12.0483 16.7743 12.0483Z"
+                                fill="white"
+                              />
+                              <mask
+                                id="mask0_1075_5813"
+                                style={{ maskType: "luminance" }}
+                                maskUnits="userSpaceOnUse"
+                                x={1}
+                                y={2}
+                                width={20}
+                                height={19}
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  clipRule="evenodd"
+                                  d="M1.83398 2.75H20.7527V20.3252H1.83398V2.75Z"
+                                  fill="white"
+                                />
+                              </mask>
+                              <g mask="url(#mask0_1075_5813)">
+                                <path
+                                  fillRule="evenodd"
+                                  clipRule="evenodd"
+                                  d="M7.33215 4.125C5.05882 4.125 3.20898 5.97483 3.20898 8.24817V14.8271C3.20898 17.1004 5.05882 18.9503 7.33215 18.9503H15.2558C17.5292 18.9503 19.3781 17.1004 19.3781 14.8271V8.24817C19.3781 5.97483 17.5292 4.125 15.2558 4.125H7.33215ZM15.2558 20.3253H7.33215C4.30073 20.3253 1.83398 17.8585 1.83398 14.8271V8.24817C1.83398 5.21583 4.30073 2.75 7.33215 2.75H15.2558C18.2872 2.75 20.7531 5.21583 20.7531 8.24817V14.8271C20.7531 17.8585 18.2872 20.3253 15.2558 20.3253Z"
+                                  fill="white"
+                                />
+                              </g>
+                              <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M11.6288 8.28491H6.67969C6.30019 8.28491 5.99219 7.97691 5.99219 7.59741C5.99219 7.21791 6.30019 6.90991 6.67969 6.90991H11.6288C12.0083 6.90991 12.3163 7.21791 12.3163 7.59741C12.3163 7.97691 12.0083 8.28491 11.6288 8.28491Z"
                                 fill="white"
                               />
                             </g>
+                          </svg>
+                          <svg
+                            width={22}
+                            height={22}
+                            viewBox="0 0 22 22"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
                             <path
                               fillRule="evenodd"
                               clipRule="evenodd"
-                              d="M11.6288 8.28491H6.67969C6.30019 8.28491 5.99219 7.97691 5.99219 7.59741C5.99219 7.21791 6.30019 6.90991 6.67969 6.90991H11.6288C12.0083 6.90991 12.3163 7.21791 12.3163 7.59741C12.3163 7.97691 12.0083 8.28491 11.6288 8.28491Z"
-                              fill="white"
+                              d="M16.2883 7.68332H20.1668C20.1668 4.56921 18.3009 2.75 15.1394 2.75H6.8609C3.69942 2.75 1.8335 4.56921 1.8335 7.6436V14.3564C1.8335 17.4308 3.69942 19.25 6.8609 19.25H15.1394C18.3009 19.25 20.1668 17.4308 20.1668 14.3564V14.0704H16.2883C14.4883 14.0704 13.0291 12.6477 13.0291 10.8928C13.0291 9.13778 14.4883 7.71509 16.2883 7.71509V7.68332ZM16.2883 9.04971H19.4824C19.8604 9.04971 20.1668 9.34848 20.1668 9.71702V12.0367C20.1624 12.4035 19.8586 12.6997 19.4824 12.704H16.3616C15.4504 12.716 14.6535 12.1077 14.4468 11.2423C14.3433 10.7051 14.4886 10.1508 14.8438 9.72787C15.199 9.30496 15.7277 9.05674 16.2883 9.04971ZM16.4268 11.4886H16.7283C17.1153 11.4886 17.4291 11.1827 17.4291 10.8054C17.4291 10.428 17.1153 10.1222 16.7283 10.1222H16.4268C16.2417 10.12 16.0635 10.1903 15.9318 10.3171C15.8002 10.444 15.7261 10.617 15.7261 10.7974C15.7261 11.1761 16.0385 11.4842 16.4268 11.4886ZM6.17646 7.68332H11.3505C11.7375 7.68332 12.0513 7.37744 12.0513 7.00012C12.0513 6.6228 11.7375 6.31692 11.3505 6.31692H6.17646C5.79261 6.3169 5.48018 6.61796 5.47572 6.99218C5.47569 7.3708 5.78814 7.67897 6.17646 7.68332Z"
+                              fill="#A4442B"
                             />
-                          </g>
-                        </svg>
-                        <svg
-                          width={22}
-                          height={22}
-                          viewBox="0 0 22 22"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M16.2883 7.68332H20.1668C20.1668 4.56921 18.3009 2.75 15.1394 2.75H6.8609C3.69942 2.75 1.8335 4.56921 1.8335 7.6436V14.3564C1.8335 17.4308 3.69942 19.25 6.8609 19.25H15.1394C18.3009 19.25 20.1668 17.4308 20.1668 14.3564V14.0704H16.2883C14.4883 14.0704 13.0291 12.6477 13.0291 10.8928C13.0291 9.13778 14.4883 7.71509 16.2883 7.71509V7.68332ZM16.2883 9.04971H19.4824C19.8604 9.04971 20.1668 9.34848 20.1668 9.71702V12.0367C20.1624 12.4035 19.8586 12.6997 19.4824 12.704H16.3616C15.4504 12.716 14.6535 12.1077 14.4468 11.2423C14.3433 10.7051 14.4886 10.1508 14.8438 9.72787C15.199 9.30496 15.7277 9.05674 16.2883 9.04971ZM16.4268 11.4886H16.7283C17.1153 11.4886 17.4291 11.1827 17.4291 10.8054C17.4291 10.428 17.1153 10.1222 16.7283 10.1222H16.4268C16.2417 10.12 16.0635 10.1903 15.9318 10.3171C15.8002 10.444 15.7261 10.617 15.7261 10.7974C15.7261 11.1761 16.0385 11.4842 16.4268 11.4886ZM6.17646 7.68332H11.3505C11.7375 7.68332 12.0513 7.37744 12.0513 7.00012C12.0513 6.6228 11.7375 6.31692 11.3505 6.31692H6.17646C5.79261 6.3169 5.48018 6.61796 5.47572 6.99218C5.47569 7.3708 5.78814 7.67897 6.17646 7.68332Z"
-                            fill="#A4442B"
-                          />
-                        </svg>
-                        Wallet
+                          </svg>
+                          Wallet
+                        </Link>
                       </li>
                       <li
                         className={
@@ -906,259 +924,261 @@ const DashboardLayoutWithSidebar = ({ children, activePage = "" }) => {
             </div>
           </div>
         </div>
-        <div
-          className="side-bar"
-          style={{ marginTop: "130px", paddingRight: "15px" }}
-        >
-          <div className="widget widget-recently">
-            <h5 className="title-widget">Recently added</h5>
-            <div className="card-small-main">
-              <img src="assets/images/blog/sidebar-05.jpg" alt="" />
-              <div className="card-bottom">
-                <h5>
-                  <Link href="#">Photography</Link>
-                </h5>
-                <span className="date">16hr ago</span>
-              </div>
-            </div>
-            <div className="card-small">
-              <div className="author">
-                <img src="assets/images/blog/sidebar-06.jpg" alt="" />
-                <div className="info">
-                  <h6>
-                    <Link href="#">Propw</Link>
-                  </h6>
-                  <p>
-                    <Link href="#">@themes</Link>
-                  </p>
+        {!hideSidebar &&
+          <div
+            className="side-bar"
+            style={{ marginTop: "130px", paddingRight: "15px" }}
+          >
+            <div className="widget widget-recently">
+              <h5 className="title-widget">Recently added</h5>
+              <div className="card-small-main">
+                <img src="assets/images/blog/sidebar-05.jpg" alt="" />
+                <div className="card-bottom">
+                  <h5>
+                    <Link href="#">Photography</Link>
+                  </h5>
+                  <span className="date">16hr ago</span>
                 </div>
               </div>
-              <span className="date">Mon, 08 May </span>
-            </div>
-            <div className="card-small">
-              <div className="author">
-                <img src="assets/images/blog/sidebar-07.jpg" alt="" />
-                <div className="info">
-                  <h6>
-                    <Link href="#">Propw</Link>
-                  </h6>
-                  <p>
-                    <Link href="#">@themes</Link>
-                  </p>
+              <div className="card-small">
+                <div className="author">
+                  <img src="assets/images/blog/sidebar-06.jpg" alt="" />
+                  <div className="info">
+                    <h6>
+                      <Link href="#">Propw</Link>
+                    </h6>
+                    <p>
+                      <Link href="#">@themes</Link>
+                    </p>
+                  </div>
                 </div>
+                <span className="date">Mon, 08 May </span>
               </div>
-              <span className="date">Mon, 08 May </span>
-            </div>
-            <div className="card-small">
-              <div className="author">
-                <img src="assets/images/blog/sidebar-08.jpg" alt="" />
-                <div className="info">
-                  <h6>
-                    <Link href="#">Propw</Link>
-                  </h6>
-                  <p>
-                    <Link href="#">@themes</Link>
-                  </p>
+              <div className="card-small">
+                <div className="author">
+                  <img src="assets/images/blog/sidebar-07.jpg" alt="" />
+                  <div className="info">
+                    <h6>
+                      <Link href="#">Propw</Link>
+                    </h6>
+                    <p>
+                      <Link href="#">@themes</Link>
+                    </p>
+                  </div>
                 </div>
+                <span className="date">Mon, 08 May </span>
               </div>
-              <span className="date">Mon, 08 May </span>
+              <div className="card-small">
+                <div className="author">
+                  <img src="assets/images/blog/sidebar-08.jpg" alt="" />
+                  <div className="info">
+                    <h6>
+                      <Link href="#">Propw</Link>
+                    </h6>
+                    <p>
+                      <Link href="#">@themes</Link>
+                    </p>
+                  </div>
+                </div>
+                <span className="date">Mon, 08 May </span>
+              </div>
+            </div>
+            <div className="widget widget-creators">
+              <div className="flex items-center justify-between">
+                <h5 className="title-widget">Top Creators</h5>
+                <Link className="see-all" href="#">
+                  See all
+                </Link>
+              </div>
+              <div className="widget-creators-item flex items-center mb-20">
+                <div className="order">1. </div>
+                <div className="author flex items-center flex-grow">
+                  <img src="assets/images/avatar/avatar-small-01.png" alt="" />
+                  <div className="info">
+                    <h6>
+                      <Link href="#">Brooklyn Simmons</Link>
+                    </h6>
+                    <span>
+                      <Link href="#">@themes</Link>
+                    </span>
+                  </div>
+                </div>
+                <button className="follow">Follow</button>
+              </div>
+              <div className="widget-creators-item flex items-center mb-20">
+                <div className="order">2. </div>
+                <div className="author flex items-center flex-grow">
+                  <img src="assets/images/avatar/avatar-small-02.png" alt="" />
+                  <div className="info">
+                    <h6>
+                      <Link href="#">Brooklyn Simmons</Link>
+                    </h6>
+                    <span>
+                      <Link href="#">@themes</Link>
+                    </span>
+                  </div>
+                </div>
+                <button className="follow">Follow</button>
+              </div>
+              <div className="widget-creators-item flex items-center mb-20">
+                <div className="order">3. </div>
+                <div className="author flex items-center flex-grow">
+                  <img src="assets/images/avatar/avatar-small-03.png" alt="" />
+                  <div className="info">
+                    <h6>
+                      <Link href="#">Brooklyn Simmons</Link>
+                    </h6>
+                    <span>
+                      <Link href="#">@themes</Link>
+                    </span>
+                  </div>
+                </div>
+                <button className="follow">Follow</button>
+              </div>
+              <div className="widget-creators-item flex items-center mb-20">
+                <div className="order">4. </div>
+                <div className="author flex items-center flex-grow">
+                  <img src="assets/images/avatar/avatar-small-04.png" alt="" />
+                  <div className="info">
+                    <h6>
+                      <Link href="#">Brooklyn Simmons</Link>
+                    </h6>
+                    <span>
+                      <Link href="#">@themes</Link>
+                    </span>
+                  </div>
+                </div>
+                <button className="follow">Follow</button>
+              </div>
+              <div className="widget-creators-item flex items-center">
+                <div className="order">5. </div>
+                <div className="author flex items-center flex-grow">
+                  <img src="assets/images/avatar/avatar-small-01.png" alt="" />
+                  <div className="info">
+                    <h6>
+                      <Link href="#">Brooklyn Simmons</Link>
+                    </h6>
+                    <span>
+                      <Link href="#">@themes</Link>
+                    </span>
+                  </div>
+                </div>
+                <button className="follow">Follow</button>
+              </div>
+            </div>
+            <div className="widget widget-coins">
+              <h5 className="title-widget">Trending coins</h5>
+              <div className="widget-coins-item flex items-center mb-20">
+                <img src="assets/images/box-icon/coin-01.png" alt="" />
+                <p>
+                  <Link href="#">Bitcoin</Link>
+                </p>
+              </div>
+              <div className="widget-coins-item flex items-center mb-20">
+                <img src="assets/images/box-icon/coin-02.png" alt="" />
+                <p>
+                  <Link href="#">Ethereum</Link>
+                </p>
+              </div>
+              <div className="widget-coins-item flex items-center mb-20">
+                <img src="assets/images/box-icon/coin-03.png" alt="" />
+                <p>
+                  <Link href="#">Cardano</Link>
+                </p>
+              </div>
+              <div className="widget-coins-item flex items-center mb-20">
+                <img src="assets/images/box-icon/coin-04.png" alt="" />
+                <p>
+                  <Link href="#">Solana</Link>
+                </p>
+              </div>
+              <div className="widget-coins-item flex items-center">
+                <img src="assets/images/box-icon/coin-05.png" alt="" />
+                <p>
+                  <Link href="#">Litecoin</Link>
+                </p>
+              </div>
+            </div>
+            <div className="widget widget-history">
+              <div className="flex items-center justify-between">
+                <h5 className="title-widget">History</h5>
+                <Link className="see-all" href="#">
+                  See all
+                </Link>
+              </div>
+              <div className="widget-creators-item flex items-center mb-20">
+                <div className="author flex items-center flex-grow">
+                  <img src="assets/images/avatar/avatar-small-01.png" alt="" />
+                  <div className="info">
+                    <h6>
+                      <Link href="#">Lorem NFT sold</Link>
+                    </h6>
+                    <span>
+                      <Link href="#">Sold at 1.32 ETH</Link>
+                    </span>
+                  </div>
+                </div>
+                <span className="time">Just now</span>
+              </div>
+              <div className="widget-creators-item flex items-center mb-20">
+                <div className="author flex items-center flex-grow">
+                  <img src="assets/images/avatar/avatar-small-02.png" alt="" />
+                  <div className="info">
+                    <h6>
+                      <Link href="#">New NFT uploaded</Link>
+                    </h6>
+                    <span>
+                      <Link href="#">By Marisol Pena</Link>
+                    </span>
+                  </div>
+                </div>
+                <span className="time">1hr ago</span>
+              </div>
+              <div className="widget-creators-item flex items-center mb-20">
+                <div className="author flex items-center flex-grow">
+                  <img src="assets/images/avatar/avatar-small-03.png" alt="" />
+                  <div className="info">
+                    <h6>
+                      <Link href="#">You followed a creator</Link>
+                    </h6>
+                    <span>
+                      <Link href="#">Jane Cooper</Link>
+                    </span>
+                  </div>
+                </div>
+                <span className="time">2hr ago</span>
+              </div>
+              <div className="widget-creators-item flex items-center mb-20">
+                <div className="author flex items-center flex-grow">
+                  <img src="assets/images/avatar/avatar-small-04.png" alt="" />
+                  <div className="info">
+                    <h6>
+                      <Link href="#">You placed a bid</Link>
+                    </h6>
+                    <span>
+                      <Link href="#">Whirl wind NFT</Link>
+                    </span>
+                  </div>
+                </div>
+                <span className="time">4hr ago</span>
+              </div>
+              <div className="widget-creators-item flex items-center">
+                <div className="author flex items-center flex-grow">
+                  <img src="assets/images/avatar/avatar-small-01.png" alt="" />
+                  <div className="info">
+                    <h6>
+                      <Link href="#">You followed a creator</Link>
+                    </h6>
+                    <span>
+                      <Link href="#">Courtney Henry</Link>
+                    </span>
+                  </div>
+                </div>
+                <span className="time">16hr ago</span>
+              </div>
             </div>
           </div>
-          <div className="widget widget-creators">
-            <div className="flex items-center justify-between">
-              <h5 className="title-widget">Top Creators</h5>
-              <Link className="see-all" href="#">
-                See all
-              </Link>
-            </div>
-            <div className="widget-creators-item flex items-center mb-20">
-              <div className="order">1. </div>
-              <div className="author flex items-center flex-grow">
-                <img src="assets/images/avatar/avatar-small-01.png" alt="" />
-                <div className="info">
-                  <h6>
-                    <Link href="#">Brooklyn Simmons</Link>
-                  </h6>
-                  <span>
-                    <Link href="#">@themes</Link>
-                  </span>
-                </div>
-              </div>
-              <button className="follow">Follow</button>
-            </div>
-            <div className="widget-creators-item flex items-center mb-20">
-              <div className="order">2. </div>
-              <div className="author flex items-center flex-grow">
-                <img src="assets/images/avatar/avatar-small-02.png" alt="" />
-                <div className="info">
-                  <h6>
-                    <Link href="#">Brooklyn Simmons</Link>
-                  </h6>
-                  <span>
-                    <Link href="#">@themes</Link>
-                  </span>
-                </div>
-              </div>
-              <button className="follow">Follow</button>
-            </div>
-            <div className="widget-creators-item flex items-center mb-20">
-              <div className="order">3. </div>
-              <div className="author flex items-center flex-grow">
-                <img src="assets/images/avatar/avatar-small-03.png" alt="" />
-                <div className="info">
-                  <h6>
-                    <Link href="#">Brooklyn Simmons</Link>
-                  </h6>
-                  <span>
-                    <Link href="#">@themes</Link>
-                  </span>
-                </div>
-              </div>
-              <button className="follow">Follow</button>
-            </div>
-            <div className="widget-creators-item flex items-center mb-20">
-              <div className="order">4. </div>
-              <div className="author flex items-center flex-grow">
-                <img src="assets/images/avatar/avatar-small-04.png" alt="" />
-                <div className="info">
-                  <h6>
-                    <Link href="#">Brooklyn Simmons</Link>
-                  </h6>
-                  <span>
-                    <Link href="#">@themes</Link>
-                  </span>
-                </div>
-              </div>
-              <button className="follow">Follow</button>
-            </div>
-            <div className="widget-creators-item flex items-center">
-              <div className="order">5. </div>
-              <div className="author flex items-center flex-grow">
-                <img src="assets/images/avatar/avatar-small-01.png" alt="" />
-                <div className="info">
-                  <h6>
-                    <Link href="#">Brooklyn Simmons</Link>
-                  </h6>
-                  <span>
-                    <Link href="#">@themes</Link>
-                  </span>
-                </div>
-              </div>
-              <button className="follow">Follow</button>
-            </div>
-          </div>
-          <div className="widget widget-coins">
-            <h5 className="title-widget">Trending coins</h5>
-            <div className="widget-coins-item flex items-center mb-20">
-              <img src="assets/images/box-icon/coin-01.png" alt="" />
-              <p>
-                <Link href="#">Bitcoin</Link>
-              </p>
-            </div>
-            <div className="widget-coins-item flex items-center mb-20">
-              <img src="assets/images/box-icon/coin-02.png" alt="" />
-              <p>
-                <Link href="#">Ethereum</Link>
-              </p>
-            </div>
-            <div className="widget-coins-item flex items-center mb-20">
-              <img src="assets/images/box-icon/coin-03.png" alt="" />
-              <p>
-                <Link href="#">Cardano</Link>
-              </p>
-            </div>
-            <div className="widget-coins-item flex items-center mb-20">
-              <img src="assets/images/box-icon/coin-04.png" alt="" />
-              <p>
-                <Link href="#">Solana</Link>
-              </p>
-            </div>
-            <div className="widget-coins-item flex items-center">
-              <img src="assets/images/box-icon/coin-05.png" alt="" />
-              <p>
-                <Link href="#">Litecoin</Link>
-              </p>
-            </div>
-          </div>
-          <div className="widget widget-history">
-            <div className="flex items-center justify-between">
-              <h5 className="title-widget">History</h5>
-              <Link className="see-all" href="#">
-                See all
-              </Link>
-            </div>
-            <div className="widget-creators-item flex items-center mb-20">
-              <div className="author flex items-center flex-grow">
-                <img src="assets/images/avatar/avatar-small-01.png" alt="" />
-                <div className="info">
-                  <h6>
-                    <Link href="#">Lorem NFT sold</Link>
-                  </h6>
-                  <span>
-                    <Link href="#">Sold at 1.32 ETH</Link>
-                  </span>
-                </div>
-              </div>
-              <span className="time">Just now</span>
-            </div>
-            <div className="widget-creators-item flex items-center mb-20">
-              <div className="author flex items-center flex-grow">
-                <img src="assets/images/avatar/avatar-small-02.png" alt="" />
-                <div className="info">
-                  <h6>
-                    <Link href="#">New NFT uploaded</Link>
-                  </h6>
-                  <span>
-                    <Link href="#">By Marisol Pena</Link>
-                  </span>
-                </div>
-              </div>
-              <span className="time">1hr ago</span>
-            </div>
-            <div className="widget-creators-item flex items-center mb-20">
-              <div className="author flex items-center flex-grow">
-                <img src="assets/images/avatar/avatar-small-03.png" alt="" />
-                <div className="info">
-                  <h6>
-                    <Link href="#">You followed a creator</Link>
-                  </h6>
-                  <span>
-                    <Link href="#">Jane Cooper</Link>
-                  </span>
-                </div>
-              </div>
-              <span className="time">2hr ago</span>
-            </div>
-            <div className="widget-creators-item flex items-center mb-20">
-              <div className="author flex items-center flex-grow">
-                <img src="assets/images/avatar/avatar-small-04.png" alt="" />
-                <div className="info">
-                  <h6>
-                    <Link href="#">You placed a bid</Link>
-                  </h6>
-                  <span>
-                    <Link href="#">Whirl wind NFT</Link>
-                  </span>
-                </div>
-              </div>
-              <span className="time">4hr ago</span>
-            </div>
-            <div className="widget-creators-item flex items-center">
-              <div className="author flex items-center flex-grow">
-                <img src="assets/images/avatar/avatar-small-01.png" alt="" />
-                <div className="info">
-                  <h6>
-                    <Link href="#">You followed a creator</Link>
-                  </h6>
-                  <span>
-                    <Link href="#">Courtney Henry</Link>
-                  </span>
-                </div>
-              </div>
-              <span className="time">16hr ago</span>
-            </div>
-          </div>
-        </div>
+        }
       </div>
     </>
   );
