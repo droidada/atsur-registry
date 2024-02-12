@@ -18,10 +18,10 @@ export const getServerSideProps = async ({req, query}) => {
         const token: any = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
         const res = await axios.get(token ? `/art-piece/${id}` : `/art-piece/public/${id}` , { headers: { authorization: `Bearer ${token?.user?.accessToken}`}});
 
-        return { props: { artwork: res.data.artPiece } }
+        return { props: { artPiece: res.data.artPiece } }
     } catch (error) {
         console.error("error here looks like ", error);
-        if(error.response.status === 404){
+        if(error?.response?.status === 404){
             return {
                 notFound: true,
             };
@@ -32,9 +32,9 @@ export const getServerSideProps = async ({req, query}) => {
 
 const currentTime = new Date()
 
-export default function Artwork({ artwork }) {
+export default function ArtPiece({ artPiece }) {
 
-    console.log("we have page artwork ", artwork);
+    console.log("we have page artPiece ", artPiece);
 
     return (
         <>
@@ -47,7 +47,7 @@ export default function Artwork({ artwork }) {
                                     <div className="tf-card-box style-5 mb-0">
                                         <div className="card-media mb-0">
                                             <Link href="#">
-                                                <img src={artwork?.assets[0].url} alt="" />
+                                                <img src={artPiece?.assets[0]?.url} alt="" />
                                             </Link>
                                         </div>
                                         <h6 className="price gem"><i className="icon-gem" /></h6>
@@ -85,14 +85,14 @@ export default function Artwork({ artwork }) {
                                                 </div>
                                             </Menu>
                                         </div>
-                                        <h2>{artwork?.title}</h2>
+                                        <h2>{artPiece?.title}</h2>
                                         <div className="author flex items-center mb-30">
                                             <div className="avatar">
-                                                <img src="/assets/images/avatar/avatar-box-05.jpg" alt="Image" />
+                                                <img src={artPiece.author?.avatar ? artPiece.author.avatar : "/assets/images/avatar/avatar-box-05.jpg" } alt="Image" />
                                             </div>
                                             <div className="info">
-                                                <span>Owned by:</span>
-                                                <h6><Link className="tf-color" href="/author01">Marvin McKinney</Link> </h6>
+                                                <span>Created by:</span>
+                                                <h6><Link className="tf-color" href="/author01">{`${ artPiece?.author ? `${artPiece.author.firstName} ${artPiece.author.lastName}`: 'Marvin McKinney'}`}</Link> </h6>
                                             </div>
                                         </div>
                                         <div className="meta mb-20">
@@ -121,7 +121,7 @@ export default function Artwork({ artwork }) {
                                         <h6 className="to-white"><i className="icon-description" />Description</h6>
                                         <i className="icon-keyboard_arrow_down" />
                                         <div className="content">
-                                            <p>{artwork?.description}</p>
+                                            <p>{artPiece?.description}</p>
                                         </div>
                                     </div>
                                     <div data-wow-delay="0s" className="wow fadeInRight product-item history">
@@ -135,9 +135,9 @@ export default function Artwork({ artwork }) {
                                         </div>
                                     </div>
                                 </div>
-                                <div data-wow-delay="0s" className="wow fadeInUp col-12">
+                                <div className="col-12">
                                     <div className="product-item details">
-                                        <h6><i className="icon-description" />Details</h6>
+                                        <h6 className="to-white"><i className="icon-description" />Verification Details</h6>
                                         <i className="icon-keyboard_arrow_down" />
                                         <div className="content">
                                             <div className="details-item">
@@ -167,9 +167,9 @@ export default function Artwork({ artwork }) {
                                         </div>
                                     </div>
                                 </div>
-                                <div data-wow-delay="0s" className="wow fadeInUp col-12">
+                                <div className="col-12">
                                     <div className="product-item traits style-1">
-                                        <h6><i className="icon-description" />Traits</h6>
+                                        <h6 className="to-white"><i className="icon-description" />Publications</h6>
                                         <i className="icon-keyboard_arrow_down" />
                                         <div className="content">
                                             <div className="trait-item">
@@ -235,9 +235,9 @@ export default function Artwork({ artwork }) {
                                         </div>
                                     </div>
                                 </div>
-                                <div data-wow-delay="0s" className="wow fadeInUp col-12">
+                                <div className="col-12">
                                     <div className="product-item offers">
-                                        <h6><i className="icon-description" />Offers</h6>
+                                        <h6 className="to-white"><i className="icon-description" />Provenance</h6>
                                         <i className="icon-keyboard_arrow_down" />
                                         <div className="content">
                                             <div className="table-heading">
@@ -283,9 +283,9 @@ export default function Artwork({ artwork }) {
                                         </div>
                                     </div>
                                 </div>
-                                <div data-wow-delay="0s" className="wow fadeInUp col-12">
+                                <div className="col-12">
                                     <div className="product-item item-activity mb-0">
-                                        <h6><i className="icon-two-arrow rotateZ90" />Item activity</h6>
+                                        <h6 className="to-white"><i className="icon-two-arrow rotateZ90" />Locations</h6>
                                         <i className="icon-keyboard_arrow_down" />
                                         <div className="content">
                                             <div className="table-heading">
@@ -334,7 +334,7 @@ export default function Artwork({ artwork }) {
                             <div className="row">
                                 <div className="col-md-12">
                                     <div className="heading-section pb-20">
-                                        <h2 className="tf-title ">Related artworks</h2>
+                                        <h2 className="tf-title">Related pieces</h2>
                                         <Link href="/explore-3" >Discover more <i className="icon-arrow-right2" /></Link>
                                     </div>
                                 </div>
