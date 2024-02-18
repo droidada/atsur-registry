@@ -1,3 +1,4 @@
+"use client";
 import React, {
   createContext,
   useContext,
@@ -52,29 +53,35 @@ export function AuthContextProvider({ children }: any) {
     }
   }, [axiosAuth]);
 
-  const updateUserProfile = useCallback(async (info: IUser): Promise<void> => {
-    setLoading(true);
-    const res = await axiosAuth.patch("user/me", {
-      ...info,
-      isProfileSetup: true,
-    });
-    const data = res.data.data;
-    console.log("we have current user here ", data);
-    setUser(data);
-    setLoading(false);
-  }, [axiosAuth])
+  const updateUserProfile = useCallback(
+    async (info: IUser): Promise<void> => {
+      setLoading(true);
+      const res = await axiosAuth.patch("user/me", {
+        ...info,
+        isProfileSetup: true,
+      });
+      const data = res.data.data;
+      console.log("we have current user here ", data);
+      setUser(data);
+      setLoading(false);
+    },
+    [axiosAuth],
+  );
 
-  const logIn = useCallback(async (email: string, password: string) => {
-    setLoading(true);
-    const res = await signIn("credentials", {
-      redirect: false,
-      email: email,
-      password: password,
-    });
-    await fetchUser();
-    setLoading(false);
-    return res;
-  }, [fetchUser])
+  const logIn = useCallback(
+    async (email: string, password: string) => {
+      setLoading(true);
+      const res = await signIn("credentials", {
+        redirect: false,
+        email: email,
+        password: password,
+      });
+      await fetchUser();
+      setLoading(false);
+      return res;
+    },
+    [fetchUser],
+  );
 
   const logOut = async () => {
     await signOut();
