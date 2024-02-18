@@ -108,7 +108,7 @@ export default function CreateMetadata({ nextPage = (x) => {} }) {
       <div className="wrap-upload">
         <form action="#" className="h-full">
           <label className="uploadfile h-full flex items-center justify-center">
-            <div className="text-center">
+            <div className="text-center flex flex-col items-center justify-center">
               {previewImg ? (
                 <img className="h-full" src={previewImg} />
               ) : (
