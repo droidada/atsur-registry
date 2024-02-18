@@ -16,20 +16,7 @@ const Profile = () => {
     firstName: string().nonempty("First name is required"),
     lastName: string().nonempty("Last name is required"),
     email: string().nonempty("Email is required").email("Email is invalid"),
-    password: string()
-      .nonempty("Password is required")
-      .min(8, "Password must be more than 8 characters")
-      .max(32, "Password must be less than 32 characters"),
-    confirmPassword: string().nonempty("Confirm password is required"),
-  }).refine(
-    (values) => {
-      return values.password === values.confirmPassword;
-    },
-    {
-      message: "Passwords must match!",
-      path: ["confirmPassword"],
-    },
-  );
+  });
 
   type SignUpInput = TypeOf<typeof signUpSchema>;
   const {
@@ -68,8 +55,6 @@ const Profile = () => {
         email: values.email,
         firstName: values.firstName,
         lastName: values.lastName,
-        password: values.password,
-        confirmPassword: values.confirmPassword,
       });
       console.log(resp.data);
       //success message
@@ -108,9 +93,9 @@ const Profile = () => {
       activePage={DashboardPages.MY_PROFILE}
       hideSidebar={true}
     >
-      <div className="tf-section-2 w-full pt-60 widget-box-icon">
-        <div className="themesflat-container w-full flex gap-8 lg:flex">
-          <div className="wrap-upload widget-login">
+      <div className="w-full pt-60">
+        <div className="w-full flex md:flex-row flex-col gap-8 ">
+          <div className="widget-login flex-1">
             <form action="#" className="h-full">
               <label className="uploadfile h-full flex items-center justify-center">
                 <div className="text-center">
@@ -136,11 +121,11 @@ const Profile = () => {
               </label>
             </form>
           </div>
-          <div className="row flex-1">
-            <div className="col-12">
-              <div className="widget-login">
+          <div className="flex-1">
+            <div className="w-full">
+              <div className="widget-login w-full">
                 <form
-                  className="comment-form"
+                  className="comment-form w-full"
                   autoComplete="off"
                   noValidate
                   onSubmit={handleSubmit(onSubmitHandler)}

@@ -35,7 +35,7 @@ const DashboardLayoutWithSidebar = ({
   return (
     <>
       <div className="wrapper-content" style={{ display: "flex" }}>
-        <div className="inner-content">
+        <div className="inner-content w-full">
           <div
             id="page"
             className={`market-page ${isMobileSidebar ? "full" : ""}`}
