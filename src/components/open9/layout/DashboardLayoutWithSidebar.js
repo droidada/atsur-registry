@@ -13,9 +13,14 @@ export const DashboardPages = {
   WALLET: "wallet",
   VERIFICATION: "verification",
   SETTINGS: "settings",
+  MY_PROFILE: "profile",
 };
 
-const DashboardLayoutWithSidebar = ({ children, activePage = "", hideSidebar = false }) => {
+const DashboardLayoutWithSidebar = ({
+  children,
+  activePage = "",
+  hideSidebar = false,
+}) => {
   const { user, logIn, logOut } = useAuthContext();
 
   const [isToggled, setToggled] = useState(false);
@@ -177,13 +182,10 @@ const DashboardLayoutWithSidebar = ({ children, activePage = "", hideSidebar = f
 
                   <div className="popup-user relative">
                     <div className="user" onClick={handleToggle}>
-                      <img
-                        src="assets/images/avatar/avatar-small-09.png"
-                        alt=""
-                      />
+                      {/* <img src="/assets/image3.png" alt="profile" /> */}
                       <span className="tf-color">
                         {`${user?.firstName} ${user?.lastName}`}
-                        <i className="icon-keyboard_arrow_down" />
+                        <i className="icon-keyboard_arrow_down text-lg" />
                       </span>
                     </div>
                     <div
@@ -191,7 +193,10 @@ const DashboardLayoutWithSidebar = ({ children, activePage = "", hideSidebar = f
                     >
                       <div>
                         <div className="links">
-                          <Link className="block mb-30" href="#">
+                          <Link
+                            className="flex gap-4 mb-30"
+                            href="/dashboard/profile"
+                          >
                             <svg
                               width={20}
                               height={20}
@@ -206,7 +211,10 @@ const DashboardLayoutWithSidebar = ({ children, activePage = "", hideSidebar = f
                             </svg>
                             <span>My Profile</span>
                           </Link>
-                          <Link className="block mb-30" href="profile.html">
+                          <Link
+                            className="flex gap-4 mb-30"
+                            href="/dashboard/wallet"
+                          >
                             <svg
                               width={20}
                               height={18}
@@ -221,7 +229,11 @@ const DashboardLayoutWithSidebar = ({ children, activePage = "", hideSidebar = f
                             </svg>
                             <span>Wallet</span>
                           </Link>
-                          <Link className="block" href="/login" id="logout">
+                          <Link
+                            className="flex gap-4"
+                            href="/login"
+                            id="logout"
+                          >
                             <svg
                               width={20}
                               height={20}
@@ -680,12 +692,12 @@ const DashboardLayoutWithSidebar = ({ children, activePage = "", hideSidebar = f
                         data-tabs="wallet"
                       >
                         <Link
-                            href="/dashboard/wallet"
-                            className={
-                              activePage === DashboardPages.WALLET
-                                ? "tf-color"
-                                : ""
-                            }
+                          href="/dashboard/wallet"
+                          className={
+                            activePage === DashboardPages.WALLET
+                              ? "tf-color"
+                              : ""
+                          }
                         >
                           <svg
                             width={22}
@@ -924,7 +936,7 @@ const DashboardLayoutWithSidebar = ({ children, activePage = "", hideSidebar = f
             </div>
           </div>
         </div>
-        {!hideSidebar &&
+        {!hideSidebar && (
           <div
             className="side-bar"
             style={{ marginTop: "130px", paddingRight: "15px" }}
@@ -1178,7 +1190,7 @@ const DashboardLayoutWithSidebar = ({ children, activePage = "", hideSidebar = f
               </div>
             </div>
           </div>
-        }
+        )}
       </div>
     </>
   );
