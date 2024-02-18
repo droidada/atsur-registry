@@ -1,3 +1,4 @@
+"use client";
 import Layout from "@/open9/layout/Layout";
 import Link from "next/link";
 import { useState, useEffect } from "react";

@@ -40,7 +40,7 @@ const DashboardLayoutWithSidebar = ({
             id="page"
             className={`market-page ${isMobileSidebar ? "full" : ""}`}
           >
-            <div id="market-header">
+            <div id="market-header" className="bg-white">
               <div className="market-header flex items-center justify-between">
                 <div className="widget-search">
                   <form
