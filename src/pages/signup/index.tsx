@@ -205,7 +205,7 @@ export default function SignUp() {
                       />
                       <div className="widget-category-checkbox">
                         <label>
-                          I agree to all Term, Privacy Polic and fees
+                          I agree to all Terms, Privacy Policy and fees
                           <input type="checkbox" />
                           <span className="btn-checkbox" />
                         </label>
