@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import { useState } from "react";
 import { useAuthContext } from "@/providers/auth.context";
@@ -32,6 +33,7 @@ const DashboardLayoutWithSidebar = ({
   const [isMobileSidebar, setMobileSidebar] = useState(false);
   const handleMobileSidebar = () => setMobileSidebar(!isMobileSidebar);
 
+  console.log("user test", user);
   return (
     <>
       <div className="wrapper-content" style={{ display: "flex" }}>

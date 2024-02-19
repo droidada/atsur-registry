@@ -58,18 +58,9 @@ export default function Login() {
 
       setLoading(false);
 
-      //   if (usr?.error) {
-      //     setError(true);
-      //     return;
-      //   }
-
-      //   if (usr.ok && user?.onboarded === false) {
-      //     router.replace("/profile/setup");
-      //     return;
-      //   }
-
-      router.replace("/dashboard");
-      return;
+      if (usr.ok) {
+        router.replace("/dashboard");
+      }
     } catch (error) {
       console.log(error);
       setError(true);
