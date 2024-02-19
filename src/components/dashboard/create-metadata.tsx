@@ -108,10 +108,14 @@ export default function CreateMetadata({ nextPage = (x) => {} }) {
       <div className="wrap-upload">
         <form action="#" className="h-full">
           <label className="uploadfile h-full flex items-center justify-center">
-            <div className="text-center">
-              {previewImg && <img className="h-full" src={previewImg} />}
-              <img src="assets/images/box-icon/upload.png" alt="" />
-              <h5 className="to-white">Upload file</h5>
+            <div className="text-center flex flex-col items-center justify-center">
+              {previewImg ? (
+                <img className="h-full" src={previewImg} />
+              ) : (
+                <img src="assets/images/box-icon/upload.png" alt="" />
+              )}
+
+              <h5 className="text-white">Upload file</h5>
               <p className="text">Drag or choose your file to upload</p>
               <div className="text filename">
                 PNG, GIF, WEBP, MP4 or MP3.Max 1Gb.
@@ -172,7 +176,7 @@ export default function CreateMetadata({ nextPage = (x) => {} }) {
             />
           </fieldset>
           <div className="flex gap30">
-          <fieldset className="price">
+            <fieldset className="price">
               <label>Medium *</label>
               <TextField
                 type="text"
@@ -198,7 +202,9 @@ export default function CreateMetadata({ nextPage = (x) => {} }) {
                 aria-required="true"
                 fullWidth
                 error={!!errors["subjectMatter"]}
-                helperText={errors["subjectMatter"] ? errors["subjectMatter"].message : ""}
+                helperText={
+                  errors["subjectMatter"] ? errors["subjectMatter"].message : ""
+                }
                 {...register("subjectMatter")}
               />
             </fieldset>
