@@ -8,6 +8,9 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next/router";
 import { useAuthContext } from "../../providers/auth.context";
+import axios from "@/lib/axios";
+
+const pubAPI = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 export default function ForgotPassword() {
   const forgotPasswordSchema = object({
@@ -48,24 +51,13 @@ export default function ForgotPassword() {
     try {
       setLoading(true);
       console.log(values);
-      //   const usr = await (values.email);
-
-      //   console.log("usr is ", usr);
-      console.log("forgotPassword user is ", user);
-
+      const res = await axios.post(`${pubAPI}/auth/forgot-password`, {
+        email: values.email,
+      });
+      console.log(res);
       setLoading(false);
 
-      //   if (usr?.error) {
-      //     setError(true);
-      //     return;
-      //   }
-
-      //   if (usr.ok && user?.onboarded === false) {
-      //     router.replace("/profile/setup");
-      //     return;
-      //   }
-
-      router.replace("/dashboard");
+      // router.replace("/dashboard");
       return;
     } catch (error) {
       console.log(error);

@@ -7,11 +7,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next/router";
-import { useAuthContext } from "../../providers/auth.context";
+import { useAuthContext } from "../../../providers/auth.context";
+import axios from "@/lib/axios";
+
+const pubAPI = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 export default function ResetPassword() {
   const resetPasswordPasswordSchema = object({
-    // email: string().nonempty("Email is required").email("Email is invalid"),
     password: string()
       .nonempty("Password is required")
       .min(8, "Password must be more than 8 characters")
@@ -51,28 +53,22 @@ export default function ResetPassword() {
   }, []);
 
   const onSubmitHandler: SubmitHandler<ResetPasswordInput> = async (values) => {
+    const token = router.query.token;
     try {
       setLoading(true);
       console.log(values);
-      //   const usr = await logIn(values.confirmPassword, values.password);
+      const usr = await axios.post(`${pubAPI}/auth/reset-password/${token}`, {
+        password: values.password,
+        confirm: values.confirmPassword,
+      });
 
-      //   console.log("usr is ", usr);
-      console.log("resetPasswordPassword user is ", user);
+      console.log("usr is ", usr);
+      console.log("resetPasswordPassword user is ", values);
 
       setLoading(false);
-
-      //   if (usr?.error) {
-      //     setError(true);
-      //     return;
-      //   }
-
-      //   if (usr.ok && user?.onboarded === false) {
-      //     router.replace("/profile/setup");
-      //     return;
-      //   }
-
-      router.replace("/dashboard");
-      return;
+      if (usr.status) {
+        router.replace("/login");
+      }
     } catch (error) {
       console.log(error);
       setError(true);
@@ -100,23 +96,6 @@ export default function ResetPassword() {
                     noValidate
                     onSubmit={handleSubmit(onSubmitHandler)}
                   >
-                    {/* <fieldset className="email">
-                      <label className="to-white">Email *</label>
-                      <TextField
-                        type="email"
-                        id="email"
-                        placeholder="mail@website.com"
-                        name="email"
-                        tabIndex={2}
-                        aria-required="true"
-                        fullWidth
-                        error={!!errors["email"]}
-                        helperText={
-                          errors["email"] ? errors["email"].message : ""
-                        }
-                        {...register("email")}
-                      />
-                    </fieldset> */}
                     <fieldset className="password">
                       <label className="to-white">Password *</label>
                       <TextField
