@@ -1,4 +1,3 @@
-"use client";
 import Layout from "@/open9/layout/Layout";
 import Link from "next/link";
 import { useState, useEffect } from "react";
@@ -8,32 +7,38 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next/router";
-import { useAuthContext } from "../../providers/auth.context";
+import { useAuthContext } from "../../../providers/auth.context";
+import axios from "@/lib/axios";
 
-export default function Login() {
-  const loginSchema = object({
-    email: string().nonempty("Email is required").email("Email is invalid"),
+const pubAPI = process.env.NEXT_PUBLIC_API_ENDPOINT;
+
+export default function ResetPassword() {
+  const resetPasswordPasswordSchema = object({
     password: string()
+      .nonempty("Password is required")
+      .min(8, "Password must be more than 8 characters")
+      .max(32, "Password must be less than 32 characters"),
+    confirmPassword: string()
       .nonempty("Password is required")
       .min(8, "Password must be more than 8 characters")
       .max(32, "Password must be less than 32 characters"),
   });
 
-  type LoginInput = TypeOf<typeof loginSchema>;
+  type ResetPasswordInput = TypeOf<typeof resetPasswordPasswordSchema>;
 
   const {
     register,
     formState: { errors, isSubmitSuccessful },
     reset,
     handleSubmit,
-  } = useForm<LoginInput>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<ResetPasswordInput>({
+    resolver: zodResolver(resetPasswordPasswordSchema),
   });
 
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [error, setError] = useState(false);
-  const { logIn, user, error: loginError } = useAuthContext();
+  const { logIn, user, error: resetPasswordPasswordError } = useAuthContext();
 
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -47,19 +52,22 @@ export default function Login() {
     // setSuccess(false);
   }, []);
 
-  const onSubmitHandler: SubmitHandler<LoginInput> = async (values) => {
+  const onSubmitHandler: SubmitHandler<ResetPasswordInput> = async (values) => {
+    const token = router.query.token;
     try {
       setLoading(true);
       console.log(values);
-      const usr = await logIn(values.email, values.password);
+      const usr = await axios.post(`${pubAPI}/auth/reset-password/${token}`, {
+        password: values.password,
+        confirm: values.confirmPassword,
+      });
 
       console.log("usr is ", usr);
-      console.log("login user is ", user);
+      console.log("resetPasswordPassword user is ", values);
 
       setLoading(false);
-
-      if (usr.ok) {
-        router.replace("/dashboard");
+      if (usr.status) {
+        router.replace("/login");
       }
     } catch (error) {
       console.log(error);
@@ -76,10 +84,8 @@ export default function Login() {
             <div className="row">
               <div className="col-md-12">
                 <div className="heading-section-1">
-                  <h2 className="tf-title pb-16 to-black">Login</h2>
-                  <p className="pb-40 to-black">
-                    Get started today by entering just a few details
-                  </p>
+                  <h2 className="tf-title pb-16 to-black">Reset Password</h2>
+                  <p className="pb-40 to-black">Enter your new password</p>
                 </div>
               </div>
               <div className="col-12">
@@ -90,23 +96,6 @@ export default function Login() {
                     noValidate
                     onSubmit={handleSubmit(onSubmitHandler)}
                   >
-                    <fieldset className="email">
-                      <label className="to-white">Email *</label>
-                      <TextField
-                        type="email"
-                        id="email"
-                        placeholder="mail@website.com"
-                        name="email"
-                        tabIndex={2}
-                        aria-required="true"
-                        fullWidth
-                        error={!!errors["email"]}
-                        helperText={
-                          errors["email"] ? errors["email"].message : ""
-                        }
-                        {...register("email")}
-                      />
-                    </fieldset>
                     <fieldset className="password">
                       <label className="to-white">Password *</label>
                       <TextField
@@ -128,41 +117,41 @@ export default function Login() {
                         className="icon-show password-addon tf-color"
                         id="password-addon"
                       />
-                      <div className="forget-password">
-                        <Link href="/forgotpassword">Forgot password?</Link>
-                      </div>
+                    </fieldset>
+                    <fieldset className="password">
+                      <label className="to-white">Confirm Password *</label>
+                      <TextField
+                        className="password-input"
+                        type="password"
+                        id="confirmPassword"
+                        placeholder="Min. 8 character"
+                        name="confirmPassword"
+                        tabIndex={2}
+                        aria-required="true"
+                        fullWidth
+                        error={!!errors["confirmPassword"]}
+                        helperText={
+                          errors["confirmPassword"]
+                            ? errors["confirmPassword"].message
+                            : ""
+                        }
+                        {...register("confirmPassword")}
+                      />
+                      <i
+                        className="icon-show password-addon tf-color"
+                        id="password-addon"
+                      />
                     </fieldset>
                     <div className="btn-submit mb-30">
                       <button
                         type="submit"
                         className="tf-button style-1 h50 w-100"
                       >
-                        Login
+                        Reset Password
                         <i className="icon-arrow-up-right2" />
                       </button>
                     </div>
                   </form>
-                  <div className="other">or continue</div>
-                  <div className="login-other">
-                    <Link href="#" className="login-other-item">
-                      <img src="/assets/images/google.png" alt="" />
-                      <span>Sign with google</span>
-                    </Link>
-                    <Link href="#" className="login-other-item">
-                      <img src="/assets/images/facebook.png" alt="" />
-                      <span>Sign with facebook</span>
-                    </Link>
-                    <Link href="#" className="login-other-item">
-                      <img src="/assets/images/apple.png" alt="" />
-                      <span>Sign with apple</span>
-                    </Link>
-                  </div>
-                  <div className="no-account">
-                    Don&lsquo;t have an account?{" "}
-                    <Link href="/signup" className="tf-color">
-                      Sign up
-                    </Link>
-                  </div>
                 </div>
               </div>
             </div>
