@@ -748,7 +748,7 @@ input[type="submit"] {
   line-height: 22px;
   background-color: rgba(164, 68, 43, 1);
   color: rgba(22, 22, 22, 1);
-  border-radius: 14px;
+  /* border-radius: 14px; */
   padding: 10px;
   height: 50px;
   border: none;
@@ -768,7 +768,7 @@ input.style-1[type="submit"] {
   line-height: 22px;
   color: rgba(222, 232, 232, 1);
   background-color: rgba(22, 22, 22, 1);
-  border-radius: 14px;
+  /* border-radius: 14px; */
   padding: 10px;
   height: 50px;
   border: none;
@@ -2309,7 +2309,7 @@ a:focus {
 }
 
 #menu-mobile-menu > li .sub-menu-mobile {
-  border-radius: 8px;
+  /* border-radius: 8px; */
   display: none;
   text-align: start;
   overflow: hidden;
@@ -2431,7 +2431,7 @@ a:focus {
   -webkit-transition: all 400ms linear;
   -o-transition: all 400ms linear;
   transition: all 400ms linear;
-  background: #000;
+  
 }
 
 .progress-wrap::after {
@@ -2609,7 +2609,7 @@ img.rounded {
   text-transform: uppercase;
   letter-spacing: 0;
   border: 0;
-  border-radius: .2rem;
+  /* border-radius: .2rem; */
   outline: 0;
   transition: box-shadow .2s cubic-bezier(.4,0,1,1),background-color .2s cubic-bezier(.4,0,.2,1);
   will-change: box-shadow,transform;
@@ -2660,7 +2660,7 @@ img.rounded {
   text-align: left;
   background-color: #fff;
   background-clip: padding-box;
-  border-radius: .25rem;
+  /* border-radius: .25rem; */
   transition: transform .3s cubic-bezier(.4,0,.2,1),opacity .2s cubic-bezier(.4,0,.2,1);
 }
 

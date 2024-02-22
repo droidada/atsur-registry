@@ -2593,7 +2593,7 @@ pre code {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 0.25rem;
+  /* border-radius: 0.25rem; */
   -webkit-transition: border-color ease-in-out 0.15s,
     -webkit-box-shadow ease-in-out 0.15s;
   transition: border-color ease-in-out 0.15s,
@@ -2712,7 +2712,7 @@ select.form-control:focus::-ms-value {
 .input-group-sm > .input-group-btn > .btn {
   padding: 0.25rem 0.5rem;
   font-size: 0.875rem;
-  border-radius: 0.2rem;
+  /* border-radius: 0.2rem; */
 }
 
 select.form-control-sm:not([size]):not([multiple]),
@@ -2728,7 +2728,7 @@ select.form-control-sm:not([size]):not([multiple]),
 .input-group-lg > .input-group-btn > .btn {
   padding: 0.75rem 1.5rem;
   font-size: 1.25rem;
-  border-radius: 0.3rem;
+  /* border-radius: 0.3rem; */
 }
 
 select.form-control-lg:not([size]):not([multiple]),
@@ -2999,7 +2999,7 @@ select.form-control-lg:not([size]):not([multiple]),
   border: 1px solid transparent;
   padding: 0.5rem 1rem;
   font-size: 1rem;
-  border-radius: 0.25rem;
+  /* border-radius: 0.25rem; */
   -webkit-transition: all 0.2s ease-in-out;
   -o-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
@@ -3472,14 +3472,14 @@ fieldset[disabled] a.btn {
 .btn-group-lg > .btn {
   padding: 0.75rem 1.5rem;
   font-size: 1.25rem;
-  border-radius: 0.3rem;
+  /* border-radius: 0.3rem; */
 }
 
 .btn-sm,
 .btn-group-sm > .btn {
   padding: 0.25rem 0.5rem;
   font-size: 0.875rem;
-  border-radius: 0.2rem;
+  /* border-radius: 0.2rem; */
 }
 
 .btn-block {
@@ -3577,7 +3577,7 @@ tbody.collapse.show {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 0.25rem;
+  /* border-radius: 0.25rem; */
 }
 
 .dropdown-divider {
@@ -3927,7 +3927,7 @@ tbody.collapse.show {
   text-align: center;
   background-color: #eceeef;
   border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 0.25rem;
+  /* border-radius: 0.25rem; */
 }
 
 .input-group-addon.form-control-sm,
@@ -3935,7 +3935,7 @@ tbody.collapse.show {
 .input-group-sm > .input-group-btn > .input-group-addon.btn {
   padding: 0.25rem 0.5rem;
   font-size: 0.875rem;
-  border-radius: 0.2rem;
+  /* border-radius: 0.2rem; */
 }
 
 .input-group-addon.form-control-lg,
@@ -4145,7 +4145,7 @@ tbody.collapse.show {
   -webkit-background-size: 8px 10px;
   background-size: 8px 10px;
   border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 0.25rem;
+  /* border-radius: 0.25rem; */
   -moz-appearance: none;
   -webkit-appearance: none;
 }
@@ -4211,7 +4211,7 @@ tbody.collapse.show {
   user-select: none;
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 0.25rem;
+  /* border-radius: 0.25rem; */
 }
 
 .custom-file-control:lang(en)::after {
@@ -4231,7 +4231,7 @@ tbody.collapse.show {
   color: #464a4c;
   background-color: #eceeef;
   border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 0 0.25rem 0.25rem 0;
+  /* border-radius: 0 0.25rem 0.25rem 0; */
 }
 
 .custom-file-control:lang(en)::before {
@@ -4842,7 +4842,7 @@ tbody.collapse.show {
   flex-direction: column;
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.125);
-  border-radius: 0.25rem;
+  /* border-radius: 0.25rem; */
 }
 
 .card-block {
@@ -4892,7 +4892,7 @@ tbody.collapse.show {
 }
 
 .card-header:first-child {
-  border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
+  /* border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0; */
 }
 
 .card-footer {
@@ -4902,7 +4902,7 @@ tbody.collapse.show {
 }
 
 .card-footer:last-child {
-  border-radius: 0 0 calc(0.25rem - 1px) calc(0.25rem - 1px);
+  /* border-radius: 0 0 calc(0.25rem - 1px) calc(0.25rem - 1px); */
 }
 
 .card-header-tabs {
@@ -5198,7 +5198,7 @@ tbody.collapse.show {
   display: flex;
   padding-left: 0;
   list-style: none;
-  border-radius: 0.25rem;
+  /* border-radius: 0.25rem; */
 }
 
 .page-item:first-child .page-link {

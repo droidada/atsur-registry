@@ -114,10 +114,10 @@
   border: none;
   color: #161616;
   background-color: #dee8e8;
-  border-radius: 12px;
+  /* border-radius: 12px; */
   font-size: 14px;
   font-weight: 800;
-  width: 116px;
+  width: 146px;
   height: 42px;
   text-transform: capitalize;
   -webkit-transition: all 0.3s ease;
@@ -163,7 +163,7 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
-  border-radius: 12px;
+  /* border-radius: 12px; */
   background: #dee8e8;
   cursor: pointer;
   -webkit-transition: all 0.3s ease;
@@ -240,7 +240,7 @@
 .tf-card-article {
   background: #232323;
   padding: 20px;
-  border-radius: 20px;
+  /* border-radius: 20px; */
   margin-bottom: 40px;
   -webkit-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -252,7 +252,7 @@
 }
 
 .tf-card-article .card-media {
-  border-radius: 17px;
+  /* border-radius: 17px; */
   overflow: hidden;
   margin-bottom: 12px;
 }
@@ -364,7 +364,7 @@
   width: 44px;
   height: 44px;
   padding: 10px;
-  border-radius: 12px;
+  /* border-radius: 12px; */
   background: rgba(255, 255, 255, 0.05);
   display: flex;
   justify-content: center;
@@ -383,7 +383,7 @@
 /* tf-card-box */
 /* -------------------------------------- */
 .tf-card-box {
-  border-radius: 20px;
+  /* border-radius: 20px; */
   background: #1e1e1e;
   padding: 12px 12px 17px 12px;
   margin-bottom: 40px;
@@ -401,7 +401,7 @@
 .tf-card-box .card-media {
   position: relative;
   margin-bottom: 12px;
-  border-radius: 25px;
+  /* border-radius: 25px; */
   overflow: hidden;
 }
 
@@ -517,7 +517,7 @@
 }
 
 .tf-card-box.style-1 .card-media {
-  border-radius: 15px;
+  /* border-radius: 15px; */
 }
 
 .tf-card-box.style-1 .card-media img {
@@ -569,7 +569,7 @@
 }
 
 .tf-card-box.style-1.bg-white .card-media {
-  border-radius: 12px;
+  /* border-radius: 12px; */
 }
 
 .tf-card-box.style-1.bg-white .card-media img {
@@ -739,7 +739,7 @@
 /* style-3 */
 .tf-card-box.style-3 {
   position: relative;
-  border-radius: 30px;
+  /* border-radius: 30px; */
   overflow: hidden;
   padding: 0;
   box-shadow: 0px 5px 30px 0px #0a0a0a;
@@ -761,7 +761,7 @@
 }
 
 .tf-card-box.style-3 .card-bottom {
-  border-radius: 0px 0px 16px 16px;
+  /* border-radius: 0px 0px 16px 16px; */
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(2px);
   position: absolute;
@@ -804,7 +804,7 @@
 }
 
 .tf-card-box.style-4 .card-media {
-  border-radius: 12px;
+  /* border-radius: 12px; */
 }
 
 .tf-card-box.style-4 .author {
@@ -828,13 +828,13 @@
 /* tf-card-collection */
 .tf-card-collection {
   padding: 10px 10px 12px 10px;
-  border-radius: 20px;
+  /* border-radius: 20px; */
   background: #232323;
 }
 
 .tf-card-collection .media-images-collection {
   margin-bottom: 16px;
-  border-radius: 25px;
+  /* border-radius: 25px; */
   overflow: hidden;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -877,7 +877,7 @@
   position: absolute;
   width: 116px;
   height: 116px;
-  border-radius: 116px;
+  /* border-radius: 116px; */
   overflow: hidden;
   border: 6px solid #232323;
   top: 50%;
@@ -923,7 +923,7 @@
 
 .tf-card-collection .bottom-right .shop .icon {
   padding: 6px;
-  border-radius: 26px;
+  /* border-radius: 26px; */
   background: rgba(255, 255, 255, 0.2);
   width: 26px;
   height: 26px;
@@ -958,7 +958,7 @@
 }
 
 .tf-card-collection.bg-white .media-images-collection {
-  border-radius: 12px;
+  /* border-radius: 12px; */
 }
 
 .tf-card-collection.bg-white .media-images-collection img {
@@ -995,7 +995,7 @@
 
 /* style-1 */
 .tf-card-collection.style-1 .image {
-  border-radius: 16px;
+  /* border-radius: 16px; */
   overflow: hidden;
 }
 
@@ -1012,7 +1012,7 @@
 }
 
 .tf-card-collection.style-1 .card-bottom {
-  border-radius: 0px 0px 16px 16px;
+  /* border-radius: 0px 0px 16px 16px; */
   background: rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(2px);
   position: absolute;
@@ -1090,7 +1090,7 @@
   margin-bottom: 30px;
   padding: 20px;
   background-color: #232323;
-  border-radius: 20px;
+  /* border-radius: 20px; */
 }
 
 .side-bar .widget:last-child {
@@ -1151,7 +1151,7 @@
   min-width: 130px;
   height: 91px;
   margin-right: 15px;
-  border-radius: 14px;
+  /* border-radius: 14px; */
   overflow: hidden;
 }
 
@@ -1294,7 +1294,7 @@
 
 .tf-blog-detail .inner-content .image img {
   width: 100%;
-  border-radius: 23px;
+  /* border-radius: 23px; */
   margin-bottom: 28px;
 }
 
@@ -2026,7 +2026,7 @@
   color: #fff;
   display: flex;
   align-items: center;
-  border-radius: 12px;
+  /* border-radius: 12px; */
   width: 100%;
   height: 40px;
   overflow: hidden;
@@ -2069,13 +2069,13 @@
 .tf-soft .dropdown .dropdown-menu {
   width: 100%;
   padding: 10px;
-  border-radius: 10px;
+  /* border-radius: 10px; */
 }
 
 .dropdown-menu a {
   padding: 10px;
   font-size: 16px;
-  border-radius: 3px;
+  /* border-radius: 3px; */
 }
 
 .tf-soft .sort-filter {
@@ -4541,7 +4541,7 @@ button.follow:hover {
 /* wrap-accordion */
 .flat-accordion .flat-toggle,
 .flat-accordion2 .flat-toggle2 {
-  border-radius: 16px;
+  /* border-radius: 16px; */
   background: #232323;
   padding: 14px 20px;
   margin-bottom: 10px;
@@ -5024,7 +5024,7 @@ button.follow:hover {
 .product-item {
   padding: 20px;
   gap: 16px;
-  border-radius: 20px;
+  /* border-radius: 20px; */
   background: #232323;
   color: rgba(255, 255, 255, 0.3);
   margin-bottom: 20px;
@@ -5123,7 +5123,7 @@ button.follow:hover {
 }
 
 .product-item.traits .content .trait-item {
-  border-radius: 16px;
+  /* border-radius: 16px; */
   border: 1px solid rgba(255, 255, 255, 0.12);
   padding: 13px 14px;
   text-align: center;
@@ -5199,7 +5199,7 @@ button.follow:hover {
 
 /* widget-box-icon */
 .box-icon-item {
-  border-radius: 30px;
+  /* border-radius: 30px; */
   background: #232323;
   padding: 30px;
   text-align: center;
@@ -5292,7 +5292,7 @@ button.follow:hover {
 /* widget-income */
 .widget-income {
   position: relative;
-  border-radius: 30px;
+  /* border-radius: 30px; */
   background: #111;
   padding: 40px 40px 97px 40px;
   margin-right: 13px;
@@ -5371,7 +5371,7 @@ button.follow:hover {
 
 .widget-gg-map {
   filter: grayscale(100%);
-  border-radius: 30px;
+  /* border-radius: 30px; */
   overflow: hidden;
 }
 
@@ -5382,7 +5382,7 @@ button.follow:hover {
 /* widget-login */
 .widget-login {
   padding: 30px;
-  border-radius: 20px;
+  /* border-radius: 20px; */
   background: #232323;
 }
 
@@ -5446,7 +5446,7 @@ fieldset.password > i::before {
 .widget-login .login-other-item {
   width: 100%;
   height: 50px;
-  border-radius: 12px;
+  /* border-radius: 12px; */
   border: 1px solid rgba(255, 255, 255, 0.12);
   padding: 10px 12px;
   display: flex;
@@ -5517,7 +5517,7 @@ fieldset.password > i::before {
   overflow: hidden;
   height: 30px;
   width: 30px;
-  border-radius: 50px;
+  /* border-radius: 50px; */
   position: absolute;
   right: -15px;
   top: -15px;
@@ -5539,7 +5539,7 @@ fieldset.password > i::before {
 }
 
 .modal-body {
-  border-radius: 20px !important;
+  /* border-radius: 20px !important; */
   background: #161616;
   box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.8);
   padding: 30px !important;
@@ -5547,7 +5547,7 @@ fieldset.password > i::before {
 
 .modal-body .image {
   background-color: #a4442b;
-  border-radius: 10px;
+  /* border-radius: 10px; */
 }
 
 .modal-body .logo-rotate {
