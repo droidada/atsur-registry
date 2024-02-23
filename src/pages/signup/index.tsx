@@ -70,6 +70,7 @@ export default function SignUp() {
         lastName: values.lastName,
         password: values.password,
         confirmPassword: values.confirmPassword,
+        username: values.email,
       });
       console.log(resp.data);
       //success message
