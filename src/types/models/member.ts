@@ -29,6 +29,7 @@ export interface IMember {
 
 export interface IUser {
   id: string;
+  _id: string;
   email: string;
   firstName?: string;
   lastName?: string;
