@@ -114,10 +114,10 @@
   border: none;
   color: #161616;
   background-color: #dee8e8;
-  border-radius: 12px;
+  /* border-radius: 12px; */
   font-size: 14px;
   font-weight: 800;
-  width: 116px;
+  width: 146px;
   height: 42px;
   text-transform: capitalize;
   -webkit-transition: all 0.3s ease;
@@ -138,14 +138,14 @@
   height: 44px;
   gap: 10px;
   flex-shrink: 0;
-  color: #fff;
-  background-color: #a4442b;
+  color: #161616;
+  background-color: #dee8e8;
 }
 
 .tf-button.style-1:hover,
 .tf-button.style-1.active {
-  color: #161616;
-  background-color: #fff;
+  color: #dee8e8;
+  background-color: #a4442b;
 }
 
 .tf-button.style-1.active:hover {
@@ -163,7 +163,7 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
-  border-radius: 12px;
+  /* border-radius: 12px; */
   background: #dee8e8;
   cursor: pointer;
   -webkit-transition: all 0.3s ease;
@@ -240,7 +240,7 @@
 .tf-card-article {
   background: #232323;
   padding: 20px;
-  border-radius: 20px;
+  /* border-radius: 20px; */
   margin-bottom: 40px;
   -webkit-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -252,7 +252,7 @@
 }
 
 .tf-card-article .card-media {
-  border-radius: 17px;
+  /* border-radius: 17px; */
   overflow: hidden;
   margin-bottom: 12px;
 }
@@ -326,7 +326,7 @@
 .tf-card-article .card-title p {
   color: rgba(255, 255, 255, 0.53);
   font-size: 14px;
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   line-height: 22px;
   margin-top: 18px;
 }
@@ -349,13 +349,13 @@
 .author .info span {
   font-size: 12px;
   color: black;
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   line-height: 19px;
 }
 
 .author .info h6 {
   font-size: 12px;
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   line-height: 19px;
   font-weight: 400;
 }
@@ -364,7 +364,7 @@
   width: 44px;
   height: 44px;
   padding: 10px;
-  border-radius: 12px;
+  /* border-radius: 12px; */
   background: rgba(255, 255, 255, 0.05);
   display: flex;
   justify-content: center;
@@ -383,7 +383,7 @@
 /* tf-card-box */
 /* -------------------------------------- */
 .tf-card-box {
-  border-radius: 20px;
+  /* border-radius: 20px; */
   background: #1e1e1e;
   padding: 12px 12px 17px 12px;
   margin-bottom: 40px;
@@ -401,7 +401,7 @@
 .tf-card-box .card-media {
   position: relative;
   margin-bottom: 12px;
-  border-radius: 25px;
+  /* border-radius: 25px; */
   overflow: hidden;
 }
 
@@ -517,7 +517,7 @@
 }
 
 .tf-card-box.style-1 .card-media {
-  border-radius: 15px;
+  /* border-radius: 15px; */
 }
 
 .tf-card-box.style-1 .card-media img {
@@ -547,7 +547,7 @@
 .text-bid {
   color: rgba(255, 255, 255, 0.3);
   font-size: 12px;
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-weight: 400;
   line-height: 19px;
 }
@@ -569,7 +569,7 @@
 }
 
 .tf-card-box.style-1.bg-white .card-media {
-  border-radius: 12px;
+  /* border-radius: 12px; */
 }
 
 .tf-card-box.style-1.bg-white .card-media img {
@@ -739,7 +739,7 @@
 /* style-3 */
 .tf-card-box.style-3 {
   position: relative;
-  border-radius: 30px;
+  /* border-radius: 30px; */
   overflow: hidden;
   padding: 0;
   box-shadow: 0px 5px 30px 0px #0a0a0a;
@@ -761,7 +761,7 @@
 }
 
 .tf-card-box.style-3 .card-bottom {
-  border-radius: 0px 0px 16px 16px;
+  /* border-radius: 0px 0px 16px 16px; */
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(2px);
   position: absolute;
@@ -804,7 +804,7 @@
 }
 
 .tf-card-box.style-4 .card-media {
-  border-radius: 12px;
+  /* border-radius: 12px; */
 }
 
 .tf-card-box.style-4 .author {
@@ -828,13 +828,13 @@
 /* tf-card-collection */
 .tf-card-collection {
   padding: 10px 10px 12px 10px;
-  border-radius: 20px;
+  /* border-radius: 20px; */
   background: #232323;
 }
 
 .tf-card-collection .media-images-collection {
   margin-bottom: 16px;
-  border-radius: 25px;
+  /* border-radius: 25px; */
   overflow: hidden;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -877,7 +877,7 @@
   position: absolute;
   width: 116px;
   height: 116px;
-  border-radius: 116px;
+  /* border-radius: 116px; */
   overflow: hidden;
   border: 6px solid #232323;
   top: 50%;
@@ -904,7 +904,7 @@
 
 .tf-card-collection .author .infor {
   font-size: 12px;
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-weight: 400;
   line-height: 19px;
   color: rgba(255, 255, 255, 0.3);
@@ -923,7 +923,7 @@
 
 .tf-card-collection .bottom-right .shop .icon {
   padding: 6px;
-  border-radius: 26px;
+  /* border-radius: 26px; */
   background: rgba(255, 255, 255, 0.2);
   width: 26px;
   height: 26px;
@@ -958,7 +958,7 @@
 }
 
 .tf-card-collection.bg-white .media-images-collection {
-  border-radius: 12px;
+  /* border-radius: 12px; */
 }
 
 .tf-card-collection.bg-white .media-images-collection img {
@@ -995,7 +995,7 @@
 
 /* style-1 */
 .tf-card-collection.style-1 .image {
-  border-radius: 16px;
+  /* border-radius: 16px; */
   overflow: hidden;
 }
 
@@ -1012,7 +1012,7 @@
 }
 
 .tf-card-collection.style-1 .card-bottom {
-  border-radius: 0px 0px 16px 16px;
+  /* border-radius: 0px 0px 16px 16px; */
   background: rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(2px);
   position: absolute;
@@ -1090,7 +1090,7 @@
   margin-bottom: 30px;
   padding: 20px;
   background-color: #232323;
-  border-radius: 20px;
+  /* border-radius: 20px; */
 }
 
 .side-bar .widget:last-child {
@@ -1119,8 +1119,8 @@
 
 .widget-categories ul li .cate-item {
   padding-left: 23px;
-  font-size: 14px;
-  font-family: "Azeret Mono";
+  font-size: 16px;
+  font-family: "Raleway";
   line-height: 22px;
   position: relative;
 }
@@ -1135,7 +1135,7 @@
 
 .widget-categories ul li .number {
   font-size: 14px;
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   line-height: 22px;
   color: rgba(255, 255, 255, 0.53);
 }
@@ -1151,7 +1151,7 @@
   min-width: 130px;
   height: 91px;
   margin-right: 15px;
-  border-radius: 14px;
+  /* border-radius: 14px; */
   overflow: hidden;
 }
 
@@ -1220,7 +1220,7 @@
   line-height: 15px;
   padding: 10px 14px;
   font-size: 13px;
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   border-radius: 10px;
   display: -webkit-box;
   display: -moz-box;
@@ -1286,7 +1286,7 @@
 .tf-blog-detail .inner-content > .title {
   color: #fff;
   font-size: 14px;
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-weight: 700;
   line-height: 22px;
   margin-bottom: 28px;
@@ -1294,7 +1294,7 @@
 
 .tf-blog-detail .inner-content .image img {
   width: 100%;
-  border-radius: 23px;
+  /* border-radius: 23px; */
   margin-bottom: 28px;
 }
 
@@ -1314,7 +1314,7 @@
 .tf-blog-detail .inner-content .inner-post p {
   color: rgba(255, 255, 255, 0.53);
   font-size: 14px;
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   line-height: 22px;
   margin-bottom: 20px;
 }
@@ -1379,7 +1379,7 @@
 .tf-blog-detail .inner-content .bottom .widget-tag .title-widget {
   color: #919191;
   font-size: 13px;
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   line-height: 15px;
   margin-right: 10px;
 }
@@ -1500,7 +1500,7 @@
   margin-top: 12px;
   margin-bottom: 12px;
   color: rgba(255, 255, 255, 0.53);
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   line-height: 22px;
   font-size: 14px;
 }
@@ -1531,7 +1531,7 @@
 
 .tf-blog-detail .inner-content .widget-reply p {
   font-size: 12px;
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-weight: 500;
   line-height: 17px;
   margin-bottom: 30px;
@@ -1608,8 +1608,8 @@
 
 .pages-title .content p {
   color: rgba(255, 255, 255, 0.53);
-  font-size: 14px;
-  font-family: "Azeret Mono";
+  font-size: 22px;
+  font-family: "Raleway";
   line-height: 22px;
   max-width: 634px;
   margin: auto;
@@ -1893,7 +1893,7 @@
 }
 
 .price.gem.style-1 {
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
 }
 
@@ -2026,7 +2026,7 @@
   color: #fff;
   display: flex;
   align-items: center;
-  border-radius: 12px;
+  /* border-radius: 12px; */
   width: 100%;
   height: 40px;
   overflow: hidden;
@@ -2069,13 +2069,13 @@
 .tf-soft .dropdown .dropdown-menu {
   width: 100%;
   padding: 10px;
-  border-radius: 10px;
+  /* border-radius: 10px; */
 }
 
 .dropdown-menu a {
   padding: 10px;
   font-size: 16px;
-  border-radius: 3px;
+  /* border-radius: 3px; */
 }
 
 .tf-soft .sort-filter {
@@ -2241,7 +2241,7 @@
 
 .tf-author-box.style-2.type-1 .price.gem {
   font-weight: 400;
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
 }
 
@@ -2269,7 +2269,7 @@
 .tf-box-icon .image p {
   color: rgba(255, 255, 255, 0.53);
   font-size: 12px;
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-weight: 400;
   line-height: 19px;
   text-transform: uppercase;
@@ -2286,7 +2286,7 @@
 .tf-box-icon p {
   color: rgba(255, 255, 255, 0.53);
   font-size: 14px;
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-weight: 400;
   line-height: 22px;
 }
@@ -2364,8 +2364,8 @@
   padding: 50px 40px;
   margin-left: 5px;
   margin-right: 5px;
-  background-color: rgba(164, 68, 43, 1);
-  border-radius: 30px;
+  background-color: #dee8e8;
+  /* border-radius: 30px; */
   overflow: hidden;
   position: relative;
 }
@@ -2452,7 +2452,7 @@
 .action__body.style-1 p {
   color: rgba(255, 255, 255, 0.53);
   font-size: 14px;
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-weight: 400;
   line-height: 22px;
   max-width: 540px;
@@ -2503,7 +2503,7 @@
 .flat-pages-title-home2 .content p {
   color: rgba(255, 255, 255, 0.53);
   font-size: 14px;
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   line-height: 22px;
   margin-bottom: 50px;
 }
@@ -2569,12 +2569,12 @@
 /* tf-category */
 .tf-category {
   padding: 14px 10px;
-  border-radius: 20px;
+  /* border-radius: 20px; */
   background: #232323;
 }
 
 .tf-category .card-media {
-  border-radius: 14px;
+  /* border-radius: 14px; */
   overflow: hidden;
   margin-bottom: 12px;
   position: relative;
@@ -2612,7 +2612,7 @@
   align-items: center;
   justify-content: center;
   font-size: 18px;
-  border-radius: 12px;
+  /* border-radius: 12px; */
   color: rgba(22, 22, 22, 1);
   background-color: #a4442b;
   opacity: 0;
@@ -2817,7 +2817,7 @@
 .flat-pages-title-home4 .content p {
   color: rgba(255, 255, 255, 0.53);
   font-size: 14px;
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   line-height: 22px;
   margin-bottom: 50px;
 }
@@ -3010,10 +3010,12 @@
 
 .flat-pages-title-home5 .pages-title .content .tf-button.active,
 .flat-pages-title-home5 .pages-title .content .tf-button:hover {
+  color: #161616;
   background-color: #dee8e8;
 }
 
 .flat-pages-title-home5 .pages-title .content .tf-button.active:hover {
+  color: #dee8e8;
   background-color: #a4442b;
 }
 
@@ -3368,7 +3370,7 @@
 .counter__body .counter h6 {
   color: rgba(255, 255, 255, 0.53);
   font-size: 14px;
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-weight: 400;
   line-height: 22px;
 }
@@ -3393,7 +3395,7 @@
 
 .counter__body-1 .counter-1 .title {
   color: rgba(255, 255, 255, 0.53);
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
@@ -3476,7 +3478,7 @@
 .widget-category-checkbox label {
   color: rgba(255, 255, 255, 0.53);
   font-size: 14px;
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-weight: 400;
   line-height: 22px;
   padding-left: 30px;
@@ -3787,7 +3789,7 @@ form label i.icon-star.active {
 }
 
 .widget-recently .card-small-main {
-  border-radius: 14px;
+  /* border-radius: 14px; */
   overflow: hidden;
   margin-bottom: 30px;
 }
@@ -3849,7 +3851,7 @@ form label i.icon-star.active {
 }
 
 .widget-recently .card-small .info p {
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
   line-height: 17.5px;
@@ -3892,7 +3894,7 @@ form label i.icon-star.active {
 }
 
 .widget-creators-item .author span {
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
   line-height: 25px;
@@ -3938,7 +3940,7 @@ button.follow:hover {
 }
 
 .widget-coins-item p {
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
@@ -3968,7 +3970,7 @@ button.follow:hover {
 
 .widget-menu-tab li {
   padding: 10px 11px 9px;
-  border-radius: 12px;
+  /* border-radius: 12px; */
   border: 1px solid rgba(255, 255, 255, 0.12);
   background-color: transparent;
   color: #111;
@@ -3987,7 +3989,7 @@ button.follow:hover {
 
 .widget-menu-tab li:hover,
 .widget-menu-tab li.active {
-  color: #161616;
+  color: #dee8e8;
   background-color: #a4442b;
 }
 
@@ -4034,7 +4036,7 @@ button.follow:hover {
 
 .add-new-collection p {
   color: rgba(255, 255, 255, 0.53);
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
@@ -4052,7 +4054,7 @@ button.follow:hover {
 /* connect-wallet */
 #wallet.tabcontent .inner-content > p {
   color: rgba(255, 255, 255, 0.53);
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
@@ -4104,7 +4106,7 @@ button.follow:hover {
 }
 
 .box-wallet p {
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
@@ -4159,7 +4161,7 @@ button.follow:hover {
 
 /* settings */
 .widget-edit {
-  border-radius: 20px;
+  /* border-radius: 20px; */
   background: #232323;
   padding: 20px;
 }
@@ -4204,7 +4206,7 @@ button.follow:hover {
 }
 
 .widget-edit.avatar .uploadfile label {
-  border-radius: 16px;
+  /* border-radius: 16px; */
   border: 1px solid rgba(255, 255, 255, 0.12);
   padding: 9px 12px;
   background: transparent;
@@ -4223,7 +4225,7 @@ button.follow:hover {
   overflow: hidden;
   padding: 0 0;
   border: none;
-  border-radius: 12px;
+  /* border-radius: 12px; */
   position: relative;
 }
 
@@ -4263,7 +4265,7 @@ button.follow:hover {
 }
 
 .widget-edit.avatar .uploadfile .text {
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
@@ -4286,7 +4288,7 @@ button.follow:hover {
 }
 
 .widget-edit.setting .notification-setting-item p {
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   line-height: 22px;
   font-weight: 400;
@@ -4390,7 +4392,7 @@ button.follow:hover {
 #create .widget-content-inner .uploadfile {
   text-align: center;
   width: 100%;
-  border-radius: 30px;
+  /* border-radius: 30px; */
   border: 2px dashed #3a3a3a;
   background: #232323;
   padding: 53px 0;
@@ -4412,7 +4414,7 @@ button.follow:hover {
 
 #create .widget-content-inner label p {
   color: rgba(255, 255, 255, 0.53);
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
@@ -4420,7 +4422,7 @@ button.follow:hover {
 }
 
 #create .widget-content-inner label .filename {
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 12px;
   font-weight: 400;
   line-height: 19px;
@@ -4431,7 +4433,7 @@ button.follow:hover {
 #create .widget-content-inner label input {
   width: 174px;
   height: 50px;
-  border-radius: 14px;
+  /* border-radius: 14px; */
 }
 
 #create .widget-content-inner label input::before {
@@ -4502,7 +4504,7 @@ button.follow:hover {
 
 .widget-term-condition .menu-tab .item-title {
   color: rgba(255, 255, 255, 0.53);
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
@@ -4522,7 +4524,7 @@ button.follow:hover {
 
 .widget-term-condition .content-tab .date {
   color: rgba(255, 255, 255, 0.5);
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
@@ -4531,7 +4533,7 @@ button.follow:hover {
 
 .widget-term-condition .content-tab p {
   color: rgba(255, 255, 255, 0.5);
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
@@ -4541,7 +4543,7 @@ button.follow:hover {
 /* wrap-accordion */
 .flat-accordion .flat-toggle,
 .flat-accordion2 .flat-toggle2 {
-  border-radius: 16px;
+  /* border-radius: 16px; */
   background: #232323;
   padding: 14px 20px;
   margin-bottom: 10px;
@@ -4618,7 +4620,7 @@ button.follow:hover {
 .flat-accordion .flat-toggle .toggle-content p,
 .flat-accordion2 .flat-toggle2 .toggle-content p {
   color: #919191;
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
@@ -4638,7 +4640,7 @@ button.follow:hover {
 
 .wrap-accordion .content p {
   color: rgba(255, 255, 255, 0.53);
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
@@ -4718,7 +4720,7 @@ button.follow:hover {
   gap: 14px;
   color: #fff;
   font-size: 16px;
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-weight: 500;
   line-height: 11px;
 }
@@ -4971,7 +4973,7 @@ button.follow:hover {
   align-items: center;
   gap: 10px;
   padding: 0;
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
@@ -5024,7 +5026,7 @@ button.follow:hover {
 .product-item {
   padding: 20px;
   gap: 16px;
-  border-radius: 20px;
+  /* border-radius: 20px; */
   background: #232323;
   color: rgba(255, 255, 255, 0.3);
   margin-bottom: 20px;
@@ -5066,7 +5068,7 @@ button.follow:hover {
 }
 
 .product-item.time-sales .content .text {
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 12px;
   font-weight: 400;
   line-height: 19px;
@@ -5083,7 +5085,7 @@ button.follow:hover {
 }
 
 .product-item.time-sales .content p span {
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
@@ -5092,7 +5094,7 @@ button.follow:hover {
 
 .product-item.description .content p {
   color: rgba(255, 255, 255, 0.53);
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
@@ -5106,7 +5108,7 @@ button.follow:hover {
 }
 
 .product-item.details .content .details-item span {
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
@@ -5123,7 +5125,7 @@ button.follow:hover {
 }
 
 .product-item.traits .content .trait-item {
-  border-radius: 16px;
+  /* border-radius: 16px; */
   border: 1px solid rgba(255, 255, 255, 0.12);
   padding: 13px 14px;
   text-align: center;
@@ -5131,7 +5133,7 @@ button.follow:hover {
 
 .product-item.traits .content .trait-item p {
   color: rgba(255, 255, 255, 0.3);
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 12px;
   font-weight: 400;
   line-height: 19px;
@@ -5176,7 +5178,7 @@ button.follow:hover {
 }
 
 .product-item .table-item .column {
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-weight: 400;
   line-height: 22px;
 }
@@ -5199,7 +5201,7 @@ button.follow:hover {
 
 /* widget-box-icon */
 .box-icon-item {
-  border-radius: 30px;
+  /* border-radius: 30px; */
   background: #232323;
   padding: 30px;
   text-align: center;
@@ -5227,7 +5229,7 @@ button.follow:hover {
 
 .box-icon-item p {
   color: rgba(255, 255, 255, 0.53);
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -5266,7 +5268,7 @@ button.follow:hover {
 }
 
 .our-team-item .info {
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 12px;
   font-weight: 400;
   line-height: 19px;
@@ -5292,7 +5294,7 @@ button.follow:hover {
 /* widget-income */
 .widget-income {
   position: relative;
-  border-radius: 30px;
+  /* border-radius: 30px; */
   background: #111;
   padding: 40px 40px 97px 40px;
   margin-right: 13px;
@@ -5308,7 +5310,7 @@ button.follow:hover {
 }
 .widget-income p {
   color: rgba(255, 255, 255, 0.53);
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
@@ -5371,7 +5373,7 @@ button.follow:hover {
 
 .widget-gg-map {
   filter: grayscale(100%);
-  border-radius: 30px;
+  /* border-radius: 30px; */
   overflow: hidden;
 }
 
@@ -5382,7 +5384,7 @@ button.follow:hover {
 /* widget-login */
 .widget-login {
   padding: 30px;
-  border-radius: 20px;
+  /* border-radius: 20px; */
   background: #232323;
 }
 
@@ -5395,7 +5397,7 @@ fieldset.password > i::before {
 
 .forget-password {
   text-align: right;
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
@@ -5409,7 +5411,7 @@ fieldset.password > i::before {
 .widget-login .other {
   text-align: center;
   color: rgba(255, 255, 255, 0.53);
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
@@ -5446,7 +5448,7 @@ fieldset.password > i::before {
 .widget-login .login-other-item {
   width: 100%;
   height: 50px;
-  border-radius: 12px;
+  /* border-radius: 12px; */
   border: 1px solid rgba(255, 255, 255, 0.12);
   padding: 10px 12px;
   display: flex;
@@ -5467,7 +5469,7 @@ fieldset.password > i::before {
 .widget-login .no-account {
   color: rgba(255, 255, 255, 0.53);
   text-align: center;
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
@@ -5517,7 +5519,7 @@ fieldset.password > i::before {
   overflow: hidden;
   height: 30px;
   width: 30px;
-  border-radius: 50px;
+  /* border-radius: 50px; */
   position: absolute;
   right: -15px;
   top: -15px;
@@ -5539,7 +5541,7 @@ fieldset.password > i::before {
 }
 
 .modal-body {
-  border-radius: 20px !important;
+  /* border-radius: 20px !important; */
   background: #161616;
   box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.8);
   padding: 30px !important;
@@ -5547,7 +5549,7 @@ fieldset.password > i::before {
 
 .modal-body .image {
   background-color: #a4442b;
-  border-radius: 10px;
+  /* border-radius: 10px; */
 }
 
 .modal-body .logo-rotate {
@@ -5576,7 +5578,7 @@ fieldset.password > i::before {
 .modal-body p {
   color: rgba(255, 255, 255, 0.53);
   text-align: center;
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
@@ -5619,7 +5621,7 @@ fieldset.password > i::before {
 
 .section-single-page .content p {
   color: rgba(255, 255, 255, 0.53);
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
   line-height: 160%;
@@ -5638,7 +5640,7 @@ fieldset.password > i::before {
 }
 
 .section-single-page .content .status {
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 16px;
   font-weight: 500;
   line-height: 11px;
@@ -5693,7 +5695,7 @@ fieldset.password > i::before {
 
 .section-404-page p {
   color: rgba(255, 255, 255, 0.53);
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
@@ -5815,7 +5817,7 @@ fieldset.password > i::before {
 
 .page-title p {
   color: #919191;
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
@@ -5908,7 +5910,7 @@ fieldset.password > i::before {
 
 .heading-section-1 p {
   color: rgba(255, 255, 255, 0.53);
-  font-family: "Azeret Mono";
+  font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;

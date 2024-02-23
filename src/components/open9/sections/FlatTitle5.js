@@ -9,7 +9,7 @@ export default function FlatTitle5() {
             <div className="col-12 pages-title">
               <div className="content">
                 <h1 data-wow-delay="0s" className="wow fadeInUp">
-                  Discover the world of <br /> Afrocentric Art
+                  Explore The world of <br /> African Art
                 </h1>
                 <p data-wow-delay="0.1s" className="wow fadeInUp">
                   Find verified information on African art and artifacts.

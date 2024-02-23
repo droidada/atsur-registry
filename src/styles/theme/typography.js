@@ -22,8 +22,8 @@ export function responsiveFontSizes({ sm, md, lg }) {
   };
 }
 
-export const primaryFont = "Space Grotesk, sans-serif";
-export const secondaryFont = "Barlow, sans-serif";
+export const primaryFont = "Raleway, sans-serif";
+export const secondaryFont = "Manrope, sans-serif";
 
 // ----------------------------------------------------------------------
 

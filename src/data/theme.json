@@ -31,10 +31,10 @@
   },
   "fonts": {
     "font_family": {
-      "primary": "Roboto:wght@400;600",
-      "primary_type": "Roboto",
-      "secondary": "Roboto:wght@500;700",
-      "secondary_type": "sans-serif"
+      "primary": "Raleway:wght@400;600",
+      "primary_type": "Raleway",
+      "secondary": "Raleway:wght@500;700",
+      "secondary_type": "Manrope"
     },
     "font_size": {
       "base": "16",
