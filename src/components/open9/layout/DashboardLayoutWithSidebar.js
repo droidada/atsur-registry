@@ -183,8 +183,17 @@ const DashboardLayoutWithSidebar = ({
                   </div>
 
                   <div className="popup-user relative">
-                    <div className="user" onClick={handleToggle}>
-                      {/* <img src="/assets/image3.png" alt="profile" /> */}
+                    <div
+                      className="user flex items-center"
+                      onClick={handleToggle}
+                    >
+                      <img
+                        src={
+                          user?.avatar ? user?.avatar : "/assets/default.jpeg"
+                        }
+                        alt="profile"
+                        className="w-[50px] h-[50px] object-contain"
+                      />
                       <span className="tf-color">
                         {`${user?.firstName} ${user?.lastName}`}
                         <i className="icon-keyboard_arrow_down text-lg" />
@@ -197,7 +206,7 @@ const DashboardLayoutWithSidebar = ({
                         <div className="links">
                           <Link
                             className="flex gap-4 mb-30"
-                            href="/dashboard/profile"
+                            href="/dashboard/settings"
                           >
                             <svg
                               width={20}

@@ -11,7 +11,7 @@ import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 
 import { Analytics } from "@vercel/analytics/react";
 import { SessionProvider } from "next-auth/react";
-import { AuthContextProvider } from "../providers/auth.context";
+import { AuthContextProvider } from "@/providers/auth.context";
 import "@rainbow-me/rainbowkit/styles.css";
 import "@/styles/globals.css";
 import ThemeProvider from "@/styles/theme";
@@ -20,7 +20,7 @@ import Preloader from "@/open9/elements/Preloader";
 import AddClassBody from "@/open9/elements/AddClassBody";
 import "/public/assets/css/style.css";
 import "/public/assets/css/responsive.css";
-import 'wowjs/css/libs/animate.css';
+import "wowjs/css/libs/animate.css";
 
 type AppPropsWithAuth = NextPage & {
   requiresAuth?: boolean;
@@ -67,7 +67,6 @@ export default function NextWeb3App({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps) {
-
   return (
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider chains={chains} appInfo={appInfo} coolMode={true}>

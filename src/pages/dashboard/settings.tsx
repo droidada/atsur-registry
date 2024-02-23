@@ -5,10 +5,110 @@ import DashboardLayoutWithSidebar, {
 } from "@/open9/layout/DashboardLayoutWithSidebar";
 import AutoSlider1 from "@/open9/slider/AutoSlider1";
 import AutoSlider2 from "@/open9/slider/AutoSlider2";
+import { TextField } from "@mui/material";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+import { TypeOf, object, string } from "zod";
+import axios from "axios";
+import { useAuthContext } from "@/providers/auth.context";
+import useAxiosAuth from "@/hooks/useAxiosAuth";
 
+const pubAPI = process.env.NEXT_PUBLIC_API_ENDPOINT;
 function Settings() {
+  const { user, logIn, logOut, updateUserProfile } = useAuthContext();
+  const signUpSchema = object({
+    firstName: string().nonempty("First name is required"),
+    lastName: string().nonempty("Last name is required"),
+    // email: string().nonempty("Email is required").email("Email is invalid"),
+  });
+
+  type SignUpInput = TypeOf<typeof signUpSchema>;
+  const {
+    register,
+    formState: { errors, isSubmitSuccessful },
+    reset,
+    handleSubmit,
+  } = useForm<SignUpInput>({
+    resolver: zodResolver(signUpSchema),
+  });
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [previewImg, setPreviewImg] = useState<any>(user?.avatar);
+  const axiosAuth = useAxiosAuth();
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSubmitSuccessful]);
+
+  useEffect(() => {
+    setError(false);
+    setSuccess(false);
+  }, []);
+
+  const onSubmitHandler: SubmitHandler<SignUpInput> = async (values) => {
+    try {
+      console.log(values);
+      setLoading(true);
+      setError(false);
+      setSuccess(false);
+      const resp = await axios.post(`${pubAPI}/auth/profile-update`, {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: user.email,
+      });
+      console.log(resp);
+      //success message
+      setLoading(false);
+      setSuccess(true);
+      router.reload();
+    } catch (error) {
+      console.error(error.message);
+      setLoading(false);
+      setError(true);
+    }
+  };
+  const handleUploadClick = (event) => {
+    var file = event.target.files[0];
+    const reader = new FileReader();
+    var url = reader.readAsDataURL(file);
+    reader.onloadend = function (e) {
+      setPreviewImg(reader.result);
+    }.bind(this);
+    // console.log("url", url); // Would see a path?
+    // setPreviewImg(event.target.files[0]);
+  };
+  const updateAvatar = async () => {
+    try {
+      setLoading(true);
+      setError(false);
+      setSuccess(false);
+      const resp = await axios.post(`${pubAPI}/auth/profile-update`, {
+        avatar: previewImg,
+        email: user.email,
+      });
+      console.log(resp);
+      //success message
+      setLoading(false);
+      setSuccess(true);
+      router.reload();
+    } catch (error) {
+      console.error(error.message);
+      setLoading(false);
+      setError(true);
+    }
+  };
+  // console.log(previewImg);
   return (
-    <DashboardLayoutWithSidebar activePage={DashboardPages.SETTINGS}>
+    <DashboardLayoutWithSidebar
+      activePage={DashboardPages.SETTINGS}
+      hideSidebar={true}
+    >
       <>
         <div className="action__body w-full mb-40">
           <div className="tf-tsparticles">
@@ -39,19 +139,38 @@ function Settings() {
             <h4>Edit your avatar</h4>
             <i className="icon-keyboard_arrow_up" />
           </div>
-          <form action="#">
-            <div className="uploadfile flex">
+          <div className="flex flex-col gap-4">
+            <img
+              src={previewImg ? previewImg : "/assets/default.jpeg"}
+              width={200}
+              height={200}
+              className="rounded-[50%] object-contain"
+            />
+          </div>
+          <form action="#" className="flex flex-col gap-4">
+            <div className="uploadfile flex flex-col gap-4">
               <img src="assets/images/avatar/avatar-07.png" alt="" />
               <div>
                 <h6 className="to-white">Upload a new avatar”</h6>
                 <label>
-                  <input type="file" name="file" />
+                  <input type="file" name="file" onChange={handleUploadClick} />
                   <span className="text filename to-white">
                     No files selected
                   </span>
                 </label>
                 <p className="text">JPEG 100x100</p>
               </div>
+            </div>
+            <div className="btn-submit">
+              {/* <button className="w242 active mr-30">Cancel</button> */}
+              <button
+                className="w242"
+                style={{ background: "#A4442B" }}
+                type="button"
+                onClick={updateAvatar}
+              >
+                Save
+              </button>
             </div>
           </form>
         </div>
@@ -60,117 +179,66 @@ function Settings() {
             <h4>Edit your profile</h4>
             <i className="icon-keyboard_arrow_up" />
           </div>
-          <form id="commentform" className="comment-form">
+          <form
+            id="commentform"
+            onSubmit={handleSubmit(onSubmitHandler)}
+            className="comment-form"
+          >
             <div className="flex gap30">
               <fieldset className="name">
-                <label className="to-white">Your name*</label>
-                <input
+                <label className="to-white">First Name *</label>
+                <TextField
                   type="text"
-                  id="name"
-                  placeholder="Enter your name"
-                  name="name"
+                  id="firstName"
+                  placeholder={user?.firstName}
+                  name="firstName"
+                  defaultValue={user?.firstName}
                   tabIndex={2}
                   aria-required="true"
-                  required
+                  fullWidth
+                  error={!!errors["firstName"]}
+                  helperText={
+                    errors["firstName"] ? errors["firstName"].message : ""
+                  }
+                  {...register("firstName")}
                 />
               </fieldset>
-              <fieldset className="email">
-                <label className="to-white">Email address*</label>
-                <input
-                  type="email"
+              <fieldset className="name">
+                <label className="to-white">Last Name *</label>
+                <TextField
+                  type="text"
+                  id="lastName"
+                  placeholder={user?.lastName}
+                  name="lastName"
+                  defaultValue={user?.lastName}
+                  tabIndex={2}
+                  aria-required="true"
+                  fullWidth
+                  error={!!errors["lastName"]}
+                  helperText={
+                    errors["lastName"] ? errors["lastName"].message : ""
+                  }
+                  {...register("lastName")}
+                />
+              </fieldset>
+              {/* <fieldset className="email">
+                <label className="to-white">Email *</label>
+                <TextField
+                  type="text"
                   id="email"
-                  placeholder="Your email"
+                  placeholder="mail@website.com"
                   name="email"
                   tabIndex={2}
                   aria-required="true"
-                  required
+                  fullWidth
+                  error={!!errors["email"]}
+                  helperText={errors["email"] ? errors["email"].message : ""}
+                  {...register("email")}
                 />
-              </fieldset>
-              <fieldset className="tel">
-                <label className="to-white">Phone number</label>
-                <input
-                  type="tel"
-                  id="tel"
-                  placeholder="Your phone"
-                  name="tel"
-                  tabIndex={2}
-                  aria-required="true"
-                  required
-                />
-              </fieldset>
+              </fieldset> */}
             </div>
-            <fieldset className="message">
-              <label className="to-white">Your Bio</label>
-              <textarea
-                id="message"
-                name="message"
-                rows={4}
-                placeholder="Say something about yourself"
-                tabIndex={4}
-                aria-required="true"
-                required
-              />
-            </fieldset>
-            <div className="flex gap30">
-              <fieldset className="name">
-                <label className="to-white">Store name</label>
-                <input
-                  type="text"
-                  id="name"
-                  placeholder="Enter your name"
-                  name="name"
-                  tabIndex={2}
-                  aria-required="true"
-                  required
-                />
-              </fieldset>
-              <fieldset className="curency">
-                <label className="to-white">Curency</label>
-                <select className="select" name="curency" id="curency">
-                  <option>Us Dollar ($)</option>
-                  <option value="100$">100$</option>
-                  <option value="1000$">1000$</option>
-                  <option value="10000$">10000$</option>
-                </select>
-              </fieldset>
-            </div>
-            <div className="flex gap30">
-              <fieldset className="location">
-                <label className="to-white">Location</label>
-                <select className="select" name="location" id="location">
-                  <option>United States</option>
-                  <option value="English">English</option>
-                  <option value="Japan">Japan</option>
-                  <option value="China">China</option>
-                </select>
-              </fieldset>
-              <fieldset className="address">
-                <label className="to-white">Address</label>
-                <input
-                  type="text"
-                  id="address"
-                  placeholder="Your address"
-                  name="address"
-                  tabIndex={2}
-                  aria-required="true"
-                  required
-                />
-              </fieldset>
-            </div>
-            <fieldset className="address">
-              <label className="to-white">Address</label>
-              <input
-                type="text"
-                id="address"
-                placeholder="Your address"
-                name="address"
-                tabIndex={2}
-                aria-required="true"
-                required
-              />
-            </fieldset>
             <div className="btn-submit">
-              <button className="w242 active mr-30">Cancel</button>
+              {/* <button className="w242 active mr-30">Cancel</button> */}
               <button
                 className="w242"
                 style={{ background: "#A4442B" }}
@@ -187,32 +255,6 @@ function Settings() {
             <i className="icon-keyboard_arrow_up" />
           </div>
           <form id="commentform" className="comment-form">
-            <div className="flex gap30">
-              <fieldset className="tel">
-                <label className="to-white">Phone number</label>
-                <input
-                  type="tel"
-                  id="tel"
-                  placeholder="Your phone"
-                  name="tel"
-                  tabIndex={2}
-                  aria-required="true"
-                  required
-                />
-              </fieldset>
-              <fieldset className="email">
-                <label className="to-white">Email address</label>
-                <input
-                  type="email"
-                  id="email"
-                  placeholder="Your email"
-                  name="email"
-                  tabIndex={2}
-                  aria-required="true"
-                  required
-                />
-              </fieldset>
-            </div>
             <fieldset className="password">
               <label className="to-white">Old password</label>
               <input
@@ -250,7 +292,7 @@ function Settings() {
               />
             </fieldset>
             <div className="btn-submit">
-              <button className="w242 active mr-30">Cancel</button>
+              {/* <button className="w242 active mr-30">Cancel</button> */}
               <button
                 className="w242"
                 style={{ background: "#A4442B" }}
@@ -261,7 +303,7 @@ function Settings() {
             </div>
           </form>
         </div>
-        <div className="widget-edit mb-30 setting">
+        {/* <div className="widget-edit mb-30 setting">
           <div className="title">
             <h4 className="to-white">Notification setting</h4>
             <i className="icon-keyboard_arrow_up" />
@@ -340,7 +382,7 @@ function Settings() {
               </button>
             </div>
           </form>
-        </div>
+        </div> */}
       </>
     </DashboardLayoutWithSidebar>
   );
