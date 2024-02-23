@@ -6,8 +6,8 @@ import AutoSlider2 from "@/open9/slider/AutoSlider2";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useAuthContext } from "@/providers/auth.context";
 
-function Artwork() {
-  const [artPieces, setArtPieces] = useState([]);
+function Organizations() {
+  const [orgs, setOrgs] = useState([]);
 
   const axiosAuth = useAxiosAuth();
   const { user } = useAuthContext();
@@ -15,9 +15,9 @@ function Artwork() {
   useEffect(() => {
     (async () => {
       if(!user) return;
-      const res =  await axiosAuth.get(`/art-piece/user/${user?._id}`);
-      console.log("we have artpieces here ", res.data?.artPieces)
-      setArtPieces(res.data?.artPieces);
+      const res =  await axiosAuth.get(`/orgs/user/${user?._id}`);
+      console.log("we have orgs here ", res.data?.organizations)
+      setOrgs(res.data?.organizations);
     })()
   }, [])
 
@@ -42,7 +42,7 @@ function Artwork() {
                 </div>
             </div>
             <div className="row">
-              {artPieces?.map((org, idx) => (
+              {orgs?.map((org, idx) => (
                   <div key={idx} className="fl-item col-xl-3 col-lg-4 col-md-6 col-sm-6">
                     <div className="tf-card-box style-1">
                       <div className="card-media">
@@ -94,5 +94,5 @@ function Artwork() {
     </>
   )
 }
-Artwork.requiredAuth = true;
-export default Artwork;
+Organizations.requiredAuth = true;
+export default Organizations;

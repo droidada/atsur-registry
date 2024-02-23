@@ -1,79 +1,118 @@
 import { useEffect, useState } from "react";
-import { Grid, Button, Select } from "@mui/material";
-import DashboardLayout from "@/components/layout/dashboard-layout";
 import Link from "next/link";
-import Image from "next/image";
-import DefaultOrg from "../../../../assets/image.jpeg";
-import useAxiosAuth from "@/hooks/useAxiosAuth";
+import DashboardLayoutWithSidebar, { DashboardPages } from "@/components/open9/layout/DashboardLayoutWithSidebar";
+import AutoSlider1 from "@/open9/slider/AutoSlider1";
+import AutoSlider2 from "@/open9/slider/AutoSlider2";
+import { getToken} from 'next-auth/jwt';
+import axios from "@/lib/axios";
 
-function Organizations() {
-  const [entries, setEntries] = useState([]);
-  const axiosAuth = useAxiosAuth();
-  useEffect(() => {
-    const fetchOrganizations = async () => {
-      try {
-        const res = await axiosAuth(
-          "user/me?fields=organizations,organizations.organization_id.*,organizations.organization_id.assets.*, organizations.organization_id.asset_files.*",
-        );
-        const data = res.data;
-        setEntries(data.data.organizations);
-      } catch (error) {
-        console.error(error);
+export const getServerSideProps = async ({req, query}) => {
+  try {
+      const token: any = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+      console.log("token here is ", token)
+      if(!token) return;
+
+      const res = await axios.get(`/org/user` , { headers: { authorization: `Bearer ${token?.user?.accessToken}`}});
+
+      return { props: { organizations: res.data.organizations } }
+  } catch (error) {
+      console.error("error here looks like ", error);
+      if(error?.response?.status === 404){
+          return {
+              notFound: true,
+          };
       }
-    };
-    fetchOrganizations();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  return (
-    <DashboardLayout>
-      <div className="flex justify-between my-8">
-        <p>{entries && entries.length} Results</p>
-        <Button href="/dashboard/organizations/add">Add Organization</Button>
-      </div>
-      <Grid
-        container
-        spacing={2}
-        columnSpacing={3}
-        rowSpacing={3}
-        xs={12}
-        sm={8}
-        md={12}
-        px={10}
-      >
-        {entries && entries.length > 0 ? (
-          entries?.map((item, idx) => (
-            <div key={idx}>
-              <Link href={"/organization/" + item.organization_id.id}>
-                <Image
-                  src={
-                    item.assets
-                      ? `${process.env.NEXT_PUBLIC_API_ENDPOINT}assets/${item.assets[0]?.directus_files_id}?height=259`
-                      : DefaultOrg
-                  }
-                  alt={item.artwork_title || `art`}
-                  className="w-full h-[259px]"
-                  width={300}
-                  height={259}
-                />
-              </Link>
-              <div>
-                <h6 className="text-left text-[24px] font-[400]">
-                  {item.organization_id.name}
-                </h6>
-                <p className="text-left text-[16px] font-[400]">
-                  {item.organization_id.description}
-                </p>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p>You do not have any organizations for now</p>
-        )}
-      </Grid>
-    </DashboardLayout>
-  );
+     throw new Error(error);
+  }
 }
 
+function Organizations({ organizations }) {
+
+  return (
+    <>
+      <DashboardLayoutWithSidebar activePage={DashboardPages.ORGANIZATIONS}>
+        <>
+          <div className="row">
+            <div className="action__body w-full mb-40">
+                <div className="tf-tsparticles">
+                    <div id="tsparticles7" data-color="#161616" data-line="#000" />
+                </div>
+                <h2>Your Organizations</h2>
+                <div className="flat-button flex">
+                    <Link href="/explore" className="tf-button style-2 h50 w190 mr-10">Explore<i className="icon-arrow-up-right2" /></Link>
+                    <Link href="/dashboard/organizations/create" className="tf-button style-2 h50 w230">Create Organization<i className="icon-arrow-up-right2" /></Link>
+                </div>
+                <div className="bg-home7">
+                    <AutoSlider1 />
+                    <AutoSlider2 />
+                    <AutoSlider1 />
+                </div>
+            </div>
+            <div className="row">
+              {organizations?.length > 0 ? organizations?.map((org, idx) => (
+                  <div key={idx} className="fl-item col-xl-3 col-lg-4 col-md-6 col-sm-6">
+                    <div className="tf-card-box style-1">
+                      <div className="card-media">
+                        <Link href="#">
+                          <img
+                            src={org?.image}
+                            alt=""
+                          />
+                        </Link>
+                        <span className="wishlist-button icon-heart" />
+                        <div className="button-place-bid">
+                          <Link href={`/dashboard/organization/${org._id}`} className="tf-button">
+                            <span>View</span>
+                          </Link>
+                        </div>
+                      </div>
+                      <h5 className="name">
+                        <Link href="#">{org.name}</Link>
+                      </h5>
+                      <div className="author flex items-center">
+                        <div className="avatar">
+                          <img
+                            src={`fdafasdf`}
+                            alt="Image"
+                          />
+                        </div>
+                        <div className="info">
+                          <span className="tf-color">Created by:</span>
+                          <h6>
+                            <Link href="/author-2">Org name</Link>{" "}
+                          </h6>
+                        </div>
+                      </div>
+                      <div className="divider" />
+                      <div className="meta-info flex items-center justify-between">
+                        <span className="text-bid">Price</span>
+                        <h6 className="price gem to-white">
+                          <i className="icon-gem" />
+                          0,34
+                        </h6>
+                      </div>
+                    </div>
+                  </div>
+              ))
+            : <p>You have not organizations yet. <Link href="/dashboard/organizations/create"><button> Create One</button></Link></p>}
+            </div>
+            <div className="heading-section">
+                <h2 className="tf-title style-1 pb-30">Invites</h2>
+            </div>
+            <div className="row">
+              <p>You have no invites</p>
+            </div>
+            <div className="heading-section">
+                <h2 className="tf-title style-1 pb-30">Member Organizations</h2>
+            </div>
+            <div className="row">
+              <p>You are not a member of any organizations</p>
+            </div>
+          </div>
+        </>
+      </DashboardLayoutWithSidebar>
+    </>
+  )
+}
 Organizations.requiredAuth = true;
 export default Organizations;
