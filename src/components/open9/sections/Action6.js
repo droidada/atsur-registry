@@ -27,7 +27,7 @@ export default function Action6() {
                   className="wow fadeInUp flat-button flex"
                 >
                   <Link href="#" className="tf-button style-1 h50 w230 mr-10">
-                    Create your first NFT
+                    Create Art Piece
                     <i className="icon-arrow-up-right2" />
                   </Link>
                   <Link href="#" className="tf-button style-1 h50 w190 active ">

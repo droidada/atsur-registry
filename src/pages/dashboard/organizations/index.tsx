@@ -37,10 +37,10 @@ function Organizations({ organizations }) {
                 <div className="tf-tsparticles">
                     <div id="tsparticles7" data-color="#161616" data-line="#000" />
                 </div>
-                <h2>Your Organizations</h2>
+                <h2>Organizations</h2>
                 <div className="flat-button flex">
                     <Link href="/explore" className="tf-button style-2 h50 w190 mr-10">Explore<i className="icon-arrow-up-right2" /></Link>
-                    <Link href="/dashboard/organizations/create" className="tf-button style-2 h50 w230">Create Organization<i className="icon-arrow-up-right2" /></Link>
+                    <Link href="/dashboard/organizations/create" className="tf-button style-2 h50 w230">Create<i className="icon-arrow-up-right2" /></Link>
                 </div>
                 <div className="bg-home7">
                     <AutoSlider1 />
