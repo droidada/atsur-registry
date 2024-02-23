@@ -1,4 +1,3 @@
-import axios from "@/lib/axios";
 import Layout from "@/open9/layout/Layout";
 import Action5 from "@/open9/sections/Action5";
 import DiscoverItem5 from "@/open9/sections/DiscoverItem5";

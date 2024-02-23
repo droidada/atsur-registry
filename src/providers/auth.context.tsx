@@ -21,7 +21,7 @@ export type AuthContextData = {
   loading: boolean;
   logIn: (email: string, password: string) => Promise<any>;
   logOut: () => Promise<void>;
-  updateUserProfile: (data: IUser) => Promise<void>;
+  updateUserProfile: (data: any) => Promise<void>;
   error: string;
 };
 
@@ -44,8 +44,8 @@ export function AuthContextProvider({ children }: any) {
     try {
       setLoading(true);
       const res = await axiosAuth.get("user/me");
-      const data = res.data.data;
-      console.log("we have current user here ", data);
+      const data = res.data;
+      console.log("we have current user here hello ", data);
       setUser(data);
       setLoading(false);
     } catch (error) {
@@ -54,14 +54,14 @@ export function AuthContextProvider({ children }: any) {
   }, [axiosAuth]);
 
   const updateUserProfile = useCallback(
-    async (info: IUser): Promise<void> => {
+    async (info: any): Promise<void> => {
       setLoading(true);
-      const res = await axiosAuth.patch("user/me", {
+      const res = await axiosAuth.patch("/user/update", {
         ...info,
         isProfileSetup: true,
       });
-      const data = res.data.data;
-      console.log("we have current user here ", data);
+      const data = res.data;
+      console.log("we have updated user here ", data);
       setUser(data);
       setLoading(false);
     },
