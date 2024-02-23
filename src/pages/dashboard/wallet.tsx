@@ -35,10 +35,10 @@ function Wallet() {
                 <div className="tf-tsparticles">
                     <div id="tsparticles7" data-color="#161616" data-line="#000" />
                 </div>
-                <h2>Discover, create and sell your own NFT</h2>
+                <h2>Discover, create and share your Art</h2>
                 <div className="flat-button flex">
                     <Link href="#" className="tf-button style-2 h50 w190 mr-10">Explore now<i className="icon-arrow-up-right2" /></Link>
-                    <Link href="#" className="tf-button style-2 h50 w230">Create your first NFT<i className="icon-arrow-up-right2" /></Link>
+                    <Link href="#" className="tf-button style-2 h50 w230">Create Art Piece<i className="icon-arrow-up-right2" /></Link>
                 </div>
                 <div className="bg-home7">
                     <AutoSlider1 />

@@ -12,7 +12,7 @@ import DashboardLayoutWithSidebar, { DashboardPages } from "@/components/open9/l
 import AutoSlider1 from "@/open9/slider/AutoSlider1";
 import AutoSlider2 from "@/open9/slider/AutoSlider2";
 
-function CreateOrganization() {
+function CreateCollection() {
   const axiosAuth = useAxiosAuth();
   const orgSchema = object({
     name: string().nonempty("Name is required"),
@@ -103,16 +103,16 @@ function CreateOrganization() {
   };
 
   return (
-    <DashboardLayoutWithSidebar activePage={DashboardPages.ORGANIZATIONS}>
+    <DashboardLayoutWithSidebar activePage={DashboardPages.COLLECTIONS}>
         <div className="row">
             <div className="action__body w-full mb-40">
                 <div className="tf-tsparticles">
                     <div id="tsparticles7" data-color="#161616" data-line="#000" />
                 </div>
-                <h2>Add Organization</h2>
+                <h2>Add Collection</h2>
                 <div className="flat-button flex">
                     <Link href="/explore" className="tf-button style-2 h50 w190 mr-10">Explore<i className="icon-arrow-up-right2" /></Link>
-                    <Link href="/dashboard/organizations/create" className="tf-button style-2 h50 w230">Create Organization<i className="icon-arrow-up-right2" /></Link>
+                    <Link href="/dashboard/collections/create" className="tf-button style-2 h50 w230">Create<i className="icon-arrow-up-right2" /></Link>
                 </div>
                 <div className="bg-home7">
                     <AutoSlider1 />
@@ -283,5 +283,5 @@ function CreateOrganization() {
   );
 }
 
-CreateOrganization.requiredAuth = true;
-export default CreateOrganization;
+CreateCollection.requiredAuth = true;
+export default CreateCollection;
