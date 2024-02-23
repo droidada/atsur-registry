@@ -82,7 +82,7 @@ export default function Seller7() {
                       </div>
                       <div className="author-infor ">
                         <h5>
-                          <Link href="/author-2">Midjourney NFTs</Link>
+                          <Link href="/artist">Midjourney NFTs</Link>
                         </h5>
                         <h6 className="price gem style-1">
                           <i className="icon-gem" />
