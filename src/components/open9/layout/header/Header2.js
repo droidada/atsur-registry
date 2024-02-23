@@ -152,28 +152,28 @@ export default function Header2({
                 </form>
               </div>
               <div className="widget widget-categories">
-                <h5 className="title-widget tf-color">Categories</h5>
+                <h5 className="title-widget to-white">Categories</h5>
                 <ul>
                   <li>
-                    <div className="cate-item tf-color">
+                    <div className="cate-item to-white">
                       <Link href="#">NFTs</Link>
                     </div>
                     <div className="number">(1.483)</div>
                   </li>
                   <li>
-                    <div className="cate-item tf-color">
+                    <div className="cate-item to-white">
                       <Link href="#">Digital Art</Link>
                     </div>
                     <div className="number">(97)</div>
                   </li>
                   <li>
-                    <div className="cate-item tf-color">
+                    <div className="cate-item to-white">
                       <Link href="#">Crypto</Link>
                     </div>
                     <div className="number">(45)</div>
                   </li>
                   <li>
-                    <div className="cate-item tf-color">
+                    <div className="cate-item to-white">
                       <Link href="#">Technology</Link>
                     </div>
                     <div className="number">(728)</div>
@@ -181,7 +181,7 @@ export default function Header2({
                 </ul>
               </div>
               <div className="widget widget-menu style-4">
-                <h5 className="title-widget tf-color">Company</h5>
+                <h5 className="title-widget to-white">Company</h5>
                 <ul>
                   <li>
                     <Link href="#">Help center</Link>
@@ -192,7 +192,7 @@ export default function Header2({
                 </ul>
               </div>
               <div className="widget">
-                <h5 className="title-widget tf-color">Join the community</h5>
+                <h5 className="title-widget to-white">Join the community</h5>
                 <div className="widget-social">
                   <ul className="flex">
                     <li>
