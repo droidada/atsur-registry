@@ -1066,6 +1066,9 @@ label.error {
   height: 1px;
   background-color: rgba(255, 255, 255, 0.1);
 }
+.to-gray {
+  color: #dee8e8 !important;
+}
 .to-white {
   color: #fff !important;
 }

@@ -173,7 +173,7 @@ export default function Explore() {
                             </Link>
                             <Link href="#" className="dropdown-item">
                               <div className="sort-filter">
-                                <span>Tokenized</span>
+                                <span>Verified</span>
                                 <input
                                   className="check"
                                   type="checkbox"
