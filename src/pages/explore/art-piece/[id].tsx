@@ -48,7 +48,7 @@ export default function ArtPiece({ artPiece }) {
           <div className="tf-section-2 product-detail">
             <div className="themesflat-container">
               <div className="row">
-                <div data-wow-delay="0s" className="wow fadeInLeft col-md-6">
+                <div data-wow-delay="0s" className="wow fadeInLeft col-md-8">
                   <div className="tf-card-box style-5 mb-0">
                     <div className="card-media mb-0">
                       <Link href="#">
@@ -67,7 +67,7 @@ export default function ArtPiece({ artPiece }) {
                     </div>
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-4">
                   <div
                     data-wow-delay="0s"
                     className="wow fadeInRight infor-product"
@@ -175,7 +175,7 @@ export default function ArtPiece({ artPiece }) {
                     data-wow-delay="0s"
                     className="wow fadeInRight product-item time-sales"
                   >
-                    <h6 className="to-white">
+                    <h6 className=" ">
                       <i className="icon-clock" />
                       Sale ends May 22 at 9:39
                     </h6>
@@ -196,7 +196,7 @@ export default function ArtPiece({ artPiece }) {
                     data-wow-delay="0s"
                     className="wow fadeInRight product-item description"
                   >
-                    <h6 className="to-white">
+                    <h6 className=" ">
                       <i className="icon-description" />
                       Description
                     </h6>
@@ -209,7 +209,7 @@ export default function ArtPiece({ artPiece }) {
                     data-wow-delay="0s"
                     className="wow fadeInRight product-item history"
                   >
-                    <h6 className="to-white">
+                    <h6 className=" ">
                       <i className="icon-description" />
                       Price History
                     </h6>
@@ -224,7 +224,7 @@ export default function ArtPiece({ artPiece }) {
                 </div>
                 <div className="col-12">
                   <div className="product-item details">
-                    <h6 className="to-white">
+                    <h6 className=" ">
                       <i className="icon-description" />
                       Verification Details
                     </h6>
@@ -259,7 +259,7 @@ export default function ArtPiece({ artPiece }) {
                 </div>
                 <div className="col-12">
                   <div className="product-item traits style-1">
-                    <h6 className="to-white">
+                    <h6 className=" ">
                       <i className="icon-description" />
                       Publications
                     </h6>
@@ -330,7 +330,7 @@ export default function ArtPiece({ artPiece }) {
                 </div>
                 <div className="col-12">
                   <div className="product-item offers">
-                    <h6 className="to-white">
+                    <h6 className=" ">
                       <i className="icon-description" />
                       Provenance
                     </h6>
@@ -409,7 +409,7 @@ export default function ArtPiece({ artPiece }) {
                 </div>
                 <div className="col-12">
                   <div className="product-item item-activity mb-0">
-                    <h6 className="to-white">
+                    <h6 className=" ">
                       <i className="icon-two-arrow rotateZ90" />
                       Locations
                     </h6>

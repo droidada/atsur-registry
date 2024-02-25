@@ -13,7 +13,7 @@ export default function Home() {
 
   return (
     <>
-      <DashboardLayoutWithSidebar activePage={DashboardPages.CREATE} hideSidebar={true}>
+      <DashboardLayoutWithSidebar activePage={DashboardPages.ART} hideSidebar={true}>
         <div id="create">
           <div className="wrapper-content-create">
             <div className="heading-section">
