@@ -24,7 +24,7 @@ export default function ThemeProvider({ children }) {
       customShadows: customShadows(),
       shape: { borderRadius: 0 },
       background: {
-        default: "#fff",
+        default: "#000",
       },
     }),
     [],

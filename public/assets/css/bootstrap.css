@@ -178,6 +178,7 @@ button:-moz-focusring,
 
 fieldset {
   border: 1px solid #c0c0c0;
+  color: #dee8e8;
   margin: 0 2px;
   padding: 0.35em 0.625em 0.75em;
 }
@@ -461,6 +462,7 @@ textarea,
 .textarea {
   -ms-touch-action: manipulation;
   touch-action: manipulation;
+  color: #fff;
 }
 
 table {
@@ -483,6 +485,7 @@ th {
 label {
   display: inline-block;
   margin-bottom: 0.5rem;
+  color: #fff;
 }
 
 button:focus {

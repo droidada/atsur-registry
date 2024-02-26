@@ -3,37 +3,44 @@ import Link from "next/link";
 import DashboardLayoutWithSidebar, { DashboardPages } from "@/components/open9/layout/DashboardLayoutWithSidebar";
 import AutoSlider1 from "@/open9/slider/AutoSlider1";
 import AutoSlider2 from "@/open9/slider/AutoSlider2";
-import useAxiosAuth from "@/hooks/useAxiosAuth";
-import { useAuthContext } from "@/providers/auth.context";
+import { getToken} from 'next-auth/jwt';
+import axios from "@/lib/axios";
 
-function Organizations() {
-  const [orgs, setOrgs] = useState([]);
+export const getServerSideProps = async ({req, query}) => {
+  try {
+      const token: any = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+      console.log("token here is ", token)
+      if(!token) return;
 
-  const axiosAuth = useAxiosAuth();
-  const { user } = useAuthContext();
+      const res = await axios.get(`/org/user` , { headers: { authorization: `Bearer ${token?.user?.accessToken}`}});
 
-  useEffect(() => {
-    (async () => {
-      if(!user) return;
-      const res =  await axiosAuth.get(`/orgs/user/${user?._id}`);
-      console.log("we have orgs here ", res.data?.organizations)
-      setOrgs(res.data?.organizations);
-    })()
-  }, [])
+      return { props: { organizations: res.data.organizations } }
+  } catch (error) {
+      console.error("error here looks like ", error);
+      if(error?.response?.status === 404){
+          return {
+              notFound: true,
+          };
+      }
+     throw new Error(error);
+  }
+}
+
+function Collections({ collections }) {
 
   return (
     <>
-      <DashboardLayoutWithSidebar activePage={DashboardPages.ORGANIZATIONS}>
+      <DashboardLayoutWithSidebar activePage={DashboardPages.COLLECTIONS}>
         <>
           <div className="row">
             <div className="action__body w-full mb-40">
                 <div className="tf-tsparticles">
                     <div id="tsparticles7" data-color="#161616" data-line="#000" />
                 </div>
-                <h2>Add Art to the Archive</h2>
+                <h2>Collections</h2>
                 <div className="flat-button flex">
                     <Link href="/explore" className="tf-button style-2 h50 w190 mr-10">Explore<i className="icon-arrow-up-right2" /></Link>
-                    <Link href="/dashboard" className="tf-button style-2 h50 w230">Create Art Piece<i className="icon-arrow-up-right2" /></Link>
+                    <Link href="/dashboard/collections/create" className="tf-button style-2 h50 w230">Create<i className="icon-arrow-up-right2" /></Link>
                 </div>
                 <div className="bg-home7">
                     <AutoSlider1 />
@@ -42,7 +49,7 @@ function Organizations() {
                 </div>
             </div>
             <div className="row">
-              {orgs?.map((org, idx) => (
+              {collections?.length > 0 ? collections?.map((org, idx) => (
                   <div key={idx} className="fl-item col-xl-3 col-lg-4 col-md-6 col-sm-6">
                     <div className="tf-card-box style-1">
                       <div className="card-media">
@@ -65,7 +72,7 @@ function Organizations() {
                       <div className="author flex items-center">
                         <div className="avatar">
                           <img
-                            src=""
+                            src={`fdafasdf`}
                             alt="Image"
                           />
                         </div>
@@ -86,7 +93,20 @@ function Organizations() {
                       </div>
                     </div>
                   </div>
-              ))}
+              ))
+            : <p>You have no collections yet. <Link href="/dashboard/organizations/create"><button> Create One</button></Link></p>}
+            </div>
+            <div className="heading-section">
+                <h2 className="tf-title style-1 pb-30">Invites</h2>
+            </div>
+            <div className="row">
+              <p>You have no invites</p>
+            </div>
+            <div className="heading-section">
+                <h2 className="tf-title style-1 pb-30">Other Collections</h2>
+            </div>
+            <div className="row">
+              <p>You work is not part of any collections</p>
             </div>
           </div>
         </>
@@ -94,5 +114,5 @@ function Organizations() {
     </>
   )
 }
-Organizations.requiredAuth = true;
-export default Organizations;
+Collections.requiredAuth = true;
+export default Collections;
