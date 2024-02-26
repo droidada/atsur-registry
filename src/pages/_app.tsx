@@ -15,6 +15,8 @@ import { AuthContextProvider } from "@/providers/auth.context";
 import "@rainbow-me/rainbowkit/styles.css";
 import "@/styles/globals.css";
 import ThemeProvider from "@/styles/theme";
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
+import { LocalizationProvider } from '@mui/x-date-pickers';
 import { ProtectedLayout } from "@/components/protected-layout";
 import Preloader from "@/open9/elements/Preloader";
 import AddClassBody from "@/open9/elements/AddClassBody";
@@ -70,24 +72,26 @@ export default function NextWeb3App({
   return (
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider chains={chains} appInfo={appInfo} coolMode={true}>
-        <SessionProvider session={session}>
-          <AuthContextProvider>
-            {Component.requireAuth ? (
-              <ProtectedLayout>
+        <LocalizationProvider dateAdapter={AdapterMoment}>
+          <SessionProvider session={session}>
+            <AuthContextProvider>
+              {Component.requireAuth ? (
+                <ProtectedLayout>
+                  <ThemeProvider>
+                    <AddClassBody />
+                    <Component {...pageProps} />
+                  </ThemeProvider>
+                </ProtectedLayout>
+              ) : (
                 <ThemeProvider>
-                  <AddClassBody />
                   <Component {...pageProps} />
                 </ThemeProvider>
-              </ProtectedLayout>
-            ) : (
-              <ThemeProvider>
-                <Component {...pageProps} />
-              </ThemeProvider>
-            )}
-            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-            {/* <Analytics /> */}
-          </AuthContextProvider>
-        </SessionProvider>
+              )}
+              {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+              {/* <Analytics /> */}
+            </AuthContextProvider>
+          </SessionProvider>
+        </LocalizationProvider>
       </RainbowKitProvider>
     </WagmiConfig>
   );

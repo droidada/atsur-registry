@@ -48,6 +48,13 @@ function Artworks({ artworks }) {
                     <AutoSlider1 />
                 </div>
             </div>
+            <div className="heading-section">
+                <h2 className="tf-title style-1 pb-30">Invitations</h2>
+            </div>
+            <div className="row">
+              <p>You have no invites</p>
+              <br /><br /><br />
+            </div>
             <div className="row">
               {artworks?.length > 0 ? artworks?.map((artPiece, idx) => (
                   <div key={idx} className="fl-item col-xl-3 col-lg-4 col-md-6 col-sm-6">
@@ -81,18 +88,6 @@ function Artworks({ artworks }) {
                   </div>
               ))
             : <p>You have not added any art yet. <Link href="/dashboard"><button> Create One</button></Link></p>}
-            </div>
-            <div className="heading-section">
-                <h2 className="tf-title style-1 pb-30">Invitations</h2>
-            </div>
-            <div className="row">
-              <p>You have no invites</p>
-            </div>
-            <div className="heading-section">
-                <h2 className="tf-title style-1 pb-30">Creations</h2>
-            </div>
-            <div className="row">
-              <p>You have not been added as an artist for any art pieces</p>
             </div>
           </div>
         </>
