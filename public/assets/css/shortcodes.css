@@ -3088,6 +3088,7 @@
   width: calc(100vw - 281px);
   padding: 73px 124px 30px 109px;
   background: #161616;
+  color: #dee8e8;
   margin-left: 281px;
   -webkit-transition: all 0.5s linear;
   -moz-transition: all 0.5s linear;
@@ -3120,6 +3121,7 @@
 
 .home-6 .wrap-content #footer {
   background: #161616;
+  color: #dee8e8;
   padding-top: 0;
 }
 
@@ -4164,6 +4166,7 @@ button.follow:hover {
   /* border-radius: 20px; */
   background: #232323;
   padding: 20px;
+  color: #dee8e8;
 }
 
 .widget-edit .title {
@@ -4178,6 +4181,7 @@ button.follow:hover {
 .widget-edit .title h4 {
   font-weight: 800;
   line-height: 27px;
+  color: #dee8e8;
 }
 
 .widget-edit .title i {
@@ -4216,6 +4220,7 @@ button.follow:hover {
   gap: 10px;
   cursor: pointer;
   margin-bottom: 10px;
+  color: #dee8e8;
 }
 
 .uploadfile input[type="file"] {
@@ -4562,6 +4567,7 @@ button.follow:hover {
   position: relative;
   cursor: pointer;
   padding-right: 25px;
+  color: #808080;
 }
 
 .about-us-page .flat-accordion .flat-toggle .toggle-title,
@@ -4571,7 +4577,7 @@ button.follow:hover {
 
 .flat-accordion .flat-toggle .toggle-title.active,
 .flat-accordion2 .flat-toggle2 .toggle-title.active {
-  color: rgba(164, 68, 43, 1);
+  color: #fff;
 }
 
 .flat-accordion .flat-toggle .toggle-title::after,
@@ -4606,7 +4612,7 @@ button.follow:hover {
 
 .flat-accordion .flat-toggle .toggle-title.active::after,
 .flat-accordion2 .flat-toggle2 .toggle-title.active::after {
-  background-color: #a4442b;
+  background-color: #dee8e8;
 }
 
 .flat-accordion .flat-toggle .toggle-content,
@@ -5385,6 +5391,7 @@ button.follow:hover {
 .widget-login {
   padding: 30px;
   /* border-radius: 20px; */
+  color: #dee8e8;
   background: #232323;
 }
 
