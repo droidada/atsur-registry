@@ -310,9 +310,7 @@ const DashboardLayoutWithSidebar = ({
                         <Link
                           href="/dashboard/artworks"
                           className={
-                            activePage === DashboardPages.ART
-                              ? "tf-color"
-                              : ""
+                            activePage === DashboardPages.ART ? "tf-color" : ""
                           }
                         >
                           <svg
@@ -370,7 +368,7 @@ const DashboardLayoutWithSidebar = ({
                             />
                           </svg>
                           Art
-                          </Link>
+                        </Link>
                       </li>
                       <li
                         className={
@@ -539,7 +537,7 @@ const DashboardLayoutWithSidebar = ({
                               fill="#A4442B"
                             />
                           </svg>
-                        Organizations
+                          Organizations
                         </Link>
                       </li>
                       <li
@@ -925,7 +923,7 @@ const DashboardLayoutWithSidebar = ({
                         </Link>
                       </li>
                       <li>
-                        <a onClick={() => logOut}>Logout</a>
+                        <a onClick={() => logOut()}>Logout</a>
                         <svg
                           width={22}
                           height={22}
