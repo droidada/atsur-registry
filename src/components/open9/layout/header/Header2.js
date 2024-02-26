@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import MobileMenu from "../MobileMenu";
+import { useAuthContext } from "@/providers/auth.context";
 export default function Header2({
   scroll,
   isMobileMenu,
@@ -9,6 +10,7 @@ export default function Header2({
 }) {
   const [isSidebar, setSidebar] = useState(false);
   const handleSidebar = () => setSidebar(!isSidebar);
+  const { user, logIn, logOut } = useAuthContext();
   return (
     <>
       <header
@@ -79,14 +81,24 @@ export default function Header2({
                   {/* /#main-nav */}
                   <div className="flat-wallet flex">
                     <div id="wallet-header">
-                      <Link
-                        href="/login"
-                        id="connectbtn"
-                        className="tf-button style-1"
-                      >
-                        <span>Login</span>
-                        <i className="icon-wa" />
-                      </Link>
+                      {!user ? (
+                        <Link
+                          href="/login"
+                          id="connectbtn"
+                          className="tf-button style-1"
+                        >
+                          <span>Login</span>
+                          <i className="icon-wa" />
+                        </Link>
+                      ) : (
+                        <Link
+                          href="/dashboard"
+                          id="connectbtn"
+                          className="tf-button style-1"
+                        >
+                          <span>Dashboard</span>
+                        </Link>
+                      )}
                     </div>
                     <div className="canvas style-1" onClick={handleSidebar}>
                       <span />

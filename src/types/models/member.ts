@@ -37,6 +37,7 @@ export interface IUser {
   description?: string;
   bio?: string;
   avatar?: string;
+  backgroundImage?: string;
   role: string;
   token?: string;
   status?: string;
@@ -44,6 +45,12 @@ export interface IUser {
   wallets: IWallet[];
   artworks: IWallet[];
   organizations: IOrganization[];
+  socialLinks?: {
+    twitter?: string;
+    instagram?: string;
+    linkedIn?: string;
+    facebook?: string;
+  };
 }
 
 export interface IWallet {
