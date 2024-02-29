@@ -4144,7 +4144,7 @@ button.follow:hover {
 }
 
 #history .widget-history {
-  border-radius: 20px;
+  /* border-radius: 20px; */
   background: #232323;
   padding: 20px;
 }
@@ -4546,6 +4546,10 @@ button.follow:hover {
 }
 
 /* wrap-accordion */
+.accordion {
+  background: #232323;
+  margin-bottom: 10px;
+}
 .flat-accordion .flat-toggle,
 .flat-accordion2 .flat-toggle2 {
   /* border-radius: 16px; */

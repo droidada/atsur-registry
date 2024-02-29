@@ -99,7 +99,7 @@ function CreateOrganization() {
     //   selectedFile: event.target.files[0],
     //   imageUploaded: 1
     // });
-    setPreviewImg(event.target.files[0]);
+   // setPreviewImg(event.target.files[0]);
   };
 
   return (
