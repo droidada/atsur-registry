@@ -9,6 +9,10 @@ import AutoSlider2 from "@/open9/slider/AutoSlider2";
 import { getToken} from 'next-auth/jwt';
 import axios from "@/lib/axios";
 import EditExhibition from "@/components/dashboard/edit-exhibition";
+import { List, ListItem, ListItemText, ListItemIcon, ListItemAvatar, IconButton, Avatar, Switch, Accordion, AccordionActions, AccordionSummary, AccordionDetails } from "@mui/material";
+import { Folder as FolderIcon, Delete as DeleteIcon, Edit as EditIcon, Publish as PublishIcon, ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
+import EditAppraisal from "@/components/dashboard/edit-appraisal";
+import { useRouter } from "next/router";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -35,24 +39,11 @@ export const getServerSideProps = async ({ req, query }) => {
 
 function ArtPiece({ artPiece }) {
 
-  const [isActive, setIsActive] = useState({
-      status: false,
-      key: 1,
-  })
-  const [editExhibition, setEditExhibition] = useState(false)
-  const handleToggle = (key) => {
-      if (isActive.key === key) {
-          setIsActive({
-              status: false,
-              key: isActive.key
-          })
-      } else {
-          setIsActive({
-              status: true,
-              key,
-          })
-      }
-  }
+  const router = useRouter();
+  const [editExhibition, setEditExhibition] = useState(false);
+  const [editedExhibition, setEditedExhibition] = useState({});
+  const [editAppraisal, setEditAppraisal] = useState(false);
+
 
   return (
     <>
@@ -103,7 +94,8 @@ function ArtPiece({ artPiece }) {
                         className="wow fadeInRight infor-product"
                       >
                         <div className="text">
-                          8SIAN Main Collection{" "}
+                          {artPiece?.collection && artPiece.collection.name}
+                          {/* 8SIAN Main Collection{" "} */}
                           <span className="icon-tick">
                             <span className="path1" />
                             <span className="path2" />
@@ -117,70 +109,169 @@ function ArtPiece({ artPiece }) {
                       >
                         <h6 className="to-white">
                           <i className="icon-clock" />
-                          Sale ends May 22 at 9:39
+                          Created: May 22 at 9:39
                         </h6>
                         <div className="content">
-                          <div className="text">Current price</div>
+                          <ListItem dense>
+                            <ListItemIcon>
+                              <PublishIcon />
+                            </ListItemIcon>
+                            <h5>Publish</h5>
+                            <Switch
+                              edge="end"
+                              // onChange={handleToggle('wifi')}
+                              // checked={checked.indexOf('wifi') !== -1}
+                              inputProps={{
+                                'aria-labelledby': 'switch-list-label-wifi',
+                              }}
+                            />
+                          </ListItem>
+                          {/* <div className="text">Current price</div>
                           <div className="justify-between">
                             <p>
                               0,032 ETH <span>$58,11</span>
                             </p>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
 
                       <div className="row">
+
                           <div className="flat-accordion2">
-                              <div data-wow-delay="0s" className="wow fadeInUp flat-toggle2">
-                                  <h6 className={isActive.key == 1 ? "toggle-title active" : "toggle-title"} onClick={() => handleToggle(1)}>Description</h6>
-                                  <div className="toggle-content" style={{ display: `${isActive.key == 1 ? "block" : "none"}` }}>
-                                      <p>{artPiece.description}</p>
-                                  </div>
-                              </div>
-                              <div data-wow-delay="0s" className="wow fadeInUp flat-toggle2">
-                                  <h6 className={isActive.key == 2 ? "toggle-title active" : "toggle-title"} onClick={() => handleToggle(2)}>Provenance</h6>
-                                  <div className="toggle-content" style={{ display: `${isActive.key == 2 ? "block" : "none"}` }}>
-                                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
-                                      <button className="tf-button style-1">Add</button>
-                                  </div>
-                              </div>
-                              <div data-wow-delay="0s" className="wow fadeInUp flat-toggle2">
-                                  <h6 className={isActive.key == 3 ? "toggle-title active" : "toggle-title"} onClick={() => handleToggle(3)}>Exhibitions</h6>
-                                  <div className="toggle-content" style={{ display: `${isActive.key == 3 ? "block" : "none"}` }}>
-                                      <p>Blockchain is a shared, immutable ledger that facilitates the process of recording transactions and tracking assets in a business network. An asset can be tangible (a house, car, cash, land) or intangible (intellectual property, patents, copyrights, branding). Virtually anything of value can be tracked and traded on a blockchain network, reducing risk and cutting costs for all involved</p>
-                                      <button className="tf-button style-1" onClick={()=> setEditExhibition(true)}>Add</button>
-                                  </div>
-                              </div>
-                              <div data-wow-delay="0s" className="wow fadeInUp flat-toggle2">
-                                  <h6 className={isActive.key == 4 ? "toggle-title active" : "toggle-title"} onClick={() => handleToggle(4)}>Appraisals</h6>
-                                  <div className="toggle-content" style={{ display: `${isActive.key == 4 ? "block" : "none"}` }}>
-                                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
-                                  </div>
-                              </div>
-                              <div data-wow-delay="0s" className="wow fadeInUp flat-toggle2">
-                                  <h6 className={isActive.key == 5 ? "toggle-title active" : "toggle-title"} onClick={() => handleToggle(5)}>Provenance</h6>
-                                  <div className="toggle-content" style={{ display: `${isActive.key == 5 ? "block" : "none"}` }}>
-                                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
-                                  </div>
-                              </div>
-                              <div data-wow-delay="0s" className="wow fadeInUp flat-toggle2">
-                                  <h6 className={isActive.key == 6 ? "toggle-title active" : "toggle-title"} onClick={() => handleToggle(6)}>Publications</h6>
-                                  <div className="toggle-content" style={{ display: `${isActive.key == 6 ? "block" : "none"}` }}>
-                                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
-                                  </div>
-                              </div>
-                              <div data-wow-delay="0s" className="wow fadeInUp flat-toggle2">
-                                  <h6 className={isActive.key == 7 ? "toggle-title active" : "toggle-title"} onClick={() => handleToggle(7)}>Locations</h6>
-                                  <div className="toggle-content" style={{ display: `${isActive.key == 7 ? "block" : "none"}` }}>
-                                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
-                                  </div>
-                              </div>
-                              <div data-wow-delay="0s" className="wow fadeInUp flat-toggle2">
-                                  <h6 className={isActive.key == 8 ? "toggle-title active" : "toggle-title"} onClick={() => handleToggle(8)}>Viewers</h6>
-                                  <div className="toggle-content" style={{ display: `${isActive.key == 8 ? "block" : "none"}` }}>
-                                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
-                                  </div>
-                              </div>
+                            <Accordion className="accordion" defaultExpanded>
+                              <AccordionSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel1-content"
+                                id="panel1-header"
+                                className="toggle-title"
+                              >
+                                <h6>Description</h6>
+                              </AccordionSummary>
+                              <AccordionDetails>
+                                <p>{artPiece.description}</p>
+                              </AccordionDetails>
+                            </Accordion>
+
+                            <Accordion className="accordion">
+                              <AccordionSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel1-content"
+                                id="panel1-header"
+                                className="toggle-title"
+                              >
+                                <h6>Exhibitions</h6>
+                              </AccordionSummary>
+                              <AccordionDetails>
+                                <List>
+                                  {artPiece?.exhibitions?.length > 0 && artPiece?.exhibitions?.map((exhibition, idx) => (
+                                    <ListItem key={idx}
+                                      secondaryAction={
+                                        <>
+                                          <IconButton edge="end" aria-label="edit">
+                                            <EditIcon onClick={() => { setEditedExhibition(exhibition); setEditExhibition(true); }} />
+                                          </IconButton>
+                                          <IconButton edge="end" aria-label="delete">
+                                            <DeleteIcon />
+                                          </IconButton>
+                                        </>
+                                      }
+                                    >
+                                    <ListItemAvatar>
+                                      <Avatar>
+                                        <FolderIcon />
+                                      </Avatar>
+                                    </ListItemAvatar>
+                                    <span>
+                                      <h6 className="to-white">{exhibition.name}</h6>
+                                      <p>{`by ${exhibition?.organizer?.name} at ${exhibition?.location?.address} ${exhibition?.location?.country}`}</p>
+                                    </span>
+                                    </ListItem>
+                                  ))}
+                                </List>
+                                <button className="tf-button style-1" onClick={()=> setEditExhibition(true)}>Add</button>
+                              </AccordionDetails>
+                            </Accordion>
+
+                            <Accordion className="accordion">
+                              <AccordionSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel1-content"
+                                id="panel1-header"
+                                className="toggle-title"
+                              >
+                                <h6>Appraisals</h6>
+                              </AccordionSummary>
+                              <AccordionDetails>
+                                <List>
+                                  {artPiece?.appraisals?.length > 0 && artPiece?.appraisals?.map((a, idx) => (
+                                    <ListItem key={idx}
+                                      secondaryAction={
+                                        <>
+                                          <IconButton edge="end" aria-label="edit">
+                                            <EditIcon />
+                                          </IconButton>
+                                          <IconButton edge="end" aria-label="delete">
+                                            <DeleteIcon />
+                                          </IconButton>
+                                        </>
+                                      }
+                                    >
+                                    <ListItemAvatar>
+                                      <Avatar>
+                                        <FolderIcon />
+                                      </Avatar>
+                                    </ListItemAvatar>
+                                    <span>
+                                      <p>Valued at <b className="to-gray">{`${a?.value} ${a?.currency}`}</b> by <b className="to-gray">{a.appraiser}</b></p>
+                                    </span>
+                                    </ListItem>
+                                  ))}
+                                </List>
+                                <button className="tf-button style-1" onClick={()=> setEditAppraisal(true)}>Add</button>
+                              </AccordionDetails>
+                            </Accordion>
+
+                            <Accordion className="accordion">
+                              <AccordionSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel1-content"
+                                id="panel1-header"
+                                className="toggle-title"
+                              >
+                                <h6>Publications</h6>
+                              </AccordionSummary>
+                              <AccordionDetails>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
+                              </AccordionDetails>
+                            </Accordion>
+
+                            <Accordion className="accordion">
+                              <AccordionSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel1-content"
+                                id="panel1-header"
+                                className="toggle-title"
+                              >
+                                <h6>Provenance</h6>
+                              </AccordionSummary>
+                              <AccordionDetails>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
+                              </AccordionDetails>
+                            </Accordion>
+
+                            <Accordion className="accordion">
+                              <AccordionSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel1-content"
+                                id="panel1-header"
+                                className="toggle-title"
+                              >
+                                <h6>Locations</h6>
+                              </AccordionSummary>
+                              <AccordionDetails>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
+                              </AccordionDetails>
+                            </Accordion>
                           </div>
                       </div>
                     </div>
@@ -190,7 +281,8 @@ function ArtPiece({ artPiece }) {
           </div>
         </>
       </DashboardLayoutWithSidebar>
-      <EditExhibition open={editExhibition} handleClose={()=> setEditExhibition(false)}  />
+      <EditExhibition open={editExhibition} exhibition={editedExhibition} artPieceId={artPiece._id} handleClose={()=> { setEditExhibition(false); router.replace(router.asPath); }}  />
+      <EditAppraisal open={editAppraisal} artPieceId={artPiece._id} handleClose={()=> { setEditAppraisal(false); router.replace(router.asPath); }}  />
     </>
   )
 }

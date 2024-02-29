@@ -107,7 +107,7 @@ export function palette() {
     mode: "light",
     text: {
       primary: '#fff',
-      secondary: grey[600],
+      secondary: grey[400],
       disabled: grey[500],
     },
     background: {
