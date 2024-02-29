@@ -138,8 +138,8 @@ export default function ArtPiece({ artPiece }) {
                       <div className="avatar">
                         <img
                           src={
-                            artPiece.author?.avatar
-                              ? artPiece.author.avatar
+                            artPiece.creator?.profile?.avatar
+                              ? artPiece.creator?.profile?.avatar
                               : "/assets/images/avatar/avatar-box-05.jpg"
                           }
                           alt="Image"
@@ -148,9 +148,12 @@ export default function ArtPiece({ artPiece }) {
                       <div className="info">
                         <span>Created by:</span>
                         <h6>
-                          <Link className="tf-color" href="/artist/1">{`${
-                            artPiece?.author
-                              ? `${artPiece.author.firstName} ${artPiece.author.lastName}`
+                          <Link
+                            className="tf-color"
+                            href={`/artist/${artPiece?.creator?.profile?._id}`}
+                          >{`${
+                            artPiece?.creator?.profile
+                              ? `${artPiece?.creator?.profile?.firstName} ${artPiece?.creator?.profile?.lastName}`
                               : "Marvin McKinney"
                           }`}</Link>{" "}
                         </h6>
