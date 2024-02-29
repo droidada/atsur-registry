@@ -13,6 +13,7 @@ import { TypeOf, object, string } from "zod";
 import axios from "axios";
 import { useAuthContext } from "@/providers/auth.context";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
+import { useToast } from "@/providers/ToastProvider";
 
 const pubAPI = process.env.NEXT_PUBLIC_API_ENDPOINT;
 function Settings() {
@@ -137,6 +138,7 @@ function Settings() {
 
   const avatarRef = useRef();
   const bgRef = useRef();
+  const toast = useToast();
   // console.log(previewImg);
   return (
     <DashboardLayoutWithSidebar

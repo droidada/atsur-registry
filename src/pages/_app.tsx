@@ -15,14 +15,15 @@ import { AuthContextProvider } from "@/providers/auth.context";
 import "@rainbow-me/rainbowkit/styles.css";
 import "@/styles/globals.css";
 import ThemeProvider from "@/styles/theme";
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
-import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import { LocalizationProvider } from "@mui/x-date-pickers";
 import { ProtectedLayout } from "@/components/protected-layout";
 import Preloader from "@/open9/elements/Preloader";
 import AddClassBody from "@/open9/elements/AddClassBody";
 import "/public/assets/css/style.css";
 import "/public/assets/css/responsive.css";
 import "wowjs/css/libs/animate.css";
+import { ToastProvider } from "@/providers/ToastProvider";
 
 type AppPropsWithAuth = NextPage & {
   requiresAuth?: boolean;
@@ -75,20 +76,22 @@ export default function NextWeb3App({
         <LocalizationProvider dateAdapter={AdapterMoment}>
           <SessionProvider session={session}>
             <AuthContextProvider>
-              {Component.requireAuth ? (
-                <ProtectedLayout>
+              <ToastProvider>
+                {Component.requireAuth ? (
+                  <ProtectedLayout>
+                    <ThemeProvider>
+                      <AddClassBody />
+                      <Component {...pageProps} />
+                    </ThemeProvider>
+                  </ProtectedLayout>
+                ) : (
                   <ThemeProvider>
-                    <AddClassBody />
                     <Component {...pageProps} />
                   </ThemeProvider>
-                </ProtectedLayout>
-              ) : (
-                <ThemeProvider>
-                  <Component {...pageProps} />
-                </ThemeProvider>
-              )}
-              {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-              {/* <Analytics /> */}
+                )}
+                {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+                {/* <Analytics /> */}
+              </ToastProvider>
             </AuthContextProvider>
           </SessionProvider>
         </LocalizationProvider>
