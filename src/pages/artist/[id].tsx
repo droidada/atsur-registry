@@ -65,7 +65,7 @@ const Index = ({ user }) => {
             style={{ width: "250px", height: "250px", borderRadius: "50%" }}
           />
           <div className="mt-[-120px] ml-[250px] mb-12">
-            <p className="font-bold text-3xl">
+            <p className="font-bold text-3xl md:text-xl">
               {user?.firstName} {user?.lastName}
             </p>
             <p className="text-lg">{user?.email}</p>
@@ -75,26 +75,26 @@ const Index = ({ user }) => {
             <div className="w-full h-full">
               <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
                 <div className="flex gap-4">
-                  <p className="text-grey-500 text-lg">Twitter:</p>
-                  <p className="text-black text-lg">
+                  <p className="text-grey-500 text-xl">Twitter:</p>
+                  <p className="text-black text-xl">
                     {user?.socialLinks?.twitter}
                   </p>
                 </div>
                 <div className="flex gap-4">
-                  <p className="text-grey-500 text-lg">Facebook</p>
-                  <p className="text-black text-lg">
+                  <p className="text-grey-500 text-xl">Facebook</p>
+                  <p className="text-black text-xl">
                     {user?.socialLinks?.facebook}
                   </p>
                 </div>
                 <div className="flex gap-4">
-                  <p className="text-grey-500 text-lg">Instagram</p>
-                  <p className="text-black text-lg">
+                  <p className="text-grey-500 text-xl">Instagram</p>
+                  <p className="text-black text-xl">
                     {user?.socialLinks?.instagram}
                   </p>
                 </div>
                 <div className="flex gap-4">
-                  <p className="text-grey-500 text-lg">LinkedIn</p>
-                  <p className="text-black text-lg">
+                  <p className="text-grey-500 text-xl">LinkedIn</p>
+                  <p className="text-black text-xl">
                     {user?.socialLinks?.linkedIn}
                   </p>
                 </div>
