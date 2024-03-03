@@ -14,6 +14,7 @@ import axios from "axios";
 import { useAuthContext } from "@/providers/auth.context";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useToast } from "@/providers/ToastProvider";
+import Input from "@/components/Form/Input";
 
 const pubAPI = process.env.NEXT_PUBLIC_API_ENDPOINT;
 function Settings() {
@@ -65,8 +66,10 @@ function Settings() {
       setError(false);
       setSuccess(false);
       const resp = await axios.post(`${pubAPI}/auth/profile-update`, {
-        firstName: values.firstName,
-        lastName: values.lastName,
+        // firstName: values.firstName,
+        // lastName: values.lastName,
+        // bio: values.bio,
+        ...values,
         socialLinks: {
           linkedIn: values.linkedIn,
           facebook: values.facebook,
@@ -79,6 +82,7 @@ function Settings() {
       //success message
       setLoading(false);
       setSuccess(true);
+      toast.success("Profile updated successfully");
       router.reload();
     } catch (error) {
       console.error(error.message);

@@ -6,6 +6,7 @@ import TopCollections5 from "@/components/open9/sections/TopCollections5";
 import React from "react";
 import { getToken } from "next-auth/jwt";
 import axios from "@/lib/axios";
+import Link from "next/link";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -37,9 +38,9 @@ const Index = ({ user }) => {
       <div className="w-full py-20 px-[0px] md:px-[170px]">
         <div className="w-full flex flex-col gap-8 relative ">
           <div
-            className="md:w-full"
+            className="md:w-full h-[150px] md:h-[300px]"
             style={{
-              height: "300px",
+              // height: "300px",
               background: `${user?.backgroundImage}`,
               backgroundSize: "cover",
               backgroundColor: "#DEE8E8",
@@ -61,15 +62,20 @@ const Index = ({ user }) => {
           <img
             src={user?.avatar ? user?.avatar : "/assets/default-image.jpg"}
             alt="profile"
-            className=" mt-[-150px] p-6"
-            style={{ width: "250px", height: "250px", borderRadius: "50%" }}
+            className=" mt-[-70px] md:mt-[-150px] p-6 w-[100px] md:w-[250px] h-[100px]  md:h-[250px]"
+            style={{ borderRadius: "50%" }}
           />
-          <div className="mt-[-120px] ml-[250px] mb-12">
+          <div className="mt-[-60px] md:mt-[-120px] ml-[100px] md:ml-[250px] mb-12">
             <p className="font-bold text-3xl md:text-xl">
               {user?.firstName} {user?.lastName}
             </p>
             <p className="text-lg">{user?.email}</p>
             <p className="text-lg">{user?.bio}</p>
+          </div>
+          <div className="mt-[-110px] md:mt-[-120px] self-end mb-12 flex gap-4">
+            <Link href="#" id="connectbtn" className="tf-button style-1">
+              <span>Follow</span>
+            </Link>
           </div>
           <div className="h-full">
             <div className="w-full h-full">
