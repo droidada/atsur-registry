@@ -16,13 +16,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 
-export default function EditAppraisal({
+export default function EditPublication({
   open,
   handleClose,
   artPieceId,
-  appraisal = {},
+  publication = {},
 }) {
-  const appraisalSchema = object({
+  const publicationSchema = object({
     appraiser: string().nonempty("Appraiser is required"),
     appraiserEmail: string().nonempty("Appraiser email is required"),
     value: string().nonempty("Value is required"),
@@ -32,20 +32,20 @@ export default function EditAppraisal({
     notes: string(),
   });
 
-  type AppraisalInput = TypeOf<typeof appraisalSchema>;
+  type publicationInput = TypeOf<typeof publicationSchema>;
 
   const {
     register,
     formState: { errors, isSubmitSuccessful },
     reset,
     handleSubmit,
-  } = useForm<AppraisalInput>({
-    resolver: zodResolver(appraisalSchema),
+  } = useForm<publicationInput>({
+    resolver: zodResolver(publicationSchema),
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [appraisalImg, setAppraisalImg] = useState(null);
+  const [publicationImg, setPublicationImg] = useState(null);
   const axiosAuth = useAxiosAuth();
 
   // useEffect(() => {
@@ -66,18 +66,18 @@ export default function EditAppraisal({
     var url = reader.readAsDataURL(file);
 
     reader.onloadend = function (e) {
-      setAppraisalImg(reader.result);
+        setPublicationImg(reader.result);
     }.bind(this);
     console.log(url); // Would see a path?
   };
 
-  const onSubmitHandler: SubmitHandler<AppraisalInput> = async (values) => {
+  const onSubmitHandler: SubmitHandler<publicationInput> = async (values) => {
     try {
       console.log("submitting here.....");
       console.log(values);
 
       const formData = new FormData();
-      formData.append("attachment", appraisalImg);
+      formData.append("attachment", publicationImg);
       formData.append("artPieceId", artPieceId);
       formData.append("appraiser", values.appraiser);
       formData.append("appraiserEmail", values.appraiserEmail);
@@ -88,7 +88,7 @@ export default function EditAppraisal({
       formData.append("attachmentCaption", values.attachmentCaption);
       formData.append("notes", values.notes);
 
-      const result = await axiosAuth.post(`/art-piece/add-appraisal`, formData);
+      const result = await axiosAuth.post(`/art-piece/add-publication`, formData);
       console.log("result here is ", result.data);
       handleClose();
     } catch (error) {
@@ -108,7 +108,7 @@ export default function EditAppraisal({
           onSubmit={handleSubmit(onSubmitHandler)}
         >
           <DialogTitle>
-            <h2 className="items-center justify-center">Appraisal</h2>
+            <h2 className="items-center justify-center">publication</h2>
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
@@ -175,8 +175,8 @@ export default function EditAppraisal({
               <fieldset>
                 <label className="uploadfile h-full flex items-center justify-center">
                   <div className="text-center flex flex-col items-center justify-center">
-                    {appraisalImg ? (
-                      <img className="h-full" src={appraisalImg} />
+                    {publicationImg ? (
+                      <img className="h-full" src={publicationImg} />
                     ) : (
                       <>
                         <img src="assets/images/box-icon/upload.png" alt="" />
@@ -202,7 +202,7 @@ export default function EditAppraisal({
                 <TextField
                   type="text"
                   id="attachmentCaption"
-                  placeholder="Appraisal document"
+                  placeholder="publication document"
                   name="attachmentCaption"
                   tabIndex={2}
                   fullWidth
@@ -254,7 +254,7 @@ export default function EditAppraisal({
               <TextField
                 type="text"
                 id="notes"
-                placeholder="A private appraisal consult"
+                placeholder="A private publication consult"
                 name="notes"
                 tabIndex={2}
                 multiline

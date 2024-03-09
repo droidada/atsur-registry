@@ -85,7 +85,7 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu }) {
                   </g>
                 </svg>
               </div>
-              <div className="widget-search mt-30">
+              <div className="widget-search mt-30 gray-bg">
                 <form
                   action="#"
                   method="get"

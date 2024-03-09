@@ -3,7 +3,9 @@ import DashboardLayout from "@/open9/layout/DashboardLayout";
 import { useState } from "react";
 import CreateMetadata from "@/components/dashboard/create-metadata";
 import CreateAssets from "@/components/dashboard/create-assets";
-import DashboardLayoutWithSidebar, { DashboardPages } from "@/components/open9/layout/DashboardLayoutWithSidebar";
+import DashboardLayoutWithSidebar, {
+  DashboardPages,
+} from "@/components/open9/layout/DashboardLayoutWithSidebar";
 
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(11);
@@ -13,7 +15,10 @@ export default function Home() {
 
   return (
     <>
-      <DashboardLayoutWithSidebar activePage={DashboardPages.ART} hideSidebar={true}>
+      <DashboardLayoutWithSidebar
+        activePage={DashboardPages.ART}
+        hideSidebar={true}
+      >
         <div id="create">
           <div className="wrapper-content-create">
             <div className="heading-section">

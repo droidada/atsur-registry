@@ -5,35 +5,31 @@ import { Menu } from "@headlessui/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-
 export default function Explore() {
-
   const [isBidModal, setBidModal] = useState(false);
   const handleBidModal = () => setBidModal(!isBidModal);
   const [activeIndex, setActiveIndex] = useState(1);
-  const [searchItem, setSearchItem] = useState('');
+  const [searchItem, setSearchItem] = useState("");
   const [pieces, setPieces] = useState([]);
 
   const handleOnClick = (index) => {
     setActiveIndex(index);
   };
 
-  const handleSearch = (e) => { 
+  const handleSearch = (e) => {
     const searchTerm = e.target.value;
     setSearchItem(searchTerm);
-    if (!searchTerm || searchTerm === '') return;
-
-
-  }
+    if (!searchTerm || searchTerm === "") return;
+  };
   const filterPieces = async () => {
-    const res = await axios.get('/public/explore');
-    console.log("res here is ", res)
+    const res = await axios.get("/public/explore");
+    console.log("res here is ", res);
     setPieces(res.data?.artPieces);
-  }
+  };
 
   useEffect(() => {
     filterPieces();
-  },[])
+  }, []);
 
   return (
     <>
@@ -110,7 +106,7 @@ export default function Explore() {
                             id="dropdownMenuButton4"
                             aria-haspopup="true"
                             aria-expanded="false"
-                            style={{background: 'black'}}
+                            style={{ background: "black" }}
                           >
                             <svg
                               width={20}
@@ -227,19 +223,22 @@ export default function Explore() {
                         }}
                       >
                         <div className="row">
-                        {pieces?.map((artPiece, idx) => (
-                            <div key={idx} className="fl-item col-xl-3 col-lg-4 col-md-6 col-sm-6">
+                          {pieces?.map((artPiece, idx) => (
+                            <div
+                              key={idx}
+                              className="fl-item col-xl-3 col-lg-4 col-md-6 col-sm-6"
+                            >
                               <div className="tf-card-box style-1">
                                 <div className="card-media">
                                   <Link href="#">
-                                    <img
-                                      src={artPiece.assets[0].url}
-                                      alt=""
-                                    />
+                                    <img src={artPiece.assets[0].url} alt="" />
                                   </Link>
                                   <span className="wishlist-button icon-heart" />
                                   <div className="button-place-bid">
-                                    <Link href={`/explore/art-piece/${artPiece._id}`} className="tf-button">
+                                    <Link
+                                      href={`/explore/art-piece/${artPiece._id}`}
+                                      className="tf-button"
+                                    >
                                       <span>View</span>
                                     </Link>
                                   </div>
@@ -250,14 +249,24 @@ export default function Explore() {
                                 <div className="author flex items-center">
                                   <div className="avatar">
                                     <img
-                                      src={artPiece?.author?.avatar ? artPiece?.author?.avatar : "/assets/images/avatar/avatar-box-03.jpg"}
+                                      src={
+                                        artPiece?.author?.avatar
+                                          ? artPiece?.author?.avatar
+                                          : "/assets/images/avatar/avatar-box-03.jpg"
+                                      }
                                       alt="Image"
                                     />
                                   </div>
                                   <div className="info">
-                                    <span className="tf-color">Created by:</span>
+                                    <span className="tf-color">
+                                      Created by:
+                                    </span>
                                     <h6>
-                                      <Link href="/author-2">{`${artPiece?.author ? `${artPiece?.author?.firstName} ${artPiece?.author?.lastName}` : 'Kathryn Murphy'}`}</Link>{" "}
+                                      <Link href="/author-2">{`${
+                                        artPiece?.author
+                                          ? `${artPiece?.author?.firstName} ${artPiece?.author?.lastName}`
+                                          : "Kathryn Murphy"
+                                      }`}</Link>{" "}
                                     </h6>
                                   </div>
                                 </div>
@@ -271,7 +280,7 @@ export default function Explore() {
                                 </div>
                               </div>
                             </div>
-                        ))}
+                          ))}
                           <div className="fl-item col-xl-3 col-lg-4 col-md-6 col-sm-6">
                             <div className="tf-card-box style-1">
                               <div className="card-media">

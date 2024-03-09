@@ -35,7 +35,7 @@ const data = {
     {
       label: "Sale",
       data: [31, 114, 65, 93, 21, 73, 25],
-      borderColor: "#A4442B",
+      borderColor: "#3E7AA2",
       borderWidth: 2,
       fill: false,
       // type: 'line',

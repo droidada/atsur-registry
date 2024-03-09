@@ -10,8 +10,7 @@ export default function Custom500() {
           </div>
           <h2>Oh no... This is embarrassing... </h2>
           <p>
-            Something seems to have gone wrong.{" "}
-            <br />
+            Something seems to have gone wrong. <br />
             Let’s find a better place for you to go.
           </p>
           <Link href="/" className="tf-button w320 style-1 h50">

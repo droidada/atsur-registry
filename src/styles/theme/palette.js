@@ -29,7 +29,7 @@ export const primary = {
 export const secondary = {
   lighter: "#EFD6FF",
   light: "#C684FF",
-  main: "#A4442B",
+  main: "#3E7AA2",
   dark: "#5119B7",
   darker: "#27097A",
   contrastText: "#FFFFFF",
@@ -106,7 +106,7 @@ export function palette() {
     ...base,
     mode: "light",
     text: {
-      primary: '#fff',
+      primary: "#fff",
       secondary: grey[400],
       disabled: grey[500],
     },
