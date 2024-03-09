@@ -133,7 +133,7 @@ const AddClassBody = () => {
       ? document.querySelector("body").classList.add("dashboard1")
       : null;
   });
-  return <></>;
+  return (<></>);
 };
 
 export default AddClassBody;

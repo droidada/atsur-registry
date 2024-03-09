@@ -174,7 +174,7 @@ export default function Settings() {
                 <button className="w242 active mr-30">Cancel</button>
                 <button
                   className="w242"
-                  style={{ background: "#A4442B" }}
+                  style={{ background: "#3E7AA2" }}
                   type="submit"
                 >
                   Save
@@ -258,7 +258,7 @@ export default function Settings() {
                 <button className="w242 active mr-30">Cancel</button>
                 <button
                   className="w242"
-                  style={{ background: "#A4442B" }}
+                  style={{ background: "#3E7AA2" }}
                   type="submit"
                 >
                   Save
@@ -344,7 +344,7 @@ export default function Settings() {
                 <button className="w242 active mr-30">Cancel</button>
                 <button
                   className="w242"
-                  style={{ background: "#A4442B" }}
+                  style={{ background: "#3E7AA2" }}
                   type="submit"
                 >
                   Save

@@ -15,7 +15,7 @@ import { AuthContextProvider } from "@/providers/auth.context";
 import "@rainbow-me/rainbowkit/styles.css";
 import "@/styles/globals.css";
 import ThemeProvider from "@/styles/theme";
-import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { ProtectedLayout } from "@/components/protected-layout";
 import Preloader from "@/open9/elements/Preloader";
@@ -73,28 +73,28 @@ export default function NextWeb3App({
   return (
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider chains={chains} appInfo={appInfo} coolMode={true}>
-        <LocalizationProvider dateAdapter={AdapterMoment}>
-          <SessionProvider session={session}>
-            <AuthContextProvider>
-              <ToastProvider>
-                {Component.requireAuth ? (
-                  <ProtectedLayout>
-                    <ThemeProvider>
-                      <AddClassBody />
-                      <Component {...pageProps} />
-                    </ThemeProvider>
-                  </ProtectedLayout>
-                ) : (
+        {/* <LocalizationProvider dateAdapter={AdapterDayjs}> */}
+        <SessionProvider session={session}>
+          <AuthContextProvider>
+            <ToastProvider>
+              {Component.requireAuth ? (
+                <ProtectedLayout>
                   <ThemeProvider>
+                    <AddClassBody />
                     <Component {...pageProps} />
                   </ThemeProvider>
-                )}
-                {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-                {/* <Analytics /> */}
-              </ToastProvider>
-            </AuthContextProvider>
-          </SessionProvider>
-        </LocalizationProvider>
+                </ProtectedLayout>
+              ) : (
+                <ThemeProvider>
+                  <Component {...pageProps} />
+                </ThemeProvider>
+              )}
+              {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+              {/* <Analytics /> */}
+            </ToastProvider>
+          </AuthContextProvider>
+        </SessionProvider>
+        {/* </LocalizationProvider> */}
       </RainbowKitProvider>
     </WagmiConfig>
   );

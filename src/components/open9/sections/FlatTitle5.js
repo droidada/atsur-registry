@@ -20,7 +20,7 @@ export default function FlatTitle5() {
                 >
                   <Link
                     href="/explore"
-                    className="tf-button style-1 h50 w140 mr-16"
+                    className="tf-button style-2 h50 w140 mr-16"
                   >
                     Explore <i className="icon-arrow-up-right2" />
                   </Link>

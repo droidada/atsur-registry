@@ -1,14 +1,37 @@
 import { useState, useEffect } from "react";
-import { Button, TextField, Select, Switch, Divider, MenuItem, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel } from '@mui/material';
-import { object, string, TypeOf, boolean, date } from "zod";
+import {
+  Button,
+  TextField,
+  Select,
+  Switch,
+  Divider,
+  MenuItem,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  FormControlLabel,
+} from "@mui/material";
+import { object, string, TypeOf, boolean, date, coerce } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import moment from "moment";
+import DatePicker from "@/components/common/datepicker";
+import dayjs from "dayjs";
+import { isPast } from "date-fns";
 
-export default function EditExhibition({open, handleClose, artPieceId, exhibition }: {open: boolean, handleClose: any, artPieceId: string, exhibition: any}) {
-
+export default function EditExhibition({
+  open,
+  handleClose,
+  artPieceId,
+  exhibition,
+}: {
+  open: boolean;
+  handleClose: any;
+  artPieceId: string;
+  exhibition: any;
+}) {
   const exhibitionSchema = object({
     name: string().nonempty("Exhibition name is required"),
     description: string().nonempty("Description is required"),
@@ -19,8 +42,11 @@ export default function EditExhibition({open, handleClose, artPieceId, exhibitio
     organizerEmail: string().nonempty("Organizer email is required"),
     organizerWebsite: string(),
     organizerPhone: string(),
-    startDate: date(),
-    endDate: date(),
+    startDate: date({
+      required_error: "Start date is required",
+      invalid_type_error: "Format invalid",
+    }).pipe(coerce.string()),
+    endDate: string().nonempty("End date is required"),
     isCirca: boolean(),
   });
 
@@ -41,7 +67,7 @@ export default function EditExhibition({open, handleClose, artPieceId, exhibitio
   const [exhibitionImg, setExhibitionImg] = useState(null);
   const axiosAuth = useAxiosAuth();
 
-  console.log("editing exhibition here ", exhibition)
+  console.log("editing exhibition here ", exhibition);
   useEffect(() => {
     setError(false);
     // setSuccess(false);
@@ -57,11 +83,11 @@ export default function EditExhibition({open, handleClose, artPieceId, exhibitio
       setExhibitionImg(reader.result);
     }.bind(this);
     console.log(url); // Would see a path?
-  }
+  };
 
   const onSubmitHandler: SubmitHandler<ExhibitionInput> = async (values) => {
     try {
-      console.log("submitting here.....")
+      console.log("submitting here.....");
       console.log(values);
 
       const formData = new FormData();
@@ -76,15 +102,17 @@ export default function EditExhibition({open, handleClose, artPieceId, exhibitio
       formData.append("organizerWebsite", values.organizerWebsite);
       formData.append("organizerEmail", values.organizerEmail);
       formData.append("organizerPhone", values.organizerPhone);
-      formData.append("startDate", values.startDate.toUTCString());
-      formData.append("endDate", values.endDate.toUTCString());
+      formData.append("startDate", values.startDate);
+      formData.append("endDate", values.endDate);
       formData.append("isCirca", values.isCirca.toString());
 
-      const result = await axiosAuth.post(`/art-piece/add-exhibition`, formData);
+      const result = await axiosAuth.post(
+        `/art-piece/add-exhibition`,
+        formData,
+      );
 
       console.log("result here is ", result.data);
       handleClose();
-
     } catch (error) {
       console.log(error);
       setError(true);
@@ -94,21 +122,18 @@ export default function EditExhibition({open, handleClose, artPieceId, exhibitio
 
   return (
     <>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-      >
+      <Dialog open={open} onClose={handleClose}>
         <form
           className="comment-form"
           autoComplete="off"
           noValidate
           onSubmit={handleSubmit(onSubmitHandler)}
         >
-          <DialogTitle><h2 className="items-center justify-center">Exhibition</h2></DialogTitle>
+          <h2 className="items-center justify-center ml-1 p-4">Exhibition</h2>
           <DialogContent>
             <DialogContentText>
-              To subscribe to this website, please enter your email address here. We
-              will send updates occasionally.
+              To subscribe to this website, please enter your email address
+              here. We will send updates occasionally.
             </DialogContentText>
             <fieldset className="name">
               <label className="to-white">Name *</label>
@@ -122,9 +147,7 @@ export default function EditExhibition({open, handleClose, artPieceId, exhibitio
                 fullWidth
                 defaultValue={exhibition.name}
                 error={!!errors["name"]}
-                helperText={
-                  errors["name"] ? errors["name"].message : ""
-                }
+                helperText={errors["name"] ? errors["name"].message : ""}
                 {...register("name")}
               />
             </fieldset>
@@ -150,27 +173,27 @@ export default function EditExhibition({open, handleClose, artPieceId, exhibitio
             </fieldset>
             <fieldset>
               <label className="uploadfile h-full flex items-center justify-center">
-                  <div className="text-center flex flex-col items-center justify-center">
-                    {exhibitionImg ? (
-                        <img className="h-full" src={exhibitionImg} />
-                    ) : (
-                      <>
-                        <img src="assets/images/box-icon/upload.png" alt="" />
-                        {/* <h5 className="text-white">Image</h5> */}
-                        <p className="text">Drag or choose exhibition image to upload</p>
-                        <h6 className="text to-gray">
-                            PNG, JPEG.. Max 10Mb.
-                        </h6>
-                      </>
-                    )}
-                    <input
-                        type="file"
-                        name="imageFile"
-                        accept="image/*"
-                        multiple
-                        onChange={handleUploadClick}
-                    />
-                  </div>
+                <div className="text-center flex flex-col items-center justify-center">
+                  {exhibitionImg ? (
+                    <img className="h-full" src={exhibitionImg} />
+                  ) : (
+                    <>
+                      <img src="assets/images/box-icon/upload.png" alt="" />
+                      {/* <h5 className="text-white">Image</h5> */}
+                      <p className="text">
+                        Drag or choose exhibition image to upload
+                      </p>
+                      <h6 className="text to-gray">PNG, JPEG.. Max 10Mb.</h6>
+                    </>
+                  )}
+                  <input
+                    type="file"
+                    name="imageFile"
+                    accept="image/*"
+                    multiple
+                    onChange={handleUploadClick}
+                  />
+                </div>
               </label>
             </fieldset>
             <div className="flex gap30">
@@ -209,86 +232,61 @@ export default function EditExhibition({open, handleClose, artPieceId, exhibitio
                 </Select>
               </fieldset>
             </div>
-            <div className="flex gap30">
-                <fieldset className="collection">
-                  <label className="to-white">Start Date</label>
-                  {/* <DatePicker
-                    disableFuture
-                    name="startDate"
-                    // defaultValue={exhibition?.date?.startDate}
-                    // {...register("startDate")} 
-                    /> */}
-                      <Controller
-                        control={control}
-                        defaultValue={exhibition?.date?.startDate}
-                        name="startDate"
-                        rules={{
-                          required: {
-                            value: true,
-                            message: "Start date is required",
-                          },
-                        }}
-                        {...register("startDate")}
-                        render={({ field: { onChange, value, ref, name } }) => (
-                          <DatePicker
-                            disableFuture
-                            onChange={onChange}
-                            onAccept={onChange}
-                            value={value ? moment(value) : null}
-                            name={name}
-                            // slotProps={{ textField: { error: !!error, helperText: error  } }}
-                          />
-                        )}
-                      />
-                </fieldset>
-                <fieldset className="collection">
-                  <label className="to-white">End Date</label>
-                  {/* <DatePicker
-                    disableFuture
-                    // name="endDate"
-                    // defaultValue={exhibition?.date?.endDate}
-                    {...register("endDate")} 
-                    /> */}
-                      <Controller
-                        control={control}
-                        defaultValue={exhibition?.date?.startDate}
-                        name="endDate"
-                        rules={{
-                          required: {
-                            value: true,
-                            message: "End date is required",
-                          },
-                        }}
-                        {...register("endDate")}
-                        render={({ field: { onChange, value, ref } }) => (
-                          <DatePicker
-                            disableFuture
-                            onChange={onChange}
-                            onAccept={onChange}
-                            value={value ? moment(value) : null}
-                            inputRef={ref}
-                            // slotProps={{ textField: { error: !!error, helperText: error  } }}
-                          />
-                        )}
-                      />
-                </fieldset>
-                <fieldset className="name">
-                  <label className="to-white">Is Circa</label><br />
-                  <Controller
-                    name="isCirca"
-                    control={control}
-                    defaultValue={exhibition?.date?.isCirca}
-                    {...register("isCirca")}
-                    render={({ field: { onChange, value } }) => (
-                      <FormControlLabel
-                        control={<Switch checked={value} onChange={onChange} color="secondary" />}
-                        label="Is Circa"
-                      />
-                    )}
-                  />
-                </fieldset>
-            </div>
-            <Divider><h6 style={{color: 'darkGray'}}>Organizer Information</h6></Divider><br /><br />
+            {/* <div className="flex gap30">
+              <fieldset className="collection">
+                <label className="to-white">Start Date</label>
+                <DatePicker
+                  {...register("startDate", {name: "startDate"})}
+                  name="startDate"
+                  defaultValue={exhibition?.date?.startDate ?? null}
+                  control={control}
+                  error={!!errors["startDate"]}
+                  helperText={
+                    errors["startDate"] ? errors["startDate"].message : ""
+                  }
+                />
+              </fieldset>
+              <fieldset className="collection">
+                <label className="to-white">End Date</label>
+                <DatePicker
+                  {...register("endDate", {name: "endDate"})}
+                  defaultValue={exhibition?.date?.endDate ?? null}
+                  name="endDate"
+                  control={control}
+                  error={!!errors["endDate"]}
+                  helperText={
+                    errors["endDate"] ? errors["endDate"].message : ""
+                  }
+                />
+              </fieldset>
+              <fieldset className="name">
+                <label className="to-white">Is Circa</label>
+                <br />
+                <Controller
+                  name="isCirca"
+                  control={control}
+                  defaultValue={exhibition?.date?.isCirca ?? false}
+                  {...register("isCirca")}
+                  render={({ field: { onChange, value } }) => (
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={value}
+                          onChange={onChange}
+                          color="secondary"
+                        />
+                      }
+                      label="Is Circa"
+                    />
+                  )}
+                />
+              </fieldset>
+            </div> */}
+            <Divider>
+              <h6 style={{ color: "darkGray" }}>Organizer Information</h6>
+            </Divider>
+            <br />
+            <br />
             <div className="flex gap30">
               <fieldset className="organizerName">
                 <label className="to-white">Name *</label>
@@ -303,7 +301,9 @@ export default function EditExhibition({open, handleClose, artPieceId, exhibitio
                   defaultValue={exhibition?.organizer?.name}
                   error={!!errors["organizerName"]}
                   helperText={
-                    errors["organizerName"] ? errors["organizerName"].message : ""
+                    errors["organizerName"]
+                      ? errors["organizerName"].message
+                      : ""
                   }
                   {...register("organizerName")}
                 />
@@ -321,7 +321,9 @@ export default function EditExhibition({open, handleClose, artPieceId, exhibitio
                   defaultValue={exhibition?.organizer?.location}
                   error={!!errors["organizerLocation"]}
                   helperText={
-                    errors["organizerLocation"] ? errors["organizerLocation"].message : ""
+                    errors["organizerLocation"]
+                      ? errors["organizerLocation"].message
+                      : ""
                   }
                   {...register("organizerLocation")}
                 />
@@ -341,7 +343,9 @@ export default function EditExhibition({open, handleClose, artPieceId, exhibitio
                   defaultValue={exhibition?.organizer?.phone}
                   error={!!errors["organizerPhone"]}
                   helperText={
-                    errors["organizerPhone"] ? errors["organizerPhone"].message : ""
+                    errors["organizerPhone"]
+                      ? errors["organizerPhone"].message
+                      : ""
                   }
                   {...register("organizerPhone")}
                 />
@@ -359,7 +363,9 @@ export default function EditExhibition({open, handleClose, artPieceId, exhibitio
                   defaultValue={exhibition?.organizer?.email}
                   error={!!errors["organizerEmail"]}
                   helperText={
-                    errors["organizerEmail"] ? errors["organizerEmail"].message : ""
+                    errors["organizerEmail"]
+                      ? errors["organizerEmail"].message
+                      : ""
                   }
                   {...register("organizerEmail")}
                 />
@@ -377,7 +383,9 @@ export default function EditExhibition({open, handleClose, artPieceId, exhibitio
                   defaultValue={exhibition?.organizer?.website}
                   error={!!errors["organizerWebsite"]}
                   helperText={
-                    errors["organizerWebsite"] ? errors["organizerWebsite"].message : ""
+                    errors["organizerWebsite"]
+                      ? errors["organizerWebsite"].message
+                      : ""
                   }
                   {...register("organizerWebsite")}
                 />
@@ -385,8 +393,12 @@ export default function EditExhibition({open, handleClose, artPieceId, exhibitio
             </div>
           </DialogContent>
           <DialogActions>
-            <Button className='tf-button style-2' onClick={handleClose}>Cancel</Button>
-            <Button className='tf-button style-1' type="submit">Submit</Button>
+            <Button className="tf-button style-2" onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button className="tf-button style-1" type="submit">
+              Submit
+            </Button>
           </DialogActions>
         </form>
       </Dialog>

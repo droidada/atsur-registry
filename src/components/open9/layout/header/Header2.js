@@ -85,7 +85,7 @@ export default function Header2({
                         <Link
                           href="/login"
                           id="connectbtn"
-                          className="tf-button style-1"
+                          className="tf-button style-2 h40 w140"
                         >
                           <span>Login</span>
                           <i className="icon-wa" />
@@ -94,7 +94,7 @@ export default function Header2({
                         <Link
                           href="/dashboard"
                           id="connectbtn"
-                          className="tf-button style-1"
+                          className="tf-button style-2 h40 w140"
                         >
                           <span>Dashboard</span>
                         </Link>
@@ -148,7 +148,7 @@ export default function Header2({
                   <input
                     type="search"
                     id="search"
-                    className="search-field style-1"
+                    className="search-field style-1 gray-bg"
                     placeholder="Search..."
                     name="s"
                     title="Search for"

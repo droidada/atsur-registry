@@ -21,13 +21,12 @@ const Countdown = (endDateTime) => {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      
       setTime(date.toLocaleTimeString());
     }, 1000);
     return () => {
       clearTimeout(timeout);
     };
-  }, [time,date]);
+  }, [time, date]);
 
   const now = Date.now(); // Number of milliseconds from begining of time
 

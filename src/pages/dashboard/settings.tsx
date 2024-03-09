@@ -195,7 +195,7 @@ function Settings() {
           >
             <div
               onClick={() => bgRef?.current?.click()}
-              className="bg-[#232323] p-3 absolute top-4 right-8 text-lg cursor-pointer text-white"
+              className="bg-[black] p-3 absolute top-4 right-8 text-lg cursor-pointer text-white"
               style={{ border: "2px solid white" }}
             >
               Edit
@@ -223,7 +223,7 @@ function Settings() {
             />
             <div
               onClick={() => avatarRef?.current?.click()}
-              className="bg-[#232323] p-3 absolute bottom-4 right-8 text-lg cursor-pointer text-white"
+              className="bg-[black] p-3 absolute bottom-4 right-8 text-lg cursor-pointer text-white"
               style={{ border: "2px solid white" }}
             >
               Edit
@@ -240,7 +240,7 @@ function Settings() {
             {/* <button className="w242 active mr-30">Cancel</button> */}
             <button
               className="w242"
-              style={{ background: "#A4442B" }}
+              style={{ background: "#3E7AA2" }}
               type="button"
               onClick={updateAvatar}
             >
@@ -406,7 +406,7 @@ function Settings() {
               {/* <button className="w242 active mr-30">Cancel</button> */}
               <button
                 className="w242"
-                style={{ background: "#A4442B" }}
+                style={{ background: "#3E7AA2" }}
                 type="submit"
               >
                 Save
@@ -460,7 +460,7 @@ function Settings() {
               {/* <button className="w242 active mr-30">Cancel</button> */}
               <button
                 className="w242"
-                style={{ background: "#A4442B" }}
+                style={{ background: "#3E7AA2" }}
                 type="submit"
               >
                 Save
@@ -540,7 +540,7 @@ function Settings() {
               <button className="w242 active mr-30">Cancel</button>
               <button
                 className="w242"
-                style={{ background: "#A4442B" }}
+                style={{ background: "#3E7AA2" }}
                 type="submit"
               >
                 Save
