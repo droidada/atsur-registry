@@ -34,6 +34,7 @@ import {
 } from "@mui/icons-material";
 import EditAppraisal from "@/components/dashboard/edit-appraisal";
 import { useRouter } from "next/router";
+import EditPublication from "@/components/dashboard/edit-publication";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -63,6 +64,9 @@ function ArtPiece({ artPiece }) {
   const [editExhibition, setEditExhibition] = useState(false);
   const [editedExhibition, setEditedExhibition] = useState({});
   const [editAppraisal, setEditAppraisal] = useState(false);
+  const [editedAppraisal, setEditedAppraisal] = useState({});
+  const [editPublication, setEditPublication] = useState(false);
+  const [editedPublication, setEditedPublication] = useState({});
 
   return (
     <>
@@ -96,7 +100,7 @@ function ArtPiece({ artPiece }) {
             <div className="row">
               <div className="tf-section-2 product-detail">
                 <div className="row">
-                  <div data-wow-delay="0s" className="wow fadeInLeft col-md-8">
+                  <div data-wow-delay="0s" className="wow fadeInLeft col-md-6">
                     <div className="tf-card-box style-5 mb-0">
                       <div className="card-media mb-0">
                         <Link href="#">
@@ -115,7 +119,7 @@ function ArtPiece({ artPiece }) {
                       </div>
                     </div>
                   </div>
-                  <div className="col-md-4">
+                  <div className="col-md-6">
                     <div
                       data-wow-delay="0s"
                       className="wow fadeInRight infor-product"
@@ -377,8 +381,18 @@ function ArtPiece({ artPiece }) {
       <EditAppraisal
         open={editAppraisal}
         artPieceId={artPiece._id}
+        appraisal={editedAppraisal}
         handleClose={() => {
           setEditAppraisal(false);
+          router.replace(router.asPath);
+        }}
+      />
+      <EditPublication
+        open={editPublication}
+        artPieceId={artPiece._id}
+        publication={editedPublication}
+        handleClose={() => {
+          setEditPublication(false);
           router.replace(router.asPath);
         }}
       />

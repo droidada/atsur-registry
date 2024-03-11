@@ -21,13 +21,16 @@ export default function EditPublication({
   handleClose,
   artPieceId,
   publication = {},
-}) {
+}: {
+    open: boolean;
+    handleClose: any;
+    artPieceId: string;
+    publication: any;
+  }) {
   const publicationSchema = object({
-    appraiser: string().nonempty("Appraiser is required"),
-    appraiserEmail: string().nonempty("Appraiser email is required"),
-    value: string().nonempty("Value is required"),
-    currency: string().nonempty("Currency is required"),
-    appraiserWebsite: string(),
+    authorName: string().nonempty("Author name is required"),
+    articleName: string().nonempty("Article name is required"),
+    publicationName: string().nonempty("Publication name is required"),
     attachmentCaption: string(),
     notes: string(),
   });
@@ -79,12 +82,9 @@ export default function EditPublication({
       const formData = new FormData();
       formData.append("attachment", publicationImg);
       formData.append("artPieceId", artPieceId);
-      formData.append("appraiser", values.appraiser);
-      formData.append("appraiserEmail", values.appraiserEmail);
-      formData.append("appraiserWebsite", values.appraiserWebsite);
-      formData.append("value", values.value);
-      formData.append("currency", values.currency);
-      // formData.append("attachment", values.attachment);
+      formData.append("authorName", values.authorName);
+      formData.append("articleName", values.articleName);
+      formData.append("publicationName", values.publicationName);
       formData.append("attachmentCaption", values.attachmentCaption);
       formData.append("notes", values.notes);
 
@@ -108,66 +108,69 @@ export default function EditPublication({
           onSubmit={handleSubmit(onSubmitHandler)}
         >
           <DialogTitle>
-            <h2 className="items-center justify-center">publication</h2>
+            <h2 className="items-center justify-center">Publication</h2>
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
               To subscribe to this website, please enter your email address
               here. We will send updates occasionally.
             </DialogContentText>
-            <fieldset className="appraiser">
+            <fieldset className="authorName">
               <label className="to-white">Name *</label>
               <TextField
                 type="text"
-                id="appraiser"
+                id="authorName"
                 placeholder="Dr. Charles Withford"
-                name="appraiser"
+                name="authorName"
                 tabIndex={2}
+                defaultValue={publication?.authorName}
                 aria-required="true"
                 fullWidth
-                error={!!errors["appraiser"]}
+                error={!!errors["authorName"]}
                 helperText={
-                  errors["appraiser"] ? errors["appraiser"].message : ""
+                  errors["authorName"] ? errors["authorName"].message : ""
                 }
-                {...register("appraiser")}
+                {...register("authorName")}
               />
             </fieldset>
             <div className="flex gap30">
-              <fieldset className="appraiserEmail">
-                <label className="to-white">Email *</label>
+              <fieldset className="articleName">
+                <label className="to-white">Article Title *</label>
                 <TextField
                   type="text"
-                  id="appraiserEmail"
+                  id="articleName"
                   placeholder="charles@gmail.com"
-                  name="appraiserEmail"
+                  name="articleName"
                   tabIndex={2}
                   aria-required="true"
+                  defaultValue={publication?.articleName}
                   fullWidth
-                  error={!!errors["appraiserEmail"]}
+                  error={!!errors["articleName"]}
                   helperText={
-                    errors["appraiserEmail"]
-                      ? errors["appraiserEmail"].message
+                    errors["articleName"]
+                      ? errors["articleName"].message
                       : ""
                   }
-                  {...register("appraiserEmail")}
+                  {...register("articleName")}
                 />
               </fieldset>
-              <fieldset className="appraiserWebsite">
-                <label className="to-white">Website</label>
+              <fieldset className="publicationName">
+                <label className="to-white">Publication Title</label>
                 <TextField
                   type="text"
-                  id="appraiserWebsite"
-                  placeholder="https://www.drcharles.org"
-                  name="appraiserWebsite"
+                  id="publicationName"
+                  placeholder="The Royal Art Journal"
+                  name="publicationName"
+                  defaultValue={publication?.publicationName}
                   tabIndex={2}
                   fullWidth
-                  error={!!errors["appraiserWebsite"]}
+                  error={!!errors["publicationName"]}
                   helperText={
-                    errors["appraiserWebsite"]
-                      ? errors["appraiserWebsite"].message
+                    errors["publicationName"]
+                      ? errors["publicationName"].message
                       : ""
                   }
-                  {...register("appraiserWebsite")}
+                  {...register("publicationName")}
                 />
               </fieldset>
             </div>
@@ -206,6 +209,7 @@ export default function EditPublication({
                   name="attachmentCaption"
                   tabIndex={2}
                   fullWidth
+                  defaultValue={publication?.attachmentCaption}
                   error={!!errors["attachmentCaption"]}
                   helperText={
                     errors["attachmentCaption"]
@@ -216,39 +220,7 @@ export default function EditPublication({
                 />
               </fieldset>
             </div>
-            <div className="flex gap30">
-              <fieldset className="value">
-                <label className="to-white">Value *</label>
-                <TextField
-                  type="number"
-                  id="value"
-                  placeholder="200"
-                  name="value"
-                  tabIndex={2}
-                  aria-required="true"
-                  fullWidth
-                  error={!!errors["value"]}
-                  helperText={errors["value"] ? errors["value"].message : ""}
-                  {...register("value")}
-                />
-              </fieldset>
-              <fieldset className="currency">
-                <label className="to-white">Currency *</label>
-                <Select
-                  className="select"
-                  tabIndex={2}
-                  name="currency"
-                  id="currency"
-                  fullWidth
-                  error={!!errors["currency"]}
-                  {...register("currency")}
-                >
-                  <MenuItem>Select</MenuItem>
-                  <MenuItem value="usd">USD</MenuItem>
-                  <MenuItem value="pounds">Pounds</MenuItem>
-                </Select>
-              </fieldset>
-            </div>
+
             <fieldset className="notes">
               <label className="to-white">Notes</label>
               <TextField
@@ -258,6 +230,7 @@ export default function EditPublication({
                 name="notes"
                 tabIndex={2}
                 multiline
+                defaultValue={publication?.notes}
                 rows={3}
                 fullWidth
                 error={!!errors["notes"]}
