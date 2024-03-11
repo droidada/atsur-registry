@@ -116,7 +116,7 @@ function Collections({ collections }) {
               ) : (
                 <p>
                   You have no collections yet.{" "}
-                  <Link href="/dashboard/organizations/create">
+                  <Link href="/dashboard/collections/create">
                     <button> Create One</button>
                   </Link>
                 </p>
