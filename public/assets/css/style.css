@@ -231,7 +231,7 @@ select,
 textarea,
 .textarea {
   font-family: "Manrope", sans-serif;
-  color: #fff;
+  color: black;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -687,12 +687,12 @@ input[type="color"] {
   /* border-radius: 12px; */
   padding: 15px 26px;
   width: 100%;
-  background: black;
-  color: #8a8aa0;
+  background: #EEEEEE;
+  color: #232323;
 }
 
 .gray-bg {
-  background: #232323 !important;
+  background: #dee8e8 !important;
 }
 
 /* Input focus */
@@ -1073,9 +1073,9 @@ label.error {
 .to-gray {
   color: #dee8e8 !important;
 }
-.to-white {
+/* .to-white {
   color: #fff !important;
-}
+} */
 .to-black {
   color: black !important;
 }
@@ -1114,7 +1114,7 @@ label.error {
 -------------------------------------------------------------- */
 a {
   text-decoration: none;
-  color: #fff;
+  color: #161616;
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
   -ms-transition: all 0.3s ease-in-out;
@@ -1794,7 +1794,7 @@ a:focus {
   display: flex;
   flex-direction: column;
   gap: 30px;
-  background: black;
+  background: #EEEEEE;
   width: 281px;
   padding: 40px 0px;
   z-index: 30;
@@ -2004,7 +2004,7 @@ a:focus {
 }
 
 .section-menu-left .bottom p {
-  color: rgba(255, 255, 255, 0.53);
+  /* color: rgba(255, 255, 255, 0.53); */
   font-size: 12px;
   font-family: "Raleway";
   font-weight: 400;
@@ -2037,12 +2037,12 @@ a:focus {
   font-style: normal;
   font-weight: 600;
   line-height: 21px;
-  color: rgba(255, 255, 255, 0.4);
+  color: #161616;
   margin-bottom: 9px;
 }
 
 .section-menu-left ul.menu-tab li {
-  color: #fff;
+  color: #161616;
   font-size: 16px;
   font-weight: 500;
   line-height: 22px;
@@ -2153,7 +2153,7 @@ a:focus {
   top: 0;
   right: -340px;
   position: fixed;
-  background-color: black;
+  background-color: #EEEEEE;
   z-index: 999999;
   overflow-y: auto;
   -webkit-transition: all 0.5s ease;
