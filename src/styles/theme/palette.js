@@ -106,12 +106,12 @@ export function palette() {
     ...base,
     mode: "light",
     text: {
-      primary: "#fff",
+      primary: "#000",
       secondary: grey[400],
       disabled: grey[500],
     },
     background: {
-      paper: "#000000",
+      paper: "#EEEEEE",
       default: grey[0],
       neutral: grey[200],
     },

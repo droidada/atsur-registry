@@ -42,12 +42,12 @@ export default function EditExhibition({
     organizerEmail: string().nonempty("Organizer email is required"),
     organizerWebsite: string(),
     organizerPhone: string(),
-    startDate: date({
-      required_error: "Start date is required",
-      invalid_type_error: "Format invalid",
-    }).pipe(coerce.string()),
-    endDate: string().nonempty("End date is required"),
-    isCirca: boolean(),
+    // startDate: date({
+    //   required_error: "Start date is required",
+    //   invalid_type_error: "Format invalid",
+    // }).pipe(coerce.string()),
+    // endDate: string().nonempty("End date is required"),
+    // isCirca: boolean(),
   });
 
   type ExhibitionInput = TypeOf<typeof exhibitionSchema>;
@@ -102,9 +102,9 @@ export default function EditExhibition({
       formData.append("organizerWebsite", values.organizerWebsite);
       formData.append("organizerEmail", values.organizerEmail);
       formData.append("organizerPhone", values.organizerPhone);
-      formData.append("startDate", values.startDate);
-      formData.append("endDate", values.endDate);
-      formData.append("isCirca", values.isCirca.toString());
+      // formData.append("startDate", values.startDate);
+      // formData.append("endDate", values.endDate);
+      // formData.append("isCirca", values.isCirca.toString());
 
       const result = await axiosAuth.post(
         `/art-piece/add-exhibition`,

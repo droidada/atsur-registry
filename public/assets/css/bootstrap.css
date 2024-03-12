@@ -462,7 +462,7 @@ textarea,
 .textarea {
   -ms-touch-action: manipulation;
   touch-action: manipulation;
-  color: #fff;
+  color: #161616;
 }
 
 table {
@@ -485,7 +485,7 @@ th {
 label {
   display: inline-block;
   margin-bottom: 0.5rem;
-  color: #fff;
+  color: #161616;
 }
 
 button:focus {
@@ -755,7 +755,7 @@ a > code {
 kbd {
   padding: 0.2rem 0.4rem;
   font-size: 90%;
-  color: #fff;
+  color: #161616;
   background-color: #292b2c;
   border-radius: 0.2rem;
 }
@@ -5014,7 +5014,7 @@ tbody.collapse.show {
 .card-inverse .card-footer,
 .card-inverse .card-title,
 .card-inverse .card-blockquote {
-  color: #fff;
+  color: #161616;
 }
 
 .card-inverse .card-link,
@@ -5285,7 +5285,7 @@ tbody.collapse.show {
   font-size: 75%;
   font-weight: bold;
   line-height: 1;
-  color: #fff;
+  color: #161616;
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
