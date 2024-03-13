@@ -231,7 +231,7 @@ select,
 textarea,
 .textarea {
   font-family: "Manrope", sans-serif;
-  color: #fff;
+  color: black;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -250,7 +250,7 @@ p {
   font-weight: 400;
   font-size: 18px;
   line-height: 28px;
-  color: #7a798a;
+  /* color: #7a798a; */
 }
 
 strong,
@@ -477,10 +477,10 @@ textarea,
 select {
   font-size: 14px;
   max-width: 100%;
-  background-image: -webkit-linear-gradient(
+  /* background-image: -webkit-linear-gradient(
     rgba(255, 255, 255, 0.53),
     rgba(255, 255, 255, 0.53)
-  );
+  ); */
   /* Removing the inner shadow on iOS inputs */
 }
 
@@ -555,7 +555,8 @@ input[type="search"]::-webkit-search-results-decoration {
 textarea.style-1,
 .textarea.style-1,
 input.style-1 {
-  background-color: black !important;
+  /* background-color: #EEEEEE !important; */
+  color: #161616;
 }
 
 .search.search-submit {
@@ -563,7 +564,7 @@ input.style-1 {
   right: 18px;
   top: 1px;
   background: transparent;
-  color: rgba(255, 255, 255, 1);
+  color: #161616;
   font-size: 24px;
 }
 
@@ -648,8 +649,8 @@ select {
   /* border-radius: 12px; */
   padding: 15px 26px;
   width: 100%;
-  background: #161616;
-  color: #fff;
+  background: #EEEEEE;
+  color: #161616;
 }
 
 select option {
@@ -687,12 +688,12 @@ input[type="color"] {
   /* border-radius: 12px; */
   padding: 15px 26px;
   width: 100%;
-  background: black;
-  color: #8a8aa0;
+  background: #EEEEEE;
+  color: #232323;
 }
 
 .gray-bg {
-  background: #232323 !important;
+  background: #dee8e8 !important;
 }
 
 /* Input focus */
@@ -739,7 +740,7 @@ input[type="color"]::placeholder {
   font-weight: 400;
   line-height: 22px;
   font-family: "Raleway";
-  color: rgba(255, 255, 255, 0.53);
+  /* color: rgba(255, 255, 255, 0.53); */
 }
 
 /* Button */
@@ -1073,9 +1074,9 @@ label.error {
 .to-gray {
   color: #dee8e8 !important;
 }
-.to-white {
+/* .to-white {
   color: #fff !important;
-}
+} */
 .to-black {
   color: black !important;
 }
@@ -1114,7 +1115,7 @@ label.error {
 -------------------------------------------------------------- */
 a {
   text-decoration: none;
-  color: #fff;
+  color: #161616;
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
   -ms-transition: all 0.3s ease-in-out;
@@ -1182,7 +1183,7 @@ a:focus {
   position: absolute;
   content: "";
   height: 3px;
-  background-color: #fff;
+  background-color: #161616;
   border-radius: 5px;
   right: 2.5px;
   -webkit-transform: translateY(-50%);
@@ -1525,7 +1526,8 @@ a:focus {
 /* footer */
 #footer {
   padding: 60px 0 30px;
-  background-color: black;
+  background-color: #dee8e8;
+  color: #161616 !important;
 }
 
 #footer .widget {
@@ -1536,6 +1538,7 @@ a:focus {
   font-weight: 800;
   line-height: 25px;
   margin-bottom: 20px;
+  /* color: #dee8e8; */
 }
 
 .widget-menu ul li {
@@ -1547,7 +1550,7 @@ a:focus {
 }
 
 .widget-menu ul li a {
-  color: rgba(255, 255, 255, 0.53);
+  /* color: rgba(255, 255, 255, 0.53); */
   font-size: 16px;
   font-family: "Raleway";
   line-height: 22px;
@@ -1605,7 +1608,8 @@ a:focus {
   align-items: center;
   text-align: center;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: #161616;
+  color: #dee8e8;
   padding: 9px;
 }
 
@@ -1651,7 +1655,7 @@ a:focus {
 }
 
 .footer-bottom p {
-  color: rgba(255, 255, 255, 0.53);
+  color: #161616;
   font-size: 14px;
   font-family: "Raleway";
   line-height: 22px;
@@ -1662,7 +1666,7 @@ a:focus {
 }
 
 .footer-bottom ul li a {
-  color: rgba(255, 255, 255, 0.53);
+  /* color: rgba(255, 255, 255, 0.53); */
   font-family: "Raleway";
   font-size: 14px;
   line-height: 22px;
@@ -1794,7 +1798,7 @@ a:focus {
   display: flex;
   flex-direction: column;
   gap: 30px;
-  background: black;
+  background: #EEEEEE;
   width: 281px;
   padding: 40px 0px;
   z-index: 30;
@@ -2004,7 +2008,7 @@ a:focus {
 }
 
 .section-menu-left .bottom p {
-  color: rgba(255, 255, 255, 0.53);
+  /* color: rgba(255, 255, 255, 0.53); */
   font-size: 12px;
   font-family: "Raleway";
   font-weight: 400;
@@ -2037,12 +2041,12 @@ a:focus {
   font-style: normal;
   font-weight: 600;
   line-height: 21px;
-  color: rgba(255, 255, 255, 0.4);
+  color: #161616;
   margin-bottom: 9px;
 }
 
 .section-menu-left ul.menu-tab li {
-  color: #fff;
+  color: #161616;
   font-size: 16px;
   font-weight: 500;
   line-height: 22px;
@@ -2153,7 +2157,7 @@ a:focus {
   top: 0;
   right: -340px;
   position: fixed;
-  background-color: black;
+  background-color: #EEEEEE;
   z-index: 999999;
   overflow-y: auto;
   -webkit-transition: all 0.5s ease;

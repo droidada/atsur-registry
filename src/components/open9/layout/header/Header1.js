@@ -71,7 +71,7 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu }) {
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   xmlnsXlink="http://www.w3.org/1999/xlink"
-                  fill="white"
+                  fill="#161616"
                   x="0px"
                   y="0px"
                   width="20px"
@@ -189,7 +189,7 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu }) {
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 xmlnsXlink="http://www.w3.org/1999/xlink"
-                fill="white"
+                fill="#161616"
                 x="0px"
                 y="0px"
                 width="20px"

@@ -13,14 +13,14 @@ export default function Footer1() {
                     <Link href="/">
                       <img
                         id="logo_footer"
-                        src="/images/atsur-logo-white.svg"
+                        src="/images/atsur-logo.svg"
                         data-retina="/images/atsur-logo.svg"
                       />
                     </Link>
                   </div>
                 </div>
                 <div className="widget widget-menu style-1">
-                  <h5 className="title-widget to-white">Marketplace</h5>
+                  <h5 className="title-widget">Marketplace</h5>
                   <ul>
                     <li>
                       <Link href="#">All NFTs</Link>
@@ -43,7 +43,7 @@ export default function Footer1() {
                   </ul>
                 </div>
                 <div className="widget widget-menu style-2">
-                  <h5 className="title-widget to-white">Resource</h5>
+                  <h5 className="title-widget">Resource</h5>
                   <ul>
                     <li>
                       <Link href="#">Help center</Link>
@@ -66,7 +66,7 @@ export default function Footer1() {
                   </ul>
                 </div>
                 <div className="widget widget-menu style-3">
-                  <h5 className="title-widget to-white">Account</h5>
+                  <h5 className="title-widget">Account</h5>
                   <ul>
                     <li>
                       <Link href="#">Authors</Link>
@@ -90,7 +90,7 @@ export default function Footer1() {
                 </div>
                 <div className="widget-last">
                   <div className="widget-menu style-4">
-                    <h5 className="title-widget to-white">Company</h5>
+                    <h5 className="title-widget">Company</h5>
                     <ul>
                       <li>
                         <Link href="#">Help center</Link>

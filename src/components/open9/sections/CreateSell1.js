@@ -56,7 +56,7 @@ export default function CreateSell1() {
                         <rect
                           width="76.2328"
                           height="83.6102"
-                          fill="white"
+                          fill="#161616"
                           transform="matrix(-0.707107 -0.707107 -0.707107 0.707107 113.026 54.5132)"
                         />
                       </clipPath>
@@ -109,7 +109,7 @@ export default function CreateSell1() {
                         <rect
                           width="76.2328"
                           height="83.6102"
-                          fill="white"
+                          fill="#161616"
                           transform="matrix(-0.707107 -0.707107 -0.707107 0.707107 113.026 54.5132)"
                         />
                       </clipPath>
@@ -162,7 +162,7 @@ export default function CreateSell1() {
                         <rect
                           width="76.2328"
                           height="83.6102"
-                          fill="white"
+                          fill="#161616"
                           transform="matrix(-0.707107 -0.707107 -0.707107 0.707107 113.026 54.5132)"
                         />
                       </clipPath>
