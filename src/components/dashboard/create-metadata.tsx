@@ -115,7 +115,7 @@ export default function CreateMetadata({ nextPage = (x) => {} }) {
                 <img src="assets/images/box-icon/upload.png" alt="" />
               )}
 
-              <h5 className="text-white">Upload file</h5>
+              <h5>Upload file</h5>
               <p className="text">Drag or choose your file to upload</p>
               <div className="text filename">
                 PNG, GIF, WEBP, MP4 or MP3.Max 1Gb.

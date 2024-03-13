@@ -701,7 +701,7 @@ export default function Home() {
                         className={
                           isActive.key == 1
                             ? "toggle-title active"
-                            : "toggle-title to-white"
+                            : "toggle-title"
                         }
                         onClick={() => handleToggle(1)}
                       >
@@ -727,7 +727,7 @@ export default function Home() {
                         className={
                           isActive.key == 2
                             ? "toggle-title active"
-                            : "toggle-title to-white"
+                            : "toggle-title"
                         }
                         onClick={() => handleToggle(2)}
                       >
@@ -753,7 +753,7 @@ export default function Home() {
                         className={
                           isActive.key == 3
                             ? "toggle-title active"
-                            : "toggle-title to-white"
+                            : "toggle-title"
                         }
                         onClick={() => handleToggle(3)}
                       >
@@ -782,7 +782,7 @@ export default function Home() {
                         className={
                           isActive.key == 4
                             ? "toggle-title active"
-                            : "toggle-title to-white"
+                            : "toggle-title"
                         }
                         onClick={() => handleToggle(4)}
                       >
@@ -808,7 +808,7 @@ export default function Home() {
                         className={
                           isActive.key == 5
                             ? "toggle-title active"
-                            : "toggle-title to-white"
+                            : "toggle-title"
                         }
                         onClick={() => handleToggle(5)}
                       >
@@ -838,7 +838,7 @@ export default function Home() {
                         className={
                           isActive.key == 6
                             ? "toggle-title active"
-                            : "toggle-title to-white"
+                            : "toggle-title"
                         }
                         onClick={() => handleToggle(6)}
                       >
@@ -864,7 +864,7 @@ export default function Home() {
                         className={
                           isActive.key == 7
                             ? "toggle-title active"
-                            : "toggle-title to-white"
+                            : "toggle-title"
                         }
                         onClick={() => handleToggle(7)}
                       >
@@ -890,7 +890,7 @@ export default function Home() {
                         className={
                           isActive.key == 8
                             ? "toggle-title active"
-                            : "toggle-title to-white"
+                            : "toggle-title"
                         }
                         onClick={() => handleToggle(8)}
                       >
@@ -919,7 +919,7 @@ export default function Home() {
                         className={
                           isActive.key == 9
                             ? "toggle-title active"
-                            : "toggle-title to-white"
+                            : "toggle-title"
                         }
                         onClick={() => handleToggle(9)}
                       >
@@ -945,7 +945,7 @@ export default function Home() {
                         className={
                           isActive.key == 10
                             ? "toggle-title active"
-                            : "toggle-title to-white"
+                            : "toggle-title"
                         }
                         onClick={() => handleToggle(10)}
                       >
