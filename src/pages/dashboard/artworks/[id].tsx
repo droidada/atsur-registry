@@ -68,6 +68,8 @@ function ArtPiece({ artPiece }) {
   const [editPublication, setEditPublication] = useState(false);
   const [editedPublication, setEditedPublication] = useState({});
 
+  console.log(artPiece.publications);
+
   return (
     <>
       <DashboardLayoutWithSidebar hideSidebar activePage={DashboardPages.ART}>
@@ -311,13 +313,54 @@ function ArtPiece({ artPiece }) {
                             <h6>Publications</h6>
                           </AccordionSummary>
                           <AccordionDetails>
-                            <p>
-                              Lorem ipsum dolor sit amet, consectetur adipiscing
-                              elit, sed do eiusmod tempor incididunt ut labore
-                              et dolore magna aliqua. Ut enim ad minim veniam,
-                              quis nostrud exercitation.Lorem ipsum dolor sit
-                              amet, consectetur adipiscing elit, sed do eiusmod.
-                            </p>
+                            <List>
+                              {artPiece?.publications?.length > 0 &&
+                                artPiece?.publications?.map((a, idx) => (
+                                  <ListItem
+                                    key={idx}
+                                    secondaryAction={
+                                      <>
+                                        <IconButton
+                                          edge="end"
+                                          aria-label="edit"
+                                        >
+                                          <EditIcon />
+                                        </IconButton>
+                                        <IconButton
+                                          edge="end"
+                                          aria-label="delete"
+                                        >
+                                          <DeleteIcon />
+                                        </IconButton>
+                                      </>
+                                    }
+                                  >
+                                    <ListItemAvatar>
+                                      <Avatar>
+                                        <FolderIcon />
+                                      </Avatar>
+                                    </ListItemAvatar>
+                                    <span>
+                                      <p>
+                                        Article Name{" "}
+                                        <b className="to-gray">
+                                          {a?.articleName}{" "}
+                                        </b>{" "}
+                                        written by{" "}
+                                        <b className="to-gray">
+                                          {a.authorName}
+                                        </b>
+                                      </p>
+                                    </span>
+                                  </ListItem>
+                                ))}
+                            </List>
+                            <button
+                              className="tf-button style-1"
+                              onClick={() => setEditPublication(true)}
+                            >
+                              Add
+                            </button>
                           </AccordionDetails>
                         </Accordion>
 
