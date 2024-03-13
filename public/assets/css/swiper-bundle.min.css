@@ -190,7 +190,7 @@
 .swiper-button-prev:after,
 .swiper-container-rtl .swiper-button-next:after {
   content: "prev";
-  color: #fff;
+  color: #161616;
 }
 .swiper-button-next,
 .swiper-container-rtl .swiper-button-prev {
@@ -200,7 +200,7 @@
 .swiper-button-next:after,
 .swiper-container-rtl .swiper-button-prev:after {
   content: "next";
-  color: #fff;
+  color: #161616;
 }
 .swiper-button-next.swiper-button-white,
 .swiper-button-prev.swiper-button-white {

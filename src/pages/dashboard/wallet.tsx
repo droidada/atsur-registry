@@ -30,33 +30,12 @@ function Wallet() {
     <DashboardLayoutWithSidebar activePage={DashboardPages.WALLET} hideSidebar>
       <div>
         <div className="row">
-          <div className="action__body w-full mb-40">
-            <div className="tf-tsparticles">
-              <div id="tsparticles7" data-color="#161616" data-line="#000" />
-            </div>
-            <h2>Discover, create and share your Art</h2>
-            <div className="flat-button flex">
-              <Link href="#" className="tf-button style-2 h50 w190 mr-10">
-                Explore now
-                <i className="icon-arrow-up-right2" />
-              </Link>
-              <Link href="#" className="tf-button style-2 h50 w230">
-                Create Art Piece
-                <i className="icon-arrow-up-right2" />
-              </Link>
-            </div>
-            <div className="bg-home7">
-              <AutoSlider1 />
-              <AutoSlider2 />
-              <AutoSlider1 />
-            </div>
-          </div>
           <div className="widget-tabs relative">
-            <div className="main-box max-w-6xl mx-auto container px-2 sm:px-3 md:px-8 relative">
+            <div className="main-box relative">
               <button className="block lg:hidden absolute top-3 right-6 md:right-20 p-3 bg-[#EDEEEFA3] text-[#292D32] rounded-full">
                 <WithdrawalIcon />
               </button>
-              <main className="h-full pb-24 px-4 md:px-12 py-12">
+              <main className="h-full">
                 <div className="w-full flex items-center justify-between pb-4 mb-3 flex-wrap relative">
                   <div className="grow py-4">
                     <h2 className="tf-title pb-30">Welcome back, Anna</h2>

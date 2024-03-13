@@ -107,9 +107,9 @@ export default function EditExhibition({
       formData.append("organizerWebsite", values.organizerWebsite);
       formData.append("organizerEmail", values.organizerEmail);
       formData.append("organizerPhone", values.organizerPhone);
-      formData.append("startDate", values.startDate);
-      formData.append("endDate", values.endDate);
-      formData.append("isCirca", values.isCirca.toString());
+      // formData.append("startDate", values.startDate);
+      // formData.append("endDate", values.endDate);
+      // formData.append("isCirca", values.isCirca.toString());
 
       const result = await axiosAuth.post(
         `/art-piece/add-exhibition`,
