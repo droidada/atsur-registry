@@ -42,13 +42,19 @@ export default function EditExhibition({
     organizerEmail: string().nonempty("Organizer email is required"),
     organizerWebsite: string(),
     organizerPhone: string(),
-    startDate: date({
-      required_error: "Start date is required",
-      invalid_type_error: "Format invalid",
-    }).pipe(coerce.string()),
-    endDate: string().nonempty("End date is required"),
+    startDate: string().nonempty("Start date is required"),
+    //   date({
+    //   required_error: "Start date is required",
+    //   invalid_type_error: "Format invalid",
+    // }).pipe(coerce.string()),
+    endDate: string().nonempty("End Date is required"),
     isCirca: boolean(),
   });
+
+  // I changed the start date validation to a string
+  // instead of a date validator because the format
+  // clashes with the date format that is expected
+  //  on the backend.
 
   type ExhibitionInput = TypeOf<typeof exhibitionSchema>;
 
@@ -88,7 +94,6 @@ export default function EditExhibition({
   const onSubmitHandler: SubmitHandler<ExhibitionInput> = async (values) => {
     try {
       console.log("submitting here.....");
-      console.log(values);
 
       const formData = new FormData();
       formData.append("image", exhibitionImg);
@@ -232,11 +237,11 @@ export default function EditExhibition({
                 </Select>
               </fieldset>
             </div>
-            {/* <div className="flex gap30">
+            <div className="flex gap30">
               <fieldset className="collection">
                 <label className="to-white">Start Date</label>
                 <DatePicker
-                  {...register("startDate", {name: "startDate"})}
+                  {...register("startDate", { name: "startDate" })}
                   name="startDate"
                   defaultValue={exhibition?.date?.startDate ?? null}
                   control={control}
@@ -249,7 +254,7 @@ export default function EditExhibition({
               <fieldset className="collection">
                 <label className="to-white">End Date</label>
                 <DatePicker
-                  {...register("endDate", {name: "endDate"})}
+                  {...register("endDate", { name: "endDate" })}
                   defaultValue={exhibition?.date?.endDate ?? null}
                   name="endDate"
                   control={control}
@@ -281,7 +286,7 @@ export default function EditExhibition({
                   )}
                 />
               </fieldset>
-            </div> */}
+            </div>
             <Divider>
               <h6 style={{ color: "darkGray" }}>Organizer Information</h6>
             </Divider>
