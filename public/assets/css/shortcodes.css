@@ -138,8 +138,8 @@
   height: 44px;
   gap: 10px;
   flex-shrink: 0;
-  color: #161616;
-  background-color: #dee8e8;
+  color: #dee8e8;
+  background-color: black;
 }
 
 .tf-button.style-1:hover,
@@ -1139,7 +1139,7 @@
   font-size: 14px;
   font-family: "Raleway";
   line-height: 22px;
-  color: rgba(255, 255, 255, 0.53);
+  /* color: rgba(255, 255, 255, 0.53); */
 }
 
 .widget-related-posts .related-posts-item {
@@ -2025,7 +2025,7 @@
   font-weight: 800;
   line-height: 19px;
   text-transform: capitalize;
-  color: black;
+  color: #161616;
   display: flex;
   align-items: center;
   /* border-radius: 12px; */
@@ -2038,6 +2038,7 @@
 .dropdown .btn-secondary:hover {
   border: 1px solid rgba(255, 255, 255, 0.12);
   background-color: #3e7aa2;
+  color: #dee8e8;
 }
 
 .dropdown .btn-secondary svg {
@@ -3036,8 +3037,8 @@
   width: 45px;
   text-align: center;
   background: #EEEEEE;
-  color: black;
-  border-radius: 3px;
+  color: #161616;
+  /* border-radius: 3px; */
   cursor: pointer;
   -webkit-transition: all 0.5s linear;
   -moz-transition: all 0.5s linear;
@@ -3828,7 +3829,7 @@ form label i.icon-star.active {
   font-size: 14px;
   font-weight: 500;
   line-height: 19px;
-  color: rgba(255, 255, 255, 0.5);
+  /* color: rgba(255, 255, 255, 0.5); */
 }
 
 .widget-recently .card-small {
@@ -3868,7 +3869,7 @@ form label i.icon-star.active {
 }
 
 .widget-recently .card-small .info p a {
-  color: rgba(255, 255, 255, 0.5);
+  /* color: rgba(255, 255, 255, 0.5); */
 }
 
 .side-bar .see-all {
@@ -3881,7 +3882,7 @@ form label i.icon-star.active {
 .widget-creators-item .order {
   width: 18px;
   margin-right: 10px;
-  color: #fff;
+  color: #161616;
   font-size: 18px;
   font-weight: 800;
   line-height: 10px;
@@ -3911,11 +3912,11 @@ form label i.icon-star.active {
 }
 
 .widget-creators-item .author span a {
-  color: rgba(255, 255, 255, 0.5);
+  /* color: rgba(255, 255, 255, 0.5); */
 }
 
 .widget-creators-item .time {
-  color: rgba(255, 255, 255, 0.5);
+  /* color: rgba(255, 255, 255, 0.5); */
   font-size: 14px;
   font-weight: 500;
   line-height: 19px;
@@ -3924,8 +3925,8 @@ form label i.icon-star.active {
 button.follow {
   width: 100px;
   height: 44px;
-  background-color: #dee8e8;
-  color: #161616;
+  background-color: #161616;
+  color: #dee8e8;
 }
 
 button.follow.active,
@@ -3957,7 +3958,7 @@ button.follow:hover {
 }
 
 .widget-coins-item p a {
-  color: rgba(255, 255, 255, 0.53);
+  /* color: rgba(255, 255, 255, 0.53); */
 }
 
 /* widget-tabs */
@@ -4189,7 +4190,7 @@ button.follow:hover {
 .widget-edit .title h4 {
   font-weight: 800;
   line-height: 27px;
-  color: #dee8e8;
+  color: #141414;
 }
 
 .widget-edit .title i {
@@ -4426,7 +4427,7 @@ button.follow:hover {
 }
 
 #create .widget-content-inner label p {
-  color: rgba(255, 255, 255, 0.53);
+  /* color: rgba(255, 255, 255, 0.53); */
   font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
@@ -4439,7 +4440,7 @@ button.follow:hover {
   font-size: 12px;
   font-weight: 400;
   line-height: 19px;
-  color: rgba(255, 255, 255, 0.3);
+  /* color: rgba(255, 255, 255, 0.3); */
   margin-bottom: 30px;
 }
 
@@ -4478,7 +4479,7 @@ button.follow:hover {
 }
 
 .btn-submit button.style-1 {
-  color: #161616;
+  /* color: #161616; */
   display: flex;
 }
 
@@ -4579,7 +4580,7 @@ button.follow:hover {
   position: relative;
   cursor: pointer;
   padding-right: 25px;
-  color: #808080;
+  /* color: #808080; */
 }
 
 .about-us-page .flat-accordion .flat-toggle .toggle-title,
@@ -4589,7 +4590,7 @@ button.follow:hover {
 
 .flat-accordion .flat-toggle .toggle-title.active,
 .flat-accordion2 .flat-toggle2 .toggle-title.active {
-  color: #fff;
+  color: #3e7aa2;
 }
 
 .flat-accordion .flat-toggle .toggle-title::after,
@@ -4598,7 +4599,7 @@ button.follow:hover {
   top: 12px;
   right: 3px;
   content: "";
-  background-color: #fff;
+  background-color: #161616;
   width: 15px;
   height: 2px;
   border-radius: 2px;
@@ -4610,7 +4611,7 @@ button.follow:hover {
   top: 12px;
   right: 3px;
   content: "";
-  background-color: #fff;
+  background-color: #161616;
   width: 15px;
   height: 2px;
   border-radius: 2px;
@@ -4624,7 +4625,7 @@ button.follow:hover {
 
 .flat-accordion .flat-toggle .toggle-title.active::after,
 .flat-accordion2 .flat-toggle2 .toggle-title.active::after {
-  background-color: #dee8e8;
+  background-color: #3e7aa2;
 }
 
 .flat-accordion .flat-toggle .toggle-content,
@@ -4980,13 +4981,17 @@ button.follow:hover {
 .menu_card .dropdown-menu.show {
   display: block;
   padding: 20px;
-  border-radius: 20px;
-  background: #dee8e8;
+  /* border-radius: 20px; */
+  background: #fff;
   box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.4);
 }
 
-.menu_card .dropdown-menu.show a {
+.menu_card .dropdown-menu.show a i {
   color: #fff;
+}
+
+.menu_card .dropdown-menu.show a {
+  color: #161616;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -5005,7 +5010,7 @@ button.follow:hover {
 
 .menu_card .dropdown-menu.show a i {
   font-size: 20px;
-  background-color: #2e2e2e;
+  color: #2e2e2e;
   border-radius: 50%;
   padding: 7px;
 }
@@ -5061,6 +5066,7 @@ button.follow:hover {
   padding-bottom: 16px;
   margin-bottom: 16px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: #161616;
 }
 
 .product-item > h6 i {
@@ -5095,7 +5101,7 @@ button.follow:hover {
 }
 
 .product-item.time-sales .content p {
-  color: #fff;
+  color: #161616;
   font-size: 32px;
   font-weight: 800;
   line-height: 44px;
@@ -5107,11 +5113,11 @@ button.follow:hover {
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
-  color: rgba(255, 255, 255, 0.3);
+  color: #161616;
 }
 
 .product-item.description .content p {
-  color: rgba(255, 255, 255, 0.53);
+  color: #161616;
   font-family: "Raleway";
   font-size: 14px;
   font-weight: 400;
@@ -5130,6 +5136,7 @@ button.follow:hover {
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
+  color: #161616;
 }
 
 .product-item.traits .content {
@@ -5150,7 +5157,7 @@ button.follow:hover {
 }
 
 .product-item.traits .content .trait-item p {
-  color: rgba(255, 255, 255, 0.3);
+  color: #161616;
   font-family: "Raleway";
   font-size: 12px;
   font-weight: 400;
@@ -5158,7 +5165,7 @@ button.follow:hover {
 }
 
 .product-item.traits .content .trait-item .title {
-  color: var(--white, #fff);
+  color: var(--white, #161616);
   font-size: 14px;
   font-weight: 800;
   line-height: 19px;
@@ -5172,6 +5179,7 @@ button.follow:hover {
   padding-bottom: 16px;
   margin-bottom: 16px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: #161616;
 }
 
 .product-item .column {
@@ -5179,6 +5187,7 @@ button.follow:hover {
   font-size: 14px;
   font-weight: 800;
   line-height: 19px;
+  color: #161616;
 }
 
 .product-item .table-item {
@@ -5187,6 +5196,7 @@ button.follow:hover {
   padding-bottom: 14px;
   margin-bottom: 14px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: #161616;
 }
 
 .product-item .table-item:last-child {
@@ -5246,7 +5256,7 @@ button.follow:hover {
 }
 
 .box-icon-item p {
-  color: rgba(255, 255, 255, 0.53);
+  /* color: rgba(255, 255, 255, 0.53); */
   font-family: "Raleway";
   font-size: 14px;
   font-style: normal;
@@ -5290,7 +5300,7 @@ button.follow:hover {
   font-size: 12px;
   font-weight: 400;
   line-height: 19px;
-  color: rgba(255, 255, 255, 0.5);
+  /* color: rgba(255, 255, 255, 0.5); */
   margin-bottom: 10px;
 }
 
@@ -5302,7 +5312,7 @@ button.follow:hover {
   width: 26px;
   height: 26px;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.5);
+  /* color: rgba(255, 255, 255, 0.5); */
 }
 
 .our-team-item .widget-social ul li a:hover {
@@ -5921,7 +5931,7 @@ fieldset.password > i::before {
 }
 
 .heading-section-1 h2 {
-  color: #fff;
+  color: #161616;
   font-size: 40px;
   font-weight: 800;
   line-height: 55px;

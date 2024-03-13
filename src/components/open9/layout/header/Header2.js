@@ -196,10 +196,10 @@ export default function Header2({
                 <h5 className="title-widget to-white">Company</h5>
                 <ul>
                   <li>
-                    <Link href="#">Help center</Link>
+                    <Link style={{color: "#161616 !important"}} href="#">Help center</Link>
                   </li>
                   <li>
-                    <Link href="#">Platform status</Link>
+                    <Link style={{color: "#161616 !important"}} href="#">Platform status</Link>
                   </li>
                 </ul>
               </div>
