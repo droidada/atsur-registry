@@ -116,7 +116,7 @@ export default function Header2({
               <Link href="/" rel="home" className="main-logo">
                 <img
                   id="logo_header"
-                  src="/images/atsur-logo-white.svg"
+                  src="/images/atsur-logo.svg"
                   data-retina="assets/images/logo/logo-dark@2x.png"
                 />
               </Link>
@@ -124,7 +124,7 @@ export default function Header2({
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   xmlnsXlink="http://www.w3.org/1999/xlink"
-                  fill="white"
+                  fill="#161616"
                   x="0px"
                   y="0px"
                   width="20px"
@@ -196,10 +196,10 @@ export default function Header2({
                 <h5 className="title-widget to-white">Company</h5>
                 <ul>
                   <li>
-                    <Link href="#">Help center</Link>
+                    <Link style={{color: "#161616 !important"}} href="#">Help center</Link>
                   </li>
                   <li>
-                    <Link href="#">Platform status</Link>
+                    <Link style={{color: "#161616 !important"}} href="#">Platform status</Link>
                   </li>
                 </ul>
               </div>
@@ -234,7 +234,7 @@ export default function Header2({
             <Link href="/" rel="home" className="main-logo">
               <img
                 id="mobile-logo_header"
-                src="/images/atsur-logo-white.svg"
+                src="/images/atsur-logo.svg"
                 data-retina="assets/images/logo/logo-dark@2x.png"
               />
             </Link>
@@ -242,7 +242,7 @@ export default function Header2({
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 xmlnsXlink="http://www.w3.org/1999/xlink"
-                fill="white"
+                fill="#161616"
                 x="0px"
                 y="0px"
                 width="20px"
