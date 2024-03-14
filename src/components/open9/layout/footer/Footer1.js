@@ -16,6 +16,9 @@ export default function Footer1() {
                         id="logo_footer"
                         src="/images/atsur-logo.svg"
                         data-retina="/images/atsur-logo.svg"
+                        width={150}
+                        height={20}
+                        alt={"logo"}
                       />
                     </Link>
                   </div>

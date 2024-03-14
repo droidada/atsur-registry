@@ -242,7 +242,12 @@ const DashboardLayout = ({ children, handleOnClick, activeIndex }) => {
             >
               <div className="box-logo">
                 <Link href="/">
-                  <Image src="/images/atsur-logo.svg" alt="" />
+                  <Image
+                    src="/images/atsur-logo.svg"
+                    width={150}
+                    height={20}
+                    alt=""
+                  />
                 </Link>
               </div>
               <div className="create menu-tab">
