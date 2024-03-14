@@ -6,7 +6,7 @@ import { Input } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import logo from "@/assets/logo.jpeg";
-import Image from "next/image";
+import Image from "@/components/common/image";
 import DropdownIcon from "../icons/DropdownIcon";
 import NotificationIcon from "../icons/NotificationIcon";
 import SideBar from "./sidebar";

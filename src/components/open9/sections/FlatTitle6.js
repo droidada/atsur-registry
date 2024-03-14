@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "@/components/common/image";
 import TitileSlider6 from "../slider/TitileSlider6";
 import TitileSlider7 from "../slider/TitileSlider7";
 export default function FlatTitle6() {
@@ -25,52 +26,52 @@ export default function FlatTitle6() {
                 </div>
               </div>
               <div className="icon-background">
-                <img
+                <Image
                   className="absolute item1"
                   src="/assets/images/item-background/item8.png"
                   alt=""
                 />
-                <img
+                <Image
                   className="absolute item2"
                   src="/assets/images/item-background/item1.png"
                   alt=""
                 />
-                <img
+                <Image
                   className="absolute item3"
                   src="/assets/images/item-background/item1.png"
                   alt=""
                 />
-                <img
+                <Image
                   className="absolute item4"
                   src="/assets/images/item-background/item7.png"
                   alt=""
                 />
-                <img
+                <Image
                   className="absolute item5"
                   src="/assets/images/item-background/item2.png"
                   alt=""
                 />
-                <img
+                <Image
                   className="absolute item6"
                   src="/assets/images/item-background/item1.png"
                   alt=""
                 />
-                <img
+                <Image
                   className="absolute item7"
                   src="/assets/images/item-background/item9.png"
                   alt=""
                 />
-                <img
+                <Image
                   className="absolute item8"
                   src="/assets/images/item-background/item1.png"
                   alt=""
                 />
-                <img
+                <Image
                   className="absolute item9"
                   src="/assets/images/item-background/item1.png"
                   alt=""
                 />
-                <img
+                <Image
                   className="absolute item10"
                   src="/assets/images/item-background/item2.png"
                   alt=""

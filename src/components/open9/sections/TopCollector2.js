@@ -1,5 +1,6 @@
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import Image from "@/components/common/image";
 
 const swiperOptions = {
   modules: [Autoplay, Pagination, Navigation],
@@ -70,7 +71,7 @@ export default function TopCollector2() {
               <SwiperSlide>
                 <div className="tf-author-box style-1 text-center flex">
                   <div className="author-avatar ">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-small-01.png"
                       alt=""
                       className="avatar"
@@ -86,7 +87,7 @@ export default function TopCollector2() {
               <SwiperSlide>
                 <div className="tf-author-box style-1 text-center flex">
                   <div className="author-avatar ">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-small-02.png"
                       alt=""
                       className="avatar"
@@ -102,7 +103,7 @@ export default function TopCollector2() {
               <SwiperSlide>
                 <div className="tf-author-box style-1 text-center flex">
                   <div className="author-avatar ">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-small-03.png"
                       alt=""
                       className="avatar"
@@ -118,7 +119,7 @@ export default function TopCollector2() {
               <SwiperSlide>
                 <div className="tf-author-box style-1 text-center flex">
                   <div className="author-avatar ">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-small-04.png"
                       alt=""
                       className="avatar"
@@ -134,7 +135,7 @@ export default function TopCollector2() {
               <SwiperSlide>
                 <div className="tf-author-box style-1 text-center flex">
                   <div className="author-avatar ">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-small-01.png"
                       alt=""
                       className="avatar"
@@ -150,7 +151,7 @@ export default function TopCollector2() {
               <SwiperSlide>
                 <div className="tf-author-box style-1 text-center flex">
                   <div className="author-avatar ">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-small-02.png"
                       alt=""
                       className="avatar"
@@ -166,7 +167,7 @@ export default function TopCollector2() {
               <SwiperSlide>
                 <div className="tf-author-box style-1 text-center flex">
                   <div className="author-avatar ">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-small-03.png"
                       alt=""
                       className="avatar"
@@ -182,7 +183,7 @@ export default function TopCollector2() {
               <SwiperSlide>
                 <div className="tf-author-box style-1 text-center flex">
                   <div className="author-avatar ">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-small-04.png"
                       alt=""
                       className="avatar"
@@ -198,7 +199,7 @@ export default function TopCollector2() {
               <SwiperSlide>
                 <div className="tf-author-box style-1 text-center flex">
                   <div className="author-avatar ">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-small-01.png"
                       alt=""
                       className="avatar"
@@ -214,7 +215,7 @@ export default function TopCollector2() {
               <SwiperSlide>
                 <div className="tf-author-box style-1 text-center flex">
                   <div className="author-avatar ">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-small-02.png"
                       alt=""
                       className="avatar"
@@ -230,7 +231,7 @@ export default function TopCollector2() {
               <SwiperSlide>
                 <div className="tf-author-box style-1 text-center flex">
                   <div className="author-avatar ">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-small-03.png"
                       alt=""
                       className="avatar"
@@ -246,7 +247,7 @@ export default function TopCollector2() {
               <SwiperSlide>
                 <div className="tf-author-box style-1 text-center flex">
                   <div className="author-avatar ">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-small-04.png"
                       alt=""
                       className="avatar"
@@ -269,7 +270,7 @@ export default function TopCollector2() {
               <SwiperSlide>
                 <div className="tf-author-box style-1 text-center flex">
                   <div className="author-avatar ">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-small-01.png"
                       alt=""
                       className="avatar"
@@ -285,7 +286,7 @@ export default function TopCollector2() {
               <SwiperSlide>
                 <div className="tf-author-box style-1 text-center flex">
                   <div className="author-avatar ">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-small-02.png"
                       alt=""
                       className="avatar"
@@ -301,7 +302,7 @@ export default function TopCollector2() {
               <SwiperSlide>
                 <div className="tf-author-box style-1 text-center flex">
                   <div className="author-avatar ">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-small-03.png"
                       alt=""
                       className="avatar"
@@ -317,7 +318,7 @@ export default function TopCollector2() {
               <SwiperSlide>
                 <div className="tf-author-box style-1 text-center flex">
                   <div className="author-avatar ">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-small-04.png"
                       alt=""
                       className="avatar"
@@ -333,7 +334,7 @@ export default function TopCollector2() {
               <SwiperSlide>
                 <div className="tf-author-box style-1 text-center flex">
                   <div className="author-avatar ">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-small-01.png"
                       alt=""
                       className="avatar"
@@ -349,7 +350,7 @@ export default function TopCollector2() {
               <SwiperSlide>
                 <div className="tf-author-box style-1 text-center flex">
                   <div className="author-avatar ">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-small-02.png"
                       alt=""
                       className="avatar"
@@ -365,7 +366,7 @@ export default function TopCollector2() {
               <SwiperSlide>
                 <div className="tf-author-box style-1 text-center flex">
                   <div className="author-avatar ">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-small-03.png"
                       alt=""
                       className="avatar"
@@ -381,7 +382,7 @@ export default function TopCollector2() {
               <SwiperSlide>
                 <div className="tf-author-box style-1 text-center flex">
                   <div className="author-avatar ">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-small-04.png"
                       alt=""
                       className="avatar"
@@ -397,7 +398,7 @@ export default function TopCollector2() {
               <SwiperSlide>
                 <div className="tf-author-box style-1 text-center flex">
                   <div className="author-avatar ">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-small-01.png"
                       alt=""
                       className="avatar"
@@ -413,7 +414,7 @@ export default function TopCollector2() {
               <SwiperSlide>
                 <div className="tf-author-box style-1 text-center flex">
                   <div className="author-avatar ">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-small-02.png"
                       alt=""
                       className="avatar"
@@ -429,7 +430,7 @@ export default function TopCollector2() {
               <SwiperSlide>
                 <div className="tf-author-box style-1 text-center flex">
                   <div className="author-avatar ">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-small-03.png"
                       alt=""
                       className="avatar"
@@ -445,7 +446,7 @@ export default function TopCollector2() {
               <SwiperSlide>
                 <div className="tf-author-box style-1 text-center flex">
                   <div className="author-avatar ">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-small-04.png"
                       alt=""
                       className="avatar"

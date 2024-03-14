@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Image from "@/components/common/image";
 import { useRouter } from "next/router";
 import { object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -90,9 +91,9 @@ export default function CreateAssets({ nextPage = (x) => {} }) {
         <form className="comment-form" autoComplete="off" noValidate>
           <label className="uploadfile" style={{ marginBottom: "3%" }}>
             {leftImg ? (
-              <img className="h-full w-full" src={leftImg} />
+              <Image className="h-full w-full" src={leftImg} />
             ) : (
-              <img src="assets/images/box-icon/upload.png" alt="" />
+              <Image src="/assets/images/box-icon/upload.png" alt="" />
             )}
             <h5 className="to-white">Left Angle View</h5>
             <p className="text">Drag or choose your file to upload</p>
@@ -109,9 +110,9 @@ export default function CreateAssets({ nextPage = (x) => {} }) {
           <br />
           <label className="uploadfile" style={{ marginBottom: "3%" }}>
             {rightImg ? (
-              <img className="h-full w-full" src={rightImg} />
+              <Image className="h-full w-full" src={rightImg} />
             ) : (
-              <img src="assets/images/box-icon/upload.png" alt="" />
+              <Image src="/assets/images/box-icon/upload.png" alt="" />
             )}
             <h5 className="to-white">Right Angle View</h5>
             <p className="text">Drag or choose your file to upload</p>
@@ -128,9 +129,9 @@ export default function CreateAssets({ nextPage = (x) => {} }) {
           <br />
           <label className="uploadfile">
             {mountedImg ? (
-              <img className="h-full w-full" src={mountedImg} />
+              <Image className="h-full w-full" src={mountedImg} />
             ) : (
-              <img src="assets/images/box-icon/upload.png" alt="" />
+              <Image src="/assets/images/box-icon/upload.png" alt="" />
             )}
             <h5 className="to-white">Mounted</h5>
             <p className="text">Drag or choose your file to upload</p>

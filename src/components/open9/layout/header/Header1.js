@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "@/components/common/image";
 import { useState } from "react";
 import Menu from "../Menu";
 import MobileMenu from "../MobileMenu";
@@ -19,7 +20,7 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu }) {
                   <div id="site-logo">
                     <div id="site-logo-inner">
                       <Link href="/" rel="home" className="main-logo">
-                        <img
+                        <Image
                           id="logo_header"
                           src="/images/atsur-logo.svg"
                           data-retina="assets/images/logo/logo@2x.png"
@@ -61,7 +62,7 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu }) {
           <div className="inner-canvas-nav">
             <div className="side-bar">
               <Link href="/" rel="home" className="main-logo">
-                <img
+                <Image
                   id="logo_header"
                   src="/images/atsur-logo.svg"
                   data-retina="assets/images/logo/logo@2x.png"
@@ -179,7 +180,7 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu }) {
           <div className="overlay-mobile-nav" onClick={handleMobileMenu} />
           <div className="inner-mobile-nav">
             <Link href="/" rel="home" className="main-logo">
-              <img
+              <Image
                 id="mobile-logo_header"
                 src="/images/atsur-logo.svg"
                 data-retina="assets/images/logo/logo@2x.png"

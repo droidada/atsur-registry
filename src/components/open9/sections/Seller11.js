@@ -1,5 +1,6 @@
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import Image from "@/components/common/image";
 
 const swiperOptions = {
   modules: [Autoplay, Pagination, Navigation],
@@ -81,7 +82,7 @@ export default function Seller11() {
                     <div className="tf-card-box style-1">
                       <div className="card-media">
                         <Link href="#">
-                          <img
+                          <Image
                             src="/assets/images/box-item/card-item-54.jpg"
                             alt=""
                           />
@@ -102,7 +103,7 @@ export default function Seller11() {
                       </h5>
                       <div className="author flex items-center">
                         <div className="avatar">
-                          <img
+                          <Image
                             src="/assets/images/avatar/avatar-box-01.jpg"
                             alt="Image"
                           />
@@ -128,7 +129,7 @@ export default function Seller11() {
                     <div className="tf-card-box style-1">
                       <div className="card-media">
                         <Link href="#">
-                          <img
+                          <Image
                             src="/assets/images/box-item/card-item-52.jpg"
                             alt=""
                           />
@@ -149,7 +150,7 @@ export default function Seller11() {
                       </h5>
                       <div className="author flex items-center">
                         <div className="avatar">
-                          <img
+                          <Image
                             src="/assets/images/avatar/avatar-box-02.jpg"
                             alt="Image"
                           />
@@ -175,7 +176,7 @@ export default function Seller11() {
                     <div className="tf-card-box style-1">
                       <div className="card-media">
                         <Link href="#">
-                          <img
+                          <Image
                             src="/assets/images/box-item/card-item-56.jpg"
                             alt=""
                           />
@@ -196,7 +197,7 @@ export default function Seller11() {
                       </h5>
                       <div className="author flex items-center">
                         <div className="avatar">
-                          <img
+                          <Image
                             src="/assets/images/avatar/avatar-box-03.jpg"
                             alt="Image"
                           />
@@ -222,7 +223,7 @@ export default function Seller11() {
                     <div className="tf-card-box style-1">
                       <div className="card-media">
                         <Link href="#">
-                          <img
+                          <Image
                             src="/assets/images/box-item/card-item-53.jpg"
                             alt=""
                           />
@@ -243,7 +244,7 @@ export default function Seller11() {
                       </h5>
                       <div className="author flex items-center">
                         <div className="avatar">
-                          <img
+                          <Image
                             src="/assets/images/avatar/avatar-box-04.jpg"
                             alt="Image"
                           />
@@ -269,7 +270,7 @@ export default function Seller11() {
                     <div className="tf-card-box style-1">
                       <div className="card-media">
                         <Link href="#">
-                          <img
+                          <Image
                             src="/assets/images/box-item/card-item-56.jpg"
                             alt=""
                           />
@@ -290,7 +291,7 @@ export default function Seller11() {
                       </h5>
                       <div className="author flex items-center">
                         <div className="avatar">
-                          <img
+                          <Image
                             src="/assets/images/avatar/avatar-box-03.jpg"
                             alt="Image"
                           />

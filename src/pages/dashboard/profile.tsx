@@ -1,14 +1,15 @@
+import React, { useEffect, useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { useRouter } from "next/router";
+import axios from "axios";
+import Link from "next/link";
+import Image from "@/components/common/image";
 import DashboardLayoutWithSidebar, {
   DashboardPages,
 } from "@/components/open9/layout/DashboardLayoutWithSidebar";
 import { TextField } from "@mui/material";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
 import { object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { useRouter } from "next/router";
-import axios from "axios";
 
 const pubAPI = process.env.NEXT_PUBLIC_API_ENDPOINT;
 const Profile = () => {
@@ -100,9 +101,9 @@ const Profile = () => {
               <label className="uploadfile h-full flex items-center justify-center">
                 <div className="text-center">
                   {previewImg ? (
-                    <img className="h-full" src={previewImg} />
+                    <Image className="h-full" src={previewImg} />
                   ) : (
-                    <img src="assets/images/box-icon/upload.png" alt="" />
+                    <Image src="/assets/images/box-icon/upload.png" alt="" />
                   )}
 
                   <h5 className="text-white">Upload file</h5>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "@/components/common/image";
 import TitileSlider1 from "../slider/TitileSlider1";
 export default function FlatTitle1() {
   return (
@@ -45,42 +46,42 @@ export default function FlatTitle1() {
                 </div>
               </div>
               <div className="icon-background">
-                <img
+                <Image
                   className="absolute item1"
                   src="/assets/images/item-background/item1.png"
                   alt=""
                 />
-                <img
+                <Image
                   className="absolute item2"
                   src="/assets/images/item-background/item2.png"
                   alt=""
                 />
-                <img
+                <Image
                   className="absolute item3"
                   src="/assets/images/item-background/item3.png"
                   alt=""
                 />
-                <img
+                <Image
                   className="absolute item4"
                   src="/assets/images/item-background/item1.png"
                   alt=""
                 />
-                <img
+                <Image
                   className="absolute item5"
                   src="/assets/images/item-background/item1.png"
                   alt=""
                 />
-                <img
+                <Image
                   className="absolute item6"
                   src="/assets/images/item-background/item4.png"
                   alt=""
                 />
-                <img
+                <Image
                   className="absolute item7"
                   src="/assets/images/item-background/item5.png"
                   alt=""
                 />
-                <img
+                <Image
                   className="absolute item8"
                   src="/assets/images/item-background/item5.png"
                   alt=""

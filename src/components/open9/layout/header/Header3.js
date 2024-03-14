@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "@/components/common/image";
 import { useState } from "react";
 import MobileMenu from "../MobileMenu";
 export default function Header3({ scroll, isMobileMenu, handleMobileMenu }) {
@@ -20,9 +21,9 @@ export default function Header3({ scroll, isMobileMenu, handleMobileMenu }) {
                   <div id="site-logo">
                     <div id="site-logo-inner">
                       <Link href="/" rel="home" className="main-logo">
-                        <img
+                        <Image
                           id="logo_header"
-                          src="assets/images/logo/logo.png"
+                          src="/assets/images/logo/logo.png"
                           data-retina="assets/images/logo/logo@2x.png"
                         />
                       </Link>
@@ -267,9 +268,9 @@ export default function Header3({ scroll, isMobileMenu, handleMobileMenu }) {
           <div className="inner-canvas-nav">
             <div className="side-bar">
               <Link href="/" rel="home" className="main-logo">
-                <img
+                <Image
                   id="logo_header"
-                  src="assets/images/logo/logo.png"
+                  src="/assets/images/logo/logo.png"
                   data-retina="assets/images/logo/logo-dark@2x.png"
                 />
               </Link>
@@ -385,9 +386,9 @@ export default function Header3({ scroll, isMobileMenu, handleMobileMenu }) {
           <div className="overlay-mobile-nav" onClick={handleMobileMenu} />
           <div className="inner-mobile-nav">
             <Link href="/" rel="home" className="main-logo">
-              <img
+              <Image
                 id="mobile-logo_header"
-                src="assets/images/logo/logo.png"
+                src="/assets/images/logo/logo.png"
                 data-retina="assets/images/logo/logo-dark@2x.png"
               />
             </Link>

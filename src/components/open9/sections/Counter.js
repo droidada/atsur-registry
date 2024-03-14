@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import Image from "@/components/common/image";
 const CounterUp = dynamic(() => import("../elements/CounterUp"), {
   ssr: false,
 });
@@ -58,7 +59,7 @@ export default function Counter() {
               <div className="box-icon-wrap">
                 <div className="tf-box-icon style-1 relative m-0">
                   <div className="image">
-                    <img src="/assets/images/box-icon/icon-01.png" alt="" />
+                    <Image src="/assets/images/box-icon/icon-01.png" alt="" />
                     <p>Step 1</p>
                   </div>
                   <h4 className="heading">
@@ -71,7 +72,7 @@ export default function Counter() {
                 </div>
                 <div className="tf-box-icon style-1 relative m-0">
                   <div className="image">
-                    <img src="/assets/images/box-icon/icon-02.png" alt="" />
+                    <Image src="/assets/images/box-icon/icon-02.png" alt="" />
                     <p>Step 2</p>
                   </div>
                   <h4 className="heading">
@@ -83,7 +84,7 @@ export default function Counter() {
                 </div>
                 <div className="tf-box-icon style-1 relative m-0">
                   <div className="image">
-                    <img src="/assets/images/box-icon/icon-03.png" alt="" />
+                    <Image src="/assets/images/box-icon/icon-03.png" alt="" />
                     <p>Step 3</p>
                   </div>
                   <h4 className="heading">
@@ -96,7 +97,7 @@ export default function Counter() {
                 </div>
                 <div className="tf-box-icon style-1 relative m-0">
                   <div className="image">
-                    <img src="/assets/images/box-icon/icon-04.png" alt="" />
+                    <Image src="/assets/images/box-icon/icon-04.png" alt="" />
                     <p>Step 4</p>
                   </div>
                   <h4 className="heading">

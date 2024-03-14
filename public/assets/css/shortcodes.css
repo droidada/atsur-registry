@@ -238,7 +238,7 @@
 /* tf card article 
 --------------------------------------------------*/
 .tf-card-article {
-  background: #EEEEEE;
+  background: #eeeeee;
   padding: 20px;
   color: black;
   /* border-radius: 20px; */
@@ -385,7 +385,7 @@
 /* -------------------------------------- */
 .tf-card-box {
   /* border-radius: 20px; */
-  background: #EEEEEE;
+  background: #eeeeee;
   color: black;
   padding: 12px 12px 17px 12px;
   margin-bottom: 40px;
@@ -2019,7 +2019,7 @@
 }
 
 .dropdown .btn-secondary {
-  background: #EEEEEE;
+  background: #eeeeee;
   padding: 10px 12px;
   font-size: 14px;
   font-weight: 800;
@@ -3036,7 +3036,7 @@
   height: 45px;
   width: 45px;
   text-align: center;
-  background: #EEEEEE;
+  background: #eeeeee;
   color: #161616;
   /* border-radius: 3px; */
   cursor: pointer;
@@ -3653,7 +3653,7 @@ form label i.icon-star.active {
   align-items: center;
   justify-content: center;
   border-radius: 50px;
-  background: #EEEEEE;
+  background: #eeeeee;
   cursor: pointer;
 }
 
@@ -3665,7 +3665,7 @@ form label i.icon-star.active {
   padding: 35px 20px 12px 20px;
   overflow: hidden;
   /* border-radius: 10px; */
-  background: #EEEEEE;
+  background: #eeeeee;
   -webkit-transition: all 0.25s ease-in-out;
   transition: all 0.25s ease-in-out;
   -moz-box-shadow: 0px 3px 16px 0px #2f536d1f;
@@ -4154,7 +4154,7 @@ button.follow:hover {
 
 #history .widget-history {
   /* border-radius: 20px; */
-  background: #EEEEEE;
+  background: #eeeeee;
   padding: 20px;
 }
 
@@ -4173,7 +4173,7 @@ button.follow:hover {
 /* settings */
 .widget-edit {
   /* border-radius: 20px; */
-  background: #EEEEEE;
+  background: #eeeeee;
   padding: 20px;
   color: black;
 }
@@ -4408,7 +4408,7 @@ button.follow:hover {
   width: 100%;
   /* border-radius: 30px; */
   border: 2px dashed #3a3a3a;
-  background: #EEEEEE;
+  background: #eeeeee;
   padding: 53px 0;
   cursor: pointer;
   margin-bottom: 0;
@@ -4556,13 +4556,13 @@ button.follow:hover {
 
 /* wrap-accordion */
 .accordion {
-  background: #EEEEEE;
+  background: #eeeeee;
   margin-bottom: 10px;
 }
 .flat-accordion .flat-toggle,
 .flat-accordion2 .flat-toggle2 {
   /* border-radius: 16px; */
-  background: #EEEEEE;
+  background: #eeeeee;
   padding: 14px 20px;
   margin-bottom: 10px;
   position: relative;
@@ -5050,7 +5050,7 @@ button.follow:hover {
   padding: 20px;
   gap: 16px;
   /* border-radius: 20px; */
-  background: #EEEEEE;
+  background: #eeeeee;
   color: rgba(255, 255, 255, 0.3);
   margin-bottom: 20px;
   position: relative;
@@ -5230,7 +5230,7 @@ button.follow:hover {
 /* widget-box-icon */
 .box-icon-item {
   /* border-radius: 30px; */
-  background: #EEEEEE;
+  background: #eeeeee;
   padding: 30px;
   text-align: center;
 }
@@ -5266,7 +5266,7 @@ button.follow:hover {
 
 /* widget-our-team */
 .widget-our-team {
-  background: #EEEEEE;
+  background: #eeeeee;
   padding: 80px 0;
 }
 
@@ -5323,7 +5323,7 @@ button.follow:hover {
 .widget-income {
   position: relative;
   /* border-radius: 30px; */
-  background: #EEEEEE;
+  background: #eeeeee;
   padding: 40px 40px 97px 40px;
   margin-right: 13px;
 }
@@ -5414,7 +5414,7 @@ button.follow:hover {
   padding: 30px;
   /* border-radius: 20px; */
   color: black;
-  background: #EEEEEE;
+  background: #eeeeee;
 }
 
 fieldset.password > i::before {

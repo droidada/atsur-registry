@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "@/components/common/image";
 export default function Action6() {
   return (
     <>
@@ -35,7 +36,10 @@ export default function Action6() {
                     <i className="icon-arrow-up-right2" />
                   </Link>
                 </div>
-                <img src="/assets/images/item-background/bg-home6.png" alt="" />
+                <Image
+                  src="/assets/images/item-background/bg-home6.png"
+                  alt=""
+                />
               </div>
             </div>
           </div>

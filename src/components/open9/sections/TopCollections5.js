@@ -1,5 +1,6 @@
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import Image from "@/components/common/image";
 
 const swiperOptions = {
   modules: [Autoplay, Pagination, Navigation],
@@ -47,24 +48,24 @@ export default function TopCollections5() {
                     <div className="tf-card-collection bg-white">
                       <Link href="/author-2">
                         <div className="media-images-collection">
-                          <img
+                          <Image
                             src="/assets/images/box-item/img-collection-17.jpg"
                             alt=""
                           />
-                          <img
+                          <Image
                             src="/assets/images/box-item/img-collection-18.jpg"
                             alt=""
                           />
-                          <img
+                          <Image
                             src="/assets/images/box-item/img-collection-19.jpg"
                             alt=""
                           />
-                          <img
+                          <Image
                             src="/assets/images/box-item/img-collection-20.jpg"
                             alt=""
                           />
                           <div className="author-poster">
-                            <img
+                            <Image
                               src="/assets/images/avatar/avatar-01.png"
                               alt=""
                             />
@@ -111,24 +112,24 @@ export default function TopCollections5() {
                     <div className="tf-card-collection bg-white">
                       <Link href="/author-2">
                         <div className="media-images-collection">
-                          <img
+                          <Image
                             src="/assets/images/box-item/img-collection-21.jpg"
                             alt=""
                           />
-                          <img
+                          <Image
                             src="/assets/images/box-item/img-collection-22.jpg"
                             alt=""
                           />
-                          <img
+                          <Image
                             src="/assets/images/box-item/img-collection-23.jpg"
                             alt=""
                           />
-                          <img
+                          <Image
                             src="/assets/images/box-item/img-collection-24.jpg"
                             alt=""
                           />
                           <div className="author-poster">
-                            <img
+                            <Image
                               src="/assets/images/avatar/avatar-01.png"
                               alt=""
                             />
@@ -175,24 +176,24 @@ export default function TopCollections5() {
                     <div className="tf-card-collection bg-white">
                       <Link href="/author-2">
                         <div className="media-images-collection">
-                          <img
+                          <Image
                             src="/assets/images/box-item/img-collection-25.jpg"
                             alt=""
                           />
-                          <img
+                          <Image
                             src="/assets/images/box-item/img-collection-26.jpg"
                             alt=""
                           />
-                          <img
+                          <Image
                             src="/assets/images/box-item/img-collection-27.jpg"
                             alt=""
                           />
-                          <img
+                          <Image
                             src="/assets/images/box-item/img-collection-28.jpg"
                             alt=""
                           />
                           <div className="author-poster">
-                            <img
+                            <Image
                               src="/assets/images/avatar/avatar-01.png"
                               alt=""
                             />
@@ -239,24 +240,24 @@ export default function TopCollections5() {
                     <div className="tf-card-collection bg-white">
                       <Link href="/author-2">
                         <div className="media-images-collection">
-                          <img
+                          <Image
                             src="/assets/images/box-item/img-collection-17.jpg"
                             alt=""
                           />
-                          <img
+                          <Image
                             src="/assets/images/box-item/img-collection-18.jpg"
                             alt=""
                           />
-                          <img
+                          <Image
                             src="/assets/images/box-item/img-collection-19.jpg"
                             alt=""
                           />
-                          <img
+                          <Image
                             src="/assets/images/box-item/img-collection-20.jpg"
                             alt=""
                           />
                           <div className="author-poster">
-                            <img
+                            <Image
                               src="/assets/images/avatar/avatar-01.png"
                               alt=""
                             />
@@ -303,24 +304,24 @@ export default function TopCollections5() {
                     <div className="tf-card-collection bg-white">
                       <Link href="/author-2">
                         <div className="media-images-collection">
-                          <img
+                          <Image
                             src="/assets/images/box-item/img-collection-17.jpg"
                             alt=""
                           />
-                          <img
+                          <Image
                             src="/assets/images/box-item/img-collection-18.jpg"
                             alt=""
                           />
-                          <img
+                          <Image
                             src="/assets/images/box-item/img-collection-19.jpg"
                             alt=""
                           />
-                          <img
+                          <Image
                             src="/assets/images/box-item/img-collection-20.jpg"
                             alt=""
                           />
                           <div className="author-poster">
-                            <img
+                            <Image
                               src="/assets/images/avatar/avatar-01.png"
                               alt=""
                             />

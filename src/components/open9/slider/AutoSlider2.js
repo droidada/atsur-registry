@@ -1,5 +1,6 @@
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import Image from "@/components/common/image";
 
 const swiperOptions = {
   modules: [Autoplay, Pagination, Navigation],
@@ -29,10 +30,10 @@ export default function AutoSlider2() {
         className="swiper-container autoslider4reverse swiper-container-vertical"
       >
         <SwiperSlide>
-          <img src="/assets/images/item-background/bg-action-1.png" alt="" />
+          <Image src="/assets/images/item-background/bg-action-1.png" alt="" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src="/assets/images/item-background/bg-action-1.png" alt="" />
+          <Image src="/assets/images/item-background/bg-action-1.png" alt="" />
         </SwiperSlide>
       </Swiper>
     </>

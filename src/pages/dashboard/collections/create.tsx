@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "@/components/common/image";
 import { useRouter } from "next/router";
 import { object, string, number, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -147,9 +148,9 @@ function CreateCollection() {
                 <label className="uploadfile h-full flex items-center justify-center">
                   <div className="text-center flex flex-col items-center justify-center">
                     {previewImg ? (
-                      <img className="h-full" src={previewImg} />
+                      <Image className="h-full" src={previewImg} />
                     ) : (
-                      <img src="assets/images/box-icon/upload.png" alt="" />
+                      <Image src="/assets/images/box-icon/upload.png" alt="" />
                     )}
 
                     <h5 className="text-white">Upload Image</h5>
@@ -180,7 +181,9 @@ function CreateCollection() {
                 rows={3}
                 fullWidth
                 error={!!errors["description"]}
-                helperText={errors["description"] ? errors["description"].message : ""}
+                helperText={
+                  errors["description"] ? errors["description"].message : ""
+                }
                 {...register("description")}
               />
             </fieldset>

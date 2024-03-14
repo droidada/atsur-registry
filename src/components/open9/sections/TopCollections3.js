@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import Image from "@/components/common/image";
 
 const swiperOptions = {
   modules: [Autoplay, Pagination, Navigation],
@@ -46,26 +47,26 @@ export default function TopCollections3() {
                     <div className="tf-card-collection style-2">
                       <Link href="/author-2">
                         <div className="media-images-collection">
-                          <img
+                          <Image
                             src="/assets/images/box-item/img-collection-t01.jpg"
                             alt=""
                           />
                           <div className="img-bottom">
-                            <img
+                            <Image
                               src="/assets/images/box-item/img-collection-bl01.jpg"
                               alt=""
                             />
-                            <img
+                            <Image
                               src="/assets/images/box-item/img-collection-bc01.jpg"
                               alt=""
                             />
-                            <img
+                            <Image
                               src="/assets/images/box-item/img-collection-br01.jpg"
                               alt=""
                             />
                           </div>
                           <div className="author-poster">
-                            <img
+                            <Image
                               src="/assets/images/avatar/avatar-01.png"
                               alt=""
                             />
@@ -112,26 +113,26 @@ export default function TopCollections3() {
                     <div className="tf-card-collection style-2">
                       <Link href="/author-2">
                         <div className="media-images-collection">
-                          <img
+                          <Image
                             src="/assets/images/box-item/img-collection-t02.jpg"
                             alt=""
                           />
                           <div className="img-bottom">
-                            <img
+                            <Image
                               src="/assets/images/box-item/img-collection-bl02.jpg"
                               alt=""
                             />
-                            <img
+                            <Image
                               src="/assets/images/box-item/img-collection-bc02.jpg"
                               alt=""
                             />
-                            <img
+                            <Image
                               src="/assets/images/box-item/img-collection-br02.jpg"
                               alt=""
                             />
                           </div>
                           <div className="author-poster">
-                            <img
+                            <Image
                               src="/assets/images/avatar/avatar-01.png"
                               alt=""
                             />
@@ -178,26 +179,26 @@ export default function TopCollections3() {
                     <div className="tf-card-collection style-2">
                       <Link href="/author-2">
                         <div className="media-images-collection">
-                          <img
+                          <Image
                             src="/assets/images/box-item/img-collection-t03.jpg"
                             alt=""
                           />
                           <div className="img-bottom">
-                            <img
+                            <Image
                               src="/assets/images/box-item/img-collection-bl03.jpg"
                               alt=""
                             />
-                            <img
+                            <Image
                               src="/assets/images/box-item/img-collection-bc03.jpg"
                               alt=""
                             />
-                            <img
+                            <Image
                               src="/assets/images/box-item/img-collection-br03.jpg"
                               alt=""
                             />
                           </div>
                           <div className="author-poster">
-                            <img
+                            <Image
                               src="/assets/images/avatar/avatar-01.png"
                               alt=""
                             />
@@ -244,26 +245,26 @@ export default function TopCollections3() {
                     <div className="tf-card-collection style-2">
                       <Link href="/author-2">
                         <div className="media-images-collection">
-                          <img
+                          <Image
                             src="/assets/images/box-item/img-collection-t04.jpg"
                             alt=""
                           />
                           <div className="img-bottom">
-                            <img
+                            <Image
                               src="/assets/images/box-item/img-collection-bl04.jpg"
                               alt=""
                             />
-                            <img
+                            <Image
                               src="/assets/images/box-item/img-collection-bc04.jpg"
                               alt=""
                             />
-                            <img
+                            <Image
                               src="/assets/images/box-item/img-collection-br04.jpg"
                               alt=""
                             />
                           </div>
                           <div className="author-poster">
-                            <img
+                            <Image
                               src="/assets/images/avatar/avatar-01.png"
                               alt=""
                             />
@@ -310,26 +311,26 @@ export default function TopCollections3() {
                     <div className="tf-card-collection style-2">
                       <Link href="/author-2">
                         <div className="media-images-collection">
-                          <img
+                          <Image
                             src="/assets/images/box-item/img-collection-t04.jpg"
                             alt=""
                           />
                           <div className="img-bottom">
-                            <img
+                            <Image
                               src="/assets/images/box-item/img-collection-bl04.jpg"
                               alt=""
                             />
-                            <img
+                            <Image
                               src="/assets/images/box-item/img-collection-bc04.jpg"
                               alt=""
                             />
-                            <img
+                            <Image
                               src="/assets/images/box-item/img-collection-br04.jpg"
                               alt=""
                             />
                           </div>
                           <div className="author-poster">
-                            <img
+                            <Image
                               src="/assets/images/avatar/avatar-01.png"
                               alt=""
                             />
@@ -376,26 +377,26 @@ export default function TopCollections3() {
                     <div className="tf-card-collection style-2">
                       <Link href="/author-2">
                         <div className="media-images-collection">
-                          <img
+                          <Image
                             src="/assets/images/box-item/img-collection-t04.jpg"
                             alt=""
                           />
                           <div className="img-bottom">
-                            <img
+                            <Image
                               src="/assets/images/box-item/img-collection-bl04.jpg"
                               alt=""
                             />
-                            <img
+                            <Image
                               src="/assets/images/box-item/img-collection-bc04.jpg"
                               alt=""
                             />
-                            <img
+                            <Image
                               src="/assets/images/box-item/img-collection-br04.jpg"
                               alt=""
                             />
                           </div>
                           <div className="author-poster">
-                            <img
+                            <Image
                               src="/assets/images/avatar/avatar-01.png"
                               alt=""
                             />

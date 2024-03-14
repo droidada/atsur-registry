@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "@/components/common/image";
 import { Menu } from "@headlessui/react";
 import DashboardLayoutWithSidebar, {
   DashboardPages,
@@ -329,7 +330,7 @@ function Wallet() {
                       <div className="h-full flex-1 grow">
                         <div className="flex items-center justify-center h-full flex-col gap-9 py-14">
                           <div>
-                            <img src="/images/pic.svg" />
+                            <Image src="/images/pic.svg" alt={"wallet image"} />
                           </div>
                           <div>No recent transactions</div>
                         </div>

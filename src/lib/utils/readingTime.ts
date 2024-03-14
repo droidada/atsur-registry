@@ -6,7 +6,7 @@ const readingTime = (content: string): string => {
   const regex = /\w/;
 
   let words = content.split(" ").filter((word) => {
-    if (word.includes("<img")) {
+    if (word.includes("<Image")) {
       images += 1;
     }
     return regex.test(word);

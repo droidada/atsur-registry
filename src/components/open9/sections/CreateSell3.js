@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "@/components/common/image";
 export default function CreateSell3() {
   return (
     <>
@@ -19,7 +20,7 @@ export default function CreateSell3() {
                   className="wow fadeInUp tf-box-icon style-1 relative mb-0"
                 >
                   <div className="image">
-                    <img src="/assets/images/box-icon/icon-01.png" alt="" />
+                    <Image src="/assets/images/box-icon/icon-01.png" alt="" />
                     <p>Step 1</p>
                   </div>
                   <h4 className="heading">
@@ -35,7 +36,7 @@ export default function CreateSell3() {
                   className="wow fadeInUp tf-box-icon style-1 relative mb-0"
                 >
                   <div className="image">
-                    <img src="/assets/images/box-icon/icon-02.png" alt="" />
+                    <Image src="/assets/images/box-icon/icon-02.png" alt="" />
                     <p>Step 2</p>
                   </div>
                   <h4 className="heading">
@@ -51,7 +52,7 @@ export default function CreateSell3() {
                   className="wow fadeInUp tf-box-icon style-1 relative mb-0"
                 >
                   <div className="image">
-                    <img src="/assets/images/box-icon/icon-03.png" alt="" />
+                    <Image src="/assets/images/box-icon/icon-03.png" alt="" />
                     <p>Step 3</p>
                   </div>
                   <h4 className="heading">
@@ -67,7 +68,7 @@ export default function CreateSell3() {
                   className="wow fadeInUp tf-box-icon style-1 relative mb-0"
                 >
                   <div className="image">
-                    <img src="/assets/images/box-icon/icon-04.png" alt="" />
+                    <Image src="/assets/images/box-icon/icon-04.png" alt="" />
                     <p>Step 4</p>
                   </div>
                   <h4 className="heading">
@@ -82,7 +83,10 @@ export default function CreateSell3() {
             </div>
             <div className="col-lg-6">
               <div className="box-icon-img">
-                <img src="/assets/images/backgroup-section/img-02.png" alt="" />
+                <Image
+                  src="/assets/images/backgroup-section/img-02.png"
+                  alt=""
+                />
               </div>
             </div>
           </div>

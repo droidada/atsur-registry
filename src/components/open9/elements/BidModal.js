@@ -1,3 +1,5 @@
+import Image from "@/components/common/image";
+
 export default function BidModal({ isBidModal, handleBidModal }) {
   return (
     <>
@@ -15,10 +17,16 @@ export default function BidModal({ isBidModal, handleBidModal }) {
             </button>
             <div className="modal-body">
               <div className="image">
-                <img src="assets/images/backgroup-section/popup.png" alt="" />
+                <Image
+                  src="/assets/images/backgroup-section/popup.png"
+                  alt=""
+                />
               </div>
               <div className="logo-rotate">
-                <img src="assets/images/item-background/item6-img.png" alt="" />
+                <Image
+                  src="/assets/images/item-background/item6-img.png"
+                  alt=""
+                />
               </div>
               <h2>Subscribe to our newsletter</h2>
               <p>Subscribe for our newsletter to stay in the loop</p>

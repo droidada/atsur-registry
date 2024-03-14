@@ -1,5 +1,5 @@
 import { TextField } from "@mui/material";
-import Image from "next/image";
+import Image from "@/components/common/image";
 import { useDropzone } from "react-dropzone";
 
 import styled from "styled-components";

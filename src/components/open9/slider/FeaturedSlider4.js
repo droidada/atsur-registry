@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "@/components/common/image";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -53,7 +54,7 @@ export default function FeaturedSlider4() {
           <div className="tf-card-box style-4">
             <div className="author flex items-center">
               <div className="avatar">
-                <img
+                <Image
                   src="/assets/images/avatar/avatar-box-01.jpg"
                   alt="Image"
                 />
@@ -67,7 +68,7 @@ export default function FeaturedSlider4() {
             </div>
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/card-item-29.jpg" alt="" />
+                <Image src="/assets/images/box-item/card-item-29.jpg" alt="" />
               </Link>
               <span className="wishlist-button icon-heart" />
             </div>
@@ -94,7 +95,7 @@ export default function FeaturedSlider4() {
           <div className="tf-card-box style-4">
             <div className="author flex items-center">
               <div className="avatar">
-                <img
+                <Image
                   src="/assets/images/avatar/avatar-box-02.jpg"
                   alt="Image"
                 />
@@ -108,7 +109,7 @@ export default function FeaturedSlider4() {
             </div>
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/card-item-30.jpg" alt="" />
+                <Image src="/assets/images/box-item/card-item-30.jpg" alt="" />
               </Link>
               <span className="wishlist-button icon-heart" />
             </div>
@@ -135,7 +136,7 @@ export default function FeaturedSlider4() {
           <div className="tf-card-box style-4">
             <div className="author flex items-center">
               <div className="avatar">
-                <img
+                <Image
                   src="/assets/images/avatar/avatar-box-03.jpg"
                   alt="Image"
                 />
@@ -149,7 +150,7 @@ export default function FeaturedSlider4() {
             </div>
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/card-item-31.jpg" alt="" />
+                <Image src="/assets/images/box-item/card-item-31.jpg" alt="" />
               </Link>
               <span className="wishlist-button icon-heart" />
             </div>
@@ -176,7 +177,7 @@ export default function FeaturedSlider4() {
           <div className="tf-card-box style-4">
             <div className="author flex items-center">
               <div className="avatar">
-                <img
+                <Image
                   src="/assets/images/avatar/avatar-box-04.jpg"
                   alt="Image"
                 />
@@ -190,7 +191,7 @@ export default function FeaturedSlider4() {
             </div>
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/card-item-32.jpg" alt="" />
+                <Image src="/assets/images/box-item/card-item-32.jpg" alt="" />
               </Link>
               <span className="wishlist-button icon-heart" />
             </div>
@@ -217,7 +218,7 @@ export default function FeaturedSlider4() {
           <div className="tf-card-box style-4">
             <div className="author flex items-center">
               <div className="avatar">
-                <img
+                <Image
                   src="/assets/images/avatar/avatar-box-01.jpg"
                   alt="Image"
                 />
@@ -231,7 +232,7 @@ export default function FeaturedSlider4() {
             </div>
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/card-item-29.jpg" alt="" />
+                <Image src="/assets/images/box-item/card-item-29.jpg" alt="" />
               </Link>
               <span className="wishlist-button icon-heart" />
             </div>
@@ -258,7 +259,7 @@ export default function FeaturedSlider4() {
           <div className="tf-card-box style-4">
             <div className="author flex items-center">
               <div className="avatar">
-                <img
+                <Image
                   src="/assets/images/avatar/avatar-box-01.jpg"
                   alt="Image"
                 />
@@ -272,7 +273,7 @@ export default function FeaturedSlider4() {
             </div>
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/card-item-29.jpg" alt="" />
+                <Image src="/assets/images/box-item/card-item-29.jpg" alt="" />
               </Link>
               <span className="wishlist-button icon-heart" />
             </div>
@@ -299,7 +300,7 @@ export default function FeaturedSlider4() {
           <div className="tf-card-box style-4">
             <div className="author flex items-center">
               <div className="avatar">
-                <img
+                <Image
                   src="/assets/images/avatar/avatar-box-01.jpg"
                   alt="Image"
                 />
@@ -313,7 +314,7 @@ export default function FeaturedSlider4() {
             </div>
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/card-item-29.jpg" alt="" />
+                <Image src="/assets/images/box-item/card-item-29.jpg" alt="" />
               </Link>
               <span className="wishlist-button icon-heart" />
             </div>
