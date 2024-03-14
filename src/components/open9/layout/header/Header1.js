@@ -24,6 +24,9 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu }) {
                           id="logo_header"
                           src="/images/atsur-logo.svg"
                           data-retina="assets/images/logo/logo@2x.png"
+                          width={150}
+                          height={20}
+                          alt={"logo"}
                         />
                       </Link>
                     </div>
@@ -66,6 +69,9 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu }) {
                   id="logo_header"
                   src="/images/atsur-logo.svg"
                   data-retina="assets/images/logo/logo@2x.png"
+                  width={150}
+                  height={20}
+                  alt="logo"
                 />
               </Link>
               <div className="canvas-nav-close" onClick={handleSidebar}>
@@ -184,6 +190,9 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu }) {
                 id="mobile-logo_header"
                 src="/images/atsur-logo.svg"
                 data-retina="assets/images/logo/logo@2x.png"
+                width={150}
+                height={20}
+                alt={"logo"}
               />
             </Link>
             <div className="mobile-nav-close" onClick={handleMobileMenu}>
