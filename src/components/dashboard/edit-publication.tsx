@@ -33,11 +33,6 @@ export default function EditPublication({
   artPieceId: string;
   publication: any;
 }) {
-  open: boolean;
-  handleClose: any;
-  artPieceId: string;
-  publication: any;
-}) {
   const publicationSchema = object({
     authorName: string().nonempty("Author name is required"),
     articleName: string().nonempty("Article name is required"),
@@ -115,8 +110,7 @@ export default function EditPublication({
         ? await axiosAuth.post(`/publication/add`, formData)
         : await axiosAuth.post(`/publication/update`, formData);
 
-      setPublicationImg(null);
-      reset();
+      console.log("result here is ", result.data);
       handleClose();
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -186,7 +180,6 @@ export default function EditPublication({
                   fullWidth
                   error={!!errors["articleName"]}
                   helperText={
-                    errors["articleName"] ? errors["articleName"].message : ""
                     errors["articleName"] ? errors["articleName"].message : ""
                   }
                   {...register("articleName")}
