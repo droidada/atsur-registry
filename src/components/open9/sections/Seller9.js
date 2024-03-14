@@ -1,5 +1,6 @@
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import Image from "@/components/common/image";
 
 const swiperOptions = {
   modules: [Autoplay, Pagination, Navigation],
@@ -76,7 +77,7 @@ export default function Seller9() {
                   <SwiperSlide>
                     <div className="tf-author-box text-center">
                       <div className="author-avatar ">
-                        <img
+                        <Image
                           src="/assets/images/avatar/avatar-01.png"
                           alt=""
                           className="avatar"
@@ -97,7 +98,7 @@ export default function Seller9() {
                   <SwiperSlide>
                     <div className="tf-author-box text-center">
                       <div className="author-avatar ">
-                        <img
+                        <Image
                           src="/assets/images/avatar/avatar-02.png"
                           alt=""
                           className="avatar"
@@ -118,7 +119,7 @@ export default function Seller9() {
                   <SwiperSlide>
                     <div className="tf-author-box text-center">
                       <div className="author-avatar ">
-                        <img
+                        <Image
                           src="/assets/images/avatar/avatar-03.png"
                           alt=""
                           className="avatar"
@@ -139,7 +140,7 @@ export default function Seller9() {
                   <SwiperSlide>
                     <div className="tf-author-box text-center">
                       <div className="author-avatar ">
-                        <img
+                        <Image
                           src="/assets/images/avatar/avatar-04.png"
                           alt=""
                           className="avatar"
@@ -160,7 +161,7 @@ export default function Seller9() {
                   <SwiperSlide>
                     <div className="tf-author-box text-center">
                       <div className="author-avatar ">
-                        <img
+                        <Image
                           src="/assets/images/avatar/avatar-05.png"
                           alt=""
                           className="avatar"
@@ -181,7 +182,7 @@ export default function Seller9() {
                   <SwiperSlide>
                     <div className="tf-author-box text-center">
                       <div className="author-avatar ">
-                        <img
+                        <Image
                           src="/assets/images/avatar/avatar-06.png"
                           alt=""
                           className="avatar"
@@ -202,7 +203,7 @@ export default function Seller9() {
                   <SwiperSlide>
                     <div className="tf-author-box text-center">
                       <div className="author-avatar ">
-                        <img
+                        <Image
                           src="/assets/images/avatar/avatar-02.png"
                           alt=""
                           className="avatar"
@@ -223,7 +224,7 @@ export default function Seller9() {
                   <SwiperSlide>
                     <div className="tf-author-box text-center">
                       <div className="author-avatar ">
-                        <img
+                        <Image
                           src="/assets/images/avatar/avatar-01.png"
                           alt=""
                           className="avatar"

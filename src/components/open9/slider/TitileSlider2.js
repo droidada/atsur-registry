@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "@/components/common/image";
 import {
   Autoplay,
   EffectCoverflow,
@@ -51,7 +52,7 @@ export default function TitileSlider2() {
           <div className="tf-card-box style-2">
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/banner-08.jpg" alt="" />
+                <Image src="/assets/images/box-item/banner-08.jpg" alt="" />
               </Link>
               <span className="wishlist-button icon-heart" />
               <div className="featured-countdown">
@@ -67,7 +68,7 @@ export default function TitileSlider2() {
             </div>
             <div className="author flex items-center justify-between">
               <div className="avatar">
-                <img
+                <Image
                   src="/assets/images/avatar/avatar-box-06.jpg"
                   alt="Image"
                 />
@@ -85,7 +86,7 @@ export default function TitileSlider2() {
           <div className="tf-card-box style-2">
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/banner-09.jpg" alt="" />
+                <Image src="/assets/images/box-item/banner-09.jpg" alt="" />
               </Link>
               <span className="wishlist-button icon-heart" />
               <div className="featured-countdown">
@@ -101,7 +102,7 @@ export default function TitileSlider2() {
             </div>
             <div className="author flex items-center justify-between">
               <div className="avatar">
-                <img
+                <Image
                   src="/assets/images/avatar/avatar-box-02.jpg"
                   alt="Image"
                 />
@@ -119,7 +120,7 @@ export default function TitileSlider2() {
           <div className="tf-card-box style-2">
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/banner-10.jpg" alt="" />
+                <Image src="/assets/images/box-item/banner-10.jpg" alt="" />
               </Link>
               <span className="wishlist-button icon-heart" />
               <div className="featured-countdown">
@@ -135,7 +136,7 @@ export default function TitileSlider2() {
             </div>
             <div className="author flex items-center justify-between">
               <div className="avatar">
-                <img
+                <Image
                   src="/assets/images/avatar/avatar-box-03.jpg"
                   alt="Image"
                 />
@@ -153,7 +154,7 @@ export default function TitileSlider2() {
           <div className="tf-card-box style-2">
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/banner-08.jpg" alt="" />
+                <Image src="/assets/images/box-item/banner-08.jpg" alt="" />
               </Link>
               <span className="wishlist-button icon-heart" />
               <div className="featured-countdown">
@@ -169,7 +170,7 @@ export default function TitileSlider2() {
             </div>
             <div className="author flex items-center justify-between">
               <div className="avatar">
-                <img
+                <Image
                   src="/assets/images/avatar/avatar-box-04.jpg"
                   alt="Image"
                 />
@@ -187,7 +188,7 @@ export default function TitileSlider2() {
           <div className="tf-card-box style-2">
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/banner-09.jpg" alt="" />
+                <Image src="/assets/images/box-item/banner-09.jpg" alt="" />
               </Link>
               <span className="wishlist-button icon-heart" />
               <div className="featured-countdown">
@@ -203,7 +204,7 @@ export default function TitileSlider2() {
             </div>
             <div className="author flex items-center justify-between">
               <div className="avatar">
-                <img
+                <Image
                   src="/assets/images/avatar/avatar-box-01.jpg"
                   alt="Image"
                 />

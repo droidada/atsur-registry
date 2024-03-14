@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import Image from "@/components/common/image";
 
 const swiperOptions = {
   modules: [Autoplay, Pagination, Navigation],
@@ -45,7 +46,7 @@ export default function TopCollections2() {
                   <SwiperSlide>
                     <div className="tf-card-collection style-1 relative">
                       <div className="image">
-                        <img
+                        <Image
                           src="/assets/images/box-item/collection-1.jpg"
                           alt=""
                         />
@@ -53,7 +54,7 @@ export default function TopCollections2() {
                       <div className="card-bottom">
                         <div className="author flex items-center">
                           <div className="avatar">
-                            <img
+                            <Image
                               src="/assets/images/avatar/avatar-box-06.jpg"
                               alt="Image"
                             />
@@ -97,7 +98,7 @@ export default function TopCollections2() {
                   <SwiperSlide>
                     <div className="tf-card-collection style-1 relative">
                       <div className="image">
-                        <img
+                        <Image
                           src="/assets/images/box-item/collection-2.jpg"
                           alt=""
                         />
@@ -105,7 +106,7 @@ export default function TopCollections2() {
                       <div className="card-bottom">
                         <div className="author flex items-center">
                           <div className="avatar">
-                            <img
+                            <Image
                               src="/assets/images/avatar/avatar-box-06.jpg"
                               alt="Image"
                             />
@@ -149,7 +150,7 @@ export default function TopCollections2() {
                   <SwiperSlide>
                     <div className="tf-card-collection style-1 relative">
                       <div className="image">
-                        <img
+                        <Image
                           src="/assets/images/box-item/collection-3.jpg"
                           alt=""
                         />
@@ -157,7 +158,7 @@ export default function TopCollections2() {
                       <div className="card-bottom">
                         <div className="author flex items-center">
                           <div className="avatar">
-                            <img
+                            <Image
                               src="/assets/images/avatar/avatar-box-06.jpg"
                               alt="Image"
                             />
@@ -201,7 +202,7 @@ export default function TopCollections2() {
                   <SwiperSlide>
                     <div className="tf-card-collection style-1 relative">
                       <div className="image">
-                        <img
+                        <Image
                           src="/assets/images/box-item/collection-1.jpg"
                           alt=""
                         />
@@ -209,7 +210,7 @@ export default function TopCollections2() {
                       <div className="card-bottom">
                         <div className="author flex items-center">
                           <div className="avatar">
-                            <img
+                            <Image
                               src="/assets/images/avatar/avatar-box-06.jpg"
                               alt="Image"
                             />
@@ -253,7 +254,7 @@ export default function TopCollections2() {
                   <SwiperSlide>
                     <div className="tf-card-collection style-1 relative">
                       <div className="image">
-                        <img
+                        <Image
                           src="/assets/images/box-item/collection-2.jpg"
                           alt=""
                         />
@@ -261,7 +262,7 @@ export default function TopCollections2() {
                       <div className="card-bottom">
                         <div className="author flex items-center">
                           <div className="avatar">
-                            <img
+                            <Image
                               src="/assets/images/avatar/avatar-box-06.jpg"
                               alt="Image"
                             />
@@ -305,7 +306,7 @@ export default function TopCollections2() {
                   <SwiperSlide>
                     <div className="tf-card-collection style-1 relative">
                       <div className="image">
-                        <img
+                        <Image
                           src="/assets/images/box-item/collection-3.jpg"
                           alt=""
                         />
@@ -313,7 +314,7 @@ export default function TopCollections2() {
                       <div className="card-bottom">
                         <div className="author flex items-center">
                           <div className="avatar">
-                            <img
+                            <Image
                               src="/assets/images/avatar/avatar-box-06.jpg"
                               alt="Image"
                             />

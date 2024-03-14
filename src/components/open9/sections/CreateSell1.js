@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "@/components/common/image";
 export default function CreateSell1() {
   return (
     <>
@@ -15,7 +16,7 @@ export default function CreateSell1() {
             <div className="col-lg-3 col-md-6">
               <div className="tf-box-icon relative text-center">
                 <div className="image">
-                  <img src="/assets/images/box-icon/icon-01.png" alt="" />
+                  <Image src="/assets/images/box-icon/icon-01.png" alt="" />
                   <p>Step 1</p>
                 </div>
                 <h4 className="heading">
@@ -68,7 +69,7 @@ export default function CreateSell1() {
             <div className="col-lg-3 col-md-6">
               <div className="tf-box-icon relative text-center type-1">
                 <div className="image">
-                  <img src="/assets/images/box-icon/icon-02.png" alt="" />
+                  <Image src="/assets/images/box-icon/icon-02.png" alt="" />
                   <p>Step 2</p>
                 </div>
                 <h4 className="heading">
@@ -121,7 +122,7 @@ export default function CreateSell1() {
             <div className="col-lg-3 col-md-6">
               <div className="tf-box-icon relative text-center">
                 <div className="image">
-                  <img src="/assets/images/box-icon/icon-03.png" alt="" />
+                  <Image src="/assets/images/box-icon/icon-03.png" alt="" />
                   <p>Step 3</p>
                 </div>
                 <h4 className="heading">
@@ -174,7 +175,7 @@ export default function CreateSell1() {
             <div className="col-lg-3 col-md-6">
               <div className="tf-box-icon relative text-center">
                 <div className="image">
-                  <img src="/assets/images/box-icon/icon-04.png" alt="" />
+                  <Image src="/assets/images/box-icon/icon-04.png" alt="" />
                   <p>Step 4</p>
                 </div>
                 <h4 className="heading">

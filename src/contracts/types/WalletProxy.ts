@@ -28,12 +28,12 @@ export interface WalletProxyInterface extends utils.Interface {
 
   encodeFunctionData(
     functionFragment: "xChangeContract",
-    values?: undefined
+    values?: undefined,
   ): string;
 
   decodeFunctionResult(
     functionFragment: "xChangeContract",
-    data: BytesLike
+    data: BytesLike,
   ): Result;
 
   events: {};
@@ -49,15 +49,15 @@ export interface WalletProxy extends BaseContract {
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TEvent>>;
 
   listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>
+    eventFilter?: TypedEventFilter<TEvent>,
   ): Array<TypedListener<TEvent>>;
   listeners(eventName?: string): Array<Listener>;
   removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>
+    eventFilter: TypedEventFilter<TEvent>,
   ): this;
   removeAllListeners(eventName?: string): this;
   off: OnEvent<this>;

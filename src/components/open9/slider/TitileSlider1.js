@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "@/components/common/image";
 import {
   Autoplay,
   EffectCoverflow,
@@ -81,7 +82,7 @@ export default function TitileSlider1() {
           <div className="tf-card-box">
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/banner-01.jpg" alt="" />
+                <Image src="/assets/images/box-item/banner-01.jpg" alt="" />
               </Link>
               <span className="wishlist-button icon-heart" />
               <div className="featured-countdown">{timerx}</div>
@@ -106,7 +107,7 @@ export default function TitileSlider1() {
           <div className="tf-card-box">
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/banner-02.jpg" alt="" />
+                <Image src="/assets/images/box-item/banner-02.jpg" alt="" />
               </Link>
               <span className="wishlist-button icon-heart" />
               <div className="featured-countdown">{timerx}</div>
@@ -131,7 +132,7 @@ export default function TitileSlider1() {
           <div className="tf-card-box">
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/banner-03.jpg" alt="" />
+                <Image src="/assets/images/box-item/banner-03.jpg" alt="" />
               </Link>
               <span className="wishlist-button icon-heart" />
               <div className="featured-countdown">{timerx}</div>
@@ -156,7 +157,7 @@ export default function TitileSlider1() {
           <div className="tf-card-box">
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/banner-04.jpg" alt="" />
+                <Image src="/assets/images/box-item/banner-04.jpg" alt="" />
               </Link>
               <span className="wishlist-button icon-heart" />
               <div className="featured-countdown">{timerx}</div>
@@ -181,7 +182,7 @@ export default function TitileSlider1() {
           <div className="tf-card-box">
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/banner-05.jpg" alt="" />
+                <Image src="/assets/images/box-item/banner-05.jpg" alt="" />
               </Link>
               <span className="wishlist-button icon-heart" />
               <div className="featured-countdown">{timerx}</div>
@@ -206,7 +207,7 @@ export default function TitileSlider1() {
           <div className="tf-card-box">
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/banner-06.jpg" alt="" />
+                <Image src="/assets/images/box-item/banner-06.jpg" alt="" />
               </Link>
               <span className="wishlist-button icon-heart" />
               <div className="featured-countdown">{timerx}</div>
@@ -231,7 +232,7 @@ export default function TitileSlider1() {
           <div className="tf-card-box">
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/banner-07.jpg" alt="" />
+                <Image src="/assets/images/box-item/banner-07.jpg" alt="" />
               </Link>
               <span className="wishlist-button icon-heart" />
               <div className="featured-countdown">{timerx}</div>
@@ -256,7 +257,7 @@ export default function TitileSlider1() {
           <div className="tf-card-box">
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/banner-01.jpg" alt="" />
+                <Image src="/assets/images/box-item/banner-01.jpg" alt="" />
               </Link>
               <span className="wishlist-button icon-heart" />
               <div className="featured-countdown">{timerx}</div>
@@ -281,7 +282,7 @@ export default function TitileSlider1() {
           <div className="tf-card-box">
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/banner-02.jpg" alt="" />
+                <Image src="/assets/images/box-item/banner-02.jpg" alt="" />
               </Link>
               <span className="wishlist-button icon-heart" />
               <div className="featured-countdown">{timerx}</div>
@@ -306,7 +307,7 @@ export default function TitileSlider1() {
           <div className="tf-card-box">
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/banner-03.jpg" alt="" />
+                <Image src="/assets/images/box-item/banner-03.jpg" alt="" />
               </Link>
               <span className="wishlist-button icon-heart" />
               <div className="featured-countdown">{timerx}</div>
@@ -331,7 +332,7 @@ export default function TitileSlider1() {
           <div className="tf-card-box">
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/banner-04.jpg" alt="" />
+                <Image src="/assets/images/box-item/banner-04.jpg" alt="" />
               </Link>
               <span className="wishlist-button icon-heart" />
               <div className="featured-countdown">{timerx}</div>
@@ -356,7 +357,7 @@ export default function TitileSlider1() {
           <div className="tf-card-box">
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/banner-05.jpg" alt="" />
+                <Image src="/assets/images/box-item/banner-05.jpg" alt="" />
               </Link>
               <span className="wishlist-button icon-heart" />
               <div className="featured-countdown">{timerx}</div>
@@ -381,7 +382,7 @@ export default function TitileSlider1() {
           <div className="tf-card-box">
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/banner-06.jpg" alt="" />
+                <Image src="/assets/images/box-item/banner-06.jpg" alt="" />
               </Link>
               <span className="wishlist-button icon-heart" />
               <div className="featured-countdown">{timerx}</div>
@@ -406,7 +407,7 @@ export default function TitileSlider1() {
           <div className="tf-card-box">
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/banner-07.jpg" alt="" />
+                <Image src="/assets/images/box-item/banner-07.jpg" alt="" />
               </Link>
               <span className="wishlist-button icon-heart" />
               <div className="featured-countdown">{timerx}</div>

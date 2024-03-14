@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Menu } from "@headlessui/react";
 import Link from "next/link";
-import Image from "next/image";
+import Image from "@/components/common/image";
 import BarChart from "@/open9/elements/BarChart";
 import Layout from "@/open9/layout/Layout";
 import FeaturedSlider1 from "@/open9/slider/FeaturedSlider1";
@@ -52,7 +52,7 @@ export default function ArtPiece({ artPiece }) {
                   <div className="tf-card-box style-5 mb-0">
                     <div className="card-media mb-0">
                       <Link href="#">
-                        <img src={artPiece?.assets[0]?.url} alt="" />
+                        <Image src={artPiece?.assets[0]?.url} alt="" />
                       </Link>
                     </div>
                     <h6 className="price gem">
@@ -136,7 +136,7 @@ export default function ArtPiece({ artPiece }) {
                     <h2>{artPiece?.title}</h2>
                     <div className="author flex items-center mb-30">
                       <div className="avatar">
-                        <img
+                        <Image
                           src={
                             artPiece.creator?.profile?.avatar
                               ? artPiece.creator?.profile?.avatar

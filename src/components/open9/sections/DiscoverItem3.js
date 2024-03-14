@@ -1,6 +1,7 @@
 import Countdown from "@/components/elements/Countdown";
 import { Menu } from "@headlessui/react";
 import Link from "next/link";
+import Image from "@/components/common/image";
 import { useState } from "react";
 import BidModal from "../elements/BidModal";
 const currentTime = new Date();
@@ -363,7 +364,7 @@ export default function DiscoverItem3() {
               <div className="tf-card-box style-1">
                 <div className="card-media">
                   <Link href="#">
-                    <img
+                    <Image
                       src="/assets/images/box-item/card-item-17.jpg"
                       alt=""
                     />
@@ -387,7 +388,7 @@ export default function DiscoverItem3() {
                 </h5>
                 <div className="author flex items-center">
                   <div className="avatar">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-box-01.jpg"
                       alt="Image"
                     />
@@ -416,7 +417,7 @@ export default function DiscoverItem3() {
               <div className="tf-card-box style-1">
                 <div className="card-media">
                   <Link href="#">
-                    <img
+                    <Image
                       src="/assets/images/box-item/card-item-18.jpg"
                       alt=""
                     />
@@ -440,7 +441,7 @@ export default function DiscoverItem3() {
                 </h5>
                 <div className="author flex items-center">
                   <div className="avatar">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-box-02.jpg"
                       alt="Image"
                     />
@@ -469,7 +470,7 @@ export default function DiscoverItem3() {
               <div className="tf-card-box style-1">
                 <div className="card-media">
                   <Link href="#">
-                    <img
+                    <Image
                       src="/assets/images/box-item/card-item-19.jpg"
                       alt=""
                     />
@@ -493,7 +494,7 @@ export default function DiscoverItem3() {
                 </h5>
                 <div className="author flex items-center">
                   <div className="avatar">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-box-03.jpg"
                       alt="Image"
                     />
@@ -522,7 +523,7 @@ export default function DiscoverItem3() {
               <div className="tf-card-box style-1">
                 <div className="card-media">
                   <Link href="#">
-                    <img
+                    <Image
                       src="/assets/images/box-item/card-item-20.jpg"
                       alt=""
                     />
@@ -546,7 +547,7 @@ export default function DiscoverItem3() {
                 </h5>
                 <div className="author flex items-center">
                   <div className="avatar">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-box-04.jpg"
                       alt="Image"
                     />
@@ -575,7 +576,7 @@ export default function DiscoverItem3() {
               <div className="tf-card-box style-1">
                 <div className="card-media">
                   <Link href="#">
-                    <img
+                    <Image
                       src="/assets/images/box-item/card-item-21.jpg"
                       alt=""
                     />
@@ -599,7 +600,7 @@ export default function DiscoverItem3() {
                 </h5>
                 <div className="author flex items-center">
                   <div className="avatar">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-box-05.jpg"
                       alt="Image"
                     />
@@ -628,7 +629,7 @@ export default function DiscoverItem3() {
               <div className="tf-card-box style-1">
                 <div className="card-media">
                   <Link href="#">
-                    <img
+                    <Image
                       src="/assets/images/box-item/card-item-22.jpg"
                       alt=""
                     />
@@ -652,7 +653,7 @@ export default function DiscoverItem3() {
                 </h5>
                 <div className="author flex items-center">
                   <div className="avatar">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-box-06.jpg"
                       alt="Image"
                     />
@@ -681,7 +682,7 @@ export default function DiscoverItem3() {
               <div className="tf-card-box style-1">
                 <div className="card-media">
                   <Link href="#">
-                    <img
+                    <Image
                       src="/assets/images/box-item/card-item-23.jpg"
                       alt=""
                     />
@@ -705,7 +706,7 @@ export default function DiscoverItem3() {
                 </h5>
                 <div className="author flex items-center">
                   <div className="avatar">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-box-07.jpg"
                       alt="Image"
                     />
@@ -734,7 +735,7 @@ export default function DiscoverItem3() {
               <div className="tf-card-box style-1">
                 <div className="card-media">
                   <Link href="#">
-                    <img
+                    <Image
                       src="/assets/images/box-item/card-item-24.jpg"
                       alt=""
                     />
@@ -758,7 +759,7 @@ export default function DiscoverItem3() {
                 </h5>
                 <div className="author flex items-center">
                   <div className="avatar">
-                    <img
+                    <Image
                       src="/assets/images/avatar/avatar-box-01.jpg"
                       alt="Image"
                     />

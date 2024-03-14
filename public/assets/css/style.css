@@ -649,7 +649,7 @@ select {
   /* border-radius: 12px; */
   padding: 15px 26px;
   width: 100%;
-  background: #EEEEEE;
+  background: #eeeeee;
   color: #161616;
 }
 
@@ -688,7 +688,7 @@ input[type="color"] {
   /* border-radius: 12px; */
   padding: 15px 26px;
   width: 100%;
-  background: #EEEEEE;
+  background: #eeeeee;
   color: #232323;
 }
 
@@ -1798,7 +1798,7 @@ a:focus {
   display: flex;
   flex-direction: column;
   gap: 30px;
-  background: #EEEEEE;
+  background: #eeeeee;
   width: 281px;
   padding: 40px 0px;
   z-index: 30;
@@ -2157,7 +2157,7 @@ a:focus {
   top: 0;
   right: -340px;
   position: fixed;
-  background-color: #EEEEEE;
+  background-color: #eeeeee;
   z-index: 999999;
   overflow-y: auto;
   -webkit-transition: all 0.5s ease;

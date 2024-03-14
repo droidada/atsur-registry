@@ -2,6 +2,7 @@ import BidModal from "@/open9/elements/BidModal";
 import Layout from "@/open9/layout/Layout";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import Image from "@/components/common/image";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -82,22 +83,22 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="icon-background">
-                    <img
+                    <Image
                       className="absolute item1"
                       src="/assets/images/item-background/item11.png"
                       alt=""
                     />
-                    <img
+                    <Image
                       className="absolute item2"
                       src="/assets/images/item-background/item10.png"
                       alt=""
                     />
-                    <img
+                    <Image
                       className="absolute item3"
                       src="/assets/images/item-background/item12.png"
                       alt=""
                     />
-                    <img
+                    <Image
                       className="absolute item4"
                       src="/assets/images/item-background/item13.png"
                       alt=""
@@ -113,7 +114,7 @@ export default function Home() {
                           <div className="tf-card-box style-7">
                             <div className="card-media">
                               <Link href="#">
-                                <img
+                                <Image
                                   src="/assets/images/box-item/about-us-03.jpg"
                                   alt=""
                                 />
@@ -134,7 +135,7 @@ export default function Home() {
                           <div className="tf-card-box style-7">
                             <div className="card-media">
                               <Link href="#">
-                                <img
+                                <Image
                                   src="/assets/images/box-item/about-us-01.jpg"
                                   alt=""
                                 />
@@ -155,7 +156,7 @@ export default function Home() {
                           <div className="tf-card-box style-7">
                             <div className="card-media">
                               <Link href="#">
-                                <img
+                                <Image
                                   src="/assets/images/box-item/about-us-02.jpg"
                                   alt=""
                                 />
@@ -176,7 +177,7 @@ export default function Home() {
                           <div className="tf-card-box style-7">
                             <div className="card-media">
                               <Link href="#">
-                                <img
+                                <Image
                                   src="/assets/images/box-item/about-us-01.jpg"
                                   alt=""
                                 />
@@ -408,7 +409,7 @@ export default function Home() {
                 </div>
                 <div className="col-md-4">
                   <div className="box-icon-item">
-                    <img
+                    <Image
                       src="/assets/images/item-background/about-01.png"
                       alt=""
                     />
@@ -423,7 +424,7 @@ export default function Home() {
                 </div>
                 <div className="col-md-4">
                   <div className="box-icon-item">
-                    <img
+                    <Image
                       src="/assets/images/item-background/about-02.png"
                       alt=""
                     />
@@ -438,7 +439,7 @@ export default function Home() {
                 </div>
                 <div className="col-md-4">
                   <div className="box-icon-item">
-                    <img
+                    <Image
                       src="/assets/images/item-background/about-03.png"
                       alt=""
                     />
@@ -464,7 +465,7 @@ export default function Home() {
                 </div>
                 <div className="col-md-2 col-6">
                   <div className="our-team-item pb-38 text-center">
-                    <img src="/assets/images/avatar/team-01.png" alt="" />
+                    <Image src="/assets/images/avatar/team-01.png" alt="" />
                     <div className="name">
                       <Link href="#">Marvin McKinney</Link>
                     </div>
@@ -483,7 +484,7 @@ export default function Home() {
                 </div>
                 <div className="col-md-2 col-6">
                   <div className="our-team-item pb-38 text-center">
-                    <img src="/assets/images/avatar/team-02.png" alt="" />
+                    <Image src="/assets/images/avatar/team-02.png" alt="" />
                     <div className="name">
                       <Link href="#">Marvin McKinney</Link>
                     </div>
@@ -502,7 +503,7 @@ export default function Home() {
                 </div>
                 <div className="col-md-2 col-6">
                   <div className="our-team-item pb-38 text-center">
-                    <img src="/assets/images/avatar/team-03.png" alt="" />
+                    <Image src="/assets/images/avatar/team-03.png" alt="" />
                     <div className="name">
                       <Link href="#">Marvin McKinney</Link>
                     </div>
@@ -521,7 +522,7 @@ export default function Home() {
                 </div>
                 <div className="col-md-2 col-6">
                   <div className="our-team-item pb-38 text-center">
-                    <img src="/assets/images/avatar/team-04.png" alt="" />
+                    <Image src="/assets/images/avatar/team-04.png" alt="" />
                     <div className="name">
                       <Link href="#">Marvin McKinney</Link>
                     </div>
@@ -540,7 +541,7 @@ export default function Home() {
                 </div>
                 <div className="col-md-2 col-6">
                   <div className="our-team-item pb-38 text-center">
-                    <img src="/assets/images/avatar/team-05.png" alt="" />
+                    <Image src="/assets/images/avatar/team-05.png" alt="" />
                     <div className="name">
                       <Link href="#">Marvin McKinney</Link>
                     </div>
@@ -559,7 +560,7 @@ export default function Home() {
                 </div>
                 <div className="col-md-2 col-6">
                   <div className="our-team-item pb-38 text-center">
-                    <img src="/assets/images/avatar/team-06.png" alt="" />
+                    <Image src="/assets/images/avatar/team-06.png" alt="" />
                     <div className="name">
                       <Link href="#">Marvin McKinney</Link>
                     </div>
@@ -580,7 +581,7 @@ export default function Home() {
               <div className="row justify-center">
                 <div className="col-md-2 col-6">
                   <div className="our-team-item pb-40 text-center">
-                    <img src="/assets/images/avatar/team-07.png" alt="" />
+                    <Image src="/assets/images/avatar/team-07.png" alt="" />
                     <div className="name">
                       <Link href="#">Marvin McKinney</Link>
                     </div>
@@ -599,7 +600,7 @@ export default function Home() {
                 </div>
                 <div className="col-md-2 col-6">
                   <div className="our-team-item pb-40 text-center">
-                    <img src="/assets/images/avatar/team-08.png" alt="" />
+                    <Image src="/assets/images/avatar/team-08.png" alt="" />
                     <div className="name">
                       <Link href="#">Marvin McKinney</Link>
                     </div>
@@ -618,7 +619,7 @@ export default function Home() {
                 </div>
                 <div className="col-md-2 col-6">
                   <div className="our-team-item pb-40 text-center">
-                    <img src="/assets/images/avatar/team-09.png" alt="" />
+                    <Image src="/assets/images/avatar/team-09.png" alt="" />
                     <div className="name">
                       <Link href="#">Marvin McKinney</Link>
                     </div>
@@ -637,7 +638,7 @@ export default function Home() {
                 </div>
                 <div className="col-md-2 col-6">
                   <div className="our-team-item pb-40 text-center">
-                    <img src="/assets/images/avatar/team-10.png" alt="" />
+                    <Image src="/assets/images/avatar/team-10.png" alt="" />
                     <div className="name">
                       <Link href="#">Marvin McKinney</Link>
                     </div>
@@ -656,7 +657,7 @@ export default function Home() {
                 </div>
                 <div className="col-md-2 col-6">
                   <div className="our-team-item pb-40 text-center">
-                    <img src="/assets/images/avatar/team-11.png" alt="" />
+                    <Image src="/assets/images/avatar/team-11.png" alt="" />
                     <div className="name">
                       <Link href="#">Marvin McKinney</Link>
                     </div>
@@ -1000,27 +1001,27 @@ export default function Home() {
                       <i className="icon-arrow-up-right2" />
                     </Link>
                     <div className="image">
-                      <img
+                      <Image
                         className="iphone"
                         src="/assets/images/box-icon/iphone.png"
                         alt=""
                       />
-                      <img
+                      <Image
                         className="icon-1"
                         src="/assets/images/item-background/item11.png"
                         alt=""
                       />
-                      <img
+                      <Image
                         className="icon-2"
                         src="/assets/images/item-background/item12.png"
                         alt=""
                       />
-                      <img
+                      <Image
                         className="icon-3"
                         src="/assets/images/item-background/item13.png"
                         alt=""
                       />
-                      <img
+                      <Image
                         className="icon-4"
                         src="/assets/images/item-background/item14.png"
                         alt=""

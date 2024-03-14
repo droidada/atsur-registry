@@ -15,7 +15,7 @@ import {
   Dot,
 } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
-import Image from "next/image";
+import Image from "@/components/common/image";
 import RequestInfo from "@/components/artwork/RequestInfo";
 import ContactGallery from "@/components/artwork/ContactGallery";
 import { TransakConfig, Transak } from "@transak/transak-sdk";

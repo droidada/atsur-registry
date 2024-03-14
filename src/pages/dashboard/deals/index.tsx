@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "@/components/common/image";
 import DashboardLayoutWithSidebar, {
   DashboardPages,
 } from "@/components/open9/layout/DashboardLayoutWithSidebar";
@@ -61,7 +62,7 @@ function Organizations() {
                   <div className="tf-card-box style-1">
                     <div className="card-media">
                       <Link href="#">
-                        <img src={org?.image} alt="" />
+                        <Image src={org?.image} width={20} height={20} alt="" />
                       </Link>
                       <span className="wishlist-button icon-heart" />
                       <div className="button-place-bid">
@@ -78,7 +79,7 @@ function Organizations() {
                     </h5>
                     <div className="author flex items-center">
                       <div className="avatar">
-                        <img src="" alt="Image" />
+                        <Image src="" alt="Image" />
                       </div>
                       <div className="info">
                         <span className="tf-color">Created by:</span>

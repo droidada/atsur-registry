@@ -32,7 +32,7 @@ export class CommonWalletV1__factory {
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    signerOrProvider: Signer | Provider,
   ): CommonWalletV1 {
     return new Contract(address, _abi, signerOrProvider) as CommonWalletV1;
   }

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "@/components/common/image";
 
 export default function Footer1() {
   return (
@@ -11,7 +12,7 @@ export default function Footer1() {
                 <div className="widget-logo flex-grow">
                   <div className="logo-footer" id="logo-footer">
                     <Link href="/">
-                      <img
+                      <Image
                         id="logo_footer"
                         src="/images/atsur-logo.svg"
                         data-retina="/images/atsur-logo.svg"
