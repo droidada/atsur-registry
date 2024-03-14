@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import Image from "@/components/common/image";
 import { Autoplay, FreeMode, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import axios from "@/lib/axios";

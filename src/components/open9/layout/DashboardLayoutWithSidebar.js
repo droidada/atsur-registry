@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "@/components/common/image";
 import { useState } from "react";
 import { useAuthContext } from "@/providers/auth.context";
 import Footer1 from "./footer/Footer1";
@@ -101,15 +102,15 @@ const DashboardLayoutWithSidebar = ({
                   />
                 </svg>
               </div>
-              <div
-                className={`avatar_popup ${isToggled2 ? "visible" : ""}`}
-              >
+              <div className={`avatar_popup ${isToggled2 ? "visible" : ""}`}>
                 <h5 className="mb-30">Notification</h5>
                 <div className="widget-recently">
                   <div className="card-small">
                     <div className="author">
-                      <img
-                        src="assets/images/blog/sidebar-06.jpg"
+                      <Image
+                        src="/assets/images/blog/sidebar-06.jpg"
+                        width={60}
+                        height={20}
                         alt=""
                       />
                       <div className="info">
@@ -125,8 +126,10 @@ const DashboardLayoutWithSidebar = ({
                   </div>
                   <div className="card-small">
                     <div className="author">
-                      <img
-                        src="assets/images/blog/sidebar-06.jpg"
+                      <Image
+                        src="/assets/images/blog/sidebar-06.jpg"
+                        width={60}
+                        height={20}
                         alt=""
                       />
                       <div className="info">
@@ -142,8 +145,10 @@ const DashboardLayoutWithSidebar = ({
                   </div>
                   <div className="card-small">
                     <div className="author">
-                      <img
-                        src="assets/images/blog/sidebar-06.jpg"
+                      <Image
+                        src="/assets/images/blog/sidebar-06.jpg"
+                        width={60}
+                        height={20}
                         alt=""
                       />
                       <div className="info">
@@ -159,8 +164,10 @@ const DashboardLayoutWithSidebar = ({
                   </div>
                   <div className="card-small">
                     <div className="author">
-                      <img
-                        src="assets/images/blog/sidebar-06.jpg"
+                      <Image
+                        src="/assets/images/blog/sidebar-06.jpg"
+                        width={60}
+                        height={20}
                         alt=""
                       />
                       <div className="info">
@@ -179,14 +186,9 @@ const DashboardLayoutWithSidebar = ({
             </div>
 
             <div className="popup-user relative">
-              <div
-                className="user flex items-center"
-                onClick={handleToggle}
-              >
-                <img
-                  src={
-                    user?.avatar ? user?.avatar : "/assets/default.jpeg"
-                  }
+              <div className="user flex items-center" onClick={handleToggle}>
+                <Image
+                  src={user?.avatar ? user?.avatar : "/assets/default.jpeg"}
                   alt="profile"
                   className="w-[50px] h-[50px] object-contain"
                 />
@@ -195,9 +197,7 @@ const DashboardLayoutWithSidebar = ({
                   <i className="icon-keyboard_arrow_down text-lg" />
                 </span>
               </div>
-              <div
-                className={`avatar_popup2 ${isToggled ? "visible" : ""}`}
-              >
+              <div className={`avatar_popup2 ${isToggled ? "visible" : ""}`}>
                 <div>
                   <div className="links">
                     <Link
@@ -218,10 +218,7 @@ const DashboardLayoutWithSidebar = ({
                       </svg>
                       <span>My Profile</span>
                     </Link>
-                    <Link
-                      className="flex gap-4 mb-30"
-                      href="/dashboard/wallet"
-                    >
+                    <Link className="flex gap-4 mb-30" href="/dashboard/wallet">
                       <svg
                         width={20}
                         height={18}
@@ -236,11 +233,7 @@ const DashboardLayoutWithSidebar = ({
                       </svg>
                       <span>Wallet</span>
                     </Link>
-                    <Link
-                      className="flex gap-4"
-                      href="/login"
-                      id="logout"
-                    >
+                    <Link className="flex gap-4" href="/login" id="logout">
                       <svg
                         width={20}
                         height={20}
@@ -283,7 +276,12 @@ const DashboardLayoutWithSidebar = ({
               >
                 <div className="box-logo">
                   <Link href="/">
-                    <img src="/images/atsur-logo.svg" alt="" />
+                    <Image
+                      src="/images/atsur-logo.svg"
+                      width={150}
+                      height={20}
+                      alt=""
+                    />
                   </Link>
                 </div>
                 <div className="create menu-tab">
@@ -979,9 +977,7 @@ const DashboardLayoutWithSidebar = ({
                   <p>Made By Atsur Registry</p>
                 </div>
               </div>
-              <div className="content-tabs">
-                {children}
-              </div>
+              <div className="content-tabs">{children}</div>
             </div>
           </div>
         </div>
@@ -993,7 +989,7 @@ const DashboardLayoutWithSidebar = ({
             <div className="widget widget-recently">
               <h5 className="title-widget">Recently added</h5>
               <div className="card-small-main">
-                <img src="assets/images/blog/sidebar-05.jpg" alt="" />
+                <Image src="/assets/images/blog/sidebar-05.jpg" alt="" />
                 <div className="card-bottom">
                   <h5>
                     <Link href="#">Photography</Link>
@@ -1003,7 +999,12 @@ const DashboardLayoutWithSidebar = ({
               </div>
               <div className="card-small">
                 <div className="author">
-                  <img src="assets/images/blog/sidebar-06.jpg" alt="" />
+                  <Image
+                    src="/assets/images/blog/sidebar-06.jpg"
+                    width={60}
+                    height={20}
+                    alt=""
+                  />
                   <div className="info">
                     <h6>
                       <Link href="#">Propw</Link>
@@ -1017,7 +1018,12 @@ const DashboardLayoutWithSidebar = ({
               </div>
               <div className="card-small">
                 <div className="author">
-                  <img src="assets/images/blog/sidebar-07.jpg" alt="" />
+                  <Image
+                    src="/assets/images/blog/sidebar-07.jpg"
+                    width={60}
+                    height={20}
+                    alt=""
+                  />
                   <div className="info">
                     <h6>
                       <Link href="#">Propw</Link>
@@ -1031,7 +1037,12 @@ const DashboardLayoutWithSidebar = ({
               </div>
               <div className="card-small">
                 <div className="author">
-                  <img src="assets/images/blog/sidebar-08.jpg" alt="" />
+                  <Image
+                    src="/assets/images/blog/sidebar-08.jpg"
+                    width={60}
+                    height={20}
+                    alt=""
+                  />
                   <div className="info">
                     <h6>
                       <Link href="#">Propw</Link>
@@ -1054,7 +1065,12 @@ const DashboardLayoutWithSidebar = ({
               <div className="widget-creators-item flex items-center mb-20">
                 <div className="order">1. </div>
                 <div className="author flex items-center flex-grow">
-                  <img src="assets/images/avatar/avatar-small-01.png" alt="" />
+                  <Image
+                    src="/assets/images/avatar/avatar-small-01.png"
+                    width={60}
+                    height={20}
+                    alt=""
+                  />
                   <div className="info">
                     <h6>
                       <Link href="#">Brooklyn Simmons</Link>
@@ -1069,7 +1085,10 @@ const DashboardLayoutWithSidebar = ({
               <div className="widget-creators-item flex items-center mb-20">
                 <div className="order">2. </div>
                 <div className="author flex items-center flex-grow">
-                  <img src="assets/images/avatar/avatar-small-02.png" alt="" />
+                  <Image
+                    src="/assets/images/avatar/avatar-small-02.png"
+                    alt=""
+                  />
                   <div className="info">
                     <h6>
                       <Link href="#">Brooklyn Simmons</Link>
@@ -1084,7 +1103,10 @@ const DashboardLayoutWithSidebar = ({
               <div className="widget-creators-item flex items-center mb-20">
                 <div className="order">3. </div>
                 <div className="author flex items-center flex-grow">
-                  <img src="assets/images/avatar/avatar-small-03.png" alt="" />
+                  <Image
+                    src="/assets/images/avatar/avatar-small-03.png"
+                    alt=""
+                  />
                   <div className="info">
                     <h6>
                       <Link href="#">Brooklyn Simmons</Link>
@@ -1099,7 +1121,10 @@ const DashboardLayoutWithSidebar = ({
               <div className="widget-creators-item flex items-center mb-20">
                 <div className="order">4. </div>
                 <div className="author flex items-center flex-grow">
-                  <img src="assets/images/avatar/avatar-small-04.png" alt="" />
+                  <Image
+                    src="/assets/images/avatar/avatar-small-04.png"
+                    alt=""
+                  />
                   <div className="info">
                     <h6>
                       <Link href="#">Brooklyn Simmons</Link>
@@ -1114,7 +1139,10 @@ const DashboardLayoutWithSidebar = ({
               <div className="widget-creators-item flex items-center">
                 <div className="order">5. </div>
                 <div className="author flex items-center flex-grow">
-                  <img src="assets/images/avatar/avatar-small-01.png" alt="" />
+                  <Image
+                    src="/assets/images/avatar/avatar-small-01.png"
+                    alt=""
+                  />
                   <div className="info">
                     <h6>
                       <Link href="#">Brooklyn Simmons</Link>
@@ -1130,31 +1158,31 @@ const DashboardLayoutWithSidebar = ({
             <div className="widget widget-coins">
               <h5 className="title-widget">Trending coins</h5>
               <div className="widget-coins-item flex items-center mb-20">
-                <img src="assets/images/box-icon/coin-01.png" alt="" />
+                <Image src="/assets/images/box-icon/coin-01.png" alt="" />
                 <p>
                   <Link href="#">Bitcoin</Link>
                 </p>
               </div>
               <div className="widget-coins-item flex items-center mb-20">
-                <img src="assets/images/box-icon/coin-02.png" alt="" />
+                <Image src="/assets/images/box-icon/coin-02.png" alt="" />
                 <p>
                   <Link href="#">Ethereum</Link>
                 </p>
               </div>
               <div className="widget-coins-item flex items-center mb-20">
-                <img src="assets/images/box-icon/coin-03.png" alt="" />
+                <Image src="/assets/images/box-icon/coin-03.png" alt="" />
                 <p>
                   <Link href="#">Cardano</Link>
                 </p>
               </div>
               <div className="widget-coins-item flex items-center mb-20">
-                <img src="assets/images/box-icon/coin-04.png" alt="" />
+                <Image src="/assets/images/box-icon/coin-04.png" alt="" />
                 <p>
                   <Link href="#">Solana</Link>
                 </p>
               </div>
               <div className="widget-coins-item flex items-center">
-                <img src="assets/images/box-icon/coin-05.png" alt="" />
+                <Image src="/assets/images/box-icon/coin-05.png" alt="" />
                 <p>
                   <Link href="#">Litecoin</Link>
                 </p>
@@ -1169,7 +1197,10 @@ const DashboardLayoutWithSidebar = ({
               </div>
               <div className="widget-creators-item flex items-center mb-20">
                 <div className="author flex items-center flex-grow">
-                  <img src="assets/images/avatar/avatar-small-01.png" alt="" />
+                  <Image
+                    src="/assets/images/avatar/avatar-small-01.png"
+                    alt=""
+                  />
                   <div className="info">
                     <h6>
                       <Link href="#">Lorem NFT sold</Link>
@@ -1183,7 +1214,10 @@ const DashboardLayoutWithSidebar = ({
               </div>
               <div className="widget-creators-item flex items-center mb-20">
                 <div className="author flex items-center flex-grow">
-                  <img src="assets/images/avatar/avatar-small-02.png" alt="" />
+                  <Image
+                    src="/assets/images/avatar/avatar-small-02.png"
+                    alt=""
+                  />
                   <div className="info">
                     <h6>
                       <Link href="#">New NFT uploaded</Link>
@@ -1197,7 +1231,10 @@ const DashboardLayoutWithSidebar = ({
               </div>
               <div className="widget-creators-item flex items-center mb-20">
                 <div className="author flex items-center flex-grow">
-                  <img src="assets/images/avatar/avatar-small-03.png" alt="" />
+                  <Image
+                    src="/assets/images/avatar/avatar-small-03.png"
+                    alt=""
+                  />
                   <div className="info">
                     <h6>
                       <Link href="#">You followed a creator</Link>
@@ -1211,7 +1248,10 @@ const DashboardLayoutWithSidebar = ({
               </div>
               <div className="widget-creators-item flex items-center mb-20">
                 <div className="author flex items-center flex-grow">
-                  <img src="assets/images/avatar/avatar-small-04.png" alt="" />
+                  <Image
+                    src="/assets/images/avatar/avatar-small-04.png"
+                    alt=""
+                  />
                   <div className="info">
                     <h6>
                       <Link href="#">You placed a bid</Link>
@@ -1225,7 +1265,10 @@ const DashboardLayoutWithSidebar = ({
               </div>
               <div className="widget-creators-item flex items-center">
                 <div className="author flex items-center flex-grow">
-                  <img src="assets/images/avatar/avatar-small-01.png" alt="" />
+                  <Image
+                    src="/assets/images/avatar/avatar-small-01.png"
+                    alt=""
+                  />
                   <div className="info">
                     <h6>
                       <Link href="#">You followed a creator</Link>

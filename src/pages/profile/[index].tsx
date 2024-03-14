@@ -6,7 +6,7 @@ import {
   Typography,
   Unstable_Grid2 as Grid,
 } from "@mui/material";
-
+import Image from "@/components/common/image";
 import { AccountProfile } from "@/components/profile/profile";
 import { AccountProfileDetails } from "@/components/profile/profileDetails";
 import Layout from "@/open9/layout/Layout";
@@ -20,7 +20,7 @@ const Profile = () => (
             <div className="col-md-6 ml-auto mr-auto">
               <div className="profile">
                 <div className="avatar">
-                  <img
+                  <Image
                     src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU0NjQzOTk4OTQ4OTkyMzQy/ansel-elgort-poses-for-a-portrait-during-the-baby-driver-premiere-2017-sxsw-conference-and-festivals-on-march-11-2017-in-austin-texas-photo-by-matt-winkelmeyer_getty-imagesfor-sxsw-square.jpg"
                     alt="Circle Image"
                     className="img-raised rounded-circle img-fluid"
@@ -108,23 +108,27 @@ const Profile = () => (
             <div className="tab-pane active text-center gallery" id="studio">
               <div className="row">
                 <div className="col-md-3 ml-auto">
-                  <img
+                  <Image
                     src="https://images.unsplash.com/photo-1524498250077-390f9e378fc0?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=83079913579babb9d2c94a5941b2e69d&auto=format&fit=crop&w=751&q=80"
                     className="rounded"
+                    alt={"sample image"}
                   />
-                  <img
+                  <Image
                     src="https://images.unsplash.com/photo-1528249227670-9ba48616014f?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=66b8e7db17b83084f16fdeadfc93b95b&auto=format&fit=crop&w=357&q=80"
                     className="rounded"
+                    alt={"sample image"}
                   />
                 </div>
                 <div className="col-md-3 mr-auto">
-                  <img
+                  <Image
                     src="https://images.unsplash.com/photo-1521341057461-6eb5f40b07ab?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=72da2f550f8cbd0ec252ad6fb89c96b2&auto=format&fit=crop&w=334&q=80"
                     className="rounded"
+                    alt={"sample image"}
                   />
-                  <img
+                  <Image
                     src="https://images.unsplash.com/photo-1506667527953-22eca67dd919?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6326214b7ce18d74dde5e88db4a12dd5&auto=format&fit=crop&w=750&q=80"
                     className="rounded"
+                    alt={"sample image"}
                   />
                 </div>
               </div>
@@ -132,27 +136,32 @@ const Profile = () => (
             <div className="tab-pane text-center gallery" id="works">
               <div className="row">
                 <div className="col-md-3 ml-auto">
-                  <img
+                  <Image
                     src="https://images.unsplash.com/photo-1524498250077-390f9e378fc0?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=83079913579babb9d2c94a5941b2e69d&auto=format&fit=crop&w=751&q=80"
                     className="rounded"
+                    alt={"sample image"}
                   />
-                  <img
+                  <Image
                     src="https://images.unsplash.com/photo-1506667527953-22eca67dd919?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6326214b7ce18d74dde5e88db4a12dd5&auto=format&fit=crop&w=750&q=80"
                     className="rounded"
+                    alt={"sample image"}
                   />
-                  <img
+                  <Image
                     src="https://images.unsplash.com/photo-1505784045224-1247b2b29cf3?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=ec2bdc92a9687b6af5089b335691830e&auto=format&fit=crop&w=750&q=80"
                     className="rounded"
+                    alt={"sample image"}
                   />
                 </div>
                 <div className="col-md-3 mr-auto">
-                  <img
+                  <Image
                     src="https://images.unsplash.com/photo-1504346466600-714572c4b726?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6754ded479383b7e3144de310fa88277&auto=format&fit=crop&w=750&q=80"
                     className="rounded"
+                    alt={"sample image"}
                   />
-                  <img
+                  <Image
                     src="https://images.unsplash.com/photo-1494028698538-2cd52a400b17?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=83bf0e71786922a80c420c17b664a1f5&auto=format&fit=crop&w=334&q=80"
                     className="rounded"
+                    alt={"sample image"}
                   />
                 </div>
               </div>
@@ -160,27 +169,32 @@ const Profile = () => (
             <div className="tab-pane text-center gallery" id="favorite">
               <div className="row">
                 <div className="col-md-3 ml-auto">
-                  <img
+                  <Image
                     src="https://images.unsplash.com/photo-1504346466600-714572c4b726?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6754ded479383b7e3144de310fa88277&auto=format&fit=crop&w=750&q=80"
                     className="rounded"
+                    alt={"sample image"}
                   />
-                  <img
+                  <Image
                     src="https://images.unsplash.com/photo-1494028698538-2cd52a400b17?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=83bf0e71786922a80c420c17b664a1f5&auto=format&fit=crop&w=334&q=80"
                     className="rounded"
+                    alt={"sample image"}
                   />
                 </div>
                 <div className="col-md-3 mr-auto">
-                  <img
+                  <Image
                     src="https://images.unsplash.com/photo-1505784045224-1247b2b29cf3?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=ec2bdc92a9687b6af5089b335691830e&auto=format&fit=crop&w=750&q=80"
                     className="rounded"
+                    alt={"sample image"}
                   />
-                  <img
+                  <Image
                     src="https://images.unsplash.com/photo-1524498250077-390f9e378fc0?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=83079913579babb9d2c94a5941b2e69d&auto=format&fit=crop&w=751&q=80"
                     className="rounded"
+                    alt={"sample image"}
                   />
-                  <img
+                  <Image
                     src="https://images.unsplash.com/photo-1506667527953-22eca67dd919?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6326214b7ce18d74dde5e88db4a12dd5&auto=format&fit=crop&w=750&q=80"
                     className="rounded"
+                    alt={"sample image"}
                   />
                 </div>
               </div>
@@ -203,7 +217,7 @@ export default Profile;
                       <div className="profile-header-cover"></div>
                       <div className="profile-header-content">
                         <div className="profile-header-img">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="" />
+                            <Image src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="" />
                         </div>
                         <div className="profile-header-info">`
                             <h4 className="m-t-10 m-b-5">Sean Ngu</h4>
@@ -234,7 +248,7 @@ export default Profile;
                               </div>
                               <div className="timeline-body">
                                   <div className="timeline-header">
-                                    <span className="userimage"><img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="" /></span>
+                                    <span className="userimage"><Image src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="" /></span>
                                     <span className="username"><a href="javascript:;">Sean Ngu</a> <small></small></span>
                                     <span className="pull-right text-muted">18 Views</span>
                                   </div>
@@ -267,7 +281,7 @@ export default Profile;
                                     <a href="javascript:;" className="m-r-15 text-inverse-lighter"><i className="fa fa-share fa-fw fa-lg m-r-3"></i> Share</a>
                                   </div>
                                   <div className="timeline-comment-box">
-                                    <div className="user"><img src="https://bootdey.com/img/Content/avatar/avatar3.png" /></div>
+                                    <div className="user"><Image src="https://bootdey.com/img/Content/avatar/avatar3.png" /></div>
                                     <div className="input">
                                         <form action="">
                                           <div className="input-group">
@@ -291,7 +305,7 @@ export default Profile;
                               </div>
                               <div className="timeline-body">
                                   <div className="timeline-header">
-                                    <span className="userimage"><img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="" /></span>
+                                    <span className="userimage"><Image src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="" /></span>
                                     <span className="username">Sean Ngu</span>
                                     <span className="pull-right text-muted">82 Views</span>
                                   </div>
@@ -315,7 +329,7 @@ export default Profile;
                               </div>
                               <div className="timeline-body">
                                   <div className="timeline-header">
-                                    <span className="userimage"><img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="" /></span>
+                                    <span className="userimage"><Image src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="" /></span>
                                     <span className="username">Sean Ngu</span>
                                     <span className="pull-right text-muted">1,282 Views</span>
                                   </div>
@@ -343,7 +357,7 @@ export default Profile;
                               </div>
                               <div className="timeline-body">
                                   <div className="timeline-header">
-                                    <span className="userimage"><img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="" /></span>
+                                    <span className="userimage"><Image src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="" /></span>
                                     <span className="username">Sean Ngu</span>
                                     <span className="pull-right text-muted">1,021,282 Views</span>
                                   </div>
@@ -354,7 +368,7 @@ export default Profile;
                                     </h4>
                                     <p>In hac habitasse platea dictumst. Pellentesque bibendum id sem nec faucibus. Maecenas molestie, augue vel accumsan rutrum, massa mi rutrum odio, id luctus mauris nibh ut leo.</p>
                                     <p className="m-t-20">
-                                        <img src="../assets/img/gallery/gallery-5.jpg" alt="" />
+                                        <Image src="../assets/img/gallery/gallery-5.jpg" alt="" />
                                     </p>
                                   </div>
                                   <div className="timeline-footer">

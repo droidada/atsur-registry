@@ -1,12 +1,13 @@
+import React from "react";
+import { getToken } from "next-auth/jwt";
+import axios from "@/lib/axios";
+import Link from "next/link";
+import Image from "@/components/common/image";
 import Layout from "@/components/open9/layout/Layout";
 import FeaturedItem5 from "@/components/open9/sections/FeaturedItem5";
 import FeaturedItem6 from "@/components/open9/sections/FeaturedItem6";
 import Seller7 from "@/components/open9/sections/Seller7";
 import TopCollections5 from "@/components/open9/sections/TopCollections5";
-import React from "react";
-import { getToken } from "next-auth/jwt";
-import axios from "@/lib/axios";
-import Link from "next/link";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -47,7 +48,7 @@ const Index = ({ user }) => {
             }}
           >
             {user?.backgroundImage && (
-              <img
+              <Image
                 src={
                   user?.backgroundImage
                     ? user?.backgroundImage
@@ -59,9 +60,11 @@ const Index = ({ user }) => {
               />
             )}
           </div>
-          <img
+          <Image
             src={user?.avatar ? user?.avatar : "/assets/default-image.jpg"}
             alt="profile"
+            width={20}
+            height={20}
             className=" mt-[-70px] md:mt-[-150px] p-6 w-[100px] md:w-[250px] h-[100px]  md:h-[250px]"
             style={{ borderRadius: "50%" }}
           />

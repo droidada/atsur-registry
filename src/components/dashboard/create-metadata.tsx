@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Image from "@/components/common/image";
 import { useRouter } from "next/router";
 import { object, string, number, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -110,9 +111,9 @@ export default function CreateMetadata({ nextPage = (x) => {} }) {
           <label className="uploadfile h-full flex items-center justify-center">
             <div className="text-center flex flex-col items-center justify-center">
               {previewImg ? (
-                <img className="h-full" src={previewImg} />
+                <Image className="h-full" src={previewImg} />
               ) : (
-                <img src="assets/images/box-icon/upload.png" alt="" />
+                <Image src="/assets/images/box-icon/upload.png" alt="" />
               )}
 
               <h5>Upload file</h5>

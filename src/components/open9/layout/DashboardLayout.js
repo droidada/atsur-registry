@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "@/components/common/image";
 import { useState } from "react";
 
 const DashboardLayout = ({ children, handleOnClick, activeIndex }) => {
@@ -88,7 +89,10 @@ const DashboardLayout = ({ children, handleOnClick, activeIndex }) => {
                     <div className="widget-recently">
                       <div className="card-small">
                         <div className="author">
-                          <img src="assets/images/blog/sidebar-06.jpg" alt="" />
+                          <Image
+                            src="/assets/images/blog/sidebar-06.jpg"
+                            alt=""
+                          />
                           <div className="info">
                             <h6>
                               <Link href="#">Propw</Link>
@@ -102,7 +106,10 @@ const DashboardLayout = ({ children, handleOnClick, activeIndex }) => {
                       </div>
                       <div className="card-small">
                         <div className="author">
-                          <img src="assets/images/blog/sidebar-06.jpg" alt="" />
+                          <Image
+                            src="/assets/images/blog/sidebar-06.jpg"
+                            alt=""
+                          />
                           <div className="info">
                             <h6>
                               <Link href="#">Propw</Link>
@@ -116,7 +123,10 @@ const DashboardLayout = ({ children, handleOnClick, activeIndex }) => {
                       </div>
                       <div className="card-small">
                         <div className="author">
-                          <img src="assets/images/blog/sidebar-06.jpg" alt="" />
+                          <Image
+                            src="/assets/images/blog/sidebar-06.jpg"
+                            alt=""
+                          />
                           <div className="info">
                             <h6>
                               <Link href="#">Propw</Link>
@@ -130,7 +140,10 @@ const DashboardLayout = ({ children, handleOnClick, activeIndex }) => {
                       </div>
                       <div className="card-small">
                         <div className="author">
-                          <img src="assets/images/blog/sidebar-06.jpg" alt="" />
+                          <Image
+                            src="/assets/images/blog/sidebar-06.jpg"
+                            alt=""
+                          />
                           <div className="info">
                             <h6>
                               <Link href="#">Propw</Link>
@@ -148,8 +161,8 @@ const DashboardLayout = ({ children, handleOnClick, activeIndex }) => {
 
                 <div className="popup-user relative">
                   <div className="user" onClick={handleToggle}>
-                    <img
-                      src="assets/images/avatar/avatar-small-09.png"
+                    <Image
+                      src="/assets/images/avatar/avatar-small-09.png"
                       alt=""
                     />
                     <span>
@@ -229,7 +242,7 @@ const DashboardLayout = ({ children, handleOnClick, activeIndex }) => {
             >
               <div className="box-logo">
                 <Link href="/">
-                  <img src="/images/atsur-logo.svg" alt="" />
+                  <Image src="/images/atsur-logo.svg" alt="" />
                 </Link>
               </div>
               <div className="create menu-tab">

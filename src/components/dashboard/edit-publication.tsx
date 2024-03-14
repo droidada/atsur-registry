@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Image from "@/components/common/image";
 import {
   Button,
   TextField,
@@ -22,11 +23,11 @@ export default function EditPublication({
   artPieceId,
   publication = {},
 }: {
-    open: boolean;
-    handleClose: any;
-    artPieceId: string;
-    publication: any;
-  }) {
+  open: boolean;
+  handleClose: any;
+  artPieceId: string;
+  publication: any;
+}) {
   const publicationSchema = object({
     authorName: string().nonempty("Author name is required"),
     articleName: string().nonempty("Article name is required"),
@@ -69,7 +70,7 @@ export default function EditPublication({
     var url = reader.readAsDataURL(file);
 
     reader.onloadend = function (e) {
-        setPublicationImg(reader.result);
+      setPublicationImg(reader.result);
     }.bind(this);
     console.log(url); // Would see a path?
   };
@@ -88,7 +89,10 @@ export default function EditPublication({
       formData.append("attachmentCaption", values.attachmentCaption);
       formData.append("notes", values.notes);
 
-      const result = await axiosAuth.post(`/art-piece/add-publication`, formData);
+      const result = await axiosAuth.post(
+        `/art-piece/add-publication`,
+        formData,
+      );
       console.log("result here is ", result.data);
       handleClose();
     } catch (error) {
@@ -147,9 +151,7 @@ export default function EditPublication({
                   fullWidth
                   error={!!errors["articleName"]}
                   helperText={
-                    errors["articleName"]
-                      ? errors["articleName"].message
-                      : ""
+                    errors["articleName"] ? errors["articleName"].message : ""
                   }
                   {...register("articleName")}
                 />
@@ -179,10 +181,13 @@ export default function EditPublication({
                 <label className="uploadfile h-full flex items-center justify-center">
                   <div className="text-center flex flex-col items-center justify-center">
                     {publicationImg ? (
-                      <img className="h-full" src={publicationImg} />
+                      <Image className="h-full" src={publicationImg} />
                     ) : (
                       <>
-                        <img src="assets/images/box-icon/upload.png" alt="" />
+                        <Image
+                          src="/assets/images/box-icon/upload.png"
+                          alt=""
+                        />
                         {/* <h5 className="text-white">Image</h5> */}
                         <p className="text">
                           Drag or choose attachment to upload

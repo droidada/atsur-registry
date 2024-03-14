@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "@/components/common/image";
 import {
   Autoplay,
   EffectCoverflow,
@@ -49,7 +50,7 @@ export default function TitileSlider4() {
           <div className="tf-card-box style-2 type-2">
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/banner-14.jpg" alt="" />
+                <Image src="/assets/images/box-item/banner-14.jpg" alt="" />
               </Link>
             </div>
             <div className="button-place-bid">
@@ -59,7 +60,7 @@ export default function TitileSlider4() {
             </div>
             <div className="author flex items-center">
               <div className="avatar">
-                <img
+                <Image
                   src="/assets/images/avatar/avatar-box-02.jpg"
                   alt="Image"
                 />
@@ -112,7 +113,7 @@ export default function TitileSlider4() {
           <div className="tf-card-box style-2 type-2">
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/banner-15.jpg" alt="" />
+                <Image src="/assets/images/box-item/banner-15.jpg" alt="" />
               </Link>
             </div>
             <div className="button-place-bid">
@@ -122,7 +123,7 @@ export default function TitileSlider4() {
             </div>
             <div className="author flex items-center">
               <div className="avatar">
-                <img
+                <Image
                   src="/assets/images/avatar/avatar-box-02.jpg"
                   alt="Image"
                 />
@@ -175,7 +176,7 @@ export default function TitileSlider4() {
           <div className="tf-card-box style-2 type-2">
             <div className="card-media">
               <Link href="#">
-                <img src="/assets/images/box-item/banner-14.jpg" alt="" />
+                <Image src="/assets/images/box-item/banner-14.jpg" alt="" />
               </Link>
             </div>
             <div className="button-place-bid">
@@ -185,7 +186,7 @@ export default function TitileSlider4() {
             </div>
             <div className="author flex items-center">
               <div className="avatar">
-                <img
+                <Image
                   src="/assets/images/avatar/avatar-box-02.jpg"
                   alt="Image"
                 />

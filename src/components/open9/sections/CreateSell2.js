@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "@/components/common/image";
 export default function CreateSell2() {
   return (
     <>
@@ -15,7 +16,7 @@ export default function CreateSell2() {
             <div data-wow-delay="0s" className="wow fadeInUp col-lg-3 col-md-6">
               <div className="tf-box-icon style-1 step1 relative">
                 <div className="image">
-                  <img src="/assets/images/box-icon/icon-01.png" alt="" />
+                  <Image src="/assets/images/box-icon/icon-01.png" alt="" />
                   <p>Step 1</p>
                 </div>
                 <h4 className="heading">
@@ -34,7 +35,7 @@ export default function CreateSell2() {
             >
               <div className="tf-box-icon style-1 step2 relative">
                 <div className="image">
-                  <img src="/assets/images/box-icon/icon-02.png" alt="" />
+                  <Image src="/assets/images/box-icon/icon-02.png" alt="" />
                   <p>Step 2</p>
                 </div>
                 <h4 className="heading">
@@ -53,7 +54,7 @@ export default function CreateSell2() {
             >
               <div className="tf-box-icon style-1 step3 relative">
                 <div className="image">
-                  <img src="/assets/images/box-icon/icon-03.png" alt="" />
+                  <Image src="/assets/images/box-icon/icon-03.png" alt="" />
                   <p>Step 3</p>
                 </div>
                 <h4 className="heading">
@@ -72,7 +73,7 @@ export default function CreateSell2() {
             >
               <div className="tf-box-icon style-1 step4 relative">
                 <div className="image">
-                  <img src="/assets/images/box-icon/icon-04.png" alt="" />
+                  <Image src="/assets/images/box-icon/icon-04.png" alt="" />
                   <p>Step 4</p>
                 </div>
                 <h4 className="heading">

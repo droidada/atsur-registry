@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Image from "@/components/common/image";
 import {
   Button,
   TextField,
@@ -176,10 +177,13 @@ export default function EditAppraisal({
                 <label className="uploadfile h-full flex items-center justify-center">
                   <div className="text-center flex flex-col items-center justify-center">
                     {appraisalImg ? (
-                      <img className="h-full" src={appraisalImg} />
+                      <Image className="h-full" src={appraisalImg} />
                     ) : (
                       <>
-                        <img src="assets/images/box-icon/upload.png" alt="" />
+                        <Image
+                          src="/assets/images/box-icon/upload.png"
+                          alt=""
+                        />
                         {/* <h5 className="text-white">Image</h5> */}
                         <p className="text">
                           Drag or choose attachment to upload

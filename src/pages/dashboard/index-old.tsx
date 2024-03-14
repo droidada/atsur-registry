@@ -26,7 +26,7 @@ function Dashboard() {
             title="Total Artists"
             total={2}
             color="success"
-            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
+            // icon={<Image alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
           />
         </Grid>
         <Grid item spacing={0.5} xs={12} sm={6} md={3}>
@@ -34,7 +34,7 @@ function Dashboard() {
             title="Total Artworks"
             total={2}
             color="info"
-            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
+            // icon={<Image alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
           />
         </Grid>
         <Grid item spacing={0.5} xs={12} sm={6} md={3}>
@@ -42,7 +42,7 @@ function Dashboard() {
             title="Total Contracts"
             total={2}
             color="info"
-            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
+            // icon={<Image alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
           />
         </Grid>
         <Grid item spacing={0.5} xs={12} sm={6} md={3}>
@@ -50,7 +50,7 @@ function Dashboard() {
             title="Total Sales"
             total={2}
             color="info"
-            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
+            // icon={<Image alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
           />
         </Grid>
         {/* </Grid> */}

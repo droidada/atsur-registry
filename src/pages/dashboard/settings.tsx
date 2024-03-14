@@ -1,12 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import DashboardLayoutWithSidebar, {
-  DashboardPages,
-} from "@/open9/layout/DashboardLayoutWithSidebar";
-import AutoSlider1 from "@/open9/slider/AutoSlider1";
-import AutoSlider2 from "@/open9/slider/AutoSlider2";
-import { TextField } from "@mui/material";
-import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "@/components/common/image";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { TypeOf, object, string } from "zod";
@@ -14,6 +8,13 @@ import axios from "axios";
 import { useAuthContext } from "@/providers/auth.context";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useToast } from "@/providers/ToastProvider";
+import DashboardLayoutWithSidebar, {
+  DashboardPages,
+} from "@/open9/layout/DashboardLayoutWithSidebar";
+import AutoSlider1 from "@/open9/slider/AutoSlider1";
+import AutoSlider2 from "@/open9/slider/AutoSlider2";
+import { TextField } from "@mui/material";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "@/components/Form/Input";
 
 const pubAPI = process.env.NEXT_PUBLIC_API_ENDPOINT;
@@ -140,8 +141,8 @@ function Settings() {
     }
   };
 
-  const avatarRef = useRef();
-  const bgRef = useRef();
+  const avatarRef = useRef<any>();
+  const bgRef = useRef<any>();
   const toast = useToast();
   // console.log(previewImg);
   return (
@@ -209,7 +210,7 @@ function Settings() {
             />
           </div>
           <div className="flex flex-col gap-4 mt-[-100px] z-10 relative">
-            <img
+            <Image
               src={
                 previewImg
                   ? previewImg
@@ -220,6 +221,7 @@ function Settings() {
               width={200}
               height={200}
               className="rounded-[50%] object-contain"
+              alt={"user avatar"}
             />
             <div
               onClick={() => avatarRef?.current?.click()}

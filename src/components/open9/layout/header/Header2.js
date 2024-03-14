@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { useState } from "react";
+import Image from "@/components/common/image";
 import MobileMenu from "../MobileMenu";
 import { useAuthContext } from "@/providers/auth.context";
+
 export default function Header2({
   scroll,
   isMobileMenu,
@@ -27,7 +29,7 @@ export default function Header2({
                   <div id="site-logo">
                     <div id="site-logo-inner">
                       <Link href="/" rel="home" className="main-logo">
-                        <img
+                        <Image
                           id="logo_header"
                           src="/images/atsur-logo.svg"
                           data-retina="assets/images/logo/logo-dark@2x.png"
@@ -114,7 +116,7 @@ export default function Header2({
           <div className="inner-canvas-nav">
             <div className="side-bar">
               <Link href="/" rel="home" className="main-logo">
-                <img
+                <Image
                   id="logo_header"
                   src="/images/atsur-logo.svg"
                   data-retina="assets/images/logo/logo-dark@2x.png"
@@ -196,10 +198,14 @@ export default function Header2({
                 <h5 className="title-widget to-white">Company</h5>
                 <ul>
                   <li>
-                    <Link style={{color: "#161616 !important"}} href="#">Help center</Link>
+                    <Link style={{ color: "#161616 !important" }} href="#">
+                      Help center
+                    </Link>
                   </li>
                   <li>
-                    <Link style={{color: "#161616 !important"}} href="#">Platform status</Link>
+                    <Link style={{ color: "#161616 !important" }} href="#">
+                      Platform status
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -232,7 +238,7 @@ export default function Header2({
           <div className="overlay-mobile-nav" onClick={handleMobileMenu} />
           <div className="inner-mobile-nav">
             <Link href="/" rel="home" className="main-logo">
-              <img
+              <Image
                 id="mobile-logo_header"
                 src="/images/atsur-logo.svg"
                 data-retina="assets/images/logo/logo-dark@2x.png"

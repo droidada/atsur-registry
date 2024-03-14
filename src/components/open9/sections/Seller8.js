@@ -1,5 +1,6 @@
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import Image from "@/components/common/image";
 
 const swiperOptions = {
   modules: [Autoplay, Pagination, Navigation],
@@ -36,7 +37,7 @@ export default function Seller8() {
               <div className="tf-author-box style-2 hv-border mb-30">
                 <div className="order">#1</div>
                 <div className="author-avatar ">
-                  <img
+                  <Image
                     src="/assets/images/avatar/avatar-08.png"
                     alt=""
                     className="avatar"
@@ -57,7 +58,7 @@ export default function Seller8() {
               <div className="tf-author-box style-2 hv-border mb-30">
                 <div className="order">#2</div>
                 <div className="author-avatar ">
-                  <img
+                  <Image
                     src="/assets/images/avatar/avatar-09.png"
                     alt=""
                     className="avatar"
@@ -78,7 +79,7 @@ export default function Seller8() {
               <div className="tf-author-box style-2 hv-border mb-30">
                 <div className="order">#3</div>
                 <div className="author-avatar ">
-                  <img
+                  <Image
                     src="/assets/images/avatar/avatar-10.png"
                     alt=""
                     className="avatar"
@@ -99,7 +100,7 @@ export default function Seller8() {
               <div className="tf-author-box style-2 hv-border mb-30">
                 <div className="order">#4</div>
                 <div className="author-avatar ">
-                  <img
+                  <Image
                     src="/assets/images/avatar/avatar-11.png"
                     alt=""
                     className="avatar"
@@ -120,7 +121,7 @@ export default function Seller8() {
               <div className="tf-author-box style-2 hv-border mb-30">
                 <div className="order">#5</div>
                 <div className="author-avatar ">
-                  <img
+                  <Image
                     src="/assets/images/avatar/avatar-08.png"
                     alt=""
                     className="avatar"
@@ -141,7 +142,7 @@ export default function Seller8() {
               <div className="tf-author-box style-2 hv-border mb-30">
                 <div className="order">#6</div>
                 <div className="author-avatar ">
-                  <img
+                  <Image
                     src="/assets/images/avatar/avatar-09.png"
                     alt=""
                     className="avatar"
@@ -162,7 +163,7 @@ export default function Seller8() {
               <div className="tf-author-box style-2 hv-border mb-30">
                 <div className="order">#7</div>
                 <div className="author-avatar ">
-                  <img
+                  <Image
                     src="/assets/images/avatar/avatar-08.png"
                     alt=""
                     className="avatar"
@@ -183,7 +184,7 @@ export default function Seller8() {
               <div className="tf-author-box style-2 hv-border mb-30">
                 <div className="order">#8</div>
                 <div className="author-avatar ">
-                  <img
+                  <Image
                     src="/assets/images/avatar/avatar-09.png"
                     alt=""
                     className="avatar"
@@ -204,7 +205,7 @@ export default function Seller8() {
               <div className="tf-author-box style-2 hv-border mb-30">
                 <div className="order">#9</div>
                 <div className="author-avatar ">
-                  <img
+                  <Image
                     src="/assets/images/avatar/avatar-09.png"
                     alt=""
                     className="avatar"

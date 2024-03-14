@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Menu } from "@headlessui/react";
 import Link from "next/link";
-import Image from "next/image";
+import Image from "@/components/common/image";
 import BarChart from "@/open9/elements/BarChart";
 import DashboardLayoutWithSidebar, {
   DashboardPages,
@@ -106,7 +106,7 @@ function ArtPiece({ artPiece }) {
                     <div className="tf-card-box style-5 mb-0">
                       <div className="card-media mb-0">
                         <Link href="#">
-                          <img src={artPiece?.assets[0]?.url} alt="" />
+                          <Image src={artPiece?.assets[0]?.url} alt="" />
                         </Link>
                       </div>
                       <h6 className="price gem">
