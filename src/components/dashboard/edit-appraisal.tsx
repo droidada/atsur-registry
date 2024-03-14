@@ -15,12 +15,20 @@ import { object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
+import SnackBarAlert from "../common/SnackBarAlert";
+import axios from "axios";
+import { LoadingButton } from "@mui/lab";
 
 export default function EditAppraisal({
   open,
   handleClose,
   artPieceId,
-  appraisal = {},
+  appraisal,
+}: {
+  open: boolean;
+  handleClose: any;
+  artPieceId: string;
+  appraisal: any;
 }) {
   const appraisalSchema = object({
     appraiser: string().nonempty("Appraiser is required"),
@@ -39,14 +47,26 @@ export default function EditAppraisal({
     formState: { errors, isSubmitSuccessful },
     reset,
     handleSubmit,
+    setValue,
   } = useForm<AppraisalInput>({
     resolver: zodResolver(appraisalSchema),
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [appraisalImg, setAppraisalImg] = useState(null);
   const axiosAuth = useAxiosAuth();
+
+  useEffect(() => {
+    setValue("appraiser", appraisal?.appraiser || "");
+    setValue("appraiserEmail", appraisal?.appraiserEmail || "");
+    setValue("appraiserWebsite", appraisal?.appraiserWebsite || "");
+    setValue("value", appraisal?.value || "");
+    setValue("currency", appraisal?.currency || "");
+    setValue("attachmentCaption", appraisal?.attachmentCaption || "");
+    setValue("notes", appraisal?.notes || "");
+  }, [appraisal, setValue]);
 
   // useEffect(() => {
   //   if (isSubmitSuccessful) {
@@ -73,8 +93,8 @@ export default function EditAppraisal({
 
   const onSubmitHandler: SubmitHandler<AppraisalInput> = async (values) => {
     try {
-      console.log("submitting here.....");
-      console.log(values);
+      setError(false);
+      setLoading(true);
 
       const formData = new FormData();
       formData.append("attachment", appraisalImg);
@@ -84,16 +104,25 @@ export default function EditAppraisal({
       formData.append("appraiserWebsite", values.appraiserWebsite);
       formData.append("value", values.value);
       formData.append("currency", values.currency);
-      // formData.append("attachment", values.attachment);
       formData.append("attachmentCaption", values.attachmentCaption);
       formData.append("notes", values.notes);
+      formData.append("appraisalId", appraisal?._id);
 
-      const result = await axiosAuth.post(`/art-piece/add-appraisal`, formData);
-      console.log("result here is ", result.data);
+      const result = appraisal
+        ? await axiosAuth.post(`/appraisal/update`, formData)
+        : await axiosAuth.post(`/appraisal/add`, formData);
+
+      reset();
       handleClose();
     } catch (error) {
-      console.log(error);
       setError(true);
+      console.log(error);
+      if (axios.isAxiosError(error)) {
+        setErrorMessage(error?.response?.data?.message);
+      } else {
+        setErrorMessage("Something went wrong. Please try again");
+      }
+    } finally {
       setLoading(false);
     }
   };
@@ -123,6 +152,7 @@ export default function EditAppraisal({
                 placeholder="Dr. Charles Withford"
                 name="appraiser"
                 tabIndex={2}
+                defaultValue={appraisal?.appraiser}
                 aria-required="true"
                 fullWidth
                 error={!!errors["appraiser"]}
@@ -270,11 +300,23 @@ export default function EditAppraisal({
             <Button className="tf-button style-2" onClick={handleClose}>
               Cancel
             </Button>
-            <Button className="tf-button style-1" type="submit">
+            <LoadingButton
+              loading={loading}
+              className="tf-button style-1"
+              type="submit"
+            >
               Submit
-            </Button>
+            </LoadingButton>
           </DialogActions>
         </form>
+
+        <SnackBarAlert
+          type="error"
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          message={errorMessage}
+          open={error}
+          onClose={() => setError(false)}
+        />
       </Dialog>
     </>
   );

@@ -10,23 +10,28 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
+import { LoadingButton } from "@mui/lab";
+import axios from "axios";
+import SnackBarAlert from "../common/SnackBarAlert";
 
 export default function EditPublication({
   open,
   handleClose,
   artPieceId,
-  publication = {},
+  publication,
 }: {
-    open: boolean;
-    handleClose: any;
-    artPieceId: string;
-    publication: any;
-  }) {
+  open: boolean;
+  handleClose: any;
+  artPieceId: string;
+  publication: any;
+}) {
   const publicationSchema = object({
     authorName: string().nonempty("Author name is required"),
     articleName: string().nonempty("Article name is required"),
@@ -42,14 +47,25 @@ export default function EditPublication({
     formState: { errors, isSubmitSuccessful },
     reset,
     handleSubmit,
+    setValue,
   } = useForm<publicationInput>({
     resolver: zodResolver(publicationSchema),
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [publicationImg, setPublicationImg] = useState(null);
   const axiosAuth = useAxiosAuth();
+
+  useEffect(() => {
+    // Set default values for form fields when publication prop changes
+    setValue("authorName", publication?.authorName || "");
+    setValue("articleName", publication?.articleName || "");
+    setValue("publicationName", publication?.publicationName || "");
+    setValue("attachmentCaption", publication?.attachmentCaption || "");
+    setValue("notes", publication?.notes || "");
+  }, [publication, setValue]);
 
   // useEffect(() => {
   //   if (isSubmitSuccessful) {
@@ -69,17 +85,16 @@ export default function EditPublication({
     var url = reader.readAsDataURL(file);
 
     reader.onloadend = function (e) {
-        setPublicationImg(reader.result);
+      setPublicationImg(reader.result);
     }.bind(this);
     console.log(url); // Would see a path?
   };
 
   const onSubmitHandler: SubmitHandler<publicationInput> = async (values) => {
+    setLoading(true);
     try {
-      console.log("submitting here.....");
-      console.log(values);
-
       const formData = new FormData();
+
       formData.append("attachment", publicationImg);
       formData.append("artPieceId", artPieceId);
       formData.append("authorName", values.authorName);
@@ -87,20 +102,37 @@ export default function EditPublication({
       formData.append("publicationName", values.publicationName);
       formData.append("attachmentCaption", values.attachmentCaption);
       formData.append("notes", values.notes);
+      formData.append("publicationId", publication?._id);
 
-      const result = await axiosAuth.post(`/art-piece/add-publication`, formData);
-      console.log("result here is ", result.data);
+      const result = !publication
+        ? await axiosAuth.post(`/publication/add`, formData)
+        : await axiosAuth.post(`/publication/update`, formData);
+
+      setPublicationImg(null);
+      reset();
       handleClose();
     } catch (error) {
-      console.log(error);
+      if (axios.isAxiosError(error)) {
+        setErrorMessage(error?.response?.data?.message);
+      } else {
+        setErrorMessage("Something went wrong. Please try again");
+      }
       setError(true);
+      setLoading(false);
+    } finally {
       setLoading(false);
     }
   };
 
   return (
     <>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog
+        open={open}
+        onClose={() => {
+          reset();
+          handleClose();
+        }}
+      >
         <form
           className="comment-form"
           autoComplete="off"
@@ -147,9 +179,7 @@ export default function EditPublication({
                   fullWidth
                   error={!!errors["articleName"]}
                   helperText={
-                    errors["articleName"]
-                      ? errors["articleName"].message
-                      : ""
+                    errors["articleName"] ? errors["articleName"].message : ""
                   }
                   {...register("articleName")}
                 />
@@ -243,9 +273,21 @@ export default function EditPublication({
             <Button className="tf-button style-2" onClick={handleClose}>
               Cancel
             </Button>
-            <Button className="tf-button style-1" type="submit">
-              Submit
-            </Button>
+            <LoadingButton
+              loading={loading}
+              className="tf-button style-1"
+              type="submit"
+            >
+              {publication ? "Update" : "Submit"}
+            </LoadingButton>
+
+            <SnackBarAlert
+              type="error"
+              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+              message={errorMessage}
+              open={error}
+              onClose={() => setError(false)}
+            />
           </DialogActions>
         </form>
       </Dialog>

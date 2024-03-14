@@ -20,6 +20,9 @@ import useAxiosAuth from "@/hooks/useAxiosAuth";
 import DatePicker from "@/components/common/datepicker";
 import dayjs from "dayjs";
 import { isPast } from "date-fns";
+import SnackBarAlert from "../common/SnackBarAlert";
+import axios from "axios";
+import { LoadingButton } from "@mui/lab";
 
 export default function EditExhibition({
   open,
@@ -43,10 +46,6 @@ export default function EditExhibition({
     organizerWebsite: string(),
     organizerPhone: string(),
     startDate: string().nonempty("Start date is required"),
-    //   date({
-    //   required_error: "Start date is required",
-    //   invalid_type_error: "Format invalid",
-    // }).pipe(coerce.string()),
     endDate: string().nonempty("End Date is required"),
     isCirca: boolean(),
   });
@@ -64,21 +63,33 @@ export default function EditExhibition({
     reset,
     control,
     handleSubmit,
+    setValue,
   } = useForm<ExhibitionInput>({
     resolver: zodResolver(exhibitionSchema),
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [exhibitionImg, setExhibitionImg] = useState(null);
   const axiosAuth = useAxiosAuth();
 
-  console.log("editing exhibition here ", exhibition);
+  useEffect(() => {
+    setValue("name", exhibition?.name || "");
+    setValue("description", exhibition?.description || "");
+    setValue("type", exhibition?.type || "");
+    setValue("showingType", exhibition?.showingType || "");
+    setValue("organizerName", exhibition?.organizerName || "");
+    setValue("organizerLocation", exhibition?.organizerLocation || "");
+    setValue("organizerWebsite", exhibition?.organizerWebsite || "");
+    setValue("organizerEmail", exhibition?.organizerEmail || "");
+    setValue("organizerPhone", exhibition?.organizerPhone || "");
+  }, [exhibition, setValue]);
+
   useEffect(() => {
     setError(false);
     // setSuccess(false);
   }, []);
-  console.log("we have form errors ehre .....", errors);
 
   const handleUploadClick = (event) => {
     var file = event.target.files[0];
@@ -93,7 +104,8 @@ export default function EditExhibition({
 
   const onSubmitHandler: SubmitHandler<ExhibitionInput> = async (values) => {
     try {
-      console.log("submitting here.....");
+      setError(false);
+      setLoading(true);
 
       const formData = new FormData();
       formData.append("image", exhibitionImg);
@@ -107,20 +119,26 @@ export default function EditExhibition({
       formData.append("organizerWebsite", values.organizerWebsite);
       formData.append("organizerEmail", values.organizerEmail);
       formData.append("organizerPhone", values.organizerPhone);
+      formData.append("exhibitionId", exhibition?._id);
       // formData.append("startDate", values.startDate);
       // formData.append("endDate", values.endDate);
       // formData.append("isCirca", values.isCirca.toString());
 
-      const result = await axiosAuth.post(
-        `/art-piece/add-exhibition`,
-        formData,
-      );
+      const result = exhibition
+        ? await axiosAuth.post(`/exhibition/update`, formData)
+        : await axiosAuth.post(`/exhibition/add`, formData);
 
-      console.log("result here is ", result.data);
+      reset();
       handleClose();
     } catch (error) {
-      console.log(error);
       setError(true);
+      console.log(error);
+      if (axios.isAxiosError(error)) {
+        setErrorMessage(error?.response?.data?.message);
+      } else {
+        setErrorMessage("Something went wrong. Please try again");
+      }
+    } finally {
       setLoading(false);
     }
   };
@@ -150,7 +168,7 @@ export default function EditExhibition({
                 tabIndex={2}
                 aria-required="true"
                 fullWidth
-                defaultValue={exhibition.name}
+                defaultValue={exhibition?.name}
                 error={!!errors["name"]}
                 helperText={errors["name"] ? errors["name"].message : ""}
                 {...register("name")}
@@ -167,7 +185,7 @@ export default function EditExhibition({
                 aria-required="true"
                 fullWidth
                 multiline
-                defaultValue={exhibition.description}
+                defaultValue={exhibition?.description}
                 rows={3}
                 error={!!errors["description"]}
                 helperText={
@@ -212,7 +230,7 @@ export default function EditExhibition({
                   fullWidth
                   error={!!errors["showingType"]}
                   {...register("showingType")}
-                  defaultValue={exhibition.showingType}
+                  defaultValue={exhibition?.showingType}
                 >
                   <MenuItem>Select</MenuItem>
                   <MenuItem value="solo">Solo</MenuItem>
@@ -226,7 +244,7 @@ export default function EditExhibition({
                   tabIndex={2}
                   name="type"
                   id="type"
-                  defaultValue={exhibition.type}
+                  defaultValue={exhibition?.type}
                   fullWidth
                   error={!!errors["type"]}
                   {...register("type")}
@@ -241,7 +259,9 @@ export default function EditExhibition({
               <fieldset className="collection">
                 <label className="to-white">Start Date</label>
                 <DatePicker
+                  // @ts-ignore
                   {...register("startDate", { name: "startDate" })}
+                  // @ts-ignore
                   name="startDate"
                   defaultValue={exhibition?.date?.startDate ?? null}
                   control={control}
@@ -254,7 +274,9 @@ export default function EditExhibition({
               <fieldset className="collection">
                 <label className="to-white">End Date</label>
                 <DatePicker
+                  // @ts-ignore
                   {...register("endDate", { name: "endDate" })}
+                  // @ts-ignore
                   defaultValue={exhibition?.date?.endDate ?? null}
                   name="endDate"
                   control={control}
@@ -401,11 +423,23 @@ export default function EditExhibition({
             <Button className="tf-button style-2" onClick={handleClose}>
               Cancel
             </Button>
-            <Button className="tf-button style-1" type="submit">
+            <LoadingButton
+              loading={loading}
+              className="tf-button style-1"
+              type="submit"
+            >
               Submit
-            </Button>
+            </LoadingButton>
           </DialogActions>
         </form>
+
+        <SnackBarAlert
+          type="error"
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          message={errorMessage}
+          open={error}
+          onClose={() => setError(false)}
+        />
       </Dialog>
     </>
   );
