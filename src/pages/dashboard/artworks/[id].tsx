@@ -35,6 +35,7 @@ import {
 import EditAppraisal from "@/components/dashboard/edit-appraisal";
 import { useRouter } from "next/router";
 import EditPublication from "@/components/dashboard/edit-publication";
+import DeleteDialog from "@/components/dashboard/DeleteDialog";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -67,8 +68,14 @@ function ArtPiece({ artPiece }) {
   const [editedAppraisal, setEditedAppraisal] = useState({});
   const [editPublication, setEditPublication] = useState(false);
   const [editedPublication, setEditedPublication] = useState({});
-
-  console.log(artPiece.publications);
+  const [openDiaglog, setOpenDialog] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<{
+    itemType: "publication" | "exhibition" | "appraisal" | "";
+    itemId: string;
+  }>({
+    itemId: "",
+    itemType: "",
+  });
 
   return (
     <>
@@ -214,6 +221,13 @@ function ArtPiece({ artPiece }) {
                                             />
                                           </IconButton>
                                           <IconButton
+                                            onClick={() => {
+                                              setOpenDialog(true);
+                                              setItemToDelete({
+                                                itemId: exhibition?._id,
+                                                itemType: "exhibition",
+                                              });
+                                            }}
                                             edge="end"
                                             aria-label="delete"
                                           >
@@ -239,7 +253,10 @@ function ArtPiece({ artPiece }) {
                             </List>
                             <button
                               className="tf-button style-1"
-                              onClick={() => setEditExhibition(true)}
+                              onClick={() => {
+                                setEditedExhibition(null);
+                                setEditExhibition(true);
+                              }}
                             >
                               Add
                             </button>
@@ -266,10 +283,21 @@ function ArtPiece({ artPiece }) {
                                         <IconButton
                                           edge="end"
                                           aria-label="edit"
+                                          onClick={() => {
+                                            setEditedAppraisal(a);
+                                            setEditAppraisal(true);
+                                          }}
                                         >
                                           <EditIcon />
                                         </IconButton>
                                         <IconButton
+                                          onClick={() => {
+                                            setOpenDialog(true);
+                                            setItemToDelete({
+                                              itemId: a?._id,
+                                              itemType: "appraisal",
+                                            });
+                                          }}
                                           edge="end"
                                           aria-label="delete"
                                         >
@@ -323,10 +351,21 @@ function ArtPiece({ artPiece }) {
                                         <IconButton
                                           edge="end"
                                           aria-label="edit"
+                                          onClick={() => {
+                                            setEditPublication(true);
+                                            setEditedPublication(a);
+                                          }}
                                         >
                                           <EditIcon />
                                         </IconButton>
                                         <IconButton
+                                          onClick={() => {
+                                            setOpenDialog(true);
+                                            setItemToDelete({
+                                              itemId: a?._id,
+                                              itemType: "publication",
+                                            });
+                                          }}
                                           edge="end"
                                           aria-label="delete"
                                         >
@@ -357,7 +396,10 @@ function ArtPiece({ artPiece }) {
                             </List>
                             <button
                               className="tf-button style-1"
-                              onClick={() => setEditPublication(true)}
+                              onClick={() => {
+                                setEditPublication(true);
+                                setEditedPublication(null);
+                              }}
                             >
                               Add
                             </button>
@@ -438,6 +480,16 @@ function ArtPiece({ artPiece }) {
           setEditPublication(false);
           router.replace(router.asPath);
         }}
+      />
+
+      <DeleteDialog
+        open={openDiaglog}
+        onClose={() => {
+          setOpenDialog(false);
+          router.replace(router.asPath);
+        }}
+        itemToDelete={itemToDelete}
+        artPieceId={artPiece._id}
       />
     </>
   );
