@@ -8,16 +8,23 @@ import { Controller } from "react-hook-form";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import dayjs from "dayjs";
 
-const DatePicker = React.forwardRef(function DatePicker(props) {
-  const [value, setValue] = React.useState(null);
-  const { name, label = "date", error, helperText, control, ...rest } = props;
+const DatePicker = React.forwardRef(function DatePicker({
+  name,
+  label = "date",
+  error,
+  helperText,
+  control,
+  defaultValue,
+  ...rest
+}) {
+  // const { name, label = "date", error, helperText, control, ...rest } = props;
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Controller
         name={name}
         control={control}
-        defaultValue={null}
+        defaultValue={defaultValue ?? null}
         {...rest}
         render={({ field: { onChange, value } }) => {
           return (
@@ -30,7 +37,7 @@ const DatePicker = React.forwardRef(function DatePicker(props) {
                 //  error
                 onChange(newValue?.format("YYYY-MM-DD").toString());
               }}
-              defaultValue={null}
+              defaultValue={defaultValue ?? null}
               value={dayjs(value)}
               sx={{ width: "100%" }}
               views={["year", "month", "day"]}

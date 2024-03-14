@@ -1,5 +1,6 @@
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import Image from "@/components/common/image";
 
 const swiperOptions = {
   modules: [Autoplay, Pagination, Navigation],
@@ -38,7 +39,7 @@ export default function Seller5() {
             <div data-wow-delay="0s" className="wow fadeInUp col-md-4">
               <div className="tf-author-box style-2 hv-border mb-30">
                 <div className="author-avatar ">
-                  <img
+                  <Image
                     src="/assets/images/avatar/avatar-01.png"
                     alt=""
                     className="avatar"
@@ -59,7 +60,7 @@ export default function Seller5() {
             <div data-wow-delay="0.1s" className="wow fadeInUp col-md-4">
               <div className="tf-author-box style-2 hv-border mb-30">
                 <div className="author-avatar ">
-                  <img
+                  <Image
                     src="/assets/images/avatar/avatar-02.png"
                     alt=""
                     className="avatar"
@@ -80,7 +81,7 @@ export default function Seller5() {
             <div data-wow-delay="0.2s" className="wow fadeInUp col-md-4">
               <div className="tf-author-box style-2 hv-border mb-30">
                 <div className="author-avatar ">
-                  <img
+                  <Image
                     src="/assets/images/avatar/avatar-03.png"
                     alt=""
                     className="avatar"
@@ -101,7 +102,7 @@ export default function Seller5() {
             <div data-wow-delay="0s" className="wow fadeInUp col-md-4">
               <div className="tf-author-box style-2 hv-border mb-30">
                 <div className="author-avatar ">
-                  <img
+                  <Image
                     src="/assets/images/avatar/avatar-04.png"
                     alt=""
                     className="avatar"
@@ -122,7 +123,7 @@ export default function Seller5() {
             <div data-wow-delay="0.1s" className="wow fadeInUp col-md-4">
               <div className="tf-author-box style-2 hv-border mb-30">
                 <div className="author-avatar ">
-                  <img
+                  <Image
                     src="/assets/images/avatar/avatar-05.png"
                     alt=""
                     className="avatar"
@@ -143,7 +144,7 @@ export default function Seller5() {
             <div data-wow-delay="0.2s" className="wow fadeInUp col-md-4">
               <div className="tf-author-box style-2 hv-border mb-30">
                 <div className="author-avatar ">
-                  <img
+                  <Image
                     src="/assets/images/avatar/avatar-06.png"
                     alt=""
                     className="avatar"
@@ -164,7 +165,7 @@ export default function Seller5() {
             <div data-wow-delay="0s" className="wow fadeInUp col-md-4">
               <div className="tf-author-box style-2 hv-border mb-30 no-border-b">
                 <div className="author-avatar ">
-                  <img
+                  <Image
                     src="/assets/images/avatar/avatar-01.png"
                     alt=""
                     className="avatar"
@@ -185,7 +186,7 @@ export default function Seller5() {
             <div data-wow-delay="0.1s" className="wow fadeInUp col-md-4">
               <div className="tf-author-box style-2 hv-border mb-30 no-border-b">
                 <div className="author-avatar ">
-                  <img
+                  <Image
                     src="/assets/images/avatar/avatar-03.png"
                     alt=""
                     className="avatar"
@@ -206,7 +207,7 @@ export default function Seller5() {
             <div data-wow-delay="0.2s" className="wow fadeInUp col-md-4">
               <div className="tf-author-box style-2 hv-border mb-30 no-border-b">
                 <div className="author-avatar ">
-                  <img
+                  <Image
                     src="/assets/images/avatar/avatar-02.png"
                     alt=""
                     className="avatar"

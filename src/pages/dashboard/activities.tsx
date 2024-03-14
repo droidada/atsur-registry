@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "@/components/common/image";
 import { Menu } from "@headlessui/react";
 import DashboardLayoutWithSidebar, {
   DashboardPages,
@@ -171,8 +172,8 @@ function Activities() {
                 <div className="widget-history">
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-01.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-01.png"
                         alt=""
                       />
                       <div className="info">
@@ -188,8 +189,8 @@ function Activities() {
                   </div>
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-02.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-02.png"
                         alt=""
                       />
                       <div className="info">
@@ -205,8 +206,8 @@ function Activities() {
                   </div>
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-03.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-03.png"
                         alt=""
                       />
                       <div className="info">
@@ -222,8 +223,8 @@ function Activities() {
                   </div>
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-04.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-04.png"
                         alt=""
                       />
                       <div className="info">
@@ -239,8 +240,8 @@ function Activities() {
                   </div>
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-01.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-01.png"
                         alt=""
                       />
                       <div className="info">
@@ -256,8 +257,8 @@ function Activities() {
                   </div>
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-01.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-01.png"
                         alt=""
                       />
                       <div className="info">
@@ -273,8 +274,8 @@ function Activities() {
                   </div>
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-02.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-02.png"
                         alt=""
                       />
                       <div className="info">
@@ -290,8 +291,8 @@ function Activities() {
                   </div>
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-03.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-03.png"
                         alt=""
                       />
                       <div className="info">
@@ -307,8 +308,8 @@ function Activities() {
                   </div>
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-04.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-04.png"
                         alt=""
                       />
                       <div className="info">
@@ -324,8 +325,8 @@ function Activities() {
                   </div>
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-01.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-01.png"
                         alt=""
                       />
                       <div className="info">
@@ -341,8 +342,8 @@ function Activities() {
                   </div>
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-03.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-03.png"
                         alt=""
                       />
                       <div className="info">
@@ -358,8 +359,8 @@ function Activities() {
                   </div>
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-04.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-04.png"
                         alt=""
                       />
                       <div className="info">
@@ -382,8 +383,8 @@ function Activities() {
                 <div className="widget-history">
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-01.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-01.png"
                         alt=""
                       />
                       <div className="info">
@@ -399,8 +400,8 @@ function Activities() {
                   </div>
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-02.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-02.png"
                         alt=""
                       />
                       <div className="info">
@@ -416,8 +417,8 @@ function Activities() {
                   </div>
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-03.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-03.png"
                         alt=""
                       />
                       <div className="info">
@@ -433,8 +434,8 @@ function Activities() {
                   </div>
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-04.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-04.png"
                         alt=""
                       />
                       <div className="info">
@@ -450,8 +451,8 @@ function Activities() {
                   </div>
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-01.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-01.png"
                         alt=""
                       />
                       <div className="info">
@@ -467,8 +468,8 @@ function Activities() {
                   </div>
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-01.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-01.png"
                         alt=""
                       />
                       <div className="info">
@@ -491,8 +492,8 @@ function Activities() {
                 <div className="widget-history">
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-01.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-01.png"
                         alt=""
                       />
                       <div className="info">
@@ -508,8 +509,8 @@ function Activities() {
                   </div>
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-02.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-02.png"
                         alt=""
                       />
                       <div className="info">
@@ -525,8 +526,8 @@ function Activities() {
                   </div>
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-03.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-03.png"
                         alt=""
                       />
                       <div className="info">
@@ -542,8 +543,8 @@ function Activities() {
                   </div>
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-04.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-04.png"
                         alt=""
                       />
                       <div className="info">
@@ -559,8 +560,8 @@ function Activities() {
                   </div>
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-01.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-01.png"
                         alt=""
                       />
                       <div className="info">
@@ -576,8 +577,8 @@ function Activities() {
                   </div>
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-01.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-01.png"
                         alt=""
                       />
                       <div className="info">
@@ -600,8 +601,8 @@ function Activities() {
                 <div className="widget-history">
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-01.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-01.png"
                         alt=""
                       />
                       <div className="info">
@@ -617,8 +618,8 @@ function Activities() {
                   </div>
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-02.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-02.png"
                         alt=""
                       />
                       <div className="info">
@@ -634,8 +635,8 @@ function Activities() {
                   </div>
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-03.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-03.png"
                         alt=""
                       />
                       <div className="info">
@@ -651,8 +652,8 @@ function Activities() {
                   </div>
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-04.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-04.png"
                         alt=""
                       />
                       <div className="info">
@@ -668,8 +669,8 @@ function Activities() {
                   </div>
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-01.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-01.png"
                         alt=""
                       />
                       <div className="info">
@@ -685,8 +686,8 @@ function Activities() {
                   </div>
                   <div className="widget-creators-item flex items-center">
                     <div className="author flex items-center flex-grow">
-                      <img
-                        src="assets/images/avatar/avatar-small-01.png"
+                      <Image
+                        src="/assets/images/avatar/avatar-small-01.png"
                         alt=""
                       />
                       <div className="info">

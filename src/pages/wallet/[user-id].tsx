@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Image from "next/image";
+import Image from "@/components/common/image";
 import UploadIcon from "@/components/icons/UploadIcon";
 import WithdrawalIcon from "@/components/icons/WithdrawalIcon";
 import Layout from "@/components/layout/layout";
@@ -293,7 +293,7 @@ function Wallet() {
                   <div className="h-full flex-1 grow">
                     <div className="flex items-center justify-center h-full flex-col gap-9 py-14">
                       <div>
-                        <img src="/images/pic.svg" />
+                        <Image src="/images/pic.svg" />
                       </div>
                       <div>No recent transactions</div>
                     </div>

@@ -2,7 +2,7 @@ import Layout from "@/components/layout/layout";
 import { Checkbox, Divider, FormControlLabel, FormGroup } from "@mui/material";
 import React from "react";
 import image from "../../../../assets/image1.png";
-import Image from "next/image";
+import Image from "@/components/common/image";
 import { notFound } from "next/navigation";
 
 const data = {

@@ -1,9 +1,10 @@
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import Image from "@/components/common/image";
 import axios from "@/lib/axios";
+import { Menu } from "@headlessui/react";
 import BidModal from "@/open9/elements/BidModal";
 import Layout from "@/open9/layout/Layout";
-import { Menu } from "@headlessui/react";
-import Link from "next/link";
-import { useEffect, useState } from "react";
 
 export default function Explore() {
   const [isBidModal, setBidModal] = useState(false);
@@ -230,7 +231,10 @@ export default function Explore() {
                               <div className="tf-card-box style-1">
                                 <div className="card-media">
                                   <Link href="#">
-                                    <img src={artPiece.assets[0].url} alt="" />
+                                    <Image
+                                      src={artPiece.assets[0].url}
+                                      alt=""
+                                    />
                                   </Link>
                                   <span className="wishlist-button icon-heart" />
                                   <div className="button-place-bid">
@@ -247,7 +251,7 @@ export default function Explore() {
                                 </h5>
                                 <div className="author flex items-center">
                                   <div className="avatar">
-                                    <img
+                                    <Image
                                       src={
                                         artPiece?.author?.avatar
                                           ? artPiece?.author?.avatar
@@ -284,7 +288,7 @@ export default function Explore() {
                             <div className="tf-card-box style-1">
                               <div className="card-media">
                                 <Link href="#">
-                                  <img
+                                  <Image
                                     src="/assets/images/box-item/card-item-54.jpg"
                                     alt=""
                                   />
@@ -305,7 +309,7 @@ export default function Explore() {
                               </h5>
                               <div className="author flex items-center">
                                 <div className="avatar">
-                                  <img
+                                  <Image
                                     src="/assets/images/avatar/avatar-box-03.jpg"
                                     alt="Image"
                                   />
@@ -331,7 +335,7 @@ export default function Explore() {
                             <div className="tf-card-box style-1">
                               <div className="card-media">
                                 <Link href="#">
-                                  <img
+                                  <Image
                                     src="/assets/images/box-item/card-item-55.jpg"
                                     alt=""
                                   />
@@ -352,7 +356,7 @@ export default function Explore() {
                               </h5>
                               <div className="author flex items-center">
                                 <div className="avatar">
-                                  <img
+                                  <Image
                                     src="/assets/images/avatar/avatar-box-03.jpg"
                                     alt="Image"
                                   />
@@ -378,7 +382,7 @@ export default function Explore() {
                             <div className="tf-card-box style-1">
                               <div className="card-media">
                                 <Link href="#">
-                                  <img
+                                  <Image
                                     src="/assets/images/box-item/card-item-56.jpg"
                                     alt=""
                                   />
@@ -399,7 +403,7 @@ export default function Explore() {
                               </h5>
                               <div className="author flex items-center">
                                 <div className="avatar">
-                                  <img
+                                  <Image
                                     src="/assets/images/avatar/avatar-box-03.jpg"
                                     alt="Image"
                                   />
@@ -425,7 +429,7 @@ export default function Explore() {
                             <div className="tf-card-box style-1">
                               <div className="card-media">
                                 <Link href="#">
-                                  <img
+                                  <Image
                                     src="/assets/images/box-item/card-item-27.jpg"
                                     alt=""
                                   />
@@ -446,7 +450,7 @@ export default function Explore() {
                               </h5>
                               <div className="author flex items-center">
                                 <div className="avatar">
-                                  <img
+                                  <Image
                                     src="/assets/images/avatar/avatar-box-05.jpg"
                                     alt="Image"
                                   />
@@ -472,7 +476,7 @@ export default function Explore() {
                             <div className="tf-card-box style-1">
                               <div className="card-media">
                                 <Link href="#">
-                                  <img
+                                  <Image
                                     src="/assets/images/box-item/card-item-28.jpg"
                                     alt=""
                                   />
@@ -493,7 +497,7 @@ export default function Explore() {
                               </h5>
                               <div className="author flex items-center">
                                 <div className="avatar">
-                                  <img
+                                  <Image
                                     src="/assets/images/avatar/avatar-box-06.jpg"
                                     alt="Image"
                                   />
@@ -519,7 +523,7 @@ export default function Explore() {
                             <div className="tf-card-box style-1">
                               <div className="card-media">
                                 <Link href="#">
-                                  <img
+                                  <Image
                                     src="/assets/images/box-item/card-item-29.jpg"
                                     alt=""
                                   />
@@ -540,7 +544,7 @@ export default function Explore() {
                               </h5>
                               <div className="author flex items-center">
                                 <div className="avatar">
-                                  <img
+                                  <Image
                                     src="/assets/images/avatar/avatar-box-07.jpg"
                                     alt="Image"
                                   />
@@ -566,7 +570,7 @@ export default function Explore() {
                             <div className="tf-card-box style-1">
                               <div className="card-media">
                                 <Link href="#">
-                                  <img
+                                  <Image
                                     src="/assets/images/box-item/card-item-30.jpg"
                                     alt=""
                                   />
@@ -587,7 +591,7 @@ export default function Explore() {
                               </h5>
                               <div className="author flex items-center">
                                 <div className="avatar">
-                                  <img
+                                  <Image
                                     src="/assets/images/avatar/avatar-box-01.jpg"
                                     alt="Image"
                                   />
@@ -613,7 +617,7 @@ export default function Explore() {
                             <div className="tf-card-box style-1">
                               <div className="card-media">
                                 <Link href="#">
-                                  <img
+                                  <Image
                                     src="/assets/images/box-item/card-item-12.jpg"
                                     alt=""
                                   />
@@ -634,7 +638,7 @@ export default function Explore() {
                               </h5>
                               <div className="author flex items-center">
                                 <div className="avatar">
-                                  <img
+                                  <Image
                                     src="/assets/images/avatar/avatar-box-03.jpg"
                                     alt="Image"
                                   />
@@ -660,7 +664,7 @@ export default function Explore() {
                             <div className="tf-card-box style-1">
                               <div className="card-media">
                                 <Link href="#">
-                                  <img
+                                  <Image
                                     src="/assets/images/box-item/card-item-13.jpg"
                                     alt=""
                                   />
@@ -681,7 +685,7 @@ export default function Explore() {
                               </h5>
                               <div className="author flex items-center">
                                 <div className="avatar">
-                                  <img
+                                  <Image
                                     src="/assets/images/avatar/avatar-box-03.jpg"
                                     alt="Image"
                                   />
@@ -719,7 +723,7 @@ export default function Explore() {
                             <div className="tf-card-box style-1">
                               <div className="card-media">
                                 <Link href="#">
-                                  <img
+                                  <Image
                                     src="/assets/images/box-item/card-item-53.jpg"
                                     alt=""
                                   />
@@ -740,7 +744,7 @@ export default function Explore() {
                               </h5>
                               <div className="author flex items-center">
                                 <div className="avatar">
-                                  <img
+                                  <Image
                                     src="/assets/images/avatar/avatar-box-03.jpg"
                                     alt="Image"
                                   />
@@ -769,7 +773,7 @@ export default function Explore() {
                             <div className="tf-card-box style-1">
                               <div className="card-media">
                                 <Link href="#">
-                                  <img
+                                  <Image
                                     src="/assets/images/box-item/card-item-54.jpg"
                                     alt=""
                                   />
@@ -790,7 +794,7 @@ export default function Explore() {
                               </h5>
                               <div className="author flex items-center">
                                 <div className="avatar">
-                                  <img
+                                  <Image
                                     src="/assets/images/avatar/avatar-box-03.jpg"
                                     alt="Image"
                                   />
@@ -819,7 +823,7 @@ export default function Explore() {
                             <div className="tf-card-box style-1">
                               <div className="card-media">
                                 <Link href="#">
-                                  <img
+                                  <Image
                                     src="/assets/images/box-item/card-item-55.jpg"
                                     alt=""
                                   />
@@ -840,7 +844,7 @@ export default function Explore() {
                               </h5>
                               <div className="author flex items-center">
                                 <div className="avatar">
-                                  <img
+                                  <Image
                                     src="/assets/images/avatar/avatar-box-03.jpg"
                                     alt="Image"
                                   />
@@ -869,7 +873,7 @@ export default function Explore() {
                             <div className="tf-card-box style-1">
                               <div className="card-media">
                                 <Link href="#">
-                                  <img
+                                  <Image
                                     src="/assets/images/box-item/card-item-56.jpg"
                                     alt=""
                                   />
@@ -890,7 +894,7 @@ export default function Explore() {
                               </h5>
                               <div className="author flex items-center">
                                 <div className="avatar">
-                                  <img
+                                  <Image
                                     src="/assets/images/avatar/avatar-box-03.jpg"
                                     alt="Image"
                                   />
@@ -919,7 +923,7 @@ export default function Explore() {
                             <div className="tf-card-box style-1">
                               <div className="card-media">
                                 <Link href="#">
-                                  <img
+                                  <Image
                                     src="/assets/images/box-item/card-item-27.jpg"
                                     alt=""
                                   />
@@ -940,7 +944,7 @@ export default function Explore() {
                               </h5>
                               <div className="author flex items-center">
                                 <div className="avatar">
-                                  <img
+                                  <Image
                                     src="/assets/images/avatar/avatar-box-05.jpg"
                                     alt="Image"
                                   />
@@ -969,7 +973,7 @@ export default function Explore() {
                             <div className="tf-card-box style-1">
                               <div className="card-media">
                                 <Link href="#">
-                                  <img
+                                  <Image
                                     src="/assets/images/box-item/card-item-28.jpg"
                                     alt=""
                                   />
@@ -990,7 +994,7 @@ export default function Explore() {
                               </h5>
                               <div className="author flex items-center">
                                 <div className="avatar">
-                                  <img
+                                  <Image
                                     src="/assets/images/avatar/avatar-box-06.jpg"
                                     alt="Image"
                                   />
@@ -1019,7 +1023,7 @@ export default function Explore() {
                             <div className="tf-card-box style-1">
                               <div className="card-media">
                                 <Link href="#">
-                                  <img
+                                  <Image
                                     src="/assets/images/box-item/card-item-29.jpg"
                                     alt=""
                                   />
@@ -1040,7 +1044,7 @@ export default function Explore() {
                               </h5>
                               <div className="author flex items-center">
                                 <div className="avatar">
-                                  <img
+                                  <Image
                                     src="/assets/images/avatar/avatar-box-07.jpg"
                                     alt="Image"
                                   />
@@ -1069,7 +1073,7 @@ export default function Explore() {
                             <div className="tf-card-box style-1">
                               <div className="card-media">
                                 <Link href="#">
-                                  <img
+                                  <Image
                                     src="/assets/images/box-item/card-item-30.jpg"
                                     alt=""
                                   />
@@ -1090,7 +1094,7 @@ export default function Explore() {
                               </h5>
                               <div className="author flex items-center">
                                 <div className="avatar">
-                                  <img
+                                  <Image
                                     src="/assets/images/avatar/avatar-box-01.jpg"
                                     alt="Image"
                                   />
@@ -1119,7 +1123,7 @@ export default function Explore() {
                             <div className="tf-card-box style-1">
                               <div className="card-media">
                                 <Link href="#">
-                                  <img
+                                  <Image
                                     src="/assets/images/box-item/card-item-12.jpg"
                                     alt=""
                                   />
@@ -1140,7 +1144,7 @@ export default function Explore() {
                               </h5>
                               <div className="author flex items-center">
                                 <div className="avatar">
-                                  <img
+                                  <Image
                                     src="/assets/images/avatar/avatar-box-03.jpg"
                                     alt="Image"
                                   />
@@ -1169,7 +1173,7 @@ export default function Explore() {
                             <div className="tf-card-box style-1">
                               <div className="card-media">
                                 <Link href="#">
-                                  <img
+                                  <Image
                                     src="/assets/images/box-item/card-item-13.jpg"
                                     alt=""
                                   />
@@ -1190,7 +1194,7 @@ export default function Explore() {
                               </h5>
                               <div className="author flex items-center">
                                 <div className="avatar">
-                                  <img
+                                  <Image
                                     src="/assets/images/avatar/avatar-box-03.jpg"
                                     alt="Image"
                                   />
@@ -1219,7 +1223,7 @@ export default function Explore() {
                             <div className="tf-card-box style-1">
                               <div className="card-media">
                                 <Link href="#">
-                                  <img
+                                  <Image
                                     src="/assets/images/box-item/card-item-14.jpg"
                                     alt=""
                                   />
@@ -1240,7 +1244,7 @@ export default function Explore() {
                               </h5>
                               <div className="author flex items-center">
                                 <div className="avatar">
-                                  <img
+                                  <Image
                                     src="/assets/images/avatar/avatar-box-03.jpg"
                                     alt="Image"
                                   />
@@ -1269,7 +1273,7 @@ export default function Explore() {
                             <div className="tf-card-box style-1">
                               <div className="card-media">
                                 <Link href="#">
-                                  <img
+                                  <Image
                                     src="/assets/images/box-item/card-item-15.jpg"
                                     alt=""
                                   />
@@ -1290,7 +1294,7 @@ export default function Explore() {
                               </h5>
                               <div className="author flex items-center">
                                 <div className="avatar">
-                                  <img
+                                  <Image
                                     src="/assets/images/avatar/avatar-box-03.jpg"
                                     alt="Image"
                                   />
@@ -1319,7 +1323,7 @@ export default function Explore() {
                             <div className="tf-card-box style-1">
                               <div className="card-media">
                                 <Link href="#">
-                                  <img
+                                  <Image
                                     src="/assets/images/box-item/card-item-57.jpg"
                                     alt=""
                                   />
@@ -1340,7 +1344,7 @@ export default function Explore() {
                               </h5>
                               <div className="author flex items-center">
                                 <div className="avatar">
-                                  <img
+                                  <Image
                                     src="/assets/images/avatar/avatar-box-03.jpg"
                                     alt="Image"
                                   />
@@ -1369,7 +1373,7 @@ export default function Explore() {
                             <div className="tf-card-box style-1">
                               <div className="card-media">
                                 <Link href="#">
-                                  <img
+                                  <Image
                                     src="/assets/images/box-item/card-item-58.jpg"
                                     alt=""
                                   />
@@ -1390,7 +1394,7 @@ export default function Explore() {
                               </h5>
                               <div className="author flex items-center">
                                 <div className="avatar">
-                                  <img
+                                  <Image
                                     src="/assets/images/avatar/avatar-box-03.jpg"
                                     alt="Image"
                                   />
@@ -1419,7 +1423,7 @@ export default function Explore() {
                             <div className="tf-card-box style-1">
                               <div className="card-media">
                                 <Link href="#">
-                                  <img
+                                  <Image
                                     src="/assets/images/box-item/card-item-59.jpg"
                                     alt=""
                                   />
@@ -1440,7 +1444,7 @@ export default function Explore() {
                               </h5>
                               <div className="author flex items-center">
                                 <div className="avatar">
-                                  <img
+                                  <Image
                                     src="/assets/images/avatar/avatar-box-03.jpg"
                                     alt="Image"
                                   />
@@ -1469,7 +1473,7 @@ export default function Explore() {
                             <div className="tf-card-box style-1">
                               <div className="card-media">
                                 <Link href="#">
-                                  <img
+                                  <Image
                                     src="/assets/images/box-item/card-item-60.jpg"
                                     alt=""
                                   />
@@ -1490,7 +1494,7 @@ export default function Explore() {
                               </h5>
                               <div className="author flex items-center">
                                 <div className="avatar">
-                                  <img
+                                  <Image
                                     src="/assets/images/avatar/avatar-box-03.jpg"
                                     alt="Image"
                                   />

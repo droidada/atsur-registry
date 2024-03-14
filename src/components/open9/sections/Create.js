@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "@/components/common/image";
 import { useState } from "react";
 
 const RadioButton = ({ id, text, name, onChange, checked, value }) => {
@@ -14,7 +15,7 @@ const RadioButton = ({ id, text, name, onChange, checked, value }) => {
         checked={checked}
       />
       <div className="box-icon-item">
-        <img src="/assets/images/box-icon/address.png" alt="" />
+        <Image src="/assets/images/box-icon/address.png" alt="" />
         <div className="title">
           <Link href="#">Artist</Link>
         </div>
@@ -79,7 +80,7 @@ export default function Create() {
                 <form action="#" className="h-full">
                   <label className="uploadfile h-full flex items-center justify-center">
                     <div className="text-center">
-                      <img src="assets/images/box-icon/upload.png" alt="" />
+                      <Image src="/assets/images/box-icon/upload.png" alt="" />
                       <h5>Upload file</h5>
                       <p className="text">Drag or choose your file to upload</p>
                       <div className="text filename">
@@ -162,31 +163,46 @@ export default function Create() {
                     <label>Blockchain</label>
                     <div className="widget-coins flex gap30 flex-wrap">
                       <div className="widget-coins-item flex items-center">
-                        <img src="assets/images/box-icon/coin-01.png" alt="" />
+                        <Image
+                          src="/assets/images/box-icon/coin-01.png"
+                          alt=""
+                        />
                         <p>
                           <Link href="#">Bitcoin</Link>
                         </p>
                       </div>
                       <div className="widget-coins-item flex items-center">
-                        <img src="assets/images/box-icon/coin-02.png" alt="" />
+                        <Image
+                          src="/assets/images/box-icon/coin-02.png"
+                          alt=""
+                        />
                         <p>
                           <Link href="#">Ethereum</Link>
                         </p>
                       </div>
                       <div className="widget-coins-item flex items-center">
-                        <img src="assets/images/box-icon/coin-03.png" alt="" />
+                        <Image
+                          src="/assets/images/box-icon/coin-03.png"
+                          alt=""
+                        />
                         <p>
                           <Link href="#">Cardano</Link>
                         </p>
                       </div>
                       <div className="widget-coins-item flex items-center">
-                        <img src="assets/images/box-icon/coin-04.png" alt="" />
+                        <Image
+                          src="/assets/images/box-icon/coin-04.png"
+                          alt=""
+                        />
                         <p>
                           <Link href="#">Solana</Link>
                         </p>
                       </div>
                       <div className="widget-coins-item flex items-center">
-                        <img src="assets/images/box-icon/coin-05.png" alt="" />
+                        <Image
+                          src="/assets/images/box-icon/coin-05.png"
+                          alt=""
+                        />
                         <p>
                           <Link href="#">Litecoin</Link>
                         </p>
@@ -242,7 +258,7 @@ export default function Create() {
               <div className="wrap-upload w-full">
                 <form action="#">
                   <label className="uploadfile" style={{ marginBottom: "3%" }}>
-                    <img src="assets/images/box-icon/upload.png" alt="" />
+                    <Image src="/assets/images/box-icon/upload.png" alt="" />
                     <h5 className="to-white">Left Angle View</h5>
                     <p className="text">Drag or choose your file to upload</p>
                     <div className="text filename">
@@ -252,7 +268,7 @@ export default function Create() {
                   </label>
                   <br />
                   <label className="uploadfile" style={{ marginBottom: "3%" }}>
-                    <img src="assets/images/box-icon/upload.png" alt="" />
+                    <Image src="/assets/images/box-icon/upload.png" alt="" />
                     <h5 className="to-white">Right Angle View</h5>
                     <p className="text">Drag or choose your file to upload</p>
                     <div className="text filename">
@@ -262,7 +278,7 @@ export default function Create() {
                   </label>{" "}
                   <br />
                   <label className="uploadfile">
-                    <img src="assets/images/box-icon/upload.png" alt="" />
+                    <Image src="/assets/images/box-icon/upload.png" alt="" />
                     <h5 className="to-white">Mounted</h5>
                     <p className="text">Drag or choose your file to upload</p>
                     <div className="text filename">
@@ -322,7 +338,10 @@ export default function Create() {
                         className="wow fadeInUp col-md-4"
                       >
                         <div className="box-icon-item">
-                          <img src="/assets/images/box-icon/email.png" alt="" />
+                          <Image
+                            src="/assets/images/box-icon/email.png"
+                            alt=""
+                          />
                           <div className="title">
                             <Link href="#">Broker</Link>
                           </div>
@@ -334,7 +353,10 @@ export default function Create() {
                         className="wow fadeInUp col-md-4"
                       >
                         <div className="box-icon-item">
-                          <img src="/assets/images/box-icon/phone.png" alt="" />
+                          <Image
+                            src="/assets/images/box-icon/phone.png"
+                            alt=""
+                          />
                           <div className="title">
                             <Link href="#">Collector</Link>
                           </div>
@@ -418,31 +440,46 @@ export default function Create() {
                     <label>Blockchain</label>
                     <div className="widget-coins flex gap30 flex-wrap">
                       <div className="widget-coins-item flex items-center">
-                        <img src="assets/images/box-icon/coin-01.png" alt="" />
+                        <Image
+                          src="/assets/images/box-icon/coin-01.png"
+                          alt=""
+                        />
                         <p>
                           <Link href="#">Bitcoin</Link>
                         </p>
                       </div>
                       <div className="widget-coins-item flex items-center">
-                        <img src="assets/images/box-icon/coin-02.png" alt="" />
+                        <Image
+                          src="/assets/images/box-icon/coin-02.png"
+                          alt=""
+                        />
                         <p>
                           <Link href="#">Ethereum</Link>
                         </p>
                       </div>
                       <div className="widget-coins-item flex items-center">
-                        <img src="assets/images/box-icon/coin-03.png" alt="" />
+                        <Image
+                          src="/assets/images/box-icon/coin-03.png"
+                          alt=""
+                        />
                         <p>
                           <Link href="#">Cardano</Link>
                         </p>
                       </div>
                       <div className="widget-coins-item flex items-center">
-                        <img src="assets/images/box-icon/coin-04.png" alt="" />
+                        <Image
+                          src="/assets/images/box-icon/coin-04.png"
+                          alt=""
+                        />
                         <p>
                           <Link href="#">Solana</Link>
                         </p>
                       </div>
                       <div className="widget-coins-item flex items-center">
-                        <img src="assets/images/box-icon/coin-05.png" alt="" />
+                        <Image
+                          src="/assets/images/box-icon/coin-05.png"
+                          alt=""
+                        />
                         <p>
                           <Link href="#">Litecoin</Link>
                         </p>

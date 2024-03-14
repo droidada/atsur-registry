@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "@/components/common/image";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -15,7 +16,7 @@ const SideBar = ({ showMobile }) => {
           <div className="px-6 py-4 flex items-center justify-center border-b border-gray-100">
             <Link href="/">
               <span className="">
-                <img src="/images/logo.svg" />
+                <Image src="/images/logo.svg" />
               </span>
             </Link>
           </div>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "@/components/common/image";
 import TitileSlider4 from "../slider/TitileSlider4";
 export default function FlatTitle4() {
   return (
@@ -34,12 +35,12 @@ export default function FlatTitle4() {
               <div className="banner__right relative">
                 <div className="logo-rotate">
                   <div className="logoimg">
-                    <img
+                    <Image
                       src="/assets/images/item-background/item6-img.png"
                       alt=""
                     />
                   </div>
-                  <img
+                  <Image
                     className="logotext"
                     src="/assets/images/item-background/item6-text.png"
                     alt=""

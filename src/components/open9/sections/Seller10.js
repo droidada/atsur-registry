@@ -1,5 +1,6 @@
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import Image from "@/components/common/image";
 
 const swiperOptions = {
   modules: [Autoplay, Pagination, Navigation],
@@ -58,7 +59,7 @@ export default function Seller10() {
                   <SwiperSlide>
                     <div className="tf-category text-center">
                       <div className="card-media">
-                        <img
+                        <Image
                           src="/assets/images/box-item/iconcategory-01.png"
                           alt=""
                         />
@@ -72,7 +73,7 @@ export default function Seller10() {
                   <SwiperSlide>
                     <div className="tf-category text-center">
                       <div className="card-media">
-                        <img
+                        <Image
                           src="/assets/images/box-item/iconcategory-02.png"
                           alt=""
                         />
@@ -86,7 +87,7 @@ export default function Seller10() {
                   <SwiperSlide>
                     <div className="tf-category text-center">
                       <div className="card-media">
-                        <img
+                        <Image
                           src="/assets/images/box-item/iconcategory-03.png"
                           alt=""
                         />
@@ -100,7 +101,7 @@ export default function Seller10() {
                   <SwiperSlide>
                     <div className="tf-category text-center">
                       <div className="card-media">
-                        <img
+                        <Image
                           src="/assets/images/box-item/iconcategory-04.png"
                           alt=""
                         />
@@ -114,7 +115,7 @@ export default function Seller10() {
                   <SwiperSlide>
                     <div className="tf-category text-center">
                       <div className="card-media">
-                        <img
+                        <Image
                           src="/assets/images/box-item/iconcategory-05.png"
                           alt=""
                         />
@@ -128,7 +129,7 @@ export default function Seller10() {
                   <SwiperSlide>
                     <div className="tf-category text-center">
                       <div className="card-media">
-                        <img
+                        <Image
                           src="/assets/images/box-item/iconcategory-06.png"
                           alt=""
                         />
@@ -142,7 +143,7 @@ export default function Seller10() {
                   <SwiperSlide>
                     <div className="tf-category text-center">
                       <div className="card-media">
-                        <img
+                        <Image
                           src="/assets/images/box-item/iconcategory-01.png"
                           alt=""
                         />
@@ -156,7 +157,7 @@ export default function Seller10() {
                   <SwiperSlide>
                     <div className="tf-category text-center">
                       <div className="card-media">
-                        <img
+                        <Image
                           src="/assets/images/box-item/iconcategory-02.png"
                           alt=""
                         />

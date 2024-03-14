@@ -1,6 +1,7 @@
 import { TextField } from "@mui/material";
 import Layout from "@/open9/layout/Layout";
 import Link from "next/link";
+import Image from "@/components/common/image";
 import { useState, useEffect } from "react";
 import { object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -225,15 +226,15 @@ export default function SignUp() {
                   <div className="other">or continue</div>
                   <div className="login-other">
                     <Link href="#" className="login-other-item">
-                      <img src="/assets/images/google.png" alt="" />
+                      <Image src="/assets/images/google.png" alt="" />
                       <span>Login with google</span>
                     </Link>
                     <Link href="#" className="login-other-item">
-                      <img src="/assets/images/facebook.png" alt="" />
+                      <Image src="/assets/images/facebook.png" alt="" />
                       <span>Login with facebook</span>
                     </Link>
                     <Link href="#" className="login-other-item">
-                      <img src="/assets/images/apple.png" alt="" />
+                      <Image src="/assets/images/apple.png" alt="" />
                       <span>Login with apple</span>
                     </Link>
                   </div>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "@/components/common/image";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -38,19 +39,28 @@ export default function FeaturedSlider5() {
             <div className="tf-category style-1 text-center">
               <div className="card-media">
                 <div className="box-top">
-                  <img
+                  <Image
                     src="/assets/images/box-item/category-tl-01.jpg"
                     alt=""
                   />
-                  <img
+                  <Image
                     src="/assets/images/box-item/category-tr-01.jpg"
                     alt=""
                   />
                 </div>
                 <div className="box-bottom">
-                  <img src="/assets/images/box-item/category-b-01.jpg" alt="" />
-                  <img src="/assets/images/box-item/category-b-02.jpg" alt="" />
-                  <img src="/assets/images/box-item/category-b-03.jpg" alt="" />
+                  <Image
+                    src="/assets/images/box-item/category-b-01.jpg"
+                    alt=""
+                  />
+                  <Image
+                    src="/assets/images/box-item/category-b-02.jpg"
+                    alt=""
+                  />
+                  <Image
+                    src="/assets/images/box-item/category-b-03.jpg"
+                    alt=""
+                  />
                 </div>
                 <Link href="#">
                   <i className="icon-arrow-up-right2" />
@@ -63,19 +73,28 @@ export default function FeaturedSlider5() {
             <div className="tf-category style-1 text-center">
               <div className="card-media">
                 <div className="box-top">
-                  <img
+                  <Image
                     src="/assets/images/box-item/category-tl-02.jpg"
                     alt=""
                   />
-                  <img
+                  <Image
                     src="/assets/images/box-item/category-tr-02.jpg"
                     alt=""
                   />
                 </div>
                 <div className="box-bottom">
-                  <img src="/assets/images/box-item/category-b-04.jpg" alt="" />
-                  <img src="/assets/images/box-item/category-b-05.jpg" alt="" />
-                  <img src="/assets/images/box-item/category-b-06.jpg" alt="" />
+                  <Image
+                    src="/assets/images/box-item/category-b-04.jpg"
+                    alt=""
+                  />
+                  <Image
+                    src="/assets/images/box-item/category-b-05.jpg"
+                    alt=""
+                  />
+                  <Image
+                    src="/assets/images/box-item/category-b-06.jpg"
+                    alt=""
+                  />
                 </div>
                 <Link href="#">
                   <i className="icon-arrow-up-right2" />
@@ -88,19 +107,28 @@ export default function FeaturedSlider5() {
             <div className="tf-category style-1 text-center">
               <div className="card-media">
                 <div className="box-top">
-                  <img
+                  <Image
                     src="/assets/images/box-item/category-tl-03.jpg"
                     alt=""
                   />
-                  <img
+                  <Image
                     src="/assets/images/box-item/category-tr-03.jpg"
                     alt=""
                   />
                 </div>
                 <div className="box-bottom">
-                  <img src="/assets/images/box-item/category-b-07.jpg" alt="" />
-                  <img src="/assets/images/box-item/category-b-08.jpg" alt="" />
-                  <img src="/assets/images/box-item/category-b-09.jpg" alt="" />
+                  <Image
+                    src="/assets/images/box-item/category-b-07.jpg"
+                    alt=""
+                  />
+                  <Image
+                    src="/assets/images/box-item/category-b-08.jpg"
+                    alt=""
+                  />
+                  <Image
+                    src="/assets/images/box-item/category-b-09.jpg"
+                    alt=""
+                  />
                 </div>
                 <Link href="#">
                   <i className="icon-arrow-up-right2" />
@@ -113,19 +141,28 @@ export default function FeaturedSlider5() {
             <div className="tf-category style-1 text-center">
               <div className="card-media">
                 <div className="box-top">
-                  <img
+                  <Image
                     src="/assets/images/box-item/category-tl-04.jpg"
                     alt=""
                   />
-                  <img
+                  <Image
                     src="/assets/images/box-item/category-tr-04.jpg"
                     alt=""
                   />
                 </div>
                 <div className="box-bottom">
-                  <img src="/assets/images/box-item/category-b-10.jpg" alt="" />
-                  <img src="/assets/images/box-item/category-b-11.jpg" alt="" />
-                  <img src="/assets/images/box-item/category-b-12.jpg" alt="" />
+                  <Image
+                    src="/assets/images/box-item/category-b-10.jpg"
+                    alt=""
+                  />
+                  <Image
+                    src="/assets/images/box-item/category-b-11.jpg"
+                    alt=""
+                  />
+                  <Image
+                    src="/assets/images/box-item/category-b-12.jpg"
+                    alt=""
+                  />
                 </div>
                 <Link href="#">
                   <i className="icon-arrow-up-right2" />
@@ -138,19 +175,28 @@ export default function FeaturedSlider5() {
             <div className="tf-category style-1 text-center">
               <div className="card-media">
                 <div className="box-top">
-                  <img
+                  <Image
                     src="/assets/images/box-item/category-tl-05.jpg"
                     alt=""
                   />
-                  <img
+                  <Image
                     src="/assets/images/box-item/category-tr-05.jpg"
                     alt=""
                   />
                 </div>
                 <div className="box-bottom">
-                  <img src="/assets/images/box-item/category-b-13.jpg" alt="" />
-                  <img src="/assets/images/box-item/category-b-14.jpg" alt="" />
-                  <img src="/assets/images/box-item/category-b-15.jpg" alt="" />
+                  <Image
+                    src="/assets/images/box-item/category-b-13.jpg"
+                    alt=""
+                  />
+                  <Image
+                    src="/assets/images/box-item/category-b-14.jpg"
+                    alt=""
+                  />
+                  <Image
+                    src="/assets/images/box-item/category-b-15.jpg"
+                    alt=""
+                  />
                 </div>
                 <Link href="#">
                   <i className="icon-arrow-up-right2" />
@@ -163,19 +209,28 @@ export default function FeaturedSlider5() {
             <div className="tf-category style-1 text-center">
               <div className="card-media">
                 <div className="box-top">
-                  <img
+                  <Image
                     src="/assets/images/box-item/category-tl-05.jpg"
                     alt=""
                   />
-                  <img
+                  <Image
                     src="/assets/images/box-item/category-tr-05.jpg"
                     alt=""
                   />
                 </div>
                 <div className="box-bottom">
-                  <img src="/assets/images/box-item/category-b-13.jpg" alt="" />
-                  <img src="/assets/images/box-item/category-b-14.jpg" alt="" />
-                  <img src="/assets/images/box-item/category-b-15.jpg" alt="" />
+                  <Image
+                    src="/assets/images/box-item/category-b-13.jpg"
+                    alt=""
+                  />
+                  <Image
+                    src="/assets/images/box-item/category-b-14.jpg"
+                    alt=""
+                  />
+                  <Image
+                    src="/assets/images/box-item/category-b-15.jpg"
+                    alt=""
+                  />
                 </div>
                 <Link href="#">
                   <i className="icon-arrow-up-right2" />
@@ -188,19 +243,28 @@ export default function FeaturedSlider5() {
             <div className="tf-category style-1 text-center">
               <div className="card-media">
                 <div className="box-top">
-                  <img
+                  <Image
                     src="/assets/images/box-item/category-tl-06.jpg"
                     alt=""
                   />
-                  <img
+                  <Image
                     src="/assets/images/box-item/category-tr-06.jpg"
                     alt=""
                   />
                 </div>
                 <div className="box-bottom">
-                  <img src="/assets/images/box-item/category-b-16.jpg" alt="" />
-                  <img src="/assets/images/box-item/category-b-17.jpg" alt="" />
-                  <img src="/assets/images/box-item/category-b-18.jpg" alt="" />
+                  <Image
+                    src="/assets/images/box-item/category-b-16.jpg"
+                    alt=""
+                  />
+                  <Image
+                    src="/assets/images/box-item/category-b-17.jpg"
+                    alt=""
+                  />
+                  <Image
+                    src="/assets/images/box-item/category-b-18.jpg"
+                    alt=""
+                  />
                 </div>
                 <Link href="#">
                   <i className="icon-arrow-up-right2" />
@@ -213,19 +277,28 @@ export default function FeaturedSlider5() {
             <div className="tf-category style-1 text-center">
               <div className="card-media">
                 <div className="box-top">
-                  <img
+                  <Image
                     src="/assets/images/box-item/category-tl-07.jpg"
                     alt=""
                   />
-                  <img
+                  <Image
                     src="/assets/images/box-item/category-tr-07.jpg"
                     alt=""
                   />
                 </div>
                 <div className="box-bottom">
-                  <img src="/assets/images/box-item/category-b-07.jpg" alt="" />
-                  <img src="/assets/images/box-item/category-b-01.jpg" alt="" />
-                  <img src="/assets/images/box-item/category-b-13.jpg" alt="" />
+                  <Image
+                    src="/assets/images/box-item/category-b-07.jpg"
+                    alt=""
+                  />
+                  <Image
+                    src="/assets/images/box-item/category-b-01.jpg"
+                    alt=""
+                  />
+                  <Image
+                    src="/assets/images/box-item/category-b-13.jpg"
+                    alt=""
+                  />
                 </div>
                 <Link href="#">
                   <i className="icon-arrow-up-right2" />
@@ -238,19 +311,28 @@ export default function FeaturedSlider5() {
             <div className="tf-category style-1 text-center">
               <div className="card-media">
                 <div className="box-top">
-                  <img
+                  <Image
                     src="/assets/images/box-item/category-tl-05.jpg"
                     alt=""
                   />
-                  <img
+                  <Image
                     src="/assets/images/box-item/category-tr-05.jpg"
                     alt=""
                   />
                 </div>
                 <div className="box-bottom">
-                  <img src="/assets/images/box-item/category-b-13.jpg" alt="" />
-                  <img src="/assets/images/box-item/category-b-14.jpg" alt="" />
-                  <img src="/assets/images/box-item/category-b-15.jpg" alt="" />
+                  <Image
+                    src="/assets/images/box-item/category-b-13.jpg"
+                    alt=""
+                  />
+                  <Image
+                    src="/assets/images/box-item/category-b-14.jpg"
+                    alt=""
+                  />
+                  <Image
+                    src="/assets/images/box-item/category-b-15.jpg"
+                    alt=""
+                  />
                 </div>
                 <Link href="#">
                   <i className="icon-arrow-up-right2" />

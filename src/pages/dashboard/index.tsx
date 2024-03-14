@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "@/components/common/image";
 import DashboardLayout from "@/open9/layout/DashboardLayout";
 import { useState } from "react";
 import CreateMetadata from "@/components/dashboard/create-metadata";
@@ -217,10 +218,16 @@ export default function Home() {
             </button>
             <div className="modal-body">
               <div className="image">
-                <img src="assets/images/backgroup-section/popup.png" alt="" />
+                <Image
+                  src="/assets/images/backgroup-section/popup.png"
+                  alt=""
+                />
               </div>
               <div className="logo-rotate">
-                <img src="assets/images/item-background/item6-img.png" alt="" />
+                <Image
+                  src="/assets/images/item-background/item6-img.png"
+                  alt=""
+                />
               </div>
               <h2 className="to-white">Subscribe to our newsletter</h2>
               <p className="to-white">

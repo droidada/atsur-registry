@@ -1,6 +1,7 @@
 "use client";
 import Layout from "@/open9/layout/Layout";
 import Link from "next/link";
+import Image from "@/components/common/image";
 import { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
 import { object, string, TypeOf } from "zod";
@@ -145,15 +146,15 @@ export default function Login() {
                   <div className="other">or continue</div>
                   <div className="login-other">
                     <Link href="#" className="login-other-item">
-                      <img src="/assets/images/google.png" alt="" />
+                      <Image src="/assets/images/google.png" alt="" />
                       <span>Sign with google</span>
                     </Link>
                     <Link href="#" className="login-other-item">
-                      <img src="/assets/images/facebook.png" alt="" />
+                      <Image src="/assets/images/facebook.png" alt="" />
                       <span>Sign with facebook</span>
                     </Link>
                     <Link href="#" className="login-other-item">
-                      <img src="/assets/images/apple.png" alt="" />
+                      <Image src="/assets/images/apple.png" alt="" />
                       <span>Sign with apple</span>
                     </Link>
                   </div>

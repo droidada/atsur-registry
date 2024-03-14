@@ -1,5 +1,6 @@
 import Head from "next/head";
 import NextLink from "next/link";
+import Image from "@/components/common/image";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import { Box, Button, Container, SvgIcon, Typography } from "@mui/material";
 
@@ -31,7 +32,7 @@ const Page = () => (
               textAlign: "center",
             }}
           >
-            <img
+            <Image
               alt="Under development"
               src="/assets/errors/error-404.png"
               style={{

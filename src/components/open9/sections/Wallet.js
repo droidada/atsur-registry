@@ -1,6 +1,7 @@
 import Link from "next/link";
 import AutoSlider1 from "../slider/AutoSlider1";
 import AutoSlider2 from "../slider/AutoSlider2";
+import Image from "@/components/common/image";
 
 export default function Wallet() {
   return (
@@ -32,15 +33,15 @@ export default function Wallet() {
             <h2 className="tf-title">Connect your wallet</h2>
           </div>
           <p>
-            If you don't have a wallet, you can select a provider and create one
-            now.{" "}
+            If you don&apos;t have a wallet, you can select a provider and
+            create one now.{" "}
             <span className="tf-color button-connect-wallet">Learn more</span>
           </p>
           <div id="connect-wallet-grid">
             <div className="wrap-box-card">
               <div className="col-item">
                 <div className="box-wallet">
-                  <img src="assets/images/box-icon/wallet-01.png" alt="" />
+                  <Image src="/assets/images/box-icon/wallet-01.png" alt="" />
                   <h6>
                     <Link href="#">MetaMask</Link>
                   </h6>
@@ -49,7 +50,7 @@ export default function Wallet() {
               </div>
               <div className="col-item">
                 <div className="box-wallet">
-                  <img src="assets/images/box-icon/wallet-02.png" alt="" />
+                  <Image src="/assets/images/box-icon/wallet-02.png" alt="" />
                   <h6>
                     <Link href="#">Coibase Wallet</Link>
                   </h6>
@@ -58,7 +59,7 @@ export default function Wallet() {
               </div>
               <div className="col-item">
                 <div className="box-wallet">
-                  <img src="assets/images/box-icon/wallet-03.png" alt="" />
+                  <Image src="/assets/images/box-icon/wallet-03.png" alt="" />
                   <h6>
                     <Link href="#">WalletConnect</Link>
                   </h6>
@@ -67,7 +68,7 @@ export default function Wallet() {
               </div>
               <div className="col-item">
                 <div className="box-wallet">
-                  <img src="assets/images/box-icon/wallet-04.png" alt="" />
+                  <Image src="/assets/images/box-icon/wallet-04.png" alt="" />
                   <h6>
                     <Link href="#">Ledger</Link>
                   </h6>
@@ -76,7 +77,7 @@ export default function Wallet() {
               </div>
               <div className="col-item">
                 <div className="box-wallet">
-                  <img src="assets/images/box-icon/wallet-05.png" alt="" />
+                  <Image src="/assets/images/box-icon/wallet-05.png" alt="" />
                   <h6>
                     <Link href="#">Phantom</Link>
                   </h6>
@@ -85,7 +86,7 @@ export default function Wallet() {
               </div>
               <div className="col-item">
                 <div className="box-wallet">
-                  <img src="assets/images/box-icon/wallet-06.png" alt="" />
+                  <Image src="/assets/images/box-icon/wallet-06.png" alt="" />
                   <h6>
                     <Link href="#">Bitkeep</Link>
                   </h6>
@@ -94,7 +95,7 @@ export default function Wallet() {
               </div>
               <div className="col-item">
                 <div className="box-wallet">
-                  <img src="assets/images/box-icon/wallet-07.png" alt="" />
+                  <Image src="/assets/images/box-icon/wallet-07.png" alt="" />
                   <h6>
                     <Link href="#">Core</Link>
                   </h6>
@@ -103,7 +104,7 @@ export default function Wallet() {
               </div>
               <div className="col-item">
                 <div className="box-wallet">
-                  <img src="assets/images/box-icon/wallet-08.png" alt="" />
+                  <Image src="/assets/images/box-icon/wallet-08.png" alt="" />
                   <h6>
                     <Link href="#">Glow</Link>
                   </h6>
@@ -112,7 +113,7 @@ export default function Wallet() {
               </div>
               <div className="col-item">
                 <div className="box-wallet">
-                  <img src="assets/images/box-icon/wallet-09.png" alt="" />
+                  <Image src="/assets/images/box-icon/wallet-09.png" alt="" />
                   <h6>
                     <Link href="#">Fortmatic</Link>
                   </h6>
@@ -121,7 +122,7 @@ export default function Wallet() {
               </div>
               <div className="col-item">
                 <div className="box-wallet">
-                  <img src="assets/images/box-icon/wallet-10.png" alt="" />
+                  <Image src="/assets/images/box-icon/wallet-10.png" alt="" />
                   <h6>
                     <Link href="#">Kaikas</Link>
                   </h6>
@@ -130,7 +131,7 @@ export default function Wallet() {
               </div>
               <div className="col-item">
                 <div className="box-wallet">
-                  <img src="assets/images/box-icon/wallet-11.png" alt="" />
+                  <Image src="/assets/images/box-icon/wallet-11.png" alt="" />
                   <h6>
                     <Link href="#">Bitski</Link>
                   </h6>
@@ -139,7 +140,7 @@ export default function Wallet() {
               </div>
               <div className="col-item">
                 <div className="box-wallet">
-                  <img src="assets/images/box-icon/wallet-12.png" alt="" />
+                  <Image src="/assets/images/box-icon/wallet-12.png" alt="" />
                   <h6>
                     <Link href="#">Solflare</Link>
                   </h6>
@@ -148,7 +149,7 @@ export default function Wallet() {
               </div>
               <div className="col-item">
                 <div className="box-wallet">
-                  <img src="assets/images/box-icon/wallet-13.png" alt="" />
+                  <Image src="/assets/images/box-icon/wallet-13.png" alt="" />
                   <h6>
                     <Link href="#">OperaTouch</Link>
                   </h6>
@@ -157,7 +158,7 @@ export default function Wallet() {
               </div>
               <div className="col-item">
                 <div className="box-wallet">
-                  <img src="assets/images/box-icon/wallet-14.png" alt="" />
+                  <Image src="/assets/images/box-icon/wallet-14.png" alt="" />
                   <h6>
                     <Link href="#">OperaTouch</Link>
                   </h6>
@@ -168,7 +169,7 @@ export default function Wallet() {
           </div>
           <div id="connect-wallet-list">
             <div className="box-wallet style-1">
-              <img src="assets/images/box-icon/wallet-01.png" alt="" />
+              <Image src="/assets/images/box-icon/wallet-01.png" alt="" />
               <div className="info">
                 <h6>
                   <Link href="#">Glow</Link>
@@ -180,7 +181,7 @@ export default function Wallet() {
               </Link>
             </div>
             <div className="box-wallet style-1">
-              <img src="assets/images/box-icon/wallet-02.png" alt="" />
+              <Image src="/assets/images/box-icon/wallet-02.png" alt="" />
               <div className="info">
                 <h6>
                   <Link href="#">Coibase Wallet</Link>
@@ -191,7 +192,7 @@ export default function Wallet() {
               </Link>
             </div>
             <div className="box-wallet style-1">
-              <img src="assets/images/box-icon/wallet-03.png" alt="" />
+              <Image src="/assets/images/box-icon/wallet-03.png" alt="" />
               <div className="info">
                 <h6>
                   <Link href="#">WalletConnect</Link>
@@ -202,7 +203,7 @@ export default function Wallet() {
               </Link>
             </div>
             <div className="box-wallet style-1">
-              <img src="assets/images/box-icon/wallet-04.png" alt="" />
+              <Image src="/assets/images/box-icon/wallet-04.png" alt="" />
               <div className="info">
                 <h6>
                   <Link href="#">Ledger</Link>
@@ -213,7 +214,7 @@ export default function Wallet() {
               </Link>
             </div>
             <div className="box-wallet style-1">
-              <img src="assets/images/box-icon/wallet-05.png" alt="" />
+              <Image src="/assets/images/box-icon/wallet-05.png" alt="" />
               <div className="info">
                 <h6>
                   <Link href="#">Phantom</Link>
@@ -225,7 +226,7 @@ export default function Wallet() {
               </Link>
             </div>
             <div className="box-wallet style-1">
-              <img src="assets/images/box-icon/wallet-06.png" alt="" />
+              <Image src="/assets/images/box-icon/wallet-06.png" alt="" />
               <div className="info">
                 <h6>
                   <Link href="#">Bitkeep</Link>
@@ -237,7 +238,7 @@ export default function Wallet() {
               </Link>
             </div>
             <div className="box-wallet style-1">
-              <img src="assets/images/box-icon/wallet-07.png" alt="" />
+              <Image src="/assets/images/box-icon/wallet-07.png" alt="" />
               <div className="info">
                 <h6>
                   <Link href="#">Core</Link>
@@ -249,7 +250,7 @@ export default function Wallet() {
               </Link>
             </div>
             <div className="box-wallet style-1">
-              <img src="assets/images/box-icon/wallet-08.png" alt="" />
+              <Image src="/assets/images/box-icon/wallet-08.png" alt="" />
               <div className="info">
                 <h6>
                   <Link href="#">Glow</Link>
@@ -261,7 +262,7 @@ export default function Wallet() {
               </Link>
             </div>
             <div className="box-wallet style-1">
-              <img src="assets/images/box-icon/wallet-09.png" alt="" />
+              <Image src="/assets/images/box-icon/wallet-09.png" alt="" />
               <div className="info">
                 <h6>
                   <Link href="#">Fortmatic</Link>
@@ -272,7 +273,7 @@ export default function Wallet() {
               </Link>
             </div>
             <div className="box-wallet style-1">
-              <img src="assets/images/box-icon/wallet-10.png" alt="" />
+              <Image src="/assets/images/box-icon/wallet-10.png" alt="" />
               <div className="info">
                 <h6>
                   <Link href="#">Kaikas</Link>
@@ -284,7 +285,7 @@ export default function Wallet() {
               </Link>
             </div>
             <div className="box-wallet style-1">
-              <img src="assets/images/box-icon/wallet-11.png" alt="" />
+              <Image src="/assets/images/box-icon/wallet-11.png" alt="" />
               <div className="info">
                 <h6>
                   <Link href="#">Bitski</Link>
@@ -295,7 +296,7 @@ export default function Wallet() {
               </Link>
             </div>
             <div className="box-wallet style-1">
-              <img src="assets/images/box-icon/wallet-12.png" alt="" />
+              <Image src="/assets/images/box-icon/wallet-12.png" alt="" />
               <div className="info">
                 <h6>
                   <Link href="#">Solflare</Link>
@@ -307,7 +308,7 @@ export default function Wallet() {
               </Link>
             </div>
             <div className="box-wallet style-1">
-              <img src="assets/images/box-icon/wallet-13.png" alt="" />
+              <Image src="/assets/images/box-icon/wallet-13.png" alt="" />
               <div className="info">
                 <h6>
                   <Link href="#">OperaTouch</Link>
@@ -319,7 +320,7 @@ export default function Wallet() {
               </Link>
             </div>
             <div className="box-wallet style-1">
-              <img src="assets/images/box-icon/wallet-14.png" alt="" />
+              <Image src="/assets/images/box-icon/wallet-14.png" alt="" />
               <div className="info">
                 <h6>
                   <Link href="#">OperaTouch</Link>
@@ -336,7 +337,7 @@ export default function Wallet() {
           <div className="widget widget-recently">
             <h5 className="title-widget">Recently added</h5>
             <div className="card-small-main">
-              <img src="assets/images/blog/sidebar-05.jpg" alt="" />
+              <Image src="/assets/images/blog/sidebar-05.jpg" alt="" />
               <div className="card-bottom">
                 <h5>
                   <Link href="#">Photography</Link>
@@ -346,7 +347,7 @@ export default function Wallet() {
             </div>
             <div className="card-small">
               <div className="author">
-                <img src="assets/images/blog/sidebar-06.jpg" alt="" />
+                <Image src="/assets/images/blog/sidebar-06.jpg" alt="" />
                 <div className="info">
                   <h6>
                     <Link href="#">Propw</Link>
@@ -360,7 +361,7 @@ export default function Wallet() {
             </div>
             <div className="card-small">
               <div className="author">
-                <img src="assets/images/blog/sidebar-07.jpg" alt="" />
+                <Image src="/assets/images/blog/sidebar-07.jpg" alt="" />
                 <div className="info">
                   <h6>
                     <Link href="#">Propw</Link>
@@ -374,7 +375,7 @@ export default function Wallet() {
             </div>
             <div className="card-small">
               <div className="author">
-                <img src="assets/images/blog/sidebar-08.jpg" alt="" />
+                <Image src="/assets/images/blog/sidebar-08.jpg" alt="" />
                 <div className="info">
                   <h6>
                     <Link href="#">Propw</Link>
@@ -397,7 +398,7 @@ export default function Wallet() {
             <div className="widget-creators-item flex items-center mb-20">
               <div className="order">1. </div>
               <div className="author flex items-center flex-grow">
-                <img src="assets/images/avatar/avatar-small-01.png" alt="" />
+                <Image src="/assets/images/avatar/avatar-small-01.png" alt="" />
                 <div className="info">
                   <h6>
                     <Link href="#">Brooklyn Simmons</Link>
@@ -412,7 +413,7 @@ export default function Wallet() {
             <div className="widget-creators-item flex items-center mb-20">
               <div className="order">2. </div>
               <div className="author flex items-center flex-grow">
-                <img src="assets/images/avatar/avatar-small-02.png" alt="" />
+                <Image src="/assets/images/avatar/avatar-small-02.png" alt="" />
                 <div className="info">
                   <h6>
                     <Link href="#">Brooklyn Simmons</Link>
@@ -427,7 +428,7 @@ export default function Wallet() {
             <div className="widget-creators-item flex items-center mb-20">
               <div className="order">3. </div>
               <div className="author flex items-center flex-grow">
-                <img src="assets/images/avatar/avatar-small-03.png" alt="" />
+                <Image src="/assets/images/avatar/avatar-small-03.png" alt="" />
                 <div className="info">
                   <h6>
                     <Link href="#">Brooklyn Simmons</Link>
@@ -442,7 +443,7 @@ export default function Wallet() {
             <div className="widget-creators-item flex items-center mb-20">
               <div className="order">4. </div>
               <div className="author flex items-center flex-grow">
-                <img src="assets/images/avatar/avatar-small-04.png" alt="" />
+                <Image src="/assets/images/avatar/avatar-small-04.png" alt="" />
                 <div className="info">
                   <h6>
                     <Link href="#">Brooklyn Simmons</Link>
@@ -457,7 +458,7 @@ export default function Wallet() {
             <div className="widget-creators-item flex items-center">
               <div className="order">5. </div>
               <div className="author flex items-center flex-grow">
-                <img src="assets/images/avatar/avatar-small-01.png" alt="" />
+                <Image src="/assets/images/avatar/avatar-small-01.png" alt="" />
                 <div className="info">
                   <h6>
                     <Link href="#">Brooklyn Simmons</Link>
@@ -473,31 +474,31 @@ export default function Wallet() {
           <div className="widget widget-coins">
             <h5 className="title-widget">Trending coins</h5>
             <div className="widget-coins-item flex items-center mb-20">
-              <img src="assets/images/box-icon/coin-01.png" alt="" />
+              <Image src="/assets/images/box-icon/coin-01.png" alt="" />
               <p>
                 <Link href="#">Bitcoin</Link>
               </p>
             </div>
             <div className="widget-coins-item flex items-center mb-20">
-              <img src="assets/images/box-icon/coin-02.png" alt="" />
+              <Image src="/assets/images/box-icon/coin-02.png" alt="" />
               <p>
                 <Link href="#">Ethereum</Link>
               </p>
             </div>
             <div className="widget-coins-item flex items-center mb-20">
-              <img src="assets/images/box-icon/coin-03.png" alt="" />
+              <Image src="/assets/images/box-icon/coin-03.png" alt="" />
               <p>
                 <Link href="#">Cardano</Link>
               </p>
             </div>
             <div className="widget-coins-item flex items-center mb-20">
-              <img src="assets/images/box-icon/coin-04.png" alt="" />
+              <Image src="/assets/images/box-icon/coin-04.png" alt="" />
               <p>
                 <Link href="#">Solana</Link>
               </p>
             </div>
             <div className="widget-coins-item flex items-center">
-              <img src="assets/images/box-icon/coin-05.png" alt="" />
+              <Image src="/assets/images/box-icon/coin-05.png" alt="" />
               <p>
                 <Link href="#">Litecoin</Link>
               </p>
@@ -512,7 +513,7 @@ export default function Wallet() {
             </div>
             <div className="widget-creators-item flex items-center mb-20">
               <div className="author flex items-center flex-grow">
-                <img src="assets/images/avatar/avatar-small-01.png" alt="" />
+                <Image src="/assets/images/avatar/avatar-small-01.png" alt="" />
                 <div className="info">
                   <h6>
                     <Link href="#">Lorem NFT sold</Link>
@@ -526,7 +527,7 @@ export default function Wallet() {
             </div>
             <div className="widget-creators-item flex items-center mb-20">
               <div className="author flex items-center flex-grow">
-                <img src="assets/images/avatar/avatar-small-02.png" alt="" />
+                <Image src="/assets/images/avatar/avatar-small-02.png" alt="" />
                 <div className="info">
                   <h6>
                     <Link href="#">New NFT uploaded</Link>
@@ -540,7 +541,7 @@ export default function Wallet() {
             </div>
             <div className="widget-creators-item flex items-center mb-20">
               <div className="author flex items-center flex-grow">
-                <img src="assets/images/avatar/avatar-small-03.png" alt="" />
+                <Image src="/assets/images/avatar/avatar-small-03.png" alt="" />
                 <div className="info">
                   <h6>
                     <Link href="#">You followed a creator</Link>
@@ -554,7 +555,7 @@ export default function Wallet() {
             </div>
             <div className="widget-creators-item flex items-center mb-20">
               <div className="author flex items-center flex-grow">
-                <img src="assets/images/avatar/avatar-small-04.png" alt="" />
+                <Image src="/assets/images/avatar/avatar-small-04.png" alt="" />
                 <div className="info">
                   <h6>
                     <Link href="#">You placed a bid</Link>
@@ -568,7 +569,7 @@ export default function Wallet() {
             </div>
             <div className="widget-creators-item flex items-center">
               <div className="author flex items-center flex-grow">
-                <img src="assets/images/avatar/avatar-small-01.png" alt="" />
+                <Image src="/assets/images/avatar/avatar-small-01.png" alt="" />
                 <div className="info">
                   <h6>
                     <Link href="#">You followed a creator</Link>
