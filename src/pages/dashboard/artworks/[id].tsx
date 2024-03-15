@@ -36,6 +36,7 @@ import EditAppraisal from "@/components/dashboard/edit-appraisal";
 import { useRouter } from "next/router";
 import EditPublication from "@/components/dashboard/edit-publication";
 import DeleteDialog from "@/components/dashboard/DeleteDialog";
+import EditLocation from "@/components/dashboard/edit-location";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -68,15 +69,25 @@ function ArtPiece({ artPiece }) {
   const [editedAppraisal, setEditedAppraisal] = useState({});
   const [editPublication, setEditPublication] = useState(false);
   const [editedPublication, setEditedPublication] = useState({});
+  const [editLocation, setEditLocation] = useState(false);
+  const [editedLocation, setEditedLocation] = useState({});
   const [openDiaglog, setOpenDialog] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<{
-    itemType: "publication" | "exhibition" | "appraisal" | "";
+    itemType:
+      | "publication"
+      | "exhibition"
+      | "appraisal"
+      | "location"
+      | "provenance"
+      | "auction"
+      | "";
     itemId: string;
   }>({
     itemId: "",
     itemType: "",
   });
 
+  console.log(artPiece?.locations);
   return (
     <>
       <DashboardLayoutWithSidebar hideSidebar activePage={DashboardPages.ART}>
@@ -436,13 +447,68 @@ function ArtPiece({ artPiece }) {
                             <h6>Locations</h6>
                           </AccordionSummary>
                           <AccordionDetails>
-                            <p>
-                              Lorem ipsum dolor sit amet, consectetur adipiscing
-                              elit, sed do eiusmod tempor incididunt ut labore
-                              et dolore magna aliqua. Ut enim ad minim veniam,
-                              quis nostrud exercitation.Lorem ipsum dolor sit
-                              amet, consectetur adipiscing elit, sed do eiusmod.
-                            </p>
+                            <List>
+                              {artPiece?.locations?.length > 0 &&
+                                artPiece?.locations?.map((location, idx) => (
+                                  <ListItem
+                                    key={idx}
+                                    secondaryAction={
+                                      <>
+                                        <IconButton
+                                          edge="end"
+                                          aria-label="edit"
+                                          onClick={() => {
+                                            setEditLocation(true);
+                                            setEditedLocation(location);
+                                          }}
+                                        >
+                                          <EditIcon />
+                                        </IconButton>
+                                        <IconButton
+                                          onClick={() => {
+                                            setOpenDialog(true);
+                                            setItemToDelete({
+                                              itemId: location?._id,
+                                              itemType: "location",
+                                            });
+                                          }}
+                                          edge="end"
+                                          aria-label="delete"
+                                        >
+                                          <DeleteIcon />
+                                        </IconButton>
+                                      </>
+                                    }
+                                  >
+                                    <ListItemAvatar>
+                                      <Avatar>
+                                        <FolderIcon />
+                                      </Avatar>
+                                    </ListItemAvatar>
+                                    <span>
+                                      <p>
+                                        Name
+                                        <b className="to-gray">
+                                          {location?.name}{" "}
+                                        </b>
+                                        Address
+                                        <b className="to-gray">
+                                          {location?.address}
+                                        </b>
+                                      </p>
+                                    </span>
+                                  </ListItem>
+                                ))}
+                            </List>
+                            <button
+                              className="tf-button style-1"
+                              onClick={() => {
+                                setEditLocation(true);
+                                setEditedLocation(null);
+                              }}
+                            >
+                              Add
+                            </button>
                           </AccordionDetails>
                         </Accordion>
                       </div>
@@ -478,6 +544,15 @@ function ArtPiece({ artPiece }) {
         publication={editedPublication}
         handleClose={() => {
           setEditPublication(false);
+          router.replace(router.asPath);
+        }}
+      />
+      <EditLocation
+        open={editLocation}
+        artPieceId={artPiece._id}
+        location={editedLocation}
+        handleClose={() => {
+          setEditLocation(false);
           router.replace(router.asPath);
         }}
       />
