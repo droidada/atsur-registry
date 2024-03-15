@@ -53,11 +53,6 @@ export default function EditExhibition({
     isCirca: boolean(),
   });
 
-  // I changed the start date validation to a string
-  // instead of a date validator because the format
-  // clashes with the date format that is expected
-  //  on the backend.
-
   type ExhibitionInput = TypeOf<typeof exhibitionSchema>;
 
   const {
