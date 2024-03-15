@@ -16,7 +16,14 @@ interface Props {
   open: boolean;
   onClose: () => void;
   itemToDelete: {
-    itemType: "publication" | "exhibition" | "appraisal" | "";
+    itemType:
+      | "publication"
+      | "exhibition"
+      | "appraisal"
+      | "location"
+      | "provenance"
+      | "auction"
+      | "";
     itemId: string;
   };
 
