@@ -11,11 +11,12 @@ import axios from "axios";
 import React, { useState } from "react";
 import SnackBarAlert from "../common/SnackBarAlert";
 import { error } from "console";
+import { useRouter } from "next/router";
 
 interface Props {
   open: boolean;
   onClose: () => void;
-  itemToDelete: {
+  itemToDelete?: {
     itemType:
       | "publication"
       | "exhibition"
@@ -23,11 +24,12 @@ interface Props {
       | "location"
       | "provenance"
       | "auction"
-      | "";
+      | string;
     itemId: string;
   };
-
-  artPieceId: string;
+  deleteUrl?: string;
+  artPieceId?: string;
+  redirectUrl?: string;
 }
 
 const DeleteDialog: React.FC<Props> = ({
@@ -35,33 +37,42 @@ const DeleteDialog: React.FC<Props> = ({
   onClose,
   itemToDelete,
   artPieceId,
+  deleteUrl,
+  redirectUrl,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const axiosAuth = useAxiosAuth();
+  const router = useRouter();
 
   const handleDelete = async () => {
     try {
       setIsError(false);
       setIsLoading(true);
 
-      if (Object.values(itemToDelete)?.length == 2) {
-        const data = {
-          artPieceId,
-          // @ts-ignore
-          [`${itemToDelete.itemType}Id`]: itemToDelete.itemId,
-        };
+      if (!deleteUrl && artPieceId) {
+        if (Object.values(itemToDelete)?.length == 2) {
+          const data = {
+            artPieceId,
+            // @ts-ignore
+            [`${itemToDelete.itemType}Id`]: itemToDelete.itemId,
+          };
 
-        const result = await axiosAuth.post(
-          // @ts-ignore
-          `/${itemToDelete.itemType}/delete`,
-          data,
-        );
-        onClose();
+          const result = await axiosAuth.post(
+            // @ts-ignore
+            `/${itemToDelete.itemType}/delete`,
+            data,
+          );
+          onClose();
+        } else {
+          setIsError(true);
+          setErrorMessage("No Data selected");
+        }
       } else {
-        setIsError(true);
-        setErrorMessage("No Data selected");
+        const result = await axiosAuth.post(deleteUrl);
+        router.push(redirectUrl);
+        onClose();
       }
     } catch (error) {
       setIsError(true);
