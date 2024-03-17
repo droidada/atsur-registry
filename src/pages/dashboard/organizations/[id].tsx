@@ -10,6 +10,9 @@ import AutoSlider1 from "@/open9/slider/AutoSlider1";
 import AutoSlider2 from "@/open9/slider/AutoSlider2";
 import { getToken } from "next-auth/jwt";
 import axios from "@/lib/axios";
+import { Button } from "@mui/base";
+import DeleteDialog from "@/components/dashboard/DeleteDialog";
+import EditOrganization from "@/components/dashboard/edit-organization";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -18,11 +21,13 @@ export const getServerSideProps = async ({ req, query }) => {
       req,
       secret: process.env.NEXTAUTH_SECRET,
     });
-    const res = await axios.get(`/art-piece/${id}`, {
+    const res = await axios.get(`/org/${id}`, {
       headers: { authorization: `Bearer ${token?.user?.accessToken}` },
     });
 
-    return { props: { artPiece: res.data.artPiece } };
+    console.log(res.data);
+
+    return { props: { organizations: res.data.organization } };
   } catch (error) {
     console.error("error here looks like ", error);
     if (error?.response?.status === 404) {
@@ -34,7 +39,10 @@ export const getServerSideProps = async ({ req, query }) => {
   }
 };
 
-function ArtPiece({ artPiece }) {
+function Organization({ organizations }) {
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+
   return (
     <>
       <DashboardLayoutWithSidebar hideSidebar activePage={DashboardPages.ART}>
@@ -44,19 +52,22 @@ function ArtPiece({ artPiece }) {
               <div className="tf-tsparticles">
                 <div id="tsparticles7" data-color="#161616" data-line="#000" />
               </div>
-              <h2>Artworks</h2>
+              <h2>{organizations?.name}</h2>
               <div className="flat-button flex">
-                <Link
-                  href="/explore"
+                <Button
+                  onClick={() => setOpenEdit(true)}
                   className="tf-button style-2 h50 w190 mr-10"
                 >
-                  Explore
+                  Edit
                   <i className="icon-arrow-up-right2" />
-                </Link>
-                <Link href="/dashboard" className="tf-button style-2 h50 w230">
-                  Create
+                </Button>
+                <Button
+                  onClick={() => setOpenDeleteDialog(true)}
+                  className="tf-button style-2 h50 w230"
+                >
+                  Delete
                   <i className="icon-arrow-up-right2" />
-                </Link>
+                </Button>
               </div>
               <div className="bg-home7">
                 <AutoSlider1 />
@@ -71,7 +82,10 @@ function ArtPiece({ artPiece }) {
                     <div className="tf-card-box style-5 mb-0">
                       <div className="card-media mb-0">
                         <Link href="#">
-                          <Image src={artPiece?.assets[0]?.url} alt="" />
+                          <Image
+                            src={organizations?.image}
+                            alt={organizations?.name}
+                          />
                         </Link>
                       </div>
                       <h6 className="price gem">
@@ -152,13 +166,13 @@ function ArtPiece({ artPiece }) {
                           </div>
                         </Menu>
                       </div>
-                      <h2>{artPiece?.title}</h2>
+                      <h2>{organizations?.title}</h2>
                       <div className="author flex items-center mb-30">
                         <div className="avatar">
                           <Image
                             src={
-                              artPiece.author?.avatar
-                                ? artPiece.author.avatar
+                              organizations.author?.avatar
+                                ? organizations?.author.avatar
                                 : "/assets/images/avatar/avatar-box-05.jpg"
                             }
                             alt="Image"
@@ -168,8 +182,8 @@ function ArtPiece({ artPiece }) {
                           <span>Created by:</span>
                           <h6>
                             <Link className="tf-color" href="/artist/1">{`${
-                              artPiece?.author
-                                ? `${artPiece.author.firstName} ${artPiece.author.lastName}`
+                              organizations?.author
+                                ? `${organizations?.author.firstName} ${organizations?.author.lastName}`
                                 : "Marvin McKinney"
                             }`}</Link>{" "}
                           </h6>
@@ -221,7 +235,7 @@ function ArtPiece({ artPiece }) {
                       </h6>
                       <i className="icon-keyboard_arrow_down" />
                       <div className="content">
-                        <p>{artPiece?.description}</p>
+                        <p>{organizations?.description}</p>
                       </div>
                     </div>
                     <div
@@ -516,8 +530,22 @@ function ArtPiece({ artPiece }) {
           </div>
         </>
       </DashboardLayoutWithSidebar>
+
+      <DeleteDialog
+        open={openDeleteDialog}
+        onClose={() => setOpenDeleteDialog(false)}
+        deleteUrl={`/org/delete/${organizations?._id}`}
+        redirectUrl={`/dashboard/organizations`}
+        itemToDelete={{ itemType: "organization", itemId: "" }}
+      />
+
+      <EditOrganization
+        open={openEdit}
+        handleClose={() => setOpenEdit(false)}
+        organization={organizations}
+      />
     </>
   );
 }
-ArtPiece.requiredAuth = true;
-export default ArtPiece;
+Organization.requiredAuth = true;
+export default Organization;
