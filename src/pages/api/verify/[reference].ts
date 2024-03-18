@@ -7,7 +7,8 @@ type Data = {
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default async (req: NextApiRequest, resp: NextApiResponse<Data>) => {
+export default async (req: NextApiRequest, resp: NextApiResponse<Data>) =>
+{
   const {
     query: { reference },
   } = req;
@@ -23,7 +24,7 @@ export default async (req: NextApiRequest, resp: NextApiResponse<Data>) => {
       },
     );
     const data = await res.json();
-    resp.status(200).json({ success: true, data: data.data });
+    resp.status(200).json({ success: true, data: data?.data });
   } catch (error) {
     resp.status(400).json({ success: false });
   }
