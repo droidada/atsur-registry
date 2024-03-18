@@ -207,7 +207,7 @@ export default function EditAppraisal({
                 <label className="uploadfile h-full flex items-center justify-center">
                   <div className="text-center flex flex-col items-center justify-center">
                     {appraisalImg ? (
-                      <Image className="h-full" src={appraisalImg} />
+                      <Image className="h-full" alt={""} src={appraisalImg} />
                     ) : (
                       <>
                         <Image

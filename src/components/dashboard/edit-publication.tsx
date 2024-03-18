@@ -210,7 +210,7 @@ export default function EditPublication({
                 <label className="uploadfile h-full flex items-center justify-center">
                   <div className="text-center flex flex-col items-center justify-center">
                     {publicationImg ? (
-                      <Image className="h-full" src={publicationImg} />
+                      <Image className="h-full" alt={""} src={publicationImg} />
                     ) : (
                       <>
                         <Image

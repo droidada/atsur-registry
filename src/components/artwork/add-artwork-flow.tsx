@@ -47,10 +47,7 @@ const AddArtworkFlow = ({ activeStep, setActiveStep, setCompleted }) => {
       )}
 
       {activeStep == 3 && (
-        <InviteArtist
-          prompt="Please add the creators of this artwork."
-          multiple
-        />
+        <InviteArtist prompt="Please add the creators of this artwork." />
       )}
       <Grid container></Grid>
     </Box>

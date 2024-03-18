@@ -94,7 +94,7 @@ function Security({ organizations }) {
                       </h5>
                       <div className="author flex items-center">
                         <div className="avatar">
-                          <Image src={`fdafasdf`} alt="Image" />
+                          <Image src={`#`} alt="Image" />
                         </div>
                         <div className="info">
                           <span className="tf-color">Created by:</span>

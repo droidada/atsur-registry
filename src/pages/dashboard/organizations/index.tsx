@@ -79,7 +79,12 @@ function Organizations({ organizations }) {
                     <div className="tf-card-box style-1">
                       <div className="card-media">
                         <Link href="#">
-                          <Image src={org?.image} alt="" />
+                          <Image
+                            src={org?.image}
+                            width={200}
+                            height={250}
+                            alt=""
+                          />
                         </Link>
                         <span className="wishlist-button icon-heart" />
                         <div className="button-place-bid">
@@ -96,23 +101,23 @@ function Organizations({ organizations }) {
                       </h5>
                       <div className="author flex items-center">
                         <div className="avatar">
-                          <Image src={`/fdafasdf`} alt="Image" />
+                          <Image
+                            src={org?.creator?.avatar}
+                            width={100}
+                            height={100}
+                            alt="Image"
+                          />
                         </div>
                         <div className="info">
                           <span className="tf-color">Created by:</span>
                           <h6>
-                            <Link href="/author-2">Org name</Link>{" "}
+                            <Link href="/author-2">
+                              {org?.creator?.firstName}
+                            </Link>{" "}
                           </h6>
                         </div>
                       </div>
                       <div className="divider" />
-                      <div className="meta-info flex items-center justify-between">
-                        <span className="text-bid">Price</span>
-                        <h6 className="price gem to-white">
-                          <i className="icon-gem" />
-                          0,34
-                        </h6>
-                      </div>
                     </div>
                   </div>
                 ))

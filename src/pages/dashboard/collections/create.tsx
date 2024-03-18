@@ -151,6 +151,7 @@ function CreateCollection() {
                       <Image
                         width={200}
                         height={200}
+                        alt={""}
                         className="h-full"
                         src={previewImg}
                       />
