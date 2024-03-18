@@ -15,16 +15,18 @@ export const getServerSideProps = async ({ req, query }) => {
       req,
       secret: process.env.NEXTAUTH_SECRET,
     });
-    console.log("token here is ", token);
+
     if (!token) return;
 
-    const res = await axios.get(`/org/user`, {
+    const res = await axios.get(`/collection/user`, {
       headers: { authorization: `Bearer ${token?.user?.accessToken}` },
     });
 
-    return { props: { organizations: res.data.organizations } };
+    console.log(res.data);
+
+    return { props: { collections: res.data.collections } };
   } catch (error) {
-    console.error("error here looks like ", error);
+    console.error("error here looks like ", error?.response?.data);
     if (error?.response?.status === 404) {
       return {
         notFound: true,
@@ -35,6 +37,8 @@ export const getServerSideProps = async ({ req, query }) => {
 };
 
 function Collections({ collections }) {
+  console.log(collections);
+
   return (
     <>
       <DashboardLayoutWithSidebar activePage={DashboardPages.COLLECTIONS}>
@@ -69,7 +73,7 @@ function Collections({ collections }) {
             </div>
             <div className="row">
               {collections?.length > 0 ? (
-                collections?.map((org, idx) => (
+                collections?.map((collection, idx) => (
                   <div
                     key={idx}
                     className="fl-item col-xl-3 col-lg-4 col-md-6 col-sm-6"
@@ -78,16 +82,20 @@ function Collections({ collections }) {
                       <div className="card-media">
                         <Link href="#">
                           <Image
-                            src={org?.image}
+                            src={
+                              collection?.image === "null"
+                                ? ""
+                                : collection?.image
+                            }
                             width={20}
                             height={20}
-                            alt=""
+                            alt={collection?.title}
                           />
                         </Link>
                         <span className="wishlist-button icon-heart" />
                         <div className="button-place-bid">
                           <Link
-                            href={`/dashboard/organization/${org._id}`}
+                            href={`/dashboard/collections/${collection._id}`}
                             className="tf-button"
                           >
                             <span>View</span>
@@ -95,21 +103,21 @@ function Collections({ collections }) {
                         </div>
                       </div>
                       <h5 className="name">
-                        <Link href="#">{org.name}</Link>
+                        <Link href="#">{collection.name}</Link>
                       </h5>
                       <div className="author flex items-center">
                         <div className="avatar">
-                          <Image
+                          {/* <Image
                             src={`fdafasdf`}
                             width={20}
                             height={20}
                             alt="Image"
-                          />
+                          /> */}
                         </div>
                         <div className="info">
                           <span className="tf-color">Created by:</span>
                           <h6>
-                            <Link href="/author-2">Org name</Link>{" "}
+                            <Link href="/author-2">collection name</Link>{" "}
                           </h6>
                         </div>
                       </div>

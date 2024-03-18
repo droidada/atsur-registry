@@ -1,21 +1,25 @@
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import Image from "@/components/common/image";
-import { useRouter } from "next/router";
-import { object, string, number, TypeOf } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { MenuItem, Select, TextField } from "@mui/material";
-import { LoadingButton } from "@mui/lab";
-import { useAuthContext } from "@/providers/auth.context";
-import useAxiosAuth from "@/hooks/useAxiosAuth";
-import DashboardLayoutWithSidebar, {
-  DashboardPages,
-} from "@/components/open9/layout/DashboardLayoutWithSidebar";
-import AutoSlider1 from "@/open9/slider/AutoSlider1";
-import AutoSlider2 from "@/open9/slider/AutoSlider2";
+import React, { useEffect, useState } from "react";
 
-function CreateCollection() {
+import useAxiosAuth from "@/hooks/useAxiosAuth";
+import { useAuthContext } from "@/providers/auth.context";
+import { LoadingButton } from "@mui/lab";
+import { object, string, number, TypeOf } from "zod";
+import { Dialog, MenuItem, Select, TextField } from "@mui/material";
+import { useRouter } from "next/router";
+import Image from "next/image";
+import { Box, Button, Typography } from "@mui/material";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import SnackBarAlert from "../common/SnackBarAlert";
+import axios from "axios";
+
+interface Props {
+  open: boolean;
+  handleClose: any;
+  collection: any;
+}
+
+const EditCollection: React.FC<Props> = ({ open, handleClose, collection }) => {
   const axiosAuth = useAxiosAuth();
   const collectionSchema = object({
     title: string().nonempty("Title is required"),
@@ -29,6 +33,7 @@ function CreateCollection() {
     register,
     formState: { errors, isSubmitSuccessful },
     reset,
+    setValue,
     handleSubmit,
   } = useForm<collectionInput>({
     resolver: zodResolver(collectionSchema),
@@ -37,15 +42,14 @@ function CreateCollection() {
   const [previewImg, setPreviewImg] = useState(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const [error, setError] = useState("");
-  const { logIn, user, error: loginError } = useAuthContext();
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    if (isSubmitSuccessful) {
-      reset();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSubmitSuccessful]);
+    setValue("title", collection.title || "");
+    setValue("description", collection.description || "");
+    setValue("type", collection.type || "");
+  }, [collection, setValue]);
 
   const onSubmitHandler: SubmitHandler<collectionInput> = async (values) => {
     try {
@@ -56,17 +60,22 @@ function CreateCollection() {
       formData.append("title", values.title);
       formData.append("description", values.description);
       formData.append("type", values.type);
+      formData.append("collectionId", collection._id);
 
-      const result = await axiosAuth.post("/collection/add", formData);
-      //setPreviewImg(result.data.imageName)
-      console.log("result here is ", result.data);
+      const result = await axiosAuth.post("/collection/update", formData);
 
       setLoading(false);
-      router.replace("/dashboard/collections");
+      router.replace(router.asPath);
+      handleClose();
       return;
     } catch (error) {
-      console.error(error);
-      setError(error.message);
+      setError(false);
+      if (axios.isAxiosError(error)) {
+        setErrorMessage(error.response.data.message);
+      } else {
+        setErrorMessage("Something went wrong");
+      }
+    } finally {
       setLoading(false);
     }
   };
@@ -87,40 +96,13 @@ function CreateCollection() {
   };
 
   return (
-    <DashboardLayoutWithSidebar activePage={DashboardPages.COLLECTIONS}>
-      <div className="row">
-        <div className="action__body w-full mb-40">
-          <div className="tf-tsparticles">
-            <div id="tsparticles7" data-color="#161616" data-line="#000" />
-          </div>
-          <h2>Add Collection</h2>
-          <div className="flat-button flex">
-            <Link href="/explore" className="tf-button style-2 h50 w190 mr-10">
-              Explore
-              <i className="icon-arrow-up-right2" />
-            </Link>
-            <Link
-              href="/dashboard/collections/create"
-              className="tf-button style-2 h50 w230"
-            >
-              Create
-              <i className="icon-arrow-up-right2" />
-            </Link>
-          </div>
-          <div className="bg-home7">
-            <AutoSlider1 />
-            <AutoSlider2 />
-            <AutoSlider1 />
-          </div>
-        </div>
-      </div>
+    <Dialog open={open} onClose={handleClose}>
       <div className="widget-edit mb-30 profile">
         <div className="title to-white">
           <h4>Information</h4>
           <i className="icon-keyboard_arrow_up" />
         </div>
         <div className="wrap-content w-full">
-          {error && <h5 style={{ color: "red" }}>{error}</h5>}
           <form
             id="create-org"
             className="create-org-form"
@@ -137,6 +119,7 @@ function CreateCollection() {
                 name="title"
                 tabIndex={2}
                 aria-required="true"
+                defaultValue={collection.title}
                 fullWidth
                 error={!!errors["title"]}
                 helperText={errors["title"] ? errors["title"].message : ""}
@@ -149,6 +132,7 @@ function CreateCollection() {
                   <div className="text-center flex flex-col items-center justify-center">
                     {previewImg ? (
                       <Image
+                        alt=""
                         width={200}
                         height={200}
                         className="h-full"
@@ -158,7 +142,12 @@ function CreateCollection() {
                       <Image
                         width={200}
                         height={200}
-                        src="/assets/images/box-icon/upload.png"
+                        src={
+                          (collection?.image == "null"
+                            ? ""
+                            : collection?.image) ||
+                          "/assets/images/box-icon/upload.png"
+                        }
                         alt=""
                       />
                     )}
@@ -186,6 +175,7 @@ function CreateCollection() {
                 name="description"
                 type="text"
                 placeholder="11 Park Avenue Way, Kinchase *"
+                defaultValue={collection?.description}
                 tabIndex={2}
                 multiline
                 rows={3}
@@ -205,6 +195,7 @@ function CreateCollection() {
                   tabIndex={2}
                   name="type"
                   id="type"
+                  defaultValue={collection?.type}
                   fullWidth
                   error={!!errors["type"]}
                   {...register("type")}
@@ -221,25 +212,35 @@ function CreateCollection() {
             </div>
 
             <div className="btn-submit flex gap30 justify-center">
-              <button className="tf-button style-1 h50" type="reset">
-                Clear
+              <Button
+                onClick={handleClose}
+                className="tf-button style-1 h50"
+                type="reset"
+              >
+                Close
                 <i className="icon-arrow-up-right2" />
-              </button>
+              </Button>
               <LoadingButton
                 className="tf-button style-1 h50"
                 loading={loading}
                 type="submit"
               >
-                Create
+                Update
                 <i className="icon-arrow-up-right2" />
               </LoadingButton>
             </div>
           </form>
         </div>
       </div>
-    </DashboardLayoutWithSidebar>
+      <SnackBarAlert
+        type="error"
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        message={errorMessage}
+        open={error}
+        onClose={() => setError(false)}
+      />
+    </Dialog>
   );
-}
+};
 
-CreateCollection.requiredAuth = true;
-export default CreateCollection;
+export default EditCollection;
