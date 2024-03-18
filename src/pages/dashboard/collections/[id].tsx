@@ -12,7 +12,7 @@ import { getToken } from "next-auth/jwt";
 import axios from "@/lib/axios";
 import { Button } from "@mui/base";
 import DeleteDialog from "@/components/dashboard/DeleteDialog";
-import EditOrganization from "@/components/dashboard/edit-organization";
+import EditCollection from "@/components/dashboard/edit-collection";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -21,13 +21,13 @@ export const getServerSideProps = async ({ req, query }) => {
       req,
       secret: process.env.NEXTAUTH_SECRET,
     });
-    const res = await axios.get(`/org/${id}`, {
+    const res = await axios.get(`/collection/${id}`, {
       headers: { authorization: `Bearer ${token?.user?.accessToken}` },
     });
 
     console.log(res.data);
 
-    return { props: { organizations: res.data.organization } };
+    return { props: { collections: res.data.collection } };
   } catch (error) {
     console.error("error here looks like ", error);
     if (error?.response?.status === 404) {
@@ -39,9 +39,11 @@ export const getServerSideProps = async ({ req, query }) => {
   }
 };
 
-function Organization({ organizations }) {
+function Collection({ collections }) {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+
+  console.log(collections);
 
   return (
     <>
@@ -52,7 +54,7 @@ function Organization({ organizations }) {
               <div className="tf-tsparticles">
                 <div id="tsparticles7" data-color="#161616" data-line="#000" />
               </div>
-              <h2>{organizations?.name}</h2>
+              <h2>{collections?.title}</h2>
               <div className="flat-button flex">
                 <Button
                   onClick={() => setOpenEdit(true)}
@@ -78,13 +80,17 @@ function Organization({ organizations }) {
             <div className="row">
               <div className="tf-section-2 product-detail">
                 <div className="row">
-                  <div data-wow-delay="0s" className="wow fadeInLeft col-md-8">
+                  <div data-wow-delay="0s" className="wow fadeInLeft col-md-8 ">
                     <div className="tf-card-box style-5 mb-0">
                       <div className="card-media mb-0">
                         <Link href="#">
                           <Image
-                            src={organizations?.image}
-                            alt={organizations?.name}
+                            src={
+                              collections?.image == "null"
+                                ? ""
+                                : collections?.image
+                            }
+                            alt={collections?.name}
                           />
                         </Link>
                       </div>
@@ -100,7 +106,7 @@ function Organization({ organizations }) {
                       </div>
                     </div>
                   </div>
-                  <div className="col-md-4">
+                  <div className="col-md-4 ">
                     <div
                       data-wow-delay="0s"
                       className="wow fadeInRight infor-product"
@@ -166,13 +172,13 @@ function Organization({ organizations }) {
                           </div>
                         </Menu>
                       </div>
-                      <h2>{organizations?.title}</h2>
+                      <h2>{collections?.title}</h2>
                       <div className="author flex items-center mb-30">
                         <div className="avatar">
                           <Image
                             src={
-                              organizations.author?.avatar
-                                ? organizations?.author.avatar
+                              collections.author?.avatar
+                                ? collections?.author.avatar
                                 : "/assets/images/avatar/avatar-box-05.jpg"
                             }
                             alt="Image"
@@ -182,8 +188,8 @@ function Organization({ organizations }) {
                           <span>Created by:</span>
                           <h6>
                             <Link className="tf-color" href="/artist/1">{`${
-                              organizations?.author
-                                ? `${organizations?.author.firstName} ${organizations?.author.lastName}`
+                              collections?.author
+                                ? `${collections?.author.firstName} ${collections?.author.lastName}`
                                 : "Marvin McKinney"
                             }`}</Link>{" "}
                           </h6>
@@ -235,7 +241,7 @@ function Organization({ organizations }) {
                       </h6>
                       <i className="icon-keyboard_arrow_down" />
                       <div className="content">
-                        <p>{organizations?.description}</p>
+                        <p>{collections?.description}</p>
                       </div>
                     </div>
                     <div
@@ -534,18 +540,18 @@ function Organization({ organizations }) {
       <DeleteDialog
         open={openDeleteDialog}
         onClose={() => setOpenDeleteDialog(false)}
-        deleteUrl={`/org/delete/${organizations?._id}`}
-        redirectUrl={`/dashboard/organizations`}
-        itemToDelete={{ itemType: "organization", itemId: "" }}
+        deleteUrl={`/collection/delete/${collections?._id}`}
+        redirectUrl={`/dashboard/collections`}
+        itemToDelete={{ itemType: "collection", itemId: "" }}
       />
 
-      <EditOrganization
+      <EditCollection
         open={openEdit}
         handleClose={() => setOpenEdit(false)}
-        organization={organizations}
+        collection={collections}
       />
     </>
   );
 }
-Organization.requiredAuth = true;
-export default Organization;
+Collection.requiredAuth = true;
+export default Collection;

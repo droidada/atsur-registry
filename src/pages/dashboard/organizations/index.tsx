@@ -15,6 +15,7 @@ export const getServerSideProps = async ({ req, query }) => {
       req,
       secret: process.env.NEXTAUTH_SECRET,
     });
+    console.log(process.env.NEXTAUTH_SECRET);
     console.log("token here is ", token);
     if (!token) return;
 
@@ -35,6 +36,7 @@ export const getServerSideProps = async ({ req, query }) => {
 };
 
 function Organizations({ organizations }) {
+  console.log(organizations);
   return (
     <>
       <DashboardLayoutWithSidebar activePage={DashboardPages.ORGANIZATIONS}>
@@ -82,7 +84,7 @@ function Organizations({ organizations }) {
                         <span className="wishlist-button icon-heart" />
                         <div className="button-place-bid">
                           <Link
-                            href={`/dashboard/organization/${org._id}`}
+                            href={`/dashboard/organizations/${org._id}`}
                             className="tf-button"
                           >
                             <span>View</span>
@@ -94,7 +96,7 @@ function Organizations({ organizations }) {
                       </h5>
                       <div className="author flex items-center">
                         <div className="avatar">
-                          <Image src={`fdafasdf`} alt="Image" />
+                          <Image src={`/fdafasdf`} alt="Image" />
                         </div>
                         <div className="info">
                           <span className="tf-color">Created by:</span>
