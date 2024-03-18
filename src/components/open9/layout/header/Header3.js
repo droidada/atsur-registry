@@ -23,6 +23,7 @@ export default function Header3({ scroll, isMobileMenu, handleMobileMenu }) {
                       <Link href="/" rel="home" className="main-logo">
                         <Image
                           id="logo_header"
+                          alt={""}
                           src="/assets/images/logo/logo.png"
                           data-retina="assets/images/logo/logo@2x.png"
                         />
@@ -270,6 +271,7 @@ export default function Header3({ scroll, isMobileMenu, handleMobileMenu }) {
               <Link href="/" rel="home" className="main-logo">
                 <Image
                   id="logo_header"
+                  alt={""}
                   src="/assets/images/logo/logo.png"
                   data-retina="assets/images/logo/logo-dark@2x.png"
                 />
@@ -388,6 +390,7 @@ export default function Header3({ scroll, isMobileMenu, handleMobileMenu }) {
             <Link href="/" rel="home" className="main-logo">
               <Image
                 id="mobile-logo_header"
+                alt={""}
                 src="/assets/images/logo/logo.png"
                 data-retina="assets/images/logo/logo-dark@2x.png"
               />
