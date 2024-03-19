@@ -17,7 +17,8 @@ const swiperOptions = {
   },
 };
 
-export default function AutoSlider1() {
+export default function AutoSlider1({ images }) {
+  console.log("images", images);
   return (
     <>
       {/* <Swiper {...swiperOptions} className="abc">
@@ -28,12 +29,11 @@ export default function AutoSlider1() {
         {...swiperOptions}
         className="swiper-container autoslider3reverse swiper-container-vertical "
       >
-        <SwiperSlide>
-          <Image src="/assets/images/item-background/bg-action-1.png" alt="" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Image src="/assets/images/item-background/bg-action-1.png" alt="" />
-        </SwiperSlide>
+        {images?.map((image, index) => (
+          <SwiperSlide key={`${index}-image`}>
+            <Image src={image} alt="" />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </>
   );

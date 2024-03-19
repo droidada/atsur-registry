@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Menu } from "@headlessui/react";
 import Link from "next/link";
-import Image from "@/components/common/image";
+
 import BarChart from "@/open9/elements/BarChart";
 import DashboardLayoutWithSidebar, {
   DashboardPages,
@@ -10,9 +10,23 @@ import AutoSlider1 from "@/open9/slider/AutoSlider1";
 import AutoSlider2 from "@/open9/slider/AutoSlider2";
 import { getToken } from "next-auth/jwt";
 import axios from "@/lib/axios";
-import { Button } from "@mui/base";
+import axiosMain from "axios";
+
 import DeleteDialog from "@/components/dashboard/DeleteDialog";
 import EditCollection from "@/components/dashboard/edit-collection";
+import AddArtworkToCollection from "@/components/dashboard/add-artwork-to-collection";
+import Image from "next/image";
+import useAxiosAuth from "@/hooks/useAxiosAuth";
+import { FormatColorResetSharp } from "@mui/icons-material";
+import { useRouter } from "next/router";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -42,19 +56,57 @@ export const getServerSideProps = async ({ req, query }) => {
 function Collection({ collections }) {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+  const [openAddArtWork, setOpenAddArtWork] = useState(false);
+  const [currentArtwork, setCurrentArtwork] = useState<any>({});
+  const [openRemoveArtwork, setOpenRemoveArtwork] = useState(false);
+  const axiosAuth = useAxiosAuth();
+  const router = useRouter();
 
-  console.log(collections);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleRemove = async () => {
+    try {
+      setLoading(true);
+      const res = await axiosAuth.post(
+        `/collection/remove-art-work/${collections._id}`,
+        {
+          artPieceId: currentArtwork._id,
+        },
+      );
+      router.replace(router.asPath);
+      setOpenRemoveArtwork(false);
+    } catch (error) {
+      setError(false);
+
+      if (axiosMain.isAxiosError(error)) {
+        setErrorMessage(error.response?.data?.message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
       <DashboardLayoutWithSidebar hideSidebar activePage={DashboardPages.ART}>
         <>
-          <div className="row">
-            <div className="action__body w-full mb-40">
+          <div className="row w-full px-4">
+            <div
+              style={{
+                backgroundImage: `url(${collections?.image}) `,
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+              }}
+              className="action__body w-full mb-40"
+            >
               <div className="tf-tsparticles">
                 <div id="tsparticles7" data-color="#161616" data-line="#000" />
               </div>
-              <h2>{collections?.title}</h2>
+              <h2 className="drop-shadow-md text-white">
+                {collections?.title}
+              </h2>
               <div className="flat-button flex">
                 <Button
                   onClick={() => setOpenEdit(true)}
@@ -72,468 +124,101 @@ function Collection({ collections }) {
                 </Button>
               </div>
               <div className="bg-home7">
-                <AutoSlider1 />
-                <AutoSlider2 />
-                <AutoSlider1 />
+                <AutoSlider1
+                  images={collections?.artworks?.map((artwork) =>
+                    artwork?.assets[0]?.url == "null"
+                      ? ""
+                      : artwork?.assets[0]?.url,
+                  )}
+                />
               </div>
             </div>
             <div className="row">
-              <div className="tf-section-2 product-detail">
-                <div className="row">
-                  <div data-wow-delay="0s" className="wow fadeInLeft col-md-8 ">
-                    <div className="tf-card-box style-5 mb-0">
-                      <div className="card-media mb-0">
-                        <Link href="#">
+              {/* DESCRIPTION */}
+              <div className="col-12">
+                <div className="tf-section-2 product-detail">
+                  <h2 className="title">Description</h2>
+                  <p>{collections?.description}</p>
+                </div>
+              </div>
+            </div>
+            {/* ARTWORKs */}
+
+            <div className="row">
+              <div className="col-12">
+                <div className="tf-section-2 flex justify-between items-center product-detail">
+                  <h2 className="title">Artworks</h2>
+                  <Button
+                    onClick={() => setOpenAddArtWork(true)}
+                    className="tf-button style-2 h50 w190 mr-10"
+                  >
+                    Add Artwork
+                  </Button>
+                </div>
+                <div className="tf-section-2 ">
+                  <div className="flex flex-wrap  pl-2  gap-5 ">
+                    {collections?.artworks?.map((artwork) => (
+                      <div
+                        key={artwork._id}
+                        className="tf-card-box style-5 mb-0 relative max-w-[450px] w-full h-[400px]"
+                      >
+                        <div>
                           <Image
+                            fill
                             src={
-                              collections?.image == "null"
+                              artwork?.assets[0]?.url == "null"
                                 ? ""
-                                : collections?.image
+                                : artwork?.assets[0]?.url
                             }
                             alt={collections?.name}
+                            className="object-cover"
                           />
+                        </div>
+
+                        <Button
+                          onClick={() => {
+                            setOpenRemoveArtwork(true);
+                            setCurrentArtwork(artwork);
+                          }}
+                          className="wishlist-button drop-shadow-md"
+                        >
+                          Remove
+                          <i className="icon-minus" />
+                        </Button>
+                        <Link
+                          href={`/dashboard/artworks/${artwork._id}`}
+                          className="featured-countdown"
+                        >
+                          View Artwork
                         </Link>
                       </div>
-                      <h6 className="price gem">
-                        <i className="icon-gem" />
-                      </h6>
-                      <div className="wishlist-button">
-                        10
-                        <i className="icon-heart" />
-                      </div>
-                      <div className="featured-countdown">
-                        {/* <Countdown endDateTime={currentTime.setDate(currentTime.getDate() + 2)} /> */}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-4 ">
-                    <div
-                      data-wow-delay="0s"
-                      className="wow fadeInRight infor-product"
-                    >
-                      <div className="text">
-                        8SIAN Main Collection{" "}
-                        <span className="icon-tick">
-                          <span className="path1" />
-                          <span className="path2" />
-                        </span>
-                      </div>
-                      <div className="menu_card">
-                        <Menu as="div" className="dropdown">
-                          <div className="icon">
-                            <Menu.Button
-                              as="a"
-                              className="btn-link"
-                              aria-expanded="false"
-                            >
-                              <i className="icon-link-1" />
-                            </Menu.Button>
-                            <Menu.Items
-                              as="div"
-                              className="dropdown-menu show d-block"
-                            >
-                              <Link className="dropdown-item" href="#">
-                                <i className="icon-link" />
-                                Copy link
-                              </Link>
-                              <Link className="dropdown-item" href="#">
-                                <i className="icon-facebook" />
-                                Share on facebook
-                              </Link>
-                              <Link className="dropdown-item mb-0" href="#">
-                                <i className="icon-twitter" />
-                                Share on twitter
-                              </Link>
-                            </Menu.Items>
-                          </div>
-                        </Menu>
-                        <Menu as="div" className="dropdown">
-                          <div className="icon">
-                            <Menu.Button
-                              as="a"
-                              className="btn-link"
-                              aria-expanded="false"
-                            >
-                              <i className="icon-content" />
-                            </Menu.Button>
-                            <Menu.Items
-                              as="div"
-                              className="dropdown-menu show d-block"
-                            >
-                              <Link className="dropdown-item" href="#">
-                                <i className="icon-refresh" />
-                                Refresh metadata
-                              </Link>
-                              <Link className="dropdown-item mb-0" href="#">
-                                <i className="icon-report" />
-                                Report
-                              </Link>
-                            </Menu.Items>
-                          </div>
-                        </Menu>
-                      </div>
-                      <h2>{collections?.title}</h2>
-                      <div className="author flex items-center mb-30">
-                        <div className="avatar">
-                          <Image
-                            src={
-                              collections.author?.avatar
-                                ? collections?.author.avatar
-                                : "/assets/images/avatar/avatar-box-05.jpg"
-                            }
-                            alt="Image"
-                          />
-                        </div>
-                        <div className="info">
-                          <span>Created by:</span>
-                          <h6>
-                            <Link className="tf-color" href="/artist/1">{`${
-                              collections?.author
-                                ? `${collections?.author.firstName} ${collections?.author.lastName}`
-                                : "Marvin McKinney"
-                            }`}</Link>{" "}
-                          </h6>
-                        </div>
-                      </div>
-                      <div className="meta mb-20">
-                        <div className="meta-item view">
-                          <i className="icon-show" />
-                          208 view
-                        </div>
-                        <div className="meta-item rating">
-                          <i className="icon-link-2" />
-                          Top #2 trending
-                        </div>
-                        <div className="meta-item favorites">
-                          <i className="icon-heart" />
-                          10 favorites
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      data-wow-delay="0s"
-                      className="wow fadeInRight product-item time-sales"
-                    >
-                      <h6 className="to-white">
-                        <i className="icon-clock" />
-                        Sale ends May 22 at 9:39
-                      </h6>
-                      <div className="content">
-                        <div className="text">Current price</div>
-                        <div className="justify-between">
-                          <p>
-                            0,032 ETH <span>$58,11</span>
-                          </p>
-                          <Link href="#" className="tf-button style-1 h50 w216">
-                            Place a bid
-                            <i className="icon-arrow-up-right2" />
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      data-wow-delay="0s"
-                      className="wow fadeInRight product-item description"
-                    >
-                      <h6 className="to-white">
-                        <i className="icon-description" />
-                        Description
-                      </h6>
-                      <i className="icon-keyboard_arrow_down" />
-                      <div className="content">
-                        <p>{collections?.description}</p>
-                      </div>
-                    </div>
-                    <div
-                      data-wow-delay="0s"
-                      className="wow fadeInRight product-item history"
-                    >
-                      <h6 className="to-white">
-                        <i className="icon-description" />
-                        Price History
-                      </h6>
-                      <i className="icon-keyboard_arrow_down" />
-                      <div className="content">
-                        {/* <div className="chart">
-                                                    <canvas id="myChart" />
-                                                </div> */}
-                        <BarChart />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-12">
-                    <div className="product-item details">
-                      <h6 className="to-white">
-                        <i className="icon-description" />
-                        Verification Details
-                      </h6>
-                      <i className="icon-keyboard_arrow_down" />
-                      <div className="content">
-                        <div className="details-item">
-                          <span>Contract Address</span>
-                          <span className="tf-color">0x1984...c38f</span>
-                        </div>
-                        <div className="details-item">
-                          <span>Token ID</span>
-                          <span className="tf-color">0270</span>
-                        </div>
-                        <div className="details-item">
-                          <span>Token Standard</span>
-                          <span>ERC-721</span>
-                        </div>
-                        <div className="details-item">
-                          <span>Chain</span>
-                          <span>Ethereum</span>
-                        </div>
-                        <div className="details-item">
-                          <span>Last Updated</span>
-                          <span>8 months ago</span>
-                        </div>
-                        <div className="details-item mb-0">
-                          <span>Creator Earnings</span>
-                          <span>8%</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-12">
-                    <div className="product-item traits style-1">
-                      <h6 className="to-white">
-                        <i className="icon-description" />
-                        Publications
-                      </h6>
-                      <i className="icon-keyboard_arrow_down" />
-                      <div className="content">
-                        <div className="trait-item">
-                          <p>Apparel</p>
-                          <div className="title">Bathrobe Red 1%</div>
-                          <p>Floor: 0,056 ETH</p>
-                        </div>
-                        <div className="trait-item">
-                          <p>Background</p>
-                          <div className="title">Orange 5%</div>
-                          <p>Floor: 0,056 ETH</p>
-                        </div>
-                        <div className="trait-item">
-                          <p>Earrings</p>
-                          <div className="title">None 60%</div>
-                          <p>Floor: 0,037 ETH</p>
-                        </div>
-                        <div className="trait-item">
-                          <p>Apparel</p>
-                          <div className="title">Bathrobe Red 1%</div>
-                          <p>Floor: 0,056 ETH</p>
-                        </div>
-                        <div className="trait-item">
-                          <p>Background</p>
-                          <div className="title">Orange 5%</div>
-                          <p>Floor: 0,056 ETH</p>
-                        </div>
-                        <div className="trait-item">
-                          <p>Earrings</p>
-                          <div className="title">None 60%</div>
-                          <p>Floor: 0,037 ETH</p>
-                        </div>
-                        <div className="trait-item">
-                          <p>Apparel</p>
-                          <div className="title">Bathrobe Red 1%</div>
-                          <p>Floor: 0,056 ETH</p>
-                        </div>
-                        <div className="trait-item">
-                          <p>Background</p>
-                          <div className="title">Orange 5%</div>
-                          <p>Floor: 0,056 ETH</p>
-                        </div>
-                        <div className="trait-item">
-                          <p>Earrings</p>
-                          <div className="title">None 60%</div>
-                          <p>Floor: 0,037 ETH</p>
-                        </div>
-                        <div className="trait-item">
-                          <p>Earrings</p>
-                          <div className="title">None 60%</div>
-                          <p>Floor: 0,037 ETH</p>
-                        </div>
-                        <div className="trait-item">
-                          <p>Apparel</p>
-                          <div className="title">Bathrobe Red 1%</div>
-                          <p>Floor: 0,056 ETH</p>
-                        </div>
-                        <div className="trait-item">
-                          <p>Background</p>
-                          <div className="title">Orange 5%</div>
-                          <p>Floor: 0,056 ETH</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-12">
-                    <div className="product-item offers">
-                      <h6 className="to-white">
-                        <i className="icon-description" />
-                        Provenance
-                      </h6>
-                      <i className="icon-keyboard_arrow_down" />
-                      <div className="content">
-                        <div className="table-heading">
-                          <div className="column">Price</div>
-                          <div className="column">USD Price</div>
-                          <div className="column">Quantity</div>
-                          <div className="column">Floor Diference</div>
-                          <div className="column">Expiration</div>
-                          <div className="column">Form</div>
-                        </div>
-                        <div className="table-item">
-                          <div className="column">
-                            <h6 className="price gem">
-                              <i className="icon-gem" />
-                              0,0034
-                            </h6>
-                          </div>
-                          <div className="column">$6,60</div>
-                          <div className="column">3</div>
-                          <div className="column">90% below</div>
-                          <div className="column">In 26 day</div>
-                          <div className="column">
-                            <span className="tf-color">273E40</span>
-                          </div>
-                        </div>
-                        <div className="table-item">
-                          <div className="column">
-                            <h6 className="price gem">
-                              <i className="icon-gem" />
-                              0,0034
-                            </h6>
-                          </div>
-                          <div className="column">$6,60</div>
-                          <div className="column">3</div>
-                          <div className="column">90% below</div>
-                          <div className="column">In 26 day</div>
-                          <div className="column">
-                            <span className="tf-color">273E40</span>
-                          </div>
-                        </div>
-                        <div className="table-item">
-                          <div className="column">
-                            <h6 className="price gem">
-                              <i className="icon-gem" />
-                              0,0034
-                            </h6>
-                          </div>
-                          <div className="column">$6,60</div>
-                          <div className="column">3</div>
-                          <div className="column">90% below</div>
-                          <div className="column">In 26 day</div>
-                          <div className="column">
-                            <span className="tf-color">273E40</span>
-                          </div>
-                        </div>
-                        <div className="table-item">
-                          <div className="column">
-                            <h6 className="price gem">
-                              <i className="icon-gem" />
-                              0,0034
-                            </h6>
-                          </div>
-                          <div className="column">$6,60</div>
-                          <div className="column">3</div>
-                          <div className="column">90% below</div>
-                          <div className="column">In 26 day</div>
-                          <div className="column">
-                            <span className="tf-color">273E40</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-12">
-                    <div className="product-item item-activity mb-0">
-                      <h6 className="to-white">
-                        <i className="icon-two-arrow rotateZ90" />
-                        Locations
-                      </h6>
-                      <i className="icon-keyboard_arrow_down" />
-                      <div className="content">
-                        <div className="table-heading">
-                          <div className="column">Event</div>
-                          <div className="column">Price</div>
-                          <div className="column">Form</div>
-                          <div className="column">To</div>
-                          <div className="column">Date</div>
-                        </div>
-                        <div className="table-item">
-                          <div className="column flex items-center">
-                            <i className="icon-two-arrow" />
-                            Transfer
-                          </div>
-                          <div className="column">-/-</div>
-                          <div className="column">
-                            <span className="tf-color">985DE3</span>
-                          </div>
-                          <div className="column">
-                            <span className="tf-color">Nosyu</span>
-                          </div>
-                          <div className="column">19h ago</div>
-                        </div>
-                        <div className="table-item">
-                          <div className="column flex items-center">
-                            <i className="icon-sale" />
-                            Sale
-                          </div>
-                          <div className="column">
-                            <h6 className="price gem">
-                              <i className="icon-gem" />
-                              0,0319
-                            </h6>
-                          </div>
-                          <div className="column">
-                            <span className="tf-color">985DE3</span>
-                          </div>
-                          <div className="column">
-                            <span className="tf-color">Nosyu</span>
-                          </div>
-                          <div className="column">19h ago</div>
-                        </div>
-                        <div className="table-item">
-                          <div className="column flex items-center">
-                            <i className="icon-two-arrow" />
-                            Transfer
-                          </div>
-                          <div className="column">-/-</div>
-                          <div className="column">
-                            <span className="tf-color">985DE3</span>
-                          </div>
-                          <div className="column">
-                            <span className="tf-color">Nosyu</span>
-                          </div>
-                          <div className="column">19h ago</div>
-                        </div>
-                        <div className="table-item">
-                          <div className="column flex items-center">
-                            <i className="icon-sale" />
-                            Sale
-                          </div>
-                          <div className="column">
-                            <h6 className="price gem">
-                              <i className="icon-gem" />
-                              0,0319
-                            </h6>
-                          </div>
-                          <div className="column">
-                            <span className="tf-color">985DE3</span>
-                          </div>
-                          <div className="column">
-                            <span className="tf-color">Nosyu</span>
-                          </div>
-                          <div className="column">19h ago</div>
-                        </div>
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
+          <Dialog
+            open={openRemoveArtwork}
+            onClose={() => setOpenRemoveArtwork(false)}
+          >
+            <DialogTitle>Remove Artwork</DialogTitle>
+            <DialogContent>
+              <p>
+                Are you sure you want to remove this artwork from the
+                collection?
+              </p>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setOpenRemoveArtwork(false)}>
+                Cancel
+              </Button>
+              <LoadingButton loading={loading} onClick={handleRemove}>
+                Remove
+              </LoadingButton>
+            </DialogActions>
+          </Dialog>
         </>
       </DashboardLayoutWithSidebar>
 
@@ -549,6 +234,12 @@ function Collection({ collections }) {
         open={openEdit}
         handleClose={() => setOpenEdit(false)}
         collection={collections}
+      />
+
+      <AddArtworkToCollection
+        open={openAddArtWork}
+        collection={collections}
+        handleClose={() => setOpenAddArtWork(false)}
       />
     </>
   );

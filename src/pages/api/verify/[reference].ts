@@ -7,8 +7,7 @@ type Data = {
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default async (req: NextApiRequest, resp: NextApiResponse<Data>) =>
-{
+export default async (req: NextApiRequest, resp: NextApiResponse<Data>) => {
   const {
     query: { reference },
   } = req;
