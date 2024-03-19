@@ -108,7 +108,7 @@ function Collections({ collections }) {
                       <div className="author flex items-center">
                         <div className="avatar">
                           {/* <Image
-                            src={`fdafasdf`}
+                            src={`#`}
                             width={20}
                             height={20}
                             alt="Image"

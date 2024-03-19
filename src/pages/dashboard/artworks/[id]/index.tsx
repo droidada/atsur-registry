@@ -36,8 +36,7 @@ import EditAppraisal from "@/components/dashboard/edit-appraisal";
 import { useRouter } from "next/router";
 import EditPublication from "@/components/dashboard/edit-publication";
 import DeleteDialog from "@/components/dashboard/DeleteDialog";
-import EditLocation from "@/components/dashboard/edit-location";
-import dayjs from "dayjs";
+import { statusTypes } from "@/types";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -70,30 +69,20 @@ function ArtPiece({ artPiece }) {
   const [editedAppraisal, setEditedAppraisal] = useState({});
   const [editPublication, setEditPublication] = useState(false);
   const [editedPublication, setEditedPublication] = useState({});
-  const [editLocation, setEditLocation] = useState(false);
-  const [editedLocation, setEditedLocation] = useState({});
   const [openDiaglog, setOpenDialog] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<{
-    itemType:
-      | "publication"
-      | "exhibition"
-      | "appraisal"
-      | "location"
-      | "provenance"
-      | "auction"
-      | "";
+    itemType: "publication" | "exhibition" | "appraisal" | "";
     itemId: string;
   }>({
     itemId: "",
     itemType: "",
   });
 
-  console.log(artPiece);
   return (
     <>
       <DashboardLayoutWithSidebar hideSidebar activePage={DashboardPages.ART}>
         <>
-          <div className="w-full px-2">
+          <div className="row">
             <div className="action__body w-full mb-40">
               <div className="tf-tsparticles">
                 <div id="tsparticles7" data-color="#161616" data-line="#000" />
@@ -125,7 +114,12 @@ function ArtPiece({ artPiece }) {
                     <div className="tf-card-box style-5 mb-0">
                       <div className="card-media mb-0">
                         <Link href="#">
-                          <Image src={artPiece?.assets[0]?.url} alt="" />
+                          <Image
+                            src={artPiece?.assets[0]?.url}
+                            width={250}
+                            height={100}
+                            alt=""
+                          />
                         </Link>
                       </div>
                       <h6 className="price gem">
@@ -161,9 +155,7 @@ function ArtPiece({ artPiece }) {
                     >
                       <h6 className="to-white">
                         <i className="icon-clock" />
-                        Created: {dayjs(artPiece?.createdAt).format(
-                          "MMM DD",
-                        )}{" "}
+                        Created: May 22 at 9:39
                       </h6>
                       <div className="content">
                         <ListItem dense>
@@ -179,6 +171,25 @@ function ArtPiece({ artPiece }) {
                               "aria-labelledby": "switch-list-label-wifi",
                             }}
                           />
+                        </ListItem>
+                        <ListItem dense>
+                          <h5>status:: </h5>
+                          <p className="capitalize">
+                            {artPiece.verificationStatus}
+                          </p>
+                          <h5>::</h5>
+                        </ListItem>
+                        <ListItem dense>
+                          {artPiece.verificationStatus === statusTypes.DRAFT ? (
+                            <Link
+                              href={`/dashboard/artworks/${artPiece._id}/verification`}
+                              className="tf-button style-3"
+                            >
+                              Verify
+                            </Link>
+                          ) : (
+                            <></>
+                          )}
                         </ListItem>
                         {/* <div className="text">Current price</div>
                           <div className="justify-between">
@@ -450,68 +461,13 @@ function ArtPiece({ artPiece }) {
                             <h6>Locations</h6>
                           </AccordionSummary>
                           <AccordionDetails>
-                            <List>
-                              {artPiece?.locations?.length > 0 &&
-                                artPiece?.locations?.map((location, idx) => (
-                                  <ListItem
-                                    key={idx}
-                                    secondaryAction={
-                                      <>
-                                        <IconButton
-                                          edge="end"
-                                          aria-label="edit"
-                                          onClick={() => {
-                                            setEditLocation(true);
-                                            setEditedLocation(location);
-                                          }}
-                                        >
-                                          <EditIcon />
-                                        </IconButton>
-                                        <IconButton
-                                          onClick={() => {
-                                            setOpenDialog(true);
-                                            setItemToDelete({
-                                              itemId: location?._id,
-                                              itemType: "location",
-                                            });
-                                          }}
-                                          edge="end"
-                                          aria-label="delete"
-                                        >
-                                          <DeleteIcon />
-                                        </IconButton>
-                                      </>
-                                    }
-                                  >
-                                    <ListItemAvatar>
-                                      <Avatar>
-                                        <FolderIcon />
-                                      </Avatar>
-                                    </ListItemAvatar>
-                                    <span>
-                                      <p>
-                                        Name
-                                        <b className="to-gray">
-                                          {location?.name}{" "}
-                                        </b>
-                                        Address
-                                        <b className="to-gray">
-                                          {location?.address}
-                                        </b>
-                                      </p>
-                                    </span>
-                                  </ListItem>
-                                ))}
-                            </List>
-                            <button
-                              className="tf-button style-1"
-                              onClick={() => {
-                                setEditLocation(true);
-                                setEditedLocation(null);
-                              }}
-                            >
-                              Add
-                            </button>
+                            <p>
+                              Lorem ipsum dolor sit amet, consectetur adipiscing
+                              elit, sed do eiusmod tempor incididunt ut labore
+                              et dolore magna aliqua. Ut enim ad minim veniam,
+                              quis nostrud exercitation.Lorem ipsum dolor sit
+                              amet, consectetur adipiscing elit, sed do eiusmod.
+                            </p>
                           </AccordionDetails>
                         </Accordion>
                       </div>
@@ -547,15 +503,6 @@ function ArtPiece({ artPiece }) {
         publication={editedPublication}
         handleClose={() => {
           setEditPublication(false);
-          router.replace(router.asPath);
-        }}
-      />
-      <EditLocation
-        open={editLocation}
-        artPieceId={artPiece._id}
-        location={editedLocation}
-        handleClose={() => {
-          setEditLocation(false);
           router.replace(router.asPath);
         }}
       />

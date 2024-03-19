@@ -22,7 +22,7 @@ function Organizations() {
       console.log("we have orgs here ", res.data?.organizations);
       setOrgs(res.data?.organizations);
     })();
-  }, []);
+  }, [axiosAuth, user]);
 
   return (
     <>

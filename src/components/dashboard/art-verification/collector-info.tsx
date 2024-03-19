@@ -9,7 +9,7 @@ import { LoadingButton } from "@mui/lab";
 import { useAuthContext } from "@/providers/auth.context";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 
-export default function CreateMetadata({ nextPage = (x) => {} }) {
+export default function CollectorInfo({ nextPage = (x) => {} }) {
   const axiosAuth = useAxiosAuth();
   const metadataSchema = object({
     title: string().nonempty("Title is required"),
@@ -106,34 +106,9 @@ export default function CreateMetadata({ nextPage = (x) => {} }) {
 
   return (
     <>
-      <div className="wrap-upload">
-        <form action="#" className="h-full">
-          <label className="uploadfile h-full flex items-center justify-center">
-            <div className="text-center flex flex-col items-center justify-center">
-              {previewImg ? (
-                <Image className="h-full" alt={""} src={previewImg} />
-              ) : (
-                <Image src="/assets/images/box-icon/upload.png" alt="" />
-              )}
-
-              <h5>Upload file</h5>
-              <p className="text">Drag or choose your file to upload</p>
-              <div className="text filename">
-                PNG, GIF, WEBP, MP4 or MP3.Max 1Gb.
-              </div>
-              <input
-                type="file"
-                name="imageFile"
-                accept="image/*"
-                multiple
-                onChange={handleUploadClick}
-              />
-            </div>
-          </label>
-        </form>
-      </div>
       <div className="wrap-content w-full">
         {error && <h5 style={{ color: "red" }}>{error}</h5>}
+        <h3>Collector Information</h3>
         <form
           id="commentform"
           className="comment-form"
@@ -163,7 +138,7 @@ export default function CreateMetadata({ nextPage = (x) => {} }) {
               name="description"
               type="text"
               InputProps={{ className: "textarea", style: {} }}
-              rows={8}
+              rows={4}
               multiline
               placeholder="Describe your artwork *"
               tabIndex={2}

@@ -293,7 +293,7 @@ function Wallet() {
                   <div className="h-full flex-1 grow">
                     <div className="flex items-center justify-center h-full flex-col gap-9 py-14">
                       <div>
-                        <Image src="/images/pic.svg" />
+                        <Image src="/images/pic.svg" alt={""} />
                       </div>
                       <div>No recent transactions</div>
                     </div>

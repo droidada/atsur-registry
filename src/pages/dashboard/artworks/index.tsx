@@ -133,7 +133,12 @@ function Artworks({ artworks }) {
                     <div className="tf-card-box style-1">
                       <div className="card-media">
                         <Link href="#">
-                          <Image src={artPiece?.assets[0]?.url} alt="" />
+                          <Image
+                            src={artPiece?.assets[0]?.url}
+                            width={150}
+                            height={200}
+                            alt=""
+                          />
                         </Link>
                         <span className="wishlist-button icon-heart" />
                         <div className="button-place-bid">

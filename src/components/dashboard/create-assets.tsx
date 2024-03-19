@@ -91,9 +91,9 @@ export default function CreateAssets({ nextPage = (x) => {} }) {
         <form className="comment-form" autoComplete="off" noValidate>
           <label className="uploadfile" style={{ marginBottom: "3%" }}>
             {leftImg ? (
-              <Image className="h-full w-full" src={leftImg} />
+              <Image className="h-full w-full" alt={""} src={leftImg} />
             ) : (
-              <Image src="/assets/images/box-icon/upload.png" alt="" />
+              <Image src="/assets/images/box-icon/upload.png" alt={""} />
             )}
             <h5 className="to-white">Left Angle View</h5>
             <p className="text">Drag or choose your file to upload</p>
@@ -110,7 +110,7 @@ export default function CreateAssets({ nextPage = (x) => {} }) {
           <br />
           <label className="uploadfile" style={{ marginBottom: "3%" }}>
             {rightImg ? (
-              <Image className="h-full w-full" src={rightImg} />
+              <Image className="h-full w-full" alt={""} src={rightImg} />
             ) : (
               <Image src="/assets/images/box-icon/upload.png" alt="" />
             )}
@@ -129,7 +129,7 @@ export default function CreateAssets({ nextPage = (x) => {} }) {
           <br />
           <label className="uploadfile">
             {mountedImg ? (
-              <Image className="h-full w-full" src={mountedImg} />
+              <Image className="h-full w-full" alt={""} src={mountedImg} />
             ) : (
               <Image src="/assets/images/box-icon/upload.png" alt="" />
             )}
