@@ -43,7 +43,7 @@ function Collections({ collections }) {
     <>
       <DashboardLayoutWithSidebar activePage={DashboardPages.COLLECTIONS}>
         <>
-          <div className="row">
+          <div className="row px-4">
             <div className="action__body w-full mb-40">
               <div className="tf-tsparticles">
                 <div id="tsparticles7" data-color="#161616" data-line="#000" />

@@ -37,6 +37,7 @@ import { useRouter } from "next/router";
 import EditPublication from "@/components/dashboard/edit-publication";
 import DeleteDialog from "@/components/dashboard/DeleteDialog";
 import EditLocation from "@/components/dashboard/edit-location";
+import dayjs from "dayjs";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -87,12 +88,12 @@ function ArtPiece({ artPiece }) {
     itemType: "",
   });
 
-  console.log(artPiece?.locations);
+  console.log(artPiece);
   return (
     <>
       <DashboardLayoutWithSidebar hideSidebar activePage={DashboardPages.ART}>
         <>
-          <div className="row">
+          <div className="w-full px-2">
             <div className="action__body w-full mb-40">
               <div className="tf-tsparticles">
                 <div id="tsparticles7" data-color="#161616" data-line="#000" />
@@ -160,7 +161,9 @@ function ArtPiece({ artPiece }) {
                     >
                       <h6 className="to-white">
                         <i className="icon-clock" />
-                        Created: May 22 at 9:39
+                        Created: {dayjs(artPiece?.createdAt).format(
+                          "MMM DD",
+                        )}{" "}
                       </h6>
                       <div className="content">
                         <ListItem dense>
