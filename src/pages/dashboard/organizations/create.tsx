@@ -143,7 +143,7 @@ function CreateOrganization() {
             <label className="uploadfile h-full flex items-center justify-center">
               <div className="text-center flex flex-col items-center justify-center">
                 {previewImg ? (
-                  <Image className="h-full" src={previewImg} />
+                  <Image className="h-full" alt={""} src={previewImg} />
                 ) : (
                   <Image src="/assets/images/box-icon/upload.png" alt="" />
                 )}

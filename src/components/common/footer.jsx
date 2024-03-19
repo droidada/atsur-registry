@@ -55,7 +55,7 @@ const Footer = () => {
         </div>
       </div>
       <div>
-        <Image src={logo2} className="w-[100px] h-[40px]" />
+        <Image src={logo2} alt={""} className="w-[100px] h-[40px]" />
         <div className="flex gap-10 mt-3">
           <p>© 2010 — 2020</p>
           <p>Privacy — Terms</p>

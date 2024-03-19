@@ -29,11 +29,22 @@ export default function AutoSlider1({ images }) {
         {...swiperOptions}
         className="swiper-container autoslider3reverse swiper-container-vertical "
       >
-        {images?.map((image, index) => (
-          <SwiperSlide key={`${index}-image`}>
-            <Image src={image} alt="" />
-          </SwiperSlide>
-        ))}
+        <SwiperSlide>
+          <Image
+            src="/assets/images/item-background/bg-action-1.png"
+            width={150}
+            height={200}
+            alt=""
+          />
+        </SwiperSlide>
+        <SwiperSlide>
+          <Image
+            src="/assets/images/item-background/bg-action-1.png"
+            width={150}
+            height={200}
+            alt=""
+          />
+        </SwiperSlide>
       </Swiper>
     </>
   );

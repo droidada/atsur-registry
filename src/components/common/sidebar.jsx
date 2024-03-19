@@ -16,7 +16,7 @@ const SideBar = ({ showMobile }) => {
           <div className="px-6 py-4 flex items-center justify-center border-b border-gray-100">
             <Link href="/">
               <span className="">
-                <Image src="/images/logo.svg" />
+                <Image src="/images/logo.svg" alt={""} />
               </span>
             </Link>
           </div>

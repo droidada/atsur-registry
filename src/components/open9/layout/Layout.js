@@ -37,7 +37,7 @@ export default function Layout({
       }
     });
     // document.querySelector("body").classList.add("body")
-  }, []);
+  }, [scroll]);
   return (
     <>
       <PageHead headTitle={headTitle} />
