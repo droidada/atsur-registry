@@ -17,7 +17,8 @@ const swiperOptions = {
   },
 };
 
-export default function AutoSlider1() {
+export default function AutoSlider1({ images }) {
+  console.log("images", images);
   return (
     <>
       {/* <Swiper {...swiperOptions} className="abc">
