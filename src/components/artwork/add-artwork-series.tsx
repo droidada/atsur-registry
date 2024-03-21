@@ -25,7 +25,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useAuthContext } from "@/providers/auth.context";
 import { ROLE_IDS_TO_ROLES } from "@/types/constants";
-import InviteArtist from "../add-artist";
+import InviteArtist from "../invite-artist";
 
 interface Author {
   first_name: string;
@@ -109,7 +109,11 @@ const AddArtworkSeries = ({ activeStep, setActiveStep, setCompleted }) => {
         />
       </Box>
 
-      <InviteArtist prompt="Please add the author of this series." />
+      <InviteArtist
+        prompt="Please add the author of this series."
+        listedArtists={[]}
+        setListedArtists={() => {}}
+      />
 
       <Box gridColumn="span 12">
         <TextField

@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
 import { array, object, string, number, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { LoadingButton } from "@mui/lab";
 import { axiosAuth } from "@/lib/axios";
 import {
   Autocomplete,
@@ -11,19 +9,25 @@ import {
   Box,
   TextField,
   CircularProgress,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemAvatar,
+  Avatar,
+  IconButton,
 } from "@mui/material";
+import { Person4, Delete } from "@mui/icons-material";
+import { IArtist } from "@/types/models";
 
-interface Artist {
-  firstName: string;
-  lastName: string;
-  email: string;
-}
-const InviteArtist = ({ width = 600, prompt = "" }) => {
+const InviteArtist = ({
+  prompt = "Add Artist",
+  listedArtists,
+  setListedArtists,
+}) => {
   const [loading, setLoading] = useState(false);
   const [autocompleteOpen, setAutocompleteOpen] = useState(false);
   const [inviteArtist, setInviteArtist] = useState(false);
-  const [options, setOptions] = useState([]);
-  const [selectedArtist, setSelectedArtist] = useState<Artist[]>([]);
+  const [options, setOptions] = useState<IArtist[]>([]);
   const autocompleteLoading =
     autocompleteOpen && options.length === 0 && loading;
 
@@ -32,6 +36,7 @@ const InviteArtist = ({ width = 600, prompt = "" }) => {
     lastName: string().nonempty("Artist last name is required"),
     email: string().email().nonempty("Artist email is required"),
   });
+
   type InviteArtistInput = TypeOf<typeof inviteArtistSchema>;
   const {
     register,
@@ -42,7 +47,17 @@ const InviteArtist = ({ width = 600, prompt = "" }) => {
     resolver: zodResolver(inviteArtistSchema),
   });
 
-  const onSubmitHandler = async (event) => {};
+  const onSubmitHandler: SubmitHandler<InviteArtistInput> = async (values) => {
+    setListedArtists([
+      ...listedArtists,
+      {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+      },
+    ]);
+    reset();
+  };
 
   const handleArtistChange = async (event) => {
     try {
@@ -63,16 +78,50 @@ const InviteArtist = ({ width = 600, prompt = "" }) => {
   };
 
   return (
-    <>
+    <div style={{ margin: "50px 0" }}>
+      <h5>{prompt}</h5>
+      <List dense>
+        {listedArtists &&
+          listedArtists.map((artist, idx) => (
+            <ListItem
+              key={idx}
+              secondaryAction={
+                <IconButton
+                  edge="end"
+                  aria-label="delete"
+                  onClick={() =>
+                    setListedArtists(
+                      listedArtists.filter(
+                        (e) => e.email !== listedArtists[idx].email,
+                      ),
+                    )
+                  }
+                >
+                  <Delete />
+                </IconButton>
+              }
+            >
+              <ListItemAvatar>
+                <Avatar>
+                  <Person4 />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary={`${artist.firstName} ${artist.lastName}`}
+                secondary={artist.email}
+              />
+            </ListItem>
+          ))}
+      </List>
+
       {!inviteArtist ? (
         <Box gridColumn="span 12">
-          <p> {prompt} </p>
           <Autocomplete
             multiple
             onChange={(event: any, newValue: any) => {
-              setSelectedArtist([...selectedArtist, newValue]);
+              setListedArtists([...newValue]);
             }}
-            style={{ width: width, marginTop: 5 }}
+            style={{ width: "100%", marginTop: 5 }}
             id="size-small-outlined-multi"
             size="medium"
             fullWidth
@@ -92,7 +141,11 @@ const InviteArtist = ({ width = 600, prompt = "" }) => {
             loading={autocompleteLoading}
             options={options}
             noOptionsText={
-              <p onClick={() => setInviteArtist(true)}>
+              <p
+                onClick={() => {
+                  setInviteArtist(true);
+                }}
+              >
                 Do not see the artist? Invite them
               </p>
             }
@@ -126,7 +179,7 @@ const InviteArtist = ({ width = 600, prompt = "" }) => {
             noValidate
             onSubmit={handleSubmit(onSubmitHandler)}
           >
-            <div className="flex gap30">
+            <div className="flex gap4">
               <fieldset className="firstName">
                 <label>First Name *</label>
                 <TextField
@@ -176,26 +229,18 @@ const InviteArtist = ({ width = 600, prompt = "" }) => {
                   {...register("email")}
                 />
               </fieldset>
-            </div>
-            <div className="btn-submit flex gap30 justify-center">
-              <button className="tf-button style-1 h50 active" type="submit">
+              <button
+                className="tf-button style-1 h50 active"
+                style={{ marginTop: "2.5em" }}
+                type="submit"
+              >
                 Add
-                <i className="icon-arrow-up-right2" />
               </button>
             </div>
           </form>
-
-          <LoadingButton
-            className="tf-button style-1 h50"
-            loading={loading}
-            type="submit"
-          >
-            Invite
-            <i className="icon-arrow-up-right2" />
-          </LoadingButton>
         </>
       )}
-    </>
+    </div>
   );
 };
 
