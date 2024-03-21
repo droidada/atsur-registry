@@ -81,7 +81,7 @@ function ArtPiece({ artPiece }) {
   return (
     <>
       <DashboardLayoutWithSidebar hideSidebar activePage={DashboardPages.ART}>
-        <>
+        <div className="px-4">
           <div className="row">
             <div className="action__body w-full mb-40">
               <div className="tf-tsparticles">
@@ -431,7 +431,7 @@ function ArtPiece({ artPiece }) {
                           </AccordionDetails>
                         </Accordion>
 
-                        <Accordion className="accordion">
+                        {/* <Accordion className="accordion">
                           <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel1-content"
@@ -449,7 +449,7 @@ function ArtPiece({ artPiece }) {
                               amet, consectetur adipiscing elit, sed do eiusmod.
                             </p>
                           </AccordionDetails>
-                        </Accordion>
+                        </Accordion> */}
 
                         <Accordion className="accordion">
                           <AccordionSummary
@@ -477,7 +477,7 @@ function ArtPiece({ artPiece }) {
               </div>
             </div>
           </div>
-        </>
+        </div>
       </DashboardLayoutWithSidebar>
       <EditExhibition
         open={editExhibition}
