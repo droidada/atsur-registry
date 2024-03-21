@@ -1,5 +1,6 @@
 import Layout from "@/open9/layout/Layout";
 import Link from "next/link";
+
 export default function Custom500() {
   return (
     <>
@@ -21,4 +22,4 @@ export default function Custom500() {
       </Layout>
     </>
   );
-}
+};

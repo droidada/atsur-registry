@@ -49,6 +49,6 @@
     "src/pages/signup/index.tsx",
     "src/components/open9/layout/DashboardLayoutWithSidebar.jsx",
     "src/pages/about-us.jsx"
-  ],
+, "src/components/ErrorBoundary.jsx"  ],
   "exclude": ["node_modules"]
 }

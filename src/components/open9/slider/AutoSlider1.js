@@ -17,7 +17,7 @@ const swiperOptions = {
   },
 };
 
-export default function AutoSlider1({ images }) {
+export default function AutoSlider1({ images = [] }) {
   console.log("images", images);
   return (
     <>

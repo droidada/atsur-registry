@@ -1,5 +1,4 @@
-import Link from "next/link";
-import Image from "@/components/common/image";
+import Error from "next/error";
 import { useState } from "react";
 import { getToken } from "next-auth/jwt";
 import axios from "@/lib/axios";
@@ -40,16 +39,26 @@ export const getServerSideProps = async ({ req, query }) => {
         notFound: true,
       };
     }
-    throw new Error(error);
+    // return {
+    //   props: { error: "Error fetching data" },
+    // };
+    return {
+      props: { hasError: true },
+    };
+
+    // throw new Error(error);
   }
 };
 
-export default function Verification({ artPiece }) {
+export default function Verification({ artPiece, error }) {
+  // const [error, setError] = useState();
   const [activeIndex, setActiveIndex] = useState(11);
   const [artRole, setArtRole] = useState("");
   const handleOnClick = (index) => {
     setActiveIndex(index);
   };
+
+  //if (error) return <Error statusCode={error} />;
 
   return (
     <>

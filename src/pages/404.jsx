@@ -1,5 +1,6 @@
 import Layout from "@/open9/layout/Layout";
 import Link from "next/link";
+
 export default function Custom404() {
   return (
     <>
