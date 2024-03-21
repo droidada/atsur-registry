@@ -1,17 +1,21 @@
 import Link from "next/link";
 import Image from "@/components/common/image";
-import DashboardLayout from "@/open9/layout/DashboardLayout";
 import { useState } from "react";
 import { getToken } from "next-auth/jwt";
 import axios from "@/lib/axios";
-import CreateMetadata from "@/components/dashboard/create-metadata";
-import CreateAssets from "@/components/dashboard/create-assets";
 import DashboardLayoutWithSidebar, {
   DashboardPages,
 } from "@/components/open9/layout/DashboardLayoutWithSidebar";
 import { ToggleButtonGroup, ToggleButton } from "@mui/material";
 import { artRoles } from "@/types";
-import { BusinessCenter } from "@mui/icons-material";
+import {
+  PhotoLibrary,
+  Portrait,
+  Domain,
+  Palette,
+  PhotoAlbum,
+  PhotoSizeSelectActual,
+} from "@mui/icons-material";
 import ArtistInfo from "@/components/dashboard/art-verification/artist-info";
 import DealerInfo from "@/components/dashboard/art-verification/dealer-info";
 import CollectorInfo from "@/components/dashboard/art-verification/collector-info";
@@ -80,8 +84,19 @@ export default function Verification({ artPiece }) {
                   onClick={() => handleOnClick(12)}
                 >
                   <span className="inner">
-                    <span className="order">2</span>Information{" "}
-                    <i className="icon-keyboard_arrow_right" />
+                    <span className="order">2</span>
+                    {artRole === artRoles.ARTIST ? (
+                      <>Artist</>
+                    ) : artRole === artRoles.DEALER ? (
+                      <>Dealer</>
+                    ) : artRole === artRoles.COLLECTOR ? (
+                      <>Collector</>
+                    ) : artRole === artRoles.CUSTODIAN ? (
+                      <>Institution</>
+                    ) : (
+                      <></>
+                    )}{" "}
+                    Information <i className="icon-keyboard_arrow_right" />
                   </span>
                 </li>
                 <li
@@ -104,24 +119,26 @@ export default function Verification({ artPiece }) {
                   style={{
                     display: `${activeIndex == 11 ? "" : "none"}`,
                     alignItems: "center",
+                    textAlign: "center",
                   }}
                 >
-                  <h4>Discovery</h4>
-                  <p>How did you come about this art piece?</p>
+                  <h3 className="p-10">Acquisition</h3>
+                  <p>How did you come about this piece?</p>
                   <ToggleButtonGroup
                     color="primary"
                     value={artRole}
                     exclusive
                     onChange={(e, v) => setArtRole(v)}
                     aria-label="Platform"
+                    className="p-20"
                   >
                     <ToggleButton
                       value={artRoles.ARTIST}
                       sx={{ height: "25rem", display: "block" }}
                     >
-                      <BusinessCenter
+                      <Palette
                         sx={{
-                          fill: "black",
+                          fill: "#3e7aa2",
                           width: "100%",
                           height: "90%",
                           mt: 0.375,
@@ -133,23 +150,23 @@ export default function Verification({ artPiece }) {
                       value={artRoles.DEALER}
                       sx={{ height: "25rem", display: "block" }}
                     >
-                      <BusinessCenter
+                      <PhotoAlbum
                         sx={{
-                          fill: "black",
+                          fill: "#3e7aa2",
                           width: "100%",
                           height: "90%",
                           mt: 0.375,
                         }}
                       />
-                      <p>Gallery or Curator</p>
+                      <p>Dealer</p>
                     </ToggleButton>
                     <ToggleButton
                       value={artRoles.COLLECTOR}
                       sx={{ height: "25rem", display: "block" }}
                     >
-                      <BusinessCenter
+                      <PhotoLibrary
                         sx={{
-                          fill: "black",
+                          fill: "#3e7aa2",
                           width: "100%",
                           height: "90%",
                           mt: 0.375,
@@ -161,15 +178,15 @@ export default function Verification({ artPiece }) {
                       value={artRoles.CUSTODIAN}
                       sx={{ height: "25rem", display: "block" }}
                     >
-                      <BusinessCenter
+                      <Domain
                         sx={{
-                          fill: "black",
+                          fill: "#3e7aa2",
                           width: "100%",
                           height: "90%",
                           mt: 0.375,
                         }}
                       />
-                      <p>Custodian</p>
+                      <p>Institution</p>
                     </ToggleButton>
                   </ToggleButtonGroup>
                   {artRole === artRoles.ARTIST ? (
@@ -188,6 +205,12 @@ export default function Verification({ artPiece }) {
                   <button
                     className="tf-button style-3"
                     onClick={() => handleOnClick(12)}
+                    disabled={!artRole}
+                    style={{
+                      alignItems: "center",
+                      textAlign: "center",
+                      justifySelf: "center",
+                    }}
                   >
                     Next
                   </button>

@@ -12,12 +12,9 @@ import useAxiosAuth from "@/hooks/useAxiosAuth";
 export default function CollectorInfo({ nextPage = (x) => {} }) {
   const axiosAuth = useAxiosAuth();
   const metadataSchema = object({
-    title: string().nonempty("Title is required"),
-    description: string().nonempty("Description is required"),
-    height: number().gte(0),
-    width: number().gte(0),
-    depth: number().gte(0),
-    medium: string().nonempty("Medium is required"),
+    date: string().nonempty("Date is required"),
+    channel: string().nonempty("Channel is required"),
+    notes: string(),
     subjectMatter: string().nonempty("Subject matter is required"),
     rarity: string().nonempty("Rarity is required"),
     type: string().nonempty("Type is required"),
@@ -58,15 +55,9 @@ export default function CollectorInfo({ nextPage = (x) => {} }) {
       console.log(values);
       const formData = new FormData();
       formData.append("file", previewImg);
-      formData.append("title", values.title);
-      formData.append("description", values.description);
       formData.append("rarity", values.rarity);
-      formData.append("medium", values.medium);
       formData.append("subjectMatter", values.subjectMatter);
       formData.append("type", values.type);
-      formData.append("depth", values.depth.toString());
-      formData.append("width", values.width.toString());
-      formData.append("height", values.height.toString());
 
       const result = await axiosAuth.post("/art-piece/add", formData);
       //setPreviewImg(result.data.imageName)
@@ -89,18 +80,10 @@ export default function CollectorInfo({ nextPage = (x) => {} }) {
     var url = reader.readAsDataURL(file);
 
     reader.onloadend = function (e) {
-      //   this.setState({
-      //     previewImg: [reader.result]
-      //   });
       setPreviewImg(reader.result);
     }.bind(this);
     console.log(url); // Would see a path?
 
-    // this.setState({
-    //   mainState: "uploaded",
-    //   selectedFile: event.target.files[0],
-    //   imageUploaded: 1
-    // });
     setPreviewImg(event.target.files[0]);
   };
 
@@ -108,7 +91,7 @@ export default function CollectorInfo({ nextPage = (x) => {} }) {
     <>
       <div className="wrap-content w-full">
         {error && <h5 style={{ color: "red" }}>{error}</h5>}
-        <h3>Collector Information</h3>
+        {/* <h3>Collector Information</h3> */}
         <form
           id="commentform"
           className="comment-form"
@@ -116,134 +99,60 @@ export default function CollectorInfo({ nextPage = (x) => {} }) {
           noValidate
           onSubmit={handleSubmit(onSubmitHandler)}
         >
-          <fieldset className="name">
-            <label>Title *</label>
+          <div className="flex gap30">
+            <fieldset className="name">
+              <label>Date Of Purchase *</label>
+              <TextField
+                type="text"
+                id="title"
+                placeholder="Title"
+                name="title"
+                tabIndex={2}
+                aria-required="true"
+                fullWidth
+                error={!!errors["title"]}
+                helperText={errors["title"] ? errors["title"].message : ""}
+                {...register("title")}
+              />
+            </fieldset>
+            <fieldset className="collection">
+              <label>Channel Of Purchase *</label>
+              <select
+                className="select"
+                tabIndex={2}
+                name="rarity"
+                id="rarity"
+                {...register("rarity")}
+              >
+                <option>Select</option>
+                <option value="direct">Direct from artist</option>
+                <option value="exhibition">Exhibition</option>
+                <option value="auction">Auction</option>
+                <option value="dealer">
+                  Dealer (i.e. via Gallery or Curator)
+                </option>
+                <option value="unknown">Other</option>
+              </select>
+            </fieldset>
+          </div>
+          <fieldset className="price">
+            <label>Notes *</label>
             <TextField
               type="text"
-              id="title"
-              placeholder="Title"
-              name="title"
-              tabIndex={2}
-              aria-required="true"
-              fullWidth
-              error={!!errors["title"]}
-              helperText={errors["title"] ? errors["title"].message : ""}
-              {...register("title")}
-            />
-          </fieldset>
-          <fieldset className="message">
-            <label>Description *</label>
-            <TextField
-              id="description"
-              name="description"
-              type="text"
-              InputProps={{ className: "textarea", style: {} }}
-              rows={4}
+              id="notes"
               multiline
-              placeholder="Describe your artwork *"
+              rows={7}
+              InputProps={{ className: "textarea", style: {} }}
+              placeholder="Collector's notes"
+              name="notes"
               tabIndex={2}
               aria-required="true"
               fullWidth
-              error={!!errors["description"]}
-              helperText={
-                errors["description"] ? errors["description"].message : ""
-              }
-              {...register("description")}
+              error={!!errors["notes"]}
+              helperText={errors["notes"] ? errors["notes"].message : ""}
+              {...register("notes")}
             />
           </fieldset>
-          <div className="flex gap30">
-            <fieldset className="price">
-              <label>Medium *</label>
-              <TextField
-                type="text"
-                id="medium"
-                placeholder="Paint, Oil"
-                name="medium"
-                tabIndex={2}
-                aria-required="true"
-                fullWidth
-                error={!!errors["medium"]}
-                helperText={errors["medium"] ? errors["medium"].message : ""}
-                {...register("medium")}
-              />
-            </fieldset>
-            <fieldset className="properties">
-              <label>Subject Matter *</label>
-              <TextField
-                type="text"
-                id="subjectMatter"
-                placeholder="Landscape, etc"
-                name="subjectMatter"
-                tabIndex={2}
-                aria-required="true"
-                fullWidth
-                error={!!errors["subjectMatter"]}
-                helperText={
-                  errors["subjectMatter"] ? errors["subjectMatter"].message : ""
-                }
-                {...register("subjectMatter")}
-              />
-            </fieldset>
-          </div>
-          <div className="flex gap30">
-            <fieldset className="price">
-              <label>Height (in inches) *</label>
-              <TextField
-                type="number"
-                min={0}
-                id="height"
-                placeholder="12.0"
-                name="height"
-                tabIndex={2}
-                aria-required="true"
-                required
-                fullWidth
-                error={!!errors["height"]}
-                helperText={errors["height"] ? errors["height"].message : ""}
-                {...register("height", {
-                  setValueAs: (value) => Number(value),
-                })}
-              />
-            </fieldset>
-            <fieldset className="properties">
-              <label>Width (in inches) *</label>
-              <TextField
-                type="number"
-                min={0}
-                id="width"
-                placeholder="7.0"
-                name="width"
-                tabIndex={2}
-                aria-required="true"
-                required
-                fullWidth
-                error={!!errors["width"]}
-                helperText={errors["width"] ? errors["width"].message : ""}
-                {...register("width", {
-                  setValueAs: (value) => Number(value),
-                })}
-              />
-            </fieldset>
-            <fieldset className="size">
-              <label>Depth (in inches) *</label>
-              <TextField
-                type="number"
-                min={0}
-                id="depth"
-                placeholder="4"
-                name="depth"
-                tabIndex={2}
-                aria-required="true"
-                required
-                fullWidth
-                error={!!errors["depth"]}
-                helperText={errors["depth"] ? errors["depth"].message : ""}
-                {...register("depth", {
-                  setValueAs: (value) => Number(value),
-                })}
-              />
-            </fieldset>
-          </div>
           <div className="flex gap30">
             <fieldset className="collection">
               <label>Rarity</label>
