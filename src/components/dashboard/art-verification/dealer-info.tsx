@@ -8,7 +8,8 @@ import { Autocomplete, TextField } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { useAuthContext } from "@/providers/auth.context";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
-import InviteArtist from "@/components/add-artist";
+import InviteArtist from "@/components/invite-artist";
+import { IArtist } from "@/types/models";
 
 export default function DealerInfo({ nextPage = (x) => {} }) {
   const axiosAuth = useAxiosAuth();
@@ -40,6 +41,7 @@ export default function DealerInfo({ nextPage = (x) => {} }) {
   const router = useRouter();
   const [error, setError] = useState("");
   const { logIn, user, error: loginError } = useAuthContext();
+  const [listedArtists, setListedArtists] = useState<IArtist[]>([]);
 
   // useEffect(() => {
   //   if (isSubmitSuccessful) {
@@ -109,10 +111,11 @@ export default function DealerInfo({ nextPage = (x) => {} }) {
     <>
       <div className="wrap-content w-full">
         {error && <h5 style={{ color: "red" }}>{error}</h5>}
-        <h3>Dealer Information</h3>
 
-        <InviteArtist prompt={"Invite artist"} />
-
+        <InviteArtist
+          listedArtists={listedArtists}
+          setListedArtists={setListedArtists}
+        />
         <form
           id="commentform"
           className="comment-form"

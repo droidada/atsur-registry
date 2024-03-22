@@ -638,7 +638,7 @@ select {
 }
 
 select {
-  border: none;
+  border: 1px solid #ddd;
   outline: 0;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -651,6 +651,10 @@ select {
   width: 100%;
   background: #eeeeee;
   color: #161616;
+}
+
+select:hover {
+  border: 1px solid #161616;
 }
 
 select option {
@@ -826,6 +830,11 @@ input.style-1[type="submit"]:focus {
 textarea,
 .textarea {
   height: 180px;
+}
+
+textarea,
+.story {
+  height: 380px;
 }
 
 input.style-2 {

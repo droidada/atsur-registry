@@ -8,19 +8,15 @@ import { TextField } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { useAuthContext } from "@/providers/auth.context";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
+import { IArtist } from "@/types/models";
 
 export default function ArtistInfo({ nextPage = (x) => {} }) {
   const axiosAuth = useAxiosAuth();
   const metadataSchema = object({
-    title: string().nonempty("Title is required"),
-    description: string().nonempty("Description is required"),
-    height: number().gte(0),
-    width: number().gte(0),
-    depth: number().gte(0),
-    medium: string().nonempty("Medium is required"),
-    subjectMatter: string().nonempty("Subject matter is required"),
+    story: string().nonempty("Description is required"),
     rarity: string().nonempty("Rarity is required"),
     type: string().nonempty("Type is required"),
+    attachmentOne: string().nonempty("Attachment one is required"),
   });
 
   type MetadataInput = TypeOf<typeof metadataSchema>;
@@ -34,11 +30,14 @@ export default function ArtistInfo({ nextPage = (x) => {} }) {
     resolver: zodResolver(metadataSchema),
   });
 
-  const [previewImg, setPreviewImg] = useState(null);
+  const [attachmentOne, setAttachmentOne] = useState(null);
+  const [attachmentTwo, setAttachmentTwo] = useState(null);
+  const [attachmentThree, setAttachmentThree] = useState(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [error, setError] = useState("");
   const { logIn, user, error: loginError } = useAuthContext();
+  const [listedArtists, setListedArtists] = useState<IArtist[]>([]);
 
   // useEffect(() => {
   //   if (isSubmitSuccessful) {
@@ -49,24 +48,15 @@ export default function ArtistInfo({ nextPage = (x) => {} }) {
 
   const onSubmitHandler: SubmitHandler<MetadataInput> = async (values) => {
     try {
-      if (!previewImg) {
-        setError("Image attachment is required");
-        return;
-      }
-
       setLoading(true);
       console.log(values);
       const formData = new FormData();
-      formData.append("file", previewImg);
-      formData.append("title", values.title);
-      formData.append("description", values.description);
+      formData.append("attachmentOne", attachmentOne);
+      formData.append("attachmentTwo", attachmentTwo);
+      formData.append("attachmentThree", attachmentThree);
+      formData.append("story", values.story);
       formData.append("rarity", values.rarity);
-      formData.append("medium", values.medium);
-      formData.append("subjectMatter", values.subjectMatter);
       formData.append("type", values.type);
-      formData.append("depth", values.depth.toString());
-      formData.append("width", values.width.toString());
-      formData.append("height", values.height.toString());
 
       const result = await axiosAuth.post("/art-piece/add", formData);
       //setPreviewImg(result.data.imageName)
@@ -89,26 +79,18 @@ export default function ArtistInfo({ nextPage = (x) => {} }) {
     var url = reader.readAsDataURL(file);
 
     reader.onloadend = function (e) {
-      //   this.setState({
-      //     previewImg: [reader.result]
-      //   });
-      setPreviewImg(reader.result);
+      setAttachmentOne(reader.result);
     }.bind(this);
     console.log(url); // Would see a path?
 
-    // this.setState({
-    //   mainState: "uploaded",
-    //   selectedFile: event.target.files[0],
-    //   imageUploaded: 1
-    // });
-    setPreviewImg(event.target.files[0]);
+    setAttachmentOne(event.target.files[0]);
   };
 
   return (
     <>
       <div className="wrap-content w-full">
         {error && <h5 style={{ color: "red" }}>{error}</h5>}
-        <h3>Artist Information</h3>
+        {/* <h3>Artist Information</h3> */}
         <form
           id="commentform"
           className="comment-form"
@@ -116,164 +98,155 @@ export default function ArtistInfo({ nextPage = (x) => {} }) {
           noValidate
           onSubmit={handleSubmit(onSubmitHandler)}
         >
-          <fieldset className="name">
-            <label>Title *</label>
-            <TextField
-              type="text"
-              id="title"
-              placeholder="Title"
-              name="title"
-              tabIndex={2}
-              aria-required="true"
-              fullWidth
-              error={!!errors["title"]}
-              helperText={errors["title"] ? errors["title"].message : ""}
-              {...register("title")}
-            />
-          </fieldset>
           <fieldset className="message">
-            <label>Description *</label>
+            <label>Storytelling *</label>
             <TextField
-              id="description"
-              name="description"
+              id="story"
+              name="story"
               type="text"
-              InputProps={{ className: "textarea", style: {} }}
-              rows={4}
+              InputProps={{ className: "textarea story", style: {} }}
+              rows={15}
               multiline
-              placeholder="Describe your artwork *"
+              placeholder="Tell the story behind the creation of your piece."
               tabIndex={2}
               aria-required="true"
               fullWidth
-              error={!!errors["description"]}
-              helperText={
-                errors["description"] ? errors["description"].message : ""
-              }
-              {...register("description")}
+              error={!!errors["story"]}
+              helperText={errors["story"] ? errors["story"].message : ""}
+              {...register("story")}
             />
           </fieldset>
+          <label>Attachments:</label>
           <div className="flex gap30">
-            <fieldset className="price">
-              <label>Medium *</label>
+            <fieldset className="collection">
+              <label className="uploadfile flex items-center justify-center">
+                <div className="text-center flex flex-col items-center justify-center">
+                  {attachmentOne ? (
+                    <Image className="h-full" alt={""} src={attachmentOne} />
+                  ) : (
+                    <>
+                      <Image src="/assets/images/box-icon/upload.png" alt="" />
+                      <p>Drag or choose attachment to upload</p>
+                      <h6 className="text to-gray">PDF, JPEG.. Max 10Mb.</h6>
+                    </>
+                  )}
+                  <TextField
+                    type="file"
+                    name="attachmentOne"
+                    InputProps={{ accept: "pdf,image/*" }}
+                    multiple
+                    onChange={handleUploadClick}
+                    error={!!errors["attachmentOne"]}
+                    helperText={
+                      errors["attachmentOne"]
+                        ? errors["attachmentOne"].message
+                        : ""
+                    }
+                    {...register("attachmentOne")}
+                  />
+                </div>
+              </label>
+              <label className="to-white">Caption:</label>
               <TextField
                 type="text"
-                id="medium"
-                placeholder="Paint, Oil"
-                name="medium"
+                id="attachmentCaption"
+                placeholder="publication document"
+                name="attachmentCaption"
                 tabIndex={2}
-                aria-required="true"
                 fullWidth
-                error={!!errors["medium"]}
-                helperText={errors["medium"] ? errors["medium"].message : ""}
-                {...register("medium")}
-              />
-            </fieldset>
-            <fieldset className="properties">
-              <label>Subject Matter *</label>
-              <TextField
-                type="text"
-                id="subjectMatter"
-                placeholder="Landscape, etc"
-                name="subjectMatter"
-                tabIndex={2}
-                aria-required="true"
-                fullWidth
-                error={!!errors["subjectMatter"]}
+                // defaultValue={publication?.attachmentCaption}
+                error={!!errors["attachmentCaption"]}
                 helperText={
-                  errors["subjectMatter"] ? errors["subjectMatter"].message : ""
+                  errors["attachmentCaption"]
+                    ? errors["attachmentCaption"].message
+                    : ""
                 }
-                {...register("subjectMatter")}
+                // {...register("attachmentOneCaption")}
               />
-            </fieldset>
-          </div>
-          <div className="flex gap30">
-            <fieldset className="price">
-              <label>Height (in inches) *</label>
-              <TextField
-                type="number"
-                min={0}
-                id="height"
-                placeholder="12.0"
-                name="height"
-                tabIndex={2}
-                aria-required="true"
-                required
-                fullWidth
-                error={!!errors["height"]}
-                helperText={errors["height"] ? errors["height"].message : ""}
-                {...register("height", {
-                  setValueAs: (value) => Number(value),
-                })}
-              />
-            </fieldset>
-            <fieldset className="properties">
-              <label>Width (in inches) *</label>
-              <TextField
-                type="number"
-                min={0}
-                id="width"
-                placeholder="7.0"
-                name="width"
-                tabIndex={2}
-                aria-required="true"
-                required
-                fullWidth
-                error={!!errors["width"]}
-                helperText={errors["width"] ? errors["width"].message : ""}
-                {...register("width", {
-                  setValueAs: (value) => Number(value),
-                })}
-              />
-            </fieldset>
-            <fieldset className="size">
-              <label>Depth (in inches) *</label>
-              <TextField
-                type="number"
-                min={0}
-                id="depth"
-                placeholder="4"
-                name="depth"
-                tabIndex={2}
-                aria-required="true"
-                required
-                fullWidth
-                error={!!errors["depth"]}
-                helperText={errors["depth"] ? errors["depth"].message : ""}
-                {...register("depth", {
-                  setValueAs: (value) => Number(value),
-                })}
-              />
-            </fieldset>
-          </div>
-          <div className="flex gap30">
-            <fieldset className="collection">
-              <label>Rarity</label>
-              <select
-                className="select"
-                tabIndex={2}
-                name="rarity"
-                id="rarity"
-                {...register("rarity")}
-              >
-                <option>Select</option>
-                <option value="unique">Unique</option>
-                <option value="limited-edition">Limited Edition</option>
-                <option value="open-edition">Open Edition</option>
-                <option value="unknown">Unknown</option>
-              </select>
             </fieldset>
             <fieldset className="collection">
-              <label>Type</label>
-              <select
-                className="select"
+              <label className="uploadfile h-full flex items-center justify-center">
+                <div className="text-center flex flex-col items-center justify-center">
+                  {attachmentOne ? (
+                    <Image className="h-full" alt={""} src={attachmentOne} />
+                  ) : (
+                    <>
+                      <Image src="/assets/images/box-icon/upload.png" alt="" />
+                      {/* <h5 className="text-white">Image</h5> */}
+                      <p className="text">
+                        Drag or choose attachment to upload
+                      </p>
+                      <h6 className="text to-gray">PDF, JPEG.. Max 10Mb.</h6>
+                    </>
+                  )}
+                  <input
+                    type="file"
+                    name="attachment"
+                    accept="pdf,image/*"
+                    multiple
+                    onChange={handleUploadClick}
+                  />
+                </div>
+              </label>
+              <label className="to-white">Caption:</label>
+              <TextField
+                type="text"
+                id="attachmentCaption"
+                placeholder="publication document"
+                name="attachmentCaption"
                 tabIndex={2}
-                name="type"
-                id="type"
-                {...register("type")}
-              >
-                <option>Select</option>
-                <option value="art-piece">Art Piece</option>
-                <option value="artifact">Artifact</option>
-              </select>
+                fullWidth
+                // defaultValue={publication?.attachmentCaption}
+                error={!!errors["attachmentCaption"]}
+                helperText={
+                  errors["attachmentCaption"]
+                    ? errors["attachmentCaption"].message
+                    : ""
+                }
+                // {...register("attachmentOneCaption")}
+              />
+            </fieldset>
+            <fieldset className="collection">
+              <label className="uploadfile h-full flex items-center justify-center">
+                <div className="text-center flex flex-col items-center justify-center">
+                  {attachmentOne ? (
+                    <Image className="h-full" alt={""} src={attachmentOne} />
+                  ) : (
+                    <>
+                      <Image src="/assets/images/box-icon/upload.png" alt="" />
+                      {/* <h5 className="text-white">Image</h5> */}
+                      <p className="text">
+                        Drag or choose attachment to upload
+                      </p>
+                      <h6 className="text to-gray">PDF, JPEG.. Max 10Mb.</h6>
+                    </>
+                  )}
+                  <input
+                    type="file"
+                    name="attachment"
+                    accept="pdf,image/*"
+                    multiple
+                    onChange={handleUploadClick}
+                  />
+                </div>
+              </label>
+              <label className="to-white">Caption:</label>
+              <TextField
+                type="text"
+                id="attachmentCaption"
+                placeholder="publication document"
+                name="attachmentCaption"
+                tabIndex={2}
+                fullWidth
+                // defaultValue={publication?.attachmentCaption}
+                error={!!errors["attachmentCaption"]}
+                helperText={
+                  errors["attachmentCaption"]
+                    ? errors["attachmentCaption"].message
+                    : ""
+                }
+                // {...register("attachmentOneCaption")}
+              />
             </fieldset>
           </div>
           <div className="btn-submit flex gap30 justify-center">
