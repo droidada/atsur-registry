@@ -5,7 +5,7 @@ import { useAuthContext } from "@/providers/auth.context";
 import AddArtworkMeta from "./add-artwork-meta";
 import AddArtworkSeries from "./add-artwork-series";
 import AddArtworkAssets from "./add-artwork-assets";
-import InviteArtist from "../add-artist";
+import InviteArtist from "../invite-artist";
 
 const AddArtworkFlow = ({ activeStep, setActiveStep, setCompleted }) => {
   const { user } = useAuthContext();
@@ -47,7 +47,11 @@ const AddArtworkFlow = ({ activeStep, setActiveStep, setCompleted }) => {
       )}
 
       {activeStep == 3 && (
-        <InviteArtist prompt="Please add the creators of this artwork." />
+        <InviteArtist
+          prompt="Please add the creators of this artwork."
+          listedArtists={[]}
+          setListedArtists={() => {}}
+        />
       )}
       <Grid container></Grid>
     </Box>
