@@ -10,15 +10,23 @@ import AutoSlider1 from "@/open9/slider/AutoSlider1";
 import AutoSlider2 from "@/open9/slider/AutoSlider2";
 import { getToken } from "next-auth/jwt";
 import axios from "@/lib/axios";
+import axiosMain from "axios";
 import { Button } from "@mui/base";
 import DeleteDialog from "@/components/dashboard/DeleteDialog";
 import EditOrganization from "@/components/dashboard/edit-organization";
 import Image from "next/image";
+import { RiDeleteBin7Fill } from "react-icons/ri";
 import {
+  Avatar,
   Card,
   CardContent,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  IconButton,
   List,
   ListItem,
+  ListItemAvatar,
   ListItemButton,
   ListItemIcon,
   ListItemText,
@@ -27,6 +35,12 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { FaUser } from "react-icons/fa";
+import { IArtist } from "@/types/models";
+import InviteArtist from "@/components/invite-artist";
+import useAxiosAuth from "@/hooks/useAxiosAuth";
+import { useRouter } from "next/router";
+import { LoadingButton } from "@mui/lab";
+import SnackBarAlert from "@/components/common/SnackBarAlert";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -57,6 +71,15 @@ function Organization({ organizations }) {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [members, setMembers] = useState<any[]>([]);
+  const [listedUsers, setListedUsers] = useState<IArtist[]>([]);
+  const [openMemberInvite, setOpenMemberInvite] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const axiosAuth = useAxiosAuth();
+  const router = useRouter();
+  const [currentMember, setCurrentMember] = useState("");
+  const [openRemoveMember, setOpenRemoveMember] = useState(false);
 
   useEffect(() => {
     // Filter out the creator from the members
@@ -66,9 +89,30 @@ function Organization({ organizations }) {
     setMembers(filterMembers);
   }, [organizations]);
 
-  console.log(members);
-
-  console.log(organizations);
+  const handleAddMember = async () => {
+    try {
+      setLoading(true);
+      const res = await Promise.all(
+        listedUsers?.map(async (member) => {
+          const { data } = await axiosAuth.post(
+            `/org/add-member/${organizations?._id}`,
+            { memberId: member?._id },
+          );
+        }),
+      );
+      router.replace(router.asPath);
+      setOpenMemberInvite(false);
+    } catch (error) {
+      setError(true);
+      if (axiosMain.isAxiosError(error)) {
+        setErrorMessage(error.response?.data?.message);
+      } else {
+        setErrorMessage("Something went wrong. Please try again");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -188,16 +232,44 @@ function Organization({ organizations }) {
               </div>
             </div>
             <div className="px-4">
-              <Typography variant="h2">Organization Members</Typography>
+              <Stack
+                direction={"row"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+                spacing={2}
+              >
+                <Typography variant="h2">Organization Members</Typography>
+                <Button
+                  onClick={() => setOpenMemberInvite(true)}
+                  className="bg-black/70 font-semibold"
+                >
+                  Add Members
+                </Button>
+              </Stack>
               <Card className="row  mt-3">
                 {members.length > 0 ? (
                   <List>
                     {members?.map((member) => (
-                      <ListItem key={member?._id} disablePadding>
+                      <ListItem
+                        secondaryAction={
+                          <IconButton
+                            onClick={() => {
+                              setCurrentMember(member?._id);
+                              setOpenRemoveMember(true);
+                            }}
+                          >
+                            <RiDeleteBin7Fill />
+                          </IconButton>
+                        }
+                        key={member?._id}
+                        disablePadding
+                      >
                         <ListItemButton>
-                          <ListItemIcon>
-                            <FaUser />
-                          </ListItemIcon>
+                          <ListItemAvatar>
+                            <Avatar>
+                              <FaUser />
+                            </Avatar>
+                          </ListItemAvatar>
                           <ListItemText
                             primary={`${member?.firstName} ${member?.lastName}`}
                           />
@@ -216,6 +288,32 @@ function Organization({ organizations }) {
         </div>
       </DashboardLayoutWithSidebar>
 
+      <Dialog
+        open={openMemberInvite}
+        onClose={() => setOpenMemberInvite(false)}
+        title="Add Members"
+      >
+        <DialogContent>
+          <InviteArtist
+            listedArtists={listedUsers}
+            setListedArtists={setListedUsers}
+            label="Add Member"
+            placeholder="Search for artists..."
+            prompt="Add members to the organization"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenMemberInvite(false)}>Cancel</Button>
+          <LoadingButton
+            loading={loading}
+            disabled={listedUsers.length === 0}
+            onClick={handleAddMember}
+          >
+            Add
+          </LoadingButton>
+        </DialogActions>
+      </Dialog>
+
       <DeleteDialog
         open={openDeleteDialog}
         onClose={() => setOpenDeleteDialog(false)}
@@ -223,11 +321,27 @@ function Organization({ organizations }) {
         redirectUrl={`/dashboard/organizations`}
         itemToDelete={{ itemType: "organization", itemId: "" }}
       />
+      <DeleteDialog
+        open={openRemoveMember}
+        onClose={() => setOpenRemoveMember(false)}
+        deleteUrl={`/org/remove-member/${organizations?._id}`}
+        urlBody={{ memberId: currentMember }}
+        prompText="Are you sure you want to remove this member?"
+        itemToDelete={{ itemType: "organization", itemId: "" }}
+      />
 
       <EditOrganization
         open={openEdit}
         handleClose={() => setOpenEdit(false)}
         organization={organizations}
+      />
+
+      <SnackBarAlert
+        open={error}
+        onClose={() => setError(false)}
+        message={errorMessage}
+        type="error"
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       />
     </>
   );
