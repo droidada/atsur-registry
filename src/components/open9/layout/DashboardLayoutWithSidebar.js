@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useAuthContext } from "@/providers/auth.context";
 import Footer1 from "./footer/Footer1";
 import ErrorBoundary from "@/components/ErrorBoundary";
+//import ErrorBoundary from "react-error-boundary";
 
 export const DashboardPages = {
   CREATE: "create",
@@ -220,7 +221,10 @@ const DashboardLayoutWithSidebar = ({
                         </svg>
                         <span>My Profile</span>
                       </Link>
-                      <Link className="flex gap-4 mb-30" href="/dashboard/wallet">
+                      <Link
+                        className="flex gap-4 mb-30"
+                        href="/dashboard/wallet"
+                      >
                         <svg
                           width={20}
                           height={18}
@@ -274,7 +278,9 @@ const DashboardLayoutWithSidebar = ({
               </div>
               <div className="flat-tabs">
                 <div
-                  className={`section-menu-left ${isMobileSidebar ? "null" : ""}`}
+                  className={`section-menu-left ${
+                    isMobileSidebar ? "null" : ""
+                  }`}
                 >
                   <div className="box-logo">
                     <Link href="/">
@@ -311,7 +317,9 @@ const DashboardLayoutWithSidebar = ({
                           <Link
                             href="/dashboard/artworks"
                             className={
-                              activePage === DashboardPages.ART ? "tf-color" : ""
+                              activePage === DashboardPages.ART
+                                ? "tf-color"
+                                : ""
                             }
                           >
                             <svg
@@ -1287,7 +1295,7 @@ const DashboardLayoutWithSidebar = ({
           )}
         </div>
       </ErrorBoundary>
-        {/* <Footer1 /> */}
+      {/* <Footer1 /> */}
     </>
   );
 };

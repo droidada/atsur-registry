@@ -1,6 +1,5 @@
 import type { AppProps } from "next/app";
 import { NextPage } from "next/types";
-// import { ErrorBoundary } from 'react-error-boundary';
 
 import { WagmiConfig, configureChains, createConfig, mainnet } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
@@ -17,13 +16,10 @@ import "@rainbow-me/rainbowkit/styles.css";
 import "@/styles/globals.css";
 import ThemeProvider from "@/styles/theme";
 import { ProtectedLayout } from "@/components/protected-layout";
-import AddClassBody from "@/open9/elements/AddClassBody";
 import "/public/assets/css/style.css";
 import "/public/assets/css/responsive.css";
 import "wowjs/css/libs/animate.css";
 import { ToastProvider } from "@/providers/ToastProvider";
-import ErrorBoundary from "@/components/ErrorBoundary";
-import { useState, Suspense } from "react";
 
 type AppPropsWithAuth = NextPage & {
   requiresAuth?: boolean;
@@ -67,10 +63,10 @@ const wagmiConfig = createConfig({
   publicClient: publicClient,
 });
 
-const ErrorHandler = ({error}) => {
-  console.log("we have error here in error boundary please...... ", error )
-	return <div>{error.message}</div>
-}
+const ErrorHandler = ({ error }) => {
+  console.log("we have error here in error boundary please...... ", error);
+  return <div>{error.message}</div>;
+};
 
 export default function NextWeb3App({
   Component,
@@ -79,35 +75,33 @@ export default function NextWeb3App({
   return (
     // <WagmiConfig config={wagmiConfig}>
     //   <RainbowKitProvider chains={chains} appInfo={appInfo} coolMode={true}>
-        
-          <SessionProvider session={session}>
-            <AuthContextProvider>
-              <ToastProvider>
-              {/* <ErrorBoundary> */}
-              {/* <ErrorBoundary > */}
-                {/* <Suspense fallback={<div>Loading...</div>}> */}
-                  {Component.requireAuth ? (
-                    <ProtectedLayout>
-                      <ThemeProvider>
-                        {/* <AddClassBody /> */}
-                          <Component {...pageProps} />
-                      </ThemeProvider>
-                    </ProtectedLayout>
-                  ) : (
-                    <ThemeProvider>
-                        <Component {...pageProps} />
-                    </ThemeProvider>
-                  )}
-                  {/* </ErrorBoundary> */}
-                  {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-                  {/* <Analytics /> */}
-                  {/* </Suspense> */}
-                {/* </ErrorBoundary> */}
-              </ToastProvider>
-            </AuthContextProvider>
-          </SessionProvider>
-        
-     // </RainbowKitProvider>
+
+    <SessionProvider session={session}>
+      <AuthContextProvider>
+        <ToastProvider>
+          {/* <ErrorBoundary > */}
+          {/* <Suspense fallback={<div>Loading...</div>}> */}
+          {Component.requireAuth ? (
+            <ProtectedLayout>
+              <ThemeProvider>
+                {/* <AddClassBody /> */}
+                <Component {...pageProps} />
+              </ThemeProvider>
+            </ProtectedLayout>
+          ) : (
+            <ThemeProvider>
+              <Component {...pageProps} />
+            </ThemeProvider>
+          )}
+          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+          {/* <Analytics /> */}
+          {/* </Suspense> */}
+          {/* </ErrorBoundary> */}
+        </ToastProvider>
+      </AuthContextProvider>
+    </SessionProvider>
+
+    // </RainbowKitProvider>
     // </WagmiConfig>
   );
 }

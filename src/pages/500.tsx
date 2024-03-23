@@ -22,4 +22,4 @@ export default function Custom500() {
       </Layout>
     </>
   );
-};
+}

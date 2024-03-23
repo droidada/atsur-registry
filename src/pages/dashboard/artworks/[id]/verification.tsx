@@ -1,4 +1,4 @@
-import Error from "next/error";
+// import Error from "next/error";
 import { useState } from "react";
 import { getToken } from "next-auth/jwt";
 import axios from "@/lib/axios";
@@ -43,7 +43,7 @@ export const getServerSideProps = async ({ req, query }) => {
     //   props: { error: "Error fetching data" },
     // };
     return {
-      props: { hasError: true },
+      props: { error: error?.response?.status },
     };
 
     // throw new Error(error);
@@ -58,7 +58,8 @@ export default function Verification({ artPiece, error }) {
     setActiveIndex(index);
   };
 
-  //if (error) return <Error statusCode={error} />;
+  
+  // if (error) return <Error statusCode={error} />;
 
   return (
     <>
@@ -66,6 +67,9 @@ export default function Verification({ artPiece, error }) {
         activePage={DashboardPages.ART}
         hideSidebar={true}
       >
+  
+        {(()=> {if (error) throw new Error(error);})()}
+  
         <div id="create">
           <div className="wrapper-content-create">
             <div className="heading-section">
