@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "@/components/common/image";
+import Image from "next/image";
 import DashboardLayoutWithSidebar, {
   DashboardPages,
 } from "@/components/open9/layout/DashboardLayoutWithSidebar";
@@ -78,20 +78,19 @@ function Collections({ collections }) {
                     key={idx}
                     className="fl-item col-xl-3 col-lg-4 col-md-6 col-sm-6"
                   >
-                    <div className="tf-card-box style-1">
-                      <div className="card-media">
-                        <Link href="#">
-                          <Image
-                            src={
-                              collection?.image === "null"
-                                ? ""
-                                : collection?.image
-                            }
-                            width={20}
-                            height={20}
-                            alt={collection?.title}
-                          />
-                        </Link>
+                    <div className="tf-card-box style-1 h-[350px]">
+                      <div className="card-media relative h-[60%]">
+                        <Image
+                          fill
+                          src={
+                            collection?.image === "null"
+                              ? ""
+                              : collection?.image
+                          }
+                          className="object-cover"
+                          alt={collection?.title}
+                        />
+
                         <span className="wishlist-button icon-heart" />
                         <div className="button-place-bid">
                           <Link
