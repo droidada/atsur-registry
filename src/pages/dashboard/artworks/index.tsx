@@ -59,12 +59,9 @@ function Artworks({ artworks }) {
             </Link>
           </div>
           <div className="bg-home7">
-            <AutoSlider1
-              images={artworks?.map((artPiece) => artPiece?.assets[0]?.url)}
-            />
-            <AutoSlider1
-              images={artworks?.map((artPiece) => artPiece?.assets[0]?.url)}
-            />
+            <AutoSlider1 />
+            <AutoSlider2 />
+            <AutoSlider1 />
           </div>
         </div>
 

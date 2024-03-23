@@ -23,6 +23,8 @@ const InviteArtist = ({
   prompt = "Add Artist",
   listedArtists,
   setListedArtists,
+  placeholder = "Artist name",
+  label = "Artist name",
 }) => {
   const [loading, setLoading] = useState(false);
   const [autocompleteOpen, setAutocompleteOpen] = useState(false);
@@ -152,8 +154,8 @@ const InviteArtist = ({
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Artist name"
-                placeholder="Artist name"
+                label={label}
+                placeholder={placeholder}
                 onChange={handleArtistChange}
                 InputProps={{
                   ...params.InputProps,

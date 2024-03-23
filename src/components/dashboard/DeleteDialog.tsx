@@ -30,6 +30,8 @@ interface Props {
   deleteUrl?: string;
   artPieceId?: string;
   redirectUrl?: string;
+  urlBody?: any;
+  prompText?: string;
 }
 
 const DeleteDialog: React.FC<Props> = ({
@@ -39,6 +41,8 @@ const DeleteDialog: React.FC<Props> = ({
   artPieceId,
   deleteUrl,
   redirectUrl,
+  urlBody,
+  prompText,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -70,8 +74,12 @@ const DeleteDialog: React.FC<Props> = ({
           setErrorMessage("No Data selected");
         }
       } else {
-        const result = await axiosAuth.post(deleteUrl);
-        router.push(redirectUrl);
+        const result = await axiosAuth.post(deleteUrl, { ...urlBody });
+        if (redirectUrl) {
+          router.push(redirectUrl);
+        } else {
+          router.replace(router.asPath);
+        }
         onClose();
       }
     } catch (error) {
@@ -92,7 +100,8 @@ const DeleteDialog: React.FC<Props> = ({
         {itemToDelete?.itemType}
       </DialogTitle>
       <DialogContent>
-        Are you sure your want to delete this {itemToDelete?.itemType}?
+        {prompText ||
+          `Are you sure your want to delete this ${itemToDelete?.itemType}?`}
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>

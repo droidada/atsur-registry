@@ -40,7 +40,7 @@ function Organizations({ organizations }) {
   return (
     <>
       <DashboardLayoutWithSidebar activePage={DashboardPages.ORGANIZATIONS}>
-        <>
+        <div className="w-full px-4">
           <div className="row">
             <div className="action__body w-full mb-40">
               <div className="tf-tsparticles">
@@ -68,6 +68,9 @@ function Organizations({ organizations }) {
                 <AutoSlider2 />
                 <AutoSlider1 />
               </div>
+            </div>
+            <div className="heading-section">
+              <h2 className="tf-title style-1 pb-30">My Organizations</h2>
             </div>
             <div className="row">
               {organizations?.length > 0 ? (
@@ -137,13 +140,13 @@ function Organizations({ organizations }) {
               <p>You have no invites</p>
             </div>
             <div className="heading-section">
-              <h2 className="tf-title style-1 pb-30">Member Organizations</h2>
+              <h2 className="tf-title style-1 pb-30">Organizations</h2>
             </div>
             <div className="row">
               <p>You are not a member of any organizations</p>
             </div>
           </div>
-        </>
+        </div>
       </DashboardLayoutWithSidebar>
     </>
   );
