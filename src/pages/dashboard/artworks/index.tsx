@@ -174,5 +174,5 @@ function Artworks({ artworks }) {
     </DashboardLayoutWithSidebar>
   );
 }
-Artworks.requiredAuth = true;
+Artworks.requireAuth = true;
 export default Artworks;

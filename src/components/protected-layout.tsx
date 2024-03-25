@@ -25,6 +25,8 @@ export const ProtectedLayout = ({ children }: Props): JSX.Element => {
     // check if the session is loading or the router is not ready
     if (loading || !router.isReady) return;
 
+    console.log("PROTCTING THE LAYOUT .....", status);
+
     // if the user is not authorized, redirect to the login page
     // with a return url to the current page
     if (unAuthorized) {

@@ -8,7 +8,7 @@ import DashboardLayoutWithSidebar, {
   DashboardPages,
 } from "@/components/open9/layout/DashboardLayoutWithSidebar";
 
-export default function Home() {
+function Dashboard() {
   const [activeIndex, setActiveIndex] = useState(11);
   const handleOnClick = (index) => {
     setActiveIndex(index);
@@ -256,3 +256,6 @@ export default function Home() {
     </>
   );
 }
+
+Dashboard.requireAuth = true;
+export default Dashboard;

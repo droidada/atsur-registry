@@ -292,5 +292,5 @@ function CreateOrganization() {
   );
 }
 
-CreateOrganization.requiredAuth = true;
+CreateOrganization.requireAuth = true;
 export default CreateOrganization;

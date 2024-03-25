@@ -3,6 +3,7 @@ import Image from "next/image";
 const NextImage = ({ src, alt = "", width = 10, height = 20, ...props }) => {
   return (
     <Image
+      img={"true"}
       src={src}
       alt={alt}
       // layout="fill"
