@@ -15,8 +15,6 @@ import { AuthContextProvider } from "@/providers/auth.context";
 import "@rainbow-me/rainbowkit/styles.css";
 import "@/styles/globals.css";
 import ThemeProvider from "@/styles/theme";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers";
 import { ProtectedLayout } from "@/components/protected-layout";
 import Preloader from "@/open9/elements/Preloader";
 import AddClassBody from "@/open9/elements/AddClassBody";
@@ -47,7 +45,7 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
 // });
 
 const appInfo = {
-  appName: "Celo Composer",
+  appName: "Atsur Registry",
 };
 
 const wagmiConfig = createConfig({
@@ -73,28 +71,24 @@ export default function NextWeb3App({
   return (
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider chains={chains} appInfo={appInfo} coolMode={true}>
-        {/* <LocalizationProvider dateAdapter={AdapterDayjs}> */}
         <SessionProvider session={session}>
           <AuthContextProvider>
-            <ToastProvider>
-              {Component.requireAuth ? (
-                <ProtectedLayout>
-                  <ThemeProvider>
-                    <AddClassBody />
+            <ThemeProvider>
+              <ToastProvider>
+                {Component.requireAuth ? (
+                  <ProtectedLayout>
+                    {/* <AddClassBody /> */}
                     <Component {...pageProps} />
-                  </ThemeProvider>
-                </ProtectedLayout>
-              ) : (
-                <ThemeProvider>
+                  </ProtectedLayout>
+                ) : (
                   <Component {...pageProps} />
-                </ThemeProvider>
-              )}
-              {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-              {/* <Analytics /> */}
-            </ToastProvider>
+                )}
+                {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+                {/* <Analytics /> */}
+              </ToastProvider>
+            </ThemeProvider>
           </AuthContextProvider>
         </SessionProvider>
-        {/* </LocalizationProvider> */}
       </RainbowKitProvider>
     </WagmiConfig>
   );

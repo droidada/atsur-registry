@@ -4,6 +4,7 @@ import Image from "@/components/common/image";
 import { useState } from "react";
 import { useAuthContext } from "@/providers/auth.context";
 import Footer1 from "./footer/Footer1";
+import { useRouter } from "next/router";
 
 export const DashboardPages = {
   CREATE: "create",
@@ -26,6 +27,8 @@ const DashboardLayoutWithSidebar = ({
   hideSidebar = false,
 }) => {
   const { user, logIn, logOut } = useAuthContext();
+
+  const router = useRouter();
 
   const [isToggled, setToggled] = useState(false);
   const handleToggle = () => setToggled(!isToggled);
@@ -233,7 +236,14 @@ const DashboardLayoutWithSidebar = ({
                       </svg>
                       <span>Wallet</span>
                     </Link>
-                    <Link className="flex gap-4" href="/login" id="logout">
+                    <div
+                      className="flex gap-4"
+                      onClick={async () => {
+                        await logOut();
+                        router.push("/login");
+                      }}
+                      id="logout"
+                    >
                       <svg
                         width={20}
                         height={20}
@@ -251,7 +261,7 @@ const DashboardLayoutWithSidebar = ({
                         />
                       </svg>
                       <span>Log out</span>
-                    </Link>
+                    </div>
                   </div>
                 </div>
               </div>

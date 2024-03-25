@@ -141,5 +141,5 @@ function Security({ organizations }) {
     </>
   );
 }
-Security.requiredAuth = true;
+Security.requireAuth = true;
 export default Security;

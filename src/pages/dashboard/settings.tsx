@@ -555,5 +555,5 @@ function Settings() {
   );
 }
 
-Settings.requiredAuth = true;
+Settings.requireAuth = true;
 export default Settings;

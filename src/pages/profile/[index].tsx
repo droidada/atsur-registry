@@ -205,7 +205,7 @@ const Profile = () => (
     </div>
   </Layout>
 );
-Profile.requiredAuth = true;
+Profile.requireAuth = true;
 export default Profile;
 
 {

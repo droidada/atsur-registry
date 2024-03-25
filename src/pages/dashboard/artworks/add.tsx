@@ -165,5 +165,5 @@ function AddArtwork() {
   );
 }
 
-AddArtwork.requiredAuth = true;
+AddArtwork.requireAuth = true;
 export default AddArtwork;
