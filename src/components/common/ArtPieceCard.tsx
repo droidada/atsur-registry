@@ -6,9 +6,11 @@ import {
   CardContent,
   CardMedia,
   Divider,
+  Rating,
   Stack,
   Typography,
 } from "@mui/material";
+import { useSession } from "next-auth/react";
 import React from "react";
 
 interface ArtPieceCardProps {
@@ -21,19 +23,30 @@ interface ArtPieceCardProps {
     id: string;
     avatar: string;
   };
+  rating?: number;
 }
 const ArtPieceCard: React.FC<ArtPieceCardProps> = ({
   image,
   title,
   link,
   user,
+  rating,
 }) => {
+  const { data: session } = useSession();
+
+  console.log(session);
+
+  console.log(rating);
+
   return (
-    <Card sx={{ maxWidth: "350px", width: "100%", height: "400px" }}>
-      <CardActionArea className="group" href={link} sx={{ height: "70%" }}>
+    <Card
+      style={{ animationDuration: "700ms" }}
+      className="wow   fl-item-1 m-2 p-2 rounded-xl w-full"
+    >
+      <CardActionArea className="group " href={link} sx={{ height: "70%" }}>
         <CardMedia
           sx={{ height: "80%" }}
-          className="group-hover:scale-105 ease-in-out duration-700 "
+          className=" rounded-xl card-media hover:scale-95 duration-700 "
           component="img"
           image={image}
           title={title}
@@ -46,8 +59,7 @@ const ArtPieceCard: React.FC<ArtPieceCardProps> = ({
       </CardActionArea>
 
       <CardActions>
-        <Stack spacing={1} direction={"column"}>
-          <Typography>Created By</Typography>
+        <Stack className=" w-full" spacing={2} direction={"column"}>
           <Stack
             component={"a"}
             direction="row"
@@ -56,10 +68,18 @@ const ArtPieceCard: React.FC<ArtPieceCardProps> = ({
           >
             <Avatar src={user?.avatar} />
             <div>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" color={"text.secondary"}>
+                Created By
+              </Typography>
+
+              <Typography className="font-semibold">
                 {user?.firstName} {user?.lastName}
               </Typography>
             </div>
+          </Stack>
+          <Divider variant="middle" sx={{ width: "100%" }} component="hr" />
+          <Stack>
+            <Rating readOnly value={rating || 0} />
           </Stack>
         </Stack>
       </CardActions>

@@ -49,20 +49,14 @@ const ExploreLeft: React.FC<Props> = ({ setQuery }) => {
       setSelectedRating(null);
       setQuery((prev) => ({
         ...prev,
-        filter: {
-          ...prev.filter,
-          rating: undefined,
-        },
+        rating: null,
       }));
     } else {
       // Otherwise, select the new rating
       setSelectedRating(value);
       setQuery((prev) => ({
         ...prev,
-        filter: {
-          ...prev.filter,
-          rating: value,
-        },
+        rating: value,
       }));
     }
   };
@@ -126,7 +120,7 @@ const ExploreLeft: React.FC<Props> = ({ setQuery }) => {
 
   return (
     <div className="flex flex-col gap-6">
-      <Card>
+      <Card className="rounded-xl">
         <Stack
           direction={"row"}
           alignItems={"center"}
@@ -152,15 +146,12 @@ const ExploreLeft: React.FC<Props> = ({ setQuery }) => {
           </IconButton>
         </Stack>
       </Card>
-      <Card className="p-4">
+      <Card className="p-4 rounded-xl">
         <Typography variant="h4" className="text-center">
           Status
         </Typography>
         <CardContent component={Stack} direction={"column"} spacing={"1rem"}>
-          <Stack direction={"row"} alignItems={"center"} spacing={1}>
-            <Typography component={"label"} htmlFor="verified">
-              Verified
-            </Typography>
+          <Stack direction={"row"} alignItems={"center"}>
             <Checkbox
               id="verified"
               onChange={(e) =>
@@ -173,20 +164,31 @@ const ExploreLeft: React.FC<Props> = ({ setQuery }) => {
                 }))
               }
             />
-          </Stack>
-          <Stack direction={"row"} alignItems={"center"} spacing={1}>
-            <Typography variant="body1" component={"label"} htmlFor="forSale">
-              For Sale
+            <Typography
+              className="text-xl "
+              component={"label"}
+              htmlFor="verified"
+            >
+              Verified
             </Typography>
+          </Stack>
+          <Stack direction={"row"} alignItems={"center"}>
             <Checkbox
               id="forSale"
               checked={forSaleChecked}
               onChange={(e) => handleForSaleChange(e.target.checked)}
             />
+            <Typography
+              className="text-xl "
+              component={"label"}
+              htmlFor="forSale"
+            >
+              For Sale
+            </Typography>
           </Stack>
         </CardContent>
       </Card>
-      <Card className="p-4">
+      <Card className="p-4 rounded-xl">
         <Typography variant="h4" className="text-center">
           Ratings
         </Typography>
@@ -211,7 +213,7 @@ const ExploreLeft: React.FC<Props> = ({ setQuery }) => {
           ))}
         </CardContent>
       </Card>
-      <Card className="p-4">
+      <Card className="p-4 rounded-xl">
         <Typography variant="h4" className="text-center">
           Price
         </Typography>
@@ -239,7 +241,7 @@ const ExploreLeft: React.FC<Props> = ({ setQuery }) => {
           </Stack>
         ))}
       </Card>
-      <Card className="p-4">
+      <Card className="p-4 rounded-xl">
         <Typography variant="h4" className="text-center">
           Rarity
         </Typography>
@@ -270,7 +272,7 @@ const ExploreLeft: React.FC<Props> = ({ setQuery }) => {
           )}
         </Stack>
       </Card>
-      <Card className="p-4">
+      <Card className="p-4 rounded-xl">
         <Typography variant="h4" className="text-center">
           Type
         </Typography>
