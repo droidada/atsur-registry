@@ -1,3 +1,4 @@
+import axios from "@/lib/axios";
 import Layout from "@/open9/layout/Layout";
 import Action5 from "@/open9/sections/Action5";
 import DiscoverItem5 from "@/open9/sections/DiscoverItem5";
@@ -8,26 +9,30 @@ import Seller7 from "@/open9/sections/Seller7";
 import Seller8 from "@/open9/sections/Seller8";
 import TopCollections5 from "@/open9/sections/TopCollections5";
 
-// export const getServerSideProps = async ({req, query}) => {
-//   try {
-//       const res = await axios.get(`/home`);
-//       return { props: { data: res.data } }
+export const getServerSideProps = async ({ req, query }) => {
+  try {
+    const res = await axios.get(`/public/home`);
+    console.log(res.data);
+    return { props: { data: res.data } };
+  } catch (error) {
+    console.log(error?.response?.data);
+    throw new Error(error);
+  }
+};
 
-//   } catch (error) {
-//      throw new Error(error);
-//   }
-// }
+function Home({ data }) {
+  console.log(data);
 
-function Home() {
+  console.log(data?.data?.featured_artworks);
   return (
     <Layout headerStyle={2} footerStyle={1} currentMenuItem={"home"}>
       <FlatTitle5 />
       <FeaturedItem5 />
       <Seller7 />
-      <FeaturedItem6 />
+      <FeaturedItem6 featured_artworks={data?.data?.featured_artworks} />
       {/* <Seller8 />
             <DiscoverItem5 /> */}
-      <TopCollections5 />
+      <TopCollections5 collections={data?.data?.curations} />
       <Action5 />
     </Layout>
   );
