@@ -242,5 +242,5 @@ function CreateCollection() {
   );
 }
 
-CreateCollection.requiredAuth = true;
+CreateCollection.requireAuth = true;
 export default CreateCollection;

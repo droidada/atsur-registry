@@ -711,5 +711,5 @@ function Activities() {
   );
 }
 
-Activities.requiredAuth = true;
+Activities.requireAuth = true;
 export default Activities;

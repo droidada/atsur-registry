@@ -158,5 +158,5 @@ function Collections({ collections }) {
     </>
   );
 }
-Collections.requiredAuth = true;
+Collections.requireAuth = true;
 export default Collections;

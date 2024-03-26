@@ -10,6 +10,7 @@ import { useAuthContext } from "@/providers/auth.context";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import InviteArtist from "@/components/invite-artist";
 import { IArtist } from "@/types/models";
+import SelectOrg from "@/components/select-org";
 
 export default function DealerInfo({ nextPage = (x) => {} }) {
   const axiosAuth = useAxiosAuth();
@@ -116,6 +117,8 @@ export default function DealerInfo({ nextPage = (x) => {} }) {
           listedArtists={listedArtists}
           setListedArtists={setListedArtists}
         />
+
+        <SelectOrg />
         <form
           id="commentform"
           className="comment-form"

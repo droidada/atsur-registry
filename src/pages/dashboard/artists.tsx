@@ -33,5 +33,5 @@ function Artists() {
   );
 }
 
-Artists.requiredAuth = true;
+Artists.requireAuth = true;
 export default Artists;

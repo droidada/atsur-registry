@@ -506,5 +506,5 @@ function Wallet() {
   );
 }
 
-Wallet.requiredAuth = true;
+Wallet.requireAuth = true;
 export default Wallet;
