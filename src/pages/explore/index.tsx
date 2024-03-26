@@ -56,9 +56,9 @@ export default function Explore() {
     let q = "";
     for (let key in query) {
       if (key === "filter") {
-        q += `filter=${JSON.stringify(query[key])}`;
+        q += `&filter=${JSON.stringify(query[key])}`;
       } else {
-        q += `${key}=${query[key]}`;
+        q += `&${key}=${query[key]}`;
       }
     }
     return q;
@@ -68,7 +68,7 @@ export default function Explore() {
     try {
       setLoading(true);
       const res = await axios.get(
-        `/public/explore?page=${currentPage}&${generateQuery()}`,
+        `/public/explore?page=${currentPage}${generateQuery()}`,
       );
 
       setCurrentPage(res?.data?.meta?.currentPage);
