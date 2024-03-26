@@ -4,13 +4,14 @@ import React from "react";
 const ArtPieceLoading = () => {
   return (
     <Card
+      className="rounded-xl overflow-hidden"
       sx={{
         maxWidth: "350px",
         width: "100%",
         height: "400px",
       }}
     >
-      <div className=" px-4">
+      <div className=" p-2">
         <Skeleton
           animation="wave"
           height="250px"

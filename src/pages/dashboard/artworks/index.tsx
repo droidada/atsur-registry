@@ -10,6 +10,7 @@ import { getToken } from "next-auth/jwt";
 import axios from "@/lib/axios";
 import { Menu } from "@headlessui/react";
 import Image from "next/image";
+import ArtPieceCard from "@/components/common/ArtPieceCard";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -69,45 +70,58 @@ function Artworks({ artworks }) {
           <h2 className="tf-title pb-30">My ArtWorks</h2>
         </div>
         <div className="widget-tabs px-4 relative">
-          <div className="wrap-box-card">
+          <div className="grid gap-3 md:grid-cols-2">
             {artworks?.map((artPiece, idx) => (
-              <div
-                key={idx}
-                className="fl-item col-xl-3 col-lg-4  col-md-6 col-sm-6"
-              >
-                <div className="tf-card-box style-1 h-[450px]">
-                  <div className="card-media relative h-[60%]">
-                    <span>
-                      <Image
-                        src={artPiece?.assets[0]?.url}
-                        fill
-                        className="object-cover"
-                        alt=""
-                      />
-                    </span>
-                    <span className="wishlist-button icon-heart" />
-                    <div className="button-place-bid">
-                      <Link
-                        href={`/dashboard/artworks/${artPiece._id}`}
-                        className="tf-button"
-                      >
-                        <span>View</span>
-                      </Link>
-                    </div>
-                  </div>
-                  <h5 className="name">
-                    <Link href="#">{artPiece.title}</Link>
-                  </h5>
-                  <div className="divider" />
-                  <div className="meta-info flex items-center justify-between">
-                    <span className="text-bid">Price</span>
-                    <h6 className="price gem to-white">
-                      <i className="icon-gem" />
-                      0,34
-                    </h6>
-                  </div>
-                </div>
-              </div>
+              <ArtPieceCard
+                key={artPiece._id}
+                image={artPiece?.assets[0].url}
+                title={artPiece?.title}
+                link={`/explore/art-piece/${artPiece._id}`}
+                rating={artPiece?.rating}
+                user={{
+                  firstName: artPiece?.creator?.profile?.firstName,
+                  lastName: artPiece?.creator?.profile?.lastName,
+                  avatar: artPiece?.creator?.profile?.avatar,
+                  id: artPiece?.creator?._id,
+                }}
+              />
+              // <div
+              //   key={idx}
+              //   className="fl-item col-xl-3 col-lg-4  col-md-6 col-sm-6"
+              // >
+              //   <div className="tf-card-box style-1 h-[450px]">
+              //     <div className="card-media relative h-[60%]">
+              //       <span>
+              //         <Image
+              //           src={artPiece?.assets[0]?.url}
+              //           fill
+              //           className="object-cover"
+              //           alt=""
+              //         />
+              //       </span>
+              //       <span className="wishlist-button icon-heart" />
+              //       <div className="button-place-bid">
+              //         <Link
+              //           href={`/dashboard/artworks/${artPiece._id}`}
+              //           className="tf-button"
+              //         >
+              //           <span>View</span>
+              //         </Link>
+              //       </div>
+              //     </div>
+              //     <h5 className="name">
+              //       <Link href="#">{artPiece.title}</Link>
+              //     </h5>
+              //     <div className="divider" />
+              //     <div className="meta-info flex items-center justify-between">
+              //       <span className="text-bid">Price</span>
+              //       <h6 className="price gem to-white">
+              //         <i className="icon-gem" />
+              //         0,34
+              //       </h6>
+              //     </div>
+              //   </div>
+              // </div>
             ))}
           </div>
         </div>
