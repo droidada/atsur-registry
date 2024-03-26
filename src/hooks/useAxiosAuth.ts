@@ -1,6 +1,6 @@
 "use client";
 import { axiosAuth } from "../lib/axios";
-import Cookies from "js-cookie";
+import Cookies from "cookies";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useRefreshToken } from "./useRefreshToken";
@@ -10,15 +10,15 @@ const useAxiosAuth = () => {
   const refreshToken = useRefreshToken();
 
   useEffect(() => {
-    if (session?.user) {
-      Cookies.set("accessToken", session?.user?.accessToken);
-      Cookies.set("refreshToken", session?.user?.refreshToken);
-    }
+    // if (session?.user) {
+    //   Cookies.set("accessToken", session?.user?.accessToken);
+    //   Cookies.set("refreshToken", session?.user?.refreshToken);
+    // }
     const requestIntercept = axiosAuth.interceptors.request.use(
       (config) => {
         if (!config.headers["Authorization"]) {
           config.headers["Authorization"] = `Bearer ${
-            session?.user?.accessToken || Cookies.get("accessToken")
+            session?.user?.accessToken // || Cookies.get("accessToken")
           }`;
         }
         return config;
@@ -38,7 +38,7 @@ const useAxiosAuth = () => {
           prevRequest.sent = true;
           await refreshToken();
           prevRequest.headers["Authorization"] = `Bearer ${
-            session?.user?.accessToken || Cookies.get("accessToken")
+            session?.user?.accessToken //  || Cookies.get("accessToken")
           }`;
           return axiosAuth(prevRequest);
         }

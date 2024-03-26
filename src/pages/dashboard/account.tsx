@@ -249,5 +249,5 @@ function Account() {
   );
 }
 
-Account.requiredAuth = true;
+Account.requireAuth = true;
 export default Account;

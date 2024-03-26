@@ -151,5 +151,5 @@ function Organizations({ organizations }) {
     </>
   );
 }
-Organizations.requiredAuth = true;
+Organizations.requireAuth = true;
 export default Organizations;

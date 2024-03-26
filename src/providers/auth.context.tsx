@@ -10,6 +10,7 @@ import React, {
 import { signOut, signIn, useSession } from "next-auth/react";
 import { IUser } from "../types/models";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
+// import Cookies from "cookies";
 
 export type NewLogin = {
   isFirstLogin: boolean;

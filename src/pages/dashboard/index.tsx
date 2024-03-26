@@ -1,258 +1,178 @@
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "@/components/common/image";
-import DashboardLayout from "@/open9/layout/DashboardLayout";
-import { useState } from "react";
-import CreateMetadata from "@/components/dashboard/create-metadata";
-import CreateAssets from "@/components/dashboard/create-assets";
+
 import DashboardLayoutWithSidebar, {
   DashboardPages,
 } from "@/components/open9/layout/DashboardLayoutWithSidebar";
+import AutoSlider1 from "@/open9/slider/AutoSlider1";
+import AutoSlider2 from "@/open9/slider/AutoSlider2";
+import { getToken } from "next-auth/jwt";
+import axios from "@/lib/axios";
+import { Menu } from "@headlessui/react";
+import Image from "next/image";
 
-export default function Home() {
-  const [activeIndex, setActiveIndex] = useState(11);
-  const handleOnClick = (index) => {
-    setActiveIndex(index);
-  };
+export const getServerSideProps = async ({ req, query }) => {
+  try {
+    const token: any = await getToken({
+      req,
+      secret: process.env.NEXTAUTH_SECRET,
+    });
+    console.log("token here is ", token);
+    if (!token) return;
 
+    const res = await axios.get(`/art-piece/creator`, {
+      headers: { authorization: `Bearer ${token?.user?.accessToken}` },
+    });
+
+    return { props: { artworks: res.data.artPieces } };
+  } catch (error) {
+    console.error("error here looks like ", error);
+    if (error?.response?.status === 404) {
+      return {
+        notFound: true,
+      };
+    }
+    throw new Error(error);
+  }
+};
+
+function Artworks({ artworks }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  console.log(artworks);
   return (
-    <>
-      <DashboardLayoutWithSidebar
-        activePage={DashboardPages.ART}
-        hideSidebar={true}
-      >
-        <div id="create">
-          <div className="wrapper-content-create">
-            <div className="heading-section">
-              <h2 className="tf-title pb-30">Create Artwork</h2>
-            </div>
-            <div className="widget-tabs relative">
-              <ul className="widget-menu-tab">
-                <li
-                  className={
-                    activeIndex === 11
-                      ? "item-title active tf-color"
-                      : "item-title"
-                  }
-                  onClick={() => handleOnClick(11)}
-                >
-                  <span className="inner">
-                    <span className="order">1</span> Metadata{" "}
-                    <i className="icon-keyboard_arrow_right" />
-                  </span>
-                </li>
-                <li
-                  className={
-                    activeIndex === 12 ? "item-title active" : "item-title"
-                  }
-                  onClick={() => handleOnClick(12)}
-                >
-                  <span className="inner">
-                    <span className="order">2</span>Assets{" "}
-                    <i className="icon-keyboard_arrow_right" />
-                  </span>
-                </li>
-                <li
-                  className={
-                    activeIndex === 13 ? "item-title active" : "item-title"
-                  }
-                  onClick={() => handleOnClick(13)}
-                >
-                  <span className="inner">
-                    <span className="order">3</span>Preview
-                  </span>
-                </li>
-              </ul>
-              <div className="widget-content-tab">
-                <div
-                  className={
-                    activeIndex === 11
-                      ? "widget-content-inner description active"
-                      : "widget-content-inner description"
-                  }
-                  style={{ display: `${activeIndex == 11 ? "" : "none"}` }}
-                >
-                  <CreateMetadata nextPage={handleOnClick} />
-                </div>
-
-                <div
-                  className={
-                    activeIndex === 12
-                      ? "widget-content-inner upload active"
-                      : "widget-content-inner upload"
-                  }
-                  style={{ display: `${activeIndex == 12 ? "" : "none"}` }}
-                >
-                  <CreateAssets nextPage={handleOnClick} />
-                </div>
-
-                <div
-                  className={
-                    activeIndex === 13
-                      ? "widget-content-inner submit active"
-                      : "widget-content-inner submit"
-                  }
-                  style={{ display: `${activeIndex == 13 ? "" : "none"}` }}
-                >
-                  {/* <div className="wrap-upload w-full">
-                    <form id="commentform" className="comment-form">
-                      <fieldset className="name">
-                        <label>Product name *</label>
-                        <input
-                          type="text"
-                          id="name"
-                          placeholder="Product name"
-                          name="name"
-                          tabIndex={2}
-                          aria-required="true"
-                          required
-                        />
-                      </fieldset>
-                      <fieldset className="message">
-                        <label>Description *</label>
-                        <textarea
-                          id="message"
-                          name="message"
-                          rows={4}
-                          placeholder="Please describe your product*"
-                          tabIndex={4}
-                          aria-required="true"
-                          required
-                        />
-                      </fieldset>
-                      <div className="flex gap30">
-                        <fieldset className="price">
-                          <label>Price</label>
-                          <input
-                            type="text"
-                            id="price"
-                            placeholder="Price"
-                            name="price"
-                            tabIndex={2}
-                            aria-required="true"
-                            required
-                          />
-                        </fieldset>
-                        <fieldset className="properties">
-                          <label>Properties</label>
-                          <input
-                            type="text"
-                            id="properties"
-                            placeholder="Properties"
-                            name="properties"
-                            tabIndex={2}
-                            aria-required="true"
-                            required
-                          />
-                        </fieldset>
-                        <fieldset className="size">
-                          <label>Size</label>
-                          <input
-                            type="text"
-                            id="size"
-                            placeholder="Size"
-                            name="size"
-                            tabIndex={2}
-                            aria-required="true"
-                            required
-                          />
-                        </fieldset>
-                      </div>
-                      <fieldset className="rarity">
-                        <label>Rarity</label>
-                        <select className="select" name="rarity" id="rarity">
-                          <option>afafdas</option>
-                          <option value="100$">100$</option>
-                          <option value="1000$">1000$</option>
-                          <option value="10000$">10000$</option>
-                        </select>
-                      </fieldset>
-                      <fieldset className="royatity">
-                        <label>Royatity</label>
-                        <input
-                          type="text"
-                          id="royatity"
-                          placeholder="Royatity"
-                          name="royatity"
-                          tabIndex={2}
-                          aria-required="true"
-                          required
-                        />
-                      </fieldset>
-                      <div className="btn-submit flex gap30 justify-center">
-                        <button className="tf-button style-1 h50 w320 active">
-                          Clear
-                          <i className="icon-arrow-up-right2" />
-                        </button>
-                        <button
-                          className="tf-button style-1 h50 w320"
-                          type="submit"
-                        >
-                          Create Record
-                          <i className="icon-arrow-up-right2" />
-                        </button>
-                      </div>
-                    </form>
-                  </div> */}
-                </div>
-              </div>
-            </div>
+    <DashboardLayoutWithSidebar activePage={DashboardPages.ART}>
+      <div className="i flex-1  max-w-full">
+        <div className="action__body w-full mb-40">
+          <div className="tf-tsparticles">
+            <div id="tsparticles7" data-color="#161616" data-line="#000" />
+          </div>
+          <h2>Artworks</h2>
+          <div className="flat-button flex">
+            <Link href="/explore" className="tf-button style-2 h50 w190 mr-10">
+              Explore
+              <i className="icon-arrow-up-right2" />
+            </Link>
+            <Link href="/dashboard" className="tf-button style-2 h50 w230">
+              Create
+              <i className="icon-arrow-up-right2" />
+            </Link>
+          </div>
+          <div className="bg-home7">
+            <AutoSlider1 />
+            <AutoSlider2 />
+            <AutoSlider1 />
           </div>
         </div>
-      </DashboardLayoutWithSidebar>
-      <div
-        className="modal fade popup"
-        id="popup_bid"
-        tabIndex={-1}
-        role="dialog"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered" role="document">
-          <div className="modal-content">
-            <button
-              type="button"
-              className="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">×</span>
-            </button>
-            <div className="modal-body">
-              <div className="image">
-                <Image
-                  src="/assets/images/backgroup-section/popup.png"
-                  alt=""
-                />
+
+        <div className="heading-section">
+          <h2 className="tf-title pb-30">My ArtWorks</h2>
+        </div>
+        <div className="widget-tabs px-4 relative">
+          <div className="wrap-box-card">
+            {artworks?.map((artPiece, idx) => (
+              <div
+                key={idx}
+                className="fl-item col-xl-3 col-lg-4  col-md-6 col-sm-6"
+              >
+                <div className="tf-card-box style-1 h-[450px]">
+                  <div className="card-media relative h-[60%]">
+                    <span>
+                      <Image
+                        src={artPiece?.assets[0]?.url}
+                        fill
+                        className="object-cover"
+                        alt=""
+                      />
+                    </span>
+                    <span className="wishlist-button icon-heart" />
+                    <div className="button-place-bid">
+                      <Link
+                        href={`/dashboard/artworks/${artPiece._id}`}
+                        className="tf-button"
+                      >
+                        <span>View</span>
+                      </Link>
+                    </div>
+                  </div>
+                  <h5 className="name">
+                    <Link href="#">{artPiece.title}</Link>
+                  </h5>
+                  <div className="divider" />
+                  <div className="meta-info flex items-center justify-between">
+                    <span className="text-bid">Price</span>
+                    <h6 className="price gem to-white">
+                      <i className="icon-gem" />
+                      0,34
+                    </h6>
+                  </div>
+                </div>
               </div>
-              <div className="logo-rotate">
-                <Image
-                  src="/assets/images/item-background/item6-img.png"
-                  alt=""
-                />
-              </div>
-              <h2 className="to-white">Subscribe to our newsletter</h2>
-              <p className="to-white">
-                Subscribe for our newsletter to stay in the loop
-              </p>
-              <fieldset className="email">
-                <input
-                  type="email"
-                  className="style-1"
-                  id="email"
-                  placeholder="Email address*"
-                  name="email"
-                  tabIndex={2}
-                  aria-required="true"
-                  required
-                />
-              </fieldset>
-              <Link href="#" className="tf-button style-1 h50">
-                Subscribe
-                <i className="icon-arrow-up-right2" />
-              </Link>
-            </div>
+            ))}
           </div>
         </div>
+        {/* <div className="heading-section">
+              <h2 className="tf-title style-1 pb-30">Invitations</h2>
+            </div>
+            <div className="row">
+              <p>You have no invites</p>
+              <br />
+              <br />
+              <br />
+            </div>
+            <div className="row">
+              {artworks?.length > 0 ? (
+                artworks?.map((artPiece, idx) => (
+                  <div
+                    key={idx}
+                    className="fl-item col-xl-3 col-lg-4 col-md-6 col-sm-6"
+                  >
+                    <div className="tf-card-box style-1">
+                      <div className="card-media">
+                        <Link href="#">
+                          <Image
+                            src={artPiece?.assets[0]?.url}
+                            width={150}
+                            height={200}
+                            alt=""
+                          />
+                        </Link>
+                        <span className="wishlist-button icon-heart" />
+                        <div className="button-place-bid">
+                          <Link
+                            href={`/dashboard/artworks/${artPiece._id}`}
+                            className="tf-button"
+                          >
+                            <span>View</span>
+                          </Link>
+                        </div>
+                      </div>
+                      <h5 className="name">
+                        <Link href="#">{artPiece.title}</Link>
+                      </h5>
+                      <div className="divider" />
+                      <div className="meta-info flex items-center justify-between">
+                        <span className="text-bid">Price</span>
+                        <h6 className="price gem to-white">
+                          <i className="icon-gem" />
+                          0,34
+                        </h6>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p>
+                  You have not added any art yet.{" "}
+                  <Link href="/dashboard">
+                    <button> Create One</button>
+                  </Link>
+                </p>
+              )}
+            </div> */}
       </div>
-    </>
+    </DashboardLayoutWithSidebar>
   );
 }
+Artworks.requireAuth = true;
+export default Artworks;

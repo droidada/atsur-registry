@@ -3,6 +3,30 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { signIn } from "next-auth/react";
 import dotenv from "dotenv";
 import axios from "axios";
+import Cookies from "cookies";
+
+let cookies;
+
+const setRefreshCookie = ({ cookies, accessToken, refreshToken }) => {
+  const date = new Date();
+  const time = date.getTime();
+  const expireTime = time + 24 * 60 * 60 * 1000 * 30; // 30 days
+  date.setTime(expireTime);
+
+  cookies.set("refreshToken", refreshToken, {
+    sameSite: "strict",
+    overwrite: true,
+    expires: date,
+    httpOnly: true,
+  });
+
+  cookies.set("accessToken", accessToken, {
+    sameSite: "strict",
+    overwrite: true,
+    expires: date,
+    httpOnly: true,
+  });
+};
 
 dotenv.config();
 
@@ -21,20 +45,20 @@ export const options: any = {
           email: credentials.email,
           password: credentials.password,
         };
+        console.log("payload here is ", payload);
         console.log("pubapi here is ", pubAPI);
-        // const res = await axios.post(`${pubAPI}auth/login`, {
-        //   ...payload,
-        //   mode: "json",
-        // });
 
         const res = await fetch(pubAPI + "/auth/login", {
           method: "POST",
           body: JSON.stringify(payload),
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "Clear-Site-Data": "*",
+          },
           credentials: "include",
         });
-        const user = await res.json();
 
+        const user = await res.json();
         console.log("response data here ", user);
         if (!user.accessToken) {
           throw new Error("Email or password incorrect.");
@@ -56,6 +80,11 @@ export const options: any = {
       console.log(`token: ${token}`);
       if (account && user) {
         console.log(`account: ${account} && user ${user}`);
+        setRefreshCookie({
+          cookies,
+          accessToken: account.access_token,
+          refreshToken: account.refresh_token,
+        });
         return {
           ...token,
           user: user,
@@ -66,7 +95,6 @@ export const options: any = {
         return token;
       }
 
-      // return null;
       return await refreshAccessToken(token);
     },
 
@@ -131,6 +159,9 @@ async function refreshAccessToken(token) {
   }
 }
 
-const nextauthfunc = (req, res) => NextAuth(req, res, options);
+const nextauthfunc = (req, res) => {
+  cookies = new Cookies(req, res);
+  return NextAuth(req, res, options);
+};
 
 export default nextauthfunc;

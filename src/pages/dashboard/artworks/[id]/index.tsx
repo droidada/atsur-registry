@@ -519,5 +519,5 @@ function ArtPiece({ artPiece }) {
     </>
   );
 }
-ArtPiece.requiredAuth = true;
+ArtPiece.requireAuth = true;
 export default ArtPiece;

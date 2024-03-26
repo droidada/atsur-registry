@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
-
 import axios from "@/lib/axios";
-import { Menu } from "@headlessui/react";
 import BidModal from "@/open9/elements/BidModal";
 import Layout from "@/open9/layout/Layout";
 import Image from "next/image";
@@ -114,8 +112,7 @@ export default function Explore() {
                     </li>
                   </ul>
                 </div>
-                <div className="col-2"></div>
-                <div className="col-8">
+                <div className="col-12">
                   <div
                     data-wow-delay="0.2s"
                     className="wow fadeInUp widget-search"
@@ -148,7 +145,6 @@ export default function Explore() {
                     </form>
                   </div>
                 </div>
-                <div className="col-2"></div>
               </div>
             </div>
           </div>
@@ -202,7 +198,7 @@ export default function Explore() {
               <ExploreLeft setQuery={setQuery} />
             </div>
             <div className="grid gap-6 flex-1">
-              <div className="flex flex-wrap min-h-screen  items-stretch gap-4">
+              <div className="flex flex-wrap gap-4">
                 {loading
                   ? [...Array(4)].map((_, i) => <ArtPieceLoading key={i} />)
                   : pieces?.map((piece) => (
