@@ -1,6 +1,6 @@
 import Link from "next/link";
 import FeaturedSlider6 from "../slider/FeaturedSlider6";
-export default function FeaturedItem6() {
+export default function FeaturedItem6({ featured_artworks }) {
   return (
     <>
       <div className="tf-section-1 featured-item">
@@ -15,7 +15,7 @@ export default function FeaturedItem6() {
               </div>
             </div>
             <div className="col-md-12">
-              <FeaturedSlider6 />
+              <FeaturedSlider6 featured_artworks={featured_artworks} />
             </div>
           </div>
         </div>

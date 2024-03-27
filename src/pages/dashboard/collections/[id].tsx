@@ -107,7 +107,7 @@ function Collection({ collections }) {
               <h2 className="drop-shadow-md text-white">
                 {collections?.title}
               </h2>
-              <div className="flat-button flex">
+              <div className="flat-button gap-4 flex">
                 <Button
                   onClick={() => setOpenEdit(true)}
                   className="tf-button style-2 h50 w190 mr-10"
@@ -124,13 +124,7 @@ function Collection({ collections }) {
                 </Button>
               </div>
               <div className="bg-home7">
-                <AutoSlider1
-                  images={collections?.artworks?.map((artwork) =>
-                    artwork?.assets[0]?.url == "null"
-                      ? ""
-                      : artwork?.assets[0]?.url,
-                  )}
-                />
+                <AutoSlider1 />
               </div>
             </div>
             <div className="row">

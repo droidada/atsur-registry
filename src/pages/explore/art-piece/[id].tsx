@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Menu } from "@headlessui/react";
 import Link from "next/link";
-import Image from "@/components/common/image";
+// import Image from "@/components/common/image";
 import BarChart from "@/open9/elements/BarChart";
 import Layout from "@/open9/layout/Layout";
 import FeaturedSlider1 from "@/open9/slider/FeaturedSlider1";
@@ -11,6 +11,18 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { getToken } from "next-auth/jwt";
 import axios from "@/lib/axios";
 import { CollectionsOutlined } from "@mui/icons-material";
+import Image from "next/image";
+import {
+  Avatar,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import dayjs from "dayjs";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -24,7 +36,14 @@ export const getServerSideProps = async ({ req, query }) => {
       { headers: { authorization: `Bearer ${token?.user?.accessToken}` } },
     );
 
-    return { props: { artPiece: res.data.artPiece } };
+    console.log(res?.data);
+
+    return {
+      props: {
+        artPiece: res.data.artPiece,
+        relatedArtPieces: res.data.relatedArtPieces,
+      },
+    };
   } catch (error) {
     console.error("error here looks like ", error);
     if (error?.response?.status === 404) {
@@ -38,8 +57,9 @@ export const getServerSideProps = async ({ req, query }) => {
 
 const currentTime = new Date();
 
-export default function ArtPiece({ artPiece }) {
+export default function ArtPiece({ artPiece, relatedArtPieces }) {
   console.log("we have page artPiece ", artPiece);
+  console.log("related Art pieces", relatedArtPieces);
 
   return (
     <>
@@ -50,10 +70,13 @@ export default function ArtPiece({ artPiece }) {
               <div className="row">
                 <div data-wow-delay="0s" className="wow fadeInLeft col-md-8">
                   <div className="tf-card-box style-5 mb-0">
-                    <div className="card-media mb-0">
-                      <Link href="#">
-                        <Image src={artPiece?.assets[0]?.url} alt="" />
-                      </Link>
+                    <div className="card-media rounded-xl overflow-hidden mb-0">
+                      <Image
+                        width={500}
+                        height={500}
+                        src={artPiece?.assets[0]?.url}
+                        alt=""
+                      />
                     </div>
                     <h6 className="price gem">
                       <i className="icon-gem" />
@@ -72,13 +95,7 @@ export default function ArtPiece({ artPiece }) {
                     data-wow-delay="0s"
                     className="wow fadeInRight infor-product"
                   >
-                    <div className="text">
-                      8SIAN Main Collection{" "}
-                      <span className="icon-tick">
-                        <span className="path1" />
-                        <span className="path2" />
-                      </span>
-                    </div>
+                    <div className="text"></div>
                     <div className="menu_card">
                       <Menu as="div" className="dropdown">
                         <div className="icon">
@@ -134,17 +151,9 @@ export default function ArtPiece({ artPiece }) {
                       </Menu>
                     </div>
                     <h2>{artPiece?.title}</h2>
-                    <div className="author flex items-center mb-30">
-                      <div className="avatar">
-                        <Image
-                          src={
-                            artPiece.creator?.profile?.avatar
-                              ? artPiece.creator?.profile?.avatar
-                              : "/assets/images/avatar/avatar-box-05.jpg"
-                          }
-                          alt="Image"
-                        />
-                      </div>
+                    <div className="author flex gap-2 items-center mb-30">
+                      <Avatar src={artPiece.creator?.profile?.avatar} />
+
                       <div className="info">
                         <span>Created by:</span>
                         <h6>
@@ -152,9 +161,9 @@ export default function ArtPiece({ artPiece }) {
                             className="tf-color"
                             href={`/artist/${artPiece?.creator?.profile?._id}`}
                           >{`${
-                            artPiece?.creator?.profile
-                              ? `${artPiece?.creator?.profile?.firstName} ${artPiece?.creator?.profile?.lastName}`
-                              : "Marvin McKinney"
+                            artPiece?.custodian?.profile
+                              ? `${artPiece?.custodian?.profile?.firstName} ${artPiece?.custodian?.profile?.lastName}`
+                              : ""
                           }`}</Link>{" "}
                         </h6>
                       </div>
@@ -226,7 +235,7 @@ export default function ArtPiece({ artPiece }) {
                   </div>
                 </div>
                 <div className="col-12">
-                  <div className="product-item details">
+                  <div className="product-item rounded-xl details">
                     <h6 className=" ">
                       <i className="icon-description" />
                       Verification Details
@@ -261,74 +270,56 @@ export default function ArtPiece({ artPiece }) {
                   </div>
                 </div>
                 <div className="col-12">
-                  <div className="product-item traits style-1">
+                  <div className="product-item rounded-xl item-activity mb-6">
                     <h6 className=" ">
-                      <i className="icon-description" />
+                      <i className="icon-two-arrow rotateZ90" />
                       Publications
                     </h6>
                     <i className="icon-keyboard_arrow_down" />
                     <div className="content">
-                      <div className="trait-item">
-                        <p>Apparel</p>
-                        <div className="title">Bathrobe Red 1%</div>
-                        <p>Floor: 0,056 ETH</p>
+                      <div className="table-heading">
+                        <div className="column">Article Name</div>
+                        <div className="column">Publication Name</div>
+                        <div className="column">Author</div>
+                        <div className="column">Attachment</div>
+                        <div className="column">Notes</div>
                       </div>
-                      <div className="trait-item">
-                        <p>Background</p>
-                        <div className="title">Orange 5%</div>
-                        <p>Floor: 0,056 ETH</p>
-                      </div>
-                      <div className="trait-item">
-                        <p>Earrings</p>
-                        <div className="title">None 60%</div>
-                        <p>Floor: 0,037 ETH</p>
-                      </div>
-                      <div className="trait-item">
-                        <p>Apparel</p>
-                        <div className="title">Bathrobe Red 1%</div>
-                        <p>Floor: 0,056 ETH</p>
-                      </div>
-                      <div className="trait-item">
-                        <p>Background</p>
-                        <div className="title">Orange 5%</div>
-                        <p>Floor: 0,056 ETH</p>
-                      </div>
-                      <div className="trait-item">
-                        <p>Earrings</p>
-                        <div className="title">None 60%</div>
-                        <p>Floor: 0,037 ETH</p>
-                      </div>
-                      <div className="trait-item">
-                        <p>Apparel</p>
-                        <div className="title">Bathrobe Red 1%</div>
-                        <p>Floor: 0,056 ETH</p>
-                      </div>
-                      <div className="trait-item">
-                        <p>Background</p>
-                        <div className="title">Orange 5%</div>
-                        <p>Floor: 0,056 ETH</p>
-                      </div>
-                      <div className="trait-item">
-                        <p>Earrings</p>
-                        <div className="title">None 60%</div>
-                        <p>Floor: 0,037 ETH</p>
-                      </div>
-                      <div className="trait-item">
-                        <p>Earrings</p>
-                        <div className="title">None 60%</div>
-                        <p>Floor: 0,037 ETH</p>
-                      </div>
-                      <div className="trait-item">
-                        <p>Apparel</p>
-                        <div className="title">Bathrobe Red 1%</div>
-                        <p>Floor: 0,056 ETH</p>
-                      </div>
-                      <div className="trait-item">
-                        <p>Background</p>
-                        <div className="title">Orange 5%</div>
-                        <p>Floor: 0,056 ETH</p>
-                      </div>
+                      {artPiece?.publications?.map((publication) => (
+                        <div key={publication?._id} className="table-item">
+                          <div className="column ">
+                            {/* <i className="icon-two-arrow" /> */}
+                            {publication?.articleName}
+                          </div>
+                          <div className="column">
+                            {publication?.publicationName}
+                          </div>
+                          <div className="column">
+                            <span className="tf-color">
+                              {publication?.authorName}
+                            </span>
+                          </div>
+                          <div className="column">
+                            <Image
+                              width={100}
+                              height={50}
+                              src={publication?.attachment?.url}
+                              alt=""
+                            />
+                          </div>
+                          <div className="column">{publication?.notes}</div>
+                        </div>
+                      ))}
                     </div>
+                  </div>
+                </div>
+                <div className="col-12 ">
+                  <div className="product-item rounded-xl traits style-1">
+                    <h6 className=" ">
+                      <i className="icon-description" />
+                      Exhihibition
+                    </h6>
+                    <i className="icon-keyboard_arrow_down" />
+                    <div className=""></div>
                   </div>
                 </div>
                 <div className="col-12">
@@ -411,7 +402,59 @@ export default function ArtPiece({ artPiece }) {
                   </div>
                 </div>
                 <div className="col-12">
-                  <div className="product-item item-activity mb-0">
+                  <div className="product-item rounded-xl item-activity mb-6">
+                    <h6 className=" ">
+                      <i className="icon-two-arrow rotateZ90" />
+                      Appraisals
+                    </h6>
+                    <i className="icon-keyboard_arrow_down" />
+                    <div className="content">
+                      <div className="table-heading">
+                        <div className="column">Appraiser Name</div>
+                        <div className="column">Appraiser Email</div>
+                        <div className="column">Appraiser Website</div>
+                        <div className="column">Currency</div>
+                        <div className="column">Notes</div>
+                        <div className="column">Attachment</div>
+                      </div>
+                      {artPiece?.appraisals?.map((appraisal) => (
+                        <div key={appraisal?._id} className="table-item">
+                          <div className="column ">
+                            {/* <i className="icon-two-arrow" /> */}
+                            {appraisal?.appraiser}
+                          </div>
+                          <div className="column">
+                            {appraisal?.appraiserEmail}
+                          </div>
+                          <div className="column">
+                            <Link
+                              href={appraisal?.appraiserWebsite || "/"}
+                              className="tf-color"
+                            >
+                              {appraisal?.appraiserWebsite}
+                            </Link>
+                          </div>
+                          <div className="column">
+                            <span className="tf-color">
+                              {appraisal?.currency}
+                            </span>
+                          </div>
+                          <div className="column">{appraisal?.notes}</div>
+                          <div className="column">
+                            <Image
+                              width={100}
+                              height={50}
+                              alt=""
+                              src={appraisal?.attachment?.url}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div className="col-12">
+                  <div className="product-item rounded-xl item-activity mb-0">
                     <h6 className=" ">
                       <i className="icon-two-arrow rotateZ90" />
                       Locations
@@ -419,78 +462,34 @@ export default function ArtPiece({ artPiece }) {
                     <i className="icon-keyboard_arrow_down" />
                     <div className="content">
                       <div className="table-heading">
-                        <div className="column">Event</div>
-                        <div className="column">Price</div>
-                        <div className="column">Form</div>
-                        <div className="column">To</div>
-                        <div className="column">Date</div>
+                        <div className="column">Name</div>
+                        <div className="column">Address</div>
+                        <div className="column">Start Date</div>
+                        <div className="column">End Date</div>
+                        <div className="column">notes</div>
                       </div>
-                      <div className="table-item">
-                        <div className="column flex items-center">
-                          <i className="icon-two-arrow" />
-                          Transfer
+                      {artPiece?.locations?.map((location) => (
+                        <div key={location?._id} className="table-item">
+                          <div className="column flex items-center">
+                            {/* <i className="icon-two-arrow" /> */}
+                            {location?.name}
+                          </div>
+                          <div className="column">{location?.address}</div>
+                          <div className="column">
+                            <span className="tf-color">
+                              {dayjs(location?.startDate).format(
+                                "DD MMM, YYYY",
+                              )}
+                            </span>
+                          </div>
+                          <div className="column">
+                            <span className="tf-color">
+                              {dayjs(location?.endDate).format("DD MMM, YYYY")}
+                            </span>
+                          </div>
+                          <div className="column">{location?.notes}</div>
                         </div>
-                        <div className="column">-/-</div>
-                        <div className="column">
-                          <span className="tf-color">985DE3</span>
-                        </div>
-                        <div className="column">
-                          <span className="tf-color">Nosyu</span>
-                        </div>
-                        <div className="column">19h ago</div>
-                      </div>
-                      <div className="table-item">
-                        <div className="column flex items-center">
-                          <i className="icon-sale" />
-                          Sale
-                        </div>
-                        <div className="column">
-                          <h6 className="price gem">
-                            <i className="icon-gem" />
-                            0,0319
-                          </h6>
-                        </div>
-                        <div className="column">
-                          <span className="tf-color">985DE3</span>
-                        </div>
-                        <div className="column">
-                          <span className="tf-color">Nosyu</span>
-                        </div>
-                        <div className="column">19h ago</div>
-                      </div>
-                      <div className="table-item">
-                        <div className="column flex items-center">
-                          <i className="icon-two-arrow" />
-                          Transfer
-                        </div>
-                        <div className="column">-/-</div>
-                        <div className="column">
-                          <span className="tf-color">985DE3</span>
-                        </div>
-                        <div className="column">
-                          <span className="tf-color">Nosyu</span>
-                        </div>
-                        <div className="column">19h ago</div>
-                      </div>
-                      <div className="table-item">
-                        <div className="column flex items-center">
-                          <i className="icon-sale" />
-                          Sale
-                        </div>
-                        <div className="column">
-                          <h6 className="price gem">
-                            <i className="icon-gem" />
-                            0,0319
-                          </h6>
-                        </div>
-                        <div className="column">
-                          <span className="tf-color">985DE3</span>
-                        </div>
-                        <div className="column">
-                          <span className="tf-color">Nosyu</span>
-                        </div>
-                        <div className="column">19h ago</div>
-                      </div>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -509,7 +508,10 @@ export default function ArtPiece({ artPiece }) {
                   </div>
                 </div>
                 <div className="col-md-12">
-                  <FeaturedSlider1 />
+                  <FeaturedSlider1
+                    currentId={artPiece._id}
+                    relatedArtPieces={relatedArtPieces}
+                  />
                 </div>
               </div>
             </div>

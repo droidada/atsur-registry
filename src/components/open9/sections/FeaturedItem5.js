@@ -1,7 +1,7 @@
 import Link from "next/link";
 import FeaturedSlider5 from "../slider/FeaturedSlider5";
 
-export default function FeaturedItem5() {
+export default function FeaturedItem5({ categories }) {
   return (
     <>
       <div className="tf-section featured-item">
@@ -18,7 +18,7 @@ export default function FeaturedItem5() {
           </div>
         </div>
         <div className="container-full">
-          <FeaturedSlider5 />
+          <FeaturedSlider5 categories={categories} />
         </div>
       </div>
     </>
