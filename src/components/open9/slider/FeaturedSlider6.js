@@ -41,6 +41,7 @@ const swiperOptions = {
 
 import { useState } from "react";
 import BidModal from "../elements/BidModal";
+import ArtPieceCard from "@/components/common/ArtPieceCard";
 export default function FeaturedSlider6({ featured_artworks }) {
   const [isBidModal, setBidModal] = useState(false);
   const handleBidModal = () => setBidModal(!isBidModal);
@@ -53,7 +54,14 @@ export default function FeaturedSlider6({ featured_artworks }) {
       >
         {featured_artworks?.map((artwork) => (
           <SwiperSlide key={artwork?._id}>
-            <div className="tf-card-box style-1 rounded-xl bg-white">
+            <ArtPieceCard
+              image={artwork?.assets[0]?.url}
+              title={artwork?.title}
+              author={artwork?.author}
+              price={artwork?.price}
+              rating={artwork?.rating}
+            />
+            {/* <div className="tf-card-box style-1 rounded-xl bg-white">
               <div className="card-media rounded-xl">
                 <Link href="#">
                   <Image
@@ -122,7 +130,7 @@ export default function FeaturedSlider6({ featured_artworks }) {
                 </div>
               </div>
               <div className="divider" />
-              <div className="meta-info flex items-center justify-between items-center">
+              <div className="meta-info flex items-center justify-between ">
                 <div>
                   <span className="text-bid">Current Bid</span>
                   <h6 className="price gem">
@@ -136,7 +144,7 @@ export default function FeaturedSlider6({ featured_artworks }) {
                   </a>
                 </div>
               </div>
-            </div>
+            </div> */}
           </SwiperSlide>
         ))}
         {/* <SwiperSlide>

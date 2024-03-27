@@ -23,12 +23,12 @@ export const getServerSideProps = async ({ req, query }) => {
 function Home({ data }) {
   console.log(data);
 
-  console.log(data?.data?.featured_artworks);
+  console.log(data?.data?.categories);
   return (
     <Layout headerStyle={2} footerStyle={1} currentMenuItem={"home"}>
       <FlatTitle5 />
-      <FeaturedItem5 />
-      <Seller7 />
+      <FeaturedItem5 categories={data?.data?.categories} />
+      <Seller7 artists={data?.data?.artists} />
       <FeaturedItem6 featured_artworks={data?.data?.featured_artworks} />
       {/* <Seller8 />
             <DiscoverItem5 /> */}
