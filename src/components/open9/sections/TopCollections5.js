@@ -65,22 +65,7 @@ export default function TopCollections5({ collections }) {
                                   alt=""
                                 />
                               ))}
-                            {/* <Image
-                            src="/assets/images/box-item/img-collection-17.jpg"
-                            alt=""
-                          />
-                          <Image
-                            src="/assets/images/box-item/img-collection-18.jpg"
-                            alt=""
-                          />
-                          <Image
-                            src="/assets/images/box-item/img-collection-19.jpg"
-                            alt=""
-                          />
-                          <Image
-                            src="/assets/images/box-item/img-collection-20.jpg"
-                            alt=""
-                          /> */}
+
                             <div className="author-poster rounded-full overflow-hidden relative">
                               <Image fill src={collection?.image} alt="" />
                             </div>
@@ -89,9 +74,9 @@ export default function TopCollections5({ collections }) {
                         <div className="card-bottom">
                           <div className="author">
                             <h5>
-                              <Link href="/author01">Bored ape#21</Link>
+                              <Link href="/author01">{collection?.title}</Link>
                             </h5>
-                            <div className="infor">@Themesflat</div>
+                            {/* <div className="infor">@Themesflat</div> */}
                           </div>
                           <div className="bottom-right">
                             <div className="shop">
@@ -112,7 +97,7 @@ export default function TopCollections5({ collections }) {
                                   />
                                 </svg>
                               </div>
-                              <p>12 Item</p>
+                              <p>{collection?.artworks?.length}</p>
                             </div>
                             <div className="like">
                               <span className="wishlist-button icon-heart" />
