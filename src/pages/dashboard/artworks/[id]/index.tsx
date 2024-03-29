@@ -37,6 +37,7 @@ import { useRouter } from "next/router";
 import EditPublication from "@/components/dashboard/edit-publication";
 import DeleteDialog from "@/components/dashboard/DeleteDialog";
 import { statusTypes } from "@/types";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -61,6 +62,18 @@ export const getServerSideProps = async ({ req, query }) => {
   }
 };
 
+export type ViewProps = {
+  open: boolean;
+  type:
+    | "publication"
+    | "appraisal"
+    | "publication"
+    | "location"
+    | "exhibition"
+    | "";
+  data: any;
+};
+
 function ArtPiece({ artPiece }) {
   const router = useRouter();
   const [editExhibition, setEditExhibition] = useState(false);
@@ -76,6 +89,11 @@ function ArtPiece({ artPiece }) {
   }>({
     itemId: "",
     itemType: "",
+  });
+  const [openViewDiaglog, setOpenViewDialog] = useState<ViewProps>({
+    open: false,
+    type: "",
+    data: {},
   });
 
   return (
@@ -234,6 +252,9 @@ function ArtPiece({ artPiece }) {
                                       key={idx}
                                       secondaryAction={
                                         <>
+                                          <IconButton>
+                                            <VisibilityIcon />
+                                          </IconButton>
                                           <IconButton
                                             edge="end"
                                             aria-label="edit"
@@ -270,7 +291,7 @@ function ArtPiece({ artPiece }) {
                                         <h6 className="to-white">
                                           {exhibition.name}
                                         </h6>
-                                        <p>{`by ${exhibition?.organizer?.name} at ${exhibition?.location?.address} ${exhibition?.location?.country}`}</p>
+                                        {/* <p>{`by ${exhibition?.organizer?.name} at ${exhibition?.location?.address} ${exhibition?.location?.country}`}</p> */}
                                       </span>
                                     </ListItem>
                                   ),
@@ -494,6 +515,7 @@ function ArtPiece({ artPiece }) {
         appraisal={editedAppraisal}
         handleClose={() => {
           setEditAppraisal(false);
+          setEditedAppraisal(null);
           router.replace(router.asPath);
         }}
       />

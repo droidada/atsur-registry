@@ -14,15 +14,21 @@ import { CollectionsOutlined } from "@mui/icons-material";
 import Image from "next/image";
 import {
   Avatar,
+  Card,
+  CardContent,
   Paper,
+  Rating,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
+import { ViewProps } from "@/pages/dashboard/artworks/[id]";
+import ViewDetailsModal from "@/components/dashboard/view-details-modal";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -41,7 +47,7 @@ export const getServerSideProps = async ({ req, query }) => {
     return {
       props: {
         artPiece: res.data.artPiece,
-        relatedArtPieces: res.data.relatedArtPieces,
+        relatedArtPieces: res.data.relatedArtPieces || [],
       },
     };
   } catch (error) {
@@ -58,8 +64,11 @@ export const getServerSideProps = async ({ req, query }) => {
 const currentTime = new Date();
 
 export default function ArtPiece({ artPiece, relatedArtPieces }) {
-  console.log("we have page artPiece ", artPiece);
-  console.log("related Art pieces", relatedArtPieces);
+  const [openView, setOpenView] = useState<ViewProps>({
+    open: false,
+    type: "",
+    data: {},
+  });
 
   return (
     <>
@@ -69,26 +78,33 @@ export default function ArtPiece({ artPiece, relatedArtPieces }) {
             <div className="themesflat-container">
               <div className="row">
                 <div data-wow-delay="0s" className="wow fadeInLeft col-md-8">
-                  <div className="tf-card-box style-5 mb-0">
-                    <div className="card-media rounded-xl overflow-hidden mb-0">
-                      <Image
-                        width={500}
-                        height={500}
-                        src={artPiece?.assets[0]?.url}
-                        alt=""
-                      />
-                    </div>
-                    <h6 className="price gem">
-                      <i className="icon-gem" />
-                    </h6>
-                    <div className="wishlist-button">
-                      10
-                      <i className="icon-heart" />
-                    </div>
-                    <div className="featured-countdown">
-                      {/* <Countdown endDateTime={currentTime.setDate(currentTime.getDate() + 2)} /> */}
-                    </div>
-                  </div>
+                  {artPiece?.assets?.length > 0 &&
+                    artPiece?.assets?.map((asset) => (
+                      <div
+                        key={asset?._id}
+                        className="tf-card-box style-5 mb-0"
+                      >
+                        <div className="card-media rounded-xl overflow-hidden mb-0">
+                          <Image
+                            width={454}
+                            height={467}
+                            src={asset?.url}
+                            alt=""
+                          />
+                          <div className="flex w-full"></div>
+                        </div>
+                        <h6 className="price gem">
+                          <i className="icon-gem" />
+                        </h6>
+                        <div className="wishlist-button">
+                          10
+                          <i className="icon-heart" />
+                        </div>
+                        <div className="featured-countdown">
+                          {/* <Countdown endDateTime={currentTime.setDate(currentTime.getDate() + 2)} /> */}
+                        </div>
+                      </div>
+                    ))}
                 </div>
                 <div className="col-md-4">
                   <div
@@ -155,10 +171,12 @@ export default function ArtPiece({ artPiece, relatedArtPieces }) {
                       <Avatar src={artPiece.creator?.profile?.avatar} />
 
                       <div className="info">
-                        <span>Created by:</span>
+                        <Typography variant="body2" component="span">
+                          Created by:
+                        </Typography>
                         <h6>
                           <Link
-                            className="tf-color"
+                            className="tf-color font-semibold"
                             href={`/artist/${artPiece?.creator?.profile?._id}`}
                           >{`${
                             artPiece?.custodian?.profile
@@ -168,7 +186,7 @@ export default function ArtPiece({ artPiece, relatedArtPieces }) {
                         </h6>
                       </div>
                     </div>
-                    <div className="meta mb-20">
+                    {/* <div className="meta mb-20">
                       <div className="meta-item view">
                         <i className="icon-show" />
                         208 view
@@ -181,9 +199,9 @@ export default function ArtPiece({ artPiece, relatedArtPieces }) {
                         <i className="icon-heart" />
                         10 favorites
                       </div>
-                    </div>
+                    </div> */}
                   </div>
-                  <div
+                  {/* <div
                     data-wow-delay="0s"
                     className="wow fadeInRight product-item time-sales"
                   >
@@ -203,21 +221,108 @@ export default function ArtPiece({ artPiece, relatedArtPieces }) {
                         </Link>
                       </div>
                     </div>
-                  </div>
-                  <div
+                  </div> */}
+                  {/* ------------- Artpiece Details --------- */}
+                  <Card
                     data-wow-delay="0s"
-                    className="wow fadeInRight product-item description"
+                    className="wow fadeInRight product-item rounded-xl time-sales"
                   >
-                    <h6 className=" ">
-                      <i className="icon-description" />
-                      Description
-                    </h6>
+                    <Typography
+                      variant="h3"
+                      className="text-gray-800"
+                      gutterBottom
+                    >
+                      Details
+                    </Typography>
+                    <CardContent
+                      component={"div"}
+                      className="grid grid-cols-2 gap-6 text-gray-800 text-lg"
+                    >
+                      <Typography className="text-xl font-semibold">
+                        Subject Matter:
+                      </Typography>
+                      <Typography className="text-xl capitalize">
+                        {artPiece?.subjectMatter}
+                      </Typography>
+                      <Typography className="text-xl font-semibold">
+                        Type:
+                      </Typography>
+                      <Typography className="text-xl capitalize">
+                        {artPiece?.artType}
+                      </Typography>
+                      <Typography className="text-xl font-semibold">
+                        Medium:
+                      </Typography>
+                      <Typography className="text-xl capitalize">
+                        {artPiece?.medium}
+                      </Typography>
+                      <Typography className="text-xl font-semibold">
+                        Ratity:
+                      </Typography>
+                      <Typography className="text-xl capitalize">
+                        {artPiece?.rarity}
+                      </Typography>
+                      <Typography className="text-xl font-semibold">
+                        Verification Status:
+                      </Typography>
+                      <Typography className="text-xl capitalize">
+                        {artPiece?.verificationStatus === "verified"
+                          ? "Verified"
+                          : "Unverified"}
+                      </Typography>
+                      <Typography className="text-xl font-semibold">
+                        Depth:
+                      </Typography>
+                      <Typography className="text-xl capitalize">
+                        {artPiece?.depth}
+                      </Typography>
+                      <Typography className="text-xl font-semibold">
+                        Height:
+                      </Typography>
+                      <Typography className="text-xl capitalize">
+                        {artPiece?.height}
+                      </Typography>
+                      <Typography className="text-xl font-semibold">
+                        Width:
+                      </Typography>
+                      <Typography className="text-xl capitalize">
+                        {artPiece?.width}
+                      </Typography>
+                      <Typography className="text-xl font-semibold">
+                        Weight:
+                      </Typography>
+                      <Typography className="text-xl capitalize">
+                        {artPiece?.weight}
+                      </Typography>
+                      <Typography className="text-xl font-semibold">
+                        Rating:
+                      </Typography>
+                      <Typography className="text-xl capitalize">
+                        <Rating value={artPiece?.rating} readOnly />
+                      </Typography>
+                    </CardContent>
+                  </Card>
+
+                  {/* ------------- Artpiece Description --------- */}
+                  <Card
+                    data-wow-delay="0s"
+                    className="wow fadeInRight rounded-xl product-item description"
+                  >
+                    <Typography
+                      variant="h3"
+                      gutterBottom
+                      className="text-gray-800 space-x-3"
+                    >
+                      <i className="icon-description" /> Description
+                    </Typography>
                     <i className="icon-keyboard_arrow_down" />
                     <div className="content">
-                      <p>{artPiece?.description}</p>
+                      <Typography variant="body2" className="text-gray-800">
+                        {artPiece?.description}
+                      </Typography>
                     </div>
-                  </div>
-                  <div
+                  </Card>
+                  {/* <div
                     data-wow-delay="0s"
                     className="wow fadeInRight product-item history"
                   >
@@ -227,14 +332,14 @@ export default function ArtPiece({ artPiece, relatedArtPieces }) {
                     </h6>
                     <i className="icon-keyboard_arrow_down" />
                     <div className="content">
-                      {/* <div className="chart">
-                                                <canvas id="myChart" />
-                                            </div> */}
+
                       <BarChart />
                     </div>
-                  </div>
+                  </div> */}
                 </div>
-                <div className="col-12">
+
+                {/* ----------- Verication Details --------- */}
+                <div className="col-12 mt-8">
                   <div className="product-item rounded-xl details">
                     <h6 className=" ">
                       <i className="icon-description" />
@@ -269,6 +374,8 @@ export default function ArtPiece({ artPiece, relatedArtPieces }) {
                     </div>
                   </div>
                 </div>
+
+                {/* ------------- Publications ---------  */}
                 <div className="col-12">
                   <div className="product-item rounded-xl item-activity mb-6">
                     <h6 className=" ">
@@ -278,51 +385,76 @@ export default function ArtPiece({ artPiece, relatedArtPieces }) {
                     <i className="icon-keyboard_arrow_down" />
                     <div className="content">
                       <div className="table-heading">
-                        <div className="column">Article Name</div>
+                        {/* <div className="column">Article Name</div> */}
                         <div className="column">Publication Name</div>
-                        <div className="column">Author</div>
+                        {/* <div className="column">Author</div>
                         <div className="column">Attachment</div>
-                        <div className="column">Notes</div>
+                        <div className="column">Notes</div> */}
                       </div>
                       {artPiece?.publications?.map((publication) => (
-                        <div key={publication?._id} className="table-item">
-                          <div className="column ">
-                            {/* <i className="icon-two-arrow" /> */}
-                            {publication?.articleName}
-                          </div>
+                        <div
+                          onClick={() =>
+                            setOpenView({
+                              open: true,
+                              type: "publication",
+                              data: publication,
+                            })
+                          }
+                          key={publication?._id}
+                          className="table-item hover:bg-gray-200 cursor-pointer p-2"
+                        >
                           <div className="column">
                             {publication?.publicationName}
                           </div>
-                          <div className="column">
-                            <span className="tf-color">
-                              {publication?.authorName}
-                            </span>
-                          </div>
-                          <div className="column">
-                            <Image
-                              width={100}
-                              height={50}
-                              src={publication?.attachment?.url}
-                              alt=""
-                            />
-                          </div>
-                          <div className="column">{publication?.notes}</div>
                         </div>
                       ))}
                     </div>
                   </div>
                 </div>
+
+                {/* ----------- Exhibition ----------- */}
                 <div className="col-12 ">
-                  <div className="product-item rounded-xl traits style-1">
+                  <div className="product-item rounded-xl item-activity mb-6">
                     <h6 className=" ">
                       <i className="icon-description" />
                       Exhihibition
                     </h6>
                     <i className="icon-keyboard_arrow_down" />
-                    <div className=""></div>
+                    <div className="content">
+                      <div className="table-heading">
+                        <div className="column">Name</div>
+                        <div className="column">Type</div>
+                        <div className="column">Showing </div>
+                      </div>
+                      {artPiece?.exhibitions?.map((exhibition) => (
+                        <div
+                          onClick={() =>
+                            setOpenView({
+                              open: true,
+                              data: exhibition,
+                              type: "exhibition",
+                            })
+                          }
+                          key={exhibition?._id}
+                          className="table-item hover:bg-gray-200 cursor-pointer p-2"
+                        >
+                          <div className="column capitalize">
+                            {exhibition?.name}
+                          </div>
+                          <div className="column capitalize">
+                            {exhibition?.type}
+                          </div>
+                          <div className="column capitalize">
+                            {exhibition?.showingType}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
-                <div className="col-12">
+
+                {/* ---------- Provenance ---------- */}
+                {/* <div className="col-12">
                   <div className="product-item offers">
                     <h6 className=" ">
                       <i className="icon-description" />
@@ -400,7 +532,9 @@ export default function ArtPiece({ artPiece, relatedArtPieces }) {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
+
+                {/* ------- Appraisals ------- */}
                 <div className="col-12">
                   <div className="product-item rounded-xl item-activity mb-6">
                     <h6 className=" ">
@@ -411,48 +545,27 @@ export default function ArtPiece({ artPiece, relatedArtPieces }) {
                     <div className="content">
                       <div className="table-heading">
                         <div className="column">Appraiser Name</div>
-                        <div className="column">Appraiser Email</div>
-                        <div className="column">Appraiser Website</div>
-                        <div className="column">Currency</div>
-                        <div className="column">Notes</div>
-                        <div className="column">Attachment</div>
                       </div>
                       {artPiece?.appraisals?.map((appraisal) => (
-                        <div key={appraisal?._id} className="table-item">
-                          <div className="column ">
-                            {/* <i className="icon-two-arrow" /> */}
-                            {appraisal?.appraiser}
-                          </div>
-                          <div className="column">
-                            {appraisal?.appraiserEmail}
-                          </div>
-                          <div className="column">
-                            <Link
-                              href={appraisal?.appraiserWebsite || "/"}
-                              className="tf-color"
-                            >
-                              {appraisal?.appraiserWebsite}
-                            </Link>
-                          </div>
-                          <div className="column">
-                            <span className="tf-color">
-                              {appraisal?.currency}
-                            </span>
-                          </div>
-                          <div className="column">{appraisal?.notes}</div>
-                          <div className="column">
-                            <Image
-                              width={100}
-                              height={50}
-                              alt=""
-                              src={appraisal?.attachment?.url}
-                            />
-                          </div>
+                        <div
+                          onClick={() =>
+                            setOpenView({
+                              open: true,
+                              type: "appraisal",
+                              data: appraisal,
+                            })
+                          }
+                          key={appraisal?._id}
+                          className="table-item hover:bg-gray-200 cursor-pointer p-2"
+                        >
+                          <div className="column ">{appraisal?.appraiser}</div>
                         </div>
                       ))}
                     </div>
                   </div>
                 </div>
+
+                {/* ------- Locations ---------- */}
                 <div className="col-12">
                   <div className="product-item rounded-xl item-activity mb-0">
                     <h6 className=" ">
@@ -462,20 +575,30 @@ export default function ArtPiece({ artPiece, relatedArtPieces }) {
                     <i className="icon-keyboard_arrow_down" />
                     <div className="content">
                       <div className="table-heading">
-                        <div className="column">Name</div>
+                        {/* <div className="column">Name</div>
                         <div className="column">Address</div>
                         <div className="column">Start Date</div>
                         <div className="column">End Date</div>
-                        <div className="column">notes</div>
+                        <div className="column">notes</div> */}
                       </div>
                       {artPiece?.locations?.map((location) => (
-                        <div key={location?._id} className="table-item">
+                        <div
+                          key={location?._id}
+                          onClick={() =>
+                            setOpenView({
+                              open: true,
+                              type: "location",
+                              data: location,
+                            })
+                          }
+                          className="table-item hover:bg-gray-200 cursor-pointer p-2"
+                        >
                           <div className="column flex items-center">
                             {/* <i className="icon-two-arrow" /> */}
                             {location?.name}
                           </div>
-                          <div className="column">{location?.address}</div>
-                          <div className="column">
+                          {/* <div className="column">{location?.address}</div> */}
+                          {/* <div className="column">
                             <span className="tf-color">
                               {dayjs(location?.startDate).format(
                                 "DD MMM, YYYY",
@@ -487,7 +610,7 @@ export default function ArtPiece({ artPiece, relatedArtPieces }) {
                               {dayjs(location?.endDate).format("DD MMM, YYYY")}
                             </span>
                           </div>
-                          <div className="column">{location?.notes}</div>
+                          <div className="column">{location?.notes}</div> */}
                         </div>
                       ))}
                     </div>
@@ -517,6 +640,17 @@ export default function ArtPiece({ artPiece, relatedArtPieces }) {
             </div>
           </div>
         </div>
+
+        <ViewDetailsModal
+          viewProps={openView}
+          onClose={() =>
+            setOpenView({
+              open: false,
+              data: null,
+              type: "",
+            })
+          }
+        />
       </Layout>
     </>
   );
