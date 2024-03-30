@@ -27,7 +27,7 @@ const ViewDetailsModal: React.FC<Props> = ({ onClose, viewProps }) => {
   return (
     <Dialog onClose={onClose} open={viewProps.open}>
       <DialogTitle variant="h3">View Details</DialogTitle>
-      <DialogContent className="lg:w-[750px] overflow-y-auto md:w-[550px]">
+      <DialogContent className=" overflow-y-auto md:w-[550px]">
         {viewProps.type === "exhibition" && (
           <Exhibition exhibition={viewProps.data} />
         )}
@@ -53,7 +53,7 @@ const Exhibition = ({ exhibition }: { exhibition: any }) => {
     <Stack direction={"column"} spacing={2}>
       <Card className="p-3 rounded-xl bg-gray-200">
         <CardMedia
-          sx={{ height: 200 }}
+          sx={{ height: 400 }}
           image={exhibition?.image}
           title={exhibition?.name}
           className="object-cover"

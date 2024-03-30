@@ -339,7 +339,7 @@ export default function ArtPiece({ artPiece, relatedArtPieces }) {
                 </div>
 
                 {/* ----------- Verication Details --------- */}
-                <div className="col-12 mt-8">
+                {/* <div className="col-12 mt-8">
                   <div className="product-item rounded-xl details">
                     <h6 className=" ">
                       <i className="icon-description" />
@@ -373,10 +373,10 @@ export default function ArtPiece({ artPiece, relatedArtPieces }) {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 {/* ------------- Publications ---------  */}
-                <div className="col-12">
+                <div className="col-12 mt-8">
                   <div className="product-item rounded-xl item-activity mb-6">
                     <h6 className=" ">
                       <i className="icon-two-arrow rotateZ90" />
