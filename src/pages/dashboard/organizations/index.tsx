@@ -8,6 +8,7 @@ import AutoSlider1 from "@/open9/slider/AutoSlider1";
 import AutoSlider2 from "@/open9/slider/AutoSlider2";
 import { getToken } from "next-auth/jwt";
 import axios from "@/lib/axios";
+import OrgCard from "@/components/common/OrgCard";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -36,7 +37,7 @@ export const getServerSideProps = async ({ req, query }) => {
 };
 
 function Organizations({ organizations }) {
-  console.log(organizations);
+  console.log("This is the organizaton", organizations);
   return (
     <>
       <DashboardLayoutWithSidebar activePage={DashboardPages.ORGANIZATIONS}>
@@ -75,54 +76,61 @@ function Organizations({ organizations }) {
             <div className="row">
               {organizations?.length > 0 ? (
                 organizations?.map((org, idx) => (
-                  <div
-                    key={idx}
-                    className="fl-item col-xl-3 col-lg-4 col-md-6 col-sm-6"
-                  >
-                    <div className="tf-card-box style-1">
-                      <div className="card-media">
-                        <Link href="#">
-                          <Image
-                            src={org?.image}
-                            width={200}
-                            height={250}
-                            alt=""
-                          />
-                        </Link>
-                        <span className="wishlist-button icon-heart" />
-                        <div className="button-place-bid">
-                          <Link
-                            href={`/dashboard/organizations/${org._id}`}
-                            className="tf-button"
-                          >
-                            <span>View</span>
-                          </Link>
-                        </div>
-                      </div>
-                      <h5 className="name">
-                        <Link href="#">{org.name}</Link>
-                      </h5>
-                      <div className="author flex items-center">
-                        <div className="avatar">
-                          <Image
-                            src={org?.creator?.avatar}
-                            width={100}
-                            height={100}
-                            alt="Image"
-                          />
-                        </div>
-                        <div className="info">
-                          <span className="tf-color">Created by:</span>
-                          <h6>
-                            <Link href="/author-2">
-                              {org?.creator?.firstName}
-                            </Link>{" "}
-                          </h6>
-                        </div>
-                      </div>
-                      <div className="divider" />
-                    </div>
-                  </div>
+                  <OrgCard
+                    link={`/dashboard/organizations/${org._id}`}
+                    image={org?.image}
+                    name={org?.name}
+                    totalMembers={org.members?.length - 1}
+                    key={org?._id}
+                  />
+                  // <div
+                  //   key={idx}
+                  //   className="fl-item col-xl-3 col-lg-4 col-md-6 col-sm-6"
+                  // >
+                  //   <div className="tf-card-box style-1">
+                  //     <div className="card-media">
+                  //       <Link href="#">
+                  //         <Image
+                  //           src={org?.image}
+                  //           width={200}
+                  //           height={250}
+                  //           alt=""
+                  //         />
+                  //       </Link>
+                  //       <span className="wishlist-button icon-heart" />
+                  //       <div className="button-place-bid">
+                  //         <Link
+                  //           href={`/dashboard/organizations/${org._id}`}
+                  //           className="tf-button"
+                  //         >
+                  //           <span>View</span>
+                  //         </Link>
+                  //       </div>
+                  //     </div>
+                  //     <h5 className="name">
+                  //       <Link href="#">{org.name}</Link>
+                  //     </h5>
+                  //     <div className="author flex items-center">
+                  //       <div className="avatar">
+                  //         <Image
+                  //           src={org?.creator?.avatar}
+                  //           width={100}
+                  //           height={100}
+                  //           alt="Image"
+                  //         />
+                  //       </div>
+                  //       <div className="info">
+                  //         <span className="tf-color">Created by:</span>
+                  //         <h6>
+                  //           <Link href="/author-2">
+                  //             {org?.creator?.firstName}
+                  //           </Link>{" "}
+                  //         </h6>
+                  //       </div>
+                  //     </div>
+                  //     <div className="divider" />
+                  //   </div>
+                  // </div>
                 ))
               ) : (
                 <p>

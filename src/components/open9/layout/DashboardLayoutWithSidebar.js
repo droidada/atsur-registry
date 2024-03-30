@@ -991,7 +991,7 @@ const DashboardLayoutWithSidebar = ({
             </div>
           </div>
         </div>
-        {!hideSidebar && !isMobileSidebar && (
+        {/* {!hideSidebar && !isMobileSidebar && (
           <div
             className="side-bar"
             style={{ marginTop: "130px", paddingRight: "15px" }}
@@ -1292,9 +1292,8 @@ const DashboardLayoutWithSidebar = ({
               </div>
             </div>
           </div>
-        )}
+        )} */}
       </div>
-      {/* <Footer1 /> */}
     </>
   );
 };
