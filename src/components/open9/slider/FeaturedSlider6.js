@@ -45,7 +45,7 @@ import ArtPieceCard from "@/components/common/ArtPieceCard";
 export default function FeaturedSlider6({ featured_artworks }) {
   const [isBidModal, setBidModal] = useState(false);
   const handleBidModal = () => setBidModal(!isBidModal);
-  console.log(featured_artworks);
+  console.log("This is the featured_artworks", featured_artworks);
   return (
     <>
       <Swiper
@@ -54,6 +54,7 @@ export default function FeaturedSlider6({ featured_artworks }) {
       >
         {featured_artworks?.map((artwork) => (
           <SwiperSlide key={artwork?._id}>
+            {" "}
             <ArtPieceCard
               image={artwork?.assets[0]?.url}
               title={artwork?.title}

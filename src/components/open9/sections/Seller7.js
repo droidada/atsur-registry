@@ -75,9 +75,10 @@ export default function Seller7({ artists }) {
                 <div className="swiper-wrapper">
                   {artists?.map((artist, index) => (
                     <SwiperSlide key={artist._id}>
-                      <div className="tf-author-box text-center">
+                      <div className="tf-author-box text-center flex flex-col items-center ">
                         <div className="author-avatar ">
                           <Avatar
+                            className="w-32 h-32"
                             src={artist?.avatar}
                             label={artist?.firstName}
                           />
@@ -97,153 +98,6 @@ export default function Seller7({ artists }) {
                       </div>
                     </SwiperSlide>
                   ))}
-                  {/* <SwiperSlide>
-                    <div className="tf-author-box text-center">
-                      <div className="author-avatar ">
-                        <Image
-                          src="/assets/images/avatar/avatar-02.png"
-                          alt=""
-                          className="avatar"
-                        />
-                        <div className="number">2</div>
-                      </div>
-                      <div className="author-infor ">
-                        <h5>
-                          <Link href="/author-2">Theresa Webb</Link>
-                        </h5>
-                        <h6 className="price gem style-1">
-                          <i className="icon-gem" />
-                          7,080.95
-                        </h6>
-                      </div>
-                    </div>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <div className="tf-author-box text-center">
-                      <div className="author-avatar ">
-                        <Image
-                          src="/assets/images/avatar/avatar-03.png"
-                          alt=""
-                          className="avatar"
-                        />
-                        <div className="number">3</div>
-                      </div>
-                      <div className="author-infor ">
-                        <h5>
-                          <Link href="/author-2">Devon Lane</Link>
-                        </h5>
-                        <h6 className="price gem style-1">
-                          <i className="icon-gem" />
-                          7,080.95
-                        </h6>
-                      </div>
-                    </div>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <div className="tf-author-box text-center">
-                      <div className="author-avatar ">
-                        <Image
-                          src="/assets/images/avatar/avatar-04.png"
-                          alt=""
-                          className="avatar"
-                        />
-                        <div className="number">4</div>
-                      </div>
-                      <div className="author-infor ">
-                        <h5>
-                          <Link href="/author-2">Courtney Henry</Link>
-                        </h5>
-                        <h6 className="price gem style-1">
-                          <i className="icon-gem" />
-                          7,080.95
-                        </h6>
-                      </div>
-                    </div>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <div className="tf-author-box text-center">
-                      <div className="author-avatar ">
-                        <Image
-                          src="/assets/images/avatar/avatar-05.png"
-                          alt=""
-                          className="avatar"
-                        />
-                        <div className="number">5</div>
-                      </div>
-                      <div className="author-infor ">
-                        <h5>
-                          <Link href="/author-2">Courtney Henry</Link>
-                        </h5>
-                        <h6 className="price gem style-1">
-                          <i className="icon-gem" />
-                          7,080.95
-                        </h6>
-                      </div>
-                    </div>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <div className="tf-author-box text-center">
-                      <div className="author-avatar ">
-                        <Image
-                          src="/assets/images/avatar/avatar-06.png"
-                          alt=""
-                          className="avatar"
-                        />
-                        <div className="number">6</div>
-                      </div>
-                      <div className="author-infor ">
-                        <h5>
-                          <Link href="/author-2">Courtney Henry</Link>
-                        </h5>
-                        <h6 className="price gem style-1">
-                          <i className="icon-gem" />
-                          7,080.95
-                        </h6>
-                      </div>
-                    </div>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <div className="tf-author-box text-center">
-                      <div className="author-avatar ">
-                        <Image
-                          src="/assets/images/avatar/avatar-01.png"
-                          alt=""
-                          className="avatar"
-                        />
-                        <div className="number">7</div>
-                      </div>
-                      <div className="author-infor ">
-                        <h5>
-                          <Link href="/author-2">Courtney Henry</Link>
-                        </h5>
-                        <h6 className="price gem style-1">
-                          <i className="icon-gem" />
-                          7,080.95
-                        </h6>
-                      </div>
-                    </div>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <div className="tf-author-box text-center">
-                      <div className="author-avatar ">
-                        <Image
-                          src="/assets/images/avatar/avatar-02.png"
-                          alt=""
-                          className="avatar"
-                        />
-                        <div className="number">8</div>
-                      </div>
-                      <div className="author-infor ">
-                        <h5>
-                          <Link href="/author-2">Courtney Henry</Link>
-                        </h5>
-                        <h6 className="price gem style-1">
-                          <i className="icon-gem" />
-                          7,080.95
-                        </h6>
-                      </div>
-                    </div>
-                  </SwiperSlide> */}
                 </div>
               </Swiper>
               <div className="swiper-button-next seller-next over active" />
