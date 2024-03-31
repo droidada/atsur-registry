@@ -96,7 +96,7 @@ const DeleteDialog: React.FC<Props> = ({
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle sx={{ textTransform: "capitalize" }}>
+      <DialogTitle variant="h3" sx={{ textTransform: "capitalize" }}>
         {itemToDelete?.itemType}
       </DialogTitle>
       <DialogContent>
@@ -104,8 +104,19 @@ const DeleteDialog: React.FC<Props> = ({
           `Are you sure your want to delete this ${itemToDelete?.itemType}?`}
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <LoadingButton loading={isLoading} onClick={handleDelete}>
+        <Button
+          sx={{ borderRadius: "12px" }}
+          className="tf-button style-1"
+          onClick={onClose}
+        >
+          Cancel
+        </Button>
+        <LoadingButton
+          sx={{ borderRadius: "12px" }}
+          className="tf-button style-1"
+          loading={isLoading}
+          onClick={handleDelete}
+        >
           Delete
         </LoadingButton>
       </DialogActions>

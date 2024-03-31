@@ -77,7 +77,7 @@ function Artworks({ artworks }) {
           <h2 className="tf-title pb-30">My ArtWorks</h2>
         </div>
         <div className="widget-tabs px-4 relative">
-          <div className="grid gap-3 md:grid-cols-2">
+          <div className=" w-full grid gap-3 md:grid-cols-2 lg:grid-cols-3 grid-cols-1">
             {artworks?.map((artPiece, idx) => (
               <ArtPieceCard
                 rating={artPiece?.rating}
