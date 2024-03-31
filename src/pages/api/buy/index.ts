@@ -1,4 +1,3 @@
-import { prisma } from "@/lib/utils/db";
 import { walletFactoryContract } from "@/lib/utils/getContracts";
 import { randomBytes } from "crypto";
 import { NextRequest, NextResponse } from "next/server";

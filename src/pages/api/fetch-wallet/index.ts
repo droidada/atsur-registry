@@ -1,4 +1,3 @@
-import { prisma } from "@/lib/utils/db";
 import { isAddress } from "ethers/lib/utils";
 import type { NextApiRequest, NextApiResponse } from "next/types";
 
@@ -16,13 +15,13 @@ export default async function GET(req: NextApiRequest, resp: NextApiResponse) {
       throw new Error("Invalid Ethereum address");
     }
 
-    const wallet = await prisma.wallet.findFirst({
-      where: {
-        address: walletAddress,
-      },
-    });
+    // const wallet = await prisma.wallet.findFirst({
+    //   where: {
+    //     address: walletAddress,
+    //   },
+    // });
 
-    return resp.status(200).json(wallet);
+    return resp.status(200).json({});
   } catch (error) {
     console.error(error);
     return resp.status(500).json({ error });

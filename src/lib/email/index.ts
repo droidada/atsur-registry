@@ -38,7 +38,7 @@ export default async function SendMail({
     const dynamicTemplateData = { ...data, subject };
     await mail.send({
       to,
-      from: "no-reply@vtvl.io",
+      from: "no-reply@atsur.art",
       templateId,
       dynamicTemplateData,
       subject,
