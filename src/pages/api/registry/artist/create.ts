@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next/types";
 import axios from "axios";
-import getTokenClientAuth from "../../../../lib/auth/tokenIdClient";
 
 type Data = {
   success: boolean;
@@ -14,7 +13,7 @@ export default async (req: NextApiRequest, resp: NextApiResponse<Data>) => {
       method: "POST",
       headers: {
         ContentType: "text/plain",
-        Authorization: await getTokenClientAuth(),
+        // Authorization: await getTokenClientAuth(),
       },
       data: {},
       timeout: 3000,

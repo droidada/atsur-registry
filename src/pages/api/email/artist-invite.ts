@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 import type { NextApiRequest, NextApiResponse } from "next/types";
-import { firebaseAdmin } from "../../../services/auth/firebaseAdmin";
 import SendMail, { MailTemplates } from "../../../lib/email";
 
 dotenv.config();
@@ -22,12 +21,12 @@ export default async function handler(
     handleCodeInApp: true,
   };
 
-  const emailLink = await firebaseAdmin
-    ?.auth()
-    .generateSignInWithEmailLink(email, actionCodeSettings);
+  // const emailLink = await firebaseAdmin
+  //   ?.auth()
+  //   .generateSignInWithEmailLink(email, actionCodeSettings);
   await SendMail({
     to: email,
-    data: { emailLink, orgName, name },
+    data: { orgName, name },
     subject: "Join VTVL",
     templateId: MailTemplates.TeammateInvite,
   });

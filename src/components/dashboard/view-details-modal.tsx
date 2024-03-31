@@ -16,7 +16,6 @@ import {
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Link from "next/link";
-import { Public } from "@prisma/client/runtime/library";
 import dayjs from "dayjs";
 interface Props {
   onClose: () => void;
@@ -97,9 +96,9 @@ const Exhibition = ({ exhibition }: { exhibition: any }) => {
             <Typography
               component={Link}
               href={`mailto:${exhibition?.organizer?.email}`}
-              underline="hover"
+              // underline="hover"
               target="_blank"
-              className="text-justify "
+              className="text-justify"
               variant="body2"
             >
               {exhibition?.organizer?.email}
@@ -113,7 +112,7 @@ const Exhibition = ({ exhibition }: { exhibition: any }) => {
               component={Link}
               href={exhibition?.organizer?.website}
               target="_blank"
-              underline="hover"
+              // underline="hover"
               className="text-justify "
               variant="body2"
             >
@@ -139,7 +138,7 @@ const Exhibition = ({ exhibition }: { exhibition: any }) => {
                 <Typography
                   component={Link}
                   href={`mailto:${curator?.email}`}
-                  underline="hover"
+                  // underline="hover"
                   target="_blank"
                   className="text-justify "
                   variant="body2"
@@ -173,7 +172,7 @@ const Exhibition = ({ exhibition }: { exhibition: any }) => {
                 <Typography
                   component={Link}
                   href={`mailto:${juror?.email}`}
-                  underline="hover"
+                  // underline="hover"
                   target="_blank"
                   className="text-justify "
                   variant="body2"
@@ -316,7 +315,7 @@ const Appraisals = ({ appraisal }: { appraisal: any }) => {
             <Typography
               component={Link}
               href={`mailto:${appraisal?.appraiserEmail}`}
-              underline="hover"
+              // underline="hover"
               target="_blank"
               className="text-justify "
               variant="body2"
@@ -328,7 +327,7 @@ const Appraisals = ({ appraisal }: { appraisal: any }) => {
             <Typography
               component={Link}
               href={appraisal?.appraiserWebsite}
-              underline="hover"
+              // underline="hover"
               target="_blank"
               className="text-justify "
               variant="body2"

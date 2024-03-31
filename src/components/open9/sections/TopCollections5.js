@@ -24,7 +24,6 @@ const swiperOptions = {
 };
 
 import Link from "next/link";
-import { collection } from "firebase/firestore";
 import Image from "next/image";
 export default function TopCollections5({ collections }) {
   console.log(collections);

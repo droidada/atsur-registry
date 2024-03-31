@@ -1,4 +1,3 @@
-import { prisma } from "@/lib/utils/db";
 import { isAddress } from "ethers/lib/utils";
 import type { NextApiRequest, NextApiResponse } from "next/types";
 
@@ -17,22 +16,22 @@ export default async function GET(req: NextApiRequest, resp: NextApiResponse) {
       throw new Error("Invalid Ethereum address");
     }
 
-    const wallets = await prisma.wallet.findMany({
-      where: {
-        signers: {
-          array_contains: address.toLowerCase(),
-        },
-      },
-      include: {
-        _count: {
-          select: {
-            // transactions: true,
-          },
-        },
-      },
-    });
+    // const wallets = await prisma.wallet.findMany({
+    //   where: {
+    //     signers: {
+    //       array_contains: address.toLowerCase(),
+    //     },
+    //   },
+    //   include: {
+    //     _count: {
+    //       select: {
+    //         // transactions: true,
+    //       },
+    //     },
+    //   },
+    // });
 
-    return resp.status(200).json(wallets);
+    return resp.status(200).json({});
   } catch (error) {
     console.error(error);
     return resp.status(200).json({ error });

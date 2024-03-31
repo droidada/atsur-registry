@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next/types";
 import axios from "axios";
-import getTokenClientAuth from "../../../lib/auth/tokenIdClient";
 
 type Data = {
   success: boolean;
