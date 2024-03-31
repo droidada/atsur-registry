@@ -11,6 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import React from "react";
 
 interface ArtPieceCardProps {
@@ -34,19 +35,22 @@ const ArtPieceCard: React.FC<ArtPieceCardProps> = ({
 }) => {
   const { data: session } = useSession();
 
-  console.log(session);
-
   console.log(rating);
 
   return (
     <Card
-      style={{ animationDuration: "700ms" }}
-      className="wow   fl-item-1 m-2 p-2 rounded-xl w-full"
+      sx={{
+        borderRadius: "12px",
+        transitionDuration: "0.7s",
+      }}
+      component={Link}
+      href={link || "#"}
+      className="m-2 p-2  hover:scale-95  block max-w-[350px] w-full"
     >
       <CardActionArea className="group " href={link} sx={{ height: "70%" }}>
         <CardMedia
           sx={{ height: "80%" }}
-          className=" rounded-xl card-media hover:scale-95 duration-700 "
+          className=" rounded-xl  "
           component="img"
           image={image}
           title={title}
@@ -57,7 +61,6 @@ const ArtPieceCard: React.FC<ArtPieceCardProps> = ({
           </Typography>
         </CardContent>
       </CardActionArea>
-
       <CardActions>
         <Stack className=" w-full" spacing={2} direction={"column"}>
           <Stack

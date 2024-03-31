@@ -10,6 +10,8 @@ import { getToken } from "next-auth/jwt";
 import axios from "@/lib/axios";
 import { Menu } from "@headlessui/react";
 import Image from "next/image";
+import { ArtistCard } from "@/components/artist-card";
+import ArtPieceCard from "@/components/common/ArtPieceCard";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -43,17 +45,23 @@ function Artworks({ artworks }) {
   return (
     <DashboardLayoutWithSidebar activePage={DashboardPages.ART}>
       <div className="i flex-1  max-w-full">
-        <div className="action__body w-full mb-40">
+        <div className="action__body w-full rounded-xl mb-40">
           <div className="tf-tsparticles">
             <div id="tsparticles7" data-color="#161616" data-line="#000" />
           </div>
           <h2>Artworks</h2>
           <div className="flat-button flex">
-            <Link href="/explore" className="tf-button style-2 h50 w190 mr-10">
+            <Link
+              href="/explore"
+              className="tf-button rounded-xl style-2 h50 w190 mr-10"
+            >
               Explore
               <i className="icon-arrow-up-right2" />
             </Link>
-            <Link href="/dashboard" className="tf-button style-2 h50 w230">
+            <Link
+              href="/dashboard"
+              className="tf-button rounded-xl style-2 h50 w230"
+            >
               Create
               <i className="icon-arrow-up-right2" />
             </Link>
@@ -69,107 +77,18 @@ function Artworks({ artworks }) {
           <h2 className="tf-title pb-30">My ArtWorks</h2>
         </div>
         <div className="widget-tabs px-4 relative">
-          <div className="wrap-box-card">
+          <div className="grid gap-3 md:grid-cols-2">
             {artworks?.map((artPiece, idx) => (
-              <div
+              <ArtPieceCard
+                rating={artPiece?.rating}
+                link={`/dashboard/artworks/${artPiece._id}`}
+                title={artPiece.title}
+                image={artPiece.assets[0].url}
                 key={idx}
-                className="fl-item col-xl-3 col-lg-4  col-md-6 col-sm-6"
-              >
-                <div className="tf-card-box style-1 h-[450px]">
-                  <div className="card-media relative h-[60%]">
-                    <span>
-                      <Image
-                        src={artPiece?.assets[0]?.url}
-                        fill
-                        className="object-cover"
-                        alt=""
-                      />
-                    </span>
-                    <span className="wishlist-button icon-heart" />
-                    <div className="button-place-bid">
-                      <Link
-                        href={`/dashboard/artworks/${artPiece._id}`}
-                        className="tf-button"
-                      >
-                        <span>View</span>
-                      </Link>
-                    </div>
-                  </div>
-                  <h5 className="name">
-                    <Link href="#">{artPiece.title}</Link>
-                  </h5>
-                  <div className="divider" />
-                  <div className="meta-info flex items-center justify-between">
-                    <span className="text-bid">Price</span>
-                    <h6 className="price gem to-white">
-                      <i className="icon-gem" />
-                      0,34
-                    </h6>
-                  </div>
-                </div>
-              </div>
+              />
             ))}
           </div>
         </div>
-        {/* <div className="heading-section">
-              <h2 className="tf-title style-1 pb-30">Invitations</h2>
-            </div>
-            <div className="row">
-              <p>You have no invites</p>
-              <br />
-              <br />
-              <br />
-            </div>
-            <div className="row">
-              {artworks?.length > 0 ? (
-                artworks?.map((artPiece, idx) => (
-                  <div
-                    key={idx}
-                    className="fl-item col-xl-3 col-lg-4 col-md-6 col-sm-6"
-                  >
-                    <div className="tf-card-box style-1">
-                      <div className="card-media">
-                        <Link href="#">
-                          <Image
-                            src={artPiece?.assets[0]?.url}
-                            width={150}
-                            height={200}
-                            alt=""
-                          />
-                        </Link>
-                        <span className="wishlist-button icon-heart" />
-                        <div className="button-place-bid">
-                          <Link
-                            href={`/dashboard/artworks/${artPiece._id}`}
-                            className="tf-button"
-                          >
-                            <span>View</span>
-                          </Link>
-                        </div>
-                      </div>
-                      <h5 className="name">
-                        <Link href="#">{artPiece.title}</Link>
-                      </h5>
-                      <div className="divider" />
-                      <div className="meta-info flex items-center justify-between">
-                        <span className="text-bid">Price</span>
-                        <h6 className="price gem to-white">
-                          <i className="icon-gem" />
-                          0,34
-                        </h6>
-                      </div>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p>
-                  You have not added any art yet.{" "}
-                  <Link href="/dashboard">
-                    <button> Create One</button>
-                  </Link>
-                </p>
-              )}
-            </div> */}
       </div>
     </DashboardLayoutWithSidebar>
   );

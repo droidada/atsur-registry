@@ -1,7 +1,7 @@
 // @ts-nocheck
 /* eslint-disable */
 import { useState, useEffect } from "react";
-import Image from "@/components/common/image";
+
 import {
   Button,
   TextField,
@@ -26,6 +26,7 @@ import { isPast } from "date-fns";
 import SnackBarAlert from "../common/SnackBarAlert";
 import axios from "axios";
 import { LoadingButton } from "@mui/lab";
+import Image from "next/image";
 
 export default function EditExhibition({
   open,
@@ -141,9 +142,11 @@ export default function EditExhibition({
     }
   };
 
+  console.log("this is the exhibition", exhibition);
+  console.log("this is the organizers", exhibition?.organizer?.name);
   return (
     <>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog className="rounded-xl" open={open} onClose={handleClose}>
         <form
           className="comment-form"
           autoComplete="off"
@@ -152,10 +155,10 @@ export default function EditExhibition({
         >
           <h2 className="items-center justify-center ml-1 p-4">Exhibition</h2>
           <DialogContent>
-            <DialogContentText>
+            {/* <DialogContentText>
               To subscribe to this website, please enter your email address
               here. We will send updates occasionally.
-            </DialogContentText>
+            </DialogContentText> */}
             <fieldset className="name">
               <label className="to-white">Name *</label>
               <TextField
@@ -196,10 +199,21 @@ export default function EditExhibition({
               <label className="uploadfile h-full flex items-center justify-center">
                 <div className="text-center flex flex-col items-center justify-center">
                   {exhibitionImg ? (
-                    <Image className="h-full" src={exhibitionImg} />
+                    <Image
+                      width={200}
+                      height={200}
+                      className="h-full rounded-xl"
+                      src={exhibitionImg}
+                    />
                   ) : (
                     <>
-                      <Image src="/assets/images/box-icon/upload.png" alt="" />
+                      <Image
+                        width={200}
+                        height={200}
+                        className="h-full rounded-xl"
+                        src="/assets/images/box-icon/upload.png"
+                        alt=""
+                      />
                       {/* <h5 className="text-white">Image</h5> */}
                       <p className="text">
                         Drag or choose exhibition image to upload

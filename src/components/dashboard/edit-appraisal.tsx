@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Image from "@/components/common/image";
+
 import {
   Button,
   TextField,
@@ -19,6 +19,7 @@ import useAxiosAuth from "@/hooks/useAxiosAuth";
 import SnackBarAlert from "../common/SnackBarAlert";
 import axios from "axios";
 import { LoadingButton } from "@mui/lab";
+import Image from "next/image";
 
 export default function EditAppraisal({
   open,
@@ -130,9 +131,16 @@ export default function EditAppraisal({
 
   return (
     <>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog
+        open={open}
+        onClose={() => {
+          setAppraisalImg(null);
+          reset();
+          handleClose();
+        }}
+      >
         <form
-          className="comment-form"
+          className="comment-form "
           autoComplete="off"
           noValidate
           onSubmit={handleSubmit(onSubmitHandler)}
@@ -141,10 +149,10 @@ export default function EditAppraisal({
             <h2 className="items-center justify-center">Appraisal</h2>
           </DialogTitle>
           <DialogContent>
-            <DialogContentText>
+            {/* <DialogContentText>
               To subscribe to this website, please enter your email address
               here. We will send updates occasionally.
-            </DialogContentText>
+            </DialogContentText> */}
             <fieldset className="appraiser">
               <label className="to-white">Name *</label>
               <TextField
@@ -205,14 +213,23 @@ export default function EditAppraisal({
             <div className="flex gap30">
               <fieldset>
                 <label className="uploadfile h-full flex items-center justify-center">
-                  <div className="text-center flex flex-col items-center justify-center">
+                  <div className="text-center gap-3 flex flex-col items-center justify-center">
                     {appraisalImg ? (
-                      <Image className="h-full" alt={""} src={appraisalImg} />
+                      <Image
+                        width={200}
+                        height={200}
+                        className="h-full rounded-xl"
+                        alt={""}
+                        src={appraisalImg}
+                      />
                     ) : (
                       <>
                         <Image
+                          width={200}
+                          height={200}
                           src="/assets/images/box-icon/upload.png"
                           alt=""
+                          className="h-full rounded-xl"
                         />
                         {/* <h5 className="text-white">Image</h5> */}
                         <p className="text">
@@ -225,6 +242,7 @@ export default function EditAppraisal({
                       type="file"
                       name="attachment"
                       accept="pdf,image/*"
+                      className="rounded-xl"
                       multiple
                       onChange={handleUploadClick}
                     />
@@ -301,12 +319,15 @@ export default function EditAppraisal({
             </fieldset>
           </DialogContent>
           <DialogActions>
-            <Button className="tf-button style-2" onClick={handleClose}>
+            <Button
+              className="tf-button style-1 rounded-xl"
+              onClick={handleClose}
+            >
               Cancel
             </Button>
             <LoadingButton
               loading={loading}
-              className="tf-button style-1"
+              className="tf-button style-1 rounded-xl"
               type="submit"
             >
               Submit
