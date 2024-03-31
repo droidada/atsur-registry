@@ -166,9 +166,9 @@ export default function Explore() {
                             link={`/explore/art-piece/${piece._id}`}
                             rating={piece?.rating}
                             user={{
-                              firstName: piece?.creator?.profile?.firstName,
-                              lastName: piece?.creator?.profile?.lastName,
-                              avatar: piece?.creator?.profile?.avatar,
+                              firstName: piece?.custodian?.profile?.firstName,
+                              lastName: piece?.custodian?.profile?.lastName,
+                              avatar: piece?.custodian?.profile?.avatar,
                               id: piece?.creator?._id,
                             }}
                           />

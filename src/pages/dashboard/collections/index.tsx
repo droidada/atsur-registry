@@ -74,7 +74,7 @@ function Collections({ collections }) {
             </div>
             <div className="row">
               {collections?.length > 0 ? (
-                <div className="flex-1 w-full grid gap-3 md:grid-cols-2">
+                <div className="flex-1 w-full grid gap-3 md:grid-cols-2 lg:grid-cols-3 grid-cols-1">
                   {collections?.map((collection, idx) => (
                     <CollectionCard
                       totalArtWork={collection?.artworks?.length || 0}
@@ -94,18 +94,6 @@ function Collections({ collections }) {
                 </p>
               )}
             </div>
-            {/* <div className="heading-section">
-              <h2 className="tf-title style-1 pb-30">Invites</h2>
-            </div>
-            <div className="row">
-              <p>You have no invites</p>
-            </div>
-            <div className="heading-section">
-              <h2 className="tf-title style-1 pb-30">Other Collections</h2>
-            </div>
-            <div className="row">
-              <p>You work is not part of any collections</p>
-            </div> */}
           </div>
         </>
       </DashboardLayoutWithSidebar>

@@ -44,17 +44,23 @@ function Artworks({ artworks }) {
   return (
     <DashboardLayoutWithSidebar activePage={DashboardPages.ART}>
       <div className="i flex-1  max-w-full">
-        <div className="action__body w-full mb-40">
+        <div className="action__body w-full mb-40 rounded-xl">
           <div className="tf-tsparticles">
             <div id="tsparticles7" data-color="#161616" data-line="#000" />
           </div>
           <h2>Artworks</h2>
           <div className="flat-button flex">
-            <Link href="/explore" className="tf-button style-2 h50 w190 mr-10">
+            <Link
+              href="/explore"
+              className="tf-button style-2 h50 w190 mr-10 rounded-xl"
+            >
               Explore
               <i className="icon-arrow-up-right2" />
             </Link>
-            <Link href="/dashboard" className="tf-button style-2 h50 w230">
+            <Link
+              href="/dashboard"
+              className="tf-button style-2 h50 w230 rounded-xl"
+            >
               Create
               <i className="icon-arrow-up-right2" />
             </Link>
@@ -70,7 +76,7 @@ function Artworks({ artworks }) {
           <h2 className="tf-title pb-30">My ArtWorks</h2>
         </div>
         <div className="widget-tabs px-4 relative">
-          <div className="grid gap-3 md:grid-cols-2">
+          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 grid-cols-1">
             {artworks?.map((artPiece, idx) => (
               <ArtPieceCard
                 key={artPiece._id}
@@ -79,10 +85,10 @@ function Artworks({ artworks }) {
                 link={`/dashboard/artworks/${artPiece._id}`}
                 rating={artPiece?.rating}
                 user={{
-                  firstName: artPiece?.creator?.profile?.firstName,
-                  lastName: artPiece?.creator?.profile?.lastName,
-                  avatar: artPiece?.creator?.profile?.avatar,
-                  id: artPiece?.creator?._id,
+                  firstName: artPiece?.custodian?.profile?.firstName,
+                  lastName: artPiece?.custodian?.profile?.lastName,
+                  avatar: artPiece?.custodian?.profile?.avatar,
+                  id: artPiece?.custodian?._id,
                 }}
               />
             ))}

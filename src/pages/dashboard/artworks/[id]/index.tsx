@@ -24,6 +24,7 @@ import {
   AccordionActions,
   AccordionSummary,
   AccordionDetails,
+  Typography,
 } from "@mui/material";
 import {
   Folder as FolderIcon,
@@ -38,6 +39,8 @@ import EditPublication from "@/components/dashboard/edit-publication";
 import DeleteDialog from "@/components/dashboard/DeleteDialog";
 import { statusTypes } from "@/types";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditLocation from "@/components/dashboard/edit-location";
+import ViewDetailsModal from "@/components/dashboard/view-details-modal";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -81,10 +84,12 @@ function ArtPiece({ artPiece }) {
   const [editAppraisal, setEditAppraisal] = useState(false);
   const [editedAppraisal, setEditedAppraisal] = useState({});
   const [editPublication, setEditPublication] = useState(false);
+  const [editLocation, setEditLocation] = useState(false);
   const [editedPublication, setEditedPublication] = useState({});
+  const [editedLocation, setEditedLocation] = useState({});
   const [openDiaglog, setOpenDialog] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<{
-    itemType: "publication" | "exhibition" | "appraisal" | "";
+    itemType: "publication" | "exhibition" | "appraisal" | "location" | "";
     itemId: string;
   }>({
     itemId: "",
@@ -101,7 +106,7 @@ function ArtPiece({ artPiece }) {
       <DashboardLayoutWithSidebar hideSidebar activePage={DashboardPages.ART}>
         <div className="px-4">
           <div className="row">
-            <div className="action__body w-full mb-40">
+            <div className="action__body w-full mb-40 rounded-xl">
               <div className="tf-tsparticles">
                 <div id="tsparticles7" data-color="#161616" data-line="#000" />
               </div>
@@ -109,12 +114,15 @@ function ArtPiece({ artPiece }) {
               <div className="flat-button flex">
                 <Link
                   href="/explore"
-                  className="tf-button style-2 h50 w190 mr-10"
+                  className="tf-button style-2 h50 w190 mr-10 rounded-xl"
                 >
                   Explore
                   <i className="icon-arrow-up-right2" />
                 </Link>
-                <Link href="/dashboard" className="tf-button style-2 h50 w230">
+                <Link
+                  href="/dashboard"
+                  className="tf-button style-2 h50 w230 rounded-xl"
+                >
                   Create
                   <i className="icon-arrow-up-right2" />
                 </Link>
@@ -128,14 +136,18 @@ function ArtPiece({ artPiece }) {
             <div className="row">
               <div className="tf-section-2 product-detail">
                 <div className="row">
-                  <div data-wow-delay="0s" className="wow fadeInLeft col-md-6">
-                    <div className="tf-card-box style-5 mb-0">
+                  <div
+                    data-wow-delay="0s"
+                    className="wow fadeInLeft col-md-6 rounded-xl"
+                  >
+                    <div className="tf-card-box style-5 mb-0 rounded-xl">
                       <div className="card-media mb-0">
                         <Link href="#">
                           <Image
                             src={artPiece?.assets[0]?.url}
                             width={250}
                             height={100}
+                            className="rounded-xl"
                             alt=""
                           />
                         </Link>
@@ -252,7 +264,15 @@ function ArtPiece({ artPiece }) {
                                       key={idx}
                                       secondaryAction={
                                         <>
-                                          <IconButton>
+                                          <IconButton
+                                            onClick={() =>
+                                              setOpenViewDialog({
+                                                open: true,
+                                                type: "exhibition",
+                                                data: exhibition,
+                                              })
+                                            }
+                                          >
                                             <VisibilityIcon />
                                           </IconButton>
                                           <IconButton
@@ -298,7 +318,7 @@ function ArtPiece({ artPiece }) {
                                 )}
                             </List>
                             <button
-                              className="tf-button style-1"
+                              className="tf-button style-1 rounded-xl"
                               onClick={() => {
                                 setEditedExhibition(null);
                                 setEditExhibition(true);
@@ -314,7 +334,7 @@ function ArtPiece({ artPiece }) {
                             expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel1-content"
                             id="panel1-header"
-                            className="toggle-title"
+                            className="toggle-title rounded-xl"
                           >
                             <h6>Appraisals</h6>
                           </AccordionSummary>
@@ -326,6 +346,17 @@ function ArtPiece({ artPiece }) {
                                     key={idx}
                                     secondaryAction={
                                       <>
+                                        <IconButton
+                                          onClick={() =>
+                                            setOpenViewDialog({
+                                              open: true,
+                                              type: "appraisal",
+                                              data: a,
+                                            })
+                                          }
+                                        >
+                                          <VisibilityIcon />
+                                        </IconButton>
                                         <IconButton
                                           edge="end"
                                           aria-label="edit"
@@ -357,19 +388,15 @@ function ArtPiece({ artPiece }) {
                                         <FolderIcon />
                                       </Avatar>
                                     </ListItemAvatar>
-                                    <span>
-                                      <p>
-                                        Valued at{" "}
-                                        <b className="to-gray">{`${a?.value} ${a?.currency}`}</b>{" "}
-                                        by{" "}
-                                        <b className="to-gray">{a.appraiser}</b>
-                                      </p>
-                                    </span>
+
+                                    <Typography className="font-semibold">
+                                      {a.appraiser}
+                                    </Typography>
                                   </ListItem>
                                 ))}
                             </List>
                             <button
-                              className="tf-button style-1"
+                              className="tf-button style-1 rounded-xl"
                               onClick={() => setEditAppraisal(true)}
                             >
                               Add
@@ -394,6 +421,17 @@ function ArtPiece({ artPiece }) {
                                     key={idx}
                                     secondaryAction={
                                       <>
+                                        <IconButton
+                                          onClick={() =>
+                                            setOpenViewDialog({
+                                              open: true,
+                                              type: "publication",
+                                              data: a,
+                                            })
+                                          }
+                                        >
+                                          <VisibilityIcon />
+                                        </IconButton>
                                         <IconButton
                                           edge="end"
                                           aria-label="edit"
@@ -425,23 +463,15 @@ function ArtPiece({ artPiece }) {
                                         <FolderIcon />
                                       </Avatar>
                                     </ListItemAvatar>
-                                    <span>
-                                      <p>
-                                        Article Name{" "}
-                                        <b className="to-gray">
-                                          {a?.articleName}{" "}
-                                        </b>{" "}
-                                        written by{" "}
-                                        <b className="to-gray">
-                                          {a.authorName}
-                                        </b>
-                                      </p>
-                                    </span>
+
+                                    <Typography className="font-semibold">
+                                      {a?.articleName}{" "}
+                                    </Typography>
                                   </ListItem>
                                 ))}
                             </List>
                             <button
-                              className="tf-button style-1"
+                              className="tf-button style-1 rounded-xl"
                               onClick={() => {
                                 setEditPublication(true);
                                 setEditedPublication(null);
@@ -482,13 +512,70 @@ function ArtPiece({ artPiece }) {
                             <h6>Locations</h6>
                           </AccordionSummary>
                           <AccordionDetails>
-                            <p>
-                              Lorem ipsum dolor sit amet, consectetur adipiscing
-                              elit, sed do eiusmod tempor incididunt ut labore
-                              et dolore magna aliqua. Ut enim ad minim veniam,
-                              quis nostrud exercitation.Lorem ipsum dolor sit
-                              amet, consectetur adipiscing elit, sed do eiusmod.
-                            </p>
+                            <List>
+                              {artPiece?.locations?.length > 0 &&
+                                artPiece?.locations?.map((a, idx) => (
+                                  <ListItem
+                                    key={idx}
+                                    secondaryAction={
+                                      <>
+                                        <IconButton
+                                          onClick={() =>
+                                            setOpenViewDialog({
+                                              open: true,
+                                              type: "location",
+                                              data: a,
+                                            })
+                                          }
+                                        >
+                                          <VisibilityIcon />
+                                        </IconButton>
+                                        <IconButton
+                                          edge="end"
+                                          aria-label="edit"
+                                          onClick={() => {
+                                            setEditLocation(true);
+                                            setEditedLocation(a);
+                                          }}
+                                        >
+                                          <EditIcon />
+                                        </IconButton>
+                                        <IconButton
+                                          onClick={() => {
+                                            setOpenDialog(true);
+                                            setItemToDelete({
+                                              itemId: a?._id,
+                                              itemType: "location",
+                                            });
+                                          }}
+                                          edge="end"
+                                          aria-label="delete"
+                                        >
+                                          <DeleteIcon />
+                                        </IconButton>
+                                      </>
+                                    }
+                                  >
+                                    <ListItemAvatar>
+                                      <Avatar>
+                                        <FolderIcon />
+                                      </Avatar>
+                                    </ListItemAvatar>
+                                    <Typography className="font-semibold">
+                                      {a?.name}
+                                    </Typography>
+                                  </ListItem>
+                                ))}
+                            </List>
+                            <button
+                              className="tf-button style-1 rounded-xl"
+                              onClick={() => {
+                                setEditLocation(true);
+                                setEditedLocation(null);
+                              }}
+                            >
+                              Add
+                            </button>
                           </AccordionDetails>
                         </Accordion>
                       </div>
@@ -529,6 +616,16 @@ function ArtPiece({ artPiece }) {
         }}
       />
 
+      <EditLocation
+        open={editLocation}
+        artPieceId={artPiece._id}
+        location={editedLocation}
+        handleClose={() => {
+          setEditLocation(false);
+          router.replace(router.asPath);
+        }}
+      />
+
       <DeleteDialog
         open={openDiaglog}
         onClose={() => {
@@ -537,6 +634,17 @@ function ArtPiece({ artPiece }) {
         }}
         itemToDelete={itemToDelete}
         artPieceId={artPiece._id}
+      />
+
+      <ViewDetailsModal
+        viewProps={openViewDiaglog}
+        onClose={() =>
+          setOpenViewDialog({
+            open: false,
+            data: null,
+            type: "",
+          })
+        }
       />
     </>
   );

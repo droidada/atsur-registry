@@ -99,7 +99,7 @@ function Collection({ collections }) {
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
               }}
-              className="action__body w-full mb-40"
+              className="action__body w-full mb-40 rounded-xl"
             >
               <div className="tf-tsparticles">
                 <div id="tsparticles7" data-color="#161616" data-line="#000" />
@@ -109,15 +109,17 @@ function Collection({ collections }) {
               </h2>
               <div className="flat-button gap-4 flex">
                 <Button
+                  sx={{ borderRadius: "12px" }}
                   onClick={() => setOpenEdit(true)}
-                  className="tf-button style-2 h50 w190 mr-10"
+                  className="tf-button style-1 h50 w190 mr-10 rounded-xl"
                 >
                   Edit
                   <i className="icon-arrow-up-right2" />
                 </Button>
                 <Button
+                  sx={{ borderRadius: "12px" }}
                   onClick={() => setOpenDeleteDialog(true)}
-                  className="tf-button style-2 h50 w230"
+                  className="tf-button style-1 h50 w230 rounded-xl"
                 >
                   Delete
                   <i className="icon-arrow-up-right2" />
@@ -125,6 +127,8 @@ function Collection({ collections }) {
               </div>
               <div className="bg-home7">
                 <AutoSlider1 />
+                <AutoSlider1 />
+                <AutoSlider2 />
               </div>
             </div>
             <div className="row">
@@ -143,18 +147,19 @@ function Collection({ collections }) {
                 <div className="tf-section-2 flex justify-between items-center product-detail">
                   <h2 className="title">Artworks</h2>
                   <Button
+                    sx={{ borderRadius: "12px" }}
                     onClick={() => setOpenAddArtWork(true)}
-                    className="tf-button style-2 h50 w190 mr-10"
+                    className="tf-button style-1 rounded-xl h50 w190 mr-10"
                   >
                     Add Artwork
                   </Button>
                 </div>
                 <div className="tf-section-2 ">
-                  <div className="flex flex-wrap  pl-2  gap-5 ">
+                  <div className="w-full grid gap-3 md:grid-cols-2 lg:grid-cols-3 grid-cols-1 ">
                     {collections?.artworks?.map((artwork) => (
                       <div
                         key={artwork._id}
-                        className="tf-card-box style-5 mb-0 relative max-w-[450px] w-full h-[400px]"
+                        className="tf-card-box style-5 mb-0 relative max-w-[450px] overflow-hidden rounded-xl w-full h-[400px]"
                       >
                         <div>
                           <Image
@@ -170,11 +175,12 @@ function Collection({ collections }) {
                         </div>
 
                         <Button
+                          sx={{ borderRadius: "12px" }}
                           onClick={() => {
                             setOpenRemoveArtwork(true);
                             setCurrentArtwork(artwork);
                           }}
-                          className="wishlist-button drop-shadow-md"
+                          className="wishlist-button left-4 drop-shadow-md"
                         >
                           Remove
                           <i className="icon-minus" />
@@ -197,7 +203,7 @@ function Collection({ collections }) {
             open={openRemoveArtwork}
             onClose={() => setOpenRemoveArtwork(false)}
           >
-            <DialogTitle>Remove Artwork</DialogTitle>
+            <DialogTitle variant="h3">Remove Artwork</DialogTitle>
             <DialogContent>
               <p>
                 Are you sure you want to remove this artwork from the
@@ -205,10 +211,19 @@ function Collection({ collections }) {
               </p>
             </DialogContent>
             <DialogActions>
-              <Button onClick={() => setOpenRemoveArtwork(false)}>
+              <Button
+                sx={{ borderRadius: "12px" }}
+                className="tf-button style-1 "
+                onClick={() => setOpenRemoveArtwork(false)}
+              >
                 Cancel
               </Button>
-              <LoadingButton loading={loading} onClick={handleRemove}>
+              <LoadingButton
+                sx={{ borderRadius: "12px" }}
+                className="tf-button style-1 "
+                loading={loading}
+                onClick={handleRemove}
+              >
                 Remove
               </LoadingButton>
             </DialogActions>
