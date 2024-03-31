@@ -112,7 +112,7 @@ export default function CollectorInfo({ nextPage = (x) => {} }) {
                 fullWidth
                 error={!!errors["title"]}
                 helperText={errors["title"] ? errors["title"].message : ""}
-                {...register("title")}
+                {...register("date")}
               />
             </fieldset>
             <fieldset className="collection">
