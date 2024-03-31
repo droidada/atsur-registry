@@ -75,63 +75,17 @@ function Organizations({ organizations }) {
             </div>
             <div className="row">
               {organizations?.length > 0 ? (
-                organizations?.map((org, idx) => (
-                  <OrgCard
-                    link={`/dashboard/organizations/${org._id}`}
-                    image={org?.image}
-                    name={org?.name}
-                    totalMembers={org.members?.length - 1}
-                    key={org?._id}
-                  />
-                  // <div
-                  //   key={idx}
-                  //   className="fl-item col-xl-3 col-lg-4 col-md-6 col-sm-6"
-                  // >
-                  //   <div className="tf-card-box style-1">
-                  //     <div className="card-media">
-                  //       <Link href="#">
-                  //         <Image
-                  //           src={org?.image}
-                  //           width={200}
-                  //           height={250}
-                  //           alt=""
-                  //         />
-                  //       </Link>
-                  //       <span className="wishlist-button icon-heart" />
-                  //       <div className="button-place-bid">
-                  //         <Link
-                  //           href={`/dashboard/organizations/${org._id}`}
-                  //           className="tf-button"
-                  //         >
-                  //           <span>View</span>
-                  //         </Link>
-                  //       </div>
-                  //     </div>
-                  //     <h5 className="name">
-                  //       <Link href="#">{org.name}</Link>
-                  //     </h5>
-                  //     <div className="author flex items-center">
-                  //       <div className="avatar">
-                  //         <Image
-                  //           src={org?.creator?.avatar}
-                  //           width={100}
-                  //           height={100}
-                  //           alt="Image"
-                  //         />
-                  //       </div>
-                  //       <div className="info">
-                  //         <span className="tf-color">Created by:</span>
-                  //         <h6>
-                  //           <Link href="/author-2">
-                  //             {org?.creator?.firstName}
-                  //           </Link>{" "}
-                  //         </h6>
-                  //       </div>
-                  //     </div>
-                  //     <div className="divider" />
-                  //   </div>
-                  // </div>
-                ))
+                <div className="flex-1 w-full grid gap-3 md:grid-cols-2 lg:grid-cols-3 grid-cols-1">
+                  {organizations?.map((org, idx) => (
+                    <OrgCard
+                      link={`/dashboard/organizations/${org._id}`}
+                      image={org?.image}
+                      name={org?.name}
+                      totalMembers={org.members?.length - 1}
+                      key={org?._id}
+                    />
+                  ))}
+                </div>
               ) : (
                 <p>
                   You have not organizations yet.{" "}

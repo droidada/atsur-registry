@@ -119,7 +119,7 @@ function Organization({ organizations }) {
       <DashboardLayoutWithSidebar hideSidebar activePage={DashboardPages.ART}>
         <div className="w-full px-4">
           <div className="row ">
-            <div className="action__body w-full mb-10">
+            <div className="action__body w-full mb-10 rounded-xl">
               <div className="tf-tsparticles">
                 <div id="tsparticles7" data-color="#161616" data-line="#000" />
               </div>
@@ -127,14 +127,14 @@ function Organization({ organizations }) {
               <div className="flat-button flex">
                 <Button
                   onClick={() => setOpenEdit(true)}
-                  className="tf-button style-2 h50 w190 mr-10"
+                  className="tf-button style-2 h50 w190 mr-10 rounded-xl"
                 >
                   Edit
                   <i className="icon-arrow-up-right2" />
                 </Button>
                 <Button
                   onClick={() => setOpenDeleteDialog(true)}
-                  className="tf-button style-2 h50 w230"
+                  className="tf-button style-2 h50 w230 rounded-xl"
                 >
                   Delete
                   <i className="icon-arrow-up-right2" />
@@ -151,7 +151,7 @@ function Organization({ organizations }) {
                 <div className="row px-2">
                   <div data-wow-delay="0s" className="wow fadeInLeft col-md-8">
                     <div className="tf-card-box style-5 mb-0">
-                      <div className="card-media mb-0 relative h-[450px]">
+                      <div className="card-media mb-0 relative h-[450px] rounded-xl">
                         <Link href="#">
                           <Image
                             fill
@@ -172,8 +172,8 @@ function Organization({ organizations }) {
                       </div>
                     </div>
                   </div>
-                  <div className="mt-6 lg:mt-0 col-md-4">
-                    <Card className=" ">
+                  <div className="mt-6 lg:mt-0 col-md-4 rounded-xl">
+                    <Card sx={{ borderRadius: "12px" }} className="">
                       <CardContent>
                         <Typography gutterBottom variant="h3" component="div">
                           Organization Details
@@ -241,7 +241,7 @@ function Organization({ organizations }) {
                 <Typography variant="h2">Organization Members</Typography>
                 <Button
                   onClick={() => setOpenMemberInvite(true)}
-                  className="bg-black/70 font-semibold"
+                  className="bg-black/70 font-semibold rounded-xl"
                 >
                   Add Members
                 </Button>
@@ -303,8 +303,15 @@ function Organization({ organizations }) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpenMemberInvite(false)}>Cancel</Button>
+          <Button
+            className="tf-button style-1 rounded-xl "
+            onClick={() => setOpenMemberInvite(false)}
+          >
+            Cancel
+          </Button>
           <LoadingButton
+            sx={{ borderRadius: "12px" }}
+            className="tf-button style-1 "
             loading={loading}
             disabled={listedUsers.length === 0}
             onClick={handleAddMember}
