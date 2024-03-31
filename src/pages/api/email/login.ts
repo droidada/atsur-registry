@@ -14,8 +14,8 @@ export default async function handler(
 ) {
   const { email, newUser } = req.body;
   const baseUrl = req.headers.host
-  ? `http://${req.headers.host}`
-  : process.env.NEXT_PUBLIC_DOMAIN_NAME;;
+    ? `http://${req.headers.host}`
+    : process.env.NEXT_PUBLIC_DOMAIN_NAME;
   const url = `${baseUrl}/${
     newUser === true
       ? `onboarding/select-user-type?email=${email}&newUser=${newUser}`
