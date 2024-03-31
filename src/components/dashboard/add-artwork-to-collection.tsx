@@ -97,7 +97,7 @@ const AddArtworkToCollection: React.FC<Props> = ({
       <DialogTitle>
         <h4 className="items-center justify-center">Add Art Piece</h4>
       </DialogTitle>
-      <DialogContent>
+      <DialogContent className="max-w-[550px] w-full overflow-y-auto">
         <Stack direction={"column"} spacing={1}>
           {loading &&
             [...Array(5)].map((_, ind) => (
@@ -110,7 +110,7 @@ const AddArtworkToCollection: React.FC<Props> = ({
             ))}
         </Stack>
 
-        <div className="max-w-[550px] w-full">
+        <div className="lg:w-[550px] w-full">
           {artworks?.length > 0 &&
             artworks?.map((artpiece) => (
               <div
@@ -144,11 +144,16 @@ const AddArtworkToCollection: React.FC<Props> = ({
         </div>
       </DialogContent>
       <DialogActions>
-        <Button className="tf-button style-2" onClick={handleClose}>
+        <Button
+          sx={{ borderRadius: "12px" }}
+          className="tf-button style-1"
+          onClick={handleClose}
+        >
           Cancel
         </Button>
         {artworks?.length > 0 && (
           <LoadingButton
+            sx={{ borderRadius: "12px" }}
             className="tf-button style-1"
             loading={adding}
             onClick={handleAdd}
