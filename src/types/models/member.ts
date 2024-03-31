@@ -1,5 +1,3 @@
-// import { User as FirebaseUser } from "firebase/auth";
-
 export interface IAddress {
   walletAddress: string;
   chainId: number;

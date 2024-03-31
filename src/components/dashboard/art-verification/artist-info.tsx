@@ -133,8 +133,7 @@ export default function ArtistInfo({ nextPage = (x) => {} }) {
                   <TextField
                     type="file"
                     name="attachmentOne"
-                    InputProps={{ accept: "pdf,image/*" }}
-                    multiple
+                    // InputProps={{ accept: "pdf,image/*" }}
                     onChange={handleUploadClick}
                     error={!!errors["attachmentOne"]}
                     helperText={

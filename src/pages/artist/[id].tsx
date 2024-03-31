@@ -112,8 +112,8 @@ const Index = ({ user }) => {
           </div>
         </div>
       </div>
-      <FeaturedItem6 />
-      <TopCollections5 />
+      <FeaturedItem6 featured_artworks={[]} />
+      <TopCollections5 collections={[]} />
     </Layout>
   );
 };
