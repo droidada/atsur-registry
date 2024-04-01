@@ -64,7 +64,7 @@ const ArtPieceCard: React.FC<ArtPieceCardProps> = ({
       <CardActions>
         <Stack className=" w-full" spacing={2} direction={"column"}>
           <Stack
-            component={"a"}
+            component={"span"}
             direction="row"
             alignItems={"center"}
             spacing={1}

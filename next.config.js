@@ -18,9 +18,6 @@ module.exports = {
 
     return config;
   },
-  experimental: {
-    serverActions: true,
-  },
   reactStrictMode: true,
   basePath: config.site.base_path !== "/" ? config.site.base_path : "",
   trailingSlash: config.site.trailing_slash,
