@@ -30,19 +30,20 @@ const swiperOptions = {
   },
 };
 
-export default function TitileSlider5() {
-  const [pieces, setPieces] = useState([]);
-  useEffect(() => {
-    try {
-      const fetchPieces = async () => {
-        const res = await axios.get("/art-piece/home");
-        setPieces(res.data.artPieces);
-      };
-      fetchPieces();
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
+export default function TitileSlider5({ pieces }) {
+  console.log(pieces);
+  // const [pieces, setPieces] = useState([]);
+  // useEffect(() => {
+  //   try {
+  //     const fetchPieces = async () => {
+  //       const res = await axios.get("/art-piece/home");
+  //       setPieces(res.data.artPieces);
+  //     };
+  //     fetchPieces();
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }, []);
 
   return (
     <>
@@ -54,7 +55,7 @@ export default function TitileSlider5() {
                 {/* <Link href="#"> */}
                 <Image
                   fill
-                  src={artPiece.assets[0]?.url}
+                  src={artPiece.assets?.url}
                   className="object-cover w-full h-full"
                   alt=""
                 />
