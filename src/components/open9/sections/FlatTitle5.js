@@ -1,6 +1,6 @@
 import Link from "next/link";
 import TitileSlider5 from "../slider/TitileSlider5";
-export default function FlatTitle5() {
+export default function FlatTitle5({ pieces }) {
   return (
     <>
       <div className="flat-pages-title-home5 relative has-slider">
@@ -34,7 +34,7 @@ export default function FlatTitle5() {
               </div>
             </div>
             <div className="col-12">
-              <TitileSlider5 />
+              <TitileSlider5 pieces={pieces} />
             </div>
           </div>
         </div>

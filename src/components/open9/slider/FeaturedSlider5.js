@@ -42,19 +42,19 @@ export default function FeaturedSlider5({ categories }) {
               <div className="tf-category rounded-xl style-1 text-center">
                 <div className="card-media">
                   <div className="box-top">
-                    {category.artworks.slice(0, 2).map?.((artwork) => (
+                    {category.artPieces.slice(0, 2).map?.((artwork) => (
                       <Image
                         width={238}
                         height={238}
                         key={artwork._id}
-                        src={artwork?.assets[0]?.url}
+                        src={artwork?.assets?.url}
                         className="w-full h-full rounded-xl object-cover"
                         alt=""
                       />
                     ))}
                   </div>
                   <div className="box-bottom">
-                    {category.artworks.slice(2, 5).map?.((artwork) => (
+                    {category.artPieces.slice(2, 5).map?.((artwork) => (
                       <Image
                         width={100}
                         height={100}
