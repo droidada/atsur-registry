@@ -21,13 +21,18 @@ export const getServerSideProps = async ({ req, query }) => {
 };
 
 function Home({ data }) {
-  console.log(data);
+  console.log(data?.data?.allPieces[0]?.type);
 
-  console.log(data?.data?.categories);
+  const artPieces = data?.data?.allPieces[0]?.type?.filter(
+    (item) => item._id === "art-piece",
+  );
+
+  console.log(artPieces[0]?.artPieces?.length);
+
   return (
     <Layout headerStyle={2} footerStyle={1} currentMenuItem={"home"}>
-      <FlatTitle5 />
-      <FeaturedItem5 categories={data?.data?.categories} />
+      <FlatTitle5 pieces={artPieces[0]?.artPieces} />
+      <FeaturedItem5 categories={data?.data?.allPieces[0]?.categories} />
       <Seller7 artists={data?.data?.artists} />
       <FeaturedItem6 featured_artworks={data?.data?.featured_artworks} />
       {/* <Seller8 />
