@@ -28,18 +28,15 @@ function Home() {
   const [data, setData] = useState();
   const [artPieces, setArtPieces] = useState();
 
-  useEffect(()=>{
+  useEffect(() => {
     async function fetchData() {
       try {
         const res = await axios.get(`/public/home`);
-        console.log(res.data);
         setData(res.data);
-        console.log("setting data here ", res.data)
         if(res.data){
           const pieces =res?.data?.data?.allPieces[0]?.type?.filter(
             (item) => item._id === "art-piece",
           )
-          console.log("setting art pieces ", pieces)
           setArtPieces(pieces);
         }
       } catch (error) {
@@ -48,11 +45,7 @@ function Home() {
       }
     }
     fetchData();
-
   },[])
-  //console.log(data?.data?.allPieces[0]?.type);
-
-
 
   return (
     <Layout headerStyle={2} footerStyle={1} currentMenuItem={"home"}>
