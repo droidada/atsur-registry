@@ -35,8 +35,6 @@ const ArtPieceCard: React.FC<ArtPieceCardProps> = ({
 }) => {
   const { data: session } = useSession();
 
-  console.log(rating);
-
   return (
     <Card
       sx={{
@@ -63,23 +61,25 @@ const ArtPieceCard: React.FC<ArtPieceCardProps> = ({
       </CardActionArea>
       <CardActions>
         <Stack className=" w-full" spacing={2} direction={"column"}>
-          <Stack
-            component={"span"}
-            direction="row"
-            alignItems={"center"}
-            spacing={1}
-          >
-            <Avatar src={user?.avatar} />
-            <div>
-              <Typography variant="body2" color={"text.secondary"}>
-                Created By
-              </Typography>
+          {user && (
+            <Stack
+              component={"span"}
+              direction="row"
+              alignItems={"center"}
+              spacing={1}
+            >
+              <Avatar src={user?.avatar} />
+              <div>
+                <Typography variant="body2" color={"text.secondary"}>
+                  Created By
+                </Typography>
 
-              <Typography className="font-semibold">
-                {user?.firstName} {user?.lastName}
-              </Typography>
-            </div>
-          </Stack>
+                <Typography className="font-semibold">
+                  {user?.firstName} {user?.lastName}
+                </Typography>
+              </div>
+            </Stack>
+          )}
           <Divider variant="middle" sx={{ width: "100%" }} component="hr" />
           <Stack>
             <Rating readOnly value={rating || 0} />

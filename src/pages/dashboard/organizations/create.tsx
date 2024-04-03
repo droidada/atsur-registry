@@ -107,185 +107,192 @@ function CreateOrganization() {
 
   return (
     <DashboardLayoutWithSidebar activePage={DashboardPages.ORGANIZATIONS}>
-      <div className="row">
-        <div className="action__body w-full mb-40">
-          <div className="tf-tsparticles">
-            <div id="tsparticles7" data-color="#161616" data-line="#000" />
-          </div>
-          <h2>Add Organization</h2>
-          <div className="flat-button flex">
-            <Link href="/explore" className="tf-button style-2 h50 w190 mr-10">
-              Explore
-              <i className="icon-arrow-up-right2" />
-            </Link>
-            <Link
-              href="/dashboard/organizations/create"
-              className="tf-button style-2 h50 w230"
-            >
-              Create Organization
-              <i className="icon-arrow-up-right2" />
-            </Link>
-          </div>
-          <div className="bg-home7">
-            <AutoSlider1 />
-            <AutoSlider2 />
-            <AutoSlider1 />
-          </div>
-        </div>
-      </div>
-      <div className="widget-edit mb-30 profile">
-        <div className="title to-white">
-          <h4>Information</h4>
-          <i className="icon-keyboard_arrow_up" />
-        </div>
-        <div className="wrap-upload">
-          <form action="#" className="h-full">
-            <label className="uploadfile h-full flex items-center justify-center">
-              <div className="text-center flex flex-col items-center justify-center">
-                {previewImg ? (
-                  <Image className="h-full" alt={""} src={previewImg} />
-                ) : (
-                  <Image src="/assets/images/box-icon/upload.png" alt="" />
-                )}
-
-                <h5 className="text-white">Upload file</h5>
-                <p className="text">Drag or choose your file to upload</p>
-                <div className="text filename to-white">
-                  PNG, GIF, WEBP, MP4 or MP3.Max 1Gb.
-                </div>
-                <input
-                  type="file"
-                  name="imageFile"
-                  accept="image/*"
-                  multiple
-                  onChange={handleUploadClick}
-                />
-              </div>
-            </label>
-          </form>
-        </div>
-        <div className="wrap-content w-full">
-          {error && <h5 style={{ color: "red" }}>{error}</h5>}
-          <form
-            id="create-org"
-            className="create-org-form"
-            autoComplete="off"
-            noValidate
-            onSubmit={handleSubmit(onSubmitHandler)}
-          >
-            <fieldset className="name">
-              <label className="to-white">Name *</label>
-              <TextField
-                type="text"
-                id="name"
-                placeholder="Hanson Morgan Gallery of Arts"
-                name="name"
-                tabIndex={2}
-                aria-required="true"
-                fullWidth
-                error={!!errors["name"]}
-                helperText={errors["name"] ? errors["name"].message : ""}
-                {...register("name")}
-              />
-            </fieldset>
-            <fieldset className="message">
-              <label className="to-white">Address *</label>
-              <TextField
-                id="address"
-                name="address"
-                type="text"
-                placeholder="11 Park Avenue Way, Kinchase *"
-                tabIndex={2}
-                aria-required="true"
-                fullWidth
-                error={!!errors["address"]}
-                helperText={errors["address"] ? errors["address"].message : ""}
-                {...register("address")}
-              />
-            </fieldset>
-            <div className="flex gap30">
-              <fieldset className="price">
-                <label className="to-white">Country *</label>
-                <TextField
-                  type="text"
-                  id="country"
-                  placeholder="Canada"
-                  name="country"
-                  tabIndex={2}
-                  aria-required="true"
-                  fullWidth
-                  error={!!errors["country"]}
-                  helperText={
-                    errors["country"] ? errors["country"].message : ""
-                  }
-                  {...register("country")}
-                />
-              </fieldset>
-              <fieldset className="properties">
-                <label className="to-white">Email *</label>
-                <TextField
-                  type="text"
-                  id="email"
-                  placeholder="hello@gmail.com"
-                  name="email"
-                  tabIndex={2}
-                  aria-required="true"
-                  fullWidth
-                  error={!!errors["email"]}
-                  helperText={errors["email"] ? errors["email"].message : ""}
-                  {...register("email")}
-                />
-              </fieldset>
+      <div className="w-full px-4">
+        <div className="row">
+          <div className="action__body w-full mb-40 rounded-xl">
+            <div className="tf-tsparticles">
+              <div id="tsparticles7" data-color="#161616" data-line="#000" />
             </div>
-
-            <div className="flex gap30">
-              <fieldset className="price">
-                <label className="to-white">Phone</label>
-                <TextField
-                  type="text"
-                  id="phone"
-                  placeholder="+22482983892"
-                  name="phone"
-                  tabIndex={2}
-                  fullWidth
-                  error={!!errors["phone"]}
-                  helperText={errors["phone"] ? errors["phone"].message : ""}
-                  {...register("phone")}
-                />
-              </fieldset>
-              <fieldset className="properties">
-                <label className="to-white">Website</label>
-                <TextField
-                  type="text"
-                  id="website"
-                  placeholder="https://www.gallery.com"
-                  name="website"
-                  tabIndex={2}
-                  fullWidth
-                  error={!!errors["website"]}
-                  helperText={
-                    errors["website"] ? errors["website"].message : ""
-                  }
-                  {...register("website")}
-                />
-              </fieldset>
-            </div>
-
-            <div className="btn-submit flex gap30 justify-center">
-              <button className="tf-button style-1 h50" type="reset">
-                Clear
-                <i className="icon-arrow-up-right2" />
-              </button>
-              <LoadingButton
-                className="tf-button style-1 h50"
-                loading={loading}
-                type="submit"
+            <h2>Add Organization</h2>
+            <div className="flat-button flex">
+              <Link
+                href="/explore"
+                className="tf-button style-2 h50 w190 mr-10 rounded-xl"
               >
-                Create
+                Explore
                 <i className="icon-arrow-up-right2" />
-              </LoadingButton>
+              </Link>
+              <Link
+                href="/dashboard/organizations/create"
+                className="tf-button style-2 h50 w230 rounded-xl"
+              >
+                Create Organization
+                <i className="icon-arrow-up-right2" />
+              </Link>
             </div>
-          </form>
+            <div className="bg-home7">
+              <AutoSlider1 />
+              <AutoSlider2 />
+              <AutoSlider1 />
+            </div>
+          </div>
+        </div>
+        <div className="widget-edit mb-30 profile rounded-xl">
+          <div className="title to-white">
+            <h4>Information</h4>
+            <i className="icon-keyboard_arrow_up" />
+          </div>
+          <div className="wrap-upload">
+            <form action="#" className="h-full">
+              <label className="uploadfile h-full flex items-center justify-center">
+                <div className="text-center flex flex-col items-center justify-center">
+                  {previewImg ? (
+                    <Image className="h-full" alt={""} src={previewImg} />
+                  ) : (
+                    <Image src="/assets/images/box-icon/upload.png" alt="" />
+                  )}
+
+                  <h5 className="text-white">Upload file</h5>
+                  <p className="text">Drag or choose your file to upload</p>
+                  <div className="text filename to-white">
+                    PNG, GIF, WEBP, MP4 or MP3.Max 1Gb.
+                  </div>
+                  <input
+                    type="file"
+                    name="imageFile"
+                    accept="image/*"
+                    multiple
+                    onChange={handleUploadClick}
+                  />
+                </div>
+              </label>
+            </form>
+          </div>
+          <div className="wrap-content w-full">
+            {error && <h5 style={{ color: "red" }}>{error}</h5>}
+            <form
+              id="create-org"
+              className="create-org-form"
+              autoComplete="off"
+              noValidate
+              onSubmit={handleSubmit(onSubmitHandler)}
+            >
+              <fieldset className="name">
+                <label className="to-white">Name *</label>
+                <TextField
+                  type="text"
+                  id="name"
+                  placeholder="Hanson Morgan Gallery of Arts"
+                  name="name"
+                  tabIndex={2}
+                  aria-required="true"
+                  fullWidth
+                  error={!!errors["name"]}
+                  helperText={errors["name"] ? errors["name"].message : ""}
+                  {...register("name")}
+                />
+              </fieldset>
+              <fieldset className="message">
+                <label className="to-white">Address *</label>
+                <TextField
+                  id="address"
+                  name="address"
+                  type="text"
+                  placeholder="11 Park Avenue Way, Kinchase *"
+                  tabIndex={2}
+                  aria-required="true"
+                  fullWidth
+                  error={!!errors["address"]}
+                  helperText={
+                    errors["address"] ? errors["address"].message : ""
+                  }
+                  {...register("address")}
+                />
+              </fieldset>
+              <div className="flex gap30">
+                <fieldset className="price">
+                  <label className="to-white">Country *</label>
+                  <TextField
+                    type="text"
+                    id="country"
+                    placeholder="Canada"
+                    name="country"
+                    tabIndex={2}
+                    aria-required="true"
+                    fullWidth
+                    error={!!errors["country"]}
+                    helperText={
+                      errors["country"] ? errors["country"].message : ""
+                    }
+                    {...register("country")}
+                  />
+                </fieldset>
+                <fieldset className="properties">
+                  <label className="to-white">Email *</label>
+                  <TextField
+                    type="text"
+                    id="email"
+                    placeholder="hello@gmail.com"
+                    name="email"
+                    tabIndex={2}
+                    aria-required="true"
+                    fullWidth
+                    error={!!errors["email"]}
+                    helperText={errors["email"] ? errors["email"].message : ""}
+                    {...register("email")}
+                  />
+                </fieldset>
+              </div>
+
+              <div className="flex gap30">
+                <fieldset className="price">
+                  <label className="to-white">Phone</label>
+                  <TextField
+                    type="text"
+                    id="phone"
+                    placeholder="+22482983892"
+                    name="phone"
+                    tabIndex={2}
+                    fullWidth
+                    error={!!errors["phone"]}
+                    helperText={errors["phone"] ? errors["phone"].message : ""}
+                    {...register("phone")}
+                  />
+                </fieldset>
+                <fieldset className="properties">
+                  <label className="to-white">Website</label>
+                  <TextField
+                    type="text"
+                    id="website"
+                    placeholder="https://www.gallery.com"
+                    name="website"
+                    tabIndex={2}
+                    fullWidth
+                    error={!!errors["website"]}
+                    helperText={
+                      errors["website"] ? errors["website"].message : ""
+                    }
+                    {...register("website")}
+                  />
+                </fieldset>
+              </div>
+
+              <div className="btn-submit flex gap30 justify-center">
+                <button className="tf-button style-1 h50" type="reset">
+                  Clear
+                  <i className="icon-arrow-up-right2" />
+                </button>
+                <LoadingButton
+                  className="tf-button style-1 h50"
+                  loading={loading}
+                  type="submit"
+                >
+                  Create
+                  <i className="icon-arrow-up-right2" />
+                </LoadingButton>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </DashboardLayoutWithSidebar>

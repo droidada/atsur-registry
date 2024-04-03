@@ -43,7 +43,7 @@ function Organizations({ organizations }) {
       <DashboardLayoutWithSidebar activePage={DashboardPages.ORGANIZATIONS}>
         <div className="w-full px-4">
           <div className="row">
-            <div className="action__body w-full mb-40">
+            <div className="action__body w-full mb-40 rounded-xl">
               <div className="tf-tsparticles">
                 <div id="tsparticles7" data-color="#161616" data-line="#000" />
               </div>
@@ -51,14 +51,14 @@ function Organizations({ organizations }) {
               <div className="flat-button flex">
                 <Link
                   href="/explore"
-                  className="tf-button style-2 h50 w190 mr-10"
+                  className="tf-button style-2 h50 w190 mr-10 rounded-xl"
                 >
                   Explore
                   <i className="icon-arrow-up-right2" />
                 </Link>
                 <Link
                   href="/dashboard/organizations/create"
-                  className="tf-button style-2 h50 w230"
+                  className="tf-button style-2 h50 w230 rounded-xl"
                 >
                   Create
                   <i className="icon-arrow-up-right2" />
