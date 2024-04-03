@@ -139,8 +139,10 @@ export default function Login() {
                         className="icon-show password-addon tf-color"
                         id="password-addon"
                       />
-                      <div className="forget-password">
-                        <Link href="/forgotpassword">Forgot password?</Link>
+                      <div className="forget-password tf-color">
+                        <Link className="tf-color" href="/forgotpassword">
+                          Forgot password?
+                        </Link>
                       </div>
                     </fieldset>
                     <div className="btn-submit mb-30">
@@ -156,7 +158,7 @@ export default function Login() {
                       </LoadingButton>
                     </div>
                   </form>
-                  <div className="other">or continue</div>
+                  <div className="other tf-color">or continue</div>
                   <div className="login-other">
                     <Link href="#" className="login-other-item">
                       <Image src="/assets/images/google.png" alt="" />
@@ -171,9 +173,9 @@ export default function Login() {
                       <span>Sign with apple</span>
                     </Link>
                   </div>
-                  <div className="no-account">
+                  <div className="no-account tf-color ">
                     Don&lsquo;t have an account?{" "}
-                    <Link href="/signup" className="tf-color">
+                    <Link href="/signup" className="tf-color font-bold">
                       Sign up
                     </Link>
                   </div>

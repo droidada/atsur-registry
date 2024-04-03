@@ -15,12 +15,14 @@ interface CollectionCardProps {
   title: string;
   link: string;
   totalArtWork: number;
+  type: string;
 }
 const CollectionCard: React.FC<CollectionCardProps> = ({
   image,
   title,
   link,
   totalArtWork,
+  type,
 }) => {
   return (
     <Card
@@ -47,8 +49,14 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
           Total art pieces: {totalArtWork}
         </Typography>
       </CardContent>
-      {/* <Divider />
-      <CardActions className="flex justify-between items-center p-4"></CardActions> */}
+      <Divider />
+      <CardActions className="flex justify-center gap-3 items-center p-4">
+        <Typography>Collection Type: </Typography>
+
+        <Typography variant="h6" className="capitalize" component="div">
+          {type}
+        </Typography>
+      </CardActions>
     </Card>
   );
 };
