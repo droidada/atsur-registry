@@ -77,6 +77,7 @@ function Collections({ collections }) {
                 <div className="flex-1 w-full grid gap-3 md:grid-cols-2 lg:grid-cols-3 grid-cols-1">
                   {collections?.map((collection, idx) => (
                     <CollectionCard
+                      type={collection?.type[0]}
                       totalArtWork={collection?.artworks?.length || 0}
                       key={collection?._id}
                       title={collection?.title}
@@ -89,7 +90,10 @@ function Collections({ collections }) {
                 <p>
                   You have no collections yet.{" "}
                   <Link href="/dashboard/collections/create">
-                    <button> Create One</button>
+                    <button className="tf-button style-1 rounded-xl ml-3">
+                      {" "}
+                      Create One
+                    </button>
                   </Link>
                 </p>
               )}

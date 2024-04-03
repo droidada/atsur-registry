@@ -93,6 +93,7 @@ export default function EditAppraisal({
     console.log(url); // Would see a path?
   };
 
+  console.log(appraisal);
   const onSubmitHandler: SubmitHandler<AppraisalInput> = async (values) => {
     try {
       setError(false);
@@ -110,9 +111,10 @@ export default function EditAppraisal({
       formData.append("notes", values.notes);
       formData.append("appraisalId", appraisal?._id);
 
-      const result = appraisal
-        ? await axiosAuth.post(`/appraisal/update`, formData)
-        : await axiosAuth.post(`/appraisal/add`, formData);
+      const result =
+        appraisal !== null
+          ? await axiosAuth.post(`/appraisal/update`, formData)
+          : await axiosAuth.post(`/appraisal/add`, formData);
 
       reset();
       handleClose();

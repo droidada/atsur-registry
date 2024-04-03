@@ -59,7 +59,7 @@ function Artworks({ artworks }) {
               <i className="icon-arrow-up-right2" />
             </Link>
             <Link
-              href="/dashboard"
+              href="/dashboard/artworks/create"
               className="tf-button rounded-xl style-2 h50 w230"
             >
               Create

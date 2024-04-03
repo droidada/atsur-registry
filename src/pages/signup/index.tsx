@@ -205,8 +205,8 @@ export default function SignUp() {
                         className="icon-show password-addon"
                         id="password-addon"
                       />
-                      <div className="widget-category-checkbox">
-                        <label>
+                      <div className="widget-category-checkbox p-2">
+                        <label className="tf-color">
                           I agree to all Terms, Privacy Policy and fees
                           <input type="checkbox" />
                           <span className="btn-checkbox" />
@@ -223,7 +223,7 @@ export default function SignUp() {
                       </button>
                     </div>
                   </form>
-                  <div className="other">or continue</div>
+                  <div className="other tf-color">or continue</div>
                   <div className="login-other">
                     <Link href="#" className="login-other-item">
                       <Image src="/assets/images/google.png" alt="" />
@@ -238,9 +238,9 @@ export default function SignUp() {
                       <span>Login with apple</span>
                     </Link>
                   </div>
-                  <div className="no-account">
+                  <div className="no-account tf-color">
                     Already have an account?{" "}
-                    <Link href="/login" className="tf-color">
+                    <Link href="/login" className="tf-color font-bold">
                       Log in
                     </Link>
                   </div>
