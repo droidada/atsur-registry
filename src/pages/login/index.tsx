@@ -10,6 +10,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next/router";
 import { useAuthContext } from "../../providers/auth.context";
+import SnackBarAlert from "@/components/common/SnackBarAlert";
 
 export default function Login() {
   const loginSchema = object({
@@ -34,6 +35,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const { logIn, user, error: loginError } = useAuthContext();
 
   useEffect(() => {
@@ -55,6 +57,9 @@ export default function Login() {
       const usr = await logIn(values.email, values.password);
 
       console.log("usr is ", usr);
+      if (usr?.error) {
+        throw usr.error;
+      }
       console.log("login user is ", user);
 
       setLoading(false);
@@ -65,6 +70,11 @@ export default function Login() {
     } catch (error) {
       console.log(error);
       setError(true);
+      if (typeof error === "string") {
+        setErrorMessage(error);
+      }
+      console.log(error);
+
       setLoading(false);
     }
   };
@@ -134,13 +144,16 @@ export default function Login() {
                       </div>
                     </fieldset>
                     <div className="btn-submit mb-30">
-                      <button
+                      <LoadingButton
+                        loading={loading}
+                        disabled={loading}
+                        variant="contained"
                         type="submit"
                         className="tf-button style-1 h50 w-100"
                       >
                         Login
                         <i className="icon-arrow-up-right2" />
-                      </button>
+                      </LoadingButton>
                     </div>
                   </form>
                   <div className="other">or continue</div>
@@ -170,6 +183,13 @@ export default function Login() {
           </div>
         </div>
       </Layout>
+
+      <SnackBarAlert
+        open={error}
+        type="error"
+        message={errorMessage}
+        onClose={() => setError(false)}
+      />
     </>
   );
 }
