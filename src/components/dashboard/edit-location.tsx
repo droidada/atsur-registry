@@ -16,7 +16,7 @@ import React, { useEffect, useState } from "react";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import axios from "axios";
 import { LoadingButton } from "@mui/lab";
-import SnackBarAlert from "../common/SnackBarAlert";
+import { useToast } from "@/providers/ToastProvider";
 
 interface Props {
   open: boolean;
@@ -43,6 +43,7 @@ const EditLocation: React.FC<Props> = ({
     endDate: string().nonempty("End Date is required"),
     notes: string(),
   });
+  const toast = useToast();
 
   type LocationInput = TypeOf<typeof locationSchema>;
 
@@ -84,9 +85,9 @@ const EditLocation: React.FC<Props> = ({
     } catch (error) {
       setError(true);
       if (axios.isAxiosError(error)) {
-        setErrorMessage(error.response.data?.message);
+        toast.error(error.response.data?.message);
       } else {
-        setErrorMessage("Something went wrong. Please try again");
+        toast.error("Something went wrong. Please try again");
       }
     }
   };
@@ -227,14 +228,6 @@ const EditLocation: React.FC<Props> = ({
           </LoadingButton>
         </DialogActions>
       </form>
-
-      <SnackBarAlert
-        type="error"
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        message={errorMessage}
-        open={error}
-        onClose={() => setError(false)}
-      />
     </Dialog>
   );
 };
