@@ -18,7 +18,7 @@ export const getServerSideProps = async ({ req, query }) => {
       req,
       secret: process.env.NEXTAUTH_SECRET,
     });
-    console.log("token here is ", token);
+
     if (!token) return;
 
     const res = await axios.get(`/art-piece/creator`, {
@@ -40,7 +40,7 @@ export const getServerSideProps = async ({ req, query }) => {
 function Artworks({ artworks }) {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  console.log(artworks);
+  console.log("artworks", artworks);
   return (
     <DashboardLayoutWithSidebar activePage={DashboardPages.ART}>
       <div className="i flex-1  max-w-full">
@@ -58,7 +58,7 @@ function Artworks({ artworks }) {
               <i className="icon-arrow-up-right2" />
             </Link>
             <Link
-              href="/dashboard"
+              href="/dashboard/artworks/create"
               className="tf-button style-2 h50 w230 rounded-xl"
             >
               Create
