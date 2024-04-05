@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { signIn } from "next-auth/react";
 import dotenv from "dotenv";
 import axios from "axios";
-//import Cookies from "cookies";
+// import Cookies from "cookies";
 
 // let cookies;
 
@@ -78,7 +78,7 @@ export const options: any = {
   callbacks: {
     async jwt({ token, user, account }) {
       console.log(`token: ${token}`);
-      if (account && user) {
+      if (account || user) {
         console.log(`account: ${account} && user ${user}`);
         // setRefreshCookie({
         //   cookies,
