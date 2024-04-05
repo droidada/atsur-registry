@@ -71,7 +71,7 @@ export default function NextWeb3App({
   return (
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider chains={chains} appInfo={appInfo} coolMode={true}>
-        <SessionProvider session={session}>
+        <SessionProvider session={session} >
           <AuthContextProvider>
             <ThemeProvider>
               <ToastProvider>

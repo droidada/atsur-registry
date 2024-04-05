@@ -1,21 +1,19 @@
 "use client";
 
 import axios from "axios";
-import { signIn, useSession } from "next-auth/react";
-// import Cookies from "cookies";
+import { signIn, useSession, getSession } from "next-auth/react";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 export const useRefreshToken = () => {
-  const { data: session, update } = useSession();
+  const { update } = useSession();
 
   const refreshToken = async () => {
-    // console.log(
-    //   `access token: ${session?.user?.accessToken} || refresh token: ${
-    //     session?.user?.refreshToken
-    //   } || cookie refresh token ${Cookies.get("refreshToken")}`,
-    // );
-    const refreshToken = session?.user?.refreshToken; // || Cookies.get("refreshToken");
+
+  //  await update();
+    const session:any  = await getSession();
+
+    const refreshToken = session?.user?.refreshToken;
     if (refreshToken) {
       await axios.post(`${BASE_URL}auth/refresh-token`, {
         refreshToken: refreshToken,
@@ -25,8 +23,6 @@ export const useRefreshToken = () => {
 
     if (session) {
       console.log("new refresh session here ", session);
-      // Cookies.set("accessToken", session?.user?.accessToken);
-      // Cookies.set("refreshToken", session?.user?.refreshToken);
     }
   };
   return refreshToken;
