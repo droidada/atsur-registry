@@ -4,7 +4,6 @@ import { signIn } from "next-auth/react";
 import dotenv from "dotenv";
 import axios from "axios";
 
-
 dotenv.config();
 
 const pubAPI = process.env.API_ENDPOINT;
@@ -45,19 +44,21 @@ export const options: any = {
       },
     }),
   ],
-  session:{
-    strategy:"jwt",
-    maxAge:24*60*60 // 24 Hours
+  session: {
+    strategy: "jwt",
+    maxAge: 24 * 60 * 60, // 24 Hours
   },
   callbacks: {
     async jwt({ token, user, account }) {
       console.log(`token: ${JSON.stringify(token)}`);
       if (user) {
-        console.log(`account: ${JSON.stringify(account)} && user ${JSON.stringify(user)}`);
+        console.log(
+          `account: ${JSON.stringify(account)} && user ${JSON.stringify(user)}`,
+        );
 
         return {
           ...token,
-          ...user
+          ...user,
         };
       }
 
@@ -69,7 +70,7 @@ export const options: any = {
       console.log(
         `session: ${JSON.stringify(session)}  token: ${JSON.stringify(token)}`,
       );
-      if(token){
+      if (token) {
         session.jwt = token?.accessToken;
       }
 
@@ -82,7 +83,6 @@ export const options: any = {
   },
   debug: true,
 };
-
 
 const nextauthfunc = (req, res) => NextAuth(req, res, options);
 

@@ -37,9 +37,10 @@ export const getServerSideProps = async ({ req, query }) => {
       req,
       secret: process.env.NEXTAUTH_SECRET,
     });
+    console.log("token herer is ", token);
     const res = await axios.get(
       token ? `/art-piece/${id}` : `/art-piece/public/${id}`,
-      { headers: { authorization: `Bearer ${token?.user?.accessToken}` } },
+      { headers: { authorization: `Bearer ${token?.accessToken}` } },
     );
 
     console.log(res?.data);

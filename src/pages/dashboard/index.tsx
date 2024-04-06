@@ -24,7 +24,7 @@ import useAxiosAuth from "@/hooks/useAxiosAuth";
 //     if (!token) return;
 
 //     const res = await axios.get(`/art-piece/creator`, {
-//       headers: { authorization: `Bearer ${token?.user?.accessToken}` },
+//       headers: { authorization: `Bearer ${token?.accessToken}` },
 //     });
 
 //     return { props: { artworks: res.data.artPieces } };
@@ -50,14 +50,13 @@ function Artworks() {
       try {
         const res = await axiosAuth.get(`/art-piece/creator`);
         setArtworks(res.data.artPieces);
-
       } catch (error) {
         console.error(error);
         // throw new Error(error);
       }
     }
     fetchData();
-  },[axiosAuth])
+  }, [axiosAuth]);
 
   return (
     <DashboardLayoutWithSidebar activePage={DashboardPages.ART}>

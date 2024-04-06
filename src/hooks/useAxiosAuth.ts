@@ -5,20 +5,17 @@ import { useEffect } from "react";
 import { useRefreshToken } from "./useRefreshToken";
 
 const useAxiosAuth = () => {
-
   const refreshToken = useRefreshToken();
 
   useEffect(() => {
     const requestIntercept = axiosAuth.interceptors.request.use(
       async (config) => {
-        const session:any = await getSession();
+        const session: any = await getSession();
         console.log("useAxiosAuth: we have session here in ", session);
 
-        if(session) {
+        if (session) {
           if (!config.headers["Authorization"]) {
-            config.headers["Authorization"] = `Bearer ${
-              session?.jwt
-            }`;
+            config.headers["Authorization"] = `Bearer ${session?.jwt}`;
           }
           return config;
         }
@@ -36,11 +33,9 @@ const useAxiosAuth = () => {
         const prevRequest = error?.config;
         if (error?.response?.status === 401 && !prevRequest?.sent) {
           prevRequest.sent = true;
-         // await refreshToken();
-          const session:any = await getSession();
-          prevRequest.headers["Authorization"] = `Bearer ${
-            session?.jwt
-          }`;
+          // await refreshToken();
+          const session: any = await getSession();
+          prevRequest.headers["Authorization"] = `Bearer ${session?.jwt}`;
           return axiosAuth(prevRequest);
         }
         return Promise.reject(error);

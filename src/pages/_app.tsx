@@ -12,6 +12,9 @@ import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { Analytics } from "@vercel/analytics/react";
 import { SessionProvider } from "next-auth/react";
 import { AuthContextProvider } from "@/providers/auth.context";
+import { ToastProvider } from "@/providers/ToastProvider";
+import { LoadingContextProvider } from "@/providers/loading.context";
+
 import "@rainbow-me/rainbowkit/styles.css";
 import "@/styles/globals.css";
 import ThemeProvider from "@/styles/theme";
@@ -21,7 +24,6 @@ import AddClassBody from "@/open9/elements/AddClassBody";
 import "/public/assets/css/style.css";
 import "/public/assets/css/responsive.css";
 import "wowjs/css/libs/animate.css";
-import { ToastProvider } from "@/providers/ToastProvider";
 
 type AppPropsWithAuth = NextPage & {
   requiresAuth?: boolean;
@@ -71,23 +73,25 @@ export default function NextWeb3App({
   return (
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider chains={chains} appInfo={appInfo} coolMode={true}>
-        <SessionProvider session={session} >
-          <AuthContextProvider>
-            <ThemeProvider>
-              <ToastProvider>
-                {Component.requireAuth ? (
-                  <ProtectedLayout>
-                    {/* <AddClassBody /> */}
+        <SessionProvider session={session}>
+          <LoadingContextProvider>
+            <AuthContextProvider>
+              <ThemeProvider>
+                <ToastProvider>
+                  {Component.requireAuth ? (
+                    <ProtectedLayout>
+                      {/* <AddClassBody /> */}
+                      <Component {...pageProps} />
+                    </ProtectedLayout>
+                  ) : (
                     <Component {...pageProps} />
-                  </ProtectedLayout>
-                ) : (
-                  <Component {...pageProps} />
-                )}
-                {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-                {/* <Analytics /> */}
-              </ToastProvider>
-            </ThemeProvider>
-          </AuthContextProvider>
+                  )}
+                  {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+                  {/* <Analytics /> */}
+                </ToastProvider>
+              </ThemeProvider>
+            </AuthContextProvider>
+          </LoadingContextProvider>
         </SessionProvider>
       </RainbowKitProvider>
     </WagmiConfig>
