@@ -9,9 +9,8 @@ export const useRefreshToken = () => {
   const { update } = useSession();
 
   const refreshToken = async () => {
-
-  //  await update();
-    const session:any  = await getSession();
+    //  await update();
+    const session: any = await getSession();
 
     const refreshToken = session?.user?.refreshToken;
     if (refreshToken) {

@@ -20,7 +20,7 @@ const fetchData = async (query, { variables = {} }) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${session?.user.accessToken}`,
+      Authorization: `Bearer ${session.jwt}`,
     },
     body: JSON.stringify({
       query,
