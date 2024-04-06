@@ -1,6 +1,5 @@
 "use client";
 import { axiosAuth } from "../lib/axios";
-import Cookies from "cookies";
 import { useSession, getSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useRefreshToken } from "./useRefreshToken";

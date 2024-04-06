@@ -10,49 +10,49 @@ import Seller8 from "@/open9/sections/Seller8";
 import TopCollections5 from "@/open9/sections/TopCollections5";
 import { useEffect, useState } from "react";
 
-export const getServerSideProps = async ({ req, query }) => {
-  try {
-    const res = await axios.get(`/public/home`);
-    console.log(res.data);
-    return { props: { data: res.data } };
-  } catch (error) {
-    console.log(error?.response?.data);
-    throw new Error(error);
-  }
-};
+// export const getServerSideProps = async ({ req, query }) => {
+//   try {
+//     const res = await axios.get(`/public/home`);
+//     console.log(res.data);
+//     return { props: { data: res.data } };
+//   } catch (error) {
+//     console.log(error?.response?.data);
+//     throw new Error(error);
+//   }
+// };
 
-function Home({ data }) {
-  console.log(data?.data?.allPieces[0]?.type);
+// function Home({ data }) {
+//   console.log(data?.data?.allPieces[0]?.type);
 
-  const artPieces = data?.data?.allPieces[0]?.type?.filter(
-    (item) => item._id === "art-piece",
-  );
+//   const artPieces = data?.data?.allPieces[0]?.type?.filter(
+//     (item) => item._id === "art-piece",
+//   );
 
-  console.log(artPieces[0]?.artPieces?.length);
+//   console.log(artPieces[0]?.artPieces?.length);
 
-// function Home() {
+function Home() {
 
-//   const [data, setData] = useState();
-//   const [artPieces, setArtPieces] = useState();
+  const [data, setData] = useState();
+  const [artPieces, setArtPieces] = useState();
 
-//   useEffect(() => {
-//     async function fetchData() {
-//       try {
-//         const res = await axios.get(`/public/home`);
-//         setData(res.data);
-//         if(res.data){
-//           const pieces =res?.data?.data?.allPieces[0]?.type?.filter(
-//             (item) => item._id === "art-piece",
-//           )
-//           setArtPieces(pieces);
-//         }
-//       } catch (error) {
-//         console.error(error);
-//         // throw new Error(error);
-//       }
-//     }
-//     fetchData();
-//   },[])
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await axios.get(`/public/home`);
+        setData(res.data);
+        if(res.data){
+          const pieces =res?.data?.data?.allPieces[0]?.type?.filter(
+            (item) => item._id === "art-piece",
+          )
+          setArtPieces(pieces);
+        }
+      } catch (error) {
+        console.error(error);
+        // throw new Error(error);
+      }
+    }
+    fetchData();
+  },[])
 
   return (
     <Layout headerStyle={2} footerStyle={1} currentMenuItem={"home"}>
