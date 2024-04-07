@@ -238,10 +238,7 @@ const DashboardLayoutWithSidebar = ({
                     </Link>
                     <div
                       className="flex gap-4"
-                      onClick={async () => {
-                        await logOut();
-                        router.push("/login");
-                      }}
+                      onClick={async () => await logOut()}
                       id="logout"
                     >
                       <svg
