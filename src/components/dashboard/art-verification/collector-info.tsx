@@ -89,7 +89,7 @@ export default function CollectorInfo({ nextPage = (x) => {} }) {
       );
       formData.append("aquisitionType", values.acquisitionType);
       formData.append("organization", organization || "");
-      formData.append("isCirca", isCirca);
+      formData.append("isCirca", JSON.stringify(isCirca));
 
       const result = await axiosAuth.post(
         `/art-piece/verify-collector/${artPieceId}`,
