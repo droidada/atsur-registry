@@ -60,7 +60,11 @@ export default function TopCollections5({ collections }) {
                                   height={150}
                                   className="object-cover w-full h-full rounded-xl"
                                   key={artwork?.assets[0]?._id}
-                                  src={artwork?.assets[0]?.url}
+                                  src={
+                                    artwork?.assets[0]?.url == "null"
+                                      ? ""
+                                      : artwork?.assets[0]?.url
+                                  }
                                   alt=""
                                 />
                               ))}

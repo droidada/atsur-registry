@@ -38,7 +38,7 @@ const EditLocation: React.FC<Props> = ({
   const locationSchema = object({
     name: string().nonempty("Name is required"),
     address: string().nonempty("Address  is required"),
-    isCurrentLocation: boolean(),
+    isCurrentLocation: boolean().optional(),
     startDate: string().nonempty("Start date is required"),
     endDate: string().nonempty("End Date is required"),
     notes: string(),
