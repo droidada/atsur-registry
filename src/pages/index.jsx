@@ -34,12 +34,12 @@ import { useLoadingContext } from "@/providers/loading.context";
 function Home() {
   const [data, setData] = useState();
   const [artPieces, setArtPieces] = useState();
-  const { load } = useLoadingContext();
+  const { load, loading } = useLoadingContext();
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get(`/public/home`);
+        const res = await load(axios.get(`/public/home`));
         setData(res.data);
         if (res.data) {
           const pieces = res?.data?.data?.allPieces[0]?.type?.filter(
@@ -56,19 +56,16 @@ function Home() {
   }, []);
 
   return (
+    (data && artPieces) &&
     <Layout headerStyle={2} footerStyle={1} currentMenuItem={"home"}>
-      {artPieces && <FlatTitle5 pieces={artPieces[0]?.artPieces} />}
-      {data && (
-        <>
-          <FeaturedItem5 categories={data?.data?.allPieces[0]?.categories} />
-          <Seller7 artists={data?.data?.artists} />
-          <FeaturedItem6 featured_artworks={data?.data?.featured_artworks} />
-          {/* <Seller8 />
-                <DiscoverItem5 /> */}
-          <TopCollections5 collections={data?.data?.curations} />
-        </>
-      )}
-      <Action5 />
+    <FlatTitle5 pieces={artPieces[0]?.artPieces} />
+        <FeaturedItem5 categories={data?.data?.allPieces[0]?.categories} />
+        <Seller7 artists={data?.data?.artists} />
+        <FeaturedItem6 featured_artworks={data?.data?.featured_artworks} />
+        {/* <Seller8 />
+              <DiscoverItem5 /> */}
+        <TopCollections5 collections={data?.data?.curations} />
+        <Action5 />
     </Layout>
   );
 }

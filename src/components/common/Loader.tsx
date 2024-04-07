@@ -1,4 +1,5 @@
 import React, { forwardRef, useImperativeHandle, useState } from "react";
+import { Backdrop, CircularProgress } from "@mui/material";
 
 function Loader(props, ref) {
   const [loading, setLoading] = useState(0);
@@ -25,7 +26,12 @@ function Loader(props, ref) {
 
   return (
     <div>
-      <div> LOADER JS MODAL</div>
+      <Backdrop
+        sx={{ background:"#000", color: "#000", zIndex: (theme) => theme.zIndex.drawer + 1}}
+        open
+      >
+        <CircularProgress color="info" />
+      </Backdrop>
     </div>
   );
 }

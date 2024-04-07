@@ -28,7 +28,7 @@ export type LoadingContextData = {
 const LoadingContext = createContext({} as LoadingContextData);
 
 export function LoadingContextProvider({ children }: any) {
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState("");
 
   const ref = useRef<any>();
@@ -43,16 +43,20 @@ export function LoadingContextProvider({ children }: any) {
 
   const load = useCallback(async (func: Promise<any>) => {
     try {
+      setLoading(true);
       startLoader();
       const res = await func;
       stopLoader();
+      setLoading(false);
       return res;
     } catch (error) {
-      console.error("error here looks like ", error);
+      console.error("LoadingContext: error here looks like ", error);
       if (error?.response?.status === 404) {
         router.replace("/404");
       }
       router.replace("/500");
+      setLoading(false);
+      stopLoader();
     }
   }, []);
 
