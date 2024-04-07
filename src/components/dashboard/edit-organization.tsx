@@ -9,8 +9,9 @@ import Image from "next/image";
 import { Box, Button, Typography } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import SnackBarAlert from "../common/SnackBarAlert";
+
 import axios from "axios";
+import { useToast } from "@/providers/ToastProvider";
 
 interface Props {
   open: boolean;
@@ -33,6 +34,7 @@ const EditOrganization: React.FC<Props> = ({
     website: string(),
     // type: string(),
   });
+  const toast = useToast();
 
   type OrgInput = TypeOf<typeof orgSchema>;
 
@@ -82,9 +84,9 @@ const EditOrganization: React.FC<Props> = ({
     } catch (error) {
       setError(true);
       if (axios.isAxiosError(error)) {
-        setErrorMessage(error.response.data?.message);
+        toast.error(error.response.data?.message);
       } else {
-        setErrorMessage("Something went wrong");
+        toast.error("Something went wrong");
       }
     } finally {
       setLoading(false);
@@ -295,13 +297,6 @@ const EditOrganization: React.FC<Props> = ({
           </form>
         </div>
       </div>
-      <SnackBarAlert
-        type="error"
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        message={errorMessage}
-        open={error}
-        onClose={() => setError(false)}
-      />
     </Dialog>
   );
 };

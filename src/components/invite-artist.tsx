@@ -25,6 +25,9 @@ const InviteArtist = ({
   setListedArtists,
   placeholder = "Artist name",
   label = "Artist name",
+  justOne = false,
+  showList = true,
+  onClose = () => {},
 }) => {
   const [loading, setLoading] = useState(false);
   const [autocompleteOpen, setAutocompleteOpen] = useState(false);
@@ -38,6 +41,8 @@ const InviteArtist = ({
     lastName: string().nonempty("Artist last name is required"),
     email: string().email().nonempty("Artist email is required"),
   });
+
+  console.log(options);
 
   type InviteArtistInput = TypeOf<typeof inviteArtistSchema>;
   const {
@@ -59,6 +64,7 @@ const InviteArtist = ({
       },
     ]);
     reset();
+    setInviteArtist(false);
   };
 
   const handleArtistChange = async (event) => {
@@ -71,7 +77,9 @@ const InviteArtist = ({
       });
       const data = res.data.users;
       console.log("we have options here ", data);
-      setOptions(data && data?.length > 0 ? data : []);
+      justOne
+        ? setOptions(data && data?.length > 0 ? [data[data.length - 1]] : [])
+        : setOptions(data && data?.length > 0 ? data : []);
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -81,47 +89,51 @@ const InviteArtist = ({
 
   return (
     <div style={{ margin: "50px 0" }}>
-      <h5>{prompt}</h5>
-      <List dense>
-        {listedArtists &&
-          listedArtists.map((artist, idx) => (
-            <ListItem
-              key={idx}
-              secondaryAction={
-                <IconButton
-                  edge="end"
-                  aria-label="delete"
-                  onClick={() =>
-                    setListedArtists(
-                      listedArtists.filter(
-                        (e) => e.email !== listedArtists[idx].email,
-                      ),
-                    )
-                  }
-                >
-                  <Delete />
-                </IconButton>
-              }
-            >
-              <ListItemAvatar>
-                <Avatar>
-                  <Person4 />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary={`${artist.firstName} ${artist.lastName}`}
-                secondary={artist.email}
-              />
-            </ListItem>
-          ))}
-      </List>
+      <h5 className={`${!showList && "mb-4"}`}>{prompt}</h5>
+      {showList && (
+        <List dense>
+          {listedArtists?.length > 0 &&
+            listedArtists.map((artist, idx) => (
+              <ListItem
+                key={idx}
+                secondaryAction={
+                  <IconButton
+                    edge="end"
+                    aria-label="delete"
+                    onClick={() =>
+                      setListedArtists(
+                        listedArtists.filter(
+                          (e) => e.email !== listedArtists[idx].email,
+                        ),
+                      )
+                    }
+                  >
+                    <Delete />
+                  </IconButton>
+                }
+              >
+                <ListItemAvatar>
+                  <Avatar>
+                    <Person4 />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary={`${artist.firstName} ${artist.lastName}`}
+                  secondary={artist.email}
+                />
+              </ListItem>
+            ))}
+        </List>
+      )}
 
       {!inviteArtist ? (
         <Box gridColumn="span 12">
           <Autocomplete
             multiple
             onChange={(event: any, newValue: any) => {
-              setListedArtists([...newValue]);
+              justOne
+                ? setListedArtists([newValue[newValue.length - 1]])
+                : setListedArtists([...newValue]);
             }}
             style={{ width: "100%", marginTop: 5 }}
             id="size-small-outlined-multi"
@@ -141,7 +153,9 @@ const InviteArtist = ({
             clearOnBlur
             handleHomeEndKeys
             loading={autocompleteLoading}
-            options={options}
+            options={options.sort((a, b) =>
+              a.firstName.localeCompare(b.firstName),
+            )}
             noOptionsText={
               <p
                 onClick={() => {

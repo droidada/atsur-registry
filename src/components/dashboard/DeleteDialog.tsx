@@ -9,9 +9,10 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import React, { useState } from "react";
-import SnackBarAlert from "../common/SnackBarAlert";
+
 import { error } from "console";
 import { useRouter } from "next/router";
+import { useToast } from "@/providers/ToastProvider";
 
 interface Props {
   open: boolean;
@@ -48,6 +49,8 @@ const DeleteDialog: React.FC<Props> = ({
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const axiosAuth = useAxiosAuth();
+  const toast = useToast();
+
   const router = useRouter();
 
   const handleDelete = async () => {
@@ -85,9 +88,9 @@ const DeleteDialog: React.FC<Props> = ({
     } catch (error) {
       setIsError(true);
       if (axios.isAxiosError(error)) {
-        setErrorMessage(error.response?.data?.message);
+        toast.error(error.response?.data?.message);
       } else {
-        setErrorMessage("Something went wrong. Please try again");
+        toast.error("Something went wrong. Please try again");
       }
     } finally {
       setIsLoading(false);
@@ -120,14 +123,6 @@ const DeleteDialog: React.FC<Props> = ({
           Delete
         </LoadingButton>
       </DialogActions>
-
-      <SnackBarAlert
-        open={isError}
-        onClose={() => setIsError(false)}
-        message={errorMessage}
-        type="error"
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      />
     </Dialog>
   );
 };

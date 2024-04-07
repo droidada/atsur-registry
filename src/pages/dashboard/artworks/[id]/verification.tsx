@@ -20,6 +20,7 @@ import ArtistInfo from "@/components/dashboard/art-verification/artist-info";
 import DealerInfo from "@/components/dashboard/art-verification/dealer-info";
 import CollectorInfo from "@/components/dashboard/art-verification/collector-info";
 import InstitutionInfo from "@/components/dashboard/art-verification/institution-info";
+import { useRouter } from "next/router";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -50,6 +51,10 @@ export default function Verification({ artPiece }) {
   const handleOnClick = (index) => {
     setActiveIndex(index);
   };
+  const router = useRouter();
+  const id = router.query.id;
+
+  console.log("This is the id", id);
 
   return (
     <>
@@ -130,11 +135,15 @@ export default function Verification({ artPiece }) {
                     exclusive
                     onChange={(e, v) => setArtRole(v)}
                     aria-label="Platform"
-                    className="p-20"
+                    className="p-20 w-full"
                   >
                     <ToggleButton
                       value={artRoles.ARTIST}
-                      sx={{ height: "25rem", display: "block" }}
+                      sx={{
+                        height: "25rem",
+                        display: "block",
+                        overflow: "hidden",
+                      }}
                     >
                       <Palette
                         sx={{
@@ -148,7 +157,11 @@ export default function Verification({ artPiece }) {
                     </ToggleButton>
                     <ToggleButton
                       value={artRoles.DEALER}
-                      sx={{ height: "25rem", display: "block" }}
+                      sx={{
+                        height: "25rem",
+                        display: "block",
+                        overflow: "hidden",
+                      }}
                     >
                       <PhotoAlbum
                         sx={{
@@ -162,7 +175,11 @@ export default function Verification({ artPiece }) {
                     </ToggleButton>
                     <ToggleButton
                       value={artRoles.COLLECTOR}
-                      sx={{ height: "25rem", display: "block" }}
+                      sx={{
+                        height: "25rem",
+                        display: "block",
+                        overflow: "hidden",
+                      }}
                     >
                       <PhotoLibrary
                         sx={{
@@ -176,7 +193,11 @@ export default function Verification({ artPiece }) {
                     </ToggleButton>
                     <ToggleButton
                       value={artRoles.CUSTODIAN}
-                      sx={{ height: "25rem", display: "block" }}
+                      sx={{
+                        height: "25rem",
+                        display: "block",
+                        overflow: "hidden",
+                      }}
                     >
                       <Domain
                         sx={{

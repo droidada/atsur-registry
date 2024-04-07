@@ -10,8 +10,9 @@ import Image from "next/image";
 import { Box, Button, Typography } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import SnackBarAlert from "../common/SnackBarAlert";
+
 import axios from "axios";
+import { useToast } from "@/providers/ToastProvider";
 
 interface Props {
   open: boolean;
@@ -44,6 +45,7 @@ const EditCollection: React.FC<Props> = ({ open, handleClose, collection }) => {
   const router = useRouter();
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const toast = useToast();
 
   useEffect(() => {
     setValue("title", collection.title || "");
@@ -71,9 +73,9 @@ const EditCollection: React.FC<Props> = ({ open, handleClose, collection }) => {
     } catch (error) {
       setError(false);
       if (axios.isAxiosError(error)) {
-        setErrorMessage(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        setErrorMessage("Something went wrong");
+        toast.error("Something went wrong");
       }
     } finally {
       setLoading(false);
@@ -232,13 +234,6 @@ const EditCollection: React.FC<Props> = ({ open, handleClose, collection }) => {
           </form>
         </div>
       </div>
-      <SnackBarAlert
-        type="error"
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        message={errorMessage}
-        open={error}
-        onClose={() => setError(false)}
-      />
     </Dialog>
   );
 };
