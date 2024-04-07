@@ -4,26 +4,21 @@ import { useRouter } from "next/router";
 import { object, string, number, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, Divider, TextField } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { useAuthContext } from "@/providers/auth.context";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import InviteArtist from "@/components/invite-artist";
 import { IArtist } from "@/types/models";
 import SelectOrg from "@/components/select-org";
+import CommisionSplit from "@/components/CommisionSplit";
+import { useToast } from "@/providers/ToastProvider";
+import axios from "axios";
 
 export default function DealerInfo({ nextPage = (x) => {} }) {
   const axiosAuth = useAxiosAuth();
   const metadataSchema = object({
-    title: string().nonempty("Title is required"),
-    description: string().nonempty("Description is required"),
-    height: number().gte(0),
-    width: number().gte(0),
-    depth: number().gte(0),
-    medium: string().nonempty("Medium is required"),
-    subjectMatter: string().nonempty("Subject matter is required"),
-    rarity: string().nonempty("Rarity is required"),
-    type: string().nonempty("Type is required"),
+    notes: string().nonempty("notes is required"),
   });
 
   type MetadataInput = TypeOf<typeof metadataSchema>;
@@ -37,44 +32,70 @@ export default function DealerInfo({ nextPage = (x) => {} }) {
     resolver: zodResolver(metadataSchema),
   });
 
-  const [previewImg, setPreviewImg] = useState(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const [error, setError] = useState("");
-  const { logIn, user, error: loginError } = useAuthContext();
-  const [listedArtists, setListedArtists] = useState<IArtist[]>([]);
+  const artPieceId = router.query.id as string;
 
-  // useEffect(() => {
-  //   if (isSubmitSuccessful) {
-  //     reset();
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [isSubmitSuccessful]);
+  const [error, setError] = useState("");
+  const [organization, setOrganization] = useState<any>(null);
+  const [listedArtists, setListedArtists] = useState<IArtist[]>([]);
+  const [percentages, setPercentages] = useState({});
+  const [errorTree, setErrorTree] = useState({});
+  const [attachment, setAttachment] = useState(null);
+  const [fileData, setFileData] = useState({
+    name: "",
+    type: "",
+  });
+
+  const toast = useToast();
 
   const onSubmitHandler: SubmitHandler<MetadataInput> = async (values) => {
     try {
-      if (!previewImg) {
-        setError("Image attachment is required");
+      if (!attachment) {
+        toast.error("Image attachment is required");
+        return;
+      }
+
+      if (listedArtists?.length === 0) {
+        toast.error("Artist is required");
+        return;
+      }
+
+      if (Object.keys(errorTree).length > 0) {
+        toast.error(Object.values(errorTree).join(" "));
+        return;
+      }
+
+      if (!organization) {
+        toast.error("Organization is required");
+        return;
+      }
+
+      if (Object.keys(percentages).length === 0) {
+        toast.error("Commission split is required");
         return;
       }
 
       setLoading(true);
       console.log(values);
       const formData = new FormData();
-      formData.append("file", previewImg);
-      formData.append("title", values.title);
-      formData.append("description", values.description);
-      formData.append("rarity", values.rarity);
-      formData.append("medium", values.medium);
-      formData.append("subjectMatter", values.subjectMatter);
-      formData.append("type", values.type);
-      formData.append("depth", values.depth.toString());
-      formData.append("width", values.width.toString());
-      formData.append("height", values.height.toString());
+      formData.append("agreement", attachment);
+      formData.append("notes", values.notes);
+      formData.append("commission", JSON.stringify(percentages));
+      formData.append(
+        "artists",
+        JSON.stringify(listedArtists?.map((item) => item?._id)),
+      );
+      formData.append("organization", organization);
+      console.log(attachment);
+      console.log(formData);
 
-      const result = await axiosAuth.post("/art-piece/add", formData);
+      const result = await axiosAuth.post(
+        `/art-piece/verify-dealer/${artPieceId}`,
+        formData,
+      );
       //setPreviewImg(result.data.imageName)
-      console.log("result here is ", result.data);
+      // console.log("result here is ", result.data);
 
       setLoading(false);
       nextPage(12);
@@ -82,43 +103,60 @@ export default function DealerInfo({ nextPage = (x) => {} }) {
       return;
     } catch (error) {
       console.error(error);
-      setError(error.message);
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data?.message);
+      } else {
+        toast.error("Something went wrong");
+      }
+
       setLoading(false);
     }
   };
 
   const handleUploadClick = (event) => {
-    var file = event.target.files[0];
+    let file = event.target.files[0];
     const reader = new FileReader();
-    var url = reader.readAsDataURL(file);
+    let url = reader.readAsDataURL(file);
+
+    setFileData({
+      name: file.name,
+      type: file.type,
+    });
+
+    console.log(url);
 
     reader.onloadend = function (e) {
-      //   this.setState({
-      //     previewImg: [reader.result]
-      //   });
-      setPreviewImg(reader.result);
+      setAttachment(reader.result);
     }.bind(this);
     console.log(url); // Would see a path?
 
-    // this.setState({
-    //   mainState: "uploaded",
-    //   selectedFile: event.target.files[0],
-    //   imageUploaded: 1
-    // });
-    setPreviewImg(event.target.files[0]);
+    setAttachment(event.target.files[0]);
   };
 
   return (
     <>
       <div className="wrap-content w-full">
-        {error && <h5 style={{ color: "red" }}>{error}</h5>}
+        {/* {error && <h5 style={{ color: "red" }}>{error}</h5>} */}
 
         <InviteArtist
           listedArtists={listedArtists}
           setListedArtists={setListedArtists}
         />
 
-        <SelectOrg />
+        <SelectOrg
+          selectedOrg={organization}
+          setSelectedOrg={setOrganization}
+        />
+        <Divider>
+          <h5>Commision Split</h5>
+        </Divider>
+        <CommisionSplit
+          percentages={percentages}
+          setPercentages={setPercentages}
+          errorTree={errorTree}
+          setErrorTree={setErrorTree}
+        />
+        <Divider />
         <form
           id="commentform"
           className="comment-form"
@@ -126,166 +164,71 @@ export default function DealerInfo({ nextPage = (x) => {} }) {
           noValidate
           onSubmit={handleSubmit(onSubmitHandler)}
         >
-          <fieldset className="name">
-            <label>Title *</label>
+          <div className="my-4 grid gap-4">
+            <h5>Contract Agreement Document</h5>
+            <div className="flex gap30 ">
+              <fieldset className="collection">
+                <label className="uploadfile flex items-center justify-center">
+                  <div className="text-center flex flex-col items-center justify-center">
+                    {attachment ? (
+                      <>
+                        {fileData.type.includes("image") ? (
+                          <Image
+                            width={200}
+                            height={200}
+                            className=" object-cover"
+                            alt={""}
+                            src={attachment}
+                          />
+                        ) : (
+                          <h5>{fileData.name}</h5>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <Image
+                          width={200}
+                          height={200}
+                          src="/assets/images/box-icon/upload.png"
+                          alt=""
+                        />
+                        <p>Drag or choose attachment to upload</p>
+                        <h6 className="text text-gray-600">
+                          PDF, JPEG.. Max 10Mb.
+                        </h6>
+                      </>
+                    )}
+                    <TextField
+                      type="file"
+                      name="attachment"
+                      // InputProps={{ accept: "pdf,image/*", }}
+                      onChange={handleUploadClick}
+                    />
+                  </div>
+                </label>
+              </fieldset>
+            </div>
+          </div>
+
+          <fieldset className="message  p-2">
+            <label>Notes *</label>
             <TextField
+              id="notes"
+              name="notes"
               type="text"
-              id="title"
-              placeholder="Title"
-              name="title"
-              tabIndex={2}
-              aria-required="true"
-              fullWidth
-              error={!!errors["title"]}
-              helperText={errors["title"] ? errors["title"].message : ""}
-              {...register("title")}
-            />
-          </fieldset>
-          <fieldset className="message">
-            <label>Description *</label>
-            <TextField
-              id="description"
-              name="description"
-              type="text"
-              InputProps={{ className: "textarea", style: {} }}
+              className="p-0"
+              InputProps={{ className: "textarea w-full h-full", style: {} }}
               rows={4}
               multiline
-              placeholder="Describe your artwork *"
-              tabIndex={2}
+              placeholder="Notes"
               aria-required="true"
               fullWidth
-              error={!!errors["description"]}
-              helperText={
-                errors["description"] ? errors["description"].message : ""
-              }
-              {...register("description")}
+              error={!!errors["notes"]}
+              helperText={errors["notes"] ? errors["notes"].message : ""}
+              {...register("notes")}
             />
           </fieldset>
-          <div className="flex gap30">
-            <fieldset className="price">
-              <label>Medium *</label>
-              <TextField
-                type="text"
-                id="medium"
-                placeholder="Paint, Oil"
-                name="medium"
-                tabIndex={2}
-                aria-required="true"
-                fullWidth
-                error={!!errors["medium"]}
-                helperText={errors["medium"] ? errors["medium"].message : ""}
-                {...register("medium")}
-              />
-            </fieldset>
-            <fieldset className="properties">
-              <label>Subject Matter *</label>
-              <TextField
-                type="text"
-                id="subjectMatter"
-                placeholder="Landscape, etc"
-                name="subjectMatter"
-                tabIndex={2}
-                aria-required="true"
-                fullWidth
-                error={!!errors["subjectMatter"]}
-                helperText={
-                  errors["subjectMatter"] ? errors["subjectMatter"].message : ""
-                }
-                {...register("subjectMatter")}
-              />
-            </fieldset>
-          </div>
-          <div className="flex gap30">
-            <fieldset className="price">
-              <label>Height (in inches) *</label>
-              <TextField
-                type="number"
-                min={0}
-                id="height"
-                placeholder="12.0"
-                name="height"
-                tabIndex={2}
-                aria-required="true"
-                required
-                fullWidth
-                error={!!errors["height"]}
-                helperText={errors["height"] ? errors["height"].message : ""}
-                {...register("height", {
-                  setValueAs: (value) => Number(value),
-                })}
-              />
-            </fieldset>
-            <fieldset className="properties">
-              <label>Width (in inches) *</label>
-              <TextField
-                type="number"
-                min={0}
-                id="width"
-                placeholder="7.0"
-                name="width"
-                tabIndex={2}
-                aria-required="true"
-                required
-                fullWidth
-                error={!!errors["width"]}
-                helperText={errors["width"] ? errors["width"].message : ""}
-                {...register("width", {
-                  setValueAs: (value) => Number(value),
-                })}
-              />
-            </fieldset>
-            <fieldset className="size">
-              <label>Depth (in inches) *</label>
-              <TextField
-                type="number"
-                min={0}
-                id="depth"
-                placeholder="4"
-                name="depth"
-                tabIndex={2}
-                aria-required="true"
-                required
-                fullWidth
-                error={!!errors["depth"]}
-                helperText={errors["depth"] ? errors["depth"].message : ""}
-                {...register("depth", {
-                  setValueAs: (value) => Number(value),
-                })}
-              />
-            </fieldset>
-          </div>
-          <div className="flex gap30">
-            <fieldset className="collection">
-              <label>Rarity</label>
-              <select
-                className="select"
-                tabIndex={2}
-                name="rarity"
-                id="rarity"
-                {...register("rarity")}
-              >
-                <option>Select</option>
-                <option value="unique">Unique</option>
-                <option value="limited-edition">Limited Edition</option>
-                <option value="open-edition">Open Edition</option>
-                <option value="unknown">Unknown</option>
-              </select>
-            </fieldset>
-            <fieldset className="collection">
-              <label>Type</label>
-              <select
-                className="select"
-                tabIndex={2}
-                name="type"
-                id="type"
-                {...register("type")}
-              >
-                <option>Select</option>
-                <option value="art-piece">Art Piece</option>
-                <option value="artifact">Artifact</option>
-              </select>
-            </fieldset>
-          </div>
+
           <div className="btn-submit flex gap30 justify-center">
             <button className="tf-button style-1 h50 active" type="reset">
               Clear
@@ -296,7 +239,7 @@ export default function DealerInfo({ nextPage = (x) => {} }) {
               loading={loading}
               type="submit"
             >
-              Create
+              Submit
               <i className="icon-arrow-up-right2" />
             </LoadingButton>
           </div>

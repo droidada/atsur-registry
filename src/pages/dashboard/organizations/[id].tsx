@@ -40,7 +40,7 @@ import InviteArtist from "@/components/invite-artist";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useRouter } from "next/router";
 import { LoadingButton } from "@mui/lab";
-import SnackBarAlert from "@/components/common/SnackBarAlert";
+import { useToast } from "@/providers/ToastProvider";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -80,6 +80,7 @@ function Organization({ organizations }) {
   const router = useRouter();
   const [currentMember, setCurrentMember] = useState("");
   const [openRemoveMember, setOpenRemoveMember] = useState(false);
+  const toast = useToast();
 
   useEffect(() => {
     // Filter out the creator from the members
@@ -105,9 +106,9 @@ function Organization({ organizations }) {
     } catch (error) {
       setError(true);
       if (axiosMain.isAxiosError(error)) {
-        setErrorMessage(error.response?.data?.message);
+        toast.error(error.response?.data?.message);
       } else {
-        setErrorMessage("Something went wrong. Please try again");
+        toast.error("Something went wrong. Please try again");
       }
     } finally {
       setLoading(false);
@@ -341,14 +342,6 @@ function Organization({ organizations }) {
         open={openEdit}
         handleClose={() => setOpenEdit(false)}
         organization={organizations}
-      />
-
-      <SnackBarAlert
-        open={error}
-        onClose={() => setError(false)}
-        message={errorMessage}
-        type="error"
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       />
     </>
   );

@@ -11,7 +11,6 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Snackbar,
   Alert,
 } from "@mui/material";
 import { object, string, TypeOf } from "zod";
@@ -20,7 +19,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { LoadingButton } from "@mui/lab";
 import axios from "axios";
-import SnackBarAlert from "../common/SnackBarAlert";
+import { useToast } from "@/providers/ToastProvider";
 
 export default function EditPublication({
   open,
@@ -40,6 +39,8 @@ export default function EditPublication({
     attachmentCaption: string(),
     notes: string(),
   });
+
+  const toast = useToast();
 
   type publicationInput = TypeOf<typeof publicationSchema>;
 
@@ -114,9 +115,9 @@ export default function EditPublication({
       handleClose();
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        setErrorMessage(error?.response?.data?.message);
+        toast.error(error?.response?.data?.message);
       } else {
-        setErrorMessage("Something went wrong. Please try again");
+        toast.error("Something went wrong. Please try again");
       }
       setError(true);
       setLoading(false);
@@ -284,14 +285,6 @@ export default function EditPublication({
             >
               {publication ? "Update" : "Submit"}
             </LoadingButton>
-
-            <SnackBarAlert
-              type="error"
-              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-              message={errorMessage}
-              open={error}
-              onClose={() => setError(false)}
-            />
           </DialogActions>
         </form>
       </Dialog>

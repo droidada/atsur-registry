@@ -23,10 +23,11 @@ import useAxiosAuth from "@/hooks/useAxiosAuth";
 import DatePicker from "@/components/common/datepicker";
 import dayjs from "dayjs";
 import { isPast } from "date-fns";
-import SnackBarAlert from "../common/SnackBarAlert";
+
 import axios from "axios";
 import { LoadingButton } from "@mui/lab";
 import Image from "next/image";
+import { useToast } from "@/providers/ToastProvider";
 
 export default function EditExhibition({
   open,
@@ -51,8 +52,9 @@ export default function EditExhibition({
     organizerPhone: string(),
     startDate: string().nonempty("Start date is required"),
     endDate: string().nonempty("End Date is required"),
-    isCirca: boolean(),
+    isCirca: boolean().optional(),
   });
+  const toast = useToast();
 
   type ExhibitionInput = TypeOf<typeof exhibitionSchema>;
 
@@ -133,9 +135,9 @@ export default function EditExhibition({
       setError(true);
       console.log(error);
       if (axios.isAxiosError(error)) {
-        setErrorMessage(error?.response?.data?.message);
+        toast.error(error?.response?.data?.message);
       } else {
-        setErrorMessage("Something went wrong. Please try again");
+        toast.error("Something went wrong. Please try again");
       }
     } finally {
       setLoading(false);
@@ -444,14 +446,6 @@ export default function EditExhibition({
             </LoadingButton>
           </DialogActions>
         </form>
-
-        <SnackBarAlert
-          type="error"
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-          message={errorMessage}
-          open={error}
-          onClose={() => setError(false)}
-        />
       </Dialog>
     </>
   );

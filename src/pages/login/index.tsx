@@ -10,7 +10,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next/router";
 import { useAuthContext } from "../../providers/auth.context";
-import SnackBarAlert from "@/components/common/SnackBarAlert";
+import { useToast } from "@/providers/ToastProvider";
 
 export default function Login() {
   const loginSchema = object({
@@ -20,6 +20,7 @@ export default function Login() {
       .min(8, "Password must be more than 8 characters")
       .max(32, "Password must be less than 32 characters"),
   });
+  const toast = useToast();
 
   type LoginInput = TypeOf<typeof loginSchema>;
 
@@ -71,7 +72,9 @@ export default function Login() {
       console.log(error);
       setError(true);
       if (typeof error === "string") {
-        setErrorMessage(error);
+        toast.error(error);
+      } else {
+        toast.error("Something went wrong. Please try again.");
       }
       console.log(error);
 
@@ -185,13 +188,6 @@ export default function Login() {
           </div>
         </div>
       </Layout>
-
-      <SnackBarAlert
-        open={error}
-        type="error"
-        message={errorMessage}
-        onClose={() => setError(false)}
-      />
     </>
   );
 }

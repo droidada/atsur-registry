@@ -16,10 +16,11 @@ import { object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
-import SnackBarAlert from "../common/SnackBarAlert";
+
 import axios from "axios";
 import { LoadingButton } from "@mui/lab";
 import Image from "next/image";
+import { useToast } from "@/providers/ToastProvider";
 
 export default function EditAppraisal({
   open,
@@ -59,6 +60,7 @@ export default function EditAppraisal({
   const [errorMessage, setErrorMessage] = useState("");
   const [appraisalImg, setAppraisalImg] = useState(null);
   const axiosAuth = useAxiosAuth();
+  const toast = useToast();
 
   useEffect(() => {
     setValue("appraiser", appraisal?.appraiser || "");
@@ -122,9 +124,9 @@ export default function EditAppraisal({
       setError(true);
       console.log(error);
       if (axios.isAxiosError(error)) {
-        setErrorMessage(error?.response?.data?.message);
+        toast.error(error?.response?.data?.message);
       } else {
-        setErrorMessage("Something went wrong. Please try again");
+        toast.error("Something went wrong. Please try again");
       }
     } finally {
       setLoading(false);
@@ -336,14 +338,6 @@ export default function EditAppraisal({
             </LoadingButton>
           </DialogActions>
         </form>
-
-        <SnackBarAlert
-          type="error"
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-          message={errorMessage}
-          open={error}
-          onClose={() => setError(false)}
-        />
       </Dialog>
     </>
   );
