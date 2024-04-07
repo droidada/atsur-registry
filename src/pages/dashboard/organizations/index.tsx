@@ -21,7 +21,7 @@ export const getServerSideProps = async ({ req, query }) => {
     if (!token) return;
 
     const res = await axios.get(`/org/user`, {
-      headers: { authorization: `Bearer ${token?.user?.accessToken}` },
+      headers: { authorization: `Bearer ${token?.accessToken}` },
     });
 
     return { props: { organizations: res.data.organizations } };

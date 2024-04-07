@@ -296,7 +296,7 @@ const DashboardLayoutWithSidebar = ({
                 </div>
                 <div className="create menu-tab">
                   <Link
-                    href="/dashboard"
+                    href="/dashboard/artworks/create"
                     className="tf-button style-1 type-1 tablinks"
                     data-tabs="create"
                   >

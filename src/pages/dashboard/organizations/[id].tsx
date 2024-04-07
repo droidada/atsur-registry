@@ -50,7 +50,7 @@ export const getServerSideProps = async ({ req, query }) => {
       secret: process.env.NEXTAUTH_SECRET,
     });
     const res = await axios.get(`/org/${id}`, {
-      headers: { authorization: `Bearer ${token?.user?.accessToken}` },
+      headers: { authorization: `Bearer ${token?.accessToken}` },
     });
 
     console.log(res.data);
