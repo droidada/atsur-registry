@@ -20,6 +20,7 @@ import { IArtist } from "@/types/models";
 import SelectOrg from "@/components/select-org";
 import { useToast } from "@/providers/ToastProvider";
 import { set } from "date-fns";
+import SelectSeries from "@/components/select-series";
 
 export default function ArtistInfo({ nextPage = (x) => {} }) {
   const axiosAuth = useAxiosAuth();
@@ -64,6 +65,8 @@ export default function ArtistInfo({ nextPage = (x) => {} }) {
   const { logIn, user, error: loginError } = useAuthContext();
   const [listedArtists, setListedArtists] = useState<IArtist[]>([]);
   const [isSeries, setIsSeries] = useState(false);
+  const [selectedSeries, setSelectedSeries] = useState<any>(null);
+
   const [wantToSell, setWantToSell] = useState(false);
   const [viaBroker, setViaBroker] = useState(false);
   const [sellerType, setSellerType] = useState("individual");
@@ -84,9 +87,11 @@ export default function ArtistInfo({ nextPage = (x) => {} }) {
       setLoading(true);
       console.log(values);
       const formData = new FormData();
-      formData.append("organization", organization);
+      organization && formData.append("organization", organization);
       formData.append("sellerType", sellerType);
-      formData.append("planToSell", wantToSell);
+      formData.append("planToSell", JSON.stringify(wantToSell));
+      selectedSeries && formData.append("series", selectedSeries);
+      formData.append("isSeries", JSON.stringify(isSeries));
       formData.append(
         "video",
         JSON.stringify({
@@ -334,6 +339,12 @@ export default function ArtistInfo({ nextPage = (x) => {} }) {
                 }
                 label="is this part of a series?"
               />
+              {isSeries && (
+                <SelectSeries
+                  selectedSeries={selectedSeries}
+                  setSelectedSeries={setSelectedSeries}
+                />
+              )}
             </div>
             <Divider orientation="vertical" />
             {/* Plan to sell */}
