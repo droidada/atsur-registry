@@ -37,12 +37,12 @@ export default function FeaturedSlider5({ categories }) {
         className="featured pt-10 swiper-container carouselfull-1"
       >
         <div className="swiper-wrapper">
-          {categories.map((category) => (
+          {categories?.map((category) => (
             <SwiperSlide key={category._id}>
               <div className="tf-category rounded-xl style-1 text-center">
                 <div className="card-media">
                   <div className="box-top">
-                    {category.artPieces.slice(0, 2).map?.((artwork) => (
+                    {category?.artPieces.slice(0, 2).map?.((artwork) => (
                       <Image
                         width={238}
                         height={238}

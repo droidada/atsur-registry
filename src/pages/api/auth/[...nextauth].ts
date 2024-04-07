@@ -3,30 +3,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { signIn } from "next-auth/react";
 import dotenv from "dotenv";
 import axios from "axios";
-import Cookies from "cookies";
-
-let cookies;
-
-const setRefreshCookie = ({ cookies, accessToken, refreshToken }) => {
-  const date = new Date();
-  const time = date.getTime();
-  const expireTime = time + 24 * 60 * 60 * 1000 * 30; // 30 days
-  date.setTime(expireTime);
-
-  cookies.set("refreshToken", refreshToken, {
-    sameSite: "strict",
-    overwrite: true,
-    expires: date,
-    httpOnly: true,
-  });
-
-  cookies.set("accessToken", accessToken, {
-    sameSite: "strict",
-    overwrite: true,
-    expires: date,
-    httpOnly: true,
-  });
-};
 
 dotenv.config();
 
@@ -58,44 +34,35 @@ export const options: any = {
           credentials: "include",
         });
 
-        const user = await res.json();
-        console.log("response data here ", user);
-        if (!user.accessToken) {
+        const data = await res.json();
+        console.log("response data here ", data);
+        if (!data) {
           throw new Error("Email or password incorrect.");
         }
 
-        if (user && user.accessToken) {
-          return user;
-        }
-
-        return null;
+        return data.user;
       },
     }),
   ],
   session: {
-    jwt: true,
+    strategy: "jwt",
+    maxAge: 24 * 60 * 60, // 24 Hours
   },
   callbacks: {
     async jwt({ token, user, account }) {
-      console.log(`token: ${token}`);
-      if (account && user) {
-        console.log(`account: ${account} && user ${user}`);
-        setRefreshCookie({
-          cookies,
-          accessToken: account.access_token,
-          refreshToken: account.refresh_token,
-        });
+      console.log(`token: ${JSON.stringify(token)}`);
+      if (user) {
+        console.log(
+          `account: ${JSON.stringify(account)} && user ${JSON.stringify(user)}`,
+        );
+
         return {
           ...token,
-          user: user,
+          ...user,
         };
       }
 
-      if (Date.now() < token.expires) {
-        return token;
-      }
-
-      return await refreshAccessToken(token);
+      return token;
     },
 
     async session({ session, token }) {
@@ -103,10 +70,9 @@ export const options: any = {
       console.log(
         `session: ${JSON.stringify(session)}  token: ${JSON.stringify(token)}`,
       );
-      session.user.accessToken = token?.user.accessToken;
-      session.user.refreshToken = token?.user.user.refreshToken;
-      session.user.expires = token?.user.user.expires;
-      session.user.error = token?.error;
+      if (token) {
+        session.jwt = token?.accessToken;
+      }
 
       return session;
     },
@@ -118,50 +84,6 @@ export const options: any = {
   debug: true,
 };
 
-async function refreshAccessToken(token) {
-  try {
-    const res = await fetch(pubAPI + "/auth/refresh-token", {
-      method: "POST",
-      body: JSON.stringify({
-        refreshToken: token?.refreshToken,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    });
-    const response = await res.json();
-
-    console.log("refreshed tokens ", response);
-
-    if (!response.ok) {
-      signIn();
-    }
-
-    if (response) {
-      return {
-        ...token,
-        accessToken: response?.accessToken,
-        expires: Date.now() + response?.expires,
-        refreshToken: response?.refreshToken,
-      };
-    }
-  } catch (error) {
-    console.log(
-      new Date().toUTCString() + " Error in refreshAccessToken:",
-      error,
-    );
-
-    return {
-      ...token,
-      error: "RefreshAccessTokenError",
-    };
-  }
-}
-
-const nextauthfunc = (req, res) => {
-  cookies = new Cookies(req, res);
-  return NextAuth(req, res, options);
-};
+const nextauthfunc = (req, res) => NextAuth(req, res, options);
 
 export default nextauthfunc;

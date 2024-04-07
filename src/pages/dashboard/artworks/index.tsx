@@ -11,36 +11,51 @@ import axios from "@/lib/axios";
 import { Menu } from "@headlessui/react";
 import Image from "next/image";
 import ArtPieceCard from "@/components/common/ArtPieceCard";
+import useAxiosAuth from "@/hooks/useAxiosAuth";
 
-export const getServerSideProps = async ({ req, query }) => {
-  try {
-    const token: any = await getToken({
-      req,
-      secret: process.env.NEXTAUTH_SECRET,
-    });
+// export const getServerSideProps = async ({ req, query }) => {
+//   try {
+//     const token: any = await getToken({
+//       req,
+//       secret: process.env.NEXTAUTH_SECRET,
+//     });
 
-    if (!token) return;
+//     if (!token) return;
 
-    const res = await axios.get(`/art-piece/creator`, {
-      headers: { authorization: `Bearer ${token?.user?.accessToken}` },
-    });
+//     const res = await axios.get(`/art-piece/creator`, {
+//       headers: { authorization: `Bearer ${token?.accessToken}` },
+//     });
 
-    return { props: { artworks: res.data.artPieces } };
-  } catch (error) {
-    console.error("error here looks like ", error);
-    if (error?.response?.status === 404) {
-      return {
-        notFound: true,
-      };
-    }
-    throw new Error(error);
-  }
-};
+//     return { props: { artworks: res.data.artPieces } };
+//   } catch (error) {
+//     console.error("error here looks like ", error);
+//     if (error?.response?.status === 404) {
+//       return {
+//         notFound: true,
+//       };
+//     }
+//     throw new Error(error);
+//   }
+// };
 
-function Artworks({ artworks }) {
+function Artworks() {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  console.log("artworks", artworks);
+  const [artworks, setArtworks] = useState([]);
+  const axiosAuth = useAxiosAuth();
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await axiosAuth.get(`/art-piece/creator`);
+        setArtworks(res.data.artPieces);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchData();
+  }, [axiosAuth]);
+
   return (
     <DashboardLayoutWithSidebar activePage={DashboardPages.ART}>
       <div className="i flex-1  max-w-full">

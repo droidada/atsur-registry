@@ -30,7 +30,7 @@ export const getServerSideProps = async ({ req, query }) => {
       secret: process.env.NEXTAUTH_SECRET,
     });
     const res = await axios.get(`/art-piece/${id}`, {
-      headers: { authorization: `Bearer ${token?.user?.accessToken}` },
+      headers: { authorization: `Bearer ${token?.accessToken}` },
     });
 
     return { props: { artPiece: res.data.artPiece } };

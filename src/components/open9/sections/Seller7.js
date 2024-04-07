@@ -38,7 +38,7 @@ const swiperOptions = {
 import Link from "next/link";
 import { Avatar } from "@mui/material";
 export default function Seller7({ artists }) {
-  console.log(artists[0]?.avatar);
+  // console.log(artists[0]?.avatar);
   return (
     <>
       <div className="tf-section seller ">

@@ -20,7 +20,7 @@ export const getServerSideProps = async ({ req, query }) => {
     if (!token) return;
 
     const res = await axios.get(`/collection/user`, {
-      headers: { authorization: `Bearer ${token?.user?.accessToken}` },
+      headers: { authorization: `Bearer ${token?.accessToken}` },
     });
 
     console.log(res.data);
