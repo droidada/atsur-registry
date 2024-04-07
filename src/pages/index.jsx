@@ -27,7 +27,7 @@ function Home({ data }) {
     (item) => item._id === "art-piece",
   );
 
-  console.log(artPieces[0]?.artPieces?.length);
+  console.log(data?.data?.curations);
 
   return (
     <Layout headerStyle={2} footerStyle={1} currentMenuItem={"home"}>

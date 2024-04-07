@@ -52,7 +52,7 @@ export default function EditExhibition({
     organizerPhone: string(),
     startDate: string().nonempty("Start date is required"),
     endDate: string().nonempty("End Date is required"),
-    isCirca: boolean(),
+    isCirca: boolean().optional(),
   });
   const toast = useToast();
 
