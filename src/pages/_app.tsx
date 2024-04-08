@@ -87,7 +87,7 @@ export default function NextWeb3App({
                     <Component {...pageProps} />
                   )}
                   {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-                  {/* <Analytics /> */}
+                  <Analytics />
                 </ToastProvider>
               </ThemeProvider>
             </AuthContextProvider>
