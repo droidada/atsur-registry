@@ -14,8 +14,16 @@ import SelectOrg from "@/components/select-org";
 import CommisionSplit from "@/components/CommisionSplit";
 import { useToast } from "@/providers/ToastProvider";
 import axios from "axios";
+import { RiSaveLine } from "react-icons/ri";
+import { set } from "date-fns";
+import ImagePreview from "@/components/common/previews/ImagePreview";
+import PdfPreview from "@/components/common/previews/PdfPreview";
 
-export default function DealerInfo({ nextPage = (x) => {} }) {
+export default function DealerInfo({
+  nextPage = (x) => {},
+  setActiveIndex,
+  defaultValues,
+}) {
   const axiosAuth = useAxiosAuth();
   const metadataSchema = object({
     notes: string().nonempty("notes is required"),
@@ -28,6 +36,7 @@ export default function DealerInfo({ nextPage = (x) => {} }) {
     formState: { errors, isSubmitSuccessful },
     reset,
     handleSubmit,
+    setValue,
   } = useForm<MetadataInput>({
     resolver: zodResolver(metadataSchema),
   });
@@ -46,59 +55,66 @@ export default function DealerInfo({ nextPage = (x) => {} }) {
     name: "",
     type: "",
   });
+  const [saveLoading, setSaveLoading] = useState(false);
 
   const toast = useToast();
 
-  const onSubmitHandler: SubmitHandler<MetadataInput> = async (values) => {
+  const onSubmitHandler: SubmitHandler<MetadataInput> = async (
+    values,
+    event,
+  ) => {
+    // @ts-ignore
+    const buttonClicked = event.nativeEvent.submitter.name;
+    const save = buttonClicked === "save" ? true : false;
+
     try {
-      if (!attachment) {
-        toast.error("Image attachment is required");
-        return;
+      save ? setSaveLoading(true) : setLoading(true);
+
+      if (!attachment && !defaultValues?.agreementAttachment) {
+        throw new Error("Image attachment is required");
       }
 
-      if (listedArtists?.length === 0) {
-        toast.error("Artist is required");
-        return;
-      }
+      // if (listedArtists?.length === 0) {
+      //   toast.error("Artist is required");
+      //   return;
+      // }
 
       if (Object.keys(errorTree).length > 0) {
-        toast.error(Object.values(errorTree).join(" "));
-        return;
+        throw new Error(Object.values(errorTree).join(" "));
       }
 
-      if (!organization) {
-        toast.error("Organization is required");
-        return;
+      if (!organization && !defaultValues?.organization?._id) {
+        throw new Error("Organization is required");
       }
 
       if (Object.keys(percentages).length === 0) {
-        toast.error("Commission split is required");
+        throw new Error("Commission split is required");
         return;
       }
 
-      setLoading(true);
-      console.log(values);
       const formData = new FormData();
       formData.append("agreement", attachment);
       formData.append("notes", values.notes);
       formData.append("commission", JSON.stringify(percentages));
+      formData.append("save", JSON.stringify(save));
       formData.append(
         "artists",
         JSON.stringify(listedArtists?.map((item) => item?._id)),
       );
-      formData.append("organization", organization);
+      organization && formData.append("organization", organization);
       console.log(attachment);
       console.log(formData);
 
       const result = await axiosAuth.post(
-        `/art-piece/verify-dealer/${artPieceId}`,
+        `/verify-artpiece/dealer/${artPieceId}`,
         formData,
       );
       //setPreviewImg(result.data.imageName)
       // console.log("result here is ", result.data);
 
-      setLoading(false);
+      setActiveIndex((prev) => prev + 1);
       nextPage(12);
+
       //  router.replace("/dashboard");
       return;
     } catch (error) {
@@ -106,12 +122,18 @@ export default function DealerInfo({ nextPage = (x) => {} }) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data?.message);
       } else {
-        toast.error("Something went wrong");
+        toast.error(error?.message || "Something went wrong");
       }
-
-      setLoading(false);
+    } finally {
+      save ? setSaveLoading(false) : setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (defaultValues) {
+      setValue("notes", defaultValues?.notes);
+    }
+  }, [defaultValues]);
 
   const handleUploadClick = (event) => {
     let file = event.target.files[0];
@@ -137,26 +159,30 @@ export default function DealerInfo({ nextPage = (x) => {} }) {
     <>
       <div className="wrap-content w-full">
         {/* {error && <h5 style={{ color: "red" }}>{error}</h5>} */}
-
-        <InviteArtist
+        <h3 className="mb-5">Dealer Information</h3>
+        {/* <InviteArtist
           listedArtists={listedArtists}
           setListedArtists={setListedArtists}
-        />
+        /> */}
 
         <SelectOrg
+          defaultValues={defaultValues?.organization}
           selectedOrg={organization}
           setSelectedOrg={setOrganization}
         />
-        <Divider>
-          <h5>Commision Split</h5>
-        </Divider>
-        <CommisionSplit
-          percentages={percentages}
-          setPercentages={setPercentages}
-          errorTree={errorTree}
-          setErrorTree={setErrorTree}
-        />
-        <Divider />
+        <div>
+          <Divider className="my-4">
+            <h5>Commision Split</h5>
+          </Divider>
+          <CommisionSplit
+            defaultValues={defaultValues?.collaborators}
+            percentages={percentages}
+            setPercentages={setPercentages}
+            errorTree={errorTree}
+            setErrorTree={setErrorTree}
+          />
+          <Divider />
+        </div>
         <form
           id="commentform"
           className="comment-form"
@@ -170,18 +196,28 @@ export default function DealerInfo({ nextPage = (x) => {} }) {
               <fieldset className="collection">
                 <label className="uploadfile flex items-center justify-center">
                   <div className="text-center flex flex-col items-center justify-center">
-                    {attachment ? (
+                    {attachment || defaultValues?.agreementAttachment ? (
                       <>
-                        {fileData.type.includes("image") ? (
-                          <Image
-                            width={200}
-                            height={200}
-                            className=" object-cover"
-                            alt={""}
-                            src={attachment}
+                        {fileData.type.includes("image") ||
+                        !defaultValues?.agreementAttachment.includes("pdf") ? (
+                          <ImagePreview
+                            src={
+                              attachment || defaultValues?.agreementAttachment
+                            }
                           />
                         ) : (
-                          <h5>{fileData.name}</h5>
+                          // <Image
+                          //   width={200}
+                          //   height={200}
+                          //   className=" object-cover"
+                          //   alt={""}
+                          //   src={attachment}
+                          // />
+                          <PdfPreview
+                            file={
+                              attachment || defaultValues?.agreementAttachment
+                            }
+                          />
                         )}
                       </>
                     ) : (
@@ -228,8 +264,37 @@ export default function DealerInfo({ nextPage = (x) => {} }) {
               {...register("notes")}
             />
           </fieldset>
+          <div className="flex flex-wrap w-full    gap-5 justify-between items-center p-4">
+            <button
+              onClick={() => setActiveIndex((prev) => prev - 1)}
+              className="tf-button style-1 h50 w-full active"
+            >
+              Prev
+            </button>
+            <div className="btn-submit flex gap30 justify-center">
+              <LoadingButton
+                loading={saveLoading}
+                variant="contained"
+                name="save"
+                className="tf-button style-1 h50 active"
+                type="submit"
+              >
+                Save
+                <RiSaveLine />
+              </LoadingButton>
+              <LoadingButton
+                className="tf-button style-1 h50"
+                loading={loading}
+                type="submit"
+                name="published"
+              >
+                Published
+                <i className="icon-arrow-up-right2" />
+              </LoadingButton>
+            </div>
+          </div>
 
-          <div className="btn-submit flex gap30 justify-center">
+          {/* <div className="btn-submit flex gap30 justify-center">
             <button className="tf-button style-1 h50 active" type="reset">
               Clear
               <i className="icon-arrow-up-right2" />
@@ -242,7 +307,7 @@ export default function DealerInfo({ nextPage = (x) => {} }) {
               Submit
               <i className="icon-arrow-up-right2" />
             </LoadingButton>
-          </div>
+          </div> */}
         </form>
       </div>
     </>
