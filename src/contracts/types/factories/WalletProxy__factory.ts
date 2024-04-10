@@ -49,7 +49,7 @@ type WalletProxyConstructorParams =
   | ConstructorParameters<typeof ContractFactory>;
 
 const isSuperArgs = (
-  xs: WalletProxyConstructorParams,
+  xs: WalletProxyConstructorParams
 ): xs is ConstructorParameters<typeof ContractFactory> => xs.length > 1;
 
 export class WalletProxy__factory extends ContractFactory {
@@ -63,16 +63,16 @@ export class WalletProxy__factory extends ContractFactory {
 
   override deploy(
     _xChangeContract: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> },
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<WalletProxy> {
     return super.deploy(
       _xChangeContract,
-      overrides || {},
+      overrides || {}
     ) as Promise<WalletProxy>;
   }
   override getDeployTransaction(
     _xChangeContract: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> },
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): TransactionRequest {
     return super.getDeployTransaction(_xChangeContract, overrides || {});
   }
@@ -90,7 +90,7 @@ export class WalletProxy__factory extends ContractFactory {
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider,
+    signerOrProvider: Signer | Provider
   ): WalletProxy {
     return new Contract(address, _abi, signerOrProvider) as WalletProxy;
   }
