@@ -15,6 +15,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 interface Props {
   setSelectedOrg: React.Dispatch<React.SetStateAction<any>>;
   selectedOrg: any;
+  defaultValues?: any;
 }
 export default function SelectOrg({ selectedOrg, setSelectedOrg }: Props) {
   const axiosFetch = useAxiosAuth();
@@ -177,60 +178,6 @@ export default function SelectOrg({ selectedOrg, setSelectedOrg }: Props) {
           </form>
         </>
       )}
-      {/* <div>
-        <div className="flat-title-page">
-          <div className="themesflat-container">
-            <div className="row">
-              <div className="col-2"></div>
-              <div className="col-8">
-                <div
-                  data-wow-delay="0.2s"
-                  className="wow fadeInUp widget-search"
-                  style={{ marginTop: "20px" }}
-                >
-                  <form
-                    action="#"
-                    method="get"
-                    role="search"
-                    className="search-form relative"
-                  >
-                    <input
-                      type="search"
-                      id="search"
-                      className="search-field style-2"
-                      placeholder="Search..."
-                      name="s"
-                      title="Search for"
-                      value={searchItem}
-                      onChange={handleSearch}
-                    />
-                    <button
-                      className="search search-submit"
-                      type="submit"
-                      title="Search"
-                    >
-                      <i className="icon-search" />
-                    </button>
-                  </form>
-                </div>
-              </div>
-              <div className="col-2"></div>
-            </div>
-          </div>
-        </div>
-        <div className="tf-section-2 discover-item loadmore-12-item">
-          <div className="themesflat-container">
-            <div className="row">
-              <div className="col-md-12 load-more">
-                <a id="button-loadmore" className="tf-button-loadmore">
-                  <span>Load More</span>
-                  <i className="icon-loading-1" />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
     </div>
   );
 }

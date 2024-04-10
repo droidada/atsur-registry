@@ -21,8 +21,19 @@ import SelectOrg from "@/components/select-org";
 import { useToast } from "@/providers/ToastProvider";
 import { set } from "date-fns";
 import SelectSeries from "@/components/select-series";
+import { RiSaveLine } from "react-icons/ri";
+import axios from "axios";
+import VideoPreview from "@/components/common/previews/VideoPreview";
+import PdfPreview from "@/components/common/previews/PdfPreview";
+import ImagePreview from "@/components/common/previews/ImagePreview";
 
-export default function ArtistInfo({ nextPage = (x) => {} }) {
+export default function ArtistInfo({
+  nextPage = (x) => {},
+  removeDealerFromSteps,
+  addDealerToSteps,
+  setActiveIndex,
+  defaultValues,
+}) {
   const axiosAuth = useAxiosAuth();
   const metadataSchema = object({
     story: string().nonempty("Story is required"),
@@ -31,18 +42,22 @@ export default function ArtistInfo({ nextPage = (x) => {} }) {
     attachment2Caption: string().optional(),
   });
 
+  console.log(defaultValues);
+
   type MetadataInput = TypeOf<typeof metadataSchema>;
 
   const {
     register,
     formState: { errors, isSubmitSuccessful },
     reset,
+    setValue,
     handleSubmit,
   } = useForm<MetadataInput>({
     resolver: zodResolver(metadataSchema),
   });
 
   const [loading, setLoading] = useState(false);
+  const [saveLoading, setSaveLoading] = useState(false);
   const router = useRouter();
   const artPieceId = router.query.id;
   const [fileData, setFileData] = useState({
@@ -77,21 +92,33 @@ export default function ArtistInfo({ nextPage = (x) => {} }) {
     attachment2: null,
   });
 
-  const onSubmitHandler: SubmitHandler<MetadataInput> = async (values) => {
+  const onSubmitHandler: SubmitHandler<MetadataInput> = async (
+    values,
+    event,
+  ) => {
+    // @ts-ignore
+    const buttonClicked = event.nativeEvent.submitter.name;
+    const save = buttonClicked === "save" ? true : false;
+
+    save ? setSaveLoading(true) : setLoading(true);
     try {
-      if (!attachments.video) {
-        toast.error("Please upload a video");
-        return;
+      console.log(attachments.video, defaultValues?.creationVideo);
+      if (!defaultValues?.creationVideo?.url && !attachments.video) {
+        throw new Error("Please upload a video");
       }
 
-      setLoading(true);
-      console.log(values);
+      console.log(isSeries, selectedSeries, defaultValues?.series);
+      if (isSeries && !selectedSeries && !defaultValues?.series) {
+        throw new Error("Please select a series");
+      }
+
       const formData = new FormData();
-      organization && formData.append("organization", organization);
+
       formData.append("sellerType", sellerType);
       formData.append("planToSell", JSON.stringify(wantToSell));
-      selectedSeries && formData.append("series", selectedSeries);
+      selectedSeries && formData.append("series", selectedSeries?._id);
       formData.append("isSeries", JSON.stringify(isSeries));
+      formData.append("save", JSON.stringify(save));
       formData.append(
         "video",
         JSON.stringify({
@@ -115,20 +142,27 @@ export default function ArtistInfo({ nextPage = (x) => {} }) {
       formData.append("story", values.story);
 
       const result = await axiosAuth.post(
-        `/art-piece/verify-artist/${artPieceId}`,
+        `/verify-artpiece/artist/${artPieceId}`,
         formData,
       );
       //setPreviewImg(result.data.imageName)
-      console.log("result here is ", result.data);
+      // console.log("result here is ", result.data);
 
       setLoading(false);
-      nextPage(12);
+      setActiveIndex((prev) => prev + 1);
       //  router.replace("/dashboard");
       return;
     } catch (error) {
       console.error(error);
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data?.message || error.message);
+      } else {
+        console.log(error);
+        toast.error(error?.message || "Something went wrong");
+      }
       setError(error.message);
-      setLoading(false);
+    } finally {
+      save ? setSaveLoading(false) : setLoading(false);
     }
   };
 
@@ -138,6 +172,21 @@ export default function ArtistInfo({ nextPage = (x) => {} }) {
   ) => {
     const file = event.target.files[0];
     const reader = new FileReader();
+    console.log(file);
+
+    let sizeLimit: number;
+    if (attachmentName === "video") {
+      sizeLimit = 100 * 1024 * 1024; // 100MB in bytes
+    } else {
+      sizeLimit = 10 * 1024 * 1024; // 10MB in bytes
+    }
+
+    if (file?.size > sizeLimit) {
+      toast.error(`File size exceeds the limit for ${attachmentName}`);
+      return;
+    }
+
+    // if(attachmentName.includes("attachment") && file.)
 
     setFileData((prev) => ({
       ...prev,
@@ -152,6 +201,20 @@ export default function ArtistInfo({ nextPage = (x) => {} }) {
     };
     reader.readAsDataURL(file);
   };
+
+  console.log(defaultValues);
+
+  useEffect(() => {
+    if (defaultValues) {
+      setValue("story", defaultValues.storyTelling);
+      setWantToSell(defaultValues.planToSell);
+      setIsSeries(defaultValues.partOfSeries);
+      setSellerType(defaultValues.sellerType);
+      setSelectedSeries(defaultValues.series);
+    }
+  }, [defaultValues]);
+
+  console.log(attachments.video, defaultValues?.creationVideo?.url);
 
   return (
     <>
@@ -183,153 +246,175 @@ export default function ArtistInfo({ nextPage = (x) => {} }) {
             />
           </fieldset>
           <Divider>Attachements</Divider>
-          <fieldset className="collection">
-            <h5 className="mb-4">Video</h5>
-            <label className="uploadfile flex items-center justify-center">
-              <div className="text-center flex flex-col items-center justify-center">
-                {attachments.video ? (
-                  <h5>{fileData.video.name}</h5>
-                ) : (
-                  <>
-                    <p>Drag or choose Video to upload</p>
-                    <h6 className="text text-gray-600">
-                      Video max size 100MB{" "}
-                    </h6>
-                  </>
-                )}
-                <input
-                  type="file"
-                  name="video"
-                  accept="video/*"
-                  onChange={(e) => handleUploadClick(e, "video")}
-                />
-              </div>
-            </label>
-          </fieldset>
+          <div>
+            <fieldset className="collection">
+              <h5 className="mb-4">Video</h5>
+              <label className="uploadfile flex items-center justify-center">
+                <div className="text-center flex gap-4 flex-col items-center justify-center">
+                  {attachments.video || defaultValues?.creationVideo?.url ? (
+                    <VideoPreview
+                      file={
+                        attachments.video || defaultValues?.creationVideo?.url
+                      }
+                    />
+                  ) : (
+                    <>
+                      <p>Drag or choose Video to upload</p>
+                      <h6 className="text text-gray-600">
+                        Video max size 100MB{" "}
+                      </h6>
+                    </>
+                  )}
+                  <input
+                    type="file"
+                    name="video"
+                    accept="video/*"
+                    onChange={(e) => handleUploadClick(e, "video")}
+                  />
+                </div>
+              </label>
+            </fieldset>
 
-          <label>Other Attachments:</label>
-          <div className="flex gap30">
-            <fieldset className="collection">
-              <label className="uploadfile h-full flex items-center justify-center">
-                <div className="text-center flex flex-col items-center justify-center">
-                  {attachments.attachment1 ? (
-                    fileData.attachment1.type.includes("image") ? (
-                      <Image
-                        width={200}
-                        height={200}
-                        src={attachments.attachment1}
-                        alt=""
-                      />
+            <label>Other Attachments:</label>
+            <div className="flex my-4 items-stretch flex-wrap lg:flex-nowrap gap30">
+              <fieldset className="collection ">
+                <label className="uploadfile  flex items-center justify-center">
+                  <div className="text-center flex flex-col items-center justify-center">
+                    {attachments.attachment1 ||
+                    defaultValues?.attachments[0] ? (
+                      fileData.attachment1.type.includes("image") ||
+                      !defaultValues?.attachments[0]?.url.includes("pdf") ? (
+                        <ImagePreview
+                          src={
+                            attachments.attachment1 ||
+                            defaultValues?.attachments[0]?.url
+                          }
+                        />
+                      ) : (
+                        <PdfPreview
+                          file={
+                            attachments.attachment1 ||
+                            defaultValues?.attachments[0]?.url
+                          }
+                        />
+                        // <h5>{fileData.attachment1.name}</h5>
+                      )
                     ) : (
-                      <h5>{fileData.attachment1.name}</h5>
-                    )
-                  ) : (
-                    <>
-                      <Image
-                        width={200}
-                        height={200}
-                        src="/assets/images/box-icon/upload.png"
-                        alt=""
-                      />
-                      {/* <h5 className="text-white">Image</h5> */}
-                      <p className="text">
-                        Drag or choose attachment to upload
-                      </p>
-                      <h6 className="text text-gray-600">
-                        PDF, JPEG.. Max 10Mb. Max 2 files.
-                      </h6>
-                    </>
-                  )}
-                  <input
-                    type="file"
-                    name="attachment"
-                    accept="application/pdf,image/*"
-                    multiple
-                    onChange={(e) => handleUploadClick(e, "attachment1")}
-                  />
-                </div>
-              </label>
-              <label className="to-white">Caption:</label>
-              <TextField
-                type="text"
-                id="attachment1Caption"
-                placeholder="publication document"
-                name="attachment1Caption"
-                tabIndex={2}
-                fullWidth
-                // defaultValue={publication?.attachment1Caption}
-                error={!!errors["attachment1Caption"]}
-                helperText={
-                  errors["attachment1Caption"]
-                    ? errors["attachment1Caption"].message
-                    : ""
-                }
-                {...register("attachment1Caption")}
-              />
-            </fieldset>
-            <fieldset className="collection">
-              <label className="uploadfile h-full flex items-center justify-center">
-                <div className="text-center flex flex-col items-center justify-center">
-                  {attachments.attachment2 ? (
-                    fileData.attachment2.type.includes("image") ? (
-                      <Image
-                        width={200}
-                        height={200}
-                        src={attachments.attachment2}
-                        alt=""
-                      />
+                      <>
+                        <Image
+                          width={200}
+                          height={200}
+                          src="/assets/images/box-icon/upload.png"
+                          alt=""
+                        />
+                        {/* <h5 className="text-white">Image</h5> */}
+                        <p className="text">
+                          Drag or choose attachment to upload
+                        </p>
+                        <h6 className="text text-gray-600">
+                          PDF, JPEG.. Max 10Mb.
+                        </h6>
+                      </>
+                    )}
+                    <input
+                      type="file"
+                      name="attachment"
+                      accept="application/pdf,image/*"
+                      multiple
+                      onChange={(e) => handleUploadClick(e, "attachment1")}
+                    />
+                  </div>
+                </label>
+                <label className="to-white">Caption:</label>
+                <TextField
+                  type="text"
+                  id="attachment1Caption"
+                  placeholder="publication document"
+                  name="attachment1Caption"
+                  tabIndex={2}
+                  fullWidth
+                  // defaultValue={publication?.attachment1Caption}
+                  error={!!errors["attachment1Caption"]}
+                  helperText={
+                    errors["attachment1Caption"]
+                      ? errors["attachment1Caption"].message
+                      : ""
+                  }
+                  {...register("attachment1Caption")}
+                />
+              </fieldset>
+              <fieldset className="collection ">
+                <label className="uploadfile flex  items-center justify-center">
+                  <div className="text-center flex flex-col  items-center justify-center">
+                    {attachments.attachment2 ||
+                    defaultValues?.attachments[1] ? (
+                      fileData.attachment2.type.includes("image") ||
+                      !defaultValues?.attachments[1]?.url.includes("pdf") ? (
+                        <ImagePreview
+                          src={
+                            attachments.attachment2 ||
+                            defaultValues?.attachments[1]?.url
+                          }
+                        />
+                      ) : (
+                        <PdfPreview
+                          file={
+                            attachments.attachment2 ||
+                            defaultValues?.attachments[1]?.url
+                          }
+                        />
+                        // <h5>{fileData.attachment1.name}</h5>
+                      )
                     ) : (
-                      <h5>{fileData.attachment2.name}</h5>
-                    )
-                  ) : (
-                    <>
-                      <Image
-                        width={200}
-                        height={200}
-                        src="/assets/images/box-icon/upload.png"
-                        alt=""
-                      />
-                      {/* <h5 className="text-white">Image</h5> */}
-                      <p className="text">
-                        Drag or choose attachment to upload
-                      </p>
-                      <h6 className="text text-gray-600">
-                        PDF, JPEG.. Max 10Mb.
-                      </h6>
-                    </>
-                  )}
-                  <input
-                    type="file"
-                    name="attachment"
-                    accept="application/pdf,image/*"
-                    multiple
-                    onChange={(e) => handleUploadClick(e, "attachment2")}
-                  />
-                </div>
-              </label>
-              <label className="to-white">Attachment 2 Caption:</label>
-              <TextField
-                type="text"
-                id="attachment2Caption"
-                placeholder="publication document"
-                name="attachment2Caption"
-                tabIndex={2}
-                fullWidth
-                // defaultValue={publication?.attachment2Caption}
-                error={!!errors["attachment2Caption"]}
-                helperText={
-                  errors["attachment2Caption"]
-                    ? errors["attachment2Caption"].message
-                    : ""
-                }
-                // {...register("attachment2Caption")}
-              />
-            </fieldset>
+                      <>
+                        <Image
+                          width={200}
+                          height={200}
+                          src="/assets/images/box-icon/upload.png"
+                          alt=""
+                        />
+                        {/* <h5 className="text-white">Image</h5> */}
+                        <p className="text">
+                          Drag or choose attachment to upload
+                        </p>
+                        <h6 className="text text-gray-600">
+                          PDF, JPEG.. Max 10Mb.
+                        </h6>
+                      </>
+                    )}
+                    <input
+                      type="file"
+                      name="attachment"
+                      accept="application/pdf,image/*"
+                      multiple
+                      onChange={(e) => handleUploadClick(e, "attachment2")}
+                    />
+                  </div>
+                </label>
+                <label className="to-white">Attachment 2 Caption:</label>
+                <TextField
+                  type="text"
+                  id="attachment2Caption"
+                  placeholder="publication document"
+                  name="attachment2Caption"
+                  tabIndex={2}
+                  fullWidth
+                  // defaultValue={publication?.attachment2Caption}
+                  error={!!errors["attachment2Caption"]}
+                  helperText={
+                    errors["attachment2Caption"]
+                      ? errors["attachment2Caption"].message
+                      : ""
+                  }
+                  // {...register("attachment2Caption")}
+                />
+              </fieldset>
+            </div>
           </div>
           <Divider />
-          <div className="flex flex-wrap w-7/12 mx-auto gap-5 justify-between items-start pb-10">
+          <div className="flex flex-wrap w-full  p-4  gap-5 justify-between items-start pb-10">
             {/* Part of Series */}
-            <div className="flex-1">
+            <div className="">
               <FormControlLabel
                 control={
                   <Switch
@@ -348,7 +433,7 @@ export default function ArtistInfo({ nextPage = (x) => {} }) {
             </div>
             <Divider orientation="vertical" />
             {/* Plan to sell */}
-            <div className="flex-1 border-l-5 border-gray-300 ">
+            <div className=" border-l-5 border-gray-300 ">
               <FormControlLabel
                 control={
                   <Switch
@@ -377,33 +462,48 @@ export default function ArtistInfo({ nextPage = (x) => {} }) {
                     // onChange={handleChange}
                   >
                     <MenuItem value={"individual"}>As Individual</MenuItem>
-                    <MenuItem value={"organization"}>As Broker</MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        addDealerToSteps();
+                      }}
+                      value={"organization"}
+                    >
+                      As Broker
+                    </MenuItem>
                   </Select>
-
-                  {sellerType === "organization" && (
-                    <SelectOrg
-                      selectedOrg={organization}
-                      setSelectedOrg={setOrganization}
-                    />
-                  )}
                 </div>
               )}
             </div>
           </div>
 
-          <div className="btn-submit flex gap30 justify-center">
-            <button className="tf-button style-1 h50 active" type="reset">
-              Clear
-              <i className="icon-arrow-up-right2" />
-            </button>
-            <LoadingButton
-              className="tf-button style-1 h50"
-              loading={loading}
-              type="submit"
+          <div className="flex flex-wrap w-full    gap-5 justify-between items-center p-4">
+            <button
+              onClick={() => setActiveIndex((prev) => prev - 1)}
+              className="tf-button style-1 h50 w-full active"
             >
-              Create
-              <i className="icon-arrow-up-right2" />
-            </LoadingButton>
+              Prev
+            </button>
+            <div className="btn-submit flex gap30 justify-center">
+              <LoadingButton
+                loading={saveLoading}
+                variant="contained"
+                name="save"
+                className="tf-button style-1 h50 active"
+                type="submit"
+              >
+                Save
+                <RiSaveLine />
+              </LoadingButton>
+              <LoadingButton
+                className="tf-button style-1 h50"
+                loading={loading}
+                type="submit"
+                name="published"
+              >
+                Published
+                <i className="icon-arrow-up-right2" />
+              </LoadingButton>
+            </div>
           </div>
         </form>
       </div>

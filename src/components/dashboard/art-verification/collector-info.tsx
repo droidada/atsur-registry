@@ -14,8 +14,16 @@ import Image from "next/image";
 import { is } from "date-fns/locale";
 import DatePicker from "@/components/common/datepicker";
 import axios from "axios";
+import { RiSaveLine } from "react-icons/ri";
+import ImagePreview from "@/components/common/previews/ImagePreview";
+import PdfPreview from "@/components/common/previews/PdfPreview";
 
-export default function CollectorInfo({ nextPage = (x) => {} }) {
+export default function CollectorInfo({
+  nextPage = (x) => {},
+  setActiveIndex,
+  defaultValues,
+}) {
+  console.log(defaultValues);
   const axiosAuth = useAxiosAuth();
   const metadataSchema = object({
     date: string().nonempty("Date is required"),
@@ -32,6 +40,7 @@ export default function CollectorInfo({ nextPage = (x) => {} }) {
     formState: { errors, isSubmitSuccessful },
     reset,
     control,
+    setValue,
     getValues,
     handleSubmit,
   } = useForm<MetadataInput>({
@@ -57,30 +66,39 @@ export default function CollectorInfo({ nextPage = (x) => {} }) {
   const toast = useToast();
   const [organization, setOrganization] = useState<any>(null);
   const [isCirca, setIsCirca] = useState(false);
+  const [saveLoading, setSaveLoading] = useState(false);
 
-  console.log(artPieceId);
-
-  const onSubmitHandler: SubmitHandler<MetadataInput> = async (values) => {
+  const onSubmitHandler: SubmitHandler<MetadataInput> = async (
+    values,
+    event,
+  ) => {
+    // @ts-ignore
+    const buttonClicked = event.nativeEvent.submitter.name;
+    const save = buttonClicked === "save" ? true : false;
     try {
-      if (!acquisitionDocument) {
-        toast.error("Please attached the acquisition document");
-        return;
+      console.log(defaultValues.attachment);
+      if (!acquisitionDocument && !defaultValues?.attachment) {
+        throw new Error("Please attached the acquisition document");
       }
 
       if (!methodOfPurchase) {
-        toast.error("Please select the method of purchase");
-        return;
+        throw new Error("Please select the method of purchase");
       }
-      if (methodOfPurchase === "organization" && !organization) {
-        toast.error("Please select the organization");
-        return;
+      if (
+        methodOfPurchase === "organization" &&
+        !organization &&
+        defaultValues.organization
+      ) {
+        throw new Error("Please select the organization");
       }
 
-      setLoading(true);
-      console.log(values);
+      save ? setSaveLoading(true) : setLoading(true);
+
       const formData = new FormData();
+      formData.append("save", JSON.stringify(save));
       formData.append("date", values.date);
-      formData.append("acquisitionDocument", acquisitionDocument);
+      acquisitionDocument &&
+        formData.append("acquisitionDocument", acquisitionDocument);
       formData.append("acquisitioPurpose", values.acquisitionPurpose);
       formData.append("methodOfPurchase", methodOfPurchase);
       formData.append(
@@ -92,27 +110,35 @@ export default function CollectorInfo({ nextPage = (x) => {} }) {
       formData.append("isCirca", JSON.stringify(isCirca));
 
       const result = await axiosAuth.post(
-        `/art-piece/verify-collector/${artPieceId}`,
+        `/verify-artpiece/collector/${artPieceId}`,
         formData,
       );
-      //setPreviewImg(result.data.imageName)
-      console.log("result here is ", result.data);
 
-      setLoading(false);
-      nextPage(12);
-      //  router.replace("/dashboard");
+      setActiveIndex((prev) => prev + 1);
+
       return;
     } catch (error) {
       console.error(error);
       if (axios.isAxiosError(error)) {
         toast.error(error.response.data.message);
       } else {
-        toast.error("Something went wrong");
+        toast.error(error.message || "Something went wrong");
       }
       setError(error.message);
-      setLoading(false);
+    } finally {
+      save ? setSaveLoading(false) : setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (defaultValues) {
+      setValue("date", defaultValues.date);
+      setValue("acquisitionType", defaultValues.type);
+      setValue("acquisitionPurpose", defaultValues.purpose);
+      setMethodOfPurchase(defaultValues.methodOfPurchase);
+      setIsCirca(defaultValues.isCirca);
+    }
+  }, [defaultValues]);
 
   const handleUploadClick = (event) => {
     var file = event.target.files[0];
@@ -216,6 +242,7 @@ export default function CollectorInfo({ nextPage = (x) => {} }) {
             <fieldset className="">
               <label>How did you acquire this artwork *</label>
               <select
+                value={methodOfPurchase}
                 className="select"
                 tabIndex={2}
                 name="methodOfPurchase"
@@ -237,6 +264,7 @@ export default function CollectorInfo({ nextPage = (x) => {} }) {
             {methodOfPurchase === "organization" && (
               <fieldset>
                 <SelectOrg
+                  defaultValues={defaultValues?.organization}
                   selectedOrg={organization}
                   setSelectedOrg={setOrganization}
                 />
@@ -247,18 +275,17 @@ export default function CollectorInfo({ nextPage = (x) => {} }) {
           <fieldset className="collection">
             <h5 className="mb-4">Acquisition Document *</h5>
             <label className="uploadfile h-full flex items-center justify-center">
-              <div className="text-center flex flex-col items-center justify-center">
-                {acquisitionDocument ? (
-                  fileData.type.includes("image") ? (
-                    <Image
-                      className="w-[200px] h-[200px] object-cover rounded-lg"
-                      width={200}
-                      height={400}
-                      alt={""}
-                      src={acquisitionDocument}
+              <div className="text-center flex flex-col gap-4 items-center justify-center">
+                {acquisitionDocument || defaultValues?.attachment ? (
+                  fileData.type.includes("image") ||
+                  !defaultValues.attachment.includes("pdf") ? (
+                    <ImagePreview
+                      src={acquisitionDocument || defaultValues?.attachment}
                     />
                   ) : (
-                    <h5>{fileData.name}</h5>
+                    <PdfPreview
+                      file={acquisitionDocument || defaultValues?.attachment}
+                    />
                   )
                 ) : (
                   <>
@@ -303,19 +330,34 @@ export default function CollectorInfo({ nextPage = (x) => {} }) {
             />
           </fieldset>
 
-          <div className="btn-submit flex gap30 justify-center">
-            <button className="tf-button style-1 h50 active" type="reset">
-              Clear
-              <i className="icon-arrow-up-right2" />
-            </button>
-            <LoadingButton
-              className="tf-button style-1 h50"
-              loading={loading}
-              type="submit"
+          <div className="flex flex-wrap w-full    gap-5 justify-between items-center p-4">
+            <button
+              onClick={() => setActiveIndex((prev) => prev - 1)}
+              className="tf-button style-1 h50 w-full active"
             >
-              Create
-              <i className="icon-arrow-up-right2" />
-            </LoadingButton>
+              Prev
+            </button>
+            <div className="btn-submit flex gap30 justify-center">
+              <LoadingButton
+                loading={loading}
+                variant="contained"
+                name="save"
+                className="tf-button style-1 h50 active"
+                type="submit"
+              >
+                Save
+                <RiSaveLine />
+              </LoadingButton>
+              <LoadingButton
+                className="tf-button style-1 h50"
+                loading={loading}
+                type="submit"
+                name="published"
+              >
+                Published
+                <i className="icon-arrow-up-right2" />
+              </LoadingButton>
+            </div>
           </div>
         </form>
       </div>
