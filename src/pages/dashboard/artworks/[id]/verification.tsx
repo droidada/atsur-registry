@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "@/components/common/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getToken } from "next-auth/jwt";
 import axios from "@/lib/axios";
 import DashboardLayoutWithSidebar, {
@@ -21,6 +21,8 @@ import DealerInfo from "@/components/dashboard/art-verification/dealer-info";
 import CollectorInfo from "@/components/dashboard/art-verification/collector-info";
 import InstitutionInfo from "@/components/dashboard/art-verification/institution-info";
 import { useRouter } from "next/router";
+import Preview from "@/components/dashboard/art-verification/preview";
+import useAxiosAuth from "@/hooks/useAxiosAuth";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -46,15 +48,129 @@ export const getServerSideProps = async ({ req, query }) => {
 };
 
 export default function Verification({ artPiece }) {
-  const [activeIndex, setActiveIndex] = useState(11);
   const [artRole, setArtRole] = useState("");
+
   const handleOnClick = (index) => {
     setActiveIndex(index);
   };
   const router = useRouter();
   const id = router.query.id;
+  const [activeIndex, setActiveIndex] = useState(11);
+  const axiosAuth = useAxiosAuth();
+  const [verificationData, setVerificationData] = useState(null);
 
-  console.log("This is the id", id);
+  const fetchSavedVerification = async () => {
+    try {
+      const { data: result } = await axiosAuth.get(
+        `/verify-artpiece/saved/${id}`,
+      );
+      setVerificationData(result.data);
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSavedVerification();
+  }, [id, activeIndex]);
+
+  console.log(activeIndex);
+
+  const steps = [
+    {
+      name: "Acquisition",
+      component: (index: number) => (
+        <li
+          className={
+            activeIndex == 11 ? "item-title active tf-color" : "item-title"
+          }
+          onClick={() => {
+            handleOnClick(Number(`1` + index));
+            removeDealerFromSteps();
+          }}
+        >
+          <span className="inner">
+            <span className="order">{index}</span> Acquisition{" "}
+            <i className="icon-keyboard_arrow_right" />
+          </span>
+        </li>
+      ),
+    },
+    {
+      name: "",
+      component: (index: number) => (
+        <li
+          className={
+            activeIndex == 12 ? "item-title active tf-color" : "item-title"
+          }
+          onClick={() => handleOnClick(Number(`1` + index))}
+        >
+          <span className="inner">
+            <span className="order">{index}</span>
+            {artRole === artRoles.ARTIST ? (
+              <>Artist</>
+            ) : artRole === artRoles.DEALER ? (
+              <>Dealer</>
+            ) : artRole === artRoles.COLLECTOR ? (
+              <>Collector</>
+            ) : artRole === artRoles.CUSTODIAN ? (
+              <>Institution</>
+            ) : (
+              <></>
+            )}{" "}
+            Information <i className="icon-keyboard_arrow_right" />
+          </span>
+        </li>
+      ),
+    },
+    {
+      name: "",
+      component: (index: number) => (
+        <li
+          className={
+            activeIndex == Number(`1${index}`)
+              ? "item-title active tf-color"
+              : "item-title"
+          }
+          onClick={() => handleOnClick(Number(`1` + index))}
+        >
+          <span className="inner">
+            <span className="order">{index}</span>Preview
+          </span>
+        </li>
+      ),
+    },
+  ];
+
+  const [allSteps, setAllSteps] = useState(steps);
+
+  const addDealerToSteps = () => {
+    console.log("This is triggered");
+    const newSteps = [...allSteps];
+
+    newSteps.splice(2, 0, {
+      name: "Dealer",
+      component: (index: number) => (
+        <li
+          className={activeIndex === 13 ? "item-title active" : "item-title"}
+          onClick={() => handleOnClick(13)}
+        >
+          <span className="inner">
+            <span className="order">{index}</span>Dealer
+          </span>
+        </li>
+      ),
+    });
+
+    setAllSteps(newSteps);
+  };
+
+  const removeDealerFromSteps = () => {
+    const newSteps = allSteps.filter((step) => step.name !== "Dealer");
+
+    setAllSteps(newSteps);
+  };
 
   return (
     <>
@@ -69,51 +185,7 @@ export default function Verification({ artPiece }) {
             </div>
             <div className="widget-tabs relative">
               <ul className="widget-menu-tab">
-                <li
-                  className={
-                    activeIndex === 11
-                      ? "item-title active tf-color"
-                      : "item-title"
-                  }
-                  onClick={() => handleOnClick(11)}
-                >
-                  <span className="inner">
-                    <span className="order">1</span> Acquisition{" "}
-                    <i className="icon-keyboard_arrow_right" />
-                  </span>
-                </li>
-                <li
-                  className={
-                    activeIndex === 12 ? "item-title active" : "item-title"
-                  }
-                  onClick={() => handleOnClick(12)}
-                >
-                  <span className="inner">
-                    <span className="order">2</span>
-                    {artRole === artRoles.ARTIST ? (
-                      <>Artist</>
-                    ) : artRole === artRoles.DEALER ? (
-                      <>Dealer</>
-                    ) : artRole === artRoles.COLLECTOR ? (
-                      <>Collector</>
-                    ) : artRole === artRoles.CUSTODIAN ? (
-                      <>Institution</>
-                    ) : (
-                      <></>
-                    )}{" "}
-                    Information <i className="icon-keyboard_arrow_right" />
-                  </span>
-                </li>
-                <li
-                  className={
-                    activeIndex === 13 ? "item-title active" : "item-title"
-                  }
-                  onClick={() => handleOnClick(13)}
-                >
-                  <span className="inner">
-                    <span className="order">3</span>Preview
-                  </span>
-                </li>
+                {allSteps.map((item, index) => item.component(index + 1))}
               </ul>
               <div className="widget-content-tab">
                 <div
@@ -245,126 +317,64 @@ export default function Verification({ artPiece }) {
                   style={{ display: `${activeIndex == 12 ? "" : "none"}` }}
                 >
                   {artRole === artRoles.ARTIST ? (
-                    <ArtistInfo />
+                    <ArtistInfo
+                      setActiveIndex={setActiveIndex}
+                      removeDealerFromSteps={removeDealerFromSteps}
+                      addDealerToSteps={addDealerToSteps}
+                      defaultValues={verificationData?.custodian?.artist}
+                    />
                   ) : artRole === artRoles.DEALER ? (
-                    <DealerInfo />
+                    <DealerInfo
+                      defaultValues={verificationData?.custodian?.broker}
+                      setActiveIndex={setActiveIndex}
+                    />
                   ) : artRole === artRoles.COLLECTOR ? (
-                    <CollectorInfo />
+                    <CollectorInfo
+                      defaultValues={verificationData?.acquisition}
+                      setActiveIndex={setActiveIndex}
+                    />
                   ) : artRole === artRoles.CUSTODIAN ? (
-                    <InstitutionInfo />
+                    <InstitutionInfo
+                      defaultValues={verificationData?.institution}
+                      setActiveIndex={setActiveIndex}
+                    />
                   ) : (
                     <></>
                   )}
                 </div>
+                {allSteps.length > 3 && (
+                  <div
+                    className={
+                      allSteps.length > 3 && activeIndex === 13
+                        ? "widget-content-inner submit active"
+                        : "widget-content-inner submit"
+                    }
+                    style={{ display: `${activeIndex == 13 ? "" : "none"}` }}
+                  >
+                    <DealerInfo
+                      defaultValues={verificationData?.custodian?.broker}
+                      setActiveIndex={setActiveIndex}
+                    />
+                  </div>
+                )}
 
                 <div
                   className={
-                    activeIndex === 13
+                    (allSteps.length === 4 && activeIndex === 14) ||
+                    (allSteps.length === 3 && activeIndex === 13)
                       ? "widget-content-inner submit active"
                       : "widget-content-inner submit"
                   }
-                  style={{ display: `${activeIndex == 13 ? "" : "none"}` }}
+                  style={{
+                    display: `${
+                      (allSteps.length === 4 && activeIndex === 14) ||
+                      (allSteps.length === 3 && activeIndex === 13)
+                        ? ""
+                        : "none"
+                    }`,
+                  }}
                 >
-                  {/* <div className="wrap-upload w-full">
-                    <form id="commentform" className="comment-form">
-                      <fieldset className="name">
-                        <label>Product name *</label>
-                        <input
-                          type="text"
-                          id="name"
-                          placeholder="Product name"
-                          name="name"
-                          tabIndex={2}
-                          aria-required="true"
-                          required
-                        />
-                      </fieldset>
-                      <fieldset className="message">
-                        <label>Description *</label>
-                        <textarea
-                          id="message"
-                          name="message"
-                          rows={4}
-                          placeholder="Please describe your product*"
-                          tabIndex={4}
-                          aria-required="true"
-                          required
-                        />
-                      </fieldset>
-                      <div className="flex gap30">
-                        <fieldset className="price">
-                          <label>Price</label>
-                          <input
-                            type="text"
-                            id="price"
-                            placeholder="Price"
-                            name="price"
-                            tabIndex={2}
-                            aria-required="true"
-                            required
-                          />
-                        </fieldset>
-                        <fieldset className="properties">
-                          <label>Properties</label>
-                          <input
-                            type="text"
-                            id="properties"
-                            placeholder="Properties"
-                            name="properties"
-                            tabIndex={2}
-                            aria-required="true"
-                            required
-                          />
-                        </fieldset>
-                        <fieldset className="size">
-                          <label>Size</label>
-                          <input
-                            type="text"
-                            id="size"
-                            placeholder="Size"
-                            name="size"
-                            tabIndex={2}
-                            aria-required="true"
-                            required
-                          />
-                        </fieldset>
-                      </div>
-                      <fieldset className="rarity">
-                        <label>Rarity</label>
-                        <select className="select" name="rarity" id="rarity">
-                          <option>afafdas</option>
-                          <option value="100$">100$</option>
-                          <option value="1000$">1000$</option>
-                          <option value="10000$">10000$</option>
-                        </select>
-                      </fieldset>
-                      <fieldset className="royatity">
-                        <label>Royatity</label>
-                        <input
-                          type="text"
-                          id="royatity"
-                          placeholder="Royatity"
-                          name="royatity"
-                          tabIndex={2}
-                          aria-required="true"
-                          required
-                        />
-                      </fieldset>
-                      <div className="btn-submit flex gap30 justify-center">
-                        <button className="tf-button style-1 h50 w320 active">
-                          Clear
-                          <i className="icon-arrow-up-right2" />
-                        </button>
-                        <button
-                          className="tf-button style-1 h50 w320"
-                          type="submit"
-                        >
-                          Create Record
-                          <i className="icon-arrow-up-right2" />
-                        </button>
-                      </div>
-                    </form>
-                  </div> */}
+                  <Preview activeIndex={activeIndex} />
                 </div>
               </div>
             </div>

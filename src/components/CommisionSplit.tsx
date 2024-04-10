@@ -9,6 +9,7 @@ interface Props {
   setPercentages: React.Dispatch<React.SetStateAction<any>>;
   setErrorTree: React.Dispatch<React.SetStateAction<any>>;
   errorTree: any;
+  defaultValues?: any;
 }
 
 const CommisionSplit = ({
@@ -16,6 +17,7 @@ const CommisionSplit = ({
   setPercentages,
   setErrorTree,
   errorTree,
+  defaultValues,
 }: Props) => {
   const [users, setUsers] = useState<IArtist[]>();
 
@@ -48,6 +50,21 @@ const CommisionSplit = ({
     // checkPercentError();
   }, [JSON.stringify(percentages)]);
 
+  console.log(defaultValues);
+
+  useEffect(() => {
+    if (defaultValues) {
+      setUsers(defaultValues.map((user) => user.profile));
+
+      const percentagesObj = {};
+
+      defaultValues.forEach((user) => {
+        percentagesObj[user.profile._id] = user.percentageNumerator;
+      });
+      setPercentages(percentagesObj);
+    }
+  }, [defaultValues]);
+
   const handlePercentageChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     userId: string,
@@ -55,8 +72,6 @@ const CommisionSplit = ({
     const value = parseFloat(e.target.value);
     setPercentages({ ...percentages, [userId]: value });
   };
-
-  const handleSubmit = () => {};
 
   const removeUser = (user: IArtist, id) => {
     const filter = users.filter((user) => user._id !== id);
@@ -68,12 +83,12 @@ const CommisionSplit = ({
   };
 
   return (
-    <div className="flex flex-col gap-4 my-4">
+    <div className="flex flex-col gap-4 ">
       <InviteArtist
         showList={false}
-        label="Add Partners"
-        placeholder="Partner Name"
-        prompt="Add Partners"
+        placeholder="Collaborators"
+        prompt="Collaborators"
+        label="Collaborators"
         listedArtists={users}
         setListedArtists={setUsers}
       />

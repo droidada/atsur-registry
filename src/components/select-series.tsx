@@ -118,7 +118,7 @@ export default function SelectSeries({
             fullWidth
             options={series}
             onChange={(event, value) => {
-              setSelectedSeries(value?._id);
+              setSelectedSeries(value);
             }}
             sx={{ width: 300 }}
             getOptionLabel={(option) =>
