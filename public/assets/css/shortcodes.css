@@ -2496,7 +2496,7 @@
   content: "";
   top: 112px;
   left: 0;
-  background-image: url(../images/item-background/bg-home2.png);
+  /* background-image: url(../images/item-background/bg-home2.png); */
 }
 
 .flat-pages-title-home2 .content {

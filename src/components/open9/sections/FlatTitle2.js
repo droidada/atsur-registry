@@ -26,11 +26,11 @@ export default function FlatTitle2({pieces}) {
                   data-wow-delay="0.2s"
                   className="wow fadeInUp flat-button flex"
                 >
-                  <Link href="#" className="tf-button style-1 h50 w190 mr-30">
+                  <Link href="#" className="tf-button style-2 h50 w190 mr-30">
                     Explore
                     <i className="icon-arrow-up-right2" />
                   </Link>
-                  <Link href="#" className="tf-button style-2 h50 w190 active">
+                  <Link href="#" className="tf-button style-1 h50 w190 active">
                     Create
                     <i className="icon-arrow-up-right2" />
                   </Link>
