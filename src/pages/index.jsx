@@ -5,6 +5,7 @@ import Action5 from "@/open9/sections/Action5";
 import DiscoverItem5 from "@/open9/sections/DiscoverItem5";
 import FeaturedItem5 from "@/open9/sections/FeaturedItem5";
 import FeaturedItem6 from "@/open9/sections/FeaturedItem6";
+import FlatTitle2 from "@/open9/sections/FlatTitle2";
 import FlatTitle5 from "@/open9/sections/FlatTitle5";
 import Seller7 from "@/open9/sections/Seller7";
 import Seller8 from "@/open9/sections/Seller8";
@@ -58,7 +59,8 @@ function Home() {
   return (
     (data && artPieces) &&
     <Layout headerStyle={2} footerStyle={1} currentMenuItem={"home"}>
-    <FlatTitle5 pieces={artPieces[0]?.artPieces} />
+        <FlatTitle5 pieces={artPieces[0]?.artPieces} />
+        {/* <FlatTitle2 pieces={artPieces[0]?.artPieces} /> */}
         <FeaturedItem5 categories={data?.data?.allPieces[0]?.categories} />
         <Seller7 artists={data?.data?.artists} />
         <FeaturedItem6 featured_artworks={data?.data?.featured_artworks} />
