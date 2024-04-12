@@ -14,20 +14,19 @@ export default function Footer1() {
                     <Link href="/">
                       <Image
                         id="logo_footer"
-                        src="/images/atsur-logo.svg"
-                        data-retina="/images/atsur-logo.svg"
-                        width={150}
+                        src="/images/atsur-logo-white.svg"
+                        data-retina="/images/atsur-logo-white.svg"
+                        width={120}
                         height={20}
                         alt={"logo"}
                       />
                     </Link>
                   </div>
                 </div>
-                <div className="widget widget-menu style-1">
-                  <h5 className="title-widget">Marketplace</h5>
+                <div className="widget widget-menu style-1" style={{marginTop: '45px'}}>
                   <ul>
                     <li>
-                      <Link href="#">All NFTs</Link>
+                      <Link href="#">{" "}</Link>
                     </li>
                     <li>
                       <Link href="#">Virtual worlds</Link>
@@ -93,17 +92,6 @@ export default function Footer1() {
                   </ul>
                 </div>
                 <div className="widget-last">
-                  <div className="widget-menu style-4">
-                    <h5 className="title-widget">Company</h5>
-                    <ul>
-                      <li>
-                        <Link href="#">Help center</Link>
-                      </li>
-                      <li>
-                        <Link href="#">Platform status</Link>
-                      </li>
-                    </ul>
-                  </div>
                   <h5 className="title-widget mt-30 to-white">
                     Join the community
                   </h5>
@@ -130,7 +118,7 @@ export default function Footer1() {
               </div>
             </div>
           </div>
-          <div className="footer-bottom">
+          {/* <div className="footer-bottom">
             <p>© {new Date().getFullYear()} Registry - Made By Atsur Team</p>
             <ul className="flex">
               <li>
@@ -140,7 +128,7 @@ export default function Footer1() {
                 <Link href="#">Terms of Service</Link>
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
       </footer>
     </>

@@ -10,13 +10,13 @@ export default function Action5() {
                 <div className="tf-tsparticles">
                   <div
                     id="tsparticles1"
-                    data-color="#161616"
+                    data-color="#d9d9d9"
                     data-line="#000"
                   />
                 </div>
-                <h2 className="text-center capitalize mx-auto mw-667">
+                <p className="text-center capitalize mx-auto mw-667">
                   Explore the largest catalogue of African art and artifacts.{" "}
-                </h2>
+                </p>
                 <div className="flat-button flex justify-center">
                   <Link href="/explore" className="tf-button style-2 h50 w190">
                     Explore now

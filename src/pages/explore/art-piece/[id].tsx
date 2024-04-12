@@ -18,12 +18,6 @@ import {
   CardContent,
   Paper,
   Rating,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
