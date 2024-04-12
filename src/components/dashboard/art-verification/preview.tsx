@@ -1,12 +1,16 @@
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import {
   Box,
+  List,
+  ListItem,
+  ListItemText,
   Step,
   StepContent,
   StepLabel,
   Stepper,
   Typography,
 } from "@mui/material";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
@@ -72,14 +76,36 @@ const Preview = ({ activeIndex }) => {
       <Stepper orientation="vertical" activeStep={activeStep}>
         {steps.map((step, index) => (
           <Step key={step.label}>
-            <StepLabel
-              sx={{ fontWeight: "bold", fontSize: "1.5rem" }}
-              className="capitalize "
-            >
-              {step.label}
+            <StepLabel className="capitalize ">
+              <Typography
+                variant="h3"
+                sx={{ fontWeight: "bold", fontSize: "2rem" }}
+              >
+                {step.label}
+              </Typography>
             </StepLabel>
             <StepContent>
-              <Typography>{step.description}</Typography>
+              <Typography sx={{ fontSize: "1.5rem" }} variant="h4">
+                {step.description}
+              </Typography>
+              {index === 1 && (
+                <Box>
+                  <Typography>
+                    While waiting for approval process, please make sure
+                    you&apos;ve verified the following:
+                  </Typography>
+                  <List>
+                    <ListItem
+                      // @ts-ignore
+                      component={Link}
+                      underline="none"
+                      href="/dashboard/security/verify-document"
+                    >
+                      <ListItemText>KYC Verification</ListItemText>
+                    </ListItem>
+                  </List>
+                </Box>
+              )}
             </StepContent>
           </Step>
         ))}

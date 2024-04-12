@@ -39,12 +39,15 @@ export default function SelectOrg({ selectedOrg, setSelectedOrg }: Props) {
   });
 
   const onSubmitHandler: SubmitHandler<InviteOrgInput> = async (values) => {
-    setSelectedOrg({
-      name: values.name,
-      email: values.email,
-    });
-    reset();
-    setInviteOrg(false);
+    try {
+      // TODO invite the organization
+      setSelectedOrg({
+        name: values.name,
+        email: values.email,
+      });
+      reset();
+      setInviteOrg(false);
+    } catch (error) {}
   };
 
   const fetchOrgs = async (query: string) => {
