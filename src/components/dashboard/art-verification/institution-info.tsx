@@ -235,7 +235,7 @@ export default function InstitutionInfo({
                   onChange={() => setFromOrganization((prev) => !prev)}
                 />
               }
-              label="Was it bougt from an organization?"
+              label="Was it acquired from an organization?"
             />
 
             {fromOrganization && (
@@ -332,7 +332,7 @@ export default function InstitutionInfo({
                 type="submit"
                 name="published"
               >
-                Published
+                Publish
                 <i className="icon-arrow-up-right2" />
               </LoadingButton>
             </div>

@@ -59,6 +59,16 @@ export default function Verification({ artPiece }) {
   const axiosAuth = useAxiosAuth();
   const [verificationData, setVerificationData] = useState(null);
 
+  useEffect(() => {
+    if (verificationData) {
+      if (verificationData !== "draft") {
+        setActiveIndex(13);
+      }
+    }
+  }, [verificationData]);
+
+  console.log(verificationData);
+
   const fetchSavedVerification = async () => {
     try {
       const { data: result } = await axiosAuth.get(
@@ -75,19 +85,29 @@ export default function Verification({ artPiece }) {
     fetchSavedVerification();
   }, [id, activeIndex]);
 
+  console.log(verificationData?.status);
+
   console.log(activeIndex);
+
+  console.log(!verificationData?.status || verificationData?.status == "draft");
 
   const steps = [
     {
       name: "Acquisition",
-      component: (index: number) => (
+      component: (
+        index: number,
+        activeIndex: number,
+        verificationStatus: string | undefined,
+      ) => (
         <li
-          className={
+          className={`  ${
             activeIndex == 11 ? "item-title active tf-color" : "item-title"
-          }
+          }`}
           onClick={() => {
-            handleOnClick(Number(`1` + index));
-            removeDealerFromSteps();
+            if (!verificationStatus || verificationStatus === "draft") {
+              handleOnClick(Number(`1` + index));
+              removeDealerFromSteps();
+            }
           }}
         >
           <span className="inner">
@@ -99,12 +119,21 @@ export default function Verification({ artPiece }) {
     },
     {
       name: "",
-      component: (index: number) => (
+      component: (
+        index: number,
+        activeIndex: number,
+        verificationStatus: string | undefined,
+      ) => (
         <li
-          className={
-            activeIndex == 12 ? "item-title active tf-color" : "item-title"
+          className={` ${
+            activeIndex == 12
+              ? "item-title active tf-color bg-red-500"
+              : "item-title"
+          }`}
+          onClick={() =>
+            (!verificationStatus || verificationStatus == "draft") &&
+            handleOnClick(Number(`1` + index))
           }
-          onClick={() => handleOnClick(Number(`1` + index))}
         >
           <span className="inner">
             <span className="order">{index}</span>
@@ -119,27 +148,36 @@ export default function Verification({ artPiece }) {
             ) : (
               <></>
             )}{" "}
-            Information <i className="icon-keyboard_arrow_right" />
+            Information ddd <i className="icon-keyboard_arrow_right" />
           </span>
         </li>
       ),
     },
     {
       name: "",
-      component: (index: number) => (
-        <li
-          className={
-            activeIndex == Number(`1${index}`)
-              ? "item-title active tf-color"
-              : "item-title"
-          }
-          onClick={() => handleOnClick(Number(`1` + index))}
-        >
-          <span className="inner">
-            <span className="order">{index}</span>Preview
-          </span>
-        </li>
-      ),
+      component: (
+        index: number,
+        activeIndex: number,
+        verificationStatus: string | undefined,
+      ) => {
+        return (
+          <li
+            className={`  ${
+              activeIndex === Number(`1${index}`)
+                ? "item-title active tf-color"
+                : "item-title"
+            }`}
+            onClick={() =>
+              (!verificationStatus || verificationStatus == "draft") &&
+              handleOnClick(Number(`1` + index))
+            }
+          >
+            <span className="inner">
+              <span className="order">{index}</span>Preview
+            </span>
+          </li>
+        );
+      },
     },
   ];
 
@@ -151,10 +189,22 @@ export default function Verification({ artPiece }) {
 
     newSteps.splice(2, 0, {
       name: "Dealer",
-      component: (index: number) => (
+      component: (
+        index: number,
+        activeIndex: number,
+        verificationStatus: string | undefined,
+      ) => (
         <li
-          className={activeIndex === 13 ? "item-title active" : "item-title"}
-          onClick={() => handleOnClick(13)}
+          className={`${
+            (!verificationData?.status ||
+              verificationData?.status == "draft") &&
+            "bg-gray-400 pointer-events-none"
+          }  ${activeIndex === 13 ? "item-title active" : "item-title"}`}
+          onClick={() =>
+            (!verificationData?.status ||
+              verificationData?.status == "draft") &&
+            handleOnClick(13)
+          }
         >
           <span className="inner">
             <span className="order">{index}</span>Dealer
@@ -185,7 +235,13 @@ export default function Verification({ artPiece }) {
             </div>
             <div className="widget-tabs relative">
               <ul className="widget-menu-tab">
-                {allSteps.map((item, index) => item.component(index + 1))}
+                {allSteps.map((item, index) =>
+                  item.component(
+                    index + 1,
+                    activeIndex,
+                    verificationData?.status,
+                  ),
+                )}
               </ul>
               <div className="widget-content-tab">
                 <div
@@ -295,18 +351,20 @@ export default function Verification({ artPiece }) {
                   ) : (
                     <></>
                   )}
-                  <button
-                    className="tf-button style-3"
-                    onClick={() => handleOnClick(12)}
-                    disabled={!artRole}
-                    style={{
-                      alignItems: "center",
-                      textAlign: "center",
-                      justifySelf: "center",
-                    }}
-                  >
-                    Next
-                  </button>
+                  <div className="grid place-items-center">
+                    <button
+                      className="tf-button style-3"
+                      onClick={() => handleOnClick(12)}
+                      disabled={!artRole}
+                      style={{
+                        alignItems: "center",
+                        textAlign: "center",
+                        justifySelf: "center",
+                      }}
+                    >
+                      Next
+                    </button>
+                  </div>
                 </div>
 
                 <div

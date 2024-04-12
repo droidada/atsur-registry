@@ -11,6 +11,7 @@ import Seller7 from "@/open9/sections/Seller7";
 import Seller8 from "@/open9/sections/Seller8";
 import TopCollections5 from "@/open9/sections/TopCollections5";
 import { useLoadingContext } from "@/providers/loading.context";
+import Script from "next/script";
 
 // export const getServerSideProps = async ({ req, query }) => {
 //   try {
@@ -57,8 +58,9 @@ function Home() {
   }, []);
 
   return (
-    (data && artPieces) &&
-    <Layout headerStyle={2} footerStyle={1} currentMenuItem={"home"}>
+    data &&
+    artPieces && (
+      <Layout headerStyle={2} footerStyle={1} currentMenuItem={"home"}>
         <FlatTitle5 pieces={artPieces[0]?.artPieces} />
         {/* <FlatTitle2 pieces={artPieces[0]?.artPieces} /> */}
         <FeaturedItem5 categories={data?.data?.allPieces[0]?.categories} />
@@ -68,7 +70,8 @@ function Home() {
               <DiscoverItem5 /> */}
         <TopCollections5 collections={data?.data?.curations} />
         <Action5 />
-    </Layout>
+      </Layout>
+    )
   );
 }
 

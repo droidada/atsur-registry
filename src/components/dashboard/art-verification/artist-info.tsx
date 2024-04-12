@@ -119,13 +119,14 @@ export default function ArtistInfo({
       selectedSeries && formData.append("series", selectedSeries?._id);
       formData.append("isSeries", JSON.stringify(isSeries));
       formData.append("save", JSON.stringify(save));
-      formData.append(
-        "video",
-        JSON.stringify({
-          attachment: attachments.video,
-          caption: values.videoCaption,
-        }),
-      );
+      attachments.video &&
+        formData.append(
+          "video",
+          JSON.stringify({
+            attachment: attachments.video,
+            caption: values.videoCaption,
+          }),
+        );
       formData.append(
         "attachments",
         JSON.stringify([
@@ -325,7 +326,7 @@ export default function ArtistInfo({
                     />
                   </div>
                 </label>
-                <label className="to-white">Caption:</label>
+                <label className="to-white mt-2">Attachment 1 Caption:</label>
                 <TextField
                   type="text"
                   id="attachment1Caption"
@@ -391,7 +392,7 @@ export default function ArtistInfo({
                     />
                   </div>
                 </label>
-                <label className="to-white">Attachment 2 Caption:</label>
+                <label className="to-white mt-2">Attachment 2 Caption:</label>
                 <TextField
                   type="text"
                   id="attachment2Caption"
@@ -500,7 +501,7 @@ export default function ArtistInfo({
                 type="submit"
                 name="published"
               >
-                Published
+                Publish
                 <i className="icon-arrow-up-right2" />
               </LoadingButton>
             </div>
