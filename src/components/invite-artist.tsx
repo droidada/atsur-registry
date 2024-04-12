@@ -55,16 +55,19 @@ const InviteArtist = ({
   });
 
   const onSubmitHandler: SubmitHandler<InviteArtistInput> = async (values) => {
-    setListedArtists([
-      ...listedArtists,
-      {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-      },
-    ]);
-    reset();
-    setInviteArtist(false);
+    try {
+      // TODO invite the artist
+      setListedArtists([
+        ...listedArtists,
+        {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.email,
+        },
+      ]);
+      reset();
+      setInviteArtist(false);
+    } catch (error) {}
   };
 
   const handleArtistChange = async (event) => {

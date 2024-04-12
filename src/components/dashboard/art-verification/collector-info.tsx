@@ -354,7 +354,7 @@ export default function CollectorInfo({
                 type="submit"
                 name="published"
               >
-                Published
+                Publish
                 <i className="icon-arrow-up-right2" />
               </LoadingButton>
             </div>
