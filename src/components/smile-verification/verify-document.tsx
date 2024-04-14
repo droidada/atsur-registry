@@ -1,26 +1,34 @@
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import "@smile_identity/smart-camera-web";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-const VerifyDocument = () => {
+interface Props {
+  country: string;
+  idType: string;
+}
+const VerifyDocument: React.FC<Props> = ({ country, idType }) => {
   const asyncfetch = useAxiosAuth();
+  const router = useRouter();
 
   const sendComputed = () => {
     const app = document.querySelector("smart-camera-web");
 
     app.addEventListener("imagesComputed", async (e) => {
       try {
-        // @ts-ignore
-        console.log("This is the details", e.details);
-
-        const response = await asyncfetch(
+        const response = await asyncfetch.post(
           "/smile-verification/document",
-          // @ts-ignore
-          e.details,
+          JSON.stringify({
+            // @ts-ignore
+            ...e.detail,
+            id_info: { country, id_type: idType },
+          }),
         );
 
-        console.log("This is the response", response);
+        if (response.status === 200) {
+          router.push("/dashboard/security/verify-document/status");
+        }
       } catch (error) {
         console.log(error);
       }
@@ -31,7 +39,7 @@ const VerifyDocument = () => {
     sendComputed();
   }, []);
   return (
-    <div>
+    <div className="w-full p-3">
       {/* @ts-ignore */}
       <smart-camera-web
         capture-id="back"

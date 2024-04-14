@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import { Person4, Delete } from "@mui/icons-material";
 import { IArtist } from "@/types/models";
+import useAxiosAuth from "@/hooks/useAxiosAuth";
 
 const InviteArtist = ({
   prompt = "Add Artist",
@@ -41,6 +42,7 @@ const InviteArtist = ({
     lastName: string().nonempty("Artist last name is required"),
     email: string().email().nonempty("Artist email is required"),
   });
+  const axiosFetch = useAxiosAuth();
 
   console.log(options);
 
@@ -57,6 +59,14 @@ const InviteArtist = ({
   const onSubmitHandler: SubmitHandler<InviteArtistInput> = async (values) => {
     try {
       // TODO invite the artist
+      const { data } = await axiosAuth.post("/invite/send", {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        inviteeEmail: values.email,
+        type: "user",
+      });
+
+      console.log(data);
       setListedArtists([
         ...listedArtists,
         {
@@ -67,7 +77,9 @@ const InviteArtist = ({
       ]);
       reset();
       setInviteArtist(false);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleArtistChange = async (event) => {
