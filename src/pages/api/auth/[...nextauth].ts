@@ -72,6 +72,7 @@ export const options: any = {
       );
       if (token) {
         session.jwt = token?.accessToken;
+        session.roles = token?.roles;
       }
 
       return session;

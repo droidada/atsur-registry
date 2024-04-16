@@ -26,7 +26,8 @@ import "/public/assets/css/responsive.css";
 import "wowjs/css/libs/animate.css";
 
 type AppPropsWithAuth = NextPage & {
-  requiresAuth?: boolean;
+  requireAuth?: boolean;
+  role?: string;
   redirectUnauthenticatedTo?: string;
 };
 interface CustomAppProps extends Omit<AppProps, "Component"> {
@@ -69,7 +70,7 @@ const wagmiConfig = createConfig({
 export default function NextWeb3App({
   Component,
   pageProps: { session, ...pageProps },
-}: AppProps) {
+}: CustomAppProps) {
   return (
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider chains={chains} appInfo={appInfo} coolMode={true}>
