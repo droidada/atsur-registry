@@ -14,6 +14,7 @@ import { SessionProvider } from "next-auth/react";
 import { AuthContextProvider } from "@/providers/auth.context";
 import { ToastProvider } from "@/providers/ToastProvider";
 import { LoadingContextProvider } from "@/providers/loading.context";
+import { PasswordContextProvider } from "@/providers/password.context";
 
 import "@rainbow-me/rainbowkit/styles.css";
 import "@/styles/globals.css";
@@ -74,26 +75,28 @@ export default function NextWeb3App({
   return (
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider chains={chains} appInfo={appInfo} coolMode={true}>
-        <SessionProvider session={session}>
-          <LoadingContextProvider>
-            <AuthContextProvider>
-              <ThemeProvider>
-                <ToastProvider>
-                  {Component.requireAuth ? (
-                    <ProtectedLayout>
-                      {/* <AddClassBody /> */}
+        <PasswordContextProvider>
+          <SessionProvider session={session}>
+            <LoadingContextProvider>
+              <AuthContextProvider>
+                <ThemeProvider>
+                  <ToastProvider>
+                    {Component.requireAuth ? (
+                      <ProtectedLayout>
+                        {/* <AddClassBody /> */}
+                        <Component {...pageProps} />
+                      </ProtectedLayout>
+                    ) : (
                       <Component {...pageProps} />
-                    </ProtectedLayout>
-                  ) : (
-                    <Component {...pageProps} />
-                  )}
-                  {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-                  <Analytics />
-                </ToastProvider>
-              </ThemeProvider>
-            </AuthContextProvider>
-          </LoadingContextProvider>
-        </SessionProvider>
+                    )}
+                    {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+                    <Analytics />
+                  </ToastProvider>
+                </ThemeProvider>
+              </AuthContextProvider>
+            </LoadingContextProvider>
+          </SessionProvider>
+        </PasswordContextProvider>
       </RainbowKitProvider>
     </WagmiConfig>
   );
