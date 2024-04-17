@@ -19,17 +19,32 @@ import {
 import { Person4, Delete } from "@mui/icons-material";
 import { IArtist } from "@/types/models";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
+import { useToast } from "@/providers/ToastProvider";
+import { LoadingButton } from "@mui/lab";
+
+interface Props {
+  prompt?: string;
+  listedArtists?: IArtist[];
+  setListedArtists?: React.Dispatch<React.SetStateAction<IArtist[]>>;
+  placeholder?: string;
+  label?: string;
+  justOne?: boolean;
+  showList?: boolean;
+  onClose?: () => void;
+  type: "user" | "art-piece-artist" | "art-piece-collaborator";
+}
 
 const InviteArtist = ({
   prompt = "Add Artist",
-  listedArtists,
+  listedArtists = [],
   setListedArtists,
   placeholder = "Artist name",
   label = "Artist name",
   justOne = false,
   showList = true,
   onClose = () => {},
-}) => {
+  type,
+}: Props) => {
   const [loading, setLoading] = useState(false);
   const [autocompleteOpen, setAutocompleteOpen] = useState(false);
   const [inviteArtist, setInviteArtist] = useState(false);
@@ -43,6 +58,9 @@ const InviteArtist = ({
     email: string().email().nonempty("Artist email is required"),
   });
   const axiosFetch = useAxiosAuth();
+  const [inviteNewUserLoading, setInviteNewUserLoading] = useState(false);
+  const toast = useToast();
+  const [selectingUserLoading, setSelectingUserLoading] = useState(false);
 
   console.log(options);
 
@@ -57,29 +75,23 @@ const InviteArtist = ({
   });
 
   const onSubmitHandler: SubmitHandler<InviteArtistInput> = async (values) => {
-    try {
-      // TODO invite the artist
-      const { data } = await axiosAuth.post("/invite/send", {
+    // const { data } = await axiosAuth.post("/invite/send", {
+    //   firstName: values.firstName,
+    //   lastName: values.lastName,
+    //   inviteeEmail: values.email,
+    //   type,
+    // });
+
+    setListedArtists([
+      ...listedArtists,
+      {
         firstName: values.firstName,
         lastName: values.lastName,
-        inviteeEmail: values.email,
-        type: "user",
-      });
-
-      console.log(data);
-      setListedArtists([
-        ...listedArtists,
-        {
-          firstName: values.firstName,
-          lastName: values.lastName,
-          email: values.email,
-        },
-      ]);
-      reset();
-      setInviteArtist(false);
-    } catch (error) {
-      console.log(error);
-    }
+        email: values.email,
+      },
+    ]);
+    reset();
+    setInviteArtist(false);
   };
 
   const handleArtistChange = async (event) => {
@@ -100,6 +112,10 @@ const InviteArtist = ({
       console.error(error);
       setLoading(false);
     }
+  };
+
+  const handleSelectUser = async (users) => {
+    setListedArtists([...new Set([...listedArtists, ...users])]);
   };
 
   return (
@@ -146,9 +162,9 @@ const InviteArtist = ({
           <Autocomplete
             multiple
             onChange={(event: any, newValue: any) => {
-              justOne
-                ? setListedArtists([newValue[newValue.length - 1]])
-                : setListedArtists([...newValue]);
+              console.log("this is new value", newValue);
+              handleSelectUser(newValue);
+              // setListedArtists([...new Set([...listedArtists, ...newValue])]);
             }}
             style={{ width: "100%", marginTop: 5 }}
             id="size-small-outlined-multi"
@@ -260,13 +276,14 @@ const InviteArtist = ({
                   {...register("email")}
                 />
               </fieldset>
-              <button
+              <LoadingButton
+                loading={inviteNewUserLoading}
                 className="tf-button style-1 h50 active"
                 style={{ marginTop: "2.5em" }}
                 type="submit"
               >
-                Add
-              </button>
+                send invite
+              </LoadingButton>
             </div>
           </form>
         </>

@@ -13,6 +13,35 @@ import {
   Select,
   TextField,
 } from "@mui/material";
+import { getToken } from "next-auth/jwt";
+
+export const getServerSideProps = async ({ req, query }) => {
+  try {
+    const token: any = await getToken({
+      req,
+      secret: process.env.NEXTAUTH_SECRET,
+    });
+
+    if (!token) return;
+
+    const res = await axios.get(`/smile-verification/status`, {
+      headers: { authorization: `Bearer ${token?.accessToken}` },
+    });
+
+    if (res.data && res.data?.kyc.redo !== true) {
+      return {
+        redirect: {
+          destination: "/dashboard/security/verify-document/status",
+          permanent: false,
+        },
+      };
+    }
+
+    return { props: { status: res.data?.kyc } };
+  } catch (error) {
+    throw new Error(error);
+  }
+};
 
 const VerifyDocument = dynamic(
   () => import("@/components/smile-verification/verify-document"),

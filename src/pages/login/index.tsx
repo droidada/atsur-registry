@@ -11,8 +11,32 @@ import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next/router";
 import { useAuthContext } from "../../providers/auth.context";
 import { useToast } from "@/providers/ToastProvider";
+import axios from "@/lib/axios";
 
-export default function Login() {
+export const getServerSideProps = async ({ req, query, params }) => {
+  console.log(query);
+  const { token } = query;
+  console.log(token);
+  if (token) {
+    try {
+      const res = await axios.post(`/invite/fetch`, {
+        token,
+      });
+
+      console.log(res.data);
+
+      return { props: { invitationData: res.data?.data } };
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
+  } else {
+    return { props: {} };
+  }
+};
+
+export default function Login({ invitationData }) {
+  const [invitee, setInvitee] = useState(invitationData?.invitation?.invitee);
   const loginSchema = object({
     email: string().nonempty("Email is required").email("Email is invalid"),
     password: string()
@@ -28,6 +52,7 @@ export default function Login() {
     register,
     formState: { errors, isSubmitSuccessful },
     reset,
+    setValue,
     handleSubmit,
   } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
@@ -51,6 +76,12 @@ export default function Login() {
     // setSuccess(false);
   }, []);
 
+  useEffect(() => {
+    setValue("email", invitee?.email);
+  }, [invitee]);
+
+  console.log(invitee);
+
   const onSubmitHandler: SubmitHandler<LoginInput> = async (values) => {
     try {
       setLoading(true);
@@ -63,21 +94,19 @@ export default function Login() {
       }
       console.log("login user is ", user);
 
-      setLoading(false);
-
       if (usr.ok) {
-        router.replace("/dashboard");
+        invitee
+          ? router.replace(`/invitation/${router.query.token}`)
+          : router.replace("/dashboard");
       }
     } catch (error) {
       console.log(error);
-      setError(true);
-      if (typeof error === "string") {
-        toast.error(error);
-      } else {
-        toast.error("Something went wrong. Please try again.");
-      }
-      console.log(error);
-
+      toast.error(
+        error?.response?.data?.message ||
+          error?.message ||
+          "Something went wrong. Please try again",
+      );
+    } finally {
       setLoading(false);
     }
   };
@@ -112,6 +141,7 @@ export default function Login() {
                         placeholder="mail@website.com"
                         name="email"
                         tabIndex={2}
+                        disabled={invitee?.email ? true : false}
                         aria-required="true"
                         fullWidth
                         error={!!errors["email"]}

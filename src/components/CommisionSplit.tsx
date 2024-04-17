@@ -5,8 +5,26 @@ import { IArtist } from "@/types/models";
 import { TiDeleteOutline } from "react-icons/ti";
 
 interface Props {
-  percentages: any;
-  setPercentages: React.Dispatch<React.SetStateAction<any>>;
+  percentages: {
+    userInfo: {
+      firstName: string;
+      lastName: string;
+      email: string;
+    };
+    percentage: number;
+  }[];
+  setPercentages: React.Dispatch<
+    React.SetStateAction<
+      {
+        userInfo: {
+          firstName: string;
+          lastName: string;
+          email: string;
+        };
+        percentage: number;
+      }[]
+    >
+  >;
   setErrorTree: React.Dispatch<React.SetStateAction<any>>;
   errorTree: any;
   defaultValues?: any;
@@ -19,7 +37,7 @@ const CommisionSplit = ({
   errorTree,
   defaultValues,
 }: Props) => {
-  const [users, setUsers] = useState<IArtist[]>();
+  const [users, setUsers] = useState<IArtist[]>([]);
 
   const [totalPercentage, setTotalPercentage] = useState(0);
 
@@ -28,8 +46,8 @@ const CommisionSplit = ({
     delete updateError.commision;
     setErrorTree({ ...updateError });
 
-    const totalPercentage = Object.values(percentages).reduce(
-      (acc: number, curr: number | undefined) => acc + (curr || 0),
+    const totalPercentage = percentages.reduce(
+      (acc: number, curr) => acc + (curr.percentage || 0),
       0,
     );
 
@@ -61,25 +79,38 @@ const CommisionSplit = ({
       defaultValues.forEach((user) => {
         percentagesObj[user.profile._id] = user.percentageNumerator;
       });
-      setPercentages(percentagesObj);
+      setPercentages(defaultValues);
     }
   }, [defaultValues]);
 
   const handlePercentageChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    userId: string,
+    user: IArtist,
   ) => {
     const value = parseFloat(e.target.value);
-    setPercentages({ ...percentages, [userId]: value });
+    // Get the the current user data from the users array
+    const userData: any = users.find((userI) => {
+      console.log(userI, user);
+      return userI.email === user.email;
+    });
+    // add the percentage value to the object
+    const data = { userInfo: userData, percentage: value };
+    // Filter out the current user data from the percentage to
+    // allow adding the new value
+    const filterData = percentages.filter(
+      (userI) => userI.userInfo.email !== user.email,
+    );
+
+    setPercentages([...filterData, data]);
   };
 
-  const removeUser = (user: IArtist, id) => {
-    const filter = users.filter((user) => user._id !== id);
+  const removeUser = (user: IArtist, email: string) => {
+    const filter = users.filter((user) => user.email !== email);
     setUsers(filter);
 
-    const updatedPercentages = { ...percentages };
-    delete updatedPercentages[user._id];
-    setPercentages(updatedPercentages);
+    setPercentages(
+      percentages.filter((userI) => userI.userInfo.email !== email),
+    );
   };
 
   return (
@@ -91,6 +122,7 @@ const CommisionSplit = ({
         label="Collaborators"
         listedArtists={users}
         setListedArtists={setUsers}
+        type={"user"}
       />
       {users?.map((user, index) => (
         <div
@@ -110,13 +142,16 @@ const CommisionSplit = ({
               id={user?._id}
               type="number"
               placeholder="0.00"
-              value={percentages[user?._id] || ""}
-              onChange={(e) => handlePercentageChange(e, user?._id)}
+              value={
+                percentages.find((userI) => userI.userInfo.email === user.email)
+                  ?.percentage || ""
+              }
+              onChange={(e) => handlePercentageChange(e, user)}
               className=""
             />
             <TiDeleteOutline
               size={24}
-              onClick={() => removeUser(user, user?._id)}
+              onClick={() => removeUser(user, user?.email)}
             />
           </div>
         </div>
