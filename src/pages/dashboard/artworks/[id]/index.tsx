@@ -101,6 +101,8 @@ function ArtPiece({ artPiece }) {
     data: {},
   });
 
+  console.log(artPiece);
+
   return (
     <>
       <DashboardLayoutWithSidebar hideSidebar activePage={DashboardPages.ART}>
@@ -205,21 +207,17 @@ function ArtPiece({ artPiece }) {
                         <ListItem dense>
                           <h5>status:: </h5>
                           <p className="capitalize">
-                            {artPiece.verificationStatus}
+                            {artPiece.verification?.status || "Unverified"}
                           </p>
                           <h5>::</h5>
                         </ListItem>
                         <ListItem dense>
-                          {artPiece.verificationStatus === statusTypes.DRAFT ? (
-                            <Link
-                              href={`/dashboard/artworks/${artPiece._id}/verification`}
-                              className="tf-button style-3"
-                            >
-                              Verify
-                            </Link>
-                          ) : (
-                            <></>
-                          )}
+                          <Link
+                            href={`/dashboard/artworks/${artPiece._id}/verification`}
+                            className="tf-button style-3"
+                          >
+                            Verify
+                          </Link>
                         </ListItem>
                         {/* <div className="text">Current price</div>
                           <div className="justify-between">

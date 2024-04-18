@@ -48,7 +48,12 @@ export default function DealerInfo({
   const [error, setError] = useState("");
   const [organization, setOrganization] = useState<any>(null);
   const [listedArtists, setListedArtists] = useState<IArtist[]>([]);
-  const [percentages, setPercentages] = useState({});
+  const [percentages, setPercentages] = useState<
+    {
+      userInfo: { firstName: string; lastName: string; email: string };
+      percentage: number;
+    }[]
+  >([]);
   const [errorTree, setErrorTree] = useState({});
   const [attachment, setAttachment] = useState(null);
   const [fileData, setFileData] = useState({
@@ -74,11 +79,6 @@ export default function DealerInfo({
         throw new Error("Image attachment is required");
       }
 
-      // if (listedArtists?.length === 0) {
-      //   toast.error("Artist is required");
-      //   return;
-      // }
-
       if (Object.keys(errorTree).length > 0) {
         throw new Error(Object.values(errorTree).join(" "));
       }
@@ -87,9 +87,8 @@ export default function DealerInfo({
         throw new Error("Organization is required");
       }
 
-      if (Object.keys(percentages).length === 0) {
+      if (percentages.length === 0) {
         throw new Error("Commission split is required");
-        return;
       }
 
       const formData = new FormData();
@@ -102,8 +101,6 @@ export default function DealerInfo({
         JSON.stringify(listedArtists?.map((item) => item?._id)),
       );
       organization && formData.append("organization", organization);
-      console.log(attachment);
-      console.log(formData);
 
       const result = await axiosAuth.post(
         `/verify-artpiece/dealer/${artPieceId}`,
@@ -113,10 +110,9 @@ export default function DealerInfo({
       // console.log("result here is ", result.data);
 
       setActiveIndex((prev) => prev + 1);
-      nextPage(12);
 
-      //  router.replace("/dashboard");
-      return;
+      // //  router.replace("/dashboard");
+      // return;
     } catch (error) {
       console.error(error);
       if (axios.isAxiosError(error)) {
