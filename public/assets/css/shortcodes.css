@@ -2475,7 +2475,7 @@
 .action__body.bg-white {
   background-color: #d9d9d9;
   margin: 0;
-  font-size: '400px';
+  font-size: "400px";
 }
 
 .action__body p {

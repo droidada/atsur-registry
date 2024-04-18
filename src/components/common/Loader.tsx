@@ -27,7 +27,11 @@ function Loader(props, ref) {
   return (
     <div>
       <Backdrop
-        sx={{ background:"#000", color: "#000", zIndex: (theme) => theme.zIndex.drawer + 1}}
+        sx={{
+          background: "#000",
+          color: "#000",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
         open
       >
         <CircularProgress color="info" />
