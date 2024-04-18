@@ -7,11 +7,34 @@ import { object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/router";
-import axios from "axios";
+import axios from "@/lib/axios";
+import { useToast } from "@/providers/ToastProvider";
+import { LoadingButton } from "@mui/lab";
 
 const pubAPI = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
-export default function SignUp() {
+export const getServerSideProps = async ({ req, query, params }) => {
+  console.log(query);
+  const { token } = query;
+  if (token) {
+    try {
+      const res = await axios.post(`/invite/fetch`, {
+        token,
+      });
+
+      console.log(res.data);
+
+      return { props: { invitationData: res.data?.data } };
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
+  } else {
+    return { props: {} };
+  }
+};
+
+export default function SignUp({ invitationData }) {
   const signUpSchema = object({
     firstName: string().nonempty("First name is required"),
     lastName: string().nonempty("Last name is required"),
@@ -30,22 +53,31 @@ export default function SignUp() {
       path: ["confirmPassword"],
     },
   );
+  const [invitee, setInvitee] = useState(invitationData?.invitation?.invitee);
+  const [loading, setLoading] = useState(false);
 
+  const router = useRouter();
+  const token = router.query.token;
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const toast = useToast();
   type SignUpInput = TypeOf<typeof signUpSchema>;
 
   const {
     register,
     formState: { errors, isSubmitSuccessful },
     reset,
+    setValue,
     handleSubmit,
   } = useForm<SignUpInput>({
     resolver: zodResolver(signUpSchema),
   });
 
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
-  const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
+  useEffect(() => {
+    setValue("firstName", invitee?.firstName);
+    setValue("lastName", invitee?.lastName);
+    setValue("email", invitee?.email);
+  }, [invitee]);
 
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -53,11 +85,6 @@ export default function SignUp() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSubmitSuccessful]);
-
-  useEffect(() => {
-    setError(false);
-    setSuccess(false);
-  }, []);
 
   const onSubmitHandler: SubmitHandler<SignUpInput> = async (values) => {
     try {
@@ -72,16 +99,24 @@ export default function SignUp() {
         password: values.password,
         confirmPassword: values.confirmPassword,
         username: values.email,
+        inviteToken: token,
       });
       console.log(resp.data);
       //success message
-      setLoading(false);
+      toast.success("Account created successfully");
+      //redirect to login page
+
       setSuccess(true);
-      router.push("/login");
+      invitee ? router.push(`/login?token=${token}`) : router.push("/login");
     } catch (error) {
       console.error(error.message);
+      toast.error(
+        error?.response?.data?.message ||
+          error?.message ||
+          "Something went wrong. Please try again",
+      );
+    } finally {
       setLoading(false);
-      setError(true);
     }
   };
 
@@ -151,6 +186,7 @@ export default function SignUp() {
                         placeholder="mail@website.com"
                         name="email"
                         tabIndex={2}
+                        disabled={invitee?.email ? true : false}
                         aria-required="true"
                         fullWidth
                         error={!!errors["email"]}
@@ -214,13 +250,14 @@ export default function SignUp() {
                       </div>
                     </fieldset>
                     <div className="btn-submit mb-30">
-                      <button
+                      <LoadingButton
+                        loading={loading}
                         className="tf-button style-1 h50 w-100"
                         type="submit"
                       >
                         Sign up
                         <i className="icon-arrow-up-right2" />
-                      </button>
+                      </LoadingButton>
                     </div>
                   </form>
                   <div className="other tf-color">or continue</div>

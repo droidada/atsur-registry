@@ -1,5 +1,7 @@
 import useAxiosAuth from "@/hooks/useAxiosAuth";
+import axios from "@/lib/axios";
 import "@smile_identity/smart-camera-web";
+import { getToken } from "next-auth/jwt";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -30,7 +32,9 @@ const VerifyDocument: React.FC<Props> = ({ country, idType }) => {
           router.push("/dashboard/security/verify-document/status");
         }
       } catch (error) {
-        console.log(error);
+        router.push("/dashboard/security/verify-document/status");
+
+        console.log(error?.response?.data);
       }
     });
   };
