@@ -31,7 +31,7 @@ interface Props {
   justOne?: boolean;
   showList?: boolean;
   onClose?: () => void;
-  type: "user" | "art-piece-artist" | "art-piece-collaborator";
+  type?: "user" | "art-piece-artist" | "art-piece-collaborator";
 }
 
 const InviteArtist = ({
@@ -43,7 +43,7 @@ const InviteArtist = ({
   justOne = false,
   showList = true,
   onClose = () => {},
-  type,
+  type = "user",
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const [autocompleteOpen, setAutocompleteOpen] = useState(false);

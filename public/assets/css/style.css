@@ -1540,7 +1540,8 @@ a:focus {
   color: white !important;
 }
 
-#footer a, h5 {
+#footer a,
+h5 {
   color: white !important;
 }
 
