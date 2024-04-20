@@ -2,9 +2,15 @@ import { withAuth } from "next-auth/middleware";
 import { NextRequest, NextResponse } from "next/server";
 
 export default withAuth(
-  function middleware(req:any) {
-    if (req.nextUrl.pathname.startsWith("/admin") && !req.nextauth.token?.roles.includes('admin')) {
-      const absoluteURL = new URL("/login?message=Not Authorized", req.nextUrl.origin);
+  function middleware(req: any) {
+    if (
+      req.nextUrl.pathname.startsWith("/admin") &&
+      !req.nextauth.token?.roles.includes("admin")
+    ) {
+      const absoluteURL = new URL(
+        "/login?message=Not Authorized",
+        req.nextUrl.origin,
+      );
       return NextResponse.redirect(absoluteURL.toString());
     }
 
@@ -18,10 +24,10 @@ export default withAuth(
     callbacks: {
       authorized: ({ token }) => !!token,
     },
-  }
+  },
 );
 
 export const config = {
-//   matcher: ["/admin/:path*", "/user/:path*"],
+  //   matcher: ["/admin/:path*", "/user/:path*"],
   matcher: ["/admin/:path*"],
 };

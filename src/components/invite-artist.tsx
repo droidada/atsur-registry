@@ -31,7 +31,7 @@ interface Props {
   justOne?: boolean;
   showList?: boolean;
   onClose?: () => void;
-  type: "user" | "art-piece-artist" | "art-piece-collaborator";
+  type?: "user" | "art-piece-artist" | "art-piece-collaborator";
 }
 
 const InviteArtist = ({

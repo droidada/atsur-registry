@@ -131,6 +131,8 @@ export default function DealerInfo({
     }
   }, [defaultValues]);
 
+  console.log(defaultValues);
+
   const handleUploadClick = (event) => {
     let file = event.target.files[0];
     const reader = new FileReader();

@@ -33,7 +33,11 @@ export const ProtectedLayout = ({ children }: Props): JSX.Element => {
   if (loading) {
     return (
       <Backdrop
-        sx={{ background:"#000", color: "#000", zIndex: (theme) => theme.zIndex.drawer + 1}}
+        sx={{
+          background: "#000",
+          color: "#000",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
         open
       >
         <CircularProgress color="info" />
@@ -43,12 +47,18 @@ export const ProtectedLayout = ({ children }: Props): JSX.Element => {
 
   // if the user is authorized, render the page
   // otherwise, render nothing while the router redirects him to the login page
-  return authorized ?
-        <div>{children}</div> :
-        <Backdrop
-        sx={{ background:"#000", color: "#000", zIndex: (theme) => theme.zIndex.drawer + 1}}
-        open
-      >
-        <CircularProgress color="info" />
-      </Backdrop>;
+  return authorized ? (
+    <div>{children}</div>
+  ) : (
+    <Backdrop
+      sx={{
+        background: "#000",
+        color: "#000",
+        zIndex: (theme) => theme.zIndex.drawer + 1,
+      }}
+      open
+    >
+      <CircularProgress color="info" />
+    </Backdrop>
+  );
 };

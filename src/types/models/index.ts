@@ -1,7 +1,6 @@
 import { IAddress, IInvitee, IMember, IUser, IWallet } from "./member";
 
-interface IArtist
-{
+interface IArtist {
   firstName: string;
   lastName: string;
   email: string;

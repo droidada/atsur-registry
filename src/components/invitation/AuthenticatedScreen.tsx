@@ -4,6 +4,7 @@ import { LoadingButton } from "@mui/lab";
 import {
   Button,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
@@ -37,7 +38,7 @@ const AuthenticatedScreen = ({ type, inviter, data, objectType }: Props) => {
       setAcceptLoading(true);
       const { data } = await axiosFetch.post("/invite/accept", {
         token,
-        accept: true,
+        userResponse: "accepted",
       });
       toast.success("Successfully accepted the invitation!");
       router.push("/dashboard");
@@ -54,10 +55,10 @@ const AuthenticatedScreen = ({ type, inviter, data, objectType }: Props) => {
       setRejectLoading(true);
       const { data } = await axiosFetch.post("/invite/accept", {
         token,
-        accept: false,
+        userResponse: "rejected",
       });
       toast.success("Successfully rejected the invitation!");
-      router.push("/dashboard");
+      // router.push("/dashboard");
     } catch (error) {
       toast.error("Error accepting the invitation!");
       console.log(error);
@@ -77,6 +78,9 @@ const AuthenticatedScreen = ({ type, inviter, data, objectType }: Props) => {
         setMessage(` collaborate on "${data?.title}"`);
         break;
       case "org-collaborator":
+        setMessage(` collaborate on "${data?.name}" organization`);
+        break;
+      case "member-org":
         setMessage(` collaborate on "${data?.name}" organization`);
         break;
       default:
@@ -102,6 +106,8 @@ const AuthenticatedScreen = ({ type, inviter, data, objectType }: Props) => {
             ? "View Inviter"
             : type == "org-collaborator"
             ? "View Organization"
+            : type == "member-org"
+            ? "View Organization"
             : "View Art Piece"}
         </Button>
         <LoadingButton
@@ -126,7 +132,7 @@ const AuthenticatedScreen = ({ type, inviter, data, objectType }: Props) => {
         <DialogTitle id="alert-dialog-title">
           {type == "user"
             ? "View Inviter"
-            : type == "org-collaborator"
+            : type == "org-collaborator" || type == "member-org"
             ? "View Organization"
             : "View Art Piece"}
         </DialogTitle>
@@ -135,8 +141,40 @@ const AuthenticatedScreen = ({ type, inviter, data, objectType }: Props) => {
             <DialogContentText id="alert-dialog-description">
               {inviter?.firstName} {inviter?.lastName}
             </DialogContentText>
-          ) : type == "org-collaborator" ? (
-            ``
+          ) : type == "org-collaborator" || type == "member-org" ? (
+            <DialogContent>
+              <Image
+                src={data?.image}
+                alt={data?.title}
+                width={200}
+                height={200}
+              />
+
+              <DialogContentText
+                className="font-semibold text-black"
+                id="alert-dialog-description"
+              >
+                Organization Name: {data?.name}
+              </DialogContentText>
+              <DialogContentText
+                className="font-semibold text-black"
+                id="alert-dialog-description"
+              >
+                Website: {data?.website}
+              </DialogContentText>
+              <DialogContentText
+                className="font-semibold text-black"
+                id="alert-dialog-description"
+              >
+                Email: {data?.email}
+              </DialogContentText>
+              <DialogContentText
+                className="font-semibold text-black"
+                id="alert-dialog-description"
+              >
+                Phone Number: {data?.phone}
+              </DialogContentText>
+            </DialogContent>
           ) : (
             <div className="flex flex-col items-center gap-7">
               <Image
@@ -145,15 +183,16 @@ const AuthenticatedScreen = ({ type, inviter, data, objectType }: Props) => {
                 width={200}
                 height={200}
               />
-              <DialogContentText id="alert-dialog-description">
-                {data?.title}
-              </DialogContentText>
+
               <DialogContentText id="alert-dialog-description">
                 {data?.description}
               </DialogContentText>
             </div>
           )}
         </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpen(false)}>Close</Button>
+        </DialogActions>
       </Dialog>
     </div>
   );

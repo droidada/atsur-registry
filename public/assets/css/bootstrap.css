@@ -340,8 +340,8 @@ html {
 }
 
 body {
-  font-family: "Montserrat", -apple-system, system-ui, BlinkMacSystemFont, "Montserrat", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: "Montserrat", -apple-system, system-ui, BlinkMacSystemFont,
+    "Montserrat", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 1rem;
   font-weight: normal;
   line-height: 1.5;
@@ -6162,8 +6162,8 @@ button.close {
   display: block;
   max-width: 276px;
   padding: 1px;
-  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Montserrat", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Montserrat",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
   font-style: normal;
   font-weight: normal;
   letter-spacing: normal;

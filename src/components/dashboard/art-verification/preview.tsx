@@ -14,7 +14,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
-const steps = [
+const defaultSteps = [
   {
     label: "draft",
     description: "Started verification process but not completed yet",
@@ -35,14 +35,13 @@ const steps = [
 const Preview = ({ activeIndex }) => {
   const [currentVerificationStatus, setCurrentVerificationStatus] =
     useState("draft");
+  const [steps, setSteps] = useState(defaultSteps);
   const [activeStep, setActiveStep] = React.useState(
     steps.findIndex((step) => step.label === currentVerificationStatus),
   );
   const axiosAuth = useAxiosAuth();
   const router = useRouter();
   const artPieceId = router.query.id;
-
-  console.log(activeStep);
 
   const fetchStatus = async () => {
     try {
@@ -51,11 +50,25 @@ const Preview = ({ activeIndex }) => {
       );
 
       setCurrentVerificationStatus(resp.data);
+      if (resp.data === "rejected") {
+        const index = defaultSteps.findIndex(
+          (step) => step.label === "verified",
+        );
+        const filter = steps.filter((step) => step.label !== "rejected");
+
+        const newSteps = [...filter];
+        newSteps.splice(index, 0, {
+          label: "rejected",
+          description: resp?.rejectionReason,
+        });
+        setSteps(newSteps);
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
+  console.log(steps);
   useEffect(() => {
     fetchStatus();
   }, [activeIndex]);
