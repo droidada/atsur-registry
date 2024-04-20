@@ -35,6 +35,8 @@ export const getServerSideProps = async ({ req, query }) => {
       headers: { authorization: `Bearer ${token?.accessToken}` },
     });
 
+    console.log(res.data);
+
     return { props: { artPiece: res.data.artPiece } };
   } catch (error) {
     console.error("error here looks like ", error);
@@ -58,12 +60,16 @@ export default function Verification({ artPiece }) {
   const [activeIndex, setActiveIndex] = useState(11);
   const axiosAuth = useAxiosAuth();
   const [verificationData, setVerificationData] = useState(null);
+  const [checkVerificationStatus, setCheckVerificationStatus] = useState(false);
 
   useEffect(() => {
     if (verificationData) {
-      if (verificationData !== "draft") {
+      if (verificationData == "pending" || verificationData == "verified") {
         setActiveIndex(13);
       }
+      setCheckVerificationStatus(
+        verificationData == "pending" || verificationData == "verified",
+      );
     }
   }, [verificationData]);
 
@@ -85,7 +91,7 @@ export default function Verification({ artPiece }) {
     fetchSavedVerification();
   }, [id, activeIndex]);
 
-  console.log(verificationData?.status);
+  console.log(verificationData);
 
   console.log(activeIndex);
 
@@ -97,14 +103,14 @@ export default function Verification({ artPiece }) {
       component: (
         index: number,
         activeIndex: number,
-        verificationStatus: string | undefined,
+        checkVerificationStatus: boolean,
       ) => (
         <li
           className={`  ${
             activeIndex == 11 ? "item-title active tf-color" : "item-title"
           }`}
           onClick={() => {
-            if (!verificationStatus || verificationStatus === "draft") {
+            if (!checkVerificationStatus) {
               handleOnClick(Number(`1` + index));
               removeDealerFromSteps();
             }
@@ -122,7 +128,7 @@ export default function Verification({ artPiece }) {
       component: (
         index: number,
         activeIndex: number,
-        verificationStatus: string | undefined,
+        checkVerificationStatus: boolean,
       ) => (
         <li
           className={` ${
@@ -131,8 +137,7 @@ export default function Verification({ artPiece }) {
               : "item-title"
           }`}
           onClick={() =>
-            (!verificationStatus || verificationStatus == "draft") &&
-            handleOnClick(Number(`1` + index))
+            !checkVerificationStatus && handleOnClick(Number(`1` + index))
           }
         >
           <span className="inner">
@@ -158,7 +163,7 @@ export default function Verification({ artPiece }) {
       component: (
         index: number,
         activeIndex: number,
-        verificationStatus: string | undefined,
+        checkVerificationStatus: boolean,
       ) => {
         return (
           <li
@@ -168,8 +173,7 @@ export default function Verification({ artPiece }) {
                 : "item-title"
             }`}
             onClick={() =>
-              (!verificationStatus || verificationStatus == "draft") &&
-              handleOnClick(Number(`1` + index))
+              !checkVerificationStatus && handleOnClick(Number(`1` + index))
             }
           >
             <span className="inner">
@@ -192,19 +196,13 @@ export default function Verification({ artPiece }) {
       component: (
         index: number,
         activeIndex: number,
-        verificationStatus: string | undefined,
+        checkVerificationStatus: boolean,
       ) => (
         <li
           className={`${
-            (!verificationData?.status ||
-              verificationData?.status == "draft") &&
-            "bg-gray-400 pointer-events-none"
+            !checkVerificationStatus && "bg-gray-400 pointer-events-none"
           }  ${activeIndex === 13 ? "item-title active" : "item-title"}`}
-          onClick={() =>
-            (!verificationData?.status ||
-              verificationData?.status == "draft") &&
-            handleOnClick(13)
-          }
+          onClick={() => !checkVerificationStatus && handleOnClick(13)}
         >
           <span className="inner">
             <span className="order">{index}</span>Dealer
@@ -239,7 +237,7 @@ export default function Verification({ artPiece }) {
                   item.component(
                     index + 1,
                     activeIndex,
-                    verificationData?.status,
+                    checkVerificationStatus,
                   ),
                 )}
               </ul>

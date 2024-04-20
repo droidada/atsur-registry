@@ -23,10 +23,13 @@ export default function Footer1() {
                     </Link>
                   </div>
                 </div>
-                <div className="widget widget-menu style-1" style={{marginTop: '45px'}}>
+                <div
+                  className="widget widget-menu style-1"
+                  style={{ marginTop: "45px" }}
+                >
                   <ul>
                     <li>
-                      <Link href="#">{" "}</Link>
+                      <Link href="#"> </Link>
                     </li>
                     <li>
                       <Link href="#">Virtual worlds</Link>
