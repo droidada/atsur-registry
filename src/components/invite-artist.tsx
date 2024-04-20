@@ -43,7 +43,7 @@ const InviteArtist = ({
   justOne = false,
   showList = true,
   onClose = () => {},
-  type,
+  type = "user",
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const [autocompleteOpen, setAutocompleteOpen] = useState(false);
