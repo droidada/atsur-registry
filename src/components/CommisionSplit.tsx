@@ -72,14 +72,14 @@ const CommisionSplit = ({
 
   useEffect(() => {
     if (defaultValues) {
-      setUsers(defaultValues.map((user) => user.profile));
+      setUsers(defaultValues.map((user) => user.userInfo));
 
-      const percentagesObj = {};
-
-      defaultValues.forEach((user) => {
-        percentagesObj[user.profile._id] = user.percentageNumerator;
-      });
-      setPercentages(defaultValues);
+      setPercentages(
+        defaultValues.map((user) => ({
+          userInfo: user.userInfo,
+          percentage: user.percentageNumerator,
+        })),
+      );
     }
   }, [defaultValues]);
 

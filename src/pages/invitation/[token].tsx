@@ -18,7 +18,7 @@ export const getServerSideProps = async ({ req, query, params }) => {
 
     return { props: { invitationData: res.data?.data } };
   } catch (error) {
-    console.log(error);
+    console.log(error?.response.data?.message || error?.message);
     throw new Error(error);
   }
 };
@@ -41,12 +41,13 @@ const Invitation = ({ invitationData }) => {
   }, [status]);
 
   return (
-    <Layout headerStyle={2} footerStyle={1} currentMenuItem={"explore"}>
+    <Layout headerStyle={2} footerStyle={1} currentMenuItem={"Invitation"}>
       {status == "authenticated" ? (
         <AuthenticatedScreen
           type={invitationData?.invitation?.type}
           inviter={invitationData?.invitation?.inviter}
-          data={invitationData?.artPiece}
+          invitee={invitationData?.invitation?.invitee}
+          data={invitationData?.artPiece || invitationData?.org}
           objectType={invitationData?.invitation?.object}
         />
       ) : (
