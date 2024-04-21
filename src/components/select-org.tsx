@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "@/lib/axios";
 import {
   Autocomplete,
@@ -16,44 +16,97 @@ interface Props {
   setSelectedOrg: React.Dispatch<React.SetStateAction<any>>;
   selectedOrg: any;
   defaultValues?: any;
+  isUserOrg?: boolean;
 }
-export default function SelectOrg({ selectedOrg, setSelectedOrg }: Props) {
+export default function SelectOrg({
+  selectedOrg,
+  setSelectedOrg,
+  defaultValues,
+  isUserOrg,
+}: Props) {
   const axiosFetch = useAxiosAuth();
   const [loading, setLoading] = useState(false);
   const [organizations, setOrganizations] = useState<any[]>([]);
   const [inviteOrg, setInviteOrg] = useState(false);
-
-  const inviteOrgSchema = object({
-    name: string().nonempty("Organiztion name is required"),
-    email: string().email().nonempty("organization email is required"),
+  const [formErrors, setFormErrors] = useState({
+    name: "",
+    email: "",
+  });
+  const [formValues, setFormValues] = useState({
+    name: "",
+    email: "",
   });
 
-  type InviteOrgInput = TypeOf<typeof inviteOrgSchema>;
-  const {
-    register,
-    formState: { errors, isSubmitSuccessful },
-    reset,
-    handleSubmit,
-  } = useForm<InviteOrgInput>({
-    resolver: zodResolver(inviteOrgSchema),
-  });
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    type: "name" | "email",
+  ) => {
+    setFormErrors({
+      ...formErrors,
+      [type]: "",
+    });
+    setFormValues({
+      ...formValues,
+      [type]: e.target.value,
+    });
+  };
 
-  const onSubmitHandler: SubmitHandler<InviteOrgInput> = async (values) => {
-    try {
-      // TODO invite the organization
-      setSelectedOrg({
-        name: values.name,
-        email: values.email,
+  const handleBlur = (
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
+    type: "name" | "email",
+  ) => {
+    if (!formValues[type]) {
+      setFormErrors({
+        ...formErrors,
+        [type]: "Required",
       });
-      reset();
-      setInviteOrg(false);
+    } else if (type === "email" && !isValidEmail(formValues[type])) {
+      setFormErrors({
+        ...formErrors,
+        [type]: "Invalid email format",
+      });
+    } else {
+      setFormErrors({
+        ...formErrors,
+      });
+    }
+  };
+
+  const isValidEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+  const onSubmitHandler = async () => {
+    try {
+      if (Object.values(formErrors).every((err) => !err)) {
+        setSelectedOrg({
+          name: formValues.name,
+          email: formValues.email,
+        });
+
+        setFormValues({
+          name: "",
+          email: "",
+        });
+        setFormErrors({
+          name: "",
+          email: "",
+        });
+
+        setInviteOrg(false);
+      } else {
+        console.log(Object.values(formErrors));
+      }
     } catch (error) {}
   };
 
   const fetchOrgs = async (query: string) => {
     try {
       setLoading(true);
-      const { data: result } = await axiosFetch.get(`/org/list?q=${query}`);
+      const { data: result } = isUserOrg
+        ? await axiosFetch.get(`/org/user-orgs?q=${query}`)
+        : await axiosFetch.get(`/org/list?q=${query}`);
+      console.log(result.data);
 
       setOrganizations(result.data);
     } catch (error) {
@@ -66,8 +119,11 @@ export default function SelectOrg({ selectedOrg, setSelectedOrg }: Props) {
   const debounceFetch = debounce(fetchOrgs, 1000);
 
   const handleOrgChange = (e) => {
+    console.log(e.target.value);
     debounceFetch(e.target.value);
   };
+
+  console.log(defaultValues);
 
   return (
     <div className="">
@@ -81,22 +137,27 @@ export default function SelectOrg({ selectedOrg, setSelectedOrg }: Props) {
             fullWidth
             options={organizations}
             onChange={(event, value) => {
-              setSelectedOrg(value?._id);
+              console.log(value);
+              setSelectedOrg({
+                _id: value?._id,
+                name: value?.name,
+                email: value?.email,
+                address: value?.address,
+              });
             }}
             sx={{ width: 300 }}
-            getOptionLabel={(option) => `${option?.name || selectedOrg?.name}`}
+            defaultValue={selectedOrg || defaultValues}
+            getOptionLabel={(option) => `${selectedOrg?.name || option?.name}`}
             selectOnFocus
             clearOnBlur
             handleHomeEndKeys
             loading={loading}
             noOptionsText={
-              <p
-                onClick={() => {
-                  setInviteOrg(true);
-                }}
-              >
-                Do not see the organization you are looking for here? Invite
-                them
+              <p onClick={() => (!isUserOrg ? setInviteOrg(true) : {})}>
+                {isUserOrg
+                  ? "No organization found"
+                  : ` Do not see the organization you are looking for here? Invite
+                them`}
               </p>
             }
             renderInput={(params) => (
@@ -122,13 +183,7 @@ export default function SelectOrg({ selectedOrg, setSelectedOrg }: Props) {
         </div>
       ) : (
         <>
-          <form
-            id="commentform"
-            className="comment-form"
-            autoComplete="off"
-            noValidate
-            onSubmit={handleSubmit(onSubmitHandler)}
-          >
+          <div id="commentform" className="comment-form">
             <div className=" max-w-[450px] mx-auto gap-2 p-2 borderd-2 rounded-xl">
               <fieldset className="name">
                 <label>Organization Name *</label>
@@ -140,9 +195,10 @@ export default function SelectOrg({ selectedOrg, setSelectedOrg }: Props) {
                   tabIndex={2}
                   aria-required="true"
                   fullWidth
-                  error={!!errors["name"]}
-                  helperText={errors["name"] ? errors["name"].message : ""}
-                  {...register("name")}
+                  onBlur={(e) => handleBlur(e, "name")}
+                  error={Boolean(formErrors["name"])}
+                  helperText={formErrors["name"] ? formErrors["name"] : ""}
+                  onChange={(e) => handleChange(e, "name")}
                 />
               </fieldset>
 
@@ -156,16 +212,20 @@ export default function SelectOrg({ selectedOrg, setSelectedOrg }: Props) {
                   tabIndex={2}
                   aria-required="true"
                   fullWidth
-                  error={!!errors["email"]}
-                  helperText={errors["email"] ? errors["email"].message : ""}
-                  {...register("email")}
+                  onBlur={(e) => handleBlur(e, "email")}
+                  error={Boolean(formErrors["email"])}
+                  helperText={formErrors["email"] ? formErrors["email"] : ""}
+                  onChange={(e) => handleChange(e, "email")}
                 />
               </fieldset>
+
               <div className="flex justify-between items-center">
                 <button
                   className="tf-button style-1 h50 active"
                   style={{ marginTop: "2.5em" }}
-                  type="submit"
+                  type="button"
+                  onClick={onSubmitHandler}
+                  disabled={!Object.values(formErrors).every((err) => !err)}
                 >
                   Add
                 </button>
@@ -178,7 +238,7 @@ export default function SelectOrg({ selectedOrg, setSelectedOrg }: Props) {
                 </button>
               </div>
             </div>
-          </form>
+          </div>
         </>
       )}
     </div>

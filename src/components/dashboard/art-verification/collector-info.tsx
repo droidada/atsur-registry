@@ -64,9 +64,16 @@ export default function CollectorInfo({
     type: "",
   });
   const toast = useToast();
-  const [organization, setOrganization] = useState<any>(null);
+  const [organization, setOrganization] = useState<{
+    _id?: string;
+    name: string;
+    email: string;
+    address?: string;
+  }>(null);
   const [isCirca, setIsCirca] = useState(false);
   const [saveLoading, setSaveLoading] = useState(false);
+
+  console.log(organization);
 
   const onSubmitHandler: SubmitHandler<MetadataInput> = async (
     values,
@@ -76,7 +83,6 @@ export default function CollectorInfo({
     const buttonClicked = event.nativeEvent.submitter.name;
     const save = buttonClicked === "save" ? true : false;
     try {
-      console.log(defaultValues.attachment);
       if (!acquisitionDocument && !defaultValues?.attachment) {
         throw new Error("Please attached the acquisition document");
       }
@@ -106,7 +112,7 @@ export default function CollectorInfo({
         values.acquisitionDocumentCaption || "",
       );
       formData.append("aquisitionType", values.acquisitionType);
-      formData.append("organization", organization || "");
+      formData.append("organization", JSON.stringify(organization) || "");
       formData.append("isCirca", JSON.stringify(isCirca));
 
       const result = await axiosAuth.post(
@@ -120,7 +126,7 @@ export default function CollectorInfo({
     } catch (error) {
       console.error(error);
       if (axios.isAxiosError(error)) {
-        toast.error(error.response.data.message);
+        toast.error(error?.response?.data?.message);
       } else {
         toast.error(error.message || "Something went wrong");
       }
