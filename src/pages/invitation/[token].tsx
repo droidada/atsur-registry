@@ -46,6 +46,7 @@ const Invitation = ({ invitationData }) => {
         <AuthenticatedScreen
           type={invitationData?.invitation?.type}
           inviter={invitationData?.invitation?.inviter}
+          invitee={invitationData?.invitation?.invitee}
           data={invitationData?.artPiece || invitationData?.org}
           objectType={invitationData?.invitation?.object}
         />

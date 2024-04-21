@@ -46,7 +46,10 @@ export default function DealerInfo({
   const artPieceId = router.query.id as string;
 
   const [error, setError] = useState("");
-  const [organization, setOrganization] = useState<any>(null);
+  const [organization, setOrganization] = useState<{
+    _id: string;
+    name: string;
+  }>(null);
   const [listedArtists, setListedArtists] = useState<IArtist[]>([]);
   const [percentages, setPercentages] = useState<
     {
@@ -100,7 +103,7 @@ export default function DealerInfo({
         "artists",
         JSON.stringify(listedArtists?.map((item) => item?._id)),
       );
-      organization && formData.append("organization", organization);
+      organization && formData.append("organization", organization._id);
 
       const result = await axiosAuth.post(
         `/verify-artpiece/dealer/${artPieceId}`,
@@ -128,6 +131,7 @@ export default function DealerInfo({
   useEffect(() => {
     if (defaultValues) {
       setValue("notes", defaultValues?.notes);
+      setOrganization({ ...defaultValues?.organization });
     }
   }, [defaultValues]);
 
@@ -167,6 +171,7 @@ export default function DealerInfo({
           defaultValues={defaultValues?.organization}
           selectedOrg={organization}
           setSelectedOrg={setOrganization}
+          isUserOrg
         />
         <div>
           <Divider className="my-4">

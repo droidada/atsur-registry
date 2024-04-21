@@ -24,7 +24,8 @@ export const getServerSideProps = async ({ req, query }) => {
       headers: { authorization: `Bearer ${token?.accessToken}` },
     });
 
-    return { props: { organizations: res.data.organizations } };
+    console.log(res.data);
+    return { props: { organizations: res.data?.data } };
   } catch (error) {
     console.error("error here looks like ", error);
     if (error?.response?.status === 404) {
