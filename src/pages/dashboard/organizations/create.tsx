@@ -14,8 +14,32 @@ import DashboardLayoutWithSidebar, {
 } from "@/components/open9/layout/DashboardLayoutWithSidebar";
 import AutoSlider1 from "@/open9/slider/AutoSlider1";
 import AutoSlider2 from "@/open9/slider/AutoSlider2";
+import axios from "@/lib/axios";
 
-function CreateOrganization() {
+export const getServerSideProps = async ({ req, query, params }) => {
+  console.log(query);
+  const { token } = query;
+  console.log(token);
+  if (token) {
+    try {
+      const res = await axios.post(`/invite/fetch`, {
+        token,
+      });
+
+      console.log(res.data);
+
+      return { props: { invitationData: res.data?.data } };
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
+  } else {
+    return { props: {} };
+  }
+};
+
+function CreateOrganization({ invitationData }) {
+  console.log(invitationData);
   const axiosAuth = useAxiosAuth();
   const orgSchema = object({
     name: string().nonempty("Name is required"),
@@ -34,6 +58,7 @@ function CreateOrganization() {
     formState: { errors, isSubmitSuccessful },
     reset,
     handleSubmit,
+    setValue,
   } = useForm<OrgInput>({
     resolver: zodResolver(orgSchema),
   });
@@ -43,6 +68,9 @@ function CreateOrganization() {
   const router = useRouter();
   const [error, setError] = useState("");
   const { logIn, user, error: loginError } = useAuthContext();
+  const { token } = router.query;
+
+  console.log(token);
 
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -50,6 +78,14 @@ function CreateOrganization() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSubmitSuccessful]);
+
+  useEffect(() => {
+    if (invitationData) {
+      console.log("hheeeoeoeoe");
+      setValue("email", invitationData?.invitation?.invitee?.email);
+      setValue("name", invitationData?.invitation?.invitee?.orgName);
+    }
+  }, [invitationData]);
 
   const onSubmitHandler: SubmitHandler<OrgInput> = async (values) => {
     try {
@@ -73,6 +109,15 @@ function CreateOrganization() {
       const result = await axiosAuth.post("/org/add", formData);
       //setPreviewImg(result.data.imageName)
       console.log("result here is ", result.data);
+      if (token) {
+        const { data } = await axiosAuth.post("/invite/accept", {
+          token,
+          userResponse: "accepted",
+          orgId: result.data?.organization?._id,
+        });
+
+        console.log(data);
+      }
 
       setLoading(false);
       router.replace("/dashboard/organizations");
@@ -235,6 +280,7 @@ function CreateOrganization() {
                     placeholder="hello@gmail.com"
                     name="email"
                     tabIndex={2}
+                    disabled={invitationData?.invitation?.invitee?.email}
                     aria-required="true"
                     fullWidth
                     error={!!errors["email"]}

@@ -80,8 +80,6 @@ export default function Login({ invitationData }) {
     setValue("email", invitee?.email);
   }, [invitee]);
 
-  console.log(invitee);
-
   const onSubmitHandler: SubmitHandler<LoginInput> = async (values) => {
     try {
       setLoading(true);

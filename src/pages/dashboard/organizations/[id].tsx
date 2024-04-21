@@ -70,7 +70,7 @@ export const getServerSideProps = async ({ req, query }) => {
 function Organization({ organizations }) {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const [members, setMembers] = useState<any[]>([]);
+  const [members, setMembers] = useState<IArtist[]>([]);
   const [listedUsers, setListedUsers] = useState<IArtist[]>([]);
   const [openMemberInvite, setOpenMemberInvite] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -84,11 +84,31 @@ function Organization({ organizations }) {
 
   useEffect(() => {
     // Filter out the creator from the members
-    const filterMembers = organizations.members?.filter(
-      (member) => member._id !== organizations?.creator?._id,
-    );
+    const filterMembers = organizations.members
+      ?.filter((member) => {
+        if (member.invitation) {
+          return member;
+        }
+      })
+      .map((member) => {
+        return {
+          _id: member.invitation?._id,
+          firstName: member.invitation?.invitee?.firstName,
+          lastName: member.invitation?.invitee?.lastName,
+          status:
+            member.invitation?.responded &&
+            !member.invitation?.invitationAccepted
+              ? "rejected"
+              : member.invitation?.responded &&
+                member.invitation?.invitationAccepted
+              ? "accepted"
+              : "pending",
+        };
+      });
     setMembers(filterMembers);
   }, [organizations]);
+
+  console.log(members);
 
   const handleAddMember = async () => {
     try {
@@ -97,7 +117,11 @@ function Organization({ organizations }) {
         listedUsers?.map(async (member) => {
           const { data } = await axiosAuth.post(
             `/org/add-member/${organizations?._id}`,
-            { memberId: member?._id },
+            {
+              firstName: member.firstName,
+              lastName: member.lastName,
+              inviteeEmail: member.email,
+            },
           );
         }),
       );

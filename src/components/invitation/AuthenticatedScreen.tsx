@@ -4,6 +4,7 @@ import { LoadingButton } from "@mui/lab";
 import {
   Button,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
@@ -15,11 +16,21 @@ import React, { useEffect, useState } from "react";
 
 interface Props {
   type: string;
-  inviter: { firstName: string; lastName: string };
+  inviter: {
+    firstName?: string;
+    lastName?: string;
+  };
+  invitee: any;
   data: any;
   objectType: "art-piece" | "org";
 }
-const AuthenticatedScreen = ({ type, inviter, data, objectType }: Props) => {
+const AuthenticatedScreen = ({
+  type,
+  inviter,
+  data,
+  objectType,
+  invitee,
+}: Props) => {
   const [open, setOpen] = useState(false);
   const [acceptLoading, setAcceptLoading] = useState(false);
   const [rejectLoading, setRejectLoading] = useState(false);
@@ -30,17 +41,29 @@ const AuthenticatedScreen = ({ type, inviter, data, objectType }: Props) => {
   const toast = useToast();
   const [message, setMessage] = useState("");
 
-  console.log(type);
+  console.log(invitee);
 
   const handleAccept = async () => {
     try {
       setAcceptLoading(true);
-      const { data } = await axiosFetch.post("/invite/accept", {
-        token,
-        accept: true,
-      });
-      toast.success("Successfully accepted the invitation!");
-      router.push("/dashboard");
+      if (type !== "org") {
+        const { data } = await axiosFetch.post("/invite/accept", {
+          token,
+          userResponse: "accepted",
+        });
+        toast.success("Successfully accepted the invitation!");
+        router.push("/dashboard");
+      } else {
+        if (invitee?.org) {
+          const { data } = await axiosFetch.post("/invite/accept", {
+            token,
+            userResponse: "accepted",
+          });
+          toast.success("Successfully accepted the invitation!");
+          router.push(`/dashboard/organizations/${invitee?.org}`);
+        }
+        router.push(`/dashboard/organizations/create?token=${token}`);
+      }
     } catch (error) {
       toast.error("Error accepting the invitation!");
       console.log(error);
@@ -54,10 +77,10 @@ const AuthenticatedScreen = ({ type, inviter, data, objectType }: Props) => {
       setRejectLoading(true);
       const { data } = await axiosFetch.post("/invite/accept", {
         token,
-        accept: false,
+        userResponse: "rejected",
       });
       toast.success("Successfully rejected the invitation!");
-      router.push("/dashboard");
+      // router.push("/dashboard");
     } catch (error) {
       toast.error("Error accepting the invitation!");
       console.log(error);
@@ -79,6 +102,12 @@ const AuthenticatedScreen = ({ type, inviter, data, objectType }: Props) => {
       case "org-collaborator":
         setMessage(` collaborate on "${data?.name}" organization`);
         break;
+      case "member-org":
+        setMessage(` collaborate on "${data?.name}" organization`);
+        break;
+      case "org":
+        setMessage(`join our platform as an organization`);
+        break;
       default:
         setMessage(` join our platform `);
     }
@@ -93,17 +122,21 @@ const AuthenticatedScreen = ({ type, inviter, data, objectType }: Props) => {
       </p>
 
       <div className="flex gap-3">
-        <Button
-          onClick={() => setOpen(true)}
-          variant="contained"
-          className="style-1 rounded"
-        >
-          {type == "user"
-            ? "View Inviter"
-            : type == "org-collaborator"
-            ? "View Organization"
-            : "View Art Piece"}
-        </Button>
+        {!["org", "user"].includes(type) && (
+          <Button
+            onClick={() => setOpen(true)}
+            variant="contained"
+            className="style-1 rounded"
+          >
+            {type == "user"
+              ? "View Inviter"
+              : type == "org-collaborator"
+              ? "View Organization"
+              : type == "member-org" || type == "org"
+              ? "View Organization"
+              : "View Art Piece"}
+          </Button>
+        )}
         <LoadingButton
           loading={acceptLoading}
           variant="contained"
@@ -126,7 +159,7 @@ const AuthenticatedScreen = ({ type, inviter, data, objectType }: Props) => {
         <DialogTitle id="alert-dialog-title">
           {type == "user"
             ? "View Inviter"
-            : type == "org-collaborator"
+            : type == "org-collaborator" || type == "member-org"
             ? "View Organization"
             : "View Art Piece"}
         </DialogTitle>
@@ -135,8 +168,42 @@ const AuthenticatedScreen = ({ type, inviter, data, objectType }: Props) => {
             <DialogContentText id="alert-dialog-description">
               {inviter?.firstName} {inviter?.lastName}
             </DialogContentText>
-          ) : type == "org-collaborator" ? (
-            ``
+          ) : type == "org-collaborator" || type == "member-org" ? (
+            <DialogContent>
+              <Image
+                src={data?.image}
+                alt={data?.title}
+                width={200}
+                height={200}
+              />
+
+              <DialogContentText
+                className="font-semibold text-black"
+                id="alert-dialog-description"
+              >
+                Organization Name: {data?.name}
+              </DialogContentText>
+              <DialogContentText
+                className="font-semibold text-black"
+                id="alert-dialog-description"
+              >
+                Website: {data?.website}
+              </DialogContentText>
+              <DialogContentText
+                className="font-semibold text-black"
+                id="alert-dialog-description"
+              >
+                Email: {data?.email}
+              </DialogContentText>
+              <DialogContentText
+                className="font-semibold text-black"
+                id="alert-dialog-description"
+              >
+                Phone Number: {data?.phone}
+              </DialogContentText>
+            </DialogContent>
+          ) : type == "org" ? (
+            <></>
           ) : (
             <div className="flex flex-col items-center gap-7">
               <Image
@@ -145,15 +212,16 @@ const AuthenticatedScreen = ({ type, inviter, data, objectType }: Props) => {
                 width={200}
                 height={200}
               />
-              <DialogContentText id="alert-dialog-description">
-                {data?.title}
-              </DialogContentText>
+
               <DialogContentText id="alert-dialog-description">
                 {data?.description}
               </DialogContentText>
             </div>
           )}
         </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpen(false)}>Close</Button>
+        </DialogActions>
       </Dialog>
     </div>
   );
