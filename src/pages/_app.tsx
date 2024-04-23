@@ -16,15 +16,15 @@ import { ToastProvider } from "@/providers/ToastProvider";
 import { LoadingContextProvider } from "@/providers/loading.context";
 import { PasswordContextProvider } from "@/providers/password.context";
 
-import "@rainbow-me/rainbowkit/styles.css";
+// import "@rainbow-me/rainbowkit/styles.css";
 import "@/styles/globals.css";
 import ThemeProvider from "@/styles/theme";
 import { ProtectedLayout } from "@/components/protected-layout";
-import Preloader from "@/open9/elements/Preloader";
-import AddClassBody from "@/open9/elements/AddClassBody";
-import "/public/assets/css/style.css";
-import "/public/assets/css/responsive.css";
-import "wowjs/css/libs/animate.css";
+// import Preloader from "@/open9/elements/Preloader";
+// import AddClassBody from "@/open9/elements/AddClassBody";
+// import "/public/assets/css/style.css";
+// import "/public/assets/css/responsive.css";
+// import "wowjs/css/libs/animate.css";
 
 type AppPropsWithAuth = NextPage & {
   requireAuth?: boolean;
