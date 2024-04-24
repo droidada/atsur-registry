@@ -42,6 +42,7 @@ const TopCollection: React.FC<Props> = ({ artpieces }) => {
         >
           {artpieces?.slice(0, 4)?.map((artpiece) => (
             <SimpleArtpieceCard
+              url={`/explore/art-piece/${artpiece._id}`}
               key={artpiece?._id}
               image={artpiece?.assets?.url}
               title={artpiece?.title}
