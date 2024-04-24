@@ -1,5 +1,6 @@
 import { IPageArtist } from "@/types/models/hompageData";
 import { Avatar, Stack, Typography } from "@mui/material";
+import Link from "next/link";
 import React from "react";
 
 interface Props {
@@ -23,7 +24,8 @@ const TopArtists: React.FC<Props> = ({ artists }) => {
         spacing={2}
       >
         {artists.map((artist, index) => (
-          <div
+          <Link
+            href={`/explore/artist/${artist?._id}`}
             key={artist?._id}
             className="relative cursor-pointer hover:scale-95 duration-700 flex flex-col gap-2 items-center"
           >
@@ -38,7 +40,7 @@ const TopArtists: React.FC<Props> = ({ artists }) => {
             <span className="leading-[16px] text-[15px] font-[400]">
               {artist.firstName} {artist.lastName}
             </span>
-          </div>
+          </Link>
         ))}
       </Stack>
     </Stack>

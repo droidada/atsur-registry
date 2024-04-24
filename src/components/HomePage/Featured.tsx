@@ -32,6 +32,7 @@ const Featured: React.FC<Props> = ({ featured }) => {
       >
         {featured?.slice(0, 4)?.map((item) => (
           <ArtPieceCard
+            url={`/explore/art-piece/${item._id}`}
             key={item?._id}
             title={item?.title}
             rating={4}

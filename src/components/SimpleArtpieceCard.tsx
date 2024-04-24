@@ -9,8 +9,14 @@ interface Props {
     name: string;
     image?: string;
   };
+  url: string;
 }
-const SimpleArtpieceCard: React.FC<Props> = ({ title, image, creator }) => {
+const SimpleArtpieceCard: React.FC<Props> = ({
+  title,
+  image,
+  creator,
+  url,
+}) => {
   return (
     <div className="bg-white w-full max-w-[281px] flex-col flex ">
       <Image

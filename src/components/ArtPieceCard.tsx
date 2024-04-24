@@ -1,5 +1,6 @@
 import { Avatar, Rating, Stack, Typography } from "@mui/material";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 interface Props {
@@ -10,10 +11,17 @@ interface Props {
     image?: string;
   };
   rating: number;
+  url: string;
 }
-const ArtPieceCard: React.FC<Props> = ({ image, title, creator, rating }) => {
+const ArtPieceCard: React.FC<Props> = ({
+  image,
+  title,
+  creator,
+  rating,
+  url,
+}) => {
   return (
-    <div className="bg-primary w-full max-w-[281px] ">
+    <Link href={url} className="bg-primary w-full max-w-[281px] ">
       <Image
         src={image}
         alt={title}
@@ -46,7 +54,7 @@ const ArtPieceCard: React.FC<Props> = ({ image, title, creator, rating }) => {
           <span className="block h-[15px] w-[54px] border-[0.3px] rounded-[13px]" />
         </Stack>
       </Stack>
-    </div>
+    </Link>
   );
 };
 
