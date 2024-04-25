@@ -97,7 +97,7 @@ const SideBar = () => {
                 <Link
                   key={`submenu-${menu.title}`}
                   href={menu?.link}
-                  className={`text-[17px] leading-[16px] flex gap-3 items-center ${
+                  className={`text-[17px] leading-[16px]  flex gap-3 items-center ${
                     pathname.includes(menu.title?.toLowerCase())
                       ? "font-[300]"
                       : "font-[600]"

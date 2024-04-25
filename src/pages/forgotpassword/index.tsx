@@ -1,7 +1,7 @@
 import Layout from "@/open9/layout/Layout";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { TextField } from "@mui/material";
+import { Stack, TextField } from "@mui/material";
 import { object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -9,10 +9,12 @@ import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next/router";
 import { useAuthContext } from "../../providers/auth.context";
 import axios from "@/lib/axios";
+import InputField from "@/components/Form/InputField";
+import UnprotectedPage from "@/HOC/Unprotected";
 
 const pubAPI = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
-export default function ForgotPassword() {
+function ForgotPassword() {
   const forgotPasswordSchema = object({
     email: string().nonempty("Email is required").email("Email is invalid"),
   });
@@ -21,6 +23,7 @@ export default function ForgotPassword() {
 
   const {
     register,
+    control,
     formState: { errors, isSubmitSuccessful },
     reset,
     handleSubmit,
@@ -68,7 +71,48 @@ export default function ForgotPassword() {
 
   return (
     <>
-      <Layout headerStyle={2} footerStyle={1}>
+      <Stack
+        direction={"column"}
+        spacing={4}
+        className="mx-auto max-w-[770px] w-full"
+      >
+        <Stack spacing={2} alignItems={"center"}>
+          <h1 className="text-2xl font-[400] md:text-4xl ">Forgot Password</h1>
+          <h2 className="text-base">
+            Enter your registered email to get your password reset link
+          </h2>
+        </Stack>
+        <form
+          onSubmit={handleSubmit(onSubmitHandler)}
+          className="bg-secondary flex flex-col gap-4 w-full py-8 px-6"
+        >
+          <InputField
+            isRequired
+            label="Email"
+            type="email"
+            id="email"
+            placeholder="mail@website.com"
+            name="email"
+            tabIndex={2}
+            aria-required="true"
+            fullWidth
+            error={!!errors["email"]}
+            helperText={errors["email"] ? errors["email"].message : ""}
+            control={control}
+          />
+
+          <div className="flex flex-col gap-3 text-base">
+            <LoadingButton
+              type="submit"
+              loading={loading}
+              className="bg-primary text-secondary hover:bg-gray-800"
+            >
+              Submit
+            </LoadingButton>
+          </div>
+        </form>
+      </Stack>
+      {/* <Layout headerStyle={2} footerStyle={1}>
         <div className="tf-section-2 pt-60 widget-box-icon">
           <div className="themesflat-container w920">
             <div className="row">
@@ -120,7 +164,9 @@ export default function ForgotPassword() {
             </div>
           </div>
         </div>
-      </Layout>
+      </Layout> */}
     </>
   );
 }
+
+export default UnprotectedPage(ForgotPassword);
