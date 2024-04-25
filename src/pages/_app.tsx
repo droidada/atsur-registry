@@ -15,6 +15,8 @@ import { AuthContextProvider } from "@/providers/auth.context";
 import { ToastProvider } from "@/providers/ToastProvider";
 import { LoadingContextProvider } from "@/providers/loading.context";
 import { PasswordContextProvider } from "@/providers/password.context";
+import { DefaultSeo } from "next-seo";
+import SEO from "../../next-seo.config";
 
 // import "@rainbow-me/rainbowkit/styles.css";
 import "@/styles/globals.css";
@@ -25,6 +27,14 @@ import { ProtectedLayout } from "@/components/protected-layout";
 // import "/public/assets/css/style.css";
 // import "/public/assets/css/responsive.css";
 // import "wowjs/css/libs/animate.css";
+
+import Router from "next/router";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
+
+Router.events.on("routeChangeStart", () => NProgress.start());
+Router.events.on("routeChangeComplete", () => NProgress.done());
+Router.events.on("routeChangeError", () => NProgress.done());
 
 type AppPropsWithAuth = NextPage & {
   requireAuth?: boolean;
@@ -81,6 +91,8 @@ export default function NextWeb3App({
               <AuthContextProvider>
                 <ThemeProvider>
                   <ToastProvider>
+                    <DefaultSeo {...SEO} />
+
                     {Component.requireAuth ? (
                       <ProtectedLayout>
                         {/* <AddClassBody /> */}

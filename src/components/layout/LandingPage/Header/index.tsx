@@ -83,6 +83,7 @@ const LandindingPageHeader = () => {
             </Button>
           ) : (
             <Button
+              onClick={() => router.push("/login")}
               variant="contained"
               className="h-[29px] hover:scale-95 duration-500 bg-black text-white text-[15px] leading-[16px]"
             >
