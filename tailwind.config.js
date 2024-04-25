@@ -43,6 +43,12 @@ module.exports = {
       colors: {
         primary: "#000000",
         secondary: "#D9D9D9",
+        "primary-gray": "#AFADAD",
+        "secondary-white": "#F3F3F3",
+      },
+      gridTemplateColumns: {
+        "auto-fit": "repeat(auto-fit, minmax(250px, 1fr))",
+        "auto-fill": "repeat(auto-fill, minmax(200px, 1fr))",
       },
       // colors: {
       //   primary: "#000000",

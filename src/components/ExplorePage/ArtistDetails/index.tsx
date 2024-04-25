@@ -6,14 +6,15 @@ import { IoMdLink } from "react-icons/io";
 import Link from "next/link";
 import { IoShareOutline } from "react-icons/io5";
 import { CgMoreAlt } from "react-icons/cg";
-interface Props {
-  artist: IArtistDetails;
-}
 import { FaXTwitter } from "react-icons/fa6";
 import { FaInstagram } from "react-icons/fa";
 import { TiSocialLinkedinCircular } from "react-icons/ti";
 import { IoLogoFacebook } from "react-icons/io5";
+import RightSection from "./RightSection";
 
+interface Props {
+  artist: IArtistDetails;
+}
 const ArtistDetailsPage: React.FC<Props> = ({ artist }) => {
   // const check
   return (
@@ -23,7 +24,10 @@ const ArtistDetailsPage: React.FC<Props> = ({ artist }) => {
         avatar={artist?.avatar}
         name={`${artist?.firstName} ${artist?.lastName}`}
       />
-      <Stack direction={{ xs: "column", md: "row" }}>
+      <Stack
+        className="gap-4 md:gap-12"
+        direction={{ xs: "column", md: "row" }}
+      >
         <Stack
           spacing={4}
           direction={"column"}
@@ -84,6 +88,8 @@ const ArtistDetailsPage: React.FC<Props> = ({ artist }) => {
             </IconButton>
           </Stack>
         </Stack>
+
+        <RightSection artist={artist} />
       </Stack>
     </>
   );
