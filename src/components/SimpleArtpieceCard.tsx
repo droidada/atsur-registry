@@ -10,15 +10,25 @@ interface Props {
     image?: string;
   };
   url: string;
+  isBlack?: boolean;
+  isSmall?: boolean;
+  containerClassName?: string;
 }
 const SimpleArtpieceCard: React.FC<Props> = ({
   title,
   image,
   creator,
   url,
+  isBlack,
+  isSmall,
+  containerClassName,
 }) => {
   return (
-    <div className="bg-white w-full max-w-[281px] flex-col flex ">
+    <div
+      className={`${
+        isBlack ? "bg-primary" : "bg-white"
+      } w-full  flex-col flex ${containerClassName}`}
+    >
       <Image
         src={image}
         alt={title}
@@ -30,11 +40,17 @@ const SimpleArtpieceCard: React.FC<Props> = ({
         direction={"column"}
         spacing={2}
         alignItems="center"
-        className="md:py-[19px] py-5  px-4 text-primary text-center "
+        className={`md:py-[19px] py-5  px-4 ${
+          isBlack ? "text-white" : "text-black"
+        } text-center `}
       >
         <Typography
           variant="h4"
-          className="font-[300] text-xl md:text-2xl lg:text-3xl lg:leading-4"
+          className={`font-[300] ${
+            isSmall
+              ? "text-xl lg:text-[24px] lg:leading-[16px]"
+              : "text-xl md:text-2xl lg:text-3xl"
+          } lg:leading-4`}
         >
           {title}
         </Typography>
@@ -45,13 +61,17 @@ const SimpleArtpieceCard: React.FC<Props> = ({
               src={creator?.image}
               alt={creator?.name}
             />
-            <div className="flex gap-4 font-[400] text-[8px] leading-[10px] text-justify ">
+            <div className="flex gap-1 font-[400] text-[10px] leading-[10px] text-justify ">
               <span>Created by</span>
               <span className="font-[600]">{creator?.name}</span>
             </div>
           </div>
         </Stack>
-        <Button className="bg-primary text-secondary w-full text-[13px] leading-[16px] font-[400]">
+        <Button
+          className={`${
+            isBlack ? "bg-white text-black" : "bg-black text-white"
+          } w-full text-[13px] leading-[16px] font-[400]`}
+        >
           Explore
         </Button>
       </Stack>

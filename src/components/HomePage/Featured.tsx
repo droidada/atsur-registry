@@ -9,7 +9,6 @@ interface Props {
 }
 
 const Featured: React.FC<Props> = ({ featured }) => {
-  console.log(featured);
   return (
     <Stack
       component={"section"}
@@ -37,6 +36,10 @@ const Featured: React.FC<Props> = ({ featured }) => {
             title={item?.title}
             rating={4}
             image={item?.assets?.url}
+            // creator={{
+            //   name: `${item?.custodian?.profile?.firstName} ${item?.custodian?.profile?.lastName}`,
+            //   image: item?.custodian?.profile?.avatar,
+            // }}
           />
         ))}
       </Stack>

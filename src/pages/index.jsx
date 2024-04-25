@@ -44,8 +44,9 @@ function Home() {
     async function fetchData() {
       try {
         const res = await load(axios.get(`/public/home`));
-        setData(res.data);
-        if (res.data) {
+
+        setData(res?.data);
+        if (res?.data) {
           const pieces = res?.data?.data?.allPieces[0]?.type?.filter(
             (item) => item._id === "art-piece",
           );
