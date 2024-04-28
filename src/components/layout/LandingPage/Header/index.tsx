@@ -18,26 +18,7 @@ import { BiMenuAltRight } from "react-icons/bi";
 import { IoSearchCircleOutline } from "react-icons/io5";
 import { MdFacebook } from "react-icons/md";
 import { AiOutlineInstagram, AiOutlineTwitter } from "react-icons/ai";
-
-const navMenu = [
-  {
-    title: "Home",
-    link: "/",
-  },
-
-  {
-    title: "About",
-    link: "/about",
-  },
-  {
-    title: "Explore",
-    link: "/about",
-  },
-  {
-    title: "Contact",
-    link: "/contact",
-  },
-];
+import { landingPageNavMenu } from "@/lib/utils/navs";
 
 const LandindingPageHeader = () => {
   const router = useRouter();
@@ -59,7 +40,7 @@ const LandindingPageHeader = () => {
             <Image src={logo} width={66} height={58.98} alt="Atsur" />
           </Link>
           <div className="hidden md:flex items-center gap-8 ">
-            {navMenu.map((item) => (
+            {landingPageNavMenu.map((item) => (
               <Link
                 className={`text-[17px] leading-[16px] hover:font-bold duration-500 text-justified ${
                   isCurrentPath(item.link) ? "font-[600]" : "font-[400]"
@@ -151,7 +132,7 @@ const MobileMenuContent = () => {
 
       <div className=" lg:hidden block mt-4 bg-secondary p-2">
         <List>
-          {navMenu.map((item) => (
+          {landingPageNavMenu.map((item) => (
             <ListItem
               className="my-2"
               key={`mobile-menu-${item.title}`}
