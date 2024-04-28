@@ -1,4 +1,4 @@
-import { IAddress, IInvitee, IMember, IUser, IWallet } from "./member";
+import { IAddress, IMember, IUser, IWallet } from "./member";
 
 interface IArtist {
   firstName: string;
@@ -7,4 +7,4 @@ interface IArtist {
   _id?: string;
 }
 
-export type { IMember, IUser, IAddress, IInvitee, IWallet, IArtist };
+export type { IMember, IUser, IAddress, IWallet, IArtist };
