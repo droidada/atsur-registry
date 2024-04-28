@@ -27,8 +27,6 @@
     "@ethereumjs/util": "^9.0.1",
     "@headlessui/react": "^1.7.18",
     "@hookform/resolvers": "^3.3.1",
-    "@metamask/detect-provider": "^2.0.0",
-    "@metamask/onboarding": "^1.0.1",
     "@mui/icons-material": "^6.0.0-alpha.0",
     "@mui/lab": "^5.0.0-alpha.169",
     "@mui/material": "^6.0.0-alpha.0",
