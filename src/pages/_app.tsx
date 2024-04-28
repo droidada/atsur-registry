@@ -8,6 +8,7 @@ import { publicProvider } from "wagmi/providers/public";
 import { Alfajores, Celo } from "@celo/rainbowkit-celo/chains";
 import celoGroups from "@celo/rainbowkit-celo/lists";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { Analytics } from "@vercel/analytics/react";
 import { SessionProvider } from "next-auth/react";
@@ -45,6 +46,7 @@ interface CustomAppProps extends Omit<AppProps, "Component"> {
   Component: AppPropsWithAuth;
 }
 
+const queryClient = new QueryClient();
 const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID as string; // get one at https://cloud.walletconnect.com/app
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
@@ -85,30 +87,32 @@ export default function NextWeb3App({
   return (
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider chains={chains} appInfo={appInfo} coolMode={true}>
-        <PasswordContextProvider>
-          <SessionProvider session={session}>
-            <LoadingContextProvider>
-              <AuthContextProvider>
-                <ThemeProvider>
-                  <ToastProvider>
-                    <DefaultSeo {...SEO} />
+        <QueryClientProvider client={queryClient}>
+          <PasswordContextProvider>
+            <SessionProvider session={session}>
+              <LoadingContextProvider>
+                <AuthContextProvider>
+                  <ThemeProvider>
+                    <ToastProvider>
+                      <DefaultSeo {...SEO} />
 
-                    {Component.requireAuth ? (
-                      <ProtectedLayout>
-                        {/* <AddClassBody /> */}
+                      {Component.requireAuth ? (
+                        <ProtectedLayout>
+                          {/* <AddClassBody /> */}
+                          <Component {...pageProps} />
+                        </ProtectedLayout>
+                      ) : (
                         <Component {...pageProps} />
-                      </ProtectedLayout>
-                    ) : (
-                      <Component {...pageProps} />
-                    )}
-                    {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-                    <Analytics />
-                  </ToastProvider>
-                </ThemeProvider>
-              </AuthContextProvider>
-            </LoadingContextProvider>
-          </SessionProvider>
-        </PasswordContextProvider>
+                      )}
+                      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+                      <Analytics />
+                    </ToastProvider>
+                  </ThemeProvider>
+                </AuthContextProvider>
+              </LoadingContextProvider>
+            </SessionProvider>
+          </PasswordContextProvider>
+        </QueryClientProvider>
       </RainbowKitProvider>
     </WagmiConfig>
   );

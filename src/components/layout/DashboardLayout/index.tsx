@@ -1,27 +1,26 @@
 import { Stack } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import SideBar from "./SideBar";
 import Footer from "../LandingPage/Footer";
 import Header from "./Header";
+import SearchBar from "./SearchBar";
 
 interface Props {
   children: React.ReactNode;
 }
 const DashboardLayout: React.FC<Props> = ({ children }) => {
+  const [hideSidebar, setHideSidebar] = useState(false);
+
   return (
-    <Stack>
-      <Stack
-        direction={{ xs: "column", lg: "row" }}
-        sx={{ minHeight: "100vh" }}
-      >
-        <SideBar />
-        <Stack className="lg:w-3/4 w-full">
-          <Header />
-          <main className="py-[42px] px-4 lg:px-[70px]">{children}</main>
-        </Stack>
+    <div className="min-h-screen  flex ">
+      <SideBar hideSidebar={hideSidebar} />
+      <Stack className=" w-full">
+        <Header setHideSidebar={setHideSidebar} />
+        <main className="lg:py-[42px]  px-4 lg:px-6 py-5 ">
+          <div className="container mx-auto">{children}</div>
+        </main>
       </Stack>
-      <Footer />
-    </Stack>
+    </div>
   );
 };
 

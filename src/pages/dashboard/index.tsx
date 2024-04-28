@@ -14,6 +14,13 @@ import { ArtistCard } from "@/components/artist-card";
 import ArtPieceCard from "@/components/common/ArtPieceCard";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import ProtectedPage from "@/HOC/Protected";
+import SearchBar from "@/components/layout/DashboardLayout/SearchBar";
+import HeroHeader from "@/components/dashboard/HeroHeader";
+import { Stack } from "@mui/material";
+import FilterLine from "@/components/dashboard/FilterLine";
+import GridView from "@/components/dashboard/artwork/GridView";
+import ListView from "@/components/dashboard/artwork/ListView";
+import { useQuery } from "@tanstack/react-query";
 
 // export const getServerSideProps = async ({ req, query }) => {
 //   try {
@@ -41,74 +48,46 @@ import ProtectedPage from "@/HOC/Protected";
 // };
 
 function Artworks() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [artworks, setArtworks] = useState([]);
   const axiosAuth = useAxiosAuth();
-
+  const [view, setView] = useState<"list" | "grid">("grid");
+  const {
+    isFetching,
+    data: artworks,
+    isError,
+  } = useQuery(["artworks"], () =>
+    axiosAuth.get(`/art-piece/creator`).then((res) => res.data.artPieces),
+  );
   // console.log(artworks);
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await axiosAuth.get(`/art-piece/creator`);
-        setArtworks(res.data.artPieces);
-      } catch (error) {
-        console.error(error);
-        // throw new Error(error);
-      }
-    }
-    fetchData();
-  }, [axiosAuth]);
+
+  console.log(artworks);
 
   return (
-    <></>
-    // <DashboardLayoutWithSidebar activePage={DashboardPages.ART}>
-    //   <div className="i flex-1  max-w-full">
-    //     <div className="action__body w-full rounded-xl mb-40">
-    //       <div className="tf-tsparticles">
-    //         <div id="tsparticles7" data-color="#161616" data-line="#000" />
-    //       </div>
-    //       <h2>Artworks</h2>
-    //       <div className="flat-button flex">
-    //         <Link
-    //           href="/explore"
-    //           className="tf-button rounded-xl style-2 h50 w190 mr-10"
-    //         >
-    //           Explore
-    //           <i className="icon-arrow-up-right2" />
-    //         </Link>
-    //         <Link
-    //           href="/dashboard/artworks/create"
-    //           className="tf-button rounded-xl style-2 h50 w230"
-    //         >
-    //           Create
-    //           <i className="icon-arrow-up-right2" />
-    //         </Link>
-    //       </div>
-    //       <div className="bg-home7">
-    //         <AutoSlider1 />
-    //         <AutoSlider2 />
-    //         <AutoSlider1 />
-    //       </div>
-    //     </div>
-
-    //     <div className="heading-section">
-    //       <h2 className="tf-title pb-30">My ArtWorks</h2>
-    //     </div>
-    //     <div className="widget-tabs px-4 relative">
-    //       <div className=" w-full grid gap-3 md:grid-cols-2 lg:grid-cols-3 grid-cols-1">
-    //         {artworks?.map((artPiece, idx) => (
-    //           <ArtPieceCard
-    //             rating={artPiece?.rating}
-    //             link={`/dashboard/artworks/${artPiece._id}`}
-    //             title={artPiece.title}
-    //             image={artPiece.assets[0].url}
-    //             key={idx}
-    //           />
-    //         ))}
-    //       </div>
-    //     </div>
-    //   </div>
-    // </DashboardLayoutWithSidebar>
+    <Stack spacing={2}>
+      <SearchBar />
+      <HeroHeader
+        type="artworks"
+        handleCreate={() => {}}
+        handleExplore={() => {}}
+      />
+      <FilterLine view={view} setView={setView} title="My Artworks" />
+      <div className="mt-4">
+        {view == "grid" ? (
+          <GridView
+            artworks={artworks}
+            isFetching={isFetching}
+            isError={isError}
+            baseUrl="/dashboard/artworks"
+          />
+        ) : (
+          <ListView
+            isFetching={isFetching}
+            isError={isError}
+            artworks={artworks}
+            baseUrl="/dashboard/artworks"
+          />
+        )}
+      </div>
+    </Stack>
   );
 }
 Artworks.requireAuth = true;

@@ -6,7 +6,6 @@ import HeroImage2 from "../../../public/images/hero-join/2.png";
 import HeroImage3 from "../../../public/images/hero-join/3.png";
 import Image from "next/image";
 import { useRouter } from "next/router";
-
 const HeroSection = () => {
   const router = useRouter();
   return (

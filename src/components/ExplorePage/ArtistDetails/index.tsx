@@ -40,12 +40,12 @@ const ArtistDetailsPage: React.FC<Props> = ({ artist }) => {
             </h1>
             <div className="flex gap-3 items-center">
               <span className="text-lg font-[600]">Nigeria, 50 followers</span>
-              <Rating
+              {/* <Rating
                 size="small"
                 readOnly
                 value={4}
                 className="bg-secondary px-2 py-1 rounded-[16px] "
-              />
+              /> */}
             </div>
             <div className="flex gap-2">
               <IoMdLink />

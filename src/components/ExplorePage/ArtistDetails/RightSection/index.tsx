@@ -34,10 +34,10 @@ const RightSection: React.FC<Props> = ({ artist }) => {
       label: "My Projects",
       icon: <BsFillFolderFill size={15} />,
     },
-    {
-      label: "My Board",
-      icon: <GiPaintBrush className="rotate-90" size={15} />,
-    },
+    // {
+    //   label: "My Board",
+    //   icon: <GiPaintBrush className="rotate-90" size={15} />,
+    // },
     {
       label: "Favorites",
       icon: <FaHeart size={15} />,
@@ -74,7 +74,7 @@ const RightSection: React.FC<Props> = ({ artist }) => {
             [
               <Details artist={artist} key={"details"} />,
               <Projects artistId={artist?._id} key={"projects"} />,
-              <Board key={"board"} />,
+              // <Board key={"board"} />,
               <Favourites artistId={artist?._id} key={"favorites"} />,
             ][value]
           }

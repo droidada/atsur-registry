@@ -1,71 +1,28 @@
-import { Button, Link, Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import Image from "next/image";
 import React from "react";
-import { PiFolderSimpleFill } from "react-icons/pi";
-import { BsDoorOpenFill } from "react-icons/bs";
-import { RiVerifiedBadgeFill } from "react-icons/ri";
-import { TbActivity } from "react-icons/tb";
-import { BsShieldFill } from "react-icons/bs";
-import { IoMdSettings } from "react-icons/io";
-import { BiLogIn } from "react-icons/bi";
-import { LiaChartLineSolid } from "react-icons/lia";
-import { PiMedalFill } from "react-icons/pi";
+
 import { useRouter } from "next/router";
+import { FaRegPlusSquare } from "react-icons/fa";
+import { dashboardSidebarMenu } from "@/lib/utils/navs";
+import { signOut } from "next-auth/react";
+import Link from "next/link";
 
-const sidebarMenu = [
-  {
-    title: "ARTWORK",
-    menus: [
-      { title: "Art", icon: LiaChartLineSolid, link: "/dashboard/artworks" },
-
-      {
-        title: "Collections",
-        icon: PiFolderSimpleFill,
-        link: "/dashboard/collections",
-      },
-      {
-        title: "Organizations",
-        icon: BsDoorOpenFill,
-        link: "/dashboard/organizations",
-      },
-      { title: "Wishlist", icon: PiMedalFill, link: "/dashboard/Wishlist" },
-      {
-        title: "Deals",
-        icon: RiVerifiedBadgeFill,
-        link: "/dashboard/Deals",
-      },
-    ],
-  },
-  {
-    title: "Account",
-    menus: [
-      {
-        title: "Activities",
-        icon: TbActivity,
-        link: "/dashboard/activities",
-      },
-      {
-        title: "Security",
-        icon: BsShieldFill,
-        link: "/dashboard/security",
-      },
-      {
-        title: "Settings",
-        icon: IoMdSettings,
-        link: "/dashboard/settings",
-      },
-      { title: "Logout", icon: BiLogIn, isButton: true },
-    ],
-  },
-];
-const SideBar = () => {
+interface Props {
+  hideSidebar: boolean;
+}
+const SideBar: React.FC<Props> = ({ hideSidebar }) => {
   const pathname = useRouter().pathname;
+
+  console.log(hideSidebar);
+
   return (
-    <Stack
-      direction="column"
-      className="bg-secondary-white border-r-2 w-1/4 h-screen left-0 top-0"
+    <div
+      className={`bg-secondary-white  hidden overflow-y-auto lg:flex flex-col border-r-2 w-1/4 sticky top-0   h-screen   ${
+        hideSidebar ? "-left-full" : "left-0"
+      }`}
     >
-      <div className="border-b-2 ">
+      <div className="border-b-2 sticky top-0 bg-secondary-white z-[200]">
         <Image
           src="/atsur-dashboar-logo.png"
           alt="atsur"
@@ -74,8 +31,17 @@ const SideBar = () => {
         />
       </div>
 
-      <Stack direction={"column"} className="gap-14 px-8">
-        {sidebarMenu.map((item) => (
+      <Stack direction={"column"} className="gap-14 px-8 pb-20">
+        <div className="mt-10 flex justify-center">
+          <Button className="flex gap-3 w-[152px] h-[39.5px] text-[15px] leading-[16px] hover:scale-95 duration-700 items-center p-0 divide-white bg-primary text-white">
+            <span className="flex-1"> Create</span>
+            <span className="h-full w-1/3 border-l-[1px] grid place-items-center ">
+              <FaRegPlusSquare size={20} />
+            </span>
+          </Button>
+        </div>
+
+        {dashboardSidebarMenu.map((item) => (
           <div
             key={`dashboard-menu-${item?.title}`}
             className="flex flex-col  gap-6"
@@ -85,33 +51,51 @@ const SideBar = () => {
             </h2>
             {item.menus?.map((menu) =>
               menu?.isButton ? (
-                <Button
-                  className="text-[17px] leading-[16px] flex gap-3 items-center "
-                  variant="text"
+                <h4
+                  onClick={() => signOut()}
+                  className="text-[17px] cursor-pointer leading-[16px] flex gap-3 items-center "
                   key={`button-${menu.title}`}
                 >
-                  <menu.icon />
+                  <Image
+                    src={menu?.icon}
+                    alt={menu?.title}
+                    width={18}
+                    height={18}
+                  />
                   <span>{menu?.title}</span>
-                </Button>
+                </h4>
               ) : (
                 <Link
                   key={`submenu-${menu.title}`}
                   href={menu?.link}
-                  className={`text-[17px] leading-[16px]  flex gap-3 items-center ${
+                  className={`text-[17px] leading-[16px] no-underline  flex gap-3 items-center ${
                     pathname.includes(menu.title?.toLowerCase())
-                      ? "font-[300]"
-                      : "font-[600]"
+                      ? "font-[600]"
+                      : "font-[300]"
                   }`}
                 >
-                  <menu.icon />
-                  <span>{menu?.title}</span>
+                  <Image
+                    src={menu?.icon}
+                    alt={menu?.title}
+                    width={18}
+                    height={18}
+                  />
+                  {menu?.title}
                 </Link>
               ),
             )}
           </div>
         ))}
       </Stack>
-    </Stack>
+
+      <Image
+        src="/images/mask.png"
+        width={299}
+        height={76}
+        alt="mask"
+        className="w-full h-[70px] object-cover"
+      />
+    </div>
   );
 };
 

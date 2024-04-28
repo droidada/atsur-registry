@@ -9,100 +9,84 @@ import AutoSlider2 from "@/open9/slider/AutoSlider2";
 import { getToken } from "next-auth/jwt";
 import axios from "@/lib/axios";
 import CollectionCard from "@/components/common/CollectionCard";
+import ProtectedPage from "@/HOC/Protected";
+import { Stack } from "@mui/material";
+import SearchBar from "@/components/layout/DashboardLayout/SearchBar";
+import HeroHeader from "@/components/dashboard/HeroHeader";
+import FilterLine from "@/components/dashboard/FilterLine";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosAuth from "@/hooks/useAxiosAuth";
+import CollectionGridView from "@/components/dashboard/collection/CollectionGridView";
+import CollectionListView from "@/components/dashboard/collection/CollectionListView";
 
-export const getServerSideProps = async ({ req, query }) => {
-  try {
-    const token: any = await getToken({
-      req,
-      secret: process.env.NEXTAUTH_SECRET,
-    });
+// export const getServerSideProps = async ({ req, query }) => {
+//   try {
+//     const token: any = await getToken({
+//       req,
+//       secret: process.env.NEXTAUTH_SECRET,
+//     });
 
-    if (!token) return;
+//     if (!token) return;
 
-    const res = await axios.get(`/collection/user`, {
-      headers: { authorization: `Bearer ${token?.accessToken}` },
-    });
+//     const res = await axios.get(`/collection/user`, {
+//       headers: { authorization: `Bearer ${token?.accessToken}` },
+//     });
 
-    console.log(res.data);
+//     console.log(res.data);
 
-    return { props: { collections: res.data.collections } };
-  } catch (error) {
-    console.error("error here looks like ", error?.response?.data);
-    if (error?.response?.status === 404) {
-      return {
-        notFound: true,
-      };
-    }
-    throw new Error(error);
-  }
-};
+//     return { props: { collections: res.data.collections } };
+//   } catch (error) {
+//     console.error("error here looks like ", error?.response?.data);
+//     if (error?.response?.status === 404) {
+//       return {
+//         notFound: true,
+//       };
+//     }
+//     throw new Error(error);
+//   }
+// };
 
-function Collections({ collections }) {
-  console.log("this is collection", collections);
+function Collections() {
+  const [view, setView] = useState<"list" | "grid">("grid");
+  const axiosFetch = useAxiosAuth();
+  const {
+    data: collections,
+    isFetching,
+    isError,
+  } = useQuery(["collections"], () =>
+    axiosFetch.get("/collection/user").then((res) => res.data.collections),
+  );
+
+  console.log(collections);
 
   return (
-    <>
-      <DashboardLayoutWithSidebar activePage={DashboardPages.COLLECTIONS}>
-        <>
-          <div className="row px-4">
-            <div className="action__body rounded-xl w-full mb-40">
-              <div className="tf-tsparticles">
-                <div id="tsparticles7" data-color="#161616" data-line="#000" />
-              </div>
-              <h2>Collections</h2>
-              <div className="flat-button flex">
-                <Link
-                  href="/explore"
-                  className="tf-button style-2 rounded-xl h50 w190 mr-10"
-                >
-                  Explore
-                  <i className="icon-arrow-up-right2" />
-                </Link>
-                <Link
-                  href="/dashboard/collections/create"
-                  className="tf-button rounded-xl style-2 h50 w230"
-                >
-                  Create
-                  <i className="icon-arrow-up-right2" />
-                </Link>
-              </div>
-              <div className="bg-home7">
-                <AutoSlider1 />
-                <AutoSlider2 />
-                <AutoSlider1 />
-              </div>
-            </div>
-            <div className="row">
-              {collections?.length > 0 ? (
-                <div className="flex-1 w-full grid gap-3 md:grid-cols-2 lg:grid-cols-3 grid-cols-1">
-                  {collections?.map((collection, idx) => (
-                    <CollectionCard
-                      type={collection?.type[0]}
-                      totalArtWork={collection?.artworks?.length || 0}
-                      key={collection?._id}
-                      title={collection?.title}
-                      image={collection?.image}
-                      link={`/dashboard/collections/${collection._id}`}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <p>
-                  You have no collections yet.{" "}
-                  <Link href="/dashboard/collections/create">
-                    <button className="tf-button style-1 rounded-xl ml-3">
-                      {" "}
-                      Create One
-                    </button>
-                  </Link>
-                </p>
-              )}
-            </div>
-          </div>
-        </>
-      </DashboardLayoutWithSidebar>
-    </>
+    <Stack spacing={2}>
+      <SearchBar />
+      <HeroHeader
+        type="artworks"
+        handleCreate={() => {}}
+        handleExplore={() => {}}
+      />
+      <FilterLine view={view} setView={setView} title="My Collections" />
+      <div className="mt-4">
+        {view == "grid" ? (
+          <CollectionGridView
+            baseUrl="/dashboard/collections"
+            collections={collections}
+            isFetching={isFetching}
+            isError={isError}
+          />
+        ) : (
+          <CollectionListView
+            baseUrl="/dashboard/collections"
+            collections={collections}
+            isFetching={isFetching}
+            isError={isError}
+          />
+        )}
+      </div>
+    </Stack>
   );
 }
 Collections.requireAuth = true;
-export default Collections;
+export default ProtectedPage(Collections);
