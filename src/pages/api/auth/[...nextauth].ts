@@ -16,8 +16,7 @@ export const options: any = {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req)
-      {
+      async authorize(credentials, req) {
         const payload = {
           email: credentials.email,
           password: credentials.password,
@@ -50,12 +49,8 @@ export const options: any = {
     maxAge: 24 * 60 * 60, // 24 Hours
   },
   callbacks: {
-    async jwt({ token, user, account })
-    {
-
+    async jwt({ token, user, account }) {
       if (user) {
-
-
         return {
           ...token,
           ...user,
@@ -65,8 +60,7 @@ export const options: any = {
       return token;
     },
 
-    async session({ session, token })
-    {
+    async session({ session, token }) {
       console.log(token);
 
       if (token) {
@@ -78,9 +72,8 @@ export const options: any = {
           firstName: token?.firstName,
           email: token?.email,
           avatar: token?.avatar,
-          backgroundImage: token?.backgroundImage
+          backgroundImage: token?.backgroundImage,
         };
-
       }
 
       return session;

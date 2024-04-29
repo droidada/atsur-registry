@@ -23,7 +23,11 @@ const CategorySection: React.FC<Props> = ({ categories }) => {
         spacing={2}
       >
         {categories?.slice(0, 4)?.map((category) => (
-          <CategoryCard category={category} key={category?._id} />
+          <CategoryCard
+            url={`/category/${category?._id}`}
+            category={category}
+            key={category?._id}
+          />
         ))}
       </Stack>
     </Stack>

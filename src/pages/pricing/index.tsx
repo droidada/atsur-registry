@@ -1,4 +1,5 @@
 import UnprotectedPage from "@/HOC/Unprotected";
+import PriceSection from "@/components/pricing/PriceSection";
 import React from "react";
 
 const PricingPage = () => {
@@ -15,6 +16,7 @@ const PricingPage = () => {
           fringilla accumsan, risus s
         </p>
       </section>
+      <PriceSection />
     </>
   );
 };

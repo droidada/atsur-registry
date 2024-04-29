@@ -89,6 +89,7 @@ export default function NextWeb3App({
       <RainbowKitProvider chains={chains} appInfo={appInfo} coolMode={true}>
         <QueryClientProvider client={queryClient}>
           <PasswordContextProvider>
+            {/* @ts-ignore */}
             <SessionProvider session={session}>
               <LoadingContextProvider>
                 <AuthContextProvider>

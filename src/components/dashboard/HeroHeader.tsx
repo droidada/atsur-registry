@@ -15,6 +15,7 @@ const HeroHeader: React.FC<Props> = ({ handleExplore, handleCreate, type }) => {
   return (
     <div className="h-[257px] relative  justify-center px-4 md:px-10 lg:px-20 w-full flex flex-col bg-primary">
       <Image
+        // @ts-ignore
         src={data?.user?.backgroundImage}
         fill
         alt=""
@@ -25,6 +26,7 @@ const HeroHeader: React.FC<Props> = ({ handleExplore, handleCreate, type }) => {
           {type}
         </h3>
         <h1 className=" text-2xl md:text-[50px] md:leading-[70px]">
+          {/* @ts-ignore */}
           {data?.user?.firstName} {data?.user?.lastName[0]}.
         </h1>
         <Stack direction="row" className="mt-2" spacing={2}>

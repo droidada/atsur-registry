@@ -58,7 +58,7 @@ const ListView: React.FC<Props> = ({
               className="bg-white text-black cursor-pointer   px-3 hover:bg-secondary"
               key={artwork?._id}
             >
-              <TableCell className="py-2 text-base font-[300] border-b-[1px] border-primary">
+              <TableCell className="py-2 text-base font-[300] ml-2  border-b-[1px] border-primary">
                 {artwork?.title}
               </TableCell>
               <TableCell className="py-2 text-base capitalize font-[300] border-b-[1px] border-primary">
@@ -67,12 +67,14 @@ const ListView: React.FC<Props> = ({
               <TableCell className="py-2 text-base font-[300] border-b-[1px] border-primary">
                 {moment(artwork?.createdAt).format("Do MMM, YYYY")}
               </TableCell>
-              <TableCell className="px-2 text-base font-[300] border-b-[1px] border-primary">
-                {
-                  artwork?.assets[0]?.url?.split("/")[
-                    artwork?.assets[0]?.url?.split("/").length - 1
-                  ]
-                }
+              <TableCell className=" text-base font-[300] border-b-[1px] border-primary">
+                <span className="p-2 bg-secondary">
+                  {
+                    artwork?.assets[0]?.url?.split("/")[
+                      artwork?.assets[0]?.url?.split("/").length - 1
+                    ]
+                  }
+                </span>
               </TableCell>
             </TableRow>
           ))}
