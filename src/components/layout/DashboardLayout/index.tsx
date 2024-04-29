@@ -17,7 +17,7 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
       <Stack className=" w-full">
         <Header setHideSidebar={setHideSidebar} />
         <main className="lg:py-[42px]  px-4 lg:px-6 py-5 ">
-          <div className="container mx-auto">{children}</div>
+          <div className="page-container">{children}</div>
         </main>
       </Stack>
     </div>

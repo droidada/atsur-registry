@@ -9,17 +9,20 @@ import { signOut } from "next-auth/react";
 import Link from "next/link";
 
 interface Props {
-  hideSidebar: boolean;
+  hideSidebar?: boolean;
+  isMobile?: boolean;
 }
-const SideBar: React.FC<Props> = ({ hideSidebar }) => {
+const SideBar: React.FC<Props> = ({ hideSidebar, isMobile }) => {
   const pathname = useRouter().pathname;
 
   console.log(hideSidebar);
 
   return (
     <div
-      className={`bg-secondary-white  hidden overflow-y-auto lg:flex flex-col border-r-2 w-1/4 sticky top-0   h-screen   ${
-        hideSidebar ? "-left-full" : "left-0"
+      className={`bg-secondary-white   overflow-y-auto  flex-col       ${
+        isMobile
+          ? "flex w-full"
+          : "hidden lg:flex sticky top-0 w-1/4 border-r-2  h-screen"
       }`}
     >
       <div className="border-b-2 sticky top-0 bg-secondary-white z-[200]">

@@ -1,11 +1,19 @@
 import { landingPageNavMenu } from "@/lib/utils/navs";
-import { Avatar, IconButton, Stack } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Dialog,
+  IconButton,
+  Stack,
+  SwipeableDrawer,
+} from "@mui/material";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { FaQuestion } from "react-icons/fa6";
 import { IoIosNotifications } from "react-icons/io";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
+import SideBar from "./SideBar";
 
 interface Props {
   setHideSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,6 +21,7 @@ interface Props {
 
 const Header: React.FC<Props> = ({ setHideSidebar }) => {
   const { data } = useSession();
+  const [openMobile, setOpenMobile] = useState(false);
 
   return (
     <header className="sticky z-[1000]  bg-white top-0 px-4 md:px-6 py-[14px]">
@@ -21,11 +30,16 @@ const Header: React.FC<Props> = ({ setHideSidebar }) => {
         justifyContent="space-between"
         alignItems="center"
         spacing={2}
-        className="container mx-auto"
+        className="page-container"
       >
         {/* Mobile Nav */}
 
-        <IconButton className="lg:hidden" onClick={() => {}}>
+        <IconButton
+          onClick={() => setOpenMobile(true)}
+          aria-label="menu"
+          size="large"
+          className="lg:hidden"
+        >
           <HiOutlineMenuAlt2 />
         </IconButton>
 
@@ -59,6 +73,17 @@ const Header: React.FC<Props> = ({ setHideSidebar }) => {
           </div>
         </Stack>
       </Stack>
+
+      <SwipeableDrawer
+        anchor="left"
+        open={openMobile}
+        onOpen={() => setOpenMobile(true)}
+        onClose={() => setOpenMobile(false)}
+      >
+        <Box role="presentation">
+          <SideBar isMobile={true} />
+        </Box>
+      </SwipeableDrawer>
     </header>
   );
 };
