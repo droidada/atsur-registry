@@ -16,7 +16,11 @@ interface Props {
   error?: boolean;
   helperText?: string;
   isRequired?: boolean;
-  labelClassName?: any;
+  labelClassName?: string;
+  defaultValue?: string;
+  className?: string;
+  multiline?: boolean;
+  rows?: number;
 }
 
 const InputField: React.FC<Props> = ({
@@ -34,6 +38,10 @@ const InputField: React.FC<Props> = ({
   isRequired,
   labelClassName,
   control,
+  defaultValue,
+  className,
+  multiline,
+  rows,
   ...props
 }) => {
   const {
@@ -46,16 +54,19 @@ const InputField: React.FC<Props> = ({
     rules: { required: isRequired },
   });
   return (
-    <div className="flex flex-col text-base gap-2">
+    <div className={`flex flex-col text-base gap-2  ${className}`}>
       <label htmlFor={label} className={` font-semibold ${labelClassName}`}>
         {label} {isRequired ? "*" : ""}
       </label>
       <TextField
         {...field}
-        className="focus:outline-0 border-none focus:border-0 focus:border-transparent focus:ring-0 hover:outline-none"
+        rows={rows || 2}
+        multiline={multiline}
+        className="focus:outline-0 border-none focus:border-0 focus:border-none  focus:outline-none focus:ring-0 hover:outline-none"
         type={type || "text"}
         id={id}
         placeholder={placeholder}
+        defaultValue={defaultValue}
         name={name}
         tabIndex={2}
         disabled={disabled}
