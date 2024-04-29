@@ -50,8 +50,10 @@ const Header: React.FC<Props> = ({ setHideSidebar }) => {
             <IoIosNotifications size={10} />
           </span>
           <div className="p-2 flex items-center gap-2 border-2 border-black rounded-[23px]">
+            {/* @ts-ignore */}
             <Avatar className="w-[25px] h-[25px] " src={data?.user?.avatar} />
             <span className="text-[19px] md:block hidden leading-[16px] font-[600]">
+              {/* @ts-ignore */}
               {data?.user?.firstName} {data?.user?.lastName[0]}.
             </span>
           </div>

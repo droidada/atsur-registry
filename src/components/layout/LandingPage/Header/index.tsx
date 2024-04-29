@@ -146,7 +146,7 @@ const MobileMenuContent = () => {
         </List>
       </div>
 
-      <div className="  mt-4 bg-secondary p-2">
+      {/* <div className="  mt-4 bg-secondary p-2">
         <h3 className="text-lg font-semibold">Company</h3>
         <List>
           {[
@@ -164,7 +164,7 @@ const MobileMenuContent = () => {
             </ListItem>
           ))}
         </List>
-      </div>
+      </div> */}
 
       <div className="  mt-4 bg-secondary p-2">
         <h3 className="text-lg font-semibold">Join the community</h3>
