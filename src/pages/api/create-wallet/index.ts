@@ -1,4 +1,3 @@
-import { walletFactoryContract } from "@/lib/utils/getContracts";
 import { randomBytes } from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next/types";
 
@@ -7,7 +6,7 @@ export default async function POST(req: NextApiRequest, resp: NextApiResponse) {
     const { signers, userId }: { signers: string[]; userId: string } = req.body;
     const salt = "0x" + randomBytes(32).toString("hex");
 
-    const walletAddress = await walletFactoryContract.getAddress(signers, salt);
+    // const walletAddress = await walletFactoryContract.getAddress(signers, salt);
 
     // const response = await prisma.wallet.create({
     //   data: {
