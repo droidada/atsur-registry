@@ -149,6 +149,7 @@ function Settings() {
   const avatarRef = useRef<any>();
   const bgRef = useRef<any>();
   const toast = useToast();
+
   // console.log(previewImg);
   return (
     <Stack spacing={2} className="divide-y-[1px] divide-secondary ">
@@ -244,7 +245,7 @@ function Settings() {
               </div>
               <div className="flex flex-col font-[400] text-[12px] leading-[16px]">
                 <span className="">X</span>
-                <span className="font-[500]">{data?.user?.x}</span>
+                <span className="font-[500]">{data?.user?.twitter}</span>
               </div>
               <div className="flex flex-col font-[400] text-[12px] leading-[16px]">
                 <span className="">Instagram</span>
@@ -252,7 +253,7 @@ function Settings() {
               </div>
               <div className="flex flex-col font-[400] text-[12px] leading-[16px]">
                 <span className="">Linkedin</span>
-                <span className="font-[500]">{data?.user?.linkedin}</span>
+                <span className="font-[500]">{data?.user?.linkedIn}</span>
               </div>
             </div>
           )}
@@ -289,7 +290,7 @@ function Settings() {
             </div>
             <div className="flex flex-col font-[400] text-[12px] leading-[16px]">
               <span className="">Postal Code</span>
-              <span className="font-[500]">{data?.user?.code}</span>
+              <span className="font-[500]">{data?.user?.postalCode}</span>
             </div>
           </div>
           <Button className="rounded-[22px] bg-secondary text-primary font-[400] text-xs">

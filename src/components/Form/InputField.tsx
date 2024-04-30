@@ -17,6 +17,7 @@ interface Props {
   helperText?: string;
   isRequired?: boolean;
   labelClassName?: string;
+  inputClassName?: string;
   defaultValue?: string;
   className?: string;
   multiline?: boolean;
@@ -40,6 +41,7 @@ const InputField: React.FC<Props> = ({
   control,
   defaultValue,
   className,
+  inputClassName,
   multiline,
   rows,
   ...props
@@ -62,7 +64,8 @@ const InputField: React.FC<Props> = ({
         {...field}
         rows={rows || 2}
         multiline={multiline}
-        className="focus:outline-0 border-none focus:border-0 focus:border-none  focus:outline-none focus:ring-0 hover:outline-none"
+        className={`focus:outline-0 border-none focus:border-0
+        focus:border-none  focus:outline-none focus:ring-0 hover:outline-none ${inputClassName}`}
         type={type || "text"}
         id={id}
         placeholder={placeholder}
