@@ -1,7 +1,9 @@
 import { Select } from "@mui/material";
 import React from "react";
+import { useController, Control } from "react-hook-form";
 
 interface Props {
+  control: Control<any>;
   label?: string;
   type?: string;
   id?: string;
@@ -35,10 +37,21 @@ const SelectField: React.FC<Props> = ({
   labelClassName,
   children,
   selectClassName,
+  control,
   ...props
 }) => {
+  const {
+    field,
+    fieldState: { error: fieldError },
+  } = useController({
+    name,
+    control,
+    defaultValue: "",
+    rules: { required: isRequired },
+  });
+
   return (
-    <div className="flex flex-col text-base gap-2">
+    <div className="flex w-full flex-col text-base gap-2">
       {label && (
         <label htmlFor={label} className={` font-semibold ${labelClassName}`}>
           {label} {isRequired ? "*" : ""}
@@ -46,6 +59,7 @@ const SelectField: React.FC<Props> = ({
       )}
       <div>
         <Select
+          {...field}
           id={id}
           name={name}
           tabIndex={tabIndex}

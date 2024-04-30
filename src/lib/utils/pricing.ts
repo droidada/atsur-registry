@@ -72,49 +72,47 @@ export const pricingBundles = [
   },
 ];
 
-
-
 export const allPriceService = [
   [
     {
       title: "Archiving ",
-      desc: "Uploading art information on platform and showcasing external url"
+      desc: "Uploading art information on platform and showcasing external url",
     },
     {
       title: "Due Diligence",
-      desc: "Verifying art documentation"
+      desc: "Verifying art documentation",
     },
     {
       title: "Tokenization",
-      desc: "Minting NFT of certificate of authenticity of art work on Ethereum and Polygon networks"
+      desc: "Minting NFT of certificate of authenticity of art work on Ethereum and Polygon networks",
     },
     {
       title: "Asset Tagging",
-      desc: "RFID tags for physically tagging art piece with digital information"
+      desc: "RFID tags for physically tagging art piece with digital information",
     },
     {
       title: "Certificates of Authenticity",
-      desc: "Digital is free Physical has a fee"
-    }
+      desc: "Digital is free Physical has a fee",
+    },
   ],
   [
     {
       title: "Sales Smart Contracts",
-      desc: "Smart contract to enforce sales commissions using blockchain technology"
+      desc: "Smart contract to enforce sales commissions using blockchain technology",
     },
     {
       title: "Tokengates",
-      desc: "Share ownership of artwork using blockchain technology"
+      desc: "Share ownership of artwork using blockchain technology",
     },
     {
       title: "Property Protocol",
-      desc: "Enforce resale royalties and sales commissions using blockchain technology"
+      desc: "Enforce resale royalties and sales commissions using blockchain technology",
     },
     {
       title: "Advanced cataloging",
       desc: `Advanced platform features such as image counterfeit detection,
       automated art document creation and signing(create art documentation and
-        send to be signed using our platform) etc…`
-    }
-  ]
+        send to be signed using our platform) etc…`,
+    },
+  ],
 ];
