@@ -20,20 +20,20 @@ import DeleteDialog from "../../DeleteDialog";
 import { useRouter } from "next/router";
 
 interface Props {
-  exhibitions: any[];
-  setCurrentExhibition: React.Dispatch<any>;
+  appraisals: any[];
+  setCurrentAppraisal: React.Dispatch<any>;
   setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
   artpieceId: string;
 }
-const ExhibitionTable: React.FC<Props> = ({
-  exhibitions,
-  setCurrentExhibition,
+const AppraisalTable: React.FC<Props> = ({
+  appraisals,
+  setCurrentAppraisal,
   setOpenDialog,
   artpieceId,
 }) => {
   const router = useRouter();
 
-  const MoreButton = ({ exhibition }: { exhibition: any }) => {
+  const MoreButton = ({ appraisal }: { appraisal: any }) => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -43,7 +43,7 @@ const ExhibitionTable: React.FC<Props> = ({
       setAnchorEl(null);
     };
 
-    console.log(exhibition);
+    console.log(appraisal);
     const toast = useToast();
     const [openDelete, setOpenDelete] = useState(false);
     const axiosAuth = useAxiosAuth();
@@ -52,21 +52,22 @@ const ExhibitionTable: React.FC<Props> = ({
       isSuccess,
       mutate: submit,
     } = useMutation({
-      mutationFn: (data: any) =>
-        axiosAuth.post(`/exhibition/delete`, {
+      mutationFn: (data) =>
+        axiosAuth.post(`/appraisal/delete`, {
           artPieceId: artpieceId,
-          exhibitionId: data?._id,
+          // @ts-ignore
+          appraisalId: data?._id,
         }),
       onSuccess: () => {
         setOpenDelete(false);
-        toast.success("Exhibition added successfully.");
+        toast.success("Appraisal deleted successfully.");
         router.replace(router.asPath);
       },
-      onError: (error: any) => {
+      onError: (error) => {
         const errorMessage =
           // @ts-ignore
           error.response?.data?.message ||
-          "An error occurred while adding the exhibition.";
+          "An error occurred while deleting the appraisal.";
         toast.error(errorMessage);
       },
     });
@@ -95,7 +96,7 @@ const ExhibitionTable: React.FC<Props> = ({
           <MenuItem onClick={() => setOpenDelete(true)}>Delete</MenuItem>
           <MenuItem
             onClick={() => {
-              setCurrentExhibition(exhibition);
+              setCurrentAppraisal(appraisal);
               setOpenDialog(true);
             }}
           >
@@ -106,11 +107,11 @@ const ExhibitionTable: React.FC<Props> = ({
           isLoading={isLoading}
           handleClose={() => setOpenDelete(false)}
           handleDelete={() => {
-            submit(exhibition);
+            submit(appraisal);
           }}
           open={openDelete}
-          title="Exhibition"
-          body={`Are you sure you want to delete '${exhibition?.name}' exhibition`}
+          title="Appraisal"
+          body={`Are you sure you want to delete '${appraisal?.appraiser}' appraisal`}
         />
       </div>
     );
@@ -121,7 +122,7 @@ const ExhibitionTable: React.FC<Props> = ({
       <Table sx={{ minWidth: 925 }}>
         <TableHead>
           <TableRow>
-            {["Name", "Type", "Showing Type", "Creation Date", ""].map(
+            {["Appraiser Name", "Value", "Currency", "Creation Date", ""].map(
               (col) => (
                 <TableCell
                   key={`table-head-${col}`}
@@ -134,25 +135,25 @@ const ExhibitionTable: React.FC<Props> = ({
           </TableRow>
         </TableHead>
         <TableBody className="bg-white text-black border-[1px] border-primary ">
-          {exhibitions?.map((exhibition) => (
+          {appraisals?.map((appraisal) => (
             <TableRow
               className="bg-white text-black cursor-pointer   px-3 "
-              key={exhibition?._id}
+              key={appraisal?._id}
             >
               <TableCell className="py-2 text-base font-[300] ml-2  border-b-[1px] border-primary">
-                {exhibition?.name}
+                {appraisal?.appraiser}
               </TableCell>
               <TableCell className="py-2 text-base font-[300] ml-2  border-b-[1px] border-primary">
-                {exhibition?.type}
+                {appraisal?.value}
               </TableCell>
               <TableCell className="py-2 text-base font-[300] ml-2  border-b-[1px] border-primary">
-                {exhibition?.showingType}
+                {appraisal?.currency}
               </TableCell>
               <TableCell className="py-2 text-base font-[300] ml-2  border-b-[1px] border-primary">
-                {moment(exhibition?.createdAt)?.format("Do MMM, YYYY")}
+                {moment(appraisal?.createdAt)?.format("Do MMM, YYYY")}
               </TableCell>
               <TableCell className="py-2 text-base font-[300] ml-2  border-b-[1px] border-primary">
-                <MoreButton exhibition={exhibition} />
+                <MoreButton appraisal={appraisal} />
               </TableCell>
             </TableRow>
           ))}
@@ -162,4 +163,4 @@ const ExhibitionTable: React.FC<Props> = ({
   );
 };
 
-export default ExhibitionTable;
+export default AppraisalTable;

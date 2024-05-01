@@ -112,12 +112,14 @@ const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
       title={"Exhibition"}
     >
       <>
-        <ExhibitionTable
-          setOpenDialog={setOpen}
-          setCurrentExhibition={setCurrentExhibition}
-          exhibitions={exhibitions}
-          artpieceId={artPieceId}
-        />
+        {exhibitions?.length > 0 && (
+          <ExhibitionTable
+            setOpenDialog={setOpen}
+            setCurrentExhibition={setCurrentExhibition}
+            exhibitions={exhibitions}
+            artpieceId={artPieceId}
+          />
+        )}
       </>
 
       <FormDialogContainer
