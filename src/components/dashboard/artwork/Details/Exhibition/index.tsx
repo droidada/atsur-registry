@@ -13,6 +13,8 @@ import DateInput from "@/components/Form/DateInput";
 import SelectField from "@/components/Form/SelectField";
 import { FormControlLabel, MenuItem, Switch } from "@mui/material";
 import SwitchInput from "@/components/Form/SwitchInput";
+import ExhibitionTable from "./ExhibitionTable";
+import { useRouter } from "next/router";
 
 interface Props {
   exhibitions: any[];
@@ -23,6 +25,7 @@ const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
   const toast = useToast();
   const [exhibitionImg, setExhibitionImg] = useState(null);
   const axiosAuth = useAxiosAuth();
+  const router = useRouter();
   const [currentExhibition, setCurrentExhibition] = useState<any>(null);
   const {
     isLoading,
@@ -33,20 +36,18 @@ const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
   } = useMutation({
     mutationFn: (data) => axiosAuth.post(`/exhibition/add`, data),
     onSuccess: () => {
-      // Close dialog and show success toast
       setOpen(false);
       toast.success("Exhibition added successfully.");
+      router.replace(router.asPath);
     },
     onError: (error) => {
-      // Extract error message and show error toast
       const errorMessage =
+        // @ts-ignore
         error.response?.data?.message ||
         "An error occurred while adding the exhibition.";
       toast.error(errorMessage);
     },
   });
-
-  console.log;
 
   const exhibitionSchema = object({
     name: string().nonempty("Exhibition name is required"),
@@ -92,10 +93,9 @@ const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
     currentExhibition &&
       formData.append("exhibitionId", currentExhibition?._id);
 
+    // @ts-ignore
     submit(formData);
   };
-
-  console.log(errors);
 
   const handleUploadClick = (event) => {
     let file = event.target.files[0];
@@ -111,7 +111,14 @@ const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
       onClick={() => setOpen(true)}
       title={"Exhibition"}
     >
-      <></>
+      <>
+        <ExhibitionTable
+          setOpenDialog={setOpen}
+          setCurrentExhibition={setCurrentExhibition}
+          exhibitions={exhibitions}
+          artpieceId={artPieceId}
+        />
+      </>
 
       <FormDialogContainer
         onSubmit={handleSubmit(onSubmitHandler)}
