@@ -103,6 +103,8 @@ export default function EditExhibition({
     console.log(url); // Would see a path?
   };
 
+  
+
   const onSubmitHandler: SubmitHandler<ExhibitionInput> = async (values) => {
     try {
       setError(false);
