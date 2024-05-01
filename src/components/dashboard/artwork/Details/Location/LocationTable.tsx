@@ -20,20 +20,20 @@ import DeleteDialog from "../../DeleteDialog";
 import { useRouter } from "next/router";
 
 interface Props {
-  exhibitions: any[];
-  setCurrentExhibition: React.Dispatch<any>;
+  locations: any[];
+  setCurrentLocation: React.Dispatch<any>;
   setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
   artpieceId: string;
 }
-const ExhibitionTable: React.FC<Props> = ({
-  exhibitions,
-  setCurrentExhibition,
+const LocationTable: React.FC<Props> = ({
+  locations,
+  setCurrentLocation,
   setOpenDialog,
   artpieceId,
 }) => {
   const router = useRouter();
 
-  const MoreButton = ({ exhibition }: { exhibition: any }) => {
+  const MoreButton = ({ location }: { location: any }) => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -43,7 +43,7 @@ const ExhibitionTable: React.FC<Props> = ({
       setAnchorEl(null);
     };
 
-    console.log(exhibition);
+    console.log(location);
     const toast = useToast();
     const [openDelete, setOpenDelete] = useState(false);
     const axiosAuth = useAxiosAuth();
@@ -53,20 +53,20 @@ const ExhibitionTable: React.FC<Props> = ({
       mutate: submit,
     } = useMutation({
       mutationFn: (data: any) =>
-        axiosAuth.post(`/exhibition/delete`, {
+        axiosAuth.post(`/location/delete`, {
           artPieceId: artpieceId,
-          exhibitionId: data?._id,
+          locationId: data?._id,
         }),
       onSuccess: () => {
         setOpenDelete(false);
-        toast.success("Exhibition added successfully.");
+        toast.success("Location deleted successfully.");
         router.replace(router.asPath);
       },
       onError: (error: any) => {
         const errorMessage =
           // @ts-ignore
           error.response?.data?.message ||
-          "An error occurred while adding the exhibition.";
+          "An error occurred while deleting the location.";
         toast.error(errorMessage);
       },
     });
@@ -95,7 +95,7 @@ const ExhibitionTable: React.FC<Props> = ({
           <MenuItem onClick={() => setOpenDelete(true)}>Delete</MenuItem>
           <MenuItem
             onClick={() => {
-              setCurrentExhibition(exhibition);
+              setCurrentLocation(location);
               setOpenDialog(true);
             }}
           >
@@ -106,11 +106,11 @@ const ExhibitionTable: React.FC<Props> = ({
           isLoading={isLoading}
           handleClose={() => setOpenDelete(false)}
           handleDelete={() => {
-            submit(exhibition);
+            submit(location);
           }}
           open={openDelete}
-          title="Exhibition"
-          body={`Are you sure you want to delete '${exhibition?.name}' exhibition`}
+          title="Location"
+          body={`Are you sure you want to delete '${location?.name}' location`}
         />
       </div>
     );
@@ -121,38 +121,37 @@ const ExhibitionTable: React.FC<Props> = ({
       <Table sx={{ minWidth: 925 }}>
         <TableHead>
           <TableRow>
-            {["Name", "Type", "Showing Type", "Creation Date", ""].map(
-              (col) => (
-                <TableCell
-                  key={`table-head-${col}`}
-                  className="bg-primary text-white text-md font-[600]"
-                >
-                  {col}
-                </TableCell>
-              ),
-            )}
+            {["Name", "Address", "Start Date", "End Date", ""].map((col) => (
+              <TableCell
+                key={`table-head-${col}`}
+                className="bg-primary text-white text-md font-[600]"
+              >
+                {col}
+              </TableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody className="bg-white text-black border-[1px] border-primary ">
-          {exhibitions?.map((exhibition) => (
+          {locations?.map((location) => (
             <TableRow
               className="bg-white text-black cursor-pointer   px-3 "
-              key={exhibition?._id}
+              key={location?._id}
             >
               <TableCell className="py-2 text-base font-[300] ml-2  border-b-[1px] border-primary">
-                {exhibition?.name}
+                {location?.name}
               </TableCell>
               <TableCell className="py-2 text-base font-[300] ml-2  border-b-[1px] border-primary">
-                {exhibition?.type}
+                {location?.address}
               </TableCell>
               <TableCell className="py-2 text-base font-[300] ml-2  border-b-[1px] border-primary">
-                {exhibition?.showingType}
+                {moment(location?.startDate)?.format("Do MMM, YYYY")}
+              </TableCell>
+
+              <TableCell className="py-2 text-base font-[300] ml-2  border-b-[1px] border-primary">
+                {moment(location?.endDate)?.format("Do MMM, YYYY")}
               </TableCell>
               <TableCell className="py-2 text-base font-[300] ml-2  border-b-[1px] border-primary">
-                {moment(exhibition?.createdAt)?.format("Do MMM, YYYY")}
-              </TableCell>
-              <TableCell className="py-2 text-base font-[300] ml-2  border-b-[1px] border-primary">
-                <MoreButton exhibition={exhibition} />
+                <MoreButton location={location} />
               </TableCell>
             </TableRow>
           ))}
@@ -162,4 +161,4 @@ const ExhibitionTable: React.FC<Props> = ({
   );
 };
 
-export default ExhibitionTable;
+export default LocationTable;

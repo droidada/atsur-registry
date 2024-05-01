@@ -106,35 +106,12 @@ function ArtPiece({ artPiece }) {
       className=" divide-y-[1px] divide-secondary"
       direction={{ xs: "column" }}
     >
-      {/* <div className="flex  gap-4 md:w-1/2 w-full md:h-screen flex-col">
-        <Image
-          src={artPiece?.assets[currentAsset]?.url}
-          alt="art piece image"
-          width={525}
-          height={809}
-          className="flex-1 w-full h-full object-full "
-        />
-        <div className="flex gap-4">
-          {artPiece?.assets?.map((asset, index) => (
-            <Image
-              src={asset?.url}
-              alt=""
-              width={210.35}
-              height={210.35}
-              className={`flex-1 w-full max-w-[210px] cursor-pointer  h-full object-full ${
-                currentAsset == index ? "border-2 border-black p-2" : ""
-              }`}
-              key={index}
-              onClick={() => setCurrentAsset(index)}
-            />
-          ))}
-        </div>
-      </div> */}
       <Stack spacing={2}>
         <Stack
-          direction="row"
+          direction={{ xs: "column", sm: "row" }}
           className="text-[17px] leading-[16px]"
           spacing={4}
+          alignContent={{ xs: "start", md: "center" }}
           justifyContent="space-between"
         >
           <div className="flex gap-4 ">
@@ -212,7 +189,7 @@ function ArtPiece({ artPiece }) {
               className="flex-1 w-full  object-full "
             />
           </div>
-          <div className="flex flex-wrap-reverse md:flex-nowrap items-stretch gap-4">
+          <div className="flex flex-wrap-reverse lg:flex-nowrap items-stretch gap-4">
             <Accordion
               className=" bg-secondary-white px-4 divide-secondary  divide-y-[1px]"
               defaultExpanded={true}
@@ -249,9 +226,18 @@ function ArtPiece({ artPiece }) {
             artPieceId={artPiece?._id}
             exhibitions={artPiece?.exhibitions}
           />
-          <ArtPieceAppraisal appraisals={artPiece?.appraisals} />
-          <ArtPiecePublications publications={artPiece?.publications} />
-          <ArtPieceLocation locations={artPiece?.locations} />
+          <ArtPieceAppraisal
+            artpieceId={artPiece?._id}
+            appraisals={artPiece?.appraisals}
+          />
+          <ArtPiecePublications
+            artpieceId={artPiece?._id}
+            publications={artPiece?.publications}
+          />
+          <ArtPieceLocation
+            artpieceId={artPiece?._id}
+            locations={artPiece?.locations}
+          />
         </Stack>
       </Stack>
     </Stack>
