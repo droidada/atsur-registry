@@ -24,7 +24,7 @@ const Header: React.FC<Props> = ({ setHideSidebar }) => {
   const [openMobile, setOpenMobile] = useState(false);
 
   return (
-    <header className="sticky z-[1000]  bg-white top-0 px-4 md:px-6 py-[14px]">
+    <header className="sticky z-[1000]  bg-white top-0 px-4  py-[14px]">
       <Stack
         direction="row"
         justifyContent="space-between"
@@ -38,7 +38,7 @@ const Header: React.FC<Props> = ({ setHideSidebar }) => {
           onClick={() => setOpenMobile(true)}
           aria-label="menu"
           size="large"
-          className="lg:hidden"
+          className="block lg:hidden"
         >
           <HiOutlineMenuAlt2 />
         </IconButton>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ArtDetailsAccordionContainer from "../ArtDetailsAccordionContainer";
 import FormDialogContainer from "../FormDialogContainer";
 import { object, string, TypeOf, boolean, ZodVoidDef } from "zod";
@@ -27,27 +27,6 @@ const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
   const axiosAuth = useAxiosAuth();
   const router = useRouter();
   const [currentExhibition, setCurrentExhibition] = useState<any>(null);
-  const {
-    isLoading,
-    error,
-    isError,
-    isSuccess,
-    mutate: submit,
-  } = useMutation({
-    mutationFn: (data) => axiosAuth.post(`/exhibition/add`, data),
-    onSuccess: () => {
-      setOpen(false);
-      toast.success("Exhibition added successfully.");
-      router.replace(router.asPath);
-    },
-    onError: (error) => {
-      const errorMessage =
-        // @ts-ignore
-        error.response?.data?.message ||
-        "An error occurred while adding the exhibition.";
-      toast.error(errorMessage);
-    },
-  });
 
   const exhibitionSchema = object({
     name: string().nonempty("Exhibition name is required"),
@@ -55,13 +34,14 @@ const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
     type: string().nonempty("Type is required"),
     showingType: string().nonempty("Showing is required"),
     organizerName: string().nonempty("Organizer name is required"),
-    organizerLocation: string().nonempty("Organizer location is required"),
     organizerEmail: string().nonempty("Organizer email is required"),
     organizerWebsite: string(),
     organizerPhone: string(),
     startDate: string().nonempty("Start date is required"),
     endDate: string().nonempty("End Date is required"),
     isCirca: boolean().optional(),
+    locationAddress: string().optional(),
+    locationCountry: string().optional(),
   });
 
   type ExhibitionInput = TypeOf<typeof exhibitionSchema>;
@@ -77,6 +57,40 @@ const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
     resolver: zodResolver(exhibitionSchema),
   });
 
+  const {
+    isLoading,
+    error,
+    isError,
+    isSuccess,
+    mutate: submit,
+  } = useMutation({
+    mutationFn: (data) =>
+      currentExhibition
+        ? axiosAuth.post(`/exhibition/update`, data)
+        : axiosAuth.post(`/exhibition/add`, data),
+    onSuccess: () => {
+      reset();
+      setOpen(false);
+
+      toast.success(
+        `Exhibition ${currentExhibition ? "updated" : "added"}  successfully.`,
+      );
+
+      router.replace(router.asPath);
+    },
+    onError: (error) => {
+      const errorMessage =
+        // @ts-ignore
+        error.response?.data?.message ||
+        `An error occurred while ${
+          currentExhibition ? "updating" : "adding"
+        } the exhibition.`;
+      toast.error(errorMessage);
+    },
+  });
+
+  console.log(currentExhibition);
+
   const onSubmitHandler: SubmitHandler<ExhibitionInput> = async (values) => {
     const formData = new FormData();
     formData.append("image", exhibitionImg);
@@ -86,10 +100,11 @@ const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
     formData.append("type", values.type);
     formData.append("showingType", values.showingType);
     formData.append("organizerName", values.organizerName);
-    formData.append("organizerLocation", values.organizerLocation);
     formData.append("organizerWebsite", values.organizerWebsite);
     formData.append("organizerEmail", values.organizerEmail);
     formData.append("organizerPhone", values.organizerPhone);
+    formData.append("startDate", values.startDate);
+    formData.append("endDate", values.endDate);
     currentExhibition &&
       formData.append("exhibitionId", currentExhibition?._id);
 
@@ -105,6 +120,23 @@ const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
       setExhibitionImg(reader.result);
     }.bind(this);
   };
+
+  console.log(errors);
+
+  useEffect(() => {
+    setValue("name", currentExhibition?.name || "");
+    setValue("description", currentExhibition?.description || "");
+    setValue("type", currentExhibition?.type || "");
+    setValue("showingType", currentExhibition?.showingType || "");
+    setValue("organizerName", currentExhibition?.organizer?.name || "");
+    // setValue("organizerLocation", currentExhibition?.organizerLocation || "");
+    setValue("organizerWebsite", currentExhibition?.organizer?.website || "");
+    setValue("organizerEmail", currentExhibition?.organizer?.email || "");
+    setValue("organizerPhone", currentExhibition?.organizer?.phone || "");
+    setValue("startDate", currentExhibition?.date?.startDate || "");
+    setValue("endDate", currentExhibition?.date?.endDate || "");
+    setValue("isCirca", currentExhibition?.date?.isCirca || false);
+  }, [currentExhibition]);
 
   return (
     <ArtDetailsAccordionContainer
@@ -127,7 +159,10 @@ const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
         title="Exhibition"
         open={open}
         isLoading={isLoading}
-        handleClose={() => setOpen(false)}
+        handleClose={() => {
+          setCurrentExhibition(null);
+          setOpen(false);
+        }}
       >
         <FormDataComponent
           exhibitionImg={exhibitionImg}
@@ -297,92 +332,98 @@ const FormDataComponent: React.FC<FormDataProps> = ({
         />
       </div>
 
-      <h2 className="font-bold  mt-4 text-2xl md:text-[30px] md:leading-[20px]">
-        Organizer Info
-      </h2>
-      <InputField
-        label="Organizer Name"
-        className="w-full"
-        id="organizerName"
-        name="organizerName"
-        placeholder=""
-        inputClassName="bg-secondary-white"
-        tabIndex={2}
-        aria-required="true"
-        fullWidth
-        error={!!errors["organizerName"]}
-        helperText={
-          errors["organizerName"] ? errors["organizerName"].message : ""
-        }
-        control={control}
-      />
-      <InputField
-        label="Location"
-        className="w-full"
-        id="organizerLocation"
-        name="organizerLocation"
-        placeholder=""
-        inputClassName="bg-secondary-white"
-        tabIndex={2}
-        aria-required="true"
-        fullWidth
-        error={!!errors["organizerLocation"]}
-        helperText={
-          errors["organizerLocation"] ? errors["organizerLocation"].message : ""
-        }
-        control={control}
-      />
-      <div className="flex items-start gap-4">
+      <div>
+        <h2 className="font-bold  my-4 text-2xl md:text-[30px] md:leading-[20px]">
+          Organizer Info
+        </h2>
         <InputField
-          label="Phone"
+          label="Organizer Name"
           className="w-full"
-          id="organizerPhone"
-          name="organizerPhone"
+          id="organizerName"
+          name="organizerName"
           placeholder=""
           inputClassName="bg-secondary-white"
           tabIndex={2}
           aria-required="true"
           fullWidth
-          error={!!errors["organizerPhone"]}
+          error={!!errors["organizerName"]}
           helperText={
-            errors["organizerPhone"] ? errors["organizerPhone"].message : ""
+            errors["organizerName"] ? errors["organizerName"].message : ""
           }
           control={control}
         />
         <InputField
-          label="Email"
+          label="Location"
           className="w-full"
-          type="email"
-          id="organizerEmail"
-          name="organizerEmail"
+          id="organizerLocation"
+          name="organizerLocation"
           placeholder=""
           inputClassName="bg-secondary-white"
           tabIndex={2}
           aria-required="true"
           fullWidth
-          error={!!errors["organizerEmail"]}
+          error={!!errors["organizerLocation"]}
           helperText={
-            errors["organizerEmail"] ? errors["organizerEmail"].message : ""
+            errors["organizerLocation"]
+              ? errors["organizerLocation"].message
+              : ""
           }
           control={control}
         />
-        <InputField
-          label="Website"
-          className="w-full"
-          id="organizerWebsite"
-          name="organizerWebsite"
-          type="url"
-          placeholder=""
-          inputClassName="bg-secondary-white"
-          tabIndex={2}
-          aria-required="true"
-          fullWidth
-          error={!!errors["organizerWebsite"]}
-          helperText={
-            errors["organizerWebsite"] ? errors["organizerWebsite"].message : ""
-          }
-          control={control}
-        />
+        <div className="flex items-start gap-4">
+          <InputField
+            label="Phone"
+            className="w-full"
+            id="organizerPhone"
+            name="organizerPhone"
+            placeholder=""
+            inputClassName="bg-secondary-white"
+            tabIndex={2}
+            aria-required="true"
+            fullWidth
+            error={!!errors["organizerPhone"]}
+            helperText={
+              errors["organizerPhone"] ? errors["organizerPhone"].message : ""
+            }
+            control={control}
+          />
+          <InputField
+            label="Email"
+            className="w-full"
+            type="email"
+            id="organizerEmail"
+            name="organizerEmail"
+            placeholder=""
+            inputClassName="bg-secondary-white"
+            tabIndex={2}
+            aria-required="true"
+            fullWidth
+            error={!!errors["organizerEmail"]}
+            helperText={
+              errors["organizerEmail"] ? errors["organizerEmail"].message : ""
+            }
+            control={control}
+          />
+          <InputField
+            label="Website"
+            className="w-full"
+            id="organizerWebsite"
+            name="organizerWebsite"
+            type="url"
+            placeholder=""
+            inputClassName="bg-secondary-white"
+            tabIndex={2}
+            aria-required="true"
+            fullWidth
+            error={!!errors["organizerWebsite"]}
+            helperText={
+              errors["organizerWebsite"]
+                ? errors["organizerWebsite"].message
+                : ""
+            }
+            control={control}
+          />
+        </div>
       </div>
     </div>
   );

@@ -1,49 +1,22 @@
 import { useEffect, useState } from "react";
-import { Menu } from "@headlessui/react";
-import Link from "next/link";
+
 import Image from "@/components/common/image";
-import BarChart from "@/open9/elements/BarChart";
-import DashboardLayoutWithSidebar, {
-  DashboardPages,
-} from "@/components/open9/layout/DashboardLayoutWithSidebar";
-import AutoSlider1 from "@/open9/slider/AutoSlider1";
-import AutoSlider2 from "@/open9/slider/AutoSlider2";
+
 import { getToken } from "next-auth/jwt";
 import axios from "@/lib/axios";
-import EditExhibition from "@/components/dashboard/edit-exhibition";
+
 import {
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  ListItemAvatar,
-  IconButton,
   Avatar,
   Switch,
   Accordion,
-  AccordionActions,
   AccordionSummary,
   AccordionDetails,
-  Typography,
   Stack,
   FormControlLabel,
   Button,
 } from "@mui/material";
-import {
-  Folder as FolderIcon,
-  Delete as DeleteIcon,
-  Edit as EditIcon,
-  Publish as PublishIcon,
-  ExpandMore as ExpandMoreIcon,
-} from "@mui/icons-material";
-import EditAppraisal from "@/components/dashboard/edit-appraisal";
+
 import { useRouter } from "next/router";
-import EditPublication from "@/components/dashboard/edit-publication";
-import DeleteDialog from "@/components/dashboard/DeleteDialog";
-import { statusTypes } from "@/types";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import EditLocation from "@/components/dashboard/edit-location";
-import ViewDetailsModal from "@/components/dashboard/view-details-modal";
 import ProtectedPage from "@/HOC/Protected";
 import { FaCircle } from "react-icons/fa";
 import { MdOutlineChevronRight, MdOutlineExpandMore } from "react-icons/md";
@@ -98,12 +71,10 @@ function ArtPiece({ artPiece }) {
     data: {},
   });
 
-  console.log(artPiece);
-
   return (
     <Stack
       spacing={4}
-      className=" divide-y-[1px] divide-secondary"
+      className=" divide-y-[1px]  divide-secondary"
       direction={{ xs: "column" }}
     >
       <Stack spacing={2}>
@@ -184,14 +155,14 @@ function ArtPiece({ artPiece }) {
             <Image
               src={artPiece?.assets[currentAsset]?.url}
               alt="art piece image"
-              width={1046}
+              width={700}
               height={404}
-              className="flex-1 w-full  object-full "
+              className="flex-1 w-full md:h-[404px]  object-full "
             />
           </div>
-          <div className="flex flex-wrap-reverse lg:flex-nowrap items-stretch gap-4">
+          <div className="flex flex-wrap-reverse items-stretch gap-4">
             <Accordion
-              className=" bg-secondary-white px-4 divide-secondary  divide-y-[1px]"
+              className=" bg-secondary-white px-4 divide-secondary w-full  divide-y-[1px]"
               defaultExpanded={true}
             >
               <AccordionSummary

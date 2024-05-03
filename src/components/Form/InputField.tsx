@@ -10,6 +10,8 @@ interface Props {
   placeholder?: string;
   name?: string;
   tabIndex?: number;
+  onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+  onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
   disabled?: boolean;
   ariaRequired?: boolean;
   fullWidth?: boolean;
@@ -44,6 +46,8 @@ const InputField: React.FC<Props> = ({
   inputClassName,
   multiline,
   rows,
+  onBlur,
+  onChange,
   ...props
 }) => {
   const {
@@ -51,8 +55,8 @@ const InputField: React.FC<Props> = ({
     fieldState: { error: fieldError },
   } = useController({
     name,
-    control,
-    defaultValue: "",
+    control: control,
+    defaultValue: defaultValue || "",
     rules: { required: isRequired },
   });
   return (

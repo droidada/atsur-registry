@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ArtDetailsAccordionContainer from "../ArtDetailsAccordionContainer";
 import { object, string, TypeOf, boolean } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -60,10 +60,15 @@ const ArtPieceLocation: React.FC<Props> = ({ locations, artpieceId }) => {
     isSuccess,
     mutate: submit,
   } = useMutation({
-    mutationFn: (data: any) => axiosAuth.post(`/location/add`, data),
+    mutationFn: (data: any) =>
+      currentLocation
+        ? axiosAuth.post(`/location/update`, data)
+        : axiosAuth.post(`/location/add`, data),
     onSuccess: () => {
       setOpen(false);
-      toast.success("Location added successfully.");
+      toast.success(
+        `Location ${currentLocation ? "updated" : "added"} successfully.`,
+      );
       reset();
       router.replace(router.asPath);
     },
@@ -71,15 +76,31 @@ const ArtPieceLocation: React.FC<Props> = ({ locations, artpieceId }) => {
       const errorMessage =
         // @ts-ignore
         error.response?.data?.message ||
-        "An error occurred while adding the location.";
+        `An error occurred while  ${
+          currentLocation ? "updating" : "adding"
+        }  the location.`;
       toast.error(errorMessage);
     },
   });
 
   const onSubmitHandler: SubmitHandler<LocationInput> = async (values) => {
     //@ts-ignore
-    submit({ ...values, artPieceId: artpieceId });
+    submit({
+      ...values,
+      artPieceId: artpieceId,
+      locationId: currentLocation?._id,
+    });
   };
+
+  console.log(currentLocation);
+  useEffect(() => {
+    setValue("name", currentLocation?.name || "");
+    setValue("address", currentLocation?.address || "");
+    setValue("isCurrentLocation", currentLocation?.isCurrentLocation || false);
+    setValue("startDate", currentLocation?.startDate || "");
+    setValue("endDate", currentLocation?.endDate || "");
+    setValue("notes", currentLocation?.note || "");
+  }, [currentLocation]);
 
   return (
     <ArtDetailsAccordionContainer
@@ -101,7 +122,10 @@ const ArtPieceLocation: React.FC<Props> = ({ locations, artpieceId }) => {
         title="Location"
         open={open}
         isLoading={isLoading}
-        handleClose={() => setOpen(false)}
+        handleClose={() => {
+          setCurrentLocation(null);
+          setOpen(false);
+        }}
       >
         <FormDataComponent control={control} errors={errors} />
       </FormDialogContainer>

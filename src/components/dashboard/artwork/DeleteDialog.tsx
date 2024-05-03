@@ -30,7 +30,7 @@ const DeleteDialog: React.FC<Props> = ({
       <DialogTitle className="font-[400] p-0 text-3xl  mb-4  border-secondary border-b-[1px] ">
         Delete {title}
       </DialogTitle>
-      <DialogContent c>
+      <DialogContent>
         <p className="tex-sm">{body}</p>
         <div className="flex gap-4 items-center mt-6">
           <LoadingButton

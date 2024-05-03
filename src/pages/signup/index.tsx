@@ -69,6 +69,7 @@ function SignUp({ invitationData, countries }) {
   const signUpSchema = object({
     firstName: string().nonempty("First name is required"),
     lastName: string().nonempty("Last name is required"),
+    country: string().optional(),
     email: string().nonempty("Email is required").email("Email is invalid"),
     password: string()
       .nonempty("Password is required")
@@ -215,7 +216,13 @@ function SignUp({ invitationData, countries }) {
             control={control}
           />
 
-          <SelectField isRequired label="Country" fullWidth>
+          <SelectField
+            control={control}
+            name="country"
+            isRequired
+            label="Country"
+            fullWidth
+          >
             <MenuItem selected value={""} disabled>
               Select a country
             </MenuItem>
