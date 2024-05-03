@@ -9,8 +9,10 @@ import FilterLine from "@/components/dashboard/FilterLine";
 import GridView from "@/components/dashboard/artwork/GridView";
 import ListView from "@/components/dashboard/artwork/ListView";
 import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 
 function Artworks() {
+  const router = useRouter();
   const axiosAuth = useAxiosAuth();
   const [view, setView] = useState<"list" | "grid">("grid");
   const {
@@ -20,17 +22,14 @@ function Artworks() {
   } = useQuery(["artworks"], () =>
     axiosAuth.get(`/art-piece/creator`).then((res) => res.data.artPieces),
   );
-  // console.log(artworks);
-
-  console.log(artworks);
 
   return (
     <Stack spacing={2}>
       <SearchBar />
       <HeroHeader
         type="artworks"
-        handleCreate={() => {}}
-        handleExplore={() => {}}
+        handleCreate={() => router.push("/dashboard/artworks/create")}
+        handleExplore={() => router.push("/explore")}
       />
       <FilterLine view={view} setView={setView} title="My Artworks" />
       <div className="mt-4">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ArtDetailsAccordionContainer from "../ArtDetailsAccordionContainer";
 import FormDialogContainer from "../FormDialogContainer";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
@@ -57,10 +57,15 @@ const ArtPieceAppraisal: React.FC<Props> = ({ appraisals, artpieceId }) => {
     isSuccess,
     mutate: submit,
   } = useMutation({
-    mutationFn: (data) => axiosAuth.post(`/appraisal/add`, data),
+    mutationFn: (data) =>
+      currentAppraisal
+        ? axiosAuth.post(`/appraisal/update`, data)
+        : axiosAuth.post(`/appraisal/add`, data),
     onSuccess: () => {
       setOpen(false);
-      toast.success("Exhibition added successfully.");
+      toast.success(
+        `Exhibition ${currentAppraisal ? "updated" : "added"} successfully.`,
+      );
       reset();
       setAppraisalImg(null);
       router.replace(router.asPath);
@@ -69,7 +74,9 @@ const ArtPieceAppraisal: React.FC<Props> = ({ appraisals, artpieceId }) => {
       const errorMessage =
         // @ts-ignore
         error.response?.data?.message ||
-        "An error occurred while adding the appraisals.";
+        `An error occurred while ${
+          currentAppraisal ? "updating" : "adding"
+        } the appraisals.`;
       toast.error(errorMessage);
     },
   });
@@ -102,6 +109,19 @@ const ArtPieceAppraisal: React.FC<Props> = ({ appraisals, artpieceId }) => {
     console.log(url); // Would see a path?
   };
 
+  console.log(currentAppraisal);
+
+  useEffect(() => {
+    setValue("appraiser", currentAppraisal?.appraiser || "");
+    setValue("appraiserEmail", currentAppraisal?.appraiserEmail || "");
+    setValue("appraiserWebsite", currentAppraisal?.appraiserWebsite || "");
+    setValue("value", currentAppraisal?.value || "");
+    setValue("currency", currentAppraisal?.currency || "");
+    setValue("attachmentCaption", currentAppraisal?.attachment?.caption || "");
+    setValue("notes", currentAppraisal?.notes || "");
+    setAppraisalImg(currentAppraisal?.attachment?.url);
+  }, [currentAppraisal]);
+
   return (
     <ArtDetailsAccordionContainer
       onClick={() => setOpen(true)}
@@ -120,7 +140,10 @@ const ArtPieceAppraisal: React.FC<Props> = ({ appraisals, artpieceId }) => {
         title="Appraiser"
         open={open}
         isLoading={isLoading}
-        handleClose={() => setOpen(false)}
+        handleClose={() => {
+          setCurrentAppraisal(null);
+          setOpen(false);
+        }}
       >
         <AppraisalFormData
           handleUploadClick={handleUploadClick}

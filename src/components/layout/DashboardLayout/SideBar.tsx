@@ -14,6 +14,7 @@ interface Props {
 }
 const SideBar: React.FC<Props> = ({ hideSidebar, isMobile }) => {
   const pathname = useRouter().pathname;
+  const router = useRouter();
 
   console.log(hideSidebar);
 
@@ -36,7 +37,10 @@ const SideBar: React.FC<Props> = ({ hideSidebar, isMobile }) => {
 
       <Stack direction={"column"} className="gap-14 px-8 pb-20">
         <div className="mt-10 flex justify-center">
-          <Button className="flex gap-3 w-[152px] h-[39.5px] text-[15px] leading-[16px] hover:scale-95 duration-700 items-center p-0 divide-white bg-primary text-white">
+          <Button
+            onClick={() => router.push("/dashboard/artworks/create")}
+            className="flex gap-3 w-[152px] h-[39.5px] text-[15px] leading-[16px] hover:scale-95 duration-700 items-center p-0 divide-white bg-primary text-white"
+          >
             <span className="flex-1"> Create</span>
             <span className="h-full w-1/3 border-l-[1px] grid place-items-center ">
               <FaRegPlusSquare size={20} />

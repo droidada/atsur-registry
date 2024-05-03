@@ -41,6 +41,7 @@ import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useRouter } from "next/router";
 import { LoadingButton } from "@mui/lab";
 import { useToast } from "@/providers/ToastProvider";
+import ProtectedPage from "@/HOC/Protected";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -141,7 +142,7 @@ function Organization({ organizations }) {
 
   return (
     <>
-      <DashboardLayoutWithSidebar hideSidebar activePage={DashboardPages.ART}>
+      {/* <DashboardLayoutWithSidebar hideSidebar activePage={DashboardPages.ART}>
         <div className="w-full px-4">
           <div className="row ">
             <div className="action__body w-full mb-10 rounded-xl">
@@ -192,9 +193,7 @@ function Organization({ organizations }) {
                         10
                         <i className="icon-heart" />
                       </div>
-                      <div className="featured-countdown">
-                        {/* <Countdown endDateTime={currentTime.setDate(currentTime.getDate() + 2)} /> */}
-                      </div>
+
                     </div>
                   </div>
                   <div className="mt-6 lg:mt-0 col-md-4 rounded-xl">
@@ -311,9 +310,9 @@ function Organization({ organizations }) {
             </div>
           </div>
         </div>
-      </DashboardLayoutWithSidebar>
+      </DashboardLayoutWithSidebar> */}
 
-      <Dialog
+      {/* <Dialog
         open={openMemberInvite}
         onClose={() => setOpenMemberInvite(false)}
         title="Add Members"
@@ -344,9 +343,9 @@ function Organization({ organizations }) {
             Add
           </LoadingButton>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
 
-      <DeleteDialog
+      {/* <DeleteDialog
         open={openDeleteDialog}
         onClose={() => setOpenDeleteDialog(false)}
         deleteUrl={`/org/delete/${organizations?._id}`}
@@ -360,15 +359,15 @@ function Organization({ organizations }) {
         urlBody={{ memberId: currentMember }}
         prompText="Are you sure you want to remove this member?"
         itemToDelete={{ itemType: "organization", itemId: "" }}
-      />
+      /> */}
 
-      <EditOrganization
+      {/* <EditOrganization
         open={openEdit}
         handleClose={() => setOpenEdit(false)}
         organization={organizations}
-      />
+      /> */}
     </>
   );
 }
 Organization.requireAuth = true;
-export default Organization;
+export default ProtectedPage(Organization);

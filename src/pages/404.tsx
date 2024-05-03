@@ -10,9 +10,9 @@ function Custom404() {
         </div>
         <h2>Oh no... We lost this page</h2>
         <p>
-          We searched everywhere but couldn’t find what you’re looking for.{" "}
-          <br />
-          Let’s find a better place for you to go.
+          We searched everywhere but couldn&apos;t find what you&apos;re looking
+          for. <br />
+          Let&apos;s find a better place for you to go.
         </p>
         <Link href="/" className="tf-button w320 style-1 h50">
           Back to home

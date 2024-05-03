@@ -13,7 +13,6 @@ import axios from "@/lib/axios";
 import axiosMain from "axios";
 
 import DeleteDialog from "@/components/dashboard/DeleteDialog";
-import EditCollection from "@/components/dashboard/edit-collection";
 import AddArtworkToCollection from "@/components/dashboard/add-artwork-to-collection";
 import Image from "next/image";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
@@ -27,6 +26,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
+import ProtectedPage from "@/HOC/Protected";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -90,7 +90,7 @@ function Collection({ collections }) {
 
   return (
     <>
-      <DashboardLayoutWithSidebar hideSidebar activePage={DashboardPages.ART}>
+      {/* <DashboardLayoutWithSidebar hideSidebar activePage={DashboardPages.ART}>
         <>
           <div className="row w-full px-4">
             <div
@@ -132,7 +132,7 @@ function Collection({ collections }) {
               </div>
             </div>
             <div className="row">
-              {/* DESCRIPTION */}
+
               <div className="col-12">
                 <div className="tf-section-2 product-detail">
                   <h2 className="title">Description</h2>
@@ -140,7 +140,7 @@ function Collection({ collections }) {
                 </div>
               </div>
             </div>
-            {/* ARTWORKs */}
+
 
             <div className="row">
               <div className="col-12">
@@ -229,29 +229,29 @@ function Collection({ collections }) {
             </DialogActions>
           </Dialog>
         </>
-      </DashboardLayoutWithSidebar>
+      </DashboardLayoutWithSidebar> */}
 
-      <DeleteDialog
+      {/* <DeleteDialog
         open={openDeleteDialog}
         onClose={() => setOpenDeleteDialog(false)}
         deleteUrl={`/collection/delete/${collections?._id}`}
         redirectUrl={`/dashboard/collections`}
         itemToDelete={{ itemType: "collection", itemId: "" }}
-      />
+      /> */}
 
-      <EditCollection
+      {/* <EditCollection
         open={openEdit}
         handleClose={() => setOpenEdit(false)}
         collection={collections}
-      />
+      /> */}
 
-      <AddArtworkToCollection
+      {/* <AddArtworkToCollection
         open={openAddArtWork}
         collection={collections}
         handleClose={() => setOpenAddArtWork(false)}
-      />
+      /> */}
     </>
   );
 }
 Collection.requireAuth = true;
-export default Collection;
+export default ProtectedPage(Collection);
