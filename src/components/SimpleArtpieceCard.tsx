@@ -1,5 +1,6 @@
 import { Avatar, Button, Stack, Typography } from "@mui/material";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React from "react";
 
 interface Props {
@@ -23,6 +24,7 @@ const SimpleArtpieceCard: React.FC<Props> = ({
   isSmall,
   containerClassName,
 }) => {
+  const router = useRouter();
   return (
     <div
       className={`${
@@ -68,6 +70,7 @@ const SimpleArtpieceCard: React.FC<Props> = ({
           </div>
         </Stack>
         <Button
+          onClick={() => router.push(url)}
           className={`${
             isBlack ? "bg-white text-black" : "bg-black text-white"
           } w-full text-[13px] leading-[16px] font-[400]`}

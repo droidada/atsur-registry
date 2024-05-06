@@ -136,6 +136,7 @@ const IllustrationForm: React.FC<Props> = ({
           error={!!errors["title"]}
           helperText={errors["title"] ? errors["title"].message : ""}
           control={control}
+          inputClassName="bg-secondary"
         />
         <InputField
           label="Description"
@@ -145,6 +146,7 @@ const IllustrationForm: React.FC<Props> = ({
           tabIndex={2}
           multiline
           rows={4}
+          inputClassName="bg-secondary"
           aria-required="true"
           fullWidth
           error={!!errors["description"]}
@@ -159,6 +161,7 @@ const IllustrationForm: React.FC<Props> = ({
             id="subjectMatter"
             placeholder=""
             name="subjectMatter"
+            inputClassName="bg-secondary"
             className="w-full"
             tabIndex={2}
             aria-required="true"
@@ -197,6 +200,7 @@ const IllustrationForm: React.FC<Props> = ({
             placeholder=""
             name="height"
             className="w-full"
+            inputClassName="bg-secondary"
             tabIndex={2}
             fullWidth
             aria-required="true"
@@ -211,6 +215,7 @@ const IllustrationForm: React.FC<Props> = ({
             placeholder=""
             name="width"
             className="w-full"
+            inputClassName="bg-secondary"
             tabIndex={2}
             aria-required="true"
             fullWidth
@@ -223,6 +228,7 @@ const IllustrationForm: React.FC<Props> = ({
             id="depth"
             type="number"
             placeholder=""
+            inputClassName="bg-secondary"
             name="depth"
             tabIndex={2}
             className="w-full"
@@ -237,6 +243,7 @@ const IllustrationForm: React.FC<Props> = ({
           <SelectField
             label="Rarity"
             name="rarity"
+            selectClassName="bg-secondary"
             control={control}
             fullWidth
             helperText={errors["rarity"] ? errors["rarity"].message : ""}
@@ -251,13 +258,18 @@ const IllustrationForm: React.FC<Props> = ({
           <SelectField
             label="Type"
             name="type"
+            selectClassName="bg-secondary"
             control={control}
             fullWidth
             helperText={errors["type"] ? errors["type"].message : ""}
             error={!!errors["type"]}
           >
             {["artifact", "art-piece"].map((item) => (
-              <MenuItem key={item} value={item} className="text-xm capitalize">
+              <MenuItem
+                key={item}
+                value={item}
+                className="text-xm capitalize bg-secondary"
+              >
                 {item}
               </MenuItem>
             ))}

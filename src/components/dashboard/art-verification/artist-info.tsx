@@ -42,8 +42,6 @@ export default function ArtistInfo({
     attachment2Caption: string().optional(),
   });
 
-  console.log(defaultValues);
-
   type MetadataInput = TypeOf<typeof metadataSchema>;
 
   const {

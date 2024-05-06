@@ -101,7 +101,7 @@ const CreateArtworkPreview: React.FC<Props> = ({
     >
       <Stack spacing={4}>
         <h1 className="font-bold text-[19px] leading-[16px]">Art Details</h1>
-        <div className="flex md:flex-row flex-col gap-4 justify-between items-center md:items-start">
+        <div className="grid md:grid-cols-4">
           <div className="flex flex-col gap-2">
             <h4 className="font-semibold text-[15px] leading-[16px]">Title</h4>
             <p className="text-[17px] leading-[16px] font-[300]">
@@ -139,7 +139,7 @@ const CreateArtworkPreview: React.FC<Props> = ({
           </p>
         </div>
 
-        <div className="flex md:flex-row flex-col gap-4 justify-between items-center md:items-start">
+        <div className="grid md:grid-cols-4">
           <div className="flex flex-col gap-2">
             <h4 className="font-semibold text-[15px] leading-[16px]">Height</h4>
             <p className="text-[17px] leading-[16px] font-[300]">
@@ -160,7 +160,7 @@ const CreateArtworkPreview: React.FC<Props> = ({
           </div>
         </div>
 
-        <div className="flex md:flex-row flex-col gap-4 justify-between items-center md:items-start">
+        <div className="grid md:grid-cols-4">
           <div className="flex flex-col gap-2">
             <Image
               src={formData?.assets?.primaryView}
@@ -173,42 +173,50 @@ const CreateArtworkPreview: React.FC<Props> = ({
               Primary View
             </p>
           </div>
-          <div className="flex flex-col gap-2">
-            <Image
-              src={formData?.assets?.secondaryView?.leftAngleView}
-              alt="Left Angle View"
-              width={192}
-              height={224}
-              className="max-w-[192px] h-[224px] w-full object-cover "
-            />
-            <p className="italic text-[15px] leading-[20px] font-[300]">
-              Left Angle View
-            </p>
-          </div>
-          <div className="flex flex-col gap-2">
-            <Image
-              src={formData?.assets?.secondaryView?.rightAngleView}
-              alt="Right Angle View"
-              width={192}
-              height={224}
-              className="max-w-[192px] h-[224px] w-full object-cover "
-            />
-            <p className="italic text-[15px] leading-[20px] font-[300]">
-              Right Angle View
-            </p>
-          </div>
-          <div className="flex flex-col gap-2">
-            <Image
-              src={formData?.assets?.secondaryView?.mountedView}
-              alt="Mounted View"
-              width={192}
-              height={224}
-              className="max-w-[192px] h-[224px] w-full object-cover "
-            />
-            <p className="italic text-[15px] leading-[20px] font-[300]">
-              Mounted View
-            </p>
-          </div>
+          {formData?.assets?.secondaryView?.leftAngleView && (
+            <div className="flex flex-col gap-2">
+              <Image
+                src={formData?.assets?.secondaryView?.leftAngleView}
+                alt="Left Angle View"
+                width={192}
+                height={224}
+                className="max-w-[192px] h-[224px] w-full object-cover "
+              />
+              <p className="italic text-[15px] leading-[20px] font-[300]">
+                Left Angle View
+              </p>
+            </div>
+          )}
+
+          {formData?.assets?.secondaryView?.rightAngleView && (
+            <div className="flex flex-col gap-2">
+              <Image
+                src={formData?.assets?.secondaryView?.rightAngleView}
+                alt="Right Angle View"
+                width={192}
+                height={224}
+                className="max-w-[192px] h-[224px] w-full object-cover "
+              />
+              <p className="italic text-[15px] leading-[20px] font-[300]">
+                Right Angle View
+              </p>
+            </div>
+          )}
+
+          {formData?.assets?.secondaryView?.mountedView && (
+            <div className="flex flex-col gap-2">
+              <Image
+                src={formData?.assets?.secondaryView?.mountedView}
+                alt="Mounted View"
+                width={192}
+                height={224}
+                className="max-w-[192px] h-[224px] w-full object-cover "
+              />
+              <p className="italic text-[15px] leading-[20px] font-[300]">
+                Mounted View
+              </p>
+            </div>
+          )}
         </div>
       </Stack>
     </CreateArtWorkFormContainer>
