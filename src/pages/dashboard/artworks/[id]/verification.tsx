@@ -6,7 +6,7 @@ import axios from "@/lib/axios";
 import DashboardLayoutWithSidebar, {
   DashboardPages,
 } from "@/components/open9/layout/DashboardLayoutWithSidebar";
-import { ToggleButtonGroup, ToggleButton } from "@mui/material";
+import { ToggleButtonGroup, ToggleButton, Stack } from "@mui/material";
 import { artRoles } from "@/types";
 import {
   PhotoLibrary,
@@ -23,6 +23,9 @@ import InstitutionInfo from "@/components/dashboard/art-verification/institution
 import { useRouter } from "next/router";
 import Preview from "@/components/dashboard/art-verification/preview";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
+import ProtectedPage from "@/HOC/Protected";
+import ArtVerificationAquisition from "@/components/dashboard/artwork/Verification/Aquisition";
+import ArtVerificationInformation from "@/components/dashboard/artwork/Verification/InformationAdd";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -49,180 +52,80 @@ export const getServerSideProps = async ({ req, query }) => {
   }
 };
 
-export default function Verification({ artPiece }) {
-  const [artRole, setArtRole] = useState("");
+function Verification({ artPiece }) {
+  const [steps, setSteps] = useState([
+    "aquistion",
+    "information add",
+    "Preview",
+  ]);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [selectedInformationAdd, setSelectedInformationAdd] = useState<
+    "artist" | "dealer" | "collector" | "institution"
+  >("artist");
+  const { id: artpieceId } = useRouter().query;
 
-  const handleOnClick = (index) => {
-    setActiveIndex(index);
-  };
-  const router = useRouter();
-  const id = router.query.id;
-  const [activeIndex, setActiveIndex] = useState(11);
-  const axiosAuth = useAxiosAuth();
-  const [verificationData, setVerificationData] = useState(null);
-  const [checkVerificationStatus, setCheckVerificationStatus] = useState(false);
-
-  useEffect(() => {
-    if (verificationData) {
-      if (verificationData == "pending" || verificationData == "verified") {
-        setActiveIndex(13);
-      }
-      setCheckVerificationStatus(
-        verificationData == "pending" || verificationData == "verified",
-      );
-    }
-  }, [verificationData]);
-
-  console.log(verificationData);
-
-  const fetchSavedVerification = async () => {
-    try {
-      const { data: result } = await axiosAuth.get(
-        `/verify-artpiece/saved/${id}`,
-      );
-      setVerificationData(result.data);
-      console.log(result);
-    } catch (error) {
-      console.log(error);
-    }
+  const handleAddDealerStep = () => {
+    setSteps(["aquistion", "information add", "Dealer Info", "Preview"]);
   };
 
-  useEffect(() => {
-    fetchSavedVerification();
-  }, [id, activeIndex]);
-
-  console.log(verificationData);
-
-  console.log(activeIndex);
-
-  console.log(!verificationData?.status || verificationData?.status == "draft");
-
-  const steps = [
-    {
-      name: "Acquisition",
-      component: (
-        index: number,
-        activeIndex: number,
-        checkVerificationStatus: boolean,
-      ) => (
-        <li
-          className={`  ${
-            activeIndex == 11 ? "item-title active tf-color" : "item-title"
-          }`}
-          onClick={() => {
-            if (!checkVerificationStatus) {
-              handleOnClick(Number(`1` + index));
-              removeDealerFromSteps();
-            }
-          }}
-        >
-          <span className="inner">
-            <span className="order">{index}</span> Acquisition{" "}
-            <i className="icon-keyboard_arrow_right" />
-          </span>
-        </li>
-      ),
-    },
-    {
-      name: "",
-      component: (
-        index: number,
-        activeIndex: number,
-        checkVerificationStatus: boolean,
-      ) => (
-        <li
-          className={` ${
-            activeIndex == 12
-              ? "item-title active tf-color bg-red-500"
-              : "item-title"
-          }`}
-          onClick={() =>
-            !checkVerificationStatus && handleOnClick(Number(`1` + index))
-          }
-        >
-          <span className="inner">
-            <span className="order">{index}</span>
-            {artRole === artRoles.ARTIST ? (
-              <>Artist</>
-            ) : artRole === artRoles.DEALER ? (
-              <>Dealer</>
-            ) : artRole === artRoles.COLLECTOR ? (
-              <>Collector</>
-            ) : artRole === artRoles.CUSTODIAN ? (
-              <>Institution</>
-            ) : (
-              <></>
-            )}{" "}
-            Information ddd <i className="icon-keyboard_arrow_right" />
-          </span>
-        </li>
-      ),
-    },
-    {
-      name: "",
-      component: (
-        index: number,
-        activeIndex: number,
-        checkVerificationStatus: boolean,
-      ) => {
-        return (
-          <li
-            className={`  ${
-              activeIndex === Number(`1${index}`)
-                ? "item-title active tf-color"
-                : "item-title"
-            }`}
-            onClick={() =>
-              !checkVerificationStatus && handleOnClick(Number(`1` + index))
-            }
-          >
-            <span className="inner">
-              <span className="order">{index}</span>Preview
-            </span>
-          </li>
-        );
-      },
-    },
-  ];
-
-  const [allSteps, setAllSteps] = useState(steps);
-
-  const addDealerToSteps = () => {
-    console.log("This is triggered");
-    const newSteps = [...allSteps];
-
-    newSteps.splice(2, 0, {
-      name: "Dealer",
-      component: (
-        index: number,
-        activeIndex: number,
-        checkVerificationStatus: boolean,
-      ) => (
-        <li
-          className={`${
-            !checkVerificationStatus && "bg-gray-400 pointer-events-none"
-          }  ${activeIndex === 13 ? "item-title active" : "item-title"}`}
-          onClick={() => !checkVerificationStatus && handleOnClick(13)}
-        >
-          <span className="inner">
-            <span className="order">{index}</span>Dealer
-          </span>
-        </li>
-      ),
-    });
-
-    setAllSteps(newSteps);
-  };
-
-  const removeDealerFromSteps = () => {
-    const newSteps = allSteps.filter((step) => step.name !== "Dealer");
-
-    setAllSteps(newSteps);
+  const handleRemoveDealerStep = () => {
+    setSteps(["aquistion", "information add", "Preview"]);
   };
 
   return (
     <>
-      <DashboardLayoutWithSidebar
+      <Stack spacing={4}>
+        <h1 className="font-semibold text-2xl lg:text-[30px] lg:leading-[40px]">
+          Art Verification
+        </h1>
+        <Stack direction={"row"} className="overflow-x-auto " spacing={2}>
+          {steps.map((item, index) => (
+            <div
+              key={`active-bar-${item}`}
+              className="flex-shrink-0 lg:flex-shrink flex flex-col max-w-[312px] w-full gap-2"
+            >
+              <span
+                className={`text-[20px] capitalize leading-[20px] ${
+                  activeIndex === index ? "font-bold" : ""
+                }`}
+              >
+                {item}
+              </span>
+              <span
+                className={`h-[7px] w-full rounded-[23px]  ${
+                  activeIndex >= index
+                    ? activeIndex == 2 && index == 2
+                      ? "bg-[#00FF94]"
+                      : "bg-primary"
+                    : "bg-secondary"
+                }`}
+              />
+            </div>
+          ))}
+        </Stack>
+
+        <div>
+          {
+            [
+              <ArtVerificationAquisition
+                key={0}
+                setActiveIndex={setActiveIndex}
+                selectedInformationAdd={selectedInformationAdd}
+                setSelectedInformationAdd={setSelectedInformationAdd}
+              />,
+              <ArtVerificationInformation
+                key={1}
+                setActiveIndex={setActiveIndex}
+                defaultValues={{}}
+                selectedInformationAdd={selectedInformationAdd}
+                artpieceId={artpieceId as string}
+                // setSelectedInformationAdd={setSelectedInformationAdd}
+              />,
+            ][activeIndex]
+          }
+        </div>
+      </Stack>
+      {/* <DashboardLayoutWithSidebar
         activePage={DashboardPages.ART}
         hideSidebar={true}
       >
@@ -436,7 +339,9 @@ export default function Verification({ artPiece }) {
             </div>
           </div>
         </div>
-      </DashboardLayoutWithSidebar>
+      </DashboardLayoutWithSidebar> */}
     </>
   );
 }
+
+export default ProtectedPage(Verification);

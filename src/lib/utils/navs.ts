@@ -10,7 +10,7 @@ export const landingPageNavMenu = [
   },
   {
     title: "Explore",
-    link: "/about",
+    link: "/explore",
   },
   {
     title: "Contact",

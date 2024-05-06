@@ -14,6 +14,7 @@ import DashboardLayoutWithSidebar, {
 } from "@/components/open9/layout/DashboardLayoutWithSidebar";
 import AutoSlider1 from "@/open9/slider/AutoSlider1";
 import AutoSlider2 from "@/open9/slider/AutoSlider2";
+import ProtectedPage from "@/HOC/Protected";
 
 function CreateCollection() {
   const axiosAuth = useAxiosAuth();
@@ -253,4 +254,4 @@ function CreateCollection() {
   );
 }
 
-export default ProctedPage(CreateCollection);
+export default ProtectedPage(CreateCollection);
