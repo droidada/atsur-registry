@@ -67,6 +67,9 @@ const SelectField: React.FC<Props> = ({
           aria-required={ariaRequired}
           fullWidth={fullWidth}
           error={error}
+          inputProps={{
+            className: ``,
+          }}
           {...props}
           className={`h-[40px] bg-white focus:border-none ${selectClassName}`}
         >

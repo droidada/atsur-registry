@@ -9,7 +9,7 @@ function Custom500() {
       <div className="flex flex-col gap-4 items-center justify-center pt-8 md:pt-12  h-full ">
         <div className="flex items-center gap-3">
           <div className="text-4xl font-bold md:text-7xl">
-            4<span className="text-secondary">0</span>4
+            5<span className="text-secondary">0</span>0
           </div>
           <Image
             src="/images/no-data.png"

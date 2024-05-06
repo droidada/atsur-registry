@@ -24,6 +24,7 @@ interface Props {
   className?: string;
   multiline?: boolean;
   rows?: number;
+  variant?: "outlined" | "standard";
 }
 
 const InputField: React.FC<Props> = ({
@@ -48,6 +49,7 @@ const InputField: React.FC<Props> = ({
   rows,
   onBlur,
   onChange,
+  variant,
   ...props
 }) => {
   const {
@@ -66,12 +68,18 @@ const InputField: React.FC<Props> = ({
       </label>
       <TextField
         {...field}
+        variant={variant}
+        sx={{
+          "& fieldset": { border: "none" },
+        }}
         rows={rows || 2}
         multiline={multiline}
-        className={`focus:outline-0 border-none focus:border-0
-        focus:border-none  focus:outline-none focus:ring-0 hover:outline-none ${inputClassName}`}
         type={type || "text"}
         id={id}
+        className={`h-fit w-full ${inputClassName} `}
+        inputProps={{
+          className: `focus:outline-none focus:ring-0 border-none outline-0 remove-input-outline hover:outline-offset-2 border-none focus: focus:outline-offset-0 focus:border-none focus:shadow-outline ${inputClassName}`,
+        }}
         placeholder={placeholder}
         defaultValue={defaultValue}
         name={name}
