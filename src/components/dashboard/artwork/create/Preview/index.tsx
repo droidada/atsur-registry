@@ -101,7 +101,7 @@ const CreateArtworkPreview: React.FC<Props> = ({
     >
       <Stack spacing={4}>
         <h1 className="font-bold text-[19px] leading-[16px]">Art Details</h1>
-        <div className="grid md:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-4">
           <div className="flex flex-col gap-2">
             <h4 className="font-semibold text-[15px] leading-[16px]">Title</h4>
             <p className="text-[17px] leading-[16px] font-[300]">
@@ -139,7 +139,7 @@ const CreateArtworkPreview: React.FC<Props> = ({
           </p>
         </div>
 
-        <div className="grid md:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-4">
           <div className="flex flex-col gap-2">
             <h4 className="font-semibold text-[15px] leading-[16px]">Height</h4>
             <p className="text-[17px] leading-[16px] font-[300]">
@@ -160,7 +160,7 @@ const CreateArtworkPreview: React.FC<Props> = ({
           </div>
         </div>
 
-        <div className="grid md:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-4">
           <div className="flex flex-col gap-2">
             <Image
               src={formData?.assets?.primaryView}
