@@ -101,5 +101,4 @@ function Dashboard() {
   );
 }
 
-Dashboard.requireAuth = true;
 export default ProtectedPage(Dashboard);

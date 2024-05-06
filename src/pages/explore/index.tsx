@@ -17,8 +17,9 @@ import {
 import ExploreLeft from "@/components/common/ExploreLeft";
 import ArtPieceCard from "@/components/common/ArtPieceCard";
 import ArtPieceLoading from "@/components/common/ArtPieceLoading";
+import UnprotectedPage from "@/HOC/Unprotected";
 
-export default function Explore() {
+function Explore() {
   const [isBidModal, setBidModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const handleBidModal = () => setBidModal(!isBidModal);
@@ -90,7 +91,7 @@ export default function Explore() {
 
   return (
     <>
-      <Layout headerStyle={2} footerStyle={1} currentMenuItem={"explore"}>
+      {/* <Layout headerStyle={2} footerStyle={1} currentMenuItem={"explore"}>
         <div>
           <div className="flat-title-page">
             <div className="themesflat-container">
@@ -193,50 +194,11 @@ export default function Explore() {
               }}
             />
           </div>
-          {/* <div className="flex container mx-auto py-6 flex-col  md:flex-row gap-6">
-            <div>
-              <ExploreLeft setQuery={setQuery} />
-            </div>
-            <div className="grid gap-6 flex-1">
-              <div className="flex flex-wrap gap-4">
-                {loading
-                  ? [...Array(4)].map((_, i) => <ArtPieceLoading key={i} />)
-                  : pieces?.map((piece) => (
-                      <ArtPieceCard
-                        key={piece._id}
-                        image={piece?.assets[0].url}
-                        title={piece?.title}
-                        link={`/explore/art-piece/${piece._id}`}
-                        user={{
-                          firstName: piece?.creator?.profile?.firstName,
-                          lastName: piece?.creator?.profile?.lastName,
-                          avatar: piece?.creator?.profile?.avatar,
-                          id: piece?.creator?._id,
-                        }}
-                      />
-                    ))}
-
-                {!loading && pieces?.length === 0 && (
-                  <div className="h-full grid w-full place-items-center">
-                    <Typography variant="h3" component="div">
-                      No art pieces found
-                    </Typography>
-                  </div>
-                )}
-              </div>
-              <div className="flex justify-center">
-                <Pagination
-                  count={totalPages}
-                  onChange={(event, value) => {
-                    setCurrentPage(value);
-                  }}
-                />
-              </div>
-            </div>
-          </div> */}
         </div>
         <BidModal handleBidModal={handleBidModal} isBidModal={isBidModal} />
-      </Layout>
+      </Layout> */}
     </>
   );
 }
+
+export default UnprotectedPage(Explore);

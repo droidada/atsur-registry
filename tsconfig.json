@@ -45,7 +45,7 @@
     "src/components/open9/elements/AddClassBody.js",
     "src/components/open9/layout/Layout.js",
     "src/pages/index.jsx",
-    "src/pages/404.jsx",
+    "src/pages/404.tsx",
     "src/pages/signup/index.tsx",
     "src/components/open9/layout/DashboardLayoutWithSidebar.js",
     "src/pages/about-us.jsx"
