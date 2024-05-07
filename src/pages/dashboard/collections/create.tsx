@@ -14,6 +14,7 @@ import DashboardLayoutWithSidebar, {
 } from "@/components/open9/layout/DashboardLayoutWithSidebar";
 import AutoSlider1 from "@/open9/slider/AutoSlider1";
 import AutoSlider2 from "@/open9/slider/AutoSlider2";
+import ProtectedPage from "@/HOC/Protected";
 
 function CreateCollection() {
   const axiosAuth = useAxiosAuth();
@@ -87,170 +88,170 @@ function CreateCollection() {
   };
 
   return (
-    <DashboardLayoutWithSidebar activePage={DashboardPages.COLLECTIONS}>
-      <div className="w-full px-4">
-        <div className="row">
-          <div className="action__body w-full mb-40 rounded-xl">
-            <div className="tf-tsparticles">
-              <div id="tsparticles7" data-color="#161616" data-line="#000" />
-            </div>
-            <h2>Add Collection</h2>
-            <div className="flat-button flex">
-              <Link
-                href="/explore"
-                className="tf-button style-2 h50 w190 mr-10 rounded-xl"
-              >
-                Explore
-                <i className="icon-arrow-up-right2" />
-              </Link>
-              <Link
-                href="/dashboard/collections/create"
-                className="tf-button style-2 h50 w230 rounded-xl"
-              >
-                Create
-                <i className="icon-arrow-up-right2" />
-              </Link>
-            </div>
-            <div className="bg-home7">
-              <AutoSlider1 />
-              <AutoSlider2 />
-              <AutoSlider1 />
-            </div>
-          </div>
-        </div>
-        <div className="widget-edit mb-30 profile">
-          <div className="title to-white">
-            <h4>Information</h4>
-            <i className="icon-keyboard_arrow_up" />
-          </div>
-          <div className="wrap-content w-full">
-            {error && <h5 style={{ color: "red" }}>{error}</h5>}
-            <form
-              id="create-org"
-              className="create-org-form"
-              autoComplete="off"
-              noValidate
-              onSubmit={handleSubmit(onSubmitHandler)}
-            >
-              <fieldset className="name">
-                <label className="to-white">Title *</label>
-                <TextField
-                  type="text"
-                  id="title"
-                  placeholder="Hanson Morgan Gallery of Arts"
-                  name="title"
-                  tabIndex={2}
-                  aria-required="true"
-                  fullWidth
-                  error={!!errors["title"]}
-                  helperText={errors["title"] ? errors["title"].message : ""}
-                  {...register("title")}
-                />
-              </fieldset>
-              <div className="wrap-upload">
-                <form action="#" className="h-full">
-                  <label className="uploadfile h-full flex items-center justify-center">
-                    <div className="text-center flex flex-col items-center justify-center">
-                      {previewImg ? (
-                        <Image
-                          width={200}
-                          height={200}
-                          alt={""}
-                          className="h-full rounded-xl"
-                          src={previewImg}
-                        />
-                      ) : (
-                        <Image
-                          width={200}
-                          height={200}
-                          className="h-full rounded-xl"
-                          src="/assets/images/box-icon/upload.png"
-                          alt=""
-                        />
-                      )}
+    <></>
+    // <DashboardLayoutWithSidebar activePage={DashboardPages.COLLECTIONS}>
+    //   <div className="w-full px-4">
+    //     <div className="row">
+    //       <div className="action__body w-full mb-40 rounded-xl">
+    //         <div className="tf-tsparticles">
+    //           <div id="tsparticles7" data-color="#161616" data-line="#000" />
+    //         </div>
+    //         <h2>Add Collection</h2>
+    //         <div className="flat-button flex">
+    //           <Link
+    //             href="/explore"
+    //             className="tf-button style-2 h50 w190 mr-10 rounded-xl"
+    //           >
+    //             Explore
+    //             <i className="icon-arrow-up-right2" />
+    //           </Link>
+    //           <Link
+    //             href="/dashboard/collections/create"
+    //             className="tf-button style-2 h50 w230 rounded-xl"
+    //           >
+    //             Create
+    //             <i className="icon-arrow-up-right2" />
+    //           </Link>
+    //         </div>
+    //         <div className="bg-home7">
+    //           <AutoSlider1 />
+    //           <AutoSlider2 />
+    //           <AutoSlider1 />
+    //         </div>
+    //       </div>
+    //     </div>
+    //     <div className="widget-edit mb-30 profile">
+    //       <div className="title to-white">
+    //         <h4>Information</h4>
+    //         <i className="icon-keyboard_arrow_up" />
+    //       </div>
+    //       <div className="wrap-content w-full">
+    //         {error && <h5 style={{ color: "red" }}>{error}</h5>}
+    //         <form
+    //           id="create-org"
+    //           className="create-org-form"
+    //           autoComplete="off"
+    //           noValidate
+    //           onSubmit={handleSubmit(onSubmitHandler)}
+    //         >
+    //           <fieldset className="name">
+    //             <label className="to-white">Title *</label>
+    //             <TextField
+    //               type="text"
+    //               id="title"
+    //               placeholder="Hanson Morgan Gallery of Arts"
+    //               name="title"
+    //               tabIndex={2}
+    //               aria-required="true"
+    //               fullWidth
+    //               error={!!errors["title"]}
+    //               helperText={errors["title"] ? errors["title"].message : ""}
+    //               {...register("title")}
+    //             />
+    //           </fieldset>
+    //           <div className="wrap-upload">
+    //             <form action="#" className="h-full">
+    //               <label className="uploadfile h-full flex items-center justify-center">
+    //                 <div className="text-center flex flex-col items-center justify-center">
+    //                   {previewImg ? (
+    //                     <Image
+    //                       width={200}
+    //                       height={200}
+    //                       alt={""}
+    //                       className="h-full rounded-xl"
+    //                       src={previewImg}
+    //                     />
+    //                   ) : (
+    //                     <Image
+    //                       width={200}
+    //                       height={200}
+    //                       className="h-full rounded-xl"
+    //                       src="/assets/images/box-icon/upload.png"
+    //                       alt=""
+    //                     />
+    //                   )}
 
-                      <h5 className="text-gray-600">Upload Image</h5>
-                      <p className="text">Drag or choose your file to upload</p>
-                      <div className="text filename to-white">
-                        PNG, GIF, WEBP, MP4 or MP3.Max 1Gb.
-                      </div>
-                      <input
-                        type="file"
-                        name="imageFile"
-                        accept="image/*"
-                        className="rounded-xl"
-                        multiple
-                        onChange={handleUploadClick}
-                      />
-                    </div>
-                  </label>
-                </form>
-              </div>
-              <fieldset className="message">
-                <label className="to-white">Description</label>
-                <TextField
-                  id="description"
-                  name="description"
-                  type="text"
-                  placeholder="11 Park Avenue Way, Kinchase *"
-                  tabIndex={2}
-                  multiline
-                  rows={3}
-                  fullWidth
-                  error={!!errors["description"]}
-                  helperText={
-                    errors["description"] ? errors["description"].message : ""
-                  }
-                  {...register("description")}
-                />
-              </fieldset>
-              <div className="flex gap30">
-                <fieldset className="type">
-                  <label className="to-white">Type *</label>
-                  <Select
-                    className="select"
-                    tabIndex={2}
-                    name="type"
-                    id="type"
-                    fullWidth
-                    error={!!errors["type"]}
-                    {...register("type")}
-                    // defaultValue={exhibition.showingType}
-                  >
-                    <MenuItem>Select</MenuItem>
-                    <MenuItem value="artwork">Art Work</MenuItem>
-                    <MenuItem value="artifact">Artifact</MenuItem>
-                    <MenuItem value="mixed">Mixed</MenuItem>
-                    <MenuItem value="curated">Curated</MenuItem>
-                    <MenuItem value="artist">Artist</MenuItem>
-                  </Select>
-                </fieldset>
-              </div>
+    //                   <h5 className="text-gray-600">Upload Image</h5>
+    //                   <p className="text">Drag or choose your file to upload</p>
+    //                   <div className="text filename to-white">
+    //                     PNG, GIF, WEBP, MP4 or MP3.Max 1Gb.
+    //                   </div>
+    //                   <input
+    //                     type="file"
+    //                     name="imageFile"
+    //                     accept="image/*"
+    //                     className="rounded-xl"
+    //                     multiple
+    //                     onChange={handleUploadClick}
+    //                   />
+    //                 </div>
+    //               </label>
+    //             </form>
+    //           </div>
+    //           <fieldset className="message">
+    //             <label className="to-white">Description</label>
+    //             <TextField
+    //               id="description"
+    //               name="description"
+    //               type="text"
+    //               placeholder="11 Park Avenue Way, Kinchase *"
+    //               tabIndex={2}
+    //               multiline
+    //               rows={3}
+    //               fullWidth
+    //               error={!!errors["description"]}
+    //               helperText={
+    //                 errors["description"] ? errors["description"].message : ""
+    //               }
+    //               {...register("description")}
+    //             />
+    //           </fieldset>
+    //           <div className="flex gap30">
+    //             <fieldset className="type">
+    //               <label className="to-white">Type *</label>
+    //               <Select
+    //                 className="select"
+    //                 tabIndex={2}
+    //                 name="type"
+    //                 id="type"
+    //                 fullWidth
+    //                 error={!!errors["type"]}
+    //                 {...register("type")}
+    //                 // defaultValue={exhibition.showingType}
+    //               >
+    //                 <MenuItem>Select</MenuItem>
+    //                 <MenuItem value="artwork">Art Work</MenuItem>
+    //                 <MenuItem value="artifact">Artifact</MenuItem>
+    //                 <MenuItem value="mixed">Mixed</MenuItem>
+    //                 <MenuItem value="curated">Curated</MenuItem>
+    //                 <MenuItem value="artist">Artist</MenuItem>
+    //               </Select>
+    //             </fieldset>
+    //           </div>
 
-              <div className="btn-submit flex gap30 justify-center">
-                <button
-                  className="tf-button style-1 h50 rounded-xl"
-                  type="reset"
-                >
-                  Clear
-                  <i className="icon-arrow-up-right2" />
-                </button>
-                <LoadingButton
-                  className="tf-button style-1 h50 rounded-xl"
-                  loading={loading}
-                  type="submit"
-                >
-                  Create
-                  <i className="icon-arrow-up-right2" />
-                </LoadingButton>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </DashboardLayoutWithSidebar>
+    //           <div className="btn-submit flex gap30 justify-center">
+    //             <button
+    //               className="tf-button style-1 h50 rounded-xl"
+    //               type="reset"
+    //             >
+    //               Clear
+    //               <i className="icon-arrow-up-right2" />
+    //             </button>
+    //             <LoadingButton
+    //               className="tf-button style-1 h50 rounded-xl"
+    //               loading={loading}
+    //               type="submit"
+    //             >
+    //               Create
+    //               <i className="icon-arrow-up-right2" />
+    //             </LoadingButton>
+    //           </div>
+    //         </form>
+    //       </div>
+    //     </div>
+    //   </div>
+    // </DashboardLayoutWithSidebar>
   );
 }
 
-CreateCollection.requireAuth = true;
-export default CreateCollection;
+export default ProtectedPage(CreateCollection);

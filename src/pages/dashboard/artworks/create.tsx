@@ -7,255 +7,98 @@ import CreateAssets from "@/components/dashboard/create-assets";
 import DashboardLayoutWithSidebar, {
   DashboardPages,
 } from "@/components/open9/layout/DashboardLayoutWithSidebar";
+import ProtectedPage from "@/HOC/Protected";
+import { Stack } from "@mui/material";
+import IllustrationForm from "@/components/dashboard/artwork/create/IllustrationForm";
+import ICreateArtworkFormData from "@/types/models/createArtwork";
+import AssetsForm from "@/components/dashboard/artwork/create/AssetForm";
+import CreateArtworkPreview from "@/components/dashboard/artwork/create/Preview";
 
 function Dashboard() {
-  const [activeIndex, setActiveIndex] = useState(11);
+  const [activeIndex, setActiveIndex] = useState(0);
   const handleOnClick = (index) => {
     setActiveIndex(index);
   };
 
+  const [formData, setFormData] = useState<ICreateArtworkFormData>({
+    illustration: {
+      title: "",
+      description: "",
+      medium: "",
+      subjectMatter: "",
+      height: 0,
+      width: 0,
+      depth: 0,
+      rarity: "",
+      type: "",
+    },
+    assets: {
+      primaryView: "",
+      secondaryView: {
+        leftAngleView: "",
+        rightAngleView: "",
+        mountedView: "",
+      },
+    },
+  });
+
   return (
-    <>
-      <DashboardLayoutWithSidebar
-        activePage={DashboardPages.ART}
-        hideSidebar={true}
-      >
-        <div id="create">
-          <div className="wrapper-content-create">
-            <div className="heading-section">
-              <h2 className="tf-title pb-30">Create Artwork</h2>
-            </div>
-            <div className="widget-tabs relative">
-              <ul className="widget-menu-tab">
-                <li
-                  className={
-                    activeIndex === 11
-                      ? "item-title active tf-color"
-                      : "item-title"
-                  }
-                  onClick={() => handleOnClick(11)}
-                >
-                  <span className="inner">
-                    <span className="order">1</span> Metadata{" "}
-                    <i className="icon-keyboard_arrow_right" />
-                  </span>
-                </li>
-                <li
-                  className={
-                    activeIndex === 12 ? "item-title active" : "item-title"
-                  }
-                  onClick={() => handleOnClick(12)}
-                >
-                  <span className="inner">
-                    <span className="order">2</span>Assets{" "}
-                    <i className="icon-keyboard_arrow_right" />
-                  </span>
-                </li>
-                <li
-                  className={
-                    activeIndex === 13 ? "item-title active" : "item-title"
-                  }
-                  onClick={() => handleOnClick(13)}
-                >
-                  <span className="inner">
-                    <span className="order">3</span>Preview
-                  </span>
-                </li>
-              </ul>
-              <div className="widget-content-tab">
-                <div
-                  className={
-                    activeIndex === 11
-                      ? "widget-content-inner description active"
-                      : "widget-content-inner description"
-                  }
-                  style={{ display: `${activeIndex == 11 ? "" : "none"}` }}
-                >
-                  <CreateMetadata nextPage={handleOnClick} />
-                </div>
-
-                <div
-                  className={
-                    activeIndex === 12
-                      ? "widget-content-inner upload active"
-                      : "widget-content-inner upload"
-                  }
-                  style={{ display: `${activeIndex == 12 ? "" : "none"}` }}
-                >
-                  <CreateAssets nextPage={handleOnClick} />
-                </div>
-
-                <div
-                  className={
-                    activeIndex === 13
-                      ? "widget-content-inner submit active"
-                      : "widget-content-inner submit"
-                  }
-                  style={{ display: `${activeIndex == 13 ? "" : "none"}` }}
-                >
-                  {/* <div className="wrap-upload w-full">
-                    <form id="commentform" className="comment-form">
-                      <fieldset className="name">
-                        <label>Product name *</label>
-                        <input
-                          type="text"
-                          id="name"
-                          placeholder="Product name"
-                          name="name"
-                          tabIndex={2}
-                          aria-required="true"
-                          required
-                        />
-                      </fieldset>
-                      <fieldset className="message">
-                        <label>Description *</label>
-                        <textarea
-                          id="message"
-                          name="message"
-                          rows={4}
-                          placeholder="Please describe your product*"
-                          tabIndex={4}
-                          aria-required="true"
-                          required
-                        />
-                      </fieldset>
-                      <div className="flex gap30">
-                        <fieldset className="price">
-                          <label>Price</label>
-                          <input
-                            type="text"
-                            id="price"
-                            placeholder="Price"
-                            name="price"
-                            tabIndex={2}
-                            aria-required="true"
-                            required
-                          />
-                        </fieldset>
-                        <fieldset className="properties">
-                          <label>Properties</label>
-                          <input
-                            type="text"
-                            id="properties"
-                            placeholder="Properties"
-                            name="properties"
-                            tabIndex={2}
-                            aria-required="true"
-                            required
-                          />
-                        </fieldset>
-                        <fieldset className="size">
-                          <label>Size</label>
-                          <input
-                            type="text"
-                            id="size"
-                            placeholder="Size"
-                            name="size"
-                            tabIndex={2}
-                            aria-required="true"
-                            required
-                          />
-                        </fieldset>
-                      </div>
-                      <fieldset className="rarity">
-                        <label>Rarity</label>
-                        <select className="select" name="rarity" id="rarity">
-                          <option>afafdas</option>
-                          <option value="100$">100$</option>
-                          <option value="1000$">1000$</option>
-                          <option value="10000$">10000$</option>
-                        </select>
-                      </fieldset>
-                      <fieldset className="royatity">
-                        <label>Royatity</label>
-                        <input
-                          type="text"
-                          id="royatity"
-                          placeholder="Royatity"
-                          name="royatity"
-                          tabIndex={2}
-                          aria-required="true"
-                          required
-                        />
-                      </fieldset>
-                      <div className="btn-submit flex gap30 justify-center">
-                        <button className="tf-button style-1 h50 w320 active">
-                          Clear
-                          <i className="icon-arrow-up-right2" />
-                        </button>
-                        <button
-                          className="tf-button style-1 h50 w320"
-                          type="submit"
-                        >
-                          Create Record
-                          <i className="icon-arrow-up-right2" />
-                        </button>
-                      </div>
-                    </form>
-                  </div> */}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </DashboardLayoutWithSidebar>
-      <div
-        className="modal fade popup"
-        id="popup_bid"
-        tabIndex={-1}
-        role="dialog"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered" role="document">
-          <div className="modal-content">
-            <button
-              type="button"
-              className="close"
-              data-dismiss="modal"
-              aria-label="Close"
+    <Stack spacing={4}>
+      <h1 className="font-semibold text-2xl lg:text-[30px] lg:leading-[40px]">
+        Create Artwork
+      </h1>
+      <Stack direction={"row"} className="overflow-x-auto " spacing={2}>
+        {["illustration", "Assets", "Preview"].map((item, index) => (
+          <div
+            key={`active-bar-${item}`}
+            className="flex-shrink-0 lg:flex-shrink flex flex-col max-w-[312px] w-full gap-2"
+          >
+            <span
+              className={`text-[20px] capitalize leading-[20px] ${
+                activeIndex === index ? "font-bold" : ""
+              }`}
             >
-              <span aria-hidden="true">×</span>
-            </button>
-            <div className="modal-body">
-              <div className="image">
-                <Image
-                  src="/assets/images/backgroup-section/popup.png"
-                  alt=""
-                />
-              </div>
-              <div className="logo-rotate">
-                <Image
-                  src="/assets/images/item-background/item6-img.png"
-                  alt=""
-                />
-              </div>
-              <h2 className="to-white">Subscribe to our newsletter</h2>
-              <p className="to-white">
-                Subscribe for our newsletter to stay in the loop
-              </p>
-              <fieldset className="email">
-                <input
-                  type="email"
-                  className="style-1"
-                  id="email"
-                  placeholder="Email address*"
-                  name="email"
-                  tabIndex={2}
-                  aria-required="true"
-                  required
-                />
-              </fieldset>
-              <Link href="#" className="tf-button style-1 h50">
-                Subscribe
-                <i className="icon-arrow-up-right2" />
-              </Link>
-            </div>
+              {item}
+            </span>
+            <span
+              className={`h-[7px] w-full rounded-[23px]  ${
+                activeIndex >= index
+                  ? activeIndex == 2 && index == 2
+                    ? "bg-[#00FF94]"
+                    : "bg-primary"
+                  : "bg-secondary"
+              }`}
+            />
           </div>
-        </div>
+        ))}
+      </Stack>
+
+      <div>
+        {
+          [
+            <IllustrationForm
+              key={0}
+              setActiveIndex={setActiveIndex}
+              setFormData={setFormData}
+              formData={formData}
+            />,
+            <AssetsForm
+              key={1}
+              setActiveIndex={setActiveIndex}
+              setFormData={setFormData}
+              formData={formData}
+            />,
+            <CreateArtworkPreview
+              key={2}
+              setActiveIndex={setActiveIndex}
+              setFormData={setFormData}
+              formData={formData}
+            />,
+          ][activeIndex]
+        }
       </div>
-    </>
+    </Stack>
   );
 }
 
-Dashboard.requireAuth = true;
-export default Dashboard;
+export default ProtectedPage(Dashboard);

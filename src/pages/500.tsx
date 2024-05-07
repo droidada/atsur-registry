@@ -1,24 +1,46 @@
+import UnprotectedPage from "@/HOC/Unprotected";
 import Layout from "@/open9/layout/Layout";
+import { Button } from "@mui/material";
+import Image from "next/image";
 import Link from "next/link";
-export default function Custom500() {
+function Custom500() {
   return (
     <>
-      <Layout headerStyle={2} footerStyle={1}>
-        <div className="section-404-page relative">
-          <div className="content">
-            5<span className="tf-color">0</span>0
+      <div className="flex flex-col gap-4 items-center justify-center pt-8 md:pt-12  h-full ">
+        <div className="flex items-center gap-3">
+          <div className="text-4xl font-bold md:text-7xl">
+            5<span className="text-secondary">0</span>0
           </div>
-          <h2>Oh no... This is embarrassing... </h2>
-          <p>
-            Something seems to have gone wrong. <br />
-            Let’s find a better place for you to go.
-          </p>
-          <Link href="/" className="tf-button w320 style-1 h50">
-            Back to home
-            <i className="icon-arrow-up-right2" />
-          </Link>
+          <Image
+            src="/images/no-data.png"
+            width={100}
+            height={100}
+            className="object-contain"
+            alt="page not found"
+          />
         </div>
-      </Layout>
+        <div className="flex items-center gap-2">
+          <div>
+            <h2 className="font-semibold text-lg">
+              Oh no... We lost this page
+            </h2>
+          </div>
+        </div>
+        <p className="text-center">
+          Something went wrong
+          <br />
+          Let&apos;s find a better place for you to go.
+        </p>
+        <Button
+          component={Link}
+          href="/"
+          className="h-50 bg-primary text-white px-3"
+        >
+          Back to home
+          <i className="icon-arrow-up-right2" />
+        </Button>
+      </div>
     </>
   );
 }
+export default UnprotectedPage(Custom500);

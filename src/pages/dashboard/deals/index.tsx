@@ -8,6 +8,7 @@ import AutoSlider1 from "@/open9/slider/AutoSlider1";
 import AutoSlider2 from "@/open9/slider/AutoSlider2";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useAuthContext } from "@/providers/auth.context";
+import ProtectedPage from "@/HOC/Protected";
 
 function Organizations() {
   const [orgs, setOrgs] = useState([]);
@@ -26,7 +27,7 @@ function Organizations() {
 
   return (
     <>
-      <DashboardLayoutWithSidebar activePage={DashboardPages.ORGANIZATIONS}>
+      {/* <DashboardLayoutWithSidebar activePage={DashboardPages.ORGANIZATIONS}>
         <>
           <div className="row">
             <div className="action__body w-full mb-40">
@@ -102,9 +103,9 @@ function Organizations() {
             </div>
           </div>
         </>
-      </DashboardLayoutWithSidebar>
+      </DashboardLayoutWithSidebar> */}
     </>
   );
 }
 Organizations.requireAuth = true;
-export default Organizations;
+export default ProtectedPage(Organizations);
