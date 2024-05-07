@@ -25,6 +25,8 @@ interface Props {
   multiline?: boolean;
   rows?: number;
   variant?: "outlined" | "standard";
+  hasBorder?: boolean;
+  sx?: any;
 }
 
 const InputField: React.FC<Props> = ({
@@ -50,6 +52,8 @@ const InputField: React.FC<Props> = ({
   onBlur,
   onChange,
   variant,
+  hasBorder,
+  sx,
   ...props
 }) => {
   const {
@@ -70,7 +74,8 @@ const InputField: React.FC<Props> = ({
         {...field}
         variant={variant}
         sx={{
-          "& fieldset": { border: "none" },
+          "& fieldset": { border: !hasBorder && "none" },
+          ...sx,
         }}
         rows={rows || 2}
         multiline={multiline}

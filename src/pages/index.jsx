@@ -60,8 +60,6 @@ function Home() {
     fetchData();
   }, []);
 
-  console.log(artPieces);
-
   return (
     data &&
     artPieces && (
