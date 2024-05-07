@@ -1,8 +1,22 @@
 import UnprotectedPage from "@/HOC/Unprotected";
 import PriceSection from "@/components/pricing/PriceSection";
+import axios from "@/lib/axios";
 import React from "react";
 
-const PricingPage = () => {
+export const getServerSideProps = async ({ req, params }) => {
+  try {
+    const res = await axios.post(`/payment/list-plans`);
+
+    console.log(res.data);
+
+    return { props: { list: res.data } };
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+const PricingPage = ({ list }) => {
+  console.log(list);
   return (
     <>
       <div className="absolute top-0 left-0 w-full z-[-1]  h-[40vh] bg-secondary"></div>

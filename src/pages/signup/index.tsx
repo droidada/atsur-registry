@@ -22,6 +22,7 @@ import UnprotectedPage from "@/HOC/Unprotected";
 import InputField from "@/components/Form/InputField";
 import SelectField from "@/components/Form/SelectField";
 import { count } from "console";
+import AuthLayout from "@/components/layout/AuthLayout";
 
 const pubAPI = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
@@ -154,167 +155,185 @@ function SignUp({ invitationData, countries }) {
   };
 
   return (
-    <>
-      <Stack
-        direction={"column"}
-        spacing={4}
-        className="mx-auto max-w-[770px] w-full"
+    <AuthLayout
+      titleIsCenter
+      title="Get Started"
+      image="/images/artsur-register.png"
+    >
+      <form
+        onSubmit={handleSubmit(onSubmitHandler)}
+        className=" flex flex-col gap-4 w-full "
       >
-        <Stack spacing={2} alignItems={"center"}>
-          <h1 className="text-2xl font-[400] md:text-4xl ">
-            Create Your Account
-          </h1>
-          <h2 className="text-base">
-            Let&apos;s get started with your 30 days free trial
-          </h2>
-        </Stack>
-        <form
-          onSubmit={handleSubmit(onSubmitHandler)}
-          className="bg-secondary flex flex-col gap-4 w-full py-8 px-6"
+        <div className="flex md:flex-row flex-col gap-2 ">
+          <button className="rounded-[100px] text-[15px] flex justify-center items-center md:w-1/2 w-full gap-2   h-[43px] flex-shrink-0 font-[300] leading-[17px] border-[1px] border-secondary">
+            <Image
+              src="/assets/images/google.png"
+              height={20}
+              width={20}
+              alt="google"
+            />
+            <span> Sign in with Google</span>
+          </button>
+          <button className="rounded-[100px] text-[15px] flex justify-center items-center md:w-1/2 w-full gap-2  h-[43px] flex-shrink-0 font-[300] leading-[17px] border-[1px] border-secondary">
+            <Image
+              src="/assets/images/facebook.png"
+              height={20}
+              width={20}
+              alt="facebook"
+            />
+            <span>Sign in with Facebook</span>
+          </button>
+        </div>
+        <p className="text-center my-4 text-[15px] leading-[16px] flex gap-2 items-center">
+          <span className="h-[1px] bg-secondary w-full " />
+          <span>Or</span>
+          <span className="h-[1px] bg-secondary w-full " />
+        </p>
+
+        <InputField
+          label="First Name"
+          hasBorder
+          sx={{
+            "& fieldset": { borderRadius: "100px", borderColor: "black" },
+            borderColor: "black",
+          }}
+          type="text"
+          id="firstName"
+          placeholder="John"
+          name="firstName"
+          tabIndex={2}
+          aria-required="true"
+          fullWidth
+          error={!!errors["firstName"]}
+          helperText={errors["firstName"] ? errors["firstName"].message : ""}
+          control={control}
+        />
+        <InputField
+          label="Last Name"
+          hasBorder
+          sx={{
+            "& fieldset": { borderRadius: "100px", borderColor: "black" },
+            borderColor: "black",
+          }}
+          type="text"
+          id="lastName"
+          placeholder="Doe"
+          name="lastName"
+          tabIndex={2}
+          aria-required="true"
+          fullWidth
+          error={!!errors["lastName"]}
+          helperText={errors["lastName"] ? errors["lastName"].message : ""}
+          control={control}
+        />
+        <InputField
+          hasBorder
+          sx={{
+            "& fieldset": { borderRadius: "100px", borderColor: "black" },
+            borderColor: "black",
+          }}
+          label="Email"
+          type="email"
+          id="email"
+          placeholder="mail@website.com"
+          name="email"
+          tabIndex={2}
+          disabled={invitee?.email ? true : false}
+          aria-required="true"
+          fullWidth
+          error={!!errors["email"]}
+          helperText={errors["email"] ? errors["email"].message : ""}
+          control={control}
+        />
+
+        <SelectField
+          control={control}
+          name="country"
+          // @ts-ignore
+          sx={{
+            "& fieldset": { borderRadius: "100px", borderColor: "black" },
+            borderColor: "black",
+          }}
+          label="Country"
+          fullWidth
         >
-          <InputField
-            label="First Name"
-            isRequired
-            type="text"
-            id="firstName"
-            placeholder="John"
-            name="firstName"
-            tabIndex={2}
-            aria-required="true"
-            fullWidth
-            error={!!errors["firstName"]}
-            helperText={errors["firstName"] ? errors["firstName"].message : ""}
-            control={control}
-          />
-          <InputField
-            label="Last Name"
-            isRequired
-            type="text"
-            id="lastName"
-            placeholder="Doe"
-            name="lastName"
-            tabIndex={2}
-            aria-required="true"
-            fullWidth
-            error={!!errors["lastName"]}
-            helperText={errors["lastName"] ? errors["lastName"].message : ""}
-            control={control}
-          />
-          <InputField
-            isRequired
-            label="Email"
-            type="email"
-            id="email"
-            placeholder="mail@website.com"
-            name="email"
-            tabIndex={2}
-            disabled={invitee?.email ? true : false}
-            aria-required="true"
-            fullWidth
-            error={!!errors["email"]}
-            helperText={errors["email"] ? errors["email"].message : ""}
-            control={control}
-          />
+          <MenuItem selected value={""} disabled>
+            Select a country
+          </MenuItem>
 
-          <SelectField
-            control={control}
-            name="country"
-            isRequired
-            label="Country"
-            fullWidth
-          >
-            <MenuItem selected value={""} disabled>
-              Select a country
+          {countries.map((country) => (
+            <MenuItem key={country.code} value={country.code}>
+              {country.name}
             </MenuItem>
+          ))}
+        </SelectField>
 
-            {countries.map((country) => (
-              <MenuItem key={country.code} value={country.code}>
-                {country.name}
-              </MenuItem>
-            ))}
-          </SelectField>
+        <InputField
+          hasBorder
+          sx={{
+            "& fieldset": { borderRadius: "100px", borderColor: "black" },
+            borderColor: "black",
+          }}
+          label="Password"
+          type="password"
+          id="password"
+          placeholder="Min. 8 character"
+          name="password"
+          tabIndex={2}
+          aria-required="true"
+          fullWidth
+          error={!!errors["password"]}
+          helperText={errors["password"] ? errors["password"].message : ""}
+          control={control}
+        />
+        <InputField
+          hasBorder
+          sx={{
+            "& fieldset": { borderRadius: "100px", borderColor: "black" },
+            borderColor: "black",
+          }}
+          label="Confirm Password"
+          type="password"
+          id="confirmPassword"
+          placeholder="Confirm password"
+          name="confirmPassword"
+          tabIndex={2}
+          aria-required="true"
+          fullWidth
+          error={!!errors["confirmPassword"]}
+          helperText={
+            errors["confirmPassword"] ? errors["confirmPassword"].message : ""
+          }
+          control={control}
+        />
 
-          <InputField
-            isRequired
-            label="Password"
-            type="password"
-            id="password"
-            placeholder="Min. 8 character"
-            name="password"
-            tabIndex={2}
-            aria-required="true"
-            fullWidth
-            error={!!errors["password"]}
-            helperText={errors["password"] ? errors["password"].message : ""}
-            control={control}
-          />
-          <InputField
-            isRequired
-            label="Confirm Password"
-            type="password"
-            id="confirmPassword"
-            placeholder="Confirm password"
-            name="confirmPassword"
-            tabIndex={2}
-            aria-required="true"
-            fullWidth
-            error={!!errors["confirmPassword"]}
-            helperText={
-              errors["confirmPassword"] ? errors["confirmPassword"].message : ""
-            }
-            control={control}
-          />
-
-          <FormControlLabel
-            control={<Checkbox />}
-            label="I agree to all Terms, Privacy Policy and fees"
-          />
-
-          <div className="flex flex-col gap-3 text-base">
-            <LoadingButton
-              type="submit"
-              loading={loading}
-              className="bg-primary text-secondary hover:bg-gray-800"
-            >
-              Sign Up
-            </LoadingButton>
-            <p className="text-center">Or Continue</p>
-            <div className="flex-col flex gap-4 ">
-              <Button
-                variant={"outlined"}
-                startIcon={
-                  <Image src="/assets/images/google.png" alt="google" />
-                }
-              >
-                Sign up with Google
-              </Button>
-              <Button
-                variant={"outlined"}
-                startIcon={
-                  <Image src="/assets/images/facebook.png" alt="facebook" />
-                }
-              >
-                Sign up with Facebook
-              </Button>
-              <Button
-                variant={"outlined"}
-                startIcon={<Image src="/assets/images/apple.png" alt="apple" />}
-              >
-                Sign up with Apple
-              </Button>
-            </div>
-
-            <p className="text-center mt-5 ">
-              Don&apos;t have an account?{" "}
-              <Link className="font-bold hover:underline" href="/login">
-                Sign in
-              </Link>
-            </p>
-          </div>
-        </form>
-      </Stack>
-    </>
+        <div className="flex  text-xs leading-[17px] items-center">
+          <Checkbox id="agree" />
+          <label htmlFor="agree">
+            I agree with the{" "}
+            <Link href={"/"} className="underline">
+              Terms and conditions
+            </Link>
+          </label>
+        </div>
+        <div className="flex flex-col gap-3 text-base">
+          <LoadingButton
+            type="submit"
+            loading={loading}
+            className="bg-primary text-secondary h-[46px] hover:bg-gray-800"
+          >
+            Sign Up
+          </LoadingButton>
+          <p className="text-center text-xs ">
+            Already have an account?{" "}
+            <Link className="text-[#FF0000]" href="/signup">
+              Sign in
+            </Link>
+          </p>
+        </div>
+      </form>
+    </AuthLayout>
   );
 }
 
-export default UnprotectedPage(SignUp);
+export default SignUp;

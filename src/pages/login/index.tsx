@@ -14,6 +14,7 @@ import { useToast } from "@/providers/ToastProvider";
 import axios from "@/lib/axios";
 import UnprotectedPage from "@/HOC/Unprotected";
 import InputField from "@/components/Form/InputField";
+import AuthLayout from "@/components/layout/AuthLayout";
 
 export const getServerSideProps = async ({ req, query, params }) => {
   console.log(query);
@@ -112,51 +113,85 @@ function Login({ invitationData }) {
   };
 
   return (
-    <>
-      <Stack
-        direction={"column"}
-        spacing={4}
-        className="mx-auto max-w-[770px] w-full"
-      >
-        <Stack spacing={2} alignItems={"center"}>
-          <h1 className="text-2xl font-[400] md:text-4xl ">Login</h1>
-          <h2 className="text-base">
-            Get started today by entering just a few details
-          </h2>
-        </Stack>
+    <AuthLayout title="Login" paragraph="Please enter your details">
+      <Stack direction={"column"} spacing={4} className=" w-full">
         <form
           onSubmit={handleSubmit(onSubmitHandler)}
-          className="bg-secondary flex flex-col gap-4 w-full py-8 px-6"
+          className=" flex flex-col gap-4 w-full"
         >
-          <InputField
-            isRequired
-            label="Email"
-            type="email"
-            id="email"
-            placeholder="mail@website.com"
-            name="email"
-            tabIndex={2}
-            disabled={invitee?.email ? true : false}
-            aria-required="true"
-            fullWidth
-            error={!!errors["email"]}
-            helperText={errors["email"] ? errors["email"].message : ""}
-            control={control}
-          />
-          <InputField
-            isRequired
-            label="Password"
-            type="password"
-            id="password"
-            placeholder="Min. 8 character"
-            name="password"
-            tabIndex={2}
-            aria-required="true"
-            fullWidth
-            error={!!errors["password"]}
-            helperText={errors["password"] ? errors["password"].message : ""}
-            control={control}
-          />
+          <div className="flex-col flex gap-4 ">
+            <Button
+              startIcon={
+                <Image
+                  src="/assets/images/google.png"
+                  height={20}
+                  width={20}
+                  alt="google"
+                />
+              }
+              className="rounded-[100px] border-secondary"
+              variant={"outlined"}
+            >
+              Sign in with Google
+            </Button>
+            <Button
+              startIcon={
+                <Image
+                  src="/assets/images/facebook.png"
+                  height={20}
+                  width={20}
+                  alt="facebook"
+                />
+              }
+              className="rounded-[100px] border-secondary"
+              variant={"outlined"}
+            >
+              Sign in with Facebook
+            </Button>
+          </div>
+          <p className="text-center text-[15px] leading-[16px] flex gap-2 items-center">
+            <span className="h-[1px] bg-secondary w-full " />
+            <span>Or</span>
+            <span className="h-[1px] bg-secondary w-full " />
+          </p>
+          <div className="mt-7 flex flex-col gap-4">
+            <InputField
+              label="Email"
+              type="email"
+              hasBorder
+              sx={{
+                "& fieldset": { borderRadius: "100px", borderColor: "black" },
+                borderColor: "black",
+              }}
+              id="email"
+              placeholder="mail@website.com"
+              name="email"
+              tabIndex={2}
+              disabled={invitee?.email ? true : false}
+              aria-required={true}
+              fullWidth
+              error={!!errors["email"]}
+              helperText={errors["email"] ? errors["email"].message : ""}
+              control={control}
+            />
+            <InputField
+              label="Password"
+              type="password"
+              id="password"
+              placeholder="Min. 8 character"
+              name="password"
+              sx={{
+                "& fieldset": { borderRadius: "100px", borderColor: "black" },
+                borderColor: "black",
+              }}
+              tabIndex={2}
+              aria-required="true"
+              fullWidth
+              error={!!errors["password"]}
+              helperText={errors["password"] ? errors["password"].message : ""}
+              control={control}
+            />
+          </div>
           <div className="flex justify-end">
             <Link
               href={"/forgotpassword"}
@@ -170,47 +205,22 @@ function Login({ invitationData }) {
             <LoadingButton
               type="submit"
               loading={loading}
-              className="bg-primary text-secondary hover:bg-gray-800"
+              className="bg-primary text-secondary h-[46px] hover:bg-gray-800"
             >
               Login
             </LoadingButton>
-            <p className="text-center">Or Continue</p>
-            <div className="flex-col flex gap-4 ">
-              <Button
-                variant={"outlined"}
-                startIcon={
-                  <Image src="/assets/images/google.png" alt="google" />
-                }
-              >
-                Sign in with Google
-              </Button>
-              <Button
-                variant={"outlined"}
-                startIcon={
-                  <Image src="/assets/images/facebook.png" alt="facebook" />
-                }
-              >
-                Sign in with Facebook
-              </Button>
-              <Button
-                variant={"outlined"}
-                startIcon={<Image src="/assets/images/apple.png" alt="apple" />}
-              >
-                Sign in with Apple
-              </Button>
-            </div>
 
-            <p className="text-center mt-5 ">
+            <p className="text-center text-xs ">
               Don&apos;t have an account?{" "}
-              <Link className="font-bold hover:underline" href="/signup">
+              <Link className="text-[#FF0000]" href="/signup">
                 Sign up
               </Link>
             </p>
           </div>
         </form>
       </Stack>
-    </>
+    </AuthLayout>
   );
 }
 
-export default UnprotectedPage(Login);
+export default Login;
