@@ -227,10 +227,6 @@ header {
   background-color: #3e7aa2;
 }
 
-.remove-input-outline {
-  border: none;
-  outline: none !important;
-}
 .remove-input-outline:focus {
   outline: none;
   border: none;

@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import ArtDetailsAccordionContainer from "../ArtDetailsAccordionContainer";
 import FormDialogContainer from "../FormDialogContainer";
-import { object, string, TypeOf, boolean, ZodVoidDef } from "zod";
+import { object, string, TypeOf, boolean, ZodVoidDef, array } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, SubmitHandler, Control, FieldErrors } from "react-hook-form";
+import {
+  useForm,
+  SubmitHandler,
+  Control,
+  FieldErrors,
+  useFieldArray,
+} from "react-hook-form";
 import { useToast } from "@/providers/ToastProvider";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useMutation } from "@tanstack/react-query";
@@ -11,10 +17,20 @@ import Image from "next/image";
 import InputField from "@/components/Form/InputField";
 import DateInput from "@/components/Form/DateInput";
 import SelectField from "@/components/Form/SelectField";
-import { FormControlLabel, MenuItem, Switch } from "@mui/material";
+import {
+  Button,
+  FormControlLabel,
+  IconButton,
+  MenuItem,
+  Switch,
+} from "@mui/material";
 import SwitchInput from "@/components/Form/SwitchInput";
 import ExhibitionTable from "./ExhibitionTable";
 import { useRouter } from "next/router";
+import {
+  MdAddCircleOutline,
+  MdOutlineRemoveCircleOutline,
+} from "react-icons/md";
 
 interface Props {
   exhibitions: any[];
@@ -27,6 +43,22 @@ const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
   const axiosAuth = useAxiosAuth();
   const router = useRouter();
   const [currentExhibition, setCurrentExhibition] = useState<any>(null);
+
+  const jurorSchema = object({
+    name: string().nonempty({ message: "Juror name is required" }),
+    phone: string().nonempty({ message: "Juror phone number is required" }),
+    email: string()
+      .email({ message: "Email must be valid" })
+      .nonempty({ message: "Email is required" }),
+  });
+
+  const curatorSchema = object({
+    name: string().nonempty({ message: "Curator name is required" }),
+    phone: string().nonempty({ message: "Curator phone number is required" }),
+    email: string()
+      .email({ message: "Email must be valid" })
+      .nonempty({ message: "Email is required" }),
+  });
 
   const exhibitionSchema = object({
     name: string().nonempty("Exhibition name is required"),
@@ -42,6 +74,8 @@ const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
     isCirca: boolean().optional(),
     locationAddress: string().optional(),
     locationCountry: string().optional(),
+    jurors: array(jurorSchema),
+    curators: array(curatorSchema),
   });
 
   type ExhibitionInput = TypeOf<typeof exhibitionSchema>;
@@ -53,8 +87,13 @@ const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
     control,
     handleSubmit,
     setValue,
+    watch,
   } = useForm<ExhibitionInput>({
     resolver: zodResolver(exhibitionSchema),
+    defaultValues: {
+      jurors: [{ name: "", phone: "", email: "" }],
+      curators: [{ name: "", phone: "", email: "" }],
+    },
   });
 
   const {
@@ -89,8 +128,7 @@ const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
     },
   });
 
-  console.log(currentExhibition);
-
+  console.log(errors);
   const onSubmitHandler: SubmitHandler<ExhibitionInput> = async (values) => {
     const formData = new FormData();
     formData.append("image", exhibitionImg);
@@ -105,6 +143,8 @@ const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
     formData.append("organizerPhone", values.organizerPhone);
     formData.append("startDate", values.startDate);
     formData.append("endDate", values.endDate);
+    formData.append("jurors", JSON.stringify(values.jurors));
+    formData.append("curators", JSON.stringify(values.curators));
     currentExhibition &&
       formData.append("exhibitionId", currentExhibition?._id);
 
@@ -425,6 +465,94 @@ const FormDataComponent: React.FC<FormDataProps> = ({
           />
         </div>
       </div>
+
+      <PeopleFields
+        title="Jurors"
+        name="jurors"
+        errors={errors}
+        control={control}
+      />
+      <PeopleFields
+        title="Curators"
+        name="curators"
+        errors={errors}
+        control={control}
+      />
+    </div>
+  );
+};
+
+interface PeopleFieldsProps {
+  control: Control;
+  name: string;
+  title: string;
+  errors: any;
+}
+
+const PeopleFields: React.FC<PeopleFieldsProps> = ({
+  title,
+  name,
+  errors,
+  control,
+}) => {
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: name,
+  });
+  return (
+    <div className="flex flex-col gap-4">
+      <h2 className="font-bold  my-4 text-2xl md:text-[30px] md:leading-[20px]">
+        {title}
+      </h2>
+      <div className="flex flex-col gap-4">
+        {fields.map((item, index) => (
+          <div key={item.id} className="flex items-center gap-4">
+            <div className="grid grid-cols-2 flex-1 gap-4">
+              <InputField
+                control={control}
+                name={`${name}.${index}.name`}
+                label="Name"
+                inputClassName="bg-secondary-white"
+                error={!!errors?.[index]?.name}
+                helperText={errors?.[index]?.name?.message}
+              />
+              <InputField
+                control={control}
+                name={`${name}.${index}.phone`}
+                label="Phone"
+                inputClassName="bg-secondary-white"
+                error={!!errors?.[index]?.phone}
+                helperText={errors?.[index]?.phone?.message}
+              />
+              <InputField
+                className="col-span-2"
+                control={control}
+                name={`${name}.${index}.email`}
+                label="Email"
+                inputClassName="bg-secondary-white"
+                type="email"
+                error={!!errors?.[index]?.email}
+                helperText={errors?.[index]?.email?.message}
+              />
+            </div>
+            <IconButton
+              className="bg-secondary"
+              type="button"
+              onClick={() => remove(index)}
+            >
+              <MdOutlineRemoveCircleOutline />
+            </IconButton>
+          </div>
+        ))}
+      </div>
+      <Button
+        startIcon={<MdAddCircleOutline />}
+        type="button"
+        className="bg-secondary text-xs font-[300]"
+        onClick={() => append({ name: "", phone: "", email: "" })}
+      >
+        Add {title.slice(0, -1)}{" "}
+      </Button>
     </div>
   );
 };
