@@ -26,19 +26,30 @@ export const getServerSideProps = async ({ req, query, params }) => {
 const Invitation = ({ invitationData }) => {
   console.log(invitationData);
   const { status, data } = useSession();
+
   const check =
     status === "authenticated" &&
     invitationData?.invitee?.email === data?.user.email;
   const router = useRouter();
 
+  console.log(invitationData?.invitation?.type);
   useEffect(() => {
-    if (
-      status == "authenticated" &&
-      invitationData?.invitation?.invitee?.email !== data?.user.email
-    ) {
-      signOut();
+    if (status === "authenticated") {
+      if (invitationData?.invitation?.type === "org") {
+        if (
+          invitationData?.invitation?.invitee?.org?.creator?.email !==
+          data?.user?.email
+        ) {
+          console.log(invitationData?.invitee?.org?.creator?.email);
+          signOut();
+        }
+      } else {
+        if (invitationData?.invitation?.invitee?.email !== data?.user?.email) {
+          signOut();
+        }
+      }
     }
-  }, [status]);
+  }, [status, invitationData, data]);
 
   return (
     <Layout headerStyle={2} footerStyle={1} currentMenuItem={"Invitation"}>

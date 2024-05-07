@@ -6,15 +6,27 @@ import { AuthContextProvider } from "@/providers/auth.context";
 import { ToastProvider } from "@/providers/ToastProvider";
 import { LoadingContextProvider } from "@/providers/loading.context";
 import { PasswordContextProvider } from "@/providers/password.context";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { DefaultSeo } from "next-seo";
+import SEO from "../../next-seo.config";
 
+// import "@rainbow-me/rainbowkit/styles.css";
 import "@/styles/globals.css";
 import ThemeProvider from "@/styles/theme";
 import { ProtectedLayout } from "@/components/protected-layout";
-import Preloader from "@/open9/elements/Preloader";
-import AddClassBody from "@/open9/elements/AddClassBody";
-import "/public/assets/css/style.css";
-import "/public/assets/css/responsive.css";
-import "wowjs/css/libs/animate.css";
+// import Preloader from "@/open9/elements/Preloader";
+// import AddClassBody from "@/open9/elements/AddClassBody";
+// import "/public/assets/css/style.css";
+// import "/public/assets/css/responsive.css";
+// import "wowjs/css/libs/animate.css";
+
+import Router from "next/router";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
+
+Router.events.on("routeChangeStart", () => NProgress.start());
+Router.events.on("routeChangeComplete", () => NProgress.done());
+Router.events.on("routeChangeError", () => NProgress.done());
 
 type AppPropsWithAuth = NextPage & {
   requireAuth?: boolean;
@@ -25,32 +37,40 @@ interface CustomAppProps extends Omit<AppProps, "Component"> {
   Component: AppPropsWithAuth;
 }
 
+const queryClient = new QueryClient();
+const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID as string; // get one at https://cloud.walletconnect.com/app
+
 export default function NextWeb3App({
   Component,
   pageProps: { session, ...pageProps },
 }: CustomAppProps) {
   return (
-    <PasswordContextProvider>
-      <SessionProvider session={session}>
-        <LoadingContextProvider>
-          <AuthContextProvider>
-            <ThemeProvider>
-              <ToastProvider>
-                {Component.requireAuth ? (
-                  <ProtectedLayout>
-                    {/* <AddClassBody /> */}
+    <QueryClientProvider client={queryClient}>
+      <PasswordContextProvider>
+        {/* @ts-ignore */}
+        <SessionProvider session={session}>
+          <LoadingContextProvider>
+            <AuthContextProvider>
+              <ThemeProvider>
+                <ToastProvider>
+                  <DefaultSeo {...SEO} />
+
+                  {Component.requireAuth ? (
+                    <ProtectedLayout>
+                      {/* <AddClassBody /> */}
+                      <Component {...pageProps} />
+                    </ProtectedLayout>
+                  ) : (
                     <Component {...pageProps} />
-                  </ProtectedLayout>
-                ) : (
-                  <Component {...pageProps} />
-                )}
-                {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-                <Analytics />
-              </ToastProvider>
-            </ThemeProvider>
-          </AuthContextProvider>
-        </LoadingContextProvider>
-      </SessionProvider>
-    </PasswordContextProvider>
+                  )}
+                  {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+                  <Analytics />
+                </ToastProvider>
+              </ThemeProvider>
+            </AuthContextProvider>
+          </LoadingContextProvider>
+        </SessionProvider>
+      </PasswordContextProvider>
+    </QueryClientProvider>
   );
 }

@@ -1,46 +1,31 @@
 import { useEffect, useState } from "react";
-import { Menu } from "@headlessui/react";
-import Link from "next/link";
+
 import Image from "@/components/common/image";
-import BarChart from "@/open9/elements/BarChart";
-import DashboardLayoutWithSidebar, {
-  DashboardPages,
-} from "@/components/open9/layout/DashboardLayoutWithSidebar";
-import AutoSlider1 from "@/open9/slider/AutoSlider1";
-import AutoSlider2 from "@/open9/slider/AutoSlider2";
+
 import { getToken } from "next-auth/jwt";
 import axios from "@/lib/axios";
-import EditExhibition from "@/components/dashboard/edit-exhibition";
+
 import {
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  ListItemAvatar,
-  IconButton,
   Avatar,
   Switch,
   Accordion,
-  AccordionActions,
   AccordionSummary,
   AccordionDetails,
-  Typography,
+  Stack,
+  FormControlLabel,
+  Button,
 } from "@mui/material";
-import {
-  Folder as FolderIcon,
-  Delete as DeleteIcon,
-  Edit as EditIcon,
-  Publish as PublishIcon,
-  ExpandMore as ExpandMoreIcon,
-} from "@mui/icons-material";
-import EditAppraisal from "@/components/dashboard/edit-appraisal";
+
 import { useRouter } from "next/router";
-import EditPublication from "@/components/dashboard/edit-publication";
-import DeleteDialog from "@/components/dashboard/DeleteDialog";
-import { statusTypes } from "@/types";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import EditLocation from "@/components/dashboard/edit-location";
-import ViewDetailsModal from "@/components/dashboard/view-details-modal";
+import ProtectedPage from "@/HOC/Protected";
+import { FaCircle } from "react-icons/fa";
+import { MdOutlineChevronRight, MdOutlineExpandMore } from "react-icons/md";
+import { GiAlarmClock } from "react-icons/gi";
+import moment from "moment";
+import ArtPieceExhibition from "@/components/dashboard/artwork/Details/Exhibition";
+import ArtPieceAppraisal from "@/components/dashboard/artwork/Details/Appraisal";
+import ArtPiecePublications from "@/components/dashboard/artwork/Details/Publications";
+import ArtPieceLocation from "@/components/dashboard/artwork/Details/Location";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -79,573 +64,155 @@ export type ViewProps = {
 
 function ArtPiece({ artPiece }) {
   const router = useRouter();
-  const [editExhibition, setEditExhibition] = useState(false);
-  const [editedExhibition, setEditedExhibition] = useState({});
-  const [editAppraisal, setEditAppraisal] = useState(false);
-  const [editedAppraisal, setEditedAppraisal] = useState({});
-  const [editPublication, setEditPublication] = useState(false);
-  const [editLocation, setEditLocation] = useState(false);
-  const [editedPublication, setEditedPublication] = useState({});
-  const [editedLocation, setEditedLocation] = useState({});
-  const [openDiaglog, setOpenDialog] = useState(false);
-  const [itemToDelete, setItemToDelete] = useState<{
-    itemType: "publication" | "exhibition" | "appraisal" | "location" | "";
-    itemId: string;
-  }>({
-    itemId: "",
-    itemType: "",
-  });
+  const [currentAsset, setCurrentAsset] = useState(0);
   const [openViewDiaglog, setOpenViewDialog] = useState<ViewProps>({
     open: false,
     type: "",
     data: {},
   });
 
-  console.log(artPiece);
-
   return (
-    <>
-      <DashboardLayoutWithSidebar hideSidebar activePage={DashboardPages.ART}>
-        <div className="px-4">
-          <div className="row">
-            <div className="action__body w-full mb-40 rounded-xl">
-              <div className="tf-tsparticles">
-                <div id="tsparticles7" data-color="#161616" data-line="#000" />
-              </div>
-              <h2>Artworks</h2>
-              <div className="flat-button flex">
-                <Link
-                  href="/explore"
-                  className="tf-button style-2 h50 w190 mr-10 rounded-xl"
-                >
-                  Explore
-                  <i className="icon-arrow-up-right2" />
-                </Link>
-                <Link
-                  href="/dashboard"
-                  className="tf-button style-2 h50 w230 rounded-xl"
-                >
-                  Create
-                  <i className="icon-arrow-up-right2" />
-                </Link>
-              </div>
-              <div className="bg-home7">
-                <AutoSlider1 />
-                <AutoSlider2 />
-                <AutoSlider1 />
-              </div>
+    <Stack
+      spacing={4}
+      className=" divide-y-[1px]  divide-secondary"
+      direction={{ xs: "column" }}
+    >
+      <Stack spacing={2}>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          className="text-[17px] leading-[16px]"
+          spacing={4}
+          alignContent={{ xs: "start", md: "center" }}
+          justifyContent="space-between"
+        >
+          <div className="flex gap-4 ">
+            <div
+              className={`flex gap-2 items-center  ${
+                artPiece?.verification?.status === "verified"
+                  ? "text-[#18BAFF] font-[600]"
+                  : "text-secondary"
+              }`}
+            >
+              <FaCircle /> <span>Verified</span>
             </div>
-            <div className="row">
-              <div className="tf-section-2 product-detail">
-                <div className="row">
-                  <div
-                    data-wow-delay="0s"
-                    className="wow fadeInLeft col-md-6 rounded-xl"
-                  >
-                    <div className="tf-card-box style-5 mb-0 rounded-xl">
-                      <div className="card-media mb-0">
-                        <Link href="#">
-                          <Image
-                            src={artPiece?.assets[0]?.url}
-                            width={250}
-                            height={100}
-                            className="rounded-xl"
-                            alt=""
-                          />
-                        </Link>
-                      </div>
-                      <h6 className="price gem">
-                        <i className="icon-gem" />
-                      </h6>
-                      <div className="wishlist-button">
-                        10
-                        <i className="icon-heart" />
-                      </div>
-                      <div className="featured-countdown">
-                        {/* <Countdown endDateTime={currentTime.setDate(currentTime.getDate() + 2)} /> */}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div
-                      data-wow-delay="0s"
-                      className="wow fadeInRight infor-product"
-                    >
-                      <div className="text">
-                        {artPiece?.collection && artPiece.collection.name}
-                        {/* 8SIAN Main Collection{" "} */}
-                        <span className="icon-tick">
-                          <span className="path1" />
-                          <span className="path2" />
-                        </span>
-                      </div>
-                      <h2>{artPiece?.title}</h2>
-                    </div>
-                    <div
-                      data-wow-delay="0s"
-                      className="wow fadeInRight product-item time-sales"
-                    >
-                      <h6 className="to-white">
-                        <i className="icon-clock" />
-                        Created: May 22 at 9:39
-                      </h6>
-                      <div className="content">
-                        <ListItem dense>
-                          <ListItemIcon>
-                            <PublishIcon />
-                          </ListItemIcon>
-                          <h5>Publish</h5>
-                          <Switch
-                            edge="end"
-                            // onChange={handleToggle('wifi')}
-                            // checked={checked.indexOf('wifi') !== -1}
-                            inputProps={{
-                              "aria-labelledby": "switch-list-label-wifi",
-                            }}
-                          />
-                        </ListItem>
-                        <ListItem dense>
-                          <h5>status:: </h5>
-                          <p className="capitalize">
-                            {artPiece.verification?.status || "Unverified"}
-                          </p>
-                          <h5>::</h5>
-                        </ListItem>
-                        <ListItem dense>
-                          <Link
-                            href={`/dashboard/artworks/${artPiece._id}/verification`}
-                            className="tf-button style-3"
-                          >
-                            Verify
-                          </Link>
-                        </ListItem>
-                        {/* <div className="text">Current price</div>
-                          <div className="justify-between">
-                            <p>
-                              0,032 ETH <span>$58,11</span>
-                            </p>
-                          </div> */}
-                      </div>
-                    </div>
-
-                    <div className="row">
-                      <div className="flat-accordion2">
-                        <Accordion className="accordion" defaultExpanded>
-                          <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1-content"
-                            id="panel1-header"
-                            className="toggle-title"
-                          >
-                            <h6>Description</h6>
-                          </AccordionSummary>
-                          <AccordionDetails>
-                            <p>{artPiece.description}</p>
-                          </AccordionDetails>
-                        </Accordion>
-
-                        <Accordion className="accordion">
-                          <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1-content"
-                            id="panel1-header"
-                            className="toggle-title"
-                          >
-                            <h6>Exhibitions</h6>
-                          </AccordionSummary>
-                          <AccordionDetails>
-                            <List>
-                              {artPiece?.exhibitions?.length > 0 &&
-                                artPiece?.exhibitions?.map(
-                                  (exhibition, idx) => (
-                                    <ListItem
-                                      key={idx}
-                                      secondaryAction={
-                                        <>
-                                          <IconButton
-                                            onClick={() =>
-                                              setOpenViewDialog({
-                                                open: true,
-                                                type: "exhibition",
-                                                data: exhibition,
-                                              })
-                                            }
-                                          >
-                                            <VisibilityIcon />
-                                          </IconButton>
-                                          <IconButton
-                                            edge="end"
-                                            aria-label="edit"
-                                          >
-                                            <EditIcon
-                                              onClick={() => {
-                                                setEditedExhibition(exhibition);
-                                                setEditExhibition(true);
-                                              }}
-                                            />
-                                          </IconButton>
-                                          <IconButton
-                                            onClick={() => {
-                                              setOpenDialog(true);
-                                              setItemToDelete({
-                                                itemId: exhibition?._id,
-                                                itemType: "exhibition",
-                                              });
-                                            }}
-                                            edge="end"
-                                            aria-label="delete"
-                                          >
-                                            <DeleteIcon />
-                                          </IconButton>
-                                        </>
-                                      }
-                                    >
-                                      <ListItemAvatar>
-                                        <Avatar>
-                                          <FolderIcon />
-                                        </Avatar>
-                                      </ListItemAvatar>
-                                      <span>
-                                        <h6 className="to-white">
-                                          {exhibition.name}
-                                        </h6>
-                                        {/* <p>{`by ${exhibition?.organizer?.name} at ${exhibition?.location?.address} ${exhibition?.location?.country}`}</p> */}
-                                      </span>
-                                    </ListItem>
-                                  ),
-                                )}
-                            </List>
-                            <button
-                              className="tf-button style-1 rounded-xl"
-                              onClick={() => {
-                                setEditedExhibition(null);
-                                setEditExhibition(true);
-                              }}
-                            >
-                              Add
-                            </button>
-                          </AccordionDetails>
-                        </Accordion>
-
-                        <Accordion className="accordion">
-                          <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1-content"
-                            id="panel1-header"
-                            className="toggle-title rounded-xl"
-                          >
-                            <h6>Appraisals</h6>
-                          </AccordionSummary>
-                          <AccordionDetails>
-                            <List>
-                              {artPiece?.appraisals?.length > 0 &&
-                                artPiece?.appraisals?.map((a, idx) => (
-                                  <ListItem
-                                    key={idx}
-                                    secondaryAction={
-                                      <>
-                                        <IconButton
-                                          onClick={() =>
-                                            setOpenViewDialog({
-                                              open: true,
-                                              type: "appraisal",
-                                              data: a,
-                                            })
-                                          }
-                                        >
-                                          <VisibilityIcon />
-                                        </IconButton>
-                                        <IconButton
-                                          edge="end"
-                                          aria-label="edit"
-                                          onClick={() => {
-                                            setEditedAppraisal(a);
-                                            setEditAppraisal(true);
-                                          }}
-                                        >
-                                          <EditIcon />
-                                        </IconButton>
-                                        <IconButton
-                                          onClick={() => {
-                                            setOpenDialog(true);
-                                            setItemToDelete({
-                                              itemId: a?._id,
-                                              itemType: "appraisal",
-                                            });
-                                          }}
-                                          edge="end"
-                                          aria-label="delete"
-                                        >
-                                          <DeleteIcon />
-                                        </IconButton>
-                                      </>
-                                    }
-                                  >
-                                    <ListItemAvatar>
-                                      <Avatar>
-                                        <FolderIcon />
-                                      </Avatar>
-                                    </ListItemAvatar>
-
-                                    <Typography className="font-semibold">
-                                      {a.appraiser}
-                                    </Typography>
-                                  </ListItem>
-                                ))}
-                            </List>
-                            <button
-                              className="tf-button style-1 rounded-xl"
-                              onClick={() => setEditAppraisal(true)}
-                            >
-                              Add
-                            </button>
-                          </AccordionDetails>
-                        </Accordion>
-
-                        <Accordion className="accordion">
-                          <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1-content"
-                            id="panel1-header"
-                            className="toggle-title"
-                          >
-                            <h6>Publications</h6>
-                          </AccordionSummary>
-                          <AccordionDetails>
-                            <List>
-                              {artPiece?.publications?.length > 0 &&
-                                artPiece?.publications?.map((a, idx) => (
-                                  <ListItem
-                                    key={idx}
-                                    secondaryAction={
-                                      <>
-                                        <IconButton
-                                          onClick={() =>
-                                            setOpenViewDialog({
-                                              open: true,
-                                              type: "publication",
-                                              data: a,
-                                            })
-                                          }
-                                        >
-                                          <VisibilityIcon />
-                                        </IconButton>
-                                        <IconButton
-                                          edge="end"
-                                          aria-label="edit"
-                                          onClick={() => {
-                                            setEditPublication(true);
-                                            setEditedPublication(a);
-                                          }}
-                                        >
-                                          <EditIcon />
-                                        </IconButton>
-                                        <IconButton
-                                          onClick={() => {
-                                            setOpenDialog(true);
-                                            setItemToDelete({
-                                              itemId: a?._id,
-                                              itemType: "publication",
-                                            });
-                                          }}
-                                          edge="end"
-                                          aria-label="delete"
-                                        >
-                                          <DeleteIcon />
-                                        </IconButton>
-                                      </>
-                                    }
-                                  >
-                                    <ListItemAvatar>
-                                      <Avatar>
-                                        <FolderIcon />
-                                      </Avatar>
-                                    </ListItemAvatar>
-
-                                    <Typography className="font-semibold">
-                                      {a?.articleName}{" "}
-                                    </Typography>
-                                  </ListItem>
-                                ))}
-                            </List>
-                            <button
-                              className="tf-button style-1 rounded-xl"
-                              onClick={() => {
-                                setEditPublication(true);
-                                setEditedPublication(null);
-                              }}
-                            >
-                              Add
-                            </button>
-                          </AccordionDetails>
-                        </Accordion>
-
-                        {/* <Accordion className="accordion">
-                          <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1-content"
-                            id="panel1-header"
-                            className="toggle-title"
-                          >
-                            <h6>Provenance</h6>
-                          </AccordionSummary>
-                          <AccordionDetails>
-                            <p>
-                              Lorem ipsum dolor sit amet, consectetur adipiscing
-                              elit, sed do eiusmod tempor incididunt ut labore
-                              et dolore magna aliqua. Ut enim ad minim veniam,
-                              quis nostrud exercitation.Lorem ipsum dolor sit
-                              amet, consectetur adipiscing elit, sed do eiusmod.
-                            </p>
-                          </AccordionDetails>
-                        </Accordion> */}
-
-                        <Accordion className="accordion">
-                          <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1-content"
-                            id="panel1-header"
-                            className="toggle-title"
-                          >
-                            <h6>Locations</h6>
-                          </AccordionSummary>
-                          <AccordionDetails>
-                            <List>
-                              {artPiece?.locations?.length > 0 &&
-                                artPiece?.locations?.map((a, idx) => (
-                                  <ListItem
-                                    key={idx}
-                                    secondaryAction={
-                                      <>
-                                        <IconButton
-                                          onClick={() =>
-                                            setOpenViewDialog({
-                                              open: true,
-                                              type: "location",
-                                              data: a,
-                                            })
-                                          }
-                                        >
-                                          <VisibilityIcon />
-                                        </IconButton>
-                                        <IconButton
-                                          edge="end"
-                                          aria-label="edit"
-                                          onClick={() => {
-                                            setEditLocation(true);
-                                            setEditedLocation(a);
-                                          }}
-                                        >
-                                          <EditIcon />
-                                        </IconButton>
-                                        <IconButton
-                                          onClick={() => {
-                                            setOpenDialog(true);
-                                            setItemToDelete({
-                                              itemId: a?._id,
-                                              itemType: "location",
-                                            });
-                                          }}
-                                          edge="end"
-                                          aria-label="delete"
-                                        >
-                                          <DeleteIcon />
-                                        </IconButton>
-                                      </>
-                                    }
-                                  >
-                                    <ListItemAvatar>
-                                      <Avatar>
-                                        <FolderIcon />
-                                      </Avatar>
-                                    </ListItemAvatar>
-                                    <Typography className="font-semibold">
-                                      {a?.name}
-                                    </Typography>
-                                  </ListItem>
-                                ))}
-                            </List>
-                            <button
-                              className="tf-button style-1 rounded-xl"
-                              onClick={() => {
-                                setEditLocation(true);
-                                setEditedLocation(null);
-                              }}
-                            >
-                              Add
-                            </button>
-                          </AccordionDetails>
-                        </Accordion>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div
+              className={`flex gap-2 items-center  ${
+                artPiece?.verification?.status !== "verified"
+                  ? "text-[#18BAFF] font-[600]"
+                  : "text-secondary"
+              }`}
+            >
+              <FaCircle /> <span>Unverified</span>
             </div>
           </div>
-        </div>
-      </DashboardLayoutWithSidebar>
-      <EditExhibition
-        open={editExhibition}
-        exhibition={editedExhibition}
-        artPieceId={artPiece._id}
-        handleClose={() => {
-          setEditExhibition(false);
-          router.replace(router.asPath);
-        }}
-      />
-      <EditAppraisal
-        open={editAppraisal}
-        artPieceId={artPiece._id}
-        appraisal={editedAppraisal}
-        handleClose={() => {
-          setEditAppraisal(false);
-          setEditedAppraisal(null);
-          router.replace(router.asPath);
-        }}
-      />
-      <EditPublication
-        open={editPublication}
-        artPieceId={artPiece._id}
-        publication={editedPublication}
-        handleClose={() => {
-          setEditPublication(false);
-          router.replace(router.asPath);
-        }}
-      />
+          <div>
+            <FormControlLabel
+              className=""
+              labelPlacement="start"
+              control={<Switch size="small" />}
+              label="Publish"
+            />
+          </div>
+        </Stack>
 
-      <EditLocation
-        open={editLocation}
-        artPieceId={artPiece._id}
-        location={editedLocation}
-        handleClose={() => {
-          setEditLocation(false);
-          router.replace(router.asPath);
-        }}
-      />
-
-      <DeleteDialog
-        open={openDiaglog}
-        onClose={() => {
-          setOpenDialog(false);
-          router.replace(router.asPath);
-        }}
-        itemToDelete={itemToDelete}
-        artPieceId={artPiece._id}
-      />
-
-      <ViewDetailsModal
-        viewProps={openViewDiaglog}
-        onClose={() =>
-          setOpenViewDialog({
-            open: false,
-            data: null,
-            type: "",
-          })
-        }
-      />
-    </>
+        <Stack
+          direction="row"
+          spacing={4}
+          alignItems="center"
+          justifyContent={"space-between"}
+        >
+          <h1 className=" text-3xl md:text-4xl lg:text-6xl font-[400]">
+            {artPiece?.title}
+          </h1>
+          <Button
+            endIcon={<MdOutlineChevronRight />}
+            className="bg-secondary text-[13px] flex-shrink-0 leading-[16px] font-[400] text-primary max-w-[138px] h-[39px]"
+          >
+            View Requests
+          </Button>
+        </Stack>
+      </Stack>
+      <Stack spacing={4} className="flex-1 w-full">
+        <Stack spacing={2} className="py-6">
+          <Stack direction="row" alignItems={"center"} spacing={4}>
+            <div className="flex items-center gap-2">
+              <Avatar
+                className="w-[36.37px] h-[39.46px]"
+                src={artPiece?.custodian?.profile?.avatar}
+              />
+              <p className="text-[19px] leading-[16px] font-[600] ">
+                {artPiece?.custodian?.profile?.firstName}{" "}
+                {artPiece?.custodian?.profile?.lastName[0]}.
+              </p>
+            </div>
+            <div className="flex gap-2 items-center text-xs font-[300]">
+              <GiAlarmClock />
+              <span>Created</span>
+              <span>{moment(artPiece?.createdAt).format("DD/MM/YYYY")}</span>
+            </div>
+          </Stack>
+          <div className="w-full">
+            <Image
+              src={artPiece?.assets[currentAsset]?.url}
+              alt="art piece image"
+              width={700}
+              height={404}
+              className="flex-1 w-full md:h-[404px]  object-full "
+            />
+          </div>
+          <div className="flex flex-wrap-reverse items-stretch gap-4">
+            <Accordion
+              className=" bg-secondary-white px-4 divide-secondary w-full  divide-y-[1px]"
+              defaultExpanded={true}
+            >
+              <AccordionSummary
+                className=" border-b-[1px] border-primary    text-[20px] font-[600] leading-[16px] text-primary "
+                expandIcon={<MdOutlineExpandMore className="text-primary" />}
+                aria-controls="panel3-content"
+                id="panel3-header"
+              >
+                Description
+              </AccordionSummary>
+              <AccordionDetails className="text-sm py-4">
+                {artPiece?.description}
+              </AccordionDetails>
+            </Accordion>
+            <div className="flex flex-shrink-0 gap-4">
+              {artPiece?.assets?.map((asset, index) => (
+                <Image
+                  src={asset?.url}
+                  alt=""
+                  width={210.35}
+                  height={210.35}
+                  className={`flex-1 w-full max-w-[210px] cursor-pointer  h-full object-full ${
+                    currentAsset == index ? "border-2 border-black p-2" : ""
+                  }`}
+                  key={index}
+                  onClick={() => setCurrentAsset(index)}
+                />
+              ))}
+            </div>
+          </div>
+          <ArtPieceExhibition
+            artPieceId={artPiece?._id}
+            exhibitions={artPiece?.exhibitions}
+          />
+          <ArtPieceAppraisal
+            artpieceId={artPiece?._id}
+            appraisals={artPiece?.appraisals}
+          />
+          <ArtPiecePublications
+            artpieceId={artPiece?._id}
+            publications={artPiece?.publications}
+          />
+          <ArtPieceLocation
+            artpieceId={artPiece?._id}
+            locations={artPiece?.locations}
+          />
+        </Stack>
+      </Stack>
+    </Stack>
   );
 }
 ArtPiece.requireAuth = true;
-export default ArtPiece;
+export default ProtectedPage(ArtPiece);

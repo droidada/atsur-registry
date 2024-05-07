@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import DashboardLayout from "@/components/layout/dashboard-layout";
 import AddArtworkFlow from "@/components/artwork/add-artwork-flow";
+import ProtectedPage from "@/HOC/Protected";
 
 const steps = ["Metadata", "Assets", "Series", "Artists", "Agreements"];
 
@@ -72,98 +73,98 @@ function AddArtwork() {
   }, []);
 
   return (
-    <DashboardLayout>
-      <Grid
-        container
-        spacing={2}
-        columnSpacing={3}
-        rowSpacing={3}
-        xs={12}
-        sm={8}
-        md={12}
-        px={10}
-      >
-        <Box
-          sx={{
-            // my: 15,
-            mx: 4,
-            display: "flex",
-            flexDirection: "column",
-            // alignItems: "center",
-          }}
-        >
-          <Typography component="h1" variant="h5">
-            Add Artwork
-          </Typography>
-          <p>Add an artwork to your organization</p>
-          <Stepper sx={{ mt: 5 }} nonLinear activeStep={activeStep}>
-            {steps.map((label, index) => (
-              <Step key={label} completed={completed[index]}>
-                <StepButton color="inherit" onClick={handleStep(index)}>
-                  {label}
-                </StepButton>
-              </Step>
-            ))}
-          </Stepper>
-          <div>
-            {allStepsCompleted() ? (
-              <>
-                <Typography sx={{ mt: 1 }}>
-                  All steps completed - you&apos;re finished
-                </Typography>
-                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                  <Box sx={{ flex: "1 1 auto" }} />
-                  <Button onClick={handleReset}>Reset</Button>
-                </Box>
-              </>
-            ) : (
-              <>
-                <div style={{ padding: "0, 1px" }}>
-                  <AddArtworkFlow
-                    activeStep={activeStep}
-                    setActiveStep={setActiveStep}
-                    setCompleted={setCompleted}
-                  />
-                </div>
-                <Box
-                  sx={{ display: "flex", flexDirection: "row", pt: 2, mb: 4 }}
-                >
-                  <Button
-                    color="inherit"
-                    disabled={activeStep === 0 || completed[activeStep - 1]}
-                    onClick={handleBack}
-                    sx={{ mr: 1 }}
-                  >
-                    Back
-                  </Button>
-                  <Box sx={{ flex: "1 1 auto" }} />
-                  <Button onClick={handleNext} sx={{ mr: 1 }}>
-                    Next
-                  </Button>
-                  {activeStep !== steps.length &&
-                    (completed[activeStep] ? (
-                      <Typography
-                        variant="caption"
-                        sx={{ display: "inline-block" }}
-                      >
-                        Step {activeStep + 1} already completed
-                      </Typography>
-                    ) : (
-                      <Button onClick={handleComplete}>
-                        {completedSteps() === totalSteps() - 1
-                          ? "Finish"
-                          : "Complete Step"}
-                      </Button>
-                    ))}
-                </Box>
-              </>
-            )}
-          </div>
-        </Box>
-      </Grid>
-    </DashboardLayout>
+    <></>
+    // <DashboardLayout>
+    //   <Grid
+    //     container
+    //     spacing={2}
+    //     columnSpacing={3}
+    //     rowSpacing={3}
+    //     xs={12}
+    //     sm={8}
+    //     md={12}
+    //     px={10}
+    //   >
+    //     <Box
+    //       sx={{
+
+    //         mx: 4,
+    //         display: "flex",
+    //         flexDirection: "column",
+
+    //       }}
+    //     >
+    //       <Typography component="h1" variant="h5">
+    //         Add Artwork
+    //       </Typography>
+    //       <p>Add an artwork to your organization</p>
+    //       <Stepper sx={{ mt: 5 }} nonLinear activeStep={activeStep}>
+    //         {steps.map((label, index) => (
+    //           <Step key={label} completed={completed[index]}>
+    //             <StepButton color="inherit" onClick={handleStep(index)}>
+    //               {label}
+    //             </StepButton>
+    //           </Step>
+    //         ))}
+    //       </Stepper>
+    //       <div>
+    //         {allStepsCompleted() ? (
+    //           <>
+    //             <Typography sx={{ mt: 1 }}>
+    //               All steps completed - you&apos;re finished
+    //             </Typography>
+    //             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+    //               <Box sx={{ flex: "1 1 auto" }} />
+    //               <Button onClick={handleReset}>Reset</Button>
+    //             </Box>
+    //           </>
+    //         ) : (
+    //           <>
+    //             <div style={{ padding: "0, 1px" }}>
+    //               <AddArtworkFlow
+    //                 activeStep={activeStep}
+    //                 setActiveStep={setActiveStep}
+    //                 setCompleted={setCompleted}
+    //               />
+    //             </div>
+    //             <Box
+    //               sx={{ display: "flex", flexDirection: "row", pt: 2, mb: 4 }}
+    //             >
+    //               <Button
+    //                 color="inherit"
+    //                 disabled={activeStep === 0 || completed[activeStep - 1]}
+    //                 onClick={handleBack}
+    //                 sx={{ mr: 1 }}
+    //               >
+    //                 Back
+    //               </Button>
+    //               <Box sx={{ flex: "1 1 auto" }} />
+    //               <Button onClick={handleNext} sx={{ mr: 1 }}>
+    //                 Next
+    //               </Button>
+    //               {activeStep !== steps.length &&
+    //                 (completed[activeStep] ? (
+    //                   <Typography
+    //                     variant="caption"
+    //                     sx={{ display: "inline-block" }}
+    //                   >
+    //                     Step {activeStep + 1} already completed
+    //                   </Typography>
+    //                 ) : (
+    //                   <Button onClick={handleComplete}>
+    //                     {completedSteps() === totalSteps() - 1
+    //                       ? "Finish"
+    //                       : "Complete Step"}
+    //                   </Button>
+    //                 ))}
+    //             </Box>
+    //           </>
+    //         )}
+    //       </div>
+    //     </Box>
+    //   </Grid>
+    // </DashboardLayout>
   );
 }
 
-AddArtwork.requireAuth = true;
-export default AddArtwork;
+export default ProtectedPage(AddArtwork);

@@ -35,7 +35,7 @@ export const options: any = {
         });
 
         const data = await res.json();
-        console.log("response data here ", data);
+        console.log("response data here---------- ", data);
         if (!data) {
           throw new Error("Email or password incorrect.");
         }
@@ -50,12 +50,7 @@ export const options: any = {
   },
   callbacks: {
     async jwt({ token, user, account }) {
-      console.log(`token: ${JSON.stringify(token)}`);
       if (user) {
-        console.log(
-          `account: ${JSON.stringify(account)} && user ${JSON.stringify(user)}`,
-        );
-
         return {
           ...token,
           ...user,
@@ -66,13 +61,19 @@ export const options: any = {
     },
 
     async session({ session, token }) {
-      console.log("session=================");
-      console.log(
-        `session: ${JSON.stringify(session)}  token: ${JSON.stringify(token)}`,
-      );
+      console.log(token);
+
       if (token) {
         session.jwt = token?.accessToken;
         session.roles = token?.roles;
+        session.user = {
+          _id: token?._id,
+          lastName: token?.lastName,
+          firstName: token?.firstName,
+          email: token?.email,
+          avatar: token?.avatar,
+          backgroundImage: token?.backgroundImage,
+        };
       }
 
       return session;
