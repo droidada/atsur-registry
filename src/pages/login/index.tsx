@@ -96,9 +96,12 @@ function Login({ invitationData }) {
       }
 
       if (usr.ok) {
+        const referrer = router.query.callbackUrl || "/dashboard";
+        console.log(referrer);
         invitee
           ? router.replace(`/invitation/${router.query.token}`)
-          : router.replace("/dashboard");
+          : // @ts-ignore
+            router.replace(referrer);
       }
     } catch (error) {
       console.log(error);
