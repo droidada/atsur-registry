@@ -5,11 +5,9 @@ import React from "react";
 
 export const getServerSideProps = async ({ req, params }) => {
   try {
-    const res = await axios.post(`/payment/list-plans`);
+    const res = await axios.get(`/plan`);
 
-    console.log(res.data);
-
-    return { props: { plans: res.data } };
+    return { props: { plans: res.data?.data } };
   } catch (error) {
     throw new Error(error);
   }

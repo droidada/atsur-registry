@@ -23,7 +23,7 @@ const ArtPieceCard: React.FC<Props> = ({
   return (
     <Link href={url} className="bg-primary w-full max-w-[281px] ">
       <Image
-        src={image}
+        src={image || "/placeholder.png"}
         alt={title}
         width={281}
         height={273}
