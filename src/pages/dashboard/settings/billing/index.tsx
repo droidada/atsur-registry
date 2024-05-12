@@ -41,6 +41,8 @@ const Billing = ({ paymentDetails }) => {
   const toast = useToast();
   const router = useRouter();
 
+  console.log("This the payment details", paymentDetails);
+
   const { mutate, isLoading } = useMutation({
     mutationFn: () =>
       paymentDetails.status == "active"

@@ -16,7 +16,7 @@ const HeroHeader: React.FC<Props> = ({ handleExplore, handleCreate, type }) => {
     <div className="h-[257px] relative  justify-center px-4 md:px-10 lg:px-20 w-full flex flex-col bg-primary">
       <Image
         // @ts-ignore
-        src={data?.user?.backgroundImage}
+        src={data?.user?.backgroundImage || "/background-placeholder.jpeg"}
         fill
         alt=""
         className="object-cover"
