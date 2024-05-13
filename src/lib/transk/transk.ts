@@ -7,11 +7,13 @@ export const transakConfig: TransakConfig = {
   apiKey: process.env.NEXT_PUBLIC_TRANSK_API_KEY, // (Required)
   environment: Transak.ENVIRONMENTS.STAGING, //Transak.ENVIRONMENTS.PRODUCTION, // (Required)
   network: 'sepolia',
+  themeColor: '#fff',
   isFeeCalculationHidden: true,
   defaultCryptoCurrency: 'DAI',
   paymentMethod: 'credit_debit_card',
   defaultFiatCurrency: 'USD',
   fiatCurrency: 'USD',
+  hideMenu: true,
   walletAddressesData: {
     // networks: {
     //   ethereum: { address: '0x6353D15E8A61df4eD412746654D44B8188a737C1' },
