@@ -35,7 +35,7 @@ export const options: any = {
         });
 
         const data = await res.json();
-        console.log("response data here---------- ", data);
+        // console.log("response data here---------- ", data);
         if (!data) {
           throw new Error("Email or password incorrect.");
         }
