@@ -26,9 +26,12 @@ const ArtPieceCardTransparent: React.FC<Props> = ({
   createdAt,
 }) => {
   return (
-    <Link href={url} className="bg-white flex flex-col  w-full text-primary ">
+    <Link
+      href={url}
+      className="bg-white flex flex-col max-w-[281px]  w-full text-primary "
+    >
       <Image
-        src={image}
+        src={image || "/placeholder.png"}
         alt={title}
         width={281}
         height={273}

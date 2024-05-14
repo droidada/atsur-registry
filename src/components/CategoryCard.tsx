@@ -20,13 +20,13 @@ const CategoryCard: React.FC<Props> = ({ category, url }) => {
             width={104.79}
             height={130.48}
             alt={artPiece?.title}
-            src={artPiece?.assets?.url}
-            className="object-cover h-[130.48px]"
+            src={artPiece?.assets?.url || "/placeholder.png"}
+            className="object-cover  h-[130.48px]"
           />
         ))}
       </div>
-      <h4 className="text-[17px] text-center leading-[12px] mt-[8px]">
-        {category?._id}
+      <h4 className="text-[17px] capitalize text-center leading-[12px] mt-[8px]">
+        {category?._id?.replace(/-/g, " ")}
       </h4>
     </Link>
   );

@@ -1,4 +1,4 @@
-import axios from "@/lib/axios";
+import axios, { axiosAuth } from "@/lib/axios";
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
@@ -16,12 +16,11 @@ const Projects: React.FC<Props> = ({ artistId }) => {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
-  const axiosFetch = useAxiosAuth();
 
   const fetchProjects = async () => {
     try {
       setLoading(true);
-      const { data: res } = await axiosFetch.get(
+      const { data: res } = await axios.get(
         `/public/artist/artpiece/${artistId}?page=${currentPage}`,
       );
 

@@ -5,21 +5,18 @@ import React from "react";
 
 export const getServerSideProps = async ({ req, params }) => {
   try {
-    const res = await axios.post(`/payment/list-plans`);
+    const res = await axios.get(`/plan`);
 
-    console.log(res.data);
-
-    return { props: { list: res.data } };
+    return { props: { plans: res.data?.data } };
   } catch (error) {
     throw new Error(error);
   }
 };
 
-const PricingPage = ({ list }) => {
-  console.log(list);
+const PricingPage = ({ plans }) => {
   return (
     <>
-      <div className="absolute top-0 left-0 w-full z-[-1]  h-[40vh] bg-secondary"></div>
+      <div className="absolute top-0 left-0 w-full z-[-1]  h-[40vh] bg-secondary" />
       <section className="flex flex-col items-center  py-3 md:py-10 gap-4">
         <h1 className="text-2xl md:text-4xl lg:text-[80px] lg:leading-[65px] text-center">
           Pricing
@@ -30,7 +27,7 @@ const PricingPage = ({ list }) => {
           fringilla accumsan, risus s
         </p>
       </section>
-      <PriceSection />
+      <PriceSection plans={plans} />
     </>
   );
 };
