@@ -1,4 +1,4 @@
-import { Alert, Snackbar } from "@mui/material";
+import { Alert, Snackbar, Typography } from "@mui/material";
 import React from "react";
 
 interface Props {
@@ -33,7 +33,7 @@ const SnackBarAlert: React.FC<Props> = ({
         severity={type}
         onClose={onClose}
       >
-        {message}
+        <Typography variant="body1">{message}</Typography>
       </Alert>
     </Snackbar>
   );

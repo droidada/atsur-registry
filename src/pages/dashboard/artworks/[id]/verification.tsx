@@ -1,11 +1,12 @@
-// import Error from "next/error";
-import { useState } from "react";
+import Link from "next/link";
+import Image from "@/components/common/image";
+import { useEffect, useState } from "react";
 import { getToken } from "next-auth/jwt";
 import axios from "@/lib/axios";
 import DashboardLayoutWithSidebar, {
   DashboardPages,
 } from "@/components/open9/layout/DashboardLayoutWithSidebar";
-import { ToggleButtonGroup, ToggleButton } from "@mui/material";
+import { ToggleButtonGroup, ToggleButton, Stack } from "@mui/material";
 import { artRoles } from "@/types";
 import {
   PhotoLibrary,
@@ -19,6 +20,12 @@ import ArtistInfo from "@/components/dashboard/art-verification/artist-info";
 import DealerInfo from "@/components/dashboard/art-verification/dealer-info";
 import CollectorInfo from "@/components/dashboard/art-verification/collector-info";
 import InstitutionInfo from "@/components/dashboard/art-verification/institution-info";
+import { useRouter } from "next/router";
+import Preview from "@/components/dashboard/art-verification/preview";
+import useAxiosAuth from "@/hooks/useAxiosAuth";
+import ProtectedPage from "@/HOC/Protected";
+import ArtVerificationAquisition from "@/components/dashboard/artwork/Verification/Aquisition";
+import ArtVerificationInformation from "@/components/dashboard/artwork/Verification/InformationAdd";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -28,8 +35,10 @@ export const getServerSideProps = async ({ req, query }) => {
       secret: process.env.NEXTAUTH_SECRET,
     });
     const res = await axios.get(`/art-piece/${id}`, {
-      headers: { authorization: `Bearer ${token?.user?.accessToken}` },
+      headers: { authorization: `Bearer ${token?.accessToken}` },
     });
+
+    console.log(res.data);
 
     return { props: { artPiece: res.data.artPiece } };
   } catch (error) {
@@ -39,37 +48,87 @@ export const getServerSideProps = async ({ req, query }) => {
         notFound: true,
       };
     }
-    // return {
-    //   props: { error: "Error fetching data" },
-    // };
-    return {
-      props: { error: error?.response?.status },
-    };
-
-    // throw new Error(error);
+    throw new Error(error);
   }
 };
 
-export default function Verification({ artPiece, error }) {
-  // const [error, setError] = useState();
-  const [activeIndex, setActiveIndex] = useState(11);
-  const [artRole, setArtRole] = useState("");
-  const handleOnClick = (index) => {
-    setActiveIndex(index);
+function Verification({ artPiece }) {
+  const [steps, setSteps] = useState([
+    "aquistion",
+    "information add",
+    "Preview",
+  ]);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [selectedInformationAdd, setSelectedInformationAdd] = useState<
+    "artist" | "dealer" | "collector" | "institution"
+  >("artist");
+  const { id: artpieceId } = useRouter().query;
+
+  const handleAddDealerStep = () => {
+    setSteps(["aquistion", "information add", "Dealer Info", "Preview"]);
   };
 
-  
-  // if (error) return <Error statusCode={error} />;
+  const handleRemoveDealerStep = () => {
+    setSteps(["aquistion", "information add", "Preview"]);
+  };
 
   return (
     <>
-      <DashboardLayoutWithSidebar
+      <Stack spacing={4}>
+        <h1 className="font-semibold text-2xl lg:text-[30px] lg:leading-[40px]">
+          Art Verification
+        </h1>
+        <Stack direction={"row"} className="overflow-x-auto " spacing={2}>
+          {steps.map((item, index) => (
+            <div
+              key={`active-bar-${item}`}
+              className="flex-shrink-0 lg:flex-shrink flex flex-col max-w-[312px] w-full gap-2"
+            >
+              <span
+                className={`text-[20px] capitalize leading-[20px] ${
+                  activeIndex === index ? "font-bold" : ""
+                }`}
+              >
+                {item}
+              </span>
+              <span
+                className={`h-[7px] w-full rounded-[23px]  ${
+                  activeIndex >= index
+                    ? activeIndex == 2 && index == 2
+                      ? "bg-[#00FF94]"
+                      : "bg-primary"
+                    : "bg-secondary"
+                }`}
+              />
+            </div>
+          ))}
+        </Stack>
+
+        <div>
+          {
+            [
+              <ArtVerificationAquisition
+                key={0}
+                setActiveIndex={setActiveIndex}
+                selectedInformationAdd={selectedInformationAdd}
+                setSelectedInformationAdd={setSelectedInformationAdd}
+              />,
+              <ArtVerificationInformation
+                key={1}
+                setActiveIndex={setActiveIndex}
+                defaultValues={{}}
+                selectedInformationAdd={selectedInformationAdd}
+                artpieceId={artpieceId as string}
+                // setSelectedInformationAdd={setSelectedInformationAdd}
+              />,
+            ][activeIndex]
+          }
+        </div>
+      </Stack>
+      {/* <DashboardLayoutWithSidebar
         activePage={DashboardPages.ART}
         hideSidebar={true}
       >
-  
-        {(()=> {if (error) throw new Error(error);})()}
-  
         <div id="create">
           <div className="wrapper-content-create">
             <div className="heading-section">
@@ -77,51 +136,13 @@ export default function Verification({ artPiece, error }) {
             </div>
             <div className="widget-tabs relative">
               <ul className="widget-menu-tab">
-                <li
-                  className={
-                    activeIndex === 11
-                      ? "item-title active tf-color"
-                      : "item-title"
-                  }
-                  onClick={() => handleOnClick(11)}
-                >
-                  <span className="inner">
-                    <span className="order">1</span> Acquisition{" "}
-                    <i className="icon-keyboard_arrow_right" />
-                  </span>
-                </li>
-                <li
-                  className={
-                    activeIndex === 12 ? "item-title active" : "item-title"
-                  }
-                  onClick={() => handleOnClick(12)}
-                >
-                  <span className="inner">
-                    <span className="order">2</span>
-                    {artRole === artRoles.ARTIST ? (
-                      <>Artist</>
-                    ) : artRole === artRoles.DEALER ? (
-                      <>Dealer</>
-                    ) : artRole === artRoles.COLLECTOR ? (
-                      <>Collector</>
-                    ) : artRole === artRoles.CUSTODIAN ? (
-                      <>Institution</>
-                    ) : (
-                      <></>
-                    )}{" "}
-                    Information <i className="icon-keyboard_arrow_right" />
-                  </span>
-                </li>
-                <li
-                  className={
-                    activeIndex === 13 ? "item-title active" : "item-title"
-                  }
-                  onClick={() => handleOnClick(13)}
-                >
-                  <span className="inner">
-                    <span className="order">3</span>Preview
-                  </span>
-                </li>
+                {allSteps.map((item, index) =>
+                  item.component(
+                    index + 1,
+                    activeIndex,
+                    checkVerificationStatus,
+                  ),
+                )}
               </ul>
               <div className="widget-content-tab">
                 <div
@@ -143,11 +164,15 @@ export default function Verification({ artPiece, error }) {
                     exclusive
                     onChange={(e, v) => setArtRole(v)}
                     aria-label="Platform"
-                    className="p-20"
+                    className="p-20 w-full"
                   >
                     <ToggleButton
                       value={artRoles.ARTIST}
-                      sx={{ height: "25rem", display: "block" }}
+                      sx={{
+                        height: "25rem",
+                        display: "block",
+                        overflow: "hidden",
+                      }}
                     >
                       <Palette
                         sx={{
@@ -161,7 +186,11 @@ export default function Verification({ artPiece, error }) {
                     </ToggleButton>
                     <ToggleButton
                       value={artRoles.DEALER}
-                      sx={{ height: "25rem", display: "block" }}
+                      sx={{
+                        height: "25rem",
+                        display: "block",
+                        overflow: "hidden",
+                      }}
                     >
                       <PhotoAlbum
                         sx={{
@@ -175,7 +204,11 @@ export default function Verification({ artPiece, error }) {
                     </ToggleButton>
                     <ToggleButton
                       value={artRoles.COLLECTOR}
-                      sx={{ height: "25rem", display: "block" }}
+                      sx={{
+                        height: "25rem",
+                        display: "block",
+                        overflow: "hidden",
+                      }}
                     >
                       <PhotoLibrary
                         sx={{
@@ -189,7 +222,11 @@ export default function Verification({ artPiece, error }) {
                     </ToggleButton>
                     <ToggleButton
                       value={artRoles.CUSTODIAN}
-                      sx={{ height: "25rem", display: "block" }}
+                      sx={{
+                        height: "25rem",
+                        display: "block",
+                        overflow: "hidden",
+                      }}
                     >
                       <Domain
                         sx={{
@@ -215,18 +252,20 @@ export default function Verification({ artPiece, error }) {
                   ) : (
                     <></>
                   )}
-                  <button
-                    className="tf-button style-3"
-                    onClick={() => handleOnClick(12)}
-                    disabled={!artRole}
-                    style={{
-                      alignItems: "center",
-                      textAlign: "center",
-                      justifySelf: "center",
-                    }}
-                  >
-                    Next
-                  </button>
+                  <div className="grid place-items-center">
+                    <button
+                      className="tf-button style-3"
+                      onClick={() => handleOnClick(12)}
+                      disabled={!artRole}
+                      style={{
+                        alignItems: "center",
+                        textAlign: "center",
+                        justifySelf: "center",
+                      }}
+                    >
+                      Next
+                    </button>
+                  </div>
                 </div>
 
                 <div
@@ -237,132 +276,72 @@ export default function Verification({ artPiece, error }) {
                   style={{ display: `${activeIndex == 12 ? "" : "none"}` }}
                 >
                   {artRole === artRoles.ARTIST ? (
-                    <ArtistInfo />
+                    <ArtistInfo
+                      setActiveIndex={setActiveIndex}
+                      removeDealerFromSteps={removeDealerFromSteps}
+                      addDealerToSteps={addDealerToSteps}
+                      defaultValues={verificationData?.custodian?.artist}
+                    />
                   ) : artRole === artRoles.DEALER ? (
-                    <DealerInfo />
+                    <DealerInfo
+                      defaultValues={verificationData?.custodian?.broker}
+                      setActiveIndex={setActiveIndex}
+                    />
                   ) : artRole === artRoles.COLLECTOR ? (
-                    <CollectorInfo />
+                    <CollectorInfo
+                      defaultValues={verificationData?.acquisition}
+                      setActiveIndex={setActiveIndex}
+                    />
                   ) : artRole === artRoles.CUSTODIAN ? (
-                    <InstitutionInfo />
+                    <InstitutionInfo
+                      defaultValues={verificationData?.institution}
+                      setActiveIndex={setActiveIndex}
+                    />
                   ) : (
                     <></>
                   )}
                 </div>
+                {allSteps.length > 3 && (
+                  <div
+                    className={
+                      allSteps.length > 3 && activeIndex === 13
+                        ? "widget-content-inner submit active"
+                        : "widget-content-inner submit"
+                    }
+                    style={{ display: `${activeIndex == 13 ? "" : "none"}` }}
+                  >
+                    <DealerInfo
+                      defaultValues={verificationData?.custodian?.broker}
+                      setActiveIndex={setActiveIndex}
+                    />
+                  </div>
+                )}
 
                 <div
                   className={
-                    activeIndex === 13
+                    (allSteps.length === 4 && activeIndex === 14) ||
+                    (allSteps.length === 3 && activeIndex === 13)
                       ? "widget-content-inner submit active"
                       : "widget-content-inner submit"
                   }
-                  style={{ display: `${activeIndex == 13 ? "" : "none"}` }}
+                  style={{
+                    display: `${
+                      (allSteps.length === 4 && activeIndex === 14) ||
+                      (allSteps.length === 3 && activeIndex === 13)
+                        ? ""
+                        : "none"
+                    }`,
+                  }}
                 >
-                  {/* <div className="wrap-upload w-full">
-                    <form id="commentform" className="comment-form">
-                      <fieldset className="name">
-                        <label>Product name *</label>
-                        <input
-                          type="text"
-                          id="name"
-                          placeholder="Product name"
-                          name="name"
-                          tabIndex={2}
-                          aria-required="true"
-                          required
-                        />
-                      </fieldset>
-                      <fieldset className="message">
-                        <label>Description *</label>
-                        <textarea
-                          id="message"
-                          name="message"
-                          rows={4}
-                          placeholder="Please describe your product*"
-                          tabIndex={4}
-                          aria-required="true"
-                          required
-                        />
-                      </fieldset>
-                      <div className="flex gap30">
-                        <fieldset className="price">
-                          <label>Price</label>
-                          <input
-                            type="text"
-                            id="price"
-                            placeholder="Price"
-                            name="price"
-                            tabIndex={2}
-                            aria-required="true"
-                            required
-                          />
-                        </fieldset>
-                        <fieldset className="properties">
-                          <label>Properties</label>
-                          <input
-                            type="text"
-                            id="properties"
-                            placeholder="Properties"
-                            name="properties"
-                            tabIndex={2}
-                            aria-required="true"
-                            required
-                          />
-                        </fieldset>
-                        <fieldset className="size">
-                          <label>Size</label>
-                          <input
-                            type="text"
-                            id="size"
-                            placeholder="Size"
-                            name="size"
-                            tabIndex={2}
-                            aria-required="true"
-                            required
-                          />
-                        </fieldset>
-                      </div>
-                      <fieldset className="rarity">
-                        <label>Rarity</label>
-                        <select className="select" name="rarity" id="rarity">
-                          <option>afafdas</option>
-                          <option value="100$">100$</option>
-                          <option value="1000$">1000$</option>
-                          <option value="10000$">10000$</option>
-                        </select>
-                      </fieldset>
-                      <fieldset className="royatity">
-                        <label>Royatity</label>
-                        <input
-                          type="text"
-                          id="royatity"
-                          placeholder="Royatity"
-                          name="royatity"
-                          tabIndex={2}
-                          aria-required="true"
-                          required
-                        />
-                      </fieldset>
-                      <div className="btn-submit flex gap30 justify-center">
-                        <button className="tf-button style-1 h50 w320 active">
-                          Clear
-                          <i className="icon-arrow-up-right2" />
-                        </button>
-                        <button
-                          className="tf-button style-1 h50 w320"
-                          type="submit"
-                        >
-                          Create Record
-                          <i className="icon-arrow-up-right2" />
-                        </button>
-                      </div>
-                    </form>
-                  </div> */}
+                  <Preview activeIndex={activeIndex} />
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </DashboardLayoutWithSidebar>
+      </DashboardLayoutWithSidebar> */}
     </>
   );
 }
+
+export default ProtectedPage(Verification);

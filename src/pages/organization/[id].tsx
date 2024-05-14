@@ -132,7 +132,7 @@ function Organization() {
   );
 }
 
-// Organization.requiredAuth = true;
+// Organization.requireAuth = true;
 export default Organization;
 
 export async function getServerSideProps(context) {

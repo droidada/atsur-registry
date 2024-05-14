@@ -3,15 +3,43 @@ import Layout from "@/open9/layout/Layout";
 import Link from "next/link";
 import Image from "@/components/common/image";
 import { useState, useEffect } from "react";
-import { TextField } from "@mui/material";
+import { Button, Stack, TextField } from "@mui/material";
 import { object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next/router";
 import { useAuthContext } from "../../providers/auth.context";
+import { useToast } from "@/providers/ToastProvider";
+import axios from "@/lib/axios";
+import UnprotectedPage from "@/HOC/Unprotected";
+import InputField from "@/components/Form/InputField";
+import AuthLayout from "@/components/layout/AuthLayout";
 
-export default function Login() {
+export const getServerSideProps = async ({ req, query, params }) => {
+  console.log(query);
+  const { token } = query;
+  console.log(token);
+  if (token) {
+    try {
+      const res = await axios.post(`/invite/fetch`, {
+        token,
+      });
+
+      console.log(res.data);
+
+      return { props: { invitationData: res.data?.data } };
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
+  } else {
+    return { props: {} };
+  }
+};
+
+function Login({ invitationData }) {
+  const [invitee, setInvitee] = useState(invitationData?.invitation?.invitee);
   const loginSchema = object({
     email: string().nonempty("Email is required").email("Email is invalid"),
     password: string()
@@ -19,6 +47,7 @@ export default function Login() {
       .min(8, "Password must be more than 8 characters")
       .max(32, "Password must be less than 32 characters"),
   });
+  const toast = useToast();
 
   type LoginInput = TypeOf<typeof loginSchema>;
 
@@ -26,6 +55,8 @@ export default function Login() {
     register,
     formState: { errors, isSubmitSuccessful },
     reset,
+    control,
+    setValue,
     handleSubmit,
   } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
@@ -34,6 +65,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const { logIn, user, error: loginError } = useAuthContext();
 
   useEffect(() => {
@@ -48,128 +80,150 @@ export default function Login() {
     // setSuccess(false);
   }, []);
 
+  useEffect(() => {
+    setValue("email", invitee?.email);
+  }, [invitee]);
+
   const onSubmitHandler: SubmitHandler<LoginInput> = async (values) => {
     try {
       setLoading(true);
-      console.log(values);
+
       const usr = await logIn(values.email, values.password);
 
       console.log("usr is ", usr);
-      console.log("login user is ", user);
-
-      setLoading(false);
+      if (usr?.error) {
+        throw usr.error;
+      }
 
       if (usr.ok) {
-        router.replace("/dashboard");
+        const referrer = router.query.callbackUrl || "/dashboard";
+        console.log(referrer);
+        invitee
+          ? router.replace(`/invitation/${router.query.token}`)
+          : // @ts-ignore
+            router.replace(referrer);
       }
     } catch (error) {
       console.log(error);
-      setError(true);
+      toast.error(
+        error?.response?.data?.message ||
+          error?.message ||
+          "Something went wrong. Please try again",
+      );
+    } finally {
       setLoading(false);
     }
   };
 
   return (
-    <>
-      <Layout headerStyle={2} footerStyle={1}>
-        <div className="tf-section-2 pt-60 widget-box-icon">
-          <div className="themesflat-container w920">
-            <div className="row">
-              <div className="col-md-12">
-                <div className="heading-section-1">
-                  <h2 className="tf-title pb-16 to-black">Login</h2>
-                  <p className="pb-40 to-black">
-                    Get started today by entering just a few details
-                  </p>
-                </div>
-              </div>
-              <div className="col-12">
-                <div className="widget-login">
-                  <form
-                    className="comment-form"
-                    autoComplete="off"
-                    noValidate
-                    onSubmit={handleSubmit(onSubmitHandler)}
-                  >
-                    <fieldset className="email">
-                      <label className="to-white">Email *</label>
-                      <TextField
-                        type="email"
-                        id="email"
-                        placeholder="mail@website.com"
-                        name="email"
-                        tabIndex={2}
-                        aria-required="true"
-                        fullWidth
-                        error={!!errors["email"]}
-                        helperText={
-                          errors["email"] ? errors["email"].message : ""
-                        }
-                        {...register("email")}
-                      />
-                    </fieldset>
-                    <fieldset className="password">
-                      <label className="to-white">Password *</label>
-                      <TextField
-                        className="password-input"
-                        type="password"
-                        id="password"
-                        placeholder="Min. 8 character"
-                        name="password"
-                        tabIndex={2}
-                        aria-required="true"
-                        fullWidth
-                        error={!!errors["password"]}
-                        helperText={
-                          errors["password"] ? errors["password"].message : ""
-                        }
-                        {...register("password")}
-                      />
-                      <i
-                        className="icon-show password-addon tf-color"
-                        id="password-addon"
-                      />
-                      <div className="forget-password">
-                        <Link href="/forgotpassword">Forgot password?</Link>
-                      </div>
-                    </fieldset>
-                    <div className="btn-submit mb-30">
-                      <button
-                        type="submit"
-                        className="tf-button style-1 h50 w-100"
-                      >
-                        Login
-                        <i className="icon-arrow-up-right2" />
-                      </button>
-                    </div>
-                  </form>
-                  <div className="other">or continue</div>
-                  <div className="login-other">
-                    <Link href="#" className="login-other-item">
-                      <Image src="/assets/images/google.png" alt="" />
-                      <span>Sign with google</span>
-                    </Link>
-                    <Link href="#" className="login-other-item">
-                      <Image src="/assets/images/facebook.png" alt="" />
-                      <span>Sign with facebook</span>
-                    </Link>
-                    <Link href="#" className="login-other-item">
-                      <Image src="/assets/images/apple.png" alt="" />
-                      <span>Sign with apple</span>
-                    </Link>
-                  </div>
-                  <div className="no-account">
-                    Don&lsquo;t have an account?{" "}
-                    <Link href="/signup" className="tf-color">
-                      Sign up
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
+    <AuthLayout title="Login" paragraph="Please enter your details">
+      <Stack direction={"column"} spacing={4} className=" w-full">
+        <form
+          onSubmit={handleSubmit(onSubmitHandler)}
+          className=" flex flex-col gap-4 w-full"
+        >
+          <div className="flex-col flex gap-4 ">
+            <Button
+              startIcon={
+                <Image
+                  src="/assets/images/google.png"
+                  height={20}
+                  width={20}
+                  alt="google"
+                />
+              }
+              className="rounded-[100px] border-secondary"
+              variant={"outlined"}
+            >
+              Sign in with Google
+            </Button>
+            <Button
+              startIcon={
+                <Image
+                  src="/assets/images/facebook.png"
+                  height={20}
+                  width={20}
+                  alt="facebook"
+                />
+              }
+              className="rounded-[100px] border-secondary"
+              variant={"outlined"}
+            >
+              Sign in with Facebook
+            </Button>
           </div>
-        </div>
-      </Layout>
-    </>
+          <p className="text-center text-[15px] leading-[16px] flex gap-2 items-center">
+            <span className="h-[1px] bg-secondary w-full " />
+            <span>Or</span>
+            <span className="h-[1px] bg-secondary w-full " />
+          </p>
+          <div className="mt-7 flex flex-col gap-4">
+            <InputField
+              label="Email"
+              type="email"
+              hasBorder
+              sx={{
+                "& fieldset": { borderRadius: "100px", borderColor: "black" },
+                borderColor: "black",
+              }}
+              id="email"
+              placeholder="mail@website.com"
+              name="email"
+              tabIndex={2}
+              disabled={invitee?.email ? true : false}
+              aria-required={true}
+              fullWidth
+              error={!!errors["email"]}
+              helperText={errors["email"] ? errors["email"].message : ""}
+              control={control}
+            />
+            <InputField
+              label="Password"
+              type="password"
+              id="password"
+              placeholder="Min. 8 character"
+              name="password"
+              sx={{
+                "& fieldset": { borderRadius: "100px", borderColor: "black" },
+                borderColor: "black",
+              }}
+              tabIndex={2}
+              aria-required="true"
+              fullWidth
+              error={!!errors["password"]}
+              helperText={errors["password"] ? errors["password"].message : ""}
+              control={control}
+            />
+          </div>
+          <div className="flex justify-end">
+            <Link
+              href={"/forgotpassword"}
+              className="font-[300] text-sm hover:underline"
+            >
+              Forgot Password?
+            </Link>
+          </div>
+
+          <div className="flex flex-col gap-3 text-base">
+            <LoadingButton
+              type="submit"
+              loading={loading}
+              className="bg-primary text-secondary h-[46px] hover:bg-gray-800"
+            >
+              Login
+            </LoadingButton>
+
+            <p className="text-center text-xs ">
+              Don&apos;t have an account?{" "}
+              <Link className="text-[#FF0000]" href="/signup">
+                Sign up
+              </Link>
+            </p>
+          </div>
+        </form>
+      </Stack>
+    </AuthLayout>
   );
 }
+
+export default Login;

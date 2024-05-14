@@ -8,6 +8,7 @@ import AutoSlider1 from "@/open9/slider/AutoSlider1";
 import AutoSlider2 from "@/open9/slider/AutoSlider2";
 import { getToken } from "next-auth/jwt";
 import axios from "@/lib/axios";
+import ProtectedPage from "@/HOC/Protected";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -19,7 +20,7 @@ export const getServerSideProps = async ({ req, query }) => {
     if (!token) return;
 
     const res = await axios.get(`/org/user`, {
-      headers: { authorization: `Bearer ${token?.user?.accessToken}` },
+      headers: { authorization: `Bearer ${token?.accessToken}` },
     });
 
     return { props: { organizations: res.data.organizations } };
@@ -37,7 +38,7 @@ export const getServerSideProps = async ({ req, query }) => {
 function Security({ organizations }) {
   return (
     <>
-      <DashboardLayoutWithSidebar activePage={DashboardPages.SECURITY}>
+      {/* <DashboardLayoutWithSidebar activePage={DashboardPages.SECURITY}>
         <>
           <div className="row">
             <div className="action__body w-full mb-40">
@@ -137,9 +138,9 @@ function Security({ organizations }) {
             </div>
           </div>
         </>
-      </DashboardLayoutWithSidebar>
+      </DashboardLayoutWithSidebar> */}
     </>
   );
 }
-Security.requiredAuth = true;
-export default Security;
+Security.requireAuth = true;
+export default ProtectedPage(Security);

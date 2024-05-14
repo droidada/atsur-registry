@@ -1,155 +1,246 @@
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import Image from "@/components/common/image";
+import React, { useEffect, useState } from "react";
 import axios from "@/lib/axios";
-import { Menu } from "@headlessui/react";
-import BidModal from "@/open9/elements/BidModal";
-import Layout from "@/open9/layout/Layout";
+import {
+  Autocomplete,
+  Box,
+  CircularProgress,
+  TextField,
+  debounce,
+} from "@mui/material";
+import useAxiosAuth from "@/hooks/useAxiosAuth";
+import { array, object, string, number, TypeOf } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, SubmitHandler } from "react-hook-form";
 
-export default function SelectOrg() {
-  const [searchItem, setSearchItem] = useState("");
-  const [pieces, setPieces] = useState([]);
+interface Props {
+  setSelectedOrg: React.Dispatch<React.SetStateAction<any>>;
+  selectedOrg: any;
+  defaultValues?: any;
+  isUserOrg?: boolean;
+}
+export default function SelectOrg({
+  selectedOrg,
+  setSelectedOrg,
+  defaultValues,
+  isUserOrg,
+}: Props) {
+  const axiosFetch = useAxiosAuth();
+  const [loading, setLoading] = useState(false);
+  const [organizations, setOrganizations] = useState<any[]>([]);
+  const [inviteOrg, setInviteOrg] = useState(false);
+  const [formErrors, setFormErrors] = useState({
+    name: "",
+    email: "",
+  });
+  const [formValues, setFormValues] = useState({
+    name: "",
+    email: "",
+  });
 
-  const handleSearch = (e) => {
-    const searchTerm = e.target.value;
-    setSearchItem(searchTerm);
-    if (!searchTerm || searchTerm === "") return;
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    type: "name" | "email",
+  ) => {
+    setFormErrors({
+      ...formErrors,
+      [type]: "",
+    });
+    setFormValues({
+      ...formValues,
+      [type]: e.target.value,
+    });
   };
-  const filterPieces = async () => {
-    const res = await axios.get("/public/explore");
-    console.log("res here is ", res);
-    setPieces(res.data?.artPieces);
+
+  const handleBlur = (
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
+    type: "name" | "email",
+  ) => {
+    if (!formValues[type]) {
+      setFormErrors({
+        ...formErrors,
+        [type]: "Required",
+      });
+    } else if (type === "email" && !isValidEmail(formValues[type])) {
+      setFormErrors({
+        ...formErrors,
+        [type]: "Invalid email format",
+      });
+    } else {
+      setFormErrors({
+        ...formErrors,
+      });
+    }
   };
 
-  useEffect(() => {
-    filterPieces();
-  }, []);
+  const isValidEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+  const onSubmitHandler = async () => {
+    try {
+      if (Object.values(formErrors).every((err) => !err)) {
+        setSelectedOrg({
+          name: formValues.name,
+          email: formValues.email,
+        });
+
+        setFormValues({
+          name: "",
+          email: "",
+        });
+        setFormErrors({
+          name: "",
+          email: "",
+        });
+
+        setInviteOrg(false);
+      } else {
+        console.log(Object.values(formErrors));
+      }
+    } catch (error) {}
+  };
+
+  const fetchOrgs = async (query: string) => {
+    try {
+      setLoading(true);
+      const { data: result } = isUserOrg
+        ? await axiosFetch.get(`/org/user-orgs?q=${query}`)
+        : await axiosFetch.get(`/org/list?q=${query}`);
+      console.log(result.data);
+
+      setOrganizations(result.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const debounceFetch = debounce(fetchOrgs, 1000);
+
+  const handleOrgChange = (e) => {
+    console.log(e.target.value);
+    debounceFetch(e.target.value);
+  };
+
+  console.log(defaultValues);
 
   return (
-    <>
-      <div>
-        <div className="flat-title-page">
-          <div className="themesflat-container">
-            <div className="row">
-              <div className="col-12">
-                <h1 className="heading text-center tf-color">
-                  Explore Art Pieces
-                </h1>
-              </div>
-              <div className="col-2"></div>
-              <div className="col-8">
-                <div
-                  data-wow-delay="0.2s"
-                  className="wow fadeInUp widget-search"
-                  style={{ marginTop: "20px" }}
+    <div className="">
+      <label className="mb-4">Add organization</label>
+      {!inviteOrg ? (
+        <div className="w-full ">
+          <Autocomplete
+            disablePortal
+            className="w-full"
+            id="combo-box-demo"
+            fullWidth
+            options={organizations}
+            onChange={(event, value) => {
+              console.log(value);
+              setSelectedOrg({
+                _id: value?._id,
+                name: value?.name,
+                email: value?.email,
+                address: value?.address,
+              });
+            }}
+            sx={{ width: 300 }}
+            defaultValue={selectedOrg || defaultValues}
+            getOptionLabel={(option) => `${selectedOrg?.name || option?.name}`}
+            selectOnFocus
+            clearOnBlur
+            handleHomeEndKeys
+            loading={loading}
+            noOptionsText={
+              <p onClick={() => (!isUserOrg ? setInviteOrg(true) : {})}>
+                {isUserOrg
+                  ? "No organization found"
+                  : ` Do not see the organization you are looking for here? Invite
+                them`}
+              </p>
+            }
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                onChange={handleOrgChange}
+                placeholder="Select organization"
+                label="Organization"
+                InputProps={{
+                  ...params.InputProps,
+                  endAdornment: (
+                    <>
+                      {loading ? (
+                        <CircularProgress color="inherit" size={20} />
+                      ) : null}
+                      {params.InputProps.endAdornment}
+                    </>
+                  ),
+                }}
+              />
+            )}
+          />
+        </div>
+      ) : (
+        <>
+          <div id="commentform" className="comment-form">
+            <div className=" max-w-[450px] mx-auto gap-2 p-2 borderd-2 rounded-xl">
+              <fieldset className="name">
+                <label>Organization Name *</label>
+                <TextField
+                  type="text"
+                  id="name"
+                  placeholder="Organization Name"
+                  name="name"
+                  tabIndex={2}
+                  aria-required="true"
+                  fullWidth
+                  onBlur={(e) => handleBlur(e, "name")}
+                  error={Boolean(formErrors["name"])}
+                  helperText={formErrors["name"] ? formErrors["name"] : ""}
+                  onChange={(e) => handleChange(e, "name")}
+                />
+              </fieldset>
+
+              <fieldset className="email">
+                <label>Organization Email *</label>
+                <TextField
+                  type="text"
+                  id="email"
+                  placeholder="Organization Email"
+                  name="email"
+                  tabIndex={2}
+                  aria-required="true"
+                  fullWidth
+                  onBlur={(e) => handleBlur(e, "email")}
+                  error={Boolean(formErrors["email"])}
+                  helperText={formErrors["email"] ? formErrors["email"] : ""}
+                  onChange={(e) => handleChange(e, "email")}
+                />
+              </fieldset>
+
+              <div className="flex justify-between items-center">
+                <button
+                  className="tf-button style-1 h50 active"
+                  style={{ marginTop: "2.5em" }}
+                  type="button"
+                  onClick={onSubmitHandler}
+                  disabled={!Object.values(formErrors).every((err) => !err)}
                 >
-                  <form
-                    action="#"
-                    method="get"
-                    role="search"
-                    className="search-form relative"
-                  >
-                    <input
-                      type="search"
-                      id="search"
-                      className="search-field style-2"
-                      placeholder="Search..."
-                      name="s"
-                      title="Search for"
-                      value={searchItem}
-                      onChange={handleSearch}
-                    />
-                    <button
-                      className="search search-submit"
-                      type="submit"
-                      title="Search"
-                    >
-                      <i className="icon-search" />
-                    </button>
-                  </form>
-                </div>
-              </div>
-              <div className="col-2"></div>
-            </div>
-          </div>
-        </div>
-        <div className="tf-section-2 discover-item loadmore-12-item">
-          <div className="themesflat-container">
-            <div className="row">
-              <div className="col-12">
-                <div className="widget-tabs relative">
-                  <div className="widget-content-tab pt-10">
-                    <div className="row">
-                      {pieces?.map((artPiece, idx) => (
-                        <div
-                          key={idx}
-                          className="fl-item col-xl-3 col-lg-4 col-md-6 col-sm-6"
-                        >
-                          <div className="tf-card-box style-1">
-                            <div className="card-media">
-                              <Link href="#">
-                                <Image src={artPiece.assets[0].url} alt="" />
-                              </Link>
-                              <span className="wishlist-button icon-heart" />
-                              <div className="button-place-bid">
-                                <Link
-                                  href={`/explore/art-piece/${artPiece._id}`}
-                                  className="tf-button"
-                                >
-                                  <span>View</span>
-                                </Link>
-                              </div>
-                            </div>
-                            <h5 className="name">
-                              <Link href="#">{artPiece.title}</Link>
-                            </h5>
-                            <div className="author flex items-center">
-                              <div className="avatar">
-                                <Image
-                                  src={
-                                    artPiece?.author?.avatar
-                                      ? artPiece?.author?.avatar
-                                      : "/assets/images/avatar/avatar-box-03.jpg"
-                                  }
-                                  alt="Image"
-                                />
-                              </div>
-                              <div className="info">
-                                <span className="tf-color">Created by:</span>
-                                <h6>
-                                  <Link href="/author-2">{`${
-                                    artPiece?.author
-                                      ? `${artPiece?.author?.firstName} ${artPiece?.author?.lastName}`
-                                      : "Kathryn Murphy"
-                                  }`}</Link>{" "}
-                                </h6>
-                              </div>
-                            </div>
-                            <div className="divider" />
-                            <div className="meta-info flex items-center justify-between">
-                              <span className="text-bid">Price</span>
-                              <h6 className="price gem to-white">
-                                <i className="icon-gem" />
-                                0,34
-                              </h6>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 load-more">
-                <a id="button-loadmore" className="tf-button-loadmore">
-                  <span>Load More</span>
-                  <i className="icon-loading-1" />
-                </a>
+                  Add
+                </button>
+                <button
+                  className="tf-button style-1 h50 "
+                  style={{ marginTop: "2.5em" }}
+                  onClick={() => setInviteOrg(false)}
+                >
+                  Cancel
+                </button>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </>
+        </>
+      )}
+    </div>
   );
 }

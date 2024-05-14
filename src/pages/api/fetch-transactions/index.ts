@@ -1,14 +1,12 @@
-import { prisma } from "@/lib/utils/db";
 import { isAddress } from "ethers/lib/utils";
 import type { NextApiRequest, NextApiResponse } from "next/types";
-import { transaction, transaction_signature, wallet } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
-export type TransactionWithSignatures = transaction & {
-  signatures: transaction_signature[];
-  wallet: wallet;
-  pendingSigners: string[];
-};
+// export type TransactionWithSignatures = transaction & {
+//   signatures: transaction_signature[];
+//   wallet: wallet;
+//   pendingSigners: string[];
+// };
 
 export async function GET(req: NextApiRequest, resp: NextApiResponse) {
   try {
@@ -23,24 +21,24 @@ export async function GET(req: NextApiRequest, resp: NextApiResponse) {
       throw new Error("Invalid Ethereum address");
     }
 
-    const transactions = await prisma.transaction.findMany({
-      where: {
-        wallet: {
-          //  address: walletAddress,
-        },
-      },
-      include: {
-        transaction_signature_transaction_signature_transactionTotransaction:
-          true,
-        wallet_transaction_walletTowallet: true,
-      },
-      orderBy: {
-        txHash: {
-          sort: "asc",
-          nulls: "first",
-        },
-      },
-    });
+    // const transactions = await prisma.transaction.findMany({
+    //   where: {
+    //     wallet: {
+    //       //  address: walletAddress,
+    //     },
+    //   },
+    //   include: {
+    //     transaction_signature_transaction_signature_transactionTotransaction:
+    //       true,
+    //     wallet_transaction_walletTowallet: true,
+    //   },
+    //   orderBy: {
+    //     txHash: {
+    //       sort: "asc",
+    //       nulls: "first",
+    //     },
+    //   },
+    // });
 
     // const augmentedTransactions: TransactionWithSignatures[] = transactions.map(
     //   (transaction) => {

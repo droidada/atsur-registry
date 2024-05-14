@@ -21,6 +21,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next/router";
 import { useAuthContext } from "../../providers/auth.context";
+import ProtectedPage from "@/HOC/Protected";
 
 const user = {
   avatar: "/assets/avatars/avatar-anika-visser.png",
@@ -76,178 +77,179 @@ function Account() {
   }, []);
 
   return (
-    <DashboardLayout>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          py: 0,
-        }}
-      >
-        <Container maxWidth="lg">
-          <Stack spacing={3}>
-            <div>
-              <Typography>Account</Typography>
-            </div>
-            <div>
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={6} lg={3}>
-                  <Card>
-                    <CardContent>
-                      <Box
-                        sx={{
-                          alignItems: "center",
-                          display: "flex",
-                          flexDirection: "column",
-                        }}
-                      >
-                        <Avatar
-                          src={user.avatar}
-                          sx={{
-                            height: 80,
-                            mb: 2,
-                            width: 80,
-                          }}
-                        />
-                        <Typography gutterBottom variant="h5">
-                          {user.name}
-                        </Typography>
-                        <Typography color="text.secondary" variant="body2">
-                          {user.city} {user.country}
-                        </Typography>
-                        <Typography color="text.secondary" variant="body2">
-                          {user.timezone}
-                        </Typography>
-                      </Box>
-                    </CardContent>
-                    <Divider />
-                    <CardActions>
-                      <Button fullWidth variant="text">
-                        Upload picture
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </Grid>
-                <Grid item xs={12} md={6} lg={9}>
-                  <Box
-                    component="form"
-                    autoComplete="off"
-                    noValidate
-                    onSubmit={handleSubmit(onSubmitHandler)}
-                    // onSubmit={handleSubmit}
-                  >
-                    <Card>
-                      <CardHeader
-                        subheader="The information can be edited"
-                        title="Profile"
-                      />
-                      <CardContent sx={{ pt: 1 }}>
-                        <Box
-                          display="grid"
-                          gridTemplateColumns="repeat(12, 1fr)"
-                          gap={1}
-                          sx={{ mt: 5 }}
-                        >
-                          <Box gridColumn="span 6">
-                            <TextField
-                              label="First Name"
-                              fullWidth
-                              required
-                              type="text"
-                              error={!!errors["first_name"]}
-                              helperText={
-                                errors["first_name"]
-                                  ? errors["first_name"].message
-                                  : ""
-                              }
-                              {...register("first_name")}
-                            />
-                          </Box>
-                          <Box gridColumn="span 6">
-                            <TextField
-                              label="Last Name"
-                              fullWidth
-                              required
-                              type="text"
-                              error={!!errors["last_name"]}
-                              helperText={
-                                errors["last_name"]
-                                  ? errors["last_name"].message
-                                  : ""
-                              }
-                              {...register("last_name")}
-                            />
-                          </Box>
-                          <Box gridColumn="span 6">
-                            <TextField
-                              label="Email"
-                              fullWidth
-                              type="email"
-                              error={!!errors["email"]}
-                              helperText={
-                                errors["email"] ? errors["email"].message : ""
-                              }
-                              {...register("email")}
-                            />
-                          </Box>
-                          <Box gridColumn="span 6">
-                            <TextField
-                              label="Phone"
-                              fullWidth
-                              type="phone"
-                              error={!!errors["phoneNumber"]}
-                              helperText={
-                                errors["phoneNumber"]
-                                  ? errors["phoneNumber"].message
-                                  : ""
-                              }
-                              {...register("phoneNumber")}
-                            />
-                          </Box>
-                          <Box gridColumn="span 12">
-                            <TextField
-                              sx={{ mb: 2 }}
-                              label="Bio"
-                              fullWidth
-                              multiline
-                              rows={4}
-                              type="text"
-                              error={!!errors["description"]}
-                              helperText={
-                                errors["description"]
-                                  ? errors["description"].message
-                                  : ""
-                              }
-                              {...register("description")}
-                            />
-                          </Box>
-                        </Box>
-                      </CardContent>
-                      <Divider />
-                      <CardActions sx={{ justifyContent: "flex-end" }}>
-                        {/* <Button variant="contained">
-                        Save details
-                        </Button> */}
-                        <LoadingButton
-                          variant="contained"
-                          type="submit"
-                          loading={loading}
-                          // sx={{ py: 2 }}
-                        >
-                          Save details
-                        </LoadingButton>
-                      </CardActions>
-                    </Card>
-                  </Box>
-                </Grid>
-              </Grid>
-            </div>
-          </Stack>
-        </Container>
-      </Box>
-    </DashboardLayout>
+    <></>
+    // <DashboardLayout>
+    //   <Box
+    //     component="main"
+    //     sx={{
+    //       flexGrow: 1,
+    //       py: 0,
+    //     }}
+    //   >
+    //     <Container maxWidth="lg">
+    //       <Stack spacing={3}>
+    //         <div>
+    //           <Typography>Account</Typography>
+    //         </div>
+    //         <div>
+    //           <Grid container spacing={3}>
+    //             <Grid item xs={12} md={6} lg={3}>
+    //               <Card>
+    //                 <CardContent>
+    //                   <Box
+    //                     sx={{
+    //                       alignItems: "center",
+    //                       display: "flex",
+    //                       flexDirection: "column",
+    //                     }}
+    //                   >
+    //                     <Avatar
+    //                       src={user.avatar}
+    //                       sx={{
+    //                         height: 80,
+    //                         mb: 2,
+    //                         width: 80,
+    //                       }}
+    //                     />
+    //                     <Typography gutterBottom variant="h5">
+    //                       {user.name}
+    //                     </Typography>
+    //                     <Typography color="text.secondary" variant="body2">
+    //                       {user.city} {user.country}
+    //                     </Typography>
+    //                     <Typography color="text.secondary" variant="body2">
+    //                       {user.timezone}
+    //                     </Typography>
+    //                   </Box>
+    //                 </CardContent>
+    //                 <Divider />
+    //                 <CardActions>
+    //                   <Button fullWidth variant="text">
+    //                     Upload picture
+    //                   </Button>
+    //                 </CardActions>
+    //               </Card>
+    //             </Grid>
+    //             <Grid item xs={12} md={6} lg={9}>
+    //               <Box
+    //                 component="form"
+    //                 autoComplete="off"
+    //                 noValidate
+    //                 onSubmit={handleSubmit(onSubmitHandler)}
+    //                 // onSubmit={handleSubmit}
+    //               >
+    //                 <Card>
+    //                   <CardHeader
+    //                     subheader="The information can be edited"
+    //                     title="Profile"
+    //                   />
+    //                   <CardContent sx={{ pt: 1 }}>
+    //                     <Box
+    //                       display="grid"
+    //                       gridTemplateColumns="repeat(12, 1fr)"
+    //                       gap={1}
+    //                       sx={{ mt: 5 }}
+    //                     >
+    //                       <Box gridColumn="span 6">
+    //                         <TextField
+    //                           label="First Name"
+    //                           fullWidth
+    //                           required
+    //                           type="text"
+    //                           error={!!errors["first_name"]}
+    //                           helperText={
+    //                             errors["first_name"]
+    //                               ? errors["first_name"].message
+    //                               : ""
+    //                           }
+    //                           {...register("first_name")}
+    //                         />
+    //                       </Box>
+    //                       <Box gridColumn="span 6">
+    //                         <TextField
+    //                           label="Last Name"
+    //                           fullWidth
+    //                           required
+    //                           type="text"
+    //                           error={!!errors["last_name"]}
+    //                           helperText={
+    //                             errors["last_name"]
+    //                               ? errors["last_name"].message
+    //                               : ""
+    //                           }
+    //                           {...register("last_name")}
+    //                         />
+    //                       </Box>
+    //                       <Box gridColumn="span 6">
+    //                         <TextField
+    //                           label="Email"
+    //                           fullWidth
+    //                           type="email"
+    //                           error={!!errors["email"]}
+    //                           helperText={
+    //                             errors["email"] ? errors["email"].message : ""
+    //                           }
+    //                           {...register("email")}
+    //                         />
+    //                       </Box>
+    //                       <Box gridColumn="span 6">
+    //                         <TextField
+    //                           label="Phone"
+    //                           fullWidth
+    //                           type="phone"
+    //                           error={!!errors["phoneNumber"]}
+    //                           helperText={
+    //                             errors["phoneNumber"]
+    //                               ? errors["phoneNumber"].message
+    //                               : ""
+    //                           }
+    //                           {...register("phoneNumber")}
+    //                         />
+    //                       </Box>
+    //                       <Box gridColumn="span 12">
+    //                         <TextField
+    //                           sx={{ mb: 2 }}
+    //                           label="Bio"
+    //                           fullWidth
+    //                           multiline
+    //                           rows={4}
+    //                           type="text"
+    //                           error={!!errors["description"]}
+    //                           helperText={
+    //                             errors["description"]
+    //                               ? errors["description"].message
+    //                               : ""
+    //                           }
+    //                           {...register("description")}
+    //                         />
+    //                       </Box>
+    //                     </Box>
+    //                   </CardContent>
+    //                   <Divider />
+    //                   <CardActions sx={{ justifyContent: "flex-end" }}>
+    //                     {/* <Button variant="contained">
+    //                     Save details
+    //                     </Button> */}
+    //                     <LoadingButton
+    //                       variant="contained"
+    //                       type="submit"
+    //                       loading={loading}
+    //                       // sx={{ py: 2 }}
+    //                     >
+    //                       Save details
+    //                     </LoadingButton>
+    //                   </CardActions>
+    //                 </Card>
+    //               </Box>
+    //             </Grid>
+    //           </Grid>
+    //         </div>
+    //       </Stack>
+    //     </Container>
+    //   </Box>
+    // </DashboardLayout>
   );
 }
 
-Account.requiredAuth = true;
-export default Account;
+Account.requireAuth = true;
+export default ProtectedPage(Account);

@@ -21,67 +21,69 @@ export const options: any = {
           email: credentials.email,
           password: credentials.password,
         };
+        console.log("payload here is ", payload);
         console.log("pubapi here is ", pubAPI);
-        // const res = await axios.post(`${pubAPI}auth/login`, {
-        //   ...payload,
-        //   mode: "json",
-        // });
 
         const res = await fetch(pubAPI + "/auth/login", {
           method: "POST",
           body: JSON.stringify(payload),
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "Clear-Site-Data": "*",
+          },
           credentials: "include",
         });
-        const user = await res.json();
 
-        console.log("response data here ", user);
-        if (!user.accessToken) {
+        const data = await res.json();
+        // console.log("response data here---------- ", data);
+        if (!data) {
           throw new Error("Email or password incorrect.");
         }
 
-        if (user && user.accessToken) {
-          return user;
-        }
-
-        return null;
+        return data.user;
       },
     }),
   ],
   session: {
-    jwt: true,
+    strategy: "jwt",
+    maxAge: 24 * 60 * 60, // 24 Hours
   },
   callbacks: {
     async jwt({ token, user, account }) {
-      console.log(`token: ${token}`);
-      if (account && user) {
-        console.log(`account: ${account} && user ${user}`);
+      if (user) {
         return {
           ...token,
-          user: user,
+          ...user,
         };
       }
 
-      if (Date.now() < token.expires) {
-        return token;
-      }
-
-      // return null;
-      return await refreshAccessToken(token);
+      return token;
     },
 
     async session({ session, token }) {
-      console.log("session=================");
-      console.log(
-        `session: ${JSON.stringify(session)}  token: ${JSON.stringify(token)}`,
-      );
-      session.user.accessToken = token?.user.accessToken;
-      session.user.refreshToken = token?.user.user.refreshToken;
-      session.user.expires = token?.user.user.expires;
-      session.user.error = token?.error;
+      console.log(token);
+
+      if (token) {
+        session.jwt = token?.accessToken;
+        session.roles = token?.roles;
+        session.user = {
+          _id: token?._id,
+          lastName: token?.lastName,
+          firstName: token?.firstName,
+          email: token?.email,
+          avatar: token?.avatar,
+          backgroundImage: token?.backgroundImage,
+        };
+      }
 
       return session;
     },
+    // async redirect({ url, baseUrl })
+    // {
+    //   console.log("url here is ", url);
+    //   console.log("baseUrl here is ", baseUrl);
+    //   return url.startsWith(baseUrl) ? url : baseUrl;
+    // },
   },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
@@ -89,47 +91,6 @@ export const options: any = {
   },
   debug: true,
 };
-
-async function refreshAccessToken(token) {
-  try {
-    const res = await fetch(pubAPI + "/auth/refresh-token", {
-      method: "POST",
-      body: JSON.stringify({
-        refreshToken: token?.refreshToken,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    });
-    const response = await res.json();
-
-    console.log("refreshed tokens ", response);
-
-    if (!response.ok) {
-      signIn();
-    }
-
-    if (response) {
-      return {
-        ...token,
-        accessToken: response?.accessToken,
-        expires: Date.now() + response?.expires,
-        refreshToken: response?.refreshToken,
-      };
-    }
-  } catch (error) {
-    console.log(
-      new Date().toUTCString() + " Error in refreshAccessToken:",
-      error,
-    );
-
-    return {
-      ...token,
-      error: "RefreshAccessTokenError",
-    };
-  }
-}
 
 const nextauthfunc = (req, res) => NextAuth(req, res, options);
 

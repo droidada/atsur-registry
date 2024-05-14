@@ -1,5 +1,4 @@
 // @ts-check
-const config = require("./src/data/config.json");
 /**
  * @type {import('next').NextConfig}
  **/
@@ -18,15 +17,11 @@ module.exports = {
 
     return config;
   },
-  experimental: {
-    serverActions: true,
-  },
   reactStrictMode: true,
-  basePath: config.site.base_path !== "/" ? config.site.base_path : "",
-  trailingSlash: config.site.trailing_slash,
+  basePath: "",
+  trailingSlash: false,
   images: {
     domains: [
-      "directus-admin-service-mr73ptziua-uc.a.run.app",
       "atsur-registry-artifacts-dev.s3.eu-north-1.amazonaws.com",
       "localhost",
       "admin.atsur.art",

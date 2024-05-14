@@ -9,9 +9,10 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import React, { useState } from "react";
-import SnackBarAlert from "../common/SnackBarAlert";
+
 import { error } from "console";
 import { useRouter } from "next/router";
+import { useToast } from "@/providers/ToastProvider";
 
 interface Props {
   open: boolean;
@@ -30,6 +31,8 @@ interface Props {
   deleteUrl?: string;
   artPieceId?: string;
   redirectUrl?: string;
+  urlBody?: any;
+  prompText?: string;
 }
 
 const DeleteDialog: React.FC<Props> = ({
@@ -39,11 +42,15 @@ const DeleteDialog: React.FC<Props> = ({
   artPieceId,
   deleteUrl,
   redirectUrl,
+  urlBody,
+  prompText,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const axiosAuth = useAxiosAuth();
+  const toast = useToast();
+
   const router = useRouter();
 
   const handleDelete = async () => {
@@ -70,16 +77,20 @@ const DeleteDialog: React.FC<Props> = ({
           setErrorMessage("No Data selected");
         }
       } else {
-        const result = await axiosAuth.post(deleteUrl);
-        router.push(redirectUrl);
+        const result = await axiosAuth.post(deleteUrl, { ...urlBody });
+        if (redirectUrl) {
+          router.push(redirectUrl);
+        } else {
+          router.replace(router.asPath);
+        }
         onClose();
       }
     } catch (error) {
       setIsError(true);
       if (axios.isAxiosError(error)) {
-        setErrorMessage(error.response?.data?.message);
+        toast.error(error.response?.data?.message);
       } else {
-        setErrorMessage("Something went wrong. Please try again");
+        toast.error("Something went wrong. Please try again");
       }
     } finally {
       setIsLoading(false);
@@ -88,26 +99,30 @@ const DeleteDialog: React.FC<Props> = ({
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle sx={{ textTransform: "capitalize" }}>
+      <DialogTitle variant="h3" sx={{ textTransform: "capitalize" }}>
         {itemToDelete?.itemType}
       </DialogTitle>
       <DialogContent>
-        Are you sure your want to delete this {itemToDelete?.itemType}?
+        {prompText ||
+          `Are you sure your want to delete this ${itemToDelete?.itemType}?`}
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <LoadingButton loading={isLoading} onClick={handleDelete}>
+        <Button
+          sx={{ borderRadius: "12px" }}
+          className="tf-button style-1"
+          onClick={onClose}
+        >
+          Cancel
+        </Button>
+        <LoadingButton
+          sx={{ borderRadius: "12px" }}
+          className="tf-button style-1"
+          loading={isLoading}
+          onClick={handleDelete}
+        >
           Delete
         </LoadingButton>
       </DialogActions>
-
-      <SnackBarAlert
-        open={isError}
-        onClose={() => setIsError(false)}
-        message={errorMessage}
-        type="error"
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      />
     </Dialog>
   );
 };

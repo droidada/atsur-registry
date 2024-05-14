@@ -22,8 +22,8 @@ export function responsiveFontSizes({ sm, md, lg }) {
   };
 }
 
-export const primaryFont = "Raleway, sans-serif";
-export const secondaryFont = "Manrope, sans-serif";
+export const primaryFont = "Montserrat, sans-serif";
+export const secondaryFont = "Montserrat, sans-serif";
 
 // ----------------------------------------------------------------------
 

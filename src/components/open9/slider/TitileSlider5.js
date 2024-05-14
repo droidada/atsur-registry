@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "@/components/common/image";
+
 import { Autoplay, FreeMode, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import axios from "@/lib/axios";
+import Image from "next/image";
 
 const swiperOptions = {
   modules: [Autoplay, Pagination, Navigation, FreeMode],
@@ -29,36 +30,36 @@ const swiperOptions = {
   },
 };
 
-export default function TitileSlider5() {
-  const [pieces, setPieces] = useState([]);
-  useEffect(() => {
-    try {
-      const fetchPieces = async () => {
-        const res = await axios.get("/art-piece/home");
-        setPieces(res.data.artPieces);
-      };
-      fetchPieces();
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
+export default function TitileSlider5({ pieces }) {
+  console.log(pieces);
+  // const [pieces, setPieces] = useState([]);
+  // useEffect(() => {
+  //   try {
+  //     const fetchPieces = async () => {
+  //       const res = await axios.get("/art-piece/home");
+  //       setPieces(res.data.artPieces);
+  //     };
+  //     fetchPieces();
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }, []);
 
   return (
     <>
       <Swiper {...swiperOptions} className="swiper-container swiper-rotate-3">
         {pieces?.map((artPiece, idx) => (
           <SwiperSlide key={idx}>
-            <div className="tf-card-box style-2 type-1">
-              <div className="card-media">
-                <Link href="#">
-                  <Image
-                    img
-                    src={artPiece.assets[0]?.url}
-                    width={180}
-                    height={200}
-                    alt=""
-                  />
-                </Link>
+            <div className="tf-card-box style-2 type-1 shadow-md  overflow-hidden">
+              <div className="card-media relative h-[350px] bg-[#fafafa] rounded-xl overflow-hidden  ">
+                {/* <Link href="#"> */}
+                <Image
+                  fill
+                  src={artPiece.assets?.url}
+                  className="object-cover w-full h-full"
+                  alt=""
+                />
+                {/* </Link> */}
               </div>
               <div className="button-place-bid">
                 <Link

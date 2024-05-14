@@ -1,36 +1,73 @@
+import { useEffect, useState } from "react";
+import axios from "@/lib/axios";
 import Layout from "@/open9/layout/Layout";
 import Action5 from "@/open9/sections/Action5";
 import DiscoverItem5 from "@/open9/sections/DiscoverItem5";
 import FeaturedItem5 from "@/open9/sections/FeaturedItem5";
 import FeaturedItem6 from "@/open9/sections/FeaturedItem6";
+import FlatTitle2 from "@/open9/sections/FlatTitle2";
 import FlatTitle5 from "@/open9/sections/FlatTitle5";
 import Seller7 from "@/open9/sections/Seller7";
 import Seller8 from "@/open9/sections/Seller8";
 import TopCollections5 from "@/open9/sections/TopCollections5";
+import { useLoadingContext } from "@/providers/loading.context";
+import Script from "next/script";
+import UnprotectedPage from "@/HOC/Unprotected";
+import HomePage from "@/components/HomePage";
 
-// export const getServerSideProps = async ({req, query}) => {
+// export const getServerSideProps = async ({ req, query }) => {
 //   try {
-//       const res = await axios.get(`/home`);
-//       return { props: { data: res.data } }
-
+//     const res = await axios.get(`/public/home`);
+//     console.log(res.data);
+//     return { props: { data: res.data } };
 //   } catch (error) {
-//      throw new Error(error);
+//     console.log(error?.response?.data);
+//     throw new Error(error);
 //   }
-// }
+// };
+
+// function Home({ data }) {
+//   console.log(data?.data?.allPieces[0]?.type);
+
+//   const artPieces = data?.data?.allPieces[0]?.type?.filter(
+//     (item) => item._id === "art-piece",
+//   );
+
+//   console.log(artPieces[0]?.artPieces?.length);
 
 function Home() {
+  const [data, setData] = useState();
+  const [artPieces, setArtPieces] = useState();
+  const { load, loading } = useLoadingContext();
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await load(axios.get(`/public/home`));
+
+        setData(res?.data);
+        if (res?.data) {
+          const pieces = res?.data?.data?.allPieces[0]?.type?.filter(
+            (item) => item._id === "art-piece",
+          );
+          setArtPieces(pieces);
+        }
+      } catch (error) {
+        console.error(error);
+        // throw new Error(error);
+      }
+    }
+    fetchData();
+  }, []);
+
   return (
-    <Layout headerStyle={2} footerStyle={1} currentMenuItem={"home"}>
-      <FlatTitle5 />
-      <FeaturedItem5 />
-      <Seller7 />
-      <FeaturedItem6 />
-      {/* <Seller8 />
-            <DiscoverItem5 /> */}
-      <TopCollections5 />
-      <Action5 />
-    </Layout>
+    data &&
+    artPieces && (
+      <HomePage
+        pageData={{ ...data?.data, artPieces: artPieces[0]?.artPieces }}
+      />
+    )
   );
 }
 
-export default Home;
+export default UnprotectedPage(Home);

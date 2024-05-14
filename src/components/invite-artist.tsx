@@ -18,12 +18,33 @@ import {
 } from "@mui/material";
 import { Person4, Delete } from "@mui/icons-material";
 import { IArtist } from "@/types/models";
+import useAxiosAuth from "@/hooks/useAxiosAuth";
+import { useToast } from "@/providers/ToastProvider";
+import { LoadingButton } from "@mui/lab";
+
+interface Props {
+  prompt?: string;
+  listedArtists?: IArtist[];
+  setListedArtists?: React.Dispatch<React.SetStateAction<IArtist[]>>;
+  placeholder?: string;
+  label?: string;
+  justOne?: boolean;
+  showList?: boolean;
+  onClose?: () => void;
+  type?: "user" | "art-piece-artist" | "art-piece-collaborator";
+}
 
 const InviteArtist = ({
   prompt = "Add Artist",
-  listedArtists,
+  listedArtists = [],
   setListedArtists,
-}) => {
+  placeholder = "Artist name",
+  label = "Artist name",
+  justOne = false,
+  showList = true,
+  onClose = () => {},
+  type = "user",
+}: Props) => {
   const [loading, setLoading] = useState(false);
   const [autocompleteOpen, setAutocompleteOpen] = useState(false);
   const [inviteArtist, setInviteArtist] = useState(false);
@@ -36,6 +57,12 @@ const InviteArtist = ({
     lastName: string().nonempty("Artist last name is required"),
     email: string().email().nonempty("Artist email is required"),
   });
+  const axiosFetch = useAxiosAuth();
+  const [inviteNewUserLoading, setInviteNewUserLoading] = useState(false);
+  const toast = useToast();
+  const [selectingUserLoading, setSelectingUserLoading] = useState(false);
+
+  console.log(options);
 
   type InviteArtistInput = TypeOf<typeof inviteArtistSchema>;
   const {
@@ -48,6 +75,13 @@ const InviteArtist = ({
   });
 
   const onSubmitHandler: SubmitHandler<InviteArtistInput> = async (values) => {
+    // const { data } = await axiosAuth.post("/invite/send", {
+    //   firstName: values.firstName,
+    //   lastName: values.lastName,
+    //   inviteeEmail: values.email,
+    //   type,
+    // });
+
     setListedArtists([
       ...listedArtists,
       {
@@ -57,6 +91,7 @@ const InviteArtist = ({
       },
     ]);
     reset();
+    setInviteArtist(false);
   };
 
   const handleArtistChange = async (event) => {
@@ -69,7 +104,9 @@ const InviteArtist = ({
       });
       const data = res.data.users;
       console.log("we have options here ", data);
-      setOptions(data && data?.length > 0 ? data : []);
+      justOne
+        ? setOptions(data && data?.length > 0 ? [data[data.length - 1]] : [])
+        : setOptions(data && data?.length > 0 ? data : []);
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -77,49 +114,57 @@ const InviteArtist = ({
     }
   };
 
+  const handleSelectUser = async (users) => {
+    setListedArtists([...new Set([...listedArtists, ...users])]);
+  };
+
   return (
     <div style={{ margin: "50px 0" }}>
-      <h5>{prompt}</h5>
-      <List dense>
-        {listedArtists &&
-          listedArtists.map((artist, idx) => (
-            <ListItem
-              key={idx}
-              secondaryAction={
-                <IconButton
-                  edge="end"
-                  aria-label="delete"
-                  onClick={() =>
-                    setListedArtists(
-                      listedArtists.filter(
-                        (e) => e.email !== listedArtists[idx].email,
-                      ),
-                    )
-                  }
-                >
-                  <Delete />
-                </IconButton>
-              }
-            >
-              <ListItemAvatar>
-                <Avatar>
-                  <Person4 />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary={`${artist.firstName} ${artist.lastName}`}
-                secondary={artist.email}
-              />
-            </ListItem>
-          ))}
-      </List>
+      <h5 className={`${!showList && "mb-4"}`}>{prompt}</h5>
+      {showList && (
+        <List dense>
+          {listedArtists?.length > 0 &&
+            listedArtists.map((artist, idx) => (
+              <ListItem
+                key={idx}
+                secondaryAction={
+                  <IconButton
+                    edge="end"
+                    aria-label="delete"
+                    onClick={() =>
+                      setListedArtists(
+                        listedArtists.filter(
+                          (e) => e.email !== listedArtists[idx].email,
+                        ),
+                      )
+                    }
+                  >
+                    <Delete />
+                  </IconButton>
+                }
+              >
+                <ListItemAvatar>
+                  <Avatar>
+                    <Person4 />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary={`${artist.firstName} ${artist.lastName}`}
+                  secondary={artist.email}
+                />
+              </ListItem>
+            ))}
+        </List>
+      )}
 
       {!inviteArtist ? (
         <Box gridColumn="span 12">
           <Autocomplete
             multiple
             onChange={(event: any, newValue: any) => {
-              setListedArtists([...newValue]);
+              console.log("this is new value", newValue);
+              handleSelectUser(newValue);
+              // setListedArtists([...new Set([...listedArtists, ...newValue])]);
             }}
             style={{ width: "100%", marginTop: 5 }}
             id="size-small-outlined-multi"
@@ -139,7 +184,9 @@ const InviteArtist = ({
             clearOnBlur
             handleHomeEndKeys
             loading={autocompleteLoading}
-            options={options}
+            options={options.sort((a, b) =>
+              a.firstName.localeCompare(b.firstName),
+            )}
             noOptionsText={
               <p
                 onClick={() => {
@@ -152,8 +199,8 @@ const InviteArtist = ({
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Artist name"
-                placeholder="Artist name"
+                label={label}
+                placeholder={placeholder}
                 onChange={handleArtistChange}
                 InputProps={{
                   ...params.InputProps,
@@ -229,13 +276,14 @@ const InviteArtist = ({
                   {...register("email")}
                 />
               </fieldset>
-              <button
+              <LoadingButton
+                loading={inviteNewUserLoading}
                 className="tf-button style-1 h50 active"
                 style={{ marginTop: "2.5em" }}
                 type="submit"
               >
-                Add
-              </button>
+                send invite
+              </LoadingButton>
             </div>
           </form>
         </>

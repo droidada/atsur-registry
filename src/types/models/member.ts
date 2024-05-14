@@ -1,16 +1,6 @@
-// import { User as FirebaseUser } from "firebase/auth";
-
 export interface IAddress {
   walletAddress: string;
   chainId: number;
-}
-
-export interface IInvitee {
-  org_id: string;
-  name: string;
-  email: string;
-  createdAt?: number;
-  updatedAt?: number;
 }
 
 export interface IMember {
@@ -62,19 +52,6 @@ export interface IWallet {
   hostaddress: string;
 }
 
-export interface IEntry {
-  artwork_title: string;
-  series_title?: string;
-  record_type: string;
-  description: string;
-  subject_matter?: string;
-  height?: number;
-  width?: number;
-  depth?: number;
-  weight?: number;
-  materials?: string[];
-  mediums?: string[];
-}
 export interface IOrganization {
   name: string;
   type: string;

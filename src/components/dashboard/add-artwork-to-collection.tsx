@@ -13,8 +13,9 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import SnackBarAlert from "../common/SnackBarAlert";
+
 import { useRouter } from "next/router";
+import { useToast } from "@/providers/ToastProvider";
 
 interface Props {
   collection: any;
@@ -34,6 +35,7 @@ const AddArtworkToCollection: React.FC<Props> = ({
   const [artPiecesToAdd, setArtPieceToAdd] = useState<string[]>([]);
   const [adding, setAdding] = useState(false);
   const axiosAuth = useAxiosAuth();
+  const toast = useToast();
 
   const fetchArtWorks = async () => {
     try {
@@ -50,9 +52,9 @@ const AddArtworkToCollection: React.FC<Props> = ({
     } catch (error) {
       setError(true);
       if (axios.isAxiosError(error)) {
-        setErrorMessage(error?.response?.data?.message);
+        toast.error(error?.response?.data?.message);
       } else {
-        setErrorMessage("Something went wrong. Please try again");
+        toast.error("Something went wrong. Please try again");
       }
     } finally {
       setLoading(false);
@@ -79,9 +81,9 @@ const AddArtworkToCollection: React.FC<Props> = ({
     } catch (error) {
       setError(true);
       if (axios.isAxiosError(error)) {
-        setErrorMessage(error?.response?.data?.message);
+        toast.error(error?.response?.data?.message);
       } else {
-        setErrorMessage("Something went wrong. Please try again");
+        toast.error("Something went wrong. Please try again");
       }
     } finally {
       setAdding(false);
@@ -97,7 +99,7 @@ const AddArtworkToCollection: React.FC<Props> = ({
       <DialogTitle>
         <h4 className="items-center justify-center">Add Art Piece</h4>
       </DialogTitle>
-      <DialogContent>
+      <DialogContent className="max-w-[550px] w-full overflow-y-auto">
         <Stack direction={"column"} spacing={1}>
           {loading &&
             [...Array(5)].map((_, ind) => (
@@ -110,7 +112,7 @@ const AddArtworkToCollection: React.FC<Props> = ({
             ))}
         </Stack>
 
-        <div className="max-w-[550px] w-full">
+        <div className="lg:w-[550px] w-full">
           {artworks?.length > 0 &&
             artworks?.map((artpiece) => (
               <div
@@ -144,11 +146,16 @@ const AddArtworkToCollection: React.FC<Props> = ({
         </div>
       </DialogContent>
       <DialogActions>
-        <Button className="tf-button style-2" onClick={handleClose}>
+        <Button
+          sx={{ borderRadius: "12px" }}
+          className="tf-button style-1"
+          onClick={handleClose}
+        >
           Cancel
         </Button>
         {artworks?.length > 0 && (
           <LoadingButton
+            sx={{ borderRadius: "12px" }}
             className="tf-button style-1"
             loading={adding}
             onClick={handleAdd}
@@ -157,13 +164,6 @@ const AddArtworkToCollection: React.FC<Props> = ({
           </LoadingButton>
         )}
       </DialogActions>
-      <SnackBarAlert
-        type="error"
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        message={errorMessage}
-        open={error}
-        onClose={() => setError(false)}
-      />
     </Dialog>
   );
 };

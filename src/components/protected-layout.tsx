@@ -1,18 +1,11 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { Backdrop, CircularProgress } from "@mui/material";
 
 type Props = {
   children: React.ReactElement;
 };
-
-/*
-  add the requireAuth property to the page component
-  to protect the page from unauthenticated users
-  e.g.:
-  OrderDetail.requireAuth = true;
-  export default OrderDetail;
- */
 
 export const ProtectedLayout = ({ children }: Props): JSX.Element => {
   const router = useRouter();
@@ -38,10 +31,34 @@ export const ProtectedLayout = ({ children }: Props): JSX.Element => {
 
   // if the user refreshed the page or somehow navigated to the protected page
   if (loading) {
-    return <>Loading app...</>;
+    return (
+      <Backdrop
+        sx={{
+          background: "#000",
+          color: "#000",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
+        open
+      >
+        <CircularProgress color="info" />
+      </Backdrop>
+    );
   }
 
   // if the user is authorized, render the page
   // otherwise, render nothing while the router redirects him to the login page
-  return authorized ? <div>{children}</div> : <></>;
+  return authorized ? (
+    <div>{children}</div>
+  ) : (
+    <Backdrop
+      sx={{
+        background: "#000",
+        color: "#000",
+        zIndex: (theme) => theme.zIndex.drawer + 1,
+      }}
+      open
+    >
+      <CircularProgress color="info" />
+    </Backdrop>
+  );
 };

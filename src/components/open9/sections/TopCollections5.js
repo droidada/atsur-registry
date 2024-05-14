@@ -1,6 +1,6 @@
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import Image from "@/components/common/image";
+// import Image from "@/components/common/image";
 
 const swiperOptions = {
   modules: [Autoplay, Pagination, Navigation],
@@ -24,7 +24,9 @@ const swiperOptions = {
 };
 
 import Link from "next/link";
-export default function TopCollections5() {
+import Image from "next/image";
+export default function TopCollections5({ collections }) {
+  console.log(collections);
   return (
     <>
       <div className="tf-section top-collections">
@@ -44,71 +46,72 @@ export default function TopCollections5() {
                 className="featured pt-10 swiper-container carousel3"
               >
                 <div className="swiper-wrapper">
-                  <SwiperSlide>
-                    <div className="tf-card-collection bg-white">
-                      <Link href="/author-2">
-                        <div className="media-images-collection">
-                          <Image
-                            src="/assets/images/box-item/img-collection-17.jpg"
-                            alt=""
-                          />
-                          <Image
-                            src="/assets/images/box-item/img-collection-18.jpg"
-                            alt=""
-                          />
-                          <Image
-                            src="/assets/images/box-item/img-collection-19.jpg"
-                            alt=""
-                          />
-                          <Image
-                            src="/assets/images/box-item/img-collection-20.jpg"
-                            alt=""
-                          />
-                          <div className="author-poster">
-                            <Image
-                              src="/assets/images/avatar/avatar-01.png"
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                      </Link>
-                      <div className="card-bottom">
-                        <div className="author">
-                          <h5>
-                            <Link href="/author01">Bored ape#21</Link>
-                          </h5>
-                          <div className="infor">@Themesflat</div>
-                        </div>
-                        <div className="bottom-right">
-                          <div className="shop">
-                            <div className="icon">
-                              <svg
-                                width={20}
-                                height={20}
-                                viewBox="0 0 20 20"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M16.875 6.25L16.3542 15.11C16.3261 15.5875 16.1166 16.0363 15.7685 16.3644C15.4204 16.6925 14.96 16.8752 14.4817 16.875H5.51833C5.03997 16.8752 4.57962 16.6925 4.23152 16.3644C3.88342 16.0363 3.6739 15.5875 3.64583 15.11L3.125 6.25M8.33333 9.375H11.6667M2.8125 6.25H17.1875C17.705 6.25 18.125 5.83 18.125 5.3125V4.0625C18.125 3.545 17.705 3.125 17.1875 3.125H2.8125C2.295 3.125 1.875 3.545 1.875 4.0625V5.3125C1.875 5.83 2.295 6.25 2.8125 6.25Z"
-                                  stroke="white"
-                                  strokeWidth="1.5"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
+                  {collections?.map((collection) => (
+                    <SwiperSlide key={collection._id}>
+                      <div className="tf-card-collection rounded-xl overflow-hidden bg-white">
+                        <Link href="/author-2">
+                          <div className="media-images-collection">
+                            {collection?.artworks
+                              ?.slice(0, 4)
+                              .map((artwork) => (
+                                // <></>
+                                <Image
+                                  width={150}
+                                  height={150}
+                                  className="object-cover w-full h-full rounded-xl"
+                                  key={artwork?.assets[0]?._id}
+                                  src={
+                                    artwork?.assets[0]?.url == "null"
+                                      ? ""
+                                      : artwork?.assets[0]?.url
+                                  }
+                                  alt=""
                                 />
-                              </svg>
+                              ))}
+
+                            <div className="author-poster rounded-full overflow-hidden relative">
+                              <Image fill src={collection?.image} alt="" />
                             </div>
-                            <p>12 Item</p>
                           </div>
-                          <div className="like">
-                            <span className="wishlist-button icon-heart" />
-                            <p>97 like</p>
+                        </Link>
+                        <div className="card-bottom">
+                          <div className="author">
+                            <h5>
+                              <Link href="/author01">{collection?.title}</Link>
+                            </h5>
+                            {/* <div className="infor">@Themesflat</div> */}
+                          </div>
+                          <div className="bottom-right">
+                            <div className="shop">
+                              <div className="icon">
+                                <svg
+                                  width={20}
+                                  height={20}
+                                  viewBox="0 0 20 20"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M16.875 6.25L16.3542 15.11C16.3261 15.5875 16.1166 16.0363 15.7685 16.3644C15.4204 16.6925 14.96 16.8752 14.4817 16.875H5.51833C5.03997 16.8752 4.57962 16.6925 4.23152 16.3644C3.88342 16.0363 3.6739 15.5875 3.64583 15.11L3.125 6.25M8.33333 9.375H11.6667M2.8125 6.25H17.1875C17.705 6.25 18.125 5.83 18.125 5.3125V4.0625C18.125 3.545 17.705 3.125 17.1875 3.125H2.8125C2.295 3.125 1.875 3.545 1.875 4.0625V5.3125C1.875 5.83 2.295 6.25 2.8125 6.25Z"
+                                    stroke="white"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                </svg>
+                              </div>
+                              <p>{collection?.artworks?.length}</p>
+                            </div>
+                            <div className="like">
+                              <span className="wishlist-button icon-heart" />
+                              <p>97 like</p>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </SwiperSlide>
-                  <SwiperSlide>
+                    </SwiperSlide>
+                  ))}
+                  {/* <SwiperSlide>
                     <div className="tf-card-collection bg-white">
                       <Link href="/author-2">
                         <div className="media-images-collection">
@@ -363,7 +366,7 @@ export default function TopCollections5() {
                         </div>
                       </div>
                     </div>
-                  </SwiperSlide>
+                  </SwiperSlide> */}
                 </div>
               </Swiper>
             </div>

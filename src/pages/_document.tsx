@@ -4,6 +4,7 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head />
+
       <link rel="shortcut icon" href="/images/atsur-logo.svg" />
       <link rel="preconnect" href="https://fonts.bunny.net" />
       <link

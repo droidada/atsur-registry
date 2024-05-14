@@ -7,9 +7,9 @@ import React, {
   useState,
   useCallback,
 } from "react";
-import { signOut, signIn, useSession } from "next-auth/react";
+import { signOut, signIn } from "next-auth/react";
 import { IUser } from "../types/models";
-import useAxiosAuth from "@/hooks/useAxiosAuth";
+import useAxiosAuth, { authenticateAPI } from "@/hooks/useAxiosAuth";
 
 export type NewLogin = {
   isFirstLogin: boolean;
@@ -28,7 +28,7 @@ export type AuthContextData = {
 const AuthContext = createContext({} as AuthContextData);
 
 export function AuthContextProvider({ children }: any) {
-  const { data: session, status } = useSession();
+  // const { data: session, status } = useSession();
   const [user, setUser] = useState<IUser>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState("");
@@ -38,7 +38,7 @@ export function AuthContextProvider({ children }: any) {
   useEffect(() => {
     fetchUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status]);
+  }, []);
 
   const fetchUser = useCallback(async (): Promise<void> => {
     try {
@@ -76,6 +76,8 @@ export function AuthContextProvider({ children }: any) {
         email: email,
         password: password,
       });
+      console.log("successful login, res here is ", res);
+      //authenticateAPI(res.data.accessToken);
       await fetchUser();
       setLoading(false);
       return res;

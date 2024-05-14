@@ -1,4 +1,3 @@
-import { prisma } from "@/lib/utils/db";
 import { isAddress } from "ethers/lib/utils";
 import type { NextApiRequest, NextApiResponse } from "next/types";
 

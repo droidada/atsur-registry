@@ -13,7 +13,6 @@ import axios from "@/lib/axios";
 import axiosMain from "axios";
 
 import DeleteDialog from "@/components/dashboard/DeleteDialog";
-import EditCollection from "@/components/dashboard/edit-collection";
 import AddArtworkToCollection from "@/components/dashboard/add-artwork-to-collection";
 import Image from "next/image";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
@@ -27,6 +26,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
+import ProtectedPage from "@/HOC/Protected";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -36,7 +36,7 @@ export const getServerSideProps = async ({ req, query }) => {
       secret: process.env.NEXTAUTH_SECRET,
     });
     const res = await axios.get(`/collection/${id}`, {
-      headers: { authorization: `Bearer ${token?.user?.accessToken}` },
+      headers: { authorization: `Bearer ${token?.accessToken}` },
     });
 
     console.log(res.data);
@@ -90,7 +90,7 @@ function Collection({ collections }) {
 
   return (
     <>
-      <DashboardLayoutWithSidebar hideSidebar activePage={DashboardPages.ART}>
+      {/* <DashboardLayoutWithSidebar hideSidebar activePage={DashboardPages.ART}>
         <>
           <div className="row w-full px-4">
             <div
@@ -99,7 +99,7 @@ function Collection({ collections }) {
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
               }}
-              className="action__body w-full mb-40"
+              className="action__body w-full mb-40 rounded-xl"
             >
               <div className="tf-tsparticles">
                 <div id="tsparticles7" data-color="#161616" data-line="#000" />
@@ -107,34 +107,32 @@ function Collection({ collections }) {
               <h2 className="drop-shadow-md text-white">
                 {collections?.title}
               </h2>
-              <div className="flat-button flex">
+              <div className="flat-button gap-4 flex">
                 <Button
+                  sx={{ borderRadius: "12px" }}
                   onClick={() => setOpenEdit(true)}
-                  className="tf-button style-2 h50 w190 mr-10"
+                  className="tf-button style-1 h50 w190 mr-10 rounded-xl"
                 >
                   Edit
                   <i className="icon-arrow-up-right2" />
                 </Button>
                 <Button
+                  sx={{ borderRadius: "12px" }}
                   onClick={() => setOpenDeleteDialog(true)}
-                  className="tf-button style-2 h50 w230"
+                  className="tf-button style-1 h50 w230 rounded-xl"
                 >
                   Delete
                   <i className="icon-arrow-up-right2" />
                 </Button>
               </div>
               <div className="bg-home7">
-                <AutoSlider1
-                  images={collections?.artworks?.map((artwork) =>
-                    artwork?.assets[0]?.url == "null"
-                      ? ""
-                      : artwork?.assets[0]?.url,
-                  )}
-                />
+                <AutoSlider1 />
+                <AutoSlider1 />
+                <AutoSlider2 />
               </div>
             </div>
             <div className="row">
-              {/* DESCRIPTION */}
+
               <div className="col-12">
                 <div className="tf-section-2 product-detail">
                   <h2 className="title">Description</h2>
@@ -142,25 +140,26 @@ function Collection({ collections }) {
                 </div>
               </div>
             </div>
-            {/* ARTWORKs */}
+
 
             <div className="row">
               <div className="col-12">
                 <div className="tf-section-2 flex justify-between items-center product-detail">
                   <h2 className="title">Artworks</h2>
                   <Button
+                    sx={{ borderRadius: "12px" }}
                     onClick={() => setOpenAddArtWork(true)}
-                    className="tf-button style-2 h50 w190 mr-10"
+                    className="tf-button style-1 rounded-xl h50 w190 mr-10"
                   >
                     Add Artwork
                   </Button>
                 </div>
                 <div className="tf-section-2 ">
-                  <div className="flex flex-wrap  pl-2  gap-5 ">
+                  <div className="w-full grid gap-3 md:grid-cols-2 lg:grid-cols-3 grid-cols-1 ">
                     {collections?.artworks?.map((artwork) => (
                       <div
                         key={artwork._id}
-                        className="tf-card-box style-5 mb-0 relative max-w-[450px] w-full h-[400px]"
+                        className="tf-card-box style-5 mb-0 relative max-w-[450px] overflow-hidden rounded-xl w-full h-[400px]"
                       >
                         <div>
                           <Image
@@ -176,11 +175,12 @@ function Collection({ collections }) {
                         </div>
 
                         <Button
+                          sx={{ borderRadius: "12px" }}
                           onClick={() => {
                             setOpenRemoveArtwork(true);
                             setCurrentArtwork(artwork);
                           }}
-                          className="wishlist-button drop-shadow-md"
+                          className="wishlist-button left-4 drop-shadow-md"
                         >
                           Remove
                           <i className="icon-minus" />
@@ -203,7 +203,7 @@ function Collection({ collections }) {
             open={openRemoveArtwork}
             onClose={() => setOpenRemoveArtwork(false)}
           >
-            <DialogTitle>Remove Artwork</DialogTitle>
+            <DialogTitle variant="h3">Remove Artwork</DialogTitle>
             <DialogContent>
               <p>
                 Are you sure you want to remove this artwork from the
@@ -211,38 +211,47 @@ function Collection({ collections }) {
               </p>
             </DialogContent>
             <DialogActions>
-              <Button onClick={() => setOpenRemoveArtwork(false)}>
+              <Button
+                sx={{ borderRadius: "12px" }}
+                className="tf-button style-1 "
+                onClick={() => setOpenRemoveArtwork(false)}
+              >
                 Cancel
               </Button>
-              <LoadingButton loading={loading} onClick={handleRemove}>
+              <LoadingButton
+                sx={{ borderRadius: "12px" }}
+                className="tf-button style-1 "
+                loading={loading}
+                onClick={handleRemove}
+              >
                 Remove
               </LoadingButton>
             </DialogActions>
           </Dialog>
         </>
-      </DashboardLayoutWithSidebar>
+      </DashboardLayoutWithSidebar> */}
 
-      <DeleteDialog
+      {/* <DeleteDialog
         open={openDeleteDialog}
         onClose={() => setOpenDeleteDialog(false)}
         deleteUrl={`/collection/delete/${collections?._id}`}
         redirectUrl={`/dashboard/collections`}
         itemToDelete={{ itemType: "collection", itemId: "" }}
-      />
+      /> */}
 
-      <EditCollection
+      {/* <EditCollection
         open={openEdit}
         handleClose={() => setOpenEdit(false)}
         collection={collections}
-      />
+      /> */}
 
-      <AddArtworkToCollection
+      {/* <AddArtworkToCollection
         open={openAddArtWork}
         collection={collections}
         handleClose={() => setOpenAddArtWork(false)}
-      />
+      /> */}
     </>
   );
 }
-Collection.requiredAuth = true;
-export default Collection;
+Collection.requireAuth = true;
+export default ProtectedPage(Collection);
