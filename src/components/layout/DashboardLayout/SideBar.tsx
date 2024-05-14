@@ -23,7 +23,7 @@ const SideBar: React.FC<Props> = ({ hideSidebar, isMobile }) => {
       className={`bg-secondary-white   overflow-y-auto  flex-col       ${
         isMobile
           ? "flex w-full"
-          : "hidden lg:flex sticky top-0 w-1/4 border-r-2  h-screen"
+          : "hidden lg:flex sticky top-0 w-fit border-r-2  h-screen"
       }`}
     >
       <div className="border-b-2 sticky top-0 bg-secondary-white z-[200]">

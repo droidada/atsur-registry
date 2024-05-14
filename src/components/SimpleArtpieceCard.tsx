@@ -32,7 +32,7 @@ const SimpleArtpieceCard: React.FC<Props> = ({
       } w-full  flex-col flex ${containerClassName}`}
     >
       <Image
-        src={image}
+        src={image || "/placeholder.png"}
         alt={title}
         width={281}
         height={273}

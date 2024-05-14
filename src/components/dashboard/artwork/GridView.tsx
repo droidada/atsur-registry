@@ -34,7 +34,7 @@ const GridView: React.FC<Props> = ({
       {artworks?.map((artpiece) => (
         <ArtPieceCardTransparent
           url={`${baseUrl}/${artpiece?._id}`}
-          image={artpiece?.assets[0]?.url}
+          image={artpiece?.assets[0]?.url || "/placeholder.png"}
           title={artpiece?.title}
           key={artpiece?._id}
           creator={{ name: artpiece?.custodian?.profile?.firstName }}

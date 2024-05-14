@@ -78,6 +78,12 @@ export const options: any = {
 
       return session;
     },
+    // async redirect({ url, baseUrl })
+    // {
+    //   console.log("url here is ", url);
+    //   console.log("baseUrl here is ", baseUrl);
+    //   return url.startsWith(baseUrl) ? url : baseUrl;
+    // },
   },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
