@@ -21,6 +21,7 @@ interface PricingCardProps {
   isFree?: boolean;
   interval?: "monthly" | "quarterly" | "annually";
   isGreenButton?: boolean;
+  planId: string;
 }
 
 const PricingCard: React.FC<PricingCardProps> = ({
@@ -30,6 +31,7 @@ const PricingCard: React.FC<PricingCardProps> = ({
   isFree,
   interval,
   isGreenButton,
+  planId,
 }) => {
   const { status, data: userData } = useSession();
   const router = useRouter();
@@ -41,10 +43,11 @@ const PricingCard: React.FC<PricingCardProps> = ({
     mutationFn: () =>
       status === "unauthenticated"
         ? router.push("/login?callbackUrl=/pricing")
+        : isFree
+        ? router.push("/dashboard/settings/billing")
         : axiosAuth.post("/payment/initialize-transaction-with-plan", {
-            plan: priceInfo?.planCode,
-            email: userData?.user?.email,
-            amount: priceInfo?.amount,
+            interval: interval,
+            planId,
           }),
     onError: (error: any) => {
       const errorMessage =
