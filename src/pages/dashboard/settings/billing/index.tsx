@@ -41,6 +41,17 @@ const Billing = ({ paymentDetails }) => {
   const toast = useToast();
   const router = useRouter();
 
+  const { mutate: upgradePlan, isLoading: isUpgrading } = useMutation({
+    mutationFn: () =>
+      axiosAuth.post("/payment/initialize-transaction-with-plan", {
+        interval: "annually",
+        planId: paymentDetails?.plan?._id,
+      }),
+    onSuccess: (data: any) => {
+      router.push(data?.data?.transaction?.authorization_url);
+    },
+  });
+
   console.log("This the payment details", paymentDetails);
 
   const { mutate, isLoading } = useMutation({
@@ -108,7 +119,10 @@ const Billing = ({ paymentDetails }) => {
                 </LoadingButton>
               </div>
             </div>
-            <Button className="rounded-[22px] px-2 bg-primary text-white font-normal text-xm leading-[16px]">
+            <Button
+              onClick={() => router.push("/pricing")}
+              className="rounded-[22px] px-2 bg-primary text-white font-normal text-xm leading-[16px]"
+            >
               Change
             </Button>
           </Stack>
@@ -121,24 +135,37 @@ const Billing = ({ paymentDetails }) => {
           <div className="p-2 py-4 grid grid-cols-3 gap-8">
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-2">
-                <h3 className="text-[15px] leading-[16px] font-semibold">
-                  Team Subscription
+                <h3 className="text-[15px] capitalize leading-[16px] font-semibold">
+                  {paymentDetails?.plan?.type} Plan
                 </h3>
                 <Button
                   startIcon={<RiVipCrownFill color="#E0AF01" />}
                   variant="outlined"
                   className="rounded-[26px] px-2 h-[32px] text-xs leading-[16px] font-normal"
                 >
-                  Atsur Teams
+                  {paymentDetails?.plan?.name}
                 </Button>
               </div>
               <div className="text-[13px] leading-[16px] font-[300]">
-                <p>Next bill on 23 May 2024</p>
-                <p>N3,400/month. Visa ****</p>
+                <p>
+                  Next bill on{" "}
+                  {moment(paymentDetails?.next_payment_date).format(
+                    "DD MMM, YYYY",
+                  )}
+                </p>
+                <p>
+                  N{paymentDetails?.amount / 100}/
+                  {paymentDetails?.plan_interval}.{/* Visa **** */}
+                </p>
               </div>
-              <button className="rounded-[26px] p-2  bg-primary text-white grid place-items-center  text-xs leading-[16px] font-normal">
-                Switch to yearly (save 16%)
-              </button>
+              {paymentDetails?.plan_interval !== "annually" && (
+                <button
+                  onClick={() => upgradePlan()}
+                  className="rounded-[26px] p-2  bg-primary text-white grid place-items-center  text-xs leading-[16px] font-normal"
+                >
+                  Switch to yearly (save 16%)
+                </button>
+              )}
             </div>
             <div className="flex flex-col gap-8">
               <div className="flex flex-col gap-2">
@@ -147,15 +174,17 @@ const Billing = ({ paymentDetails }) => {
                 </h3>
               </div>
               <div>
-                <p className="text-[12px] leading-[16px] font-[300]">Country</p>
-                <p className="text-sm leading-[16px] font-semibold">Nigeria</p>
-              </div>
-              <div>
                 <p className="text-[12px] leading-[16px] font-[300]">
-                  Home Address
+                  Card Type
                 </p>
                 <p className="text-sm leading-[16px] font-semibold">
-                  No. 34 Ademola Adetokunbo street, wuse
+                  {paymentDetails?.card_details?.card_type}
+                </p>
+              </div>
+              <div>
+                <p className="text-[12px] leading-[16px] font-[300]">Bank</p>
+                <p className="text-sm leading-[16px] font-semibold">
+                  {paymentDetails?.card_details?.bank}
                 </p>
               </div>
             </div>
@@ -166,18 +195,16 @@ const Billing = ({ paymentDetails }) => {
                 </h3>
               </div>
               <div>
-                <p className="text-[12px] leading-[16px] font-[300]">
-                  City/State
-                </p>
+                <p className="text-[12px] leading-[16px] font-[300]">Expiry</p>
                 <p className="text-sm leading-[16px] font-semibold">
-                  Abuja/FCT
+                  {expiryDate.format("MMMM YYYY")}
                 </p>
               </div>
               <div>
-                <p className="text-[12px] leading-[16px] font-[300]">
-                  Postal Code
+                <p className="text-[12px] leading-[16px] font-[300]">Card No</p>
+                <p className="text-sm leading-[16px] font-semibold">
+                  {paymentDetails?.card_details?.last4.padStart(12, "*")}
                 </p>
-                <p className="text-sm leading-[16px] font-semibold">8003251</p>
               </div>
             </div>
           </div>
@@ -253,12 +280,12 @@ const Billing = ({ paymentDetails }) => {
         </Stack>
       ) : (
         <div className="flex flex-col gap-4 items-center">
-          <h2>You have no subscription</h2>
+          <h2>You have on a Free Plan</h2>
           <Button
             onClick={() => router.push("/pricing")}
             className="rounded-[22px] px-2 bg-primary text-white font-normal text-xm leading-[16px]"
           >
-            Select Subscription
+            Upgrade Now
           </Button>
         </div>
       )}

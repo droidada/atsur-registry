@@ -17,7 +17,7 @@ interface Props {
       planCode: string;
     }[];
     name: string;
-    type: "free" | "paid" | "exhibition-bundle";
+    type: "business" | "individual" | "free";
     features: string[];
   }[];
 }
@@ -28,31 +28,24 @@ const PriceSection: React.FC<Props> = ({ plans }) => {
 
   console.log("This is the plans -----:", plans);
   const [filteredPlans, setFilteredPlans] = useState<{
-    freePlan: any;
-    paidPlan: any;
-    exhibitionBundles: any[];
+    businessPlans: any[];
+    individualPlans: any[];
+    freePlan: any[];
   }>({
-    freePlan: {},
-    paidPlan: {},
-    exhibitionBundles: [],
+    businessPlans: [],
+    individualPlans: [],
+    freePlan: [],
   });
 
   useEffect(() => {
     if (plans.length > 0) {
       setFilteredPlans({
-        freePlan: plans?.find((plan) => plan.type == "free"),
-        paidPlan: plans?.find((plan) => plan.type == "paid"),
-        exhibitionBundles: plans?.filter(
-          (plan) => plan.type == "exhibition-bundle",
-        ),
+        businessPlans: plans?.filter((plan) => plan.type == "business"),
+        individualPlans: plans?.filter((plan) => plan.type == "individual"),
+        freePlan: plans?.filter((plan) => plan.type == "free"),
       });
     }
   }, [plans]);
-
-  console.log(
-    "This is the free plan",
-    plans.find((plan) => plan.type == "free"),
-  );
 
   return (
     <section className="mt-10 md:mt-5 py-10 sm:py-16 md:py-12 flex gap-4 flex-col items-center">
@@ -73,42 +66,59 @@ const PriceSection: React.FC<Props> = ({ plans }) => {
           </Button>
         ))}
       </div>
-      <div className="flex gap-4 mt-12 justify-between lg:flex-nowrap flex-wrap  lg:items-stretch items-center">
-        {/* {pricingServices.map((service) => ( */}
-        {filteredPlans.freePlan && (
-          <PricingCard
-            isFree
-            title={filteredPlans.freePlan.type}
-            key={filteredPlans.freePlan._id}
-            features={filteredPlans.freePlan.features}
-            prices={filteredPlans.freePlan.prices}
-            interval={currentInterval}
-          />
-        )}
-        {filteredPlans.paidPlan && (
-          <PricingCard
-            title={filteredPlans.paidPlan.type}
-            key={filteredPlans.paidPlan._id}
-            features={filteredPlans.paidPlan.features}
-            prices={filteredPlans.paidPlan.prices}
-            interval={currentInterval}
-          />
-        )}
-        {/* ))} */}
-      </div>
-      <section className="flex gap-4 mt-12 justify-between lg:flex-nowrap flex-wrap  lg:items-stretch items-center">
-        {filteredPlans?.exhibitionBundles?.length > 0 &&
-          filteredPlans?.exhibitionBundles.map((service) => (
+
+      <div className="mt-12">
+        <h1 className="text-3xl md:text-5xl font-[600] text-center">
+          Free Plan
+        </h1>
+        <div className="flex gap-4  justify-between lg:flex-nowrap flex-wrap  lg:items-stretch items-center">
+          {filteredPlans.freePlan?.map((plan) => (
             <PricingCard
-              key={service._id}
-              title={service.name}
-              features={service.features}
-              prices={service.prices}
-              isGreenButton
+              key={plan._id}
+              title={plan.type}
+              planId={plan._id}
+              isFree
+              features={plan.features}
+              prices={plan.prices}
               interval={currentInterval}
             />
           ))}
-      </section>
+        </div>
+      </div>
+      <div className="mt-12 flex flex-col gap-2 items-center">
+        <h1 className="text-3xl md:text-5xl font-[600]  text-center">
+          Individual Plans
+        </h1>
+        <section className="flex gap-4  justify-between lg:flex-nowrap flex-wrap  lg:items-stretch items-center">
+          {filteredPlans?.individualPlans?.map((plan) => (
+            <PricingCard
+              key={plan._id}
+              planId={plan._id}
+              title={plan.type}
+              features={plan.features}
+              prices={plan.prices}
+              interval={currentInterval}
+            />
+          ))}
+        </section>
+      </div>
+      <div className="mt-12 flex flex-col gap-2 items-center">
+        <h1 className="text-3xl md:text-5xl font-[600]  text-center">
+          Business Plans
+        </h1>
+        <section className="flex gap-4  justify-between lg:flex-nowrap flex-wrap  lg:items-stretch items-center">
+          {filteredPlans?.businessPlans?.map((plan) => (
+            <PricingCard
+              key={plan._id}
+              planId={plan._id}
+              title={plan.type}
+              features={plan.features}
+              prices={plan.prices}
+              interval={currentInterval}
+            />
+          ))}
+        </section>
+      </div>
 
       <section className="mt-12 flex flex-col gap-2 items-center">
         <h2 className="lg:text-[30px] font-[600] md:text-2xl text-xl lg:leading-[65px] tracking-[50%]">
