@@ -35,7 +35,7 @@ export const getServerSideProps = async ({ req, params }) => {
 
 const Billing = ({ paymentDetails }) => {
   const expiryDate = moment(
-    `${paymentDetails?.card_details.exp_year}-${paymentDetails?.card_details.exp_month}-01`,
+    `${paymentDetails?.card_details?.exp_year}-${paymentDetails?.card_details?.exp_month}-01`,
   );
   const axiosAuth = useAxiosAuth();
   const toast = useToast();
@@ -58,12 +58,12 @@ const Billing = ({ paymentDetails }) => {
     mutationFn: () =>
       paymentDetails.status == "active"
         ? axiosAuth.post("payment/cancel-subscription", {
-            token: paymentDetails.token,
-            code: paymentDetails.subscription_code,
+            token: paymentDetails?.token,
+            code: paymentDetails?.subscription_code,
           })
         : axiosAuth.post("payment/renew-subscription", {
-            token: paymentDetails.token,
-            code: paymentDetails.subscription_code,
+            token: paymentDetails?.token,
+            code: paymentDetails?.subscription_code,
           }),
     onSuccess: (data) => {
       // TODO
@@ -83,15 +83,16 @@ const Billing = ({ paymentDetails }) => {
       <h2 className=" text-[17px] leading-[16px] font-[600] b">
         Payment Method
       </h2>
-      {paymentDetails ? (
-        <Stack className="divide-y-[1px] divide-secondary " spacing={2}>
-          {" "}
-          <Stack
-            direction={"row"}
-            justifyContent={"space-between"}
-            alignItems="center"
-            className="p-2 py-4"
-          >
+
+      <Stack className="divide-y-[1px] divide-secondary " spacing={2}>
+        {" "}
+        <Stack
+          direction={"row"}
+          justifyContent={"space-between"}
+          alignItems="center"
+          className="p-2 py-4"
+        >
+          {paymentDetails?.card_details && (
             <div className="flex gap-4 items-center">
               <div className="w-[92px] h-[91px] bg-secondary "></div>
               <div className="flex flex-col h-full gap-4 justify-between">
@@ -119,95 +120,111 @@ const Billing = ({ paymentDetails }) => {
                 </LoadingButton>
               </div>
             </div>
-            <Button
-              onClick={() => router.push("/pricing")}
-              className="rounded-[22px] px-2 bg-primary text-white font-normal text-xm leading-[16px]"
-            >
-              Change
-            </Button>
-          </Stack>
-          <Stack className="p-2 py-4">
-            <h2 className="text-[15px] leading-[16px] font-semibold">
-              Atsur Credit
-            </h2>
-            <p className="text-xs leading-[16px]  ">You have 7 Atsur Credits</p>
-          </Stack>
-          <div className="p-2 py-4 grid grid-cols-3 gap-8">
-            <div className="flex flex-col gap-4">
-              <div className="flex flex-col gap-2">
-                <h3 className="text-[15px] capitalize leading-[16px] font-semibold">
-                  {paymentDetails?.plan?.type} Plan
-                </h3>
-                <Button
-                  startIcon={<RiVipCrownFill color="#E0AF01" />}
-                  variant="outlined"
-                  className="rounded-[26px] px-2 h-[32px] text-xs leading-[16px] font-normal"
-                >
-                  {paymentDetails?.plan?.name}
-                </Button>
-              </div>
-              <div className="text-[13px] leading-[16px] font-[300]">
-                <p>
-                  Next bill on{" "}
-                  {moment(paymentDetails?.next_payment_date).format(
-                    "DD MMM, YYYY",
-                  )}
-                </p>
-                <p>
-                  N{paymentDetails?.amount / 100}/
-                  {paymentDetails?.plan_interval}.{/* Visa **** */}
-                </p>
-              </div>
-              {paymentDetails?.plan_interval !== "annually" && (
-                <button
-                  onClick={() => upgradePlan()}
-                  className="rounded-[26px] p-2  bg-primary text-white grid place-items-center  text-xs leading-[16px] font-normal"
-                >
-                  Switch to yearly (save 16%)
-                </button>
-              )}
+          )}
+          <Button
+            onClick={() => router.push("/pricing")}
+            className="rounded-[22px] px-2 bg-primary text-white font-normal text-xm leading-[16px]"
+          >
+            {paymentDetails?.card_details ? "Change" : "Upgrage Plan"}
+          </Button>
+        </Stack>
+        <Stack className="p-2 py-4">
+          <h2 className="text-[15px] leading-[16px] font-semibold">
+            Atsur Credit
+          </h2>
+          <p className="text-xs leading-[16px]  ">You have 7 Atsur Credits</p>
+        </Stack>
+        <div className="p-2 py-4 grid grid-cols-3 gap-8">
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+              <h3 className="text-[15px] capitalize leading-[16px] font-semibold">
+                {paymentDetails?.plan?.type} Plan
+              </h3>
+              <Button
+                startIcon={<RiVipCrownFill color="#E0AF01" />}
+                variant="outlined"
+                className="rounded-[26px] px-2 h-[32px] text-xs leading-[16px] font-normal"
+              >
+                {paymentDetails?.plan?.name}
+              </Button>
             </div>
-            <div className="flex flex-col gap-8">
-              <div className="flex flex-col gap-2">
-                <h3 className="text-[15px] leading-[16px] font-semibold">
-                  Billing Info
-                </h3>
-              </div>
-              <div>
-                <p className="text-[12px] leading-[16px] font-[300]">
-                  Card Type
-                </p>
-                <p className="text-sm leading-[16px] font-semibold">
-                  {paymentDetails?.card_details?.card_type}
-                </p>
-              </div>
-              <div>
-                <p className="text-[12px] leading-[16px] font-[300]">Bank</p>
-                <p className="text-sm leading-[16px] font-semibold">
-                  {paymentDetails?.card_details?.bank}
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-col justify-end  gap-8">
-              <div className="flex flex-col gap-2">
-                <h3 className="text-[15px] leading-[16px] font-semibold">
-                  {/* Billing Info */}
-                </h3>
-              </div>
-              <div>
-                <p className="text-[12px] leading-[16px] font-[300]">Expiry</p>
-                <p className="text-sm leading-[16px] font-semibold">
-                  {expiryDate.format("MMMM YYYY")}
-                </p>
-              </div>
-              <div>
-                <p className="text-[12px] leading-[16px] font-[300]">Card No</p>
-                <p className="text-sm leading-[16px] font-semibold">
-                  {paymentDetails?.card_details?.last4.padStart(12, "*")}
-                </p>
-              </div>
-            </div>
+            {paymentDetails?.card_details && (
+              <>
+                {" "}
+                <div className="text-[13px] leading-[16px] font-[300]">
+                  <p>
+                    Next bill on{" "}
+                    {moment(paymentDetails?.next_payment_date).format(
+                      "DD MMM, YYYY",
+                    )}
+                  </p>
+                  <p>
+                    N{paymentDetails?.amount / 100}/
+                    {paymentDetails?.plan_interval}.{/* Visa **** */}
+                  </p>
+                </div>
+                {paymentDetails?.plan_interval !== "annually" && (
+                  <button
+                    onClick={() => upgradePlan()}
+                    className="rounded-[26px] p-2  bg-primary text-white grid place-items-center  text-xs leading-[16px] font-normal"
+                  >
+                    Switch to yearly (save 16%)
+                  </button>
+                )}
+              </>
+            )}
           </div>
+          {paymentDetails?.card_type && (
+            <>
+              {" "}
+              <div className="flex flex-col gap-8">
+                <div className="flex flex-col gap-2">
+                  <h3 className="text-[15px] leading-[16px] font-semibold">
+                    Billing Info
+                  </h3>
+                </div>
+                <div>
+                  <p className="text-[12px] leading-[16px] font-[300]">
+                    Card Type
+                  </p>
+                  <p className="text-sm leading-[16px] font-semibold">
+                    {paymentDetails?.card_details?.card_type}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-[12px] leading-[16px] font-[300]">Bank</p>
+                  <p className="text-sm leading-[16px] font-semibold">
+                    {paymentDetails?.card_details?.bank}
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-col justify-end  gap-8">
+                <div className="flex flex-col gap-2">
+                  <h3 className="text-[15px] leading-[16px] font-semibold">
+                    {/* Billing Info */}
+                  </h3>
+                </div>
+                <div>
+                  <p className="text-[12px] leading-[16px] font-[300]">
+                    Expiry
+                  </p>
+                  <p className="text-sm leading-[16px] font-semibold">
+                    {expiryDate.format("MMMM YYYY")}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-[12px] leading-[16px] font-[300]">
+                    Card No
+                  </p>
+                  <p className="text-sm leading-[16px] font-semibold">
+                    {paymentDetails?.card_details?.last4.padStart(12, "*")}
+                  </p>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+        {paymentDetails?.card_details && (
           <Stack className="p-2 py-4" spacing={4}>
             <h2 className=" text-[15px] leading-[16px] font-[600] ">
               Billing History
@@ -277,18 +294,8 @@ const Billing = ({ paymentDetails }) => {
               </div>
             </div>
           </Stack>
-        </Stack>
-      ) : (
-        <div className="flex flex-col gap-4 items-center">
-          <h2>You have on a Free Plan</h2>
-          <Button
-            onClick={() => router.push("/pricing")}
-            className="rounded-[22px] px-2 bg-primary text-white font-normal text-xm leading-[16px]"
-          >
-            Upgrade Now
-          </Button>
-        </div>
-      )}
+        )}
+      </Stack>
     </Stack>
   );
 };
