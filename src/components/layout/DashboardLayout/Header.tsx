@@ -24,7 +24,7 @@ const Header: React.FC<Props> = ({ setHideSidebar }) => {
   const [openMobile, setOpenMobile] = useState(false);
 
   return (
-    <header className="sticky z-[1000]  bg-white top-0 px-4  py-[14px]">
+    <div className="sticky z-[1000] border-b-[1px]  bg-white top-0 px-4  flex flex-col justify-center h-[86px]">
       <Stack
         direction="row"
         justifyContent="space-between"
@@ -43,7 +43,7 @@ const Header: React.FC<Props> = ({ setHideSidebar }) => {
           <HiOutlineMenuAlt2 />
         </IconButton>
 
-        <div className="hidden md:flex gap-2 items-center">
+        <div className="hidden md:flex gap-4 lg:gap-6 items-center">
           {landingPageNavMenu?.map((nav) => (
             <Link
               key={`main-page-nav-${nav.title}`}
@@ -84,7 +84,7 @@ const Header: React.FC<Props> = ({ setHideSidebar }) => {
           <SideBar isMobile={true} />
         </Box>
       </SwipeableDrawer>
-    </header>
+    </div>
   );
 };
 
