@@ -27,15 +27,25 @@ export function PasswordContextProvider({ children }: any) {
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    if (process.env.NODE_ENV == "production" && loaded == 0) setOpen(true);
+    if (process.env.NODE_ENV == "production" && loaded == 0){
+      const storedData = localStorage.getItem('hideWebsite');
+      setOpen(storedData === 'false' ? false : true);
+    }
   }, []);
 
-  const access = () => {
-    if (password === process.env.NEXT_PUBLIC_SITE_PASSWORD) {
-      setOpen(false);
-      setLoaded(loaded + 1);
+  const onFormSubmit = e => {
+    try {
+      e.preventDefault();
+      if (password === process.env.NEXT_PUBLIC_SITE_PASSWORD) {
+        setOpen(false);
+        setLoaded(loaded + 1);
+        localStorage.setItem('hideWebsite', 'false');
+      }
+    } catch (error) {
+      console.log(error)
     }
-  };
+  }
+
 
   const memoedValue = useMemo(
     () => ({
@@ -56,27 +66,29 @@ export function PasswordContextProvider({ children }: any) {
         open={open}
       >
         <div className="row">
-          <div className="col-md-10">
-            <input
-              type="password"
-              id="password"
-              placeholder="Enter password to access site"
-              name="password"
-              tabIndex={2}
-              aria-required="true"
-              required
-              onChange={(e) => setPassword(e?.target?.value)}
-            />
-          </div>
-          <div className="col-md-2">
-            <button
-              className="w150"
-              style={{ background: "#3E7AA2" }}
-              onClick={() => access()}
-            >
-              Ok
-            </button>
-          </div>
+          <form onSubmit={onFormSubmit}>
+            <div className="col-md-10">
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="Enter password to access site"
+                  name="password"
+                  tabIndex={2}
+                  aria-required="true"
+                  required
+                  onChange={(e) => setPassword(e?.target?.value)}
+                />
+            </div>
+            <div className="col-md-2">
+              <button
+                className="w150"
+                style={{ background: "#3E7AA2" }}
+                // onClick={() => access()}
+              >
+                Ok
+              </button>
+            </div>
+          </form>
         </div>
       </Backdrop>
     </PasswordContext.Provider>

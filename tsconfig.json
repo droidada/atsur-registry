@@ -25,6 +25,7 @@
       "@/components/*": ["./src/components/*"],
       "@/providers/*": ["./src/providers/*"],
       "@/open9/*": ["./src/components/open9/*"],
+      "@/HOC/*": ["./src/HOC/*"],
       "@/layouts/*": ["src/components/layouts/*"],
       "@/shortcodes/*": ["src/components/layouts/shortcodes/*"],
       "@/partials/*": ["src/components/layouts/partials/*"],
