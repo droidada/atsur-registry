@@ -27,7 +27,7 @@ export function PasswordContextProvider({ children }: any) {
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    if (process.env.NODE_ENV == "development" && loaded == 0){
+    if (process.env.NODE_ENV == "production" && loaded == 0){
       const storedData = localStorage.getItem('hideWebsite');
       setOpen(storedData === 'false' ? false : true);
     }
