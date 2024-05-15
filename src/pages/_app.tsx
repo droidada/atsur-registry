@@ -45,16 +45,15 @@ export default function NextWeb3App({
   pageProps: { session, ...pageProps },
 }: CustomAppProps) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <PasswordContextProvider>
-        {/* @ts-ignore */}
-        <SessionProvider session={session}>
+    <PasswordContextProvider>
+      <SessionProvider session={session}>
+        <QueryClientProvider client={queryClient}>
+          {/* @ts-ignore */}
           <LoadingContextProvider>
             <AuthContextProvider>
               <ThemeProvider>
                 <ToastProvider>
                   <DefaultSeo {...SEO} />
-
                   {Component.requireAuth ? (
                     <ProtectedLayout>
                       {/* <AddClassBody /> */}
@@ -69,8 +68,8 @@ export default function NextWeb3App({
               </ThemeProvider>
             </AuthContextProvider>
           </LoadingContextProvider>
-        </SessionProvider>
-      </PasswordContextProvider>
-    </QueryClientProvider>
+        </QueryClientProvider>
+      </SessionProvider>
+    </PasswordContextProvider>
   );
 }
