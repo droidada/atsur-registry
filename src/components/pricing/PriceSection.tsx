@@ -19,6 +19,7 @@ interface Props {
     name: string;
     type: "business" | "individual" | "free";
     features: string[];
+    _id: string;
   }[];
 }
 const PriceSection: React.FC<Props> = ({ plans }) => {
@@ -68,16 +69,13 @@ const PriceSection: React.FC<Props> = ({ plans }) => {
       </div>
 
       <div className="mt-12">
-        <h1 className="text-3xl md:text-5xl font-[600] text-center">
-          Free Plan
-        </h1>
         <div className="flex gap-4  justify-between lg:flex-nowrap flex-wrap  lg:items-stretch items-center">
-          {filteredPlans.freePlan?.map((plan) => (
+          {plans?.map((plan) => (
             <PricingCard
               key={plan._id}
               title={plan.type}
               planId={plan._id}
-              isFree
+              isFree={plan.type == "free"}
               features={plan.features}
               prices={plan.prices}
               interval={currentInterval}
@@ -85,7 +83,7 @@ const PriceSection: React.FC<Props> = ({ plans }) => {
           ))}
         </div>
       </div>
-      <div className="mt-12 flex flex-col gap-2 items-center">
+      {/* <div className="mt-12 flex flex-col gap-2 items-center">
         <h1 className="text-3xl md:text-5xl font-[600]  text-center">
           Individual Plans
         </h1>
@@ -118,7 +116,7 @@ const PriceSection: React.FC<Props> = ({ plans }) => {
             />
           ))}
         </section>
-      </div>
+      </div> */}
 
       <section className="mt-12 flex flex-col gap-2 items-center">
         <h2 className="lg:text-[30px] font-[600] md:text-2xl text-xl lg:leading-[65px] tracking-[50%]">
