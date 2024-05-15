@@ -52,7 +52,7 @@ module.exports = withSentryConfig(nextConfig, {
   widenClientFileUpload: true,
 
   // Transpiles SDK to be compatible with IE11 (increases bundle size)
-  //transpileClientSDK: true,
+  transpileClientSDK: true,
 
   // Route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
   // This can increase your server load as well as your hosting bill.
