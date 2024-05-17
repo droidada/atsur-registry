@@ -13,7 +13,7 @@ const AdminDashboardLayout: React.FC<Props> = ({ children }) => {
 
   return (
     <div className="min-h-screen  flex ">
-      <SideBar hideSidebar={hideSidebar} />
+      <SideBar isAdmin hideSidebar={hideSidebar} />
       <Stack className="lg:w-3/4 w-full">
         <Header setHideSidebar={setHideSidebar} />
         <main className="lg:py-[42px]  px-4  py-5 ">

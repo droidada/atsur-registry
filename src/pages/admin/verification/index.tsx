@@ -57,7 +57,7 @@ const ReadyForVerification = () => {
           )}
           isFetching={isFetching}
           isError={isError}
-          baseUrl="/admin/artwork"
+          baseUrl="/admin/verification"
         />
       </Stack>
       <div className="flex justify-between items-center">
