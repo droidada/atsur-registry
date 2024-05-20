@@ -4,15 +4,19 @@ import React from "react";
 
 import { useRouter } from "next/router";
 import { FaRegPlusSquare } from "react-icons/fa";
-import { dashboardSidebarMenu } from "@/lib/utils/navs";
+import {
+  adminDashboardSidebarMenu,
+  dashboardSidebarMenu,
+} from "@/lib/utils/navs";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 
 interface Props {
   hideSidebar?: boolean;
   isMobile?: boolean;
+  isAdmin?: boolean;
 }
-const SideBar: React.FC<Props> = ({ hideSidebar, isMobile }) => {
+const SideBar: React.FC<Props> = ({ hideSidebar, isMobile, isAdmin }) => {
   const pathname = useRouter().pathname;
   const router = useRouter();
 
@@ -48,51 +52,98 @@ const SideBar: React.FC<Props> = ({ hideSidebar, isMobile }) => {
           </Button>
         </div>
 
-        {dashboardSidebarMenu.map((item) => (
-          <div
-            key={`dashboard-menu-${item?.title}`}
-            className="flex flex-col  gap-6"
-          >
-            <h2 className="py-5 border-b-[1px] w-full font-[600] tracking-[50%] text-[17px] leading-[16px] text-justify">
-              {item.title}
-            </h2>
-            {item.menus?.map((menu) =>
-              menu?.isButton ? (
-                <h4
-                  onClick={() => signOut()}
-                  className="text-[17px] cursor-pointer leading-[16px] flex gap-3 items-center "
-                  key={`button-${menu.title}`}
-                >
-                  <Image
-                    src={menu?.icon}
-                    alt={menu?.title}
-                    width={18}
-                    height={18}
-                  />
-                  <span>{menu?.title}</span>
-                </h4>
-              ) : (
-                <Link
-                  key={`submenu-${menu.title}`}
-                  href={menu?.link}
-                  className={`text-[17px] leading-[16px] no-underline  flex gap-3 items-center ${
-                    pathname.includes(menu.title?.toLowerCase())
-                      ? "font-[600]"
-                      : "font-[300]"
-                  }`}
-                >
-                  <Image
-                    src={menu?.icon}
-                    alt={menu?.title}
-                    width={18}
-                    height={18}
-                  />
-                  {menu?.title}
-                </Link>
-              ),
-            )}
-          </div>
-        ))}
+        {isAdmin
+          ? adminDashboardSidebarMenu.map((item) => (
+              <div
+                key={`dashboard-menu-${item?.title}`}
+                className="flex flex-col  gap-6"
+              >
+                <h2 className="py-5 border-b-[1px] w-full font-[600] tracking-[50%] text-[17px] leading-[16px] text-justify">
+                  {item.title}
+                </h2>
+                {item.menus?.map((menu) =>
+                  //@ts-ignore
+                  menu?.isButton ? (
+                    <h4
+                      onClick={() => signOut()}
+                      className="text-[17px] cursor-pointer leading-[16px] flex gap-3 items-center "
+                      key={`button-${menu.title}`}
+                    >
+                      <Image
+                        src={menu?.icon}
+                        alt={menu?.title}
+                        width={18}
+                        height={18}
+                      />
+                      <span>{menu?.title}</span>
+                    </h4>
+                  ) : (
+                    <Link
+                      key={`submenu-${menu.title}`}
+                      href={menu?.link}
+                      className={`text-[17px] leading-[16px] no-underline  flex gap-3 items-center ${
+                        pathname.includes(menu.title?.toLowerCase())
+                          ? "font-[600]"
+                          : "font-[300]"
+                      }`}
+                    >
+                      <Image
+                        src={menu?.icon}
+                        alt={menu?.title}
+                        width={18}
+                        height={18}
+                      />
+                      {menu?.title}
+                    </Link>
+                  ),
+                )}
+              </div>
+            ))
+          : dashboardSidebarMenu.map((item) => (
+              <div
+                key={`dashboard-menu-${item?.title}`}
+                className="flex flex-col  gap-6"
+              >
+                <h2 className="py-5 border-b-[1px] w-full font-[600] tracking-[50%] text-[17px] leading-[16px] text-justify">
+                  {item.title}
+                </h2>
+                {item.menus?.map((menu) =>
+                  menu?.isButton ? (
+                    <h4
+                      onClick={() => signOut()}
+                      className="text-[17px] cursor-pointer leading-[16px] flex gap-3 items-center "
+                      key={`button-${menu.title}`}
+                    >
+                      <Image
+                        src={menu?.icon}
+                        alt={menu?.title}
+                        width={18}
+                        height={18}
+                      />
+                      <span>{menu?.title}</span>
+                    </h4>
+                  ) : (
+                    <Link
+                      key={`submenu-${menu.title}`}
+                      href={menu?.link}
+                      className={`text-[17px] leading-[16px] no-underline  flex gap-3 items-center ${
+                        pathname.includes(menu.title?.toLowerCase())
+                          ? "font-[600]"
+                          : "font-[300]"
+                      }`}
+                    >
+                      <Image
+                        src={menu?.icon}
+                        alt={menu?.title}
+                        width={18}
+                        height={18}
+                      />
+                      {menu?.title}
+                    </Link>
+                  ),
+                )}
+              </div>
+            ))}
       </Stack>
 
       <Image

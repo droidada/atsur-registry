@@ -79,3 +79,64 @@ export const dashboardSidebarMenu = [
     ],
   },
 ];
+export const adminDashboardSidebarMenu = [
+  {
+    title: "User",
+    menus: [
+      {
+        title: "Users",
+        icon: "/images/dashboard-icons/artwork-icon.png",
+        link: "/admin/users",
+      },
+
+
+    ],
+  },
+  {
+    title: "Verification",
+    menus: [
+      {
+        title: "Ready for verification",
+        icon: "/images/dashboard-icons/activity-icon.png",
+        link: "/admin/verification",
+      },
+
+    ],
+  },
+  {
+    title: "Artworks",
+    menus: [
+      {
+        title: "All Artworks",
+        icon: "/images/dashboard-icons/activity-icon.png",
+        link: "/admin/verification",
+      },
+
+    ],
+  },
+  {
+    title: "Account",
+    menus: [
+      {
+        title: "Activities",
+        icon: "/images/dashboard-icons/activity-icon.png",
+        link: "/dashboard/activities",
+      },
+      {
+        title: "Security",
+        icon: "/images/dashboard-icons/security-icon.png",
+        link: "/dashboard/security",
+      },
+      {
+        title: "Settings",
+        icon: "/images/dashboard-icons/setting.png",
+        link: "/dashboard/settings",
+      },
+      {
+        title: "Logout",
+        icon: "/images/dashboard-icons/logout-icon.png",
+        isButton: true,
+      },
+    ],
+  },
+];
