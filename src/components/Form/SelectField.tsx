@@ -19,6 +19,7 @@ interface Props {
   labelClassName?: any;
   children: React.ReactNode;
   selectClassName?: string;
+  defaultValue?: any;
 }
 
 const SelectField: React.FC<Props> = ({
@@ -38,6 +39,7 @@ const SelectField: React.FC<Props> = ({
   children,
   selectClassName,
   control,
+  defaultValue,
   ...props
 }) => {
   const {
@@ -66,6 +68,7 @@ const SelectField: React.FC<Props> = ({
           disabled={disabled}
           aria-required={ariaRequired}
           fullWidth={fullWidth}
+          defaultValue={defaultValue}
           error={error}
           inputProps={{
             className: ``,
