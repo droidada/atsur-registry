@@ -47,8 +47,6 @@ export default function CollectorInfo({
     resolver: zodResolver(metadataSchema),
   });
 
-  console.log(errors);
-
   const [previewImg, setPreviewImg] = useState(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();

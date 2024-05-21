@@ -31,7 +31,7 @@ const ArtVerificationAquisition: React.FC<Props> = ({
       <h2 className="text-[15px] w-fi leading-[17px] font-[300]">
         How do you come about this piece?
       </h2>
-      <div className="flex gap-4 md:items-start justify-between items-center flex-wrap">
+      <div className="flex gap-4 md:items-start justify-between items-center lg:flex-nowrap flex-wrap">
         {informationToAdd?.map((item, index) => (
           <div
             className={`flex flex-col items-center gap-2 hover:border-2 duration-500 ease-in-out hover:border-primary hover:p-2 cursor-pointer ${
