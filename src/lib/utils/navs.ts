@@ -86,10 +86,8 @@ export const adminDashboardSidebarMenu = [
       {
         title: "Users",
         icon: "/images/dashboard-icons/artwork-icon.png",
-        link: "/admin/users",
+        link: "/admin",
       },
-
-
     ],
   },
   {
@@ -97,10 +95,9 @@ export const adminDashboardSidebarMenu = [
     menus: [
       {
         title: "Ready for verification",
-        icon: "/images/dashboard-icons/activity-icon.png",
+        icon: "/images/dashboard-icons/security-icon.png",
         link: "/admin/verification",
       },
-
     ],
   },
   {
@@ -109,29 +106,28 @@ export const adminDashboardSidebarMenu = [
       {
         title: "All Artworks",
         icon: "/images/dashboard-icons/activity-icon.png",
-        link: "/admin/verification",
+        link: "/admin/artwork",
       },
-
     ],
   },
   {
     title: "Account",
     menus: [
-      {
-        title: "Activities",
-        icon: "/images/dashboard-icons/activity-icon.png",
-        link: "/dashboard/activities",
-      },
-      {
-        title: "Security",
-        icon: "/images/dashboard-icons/security-icon.png",
-        link: "/dashboard/security",
-      },
-      {
-        title: "Settings",
-        icon: "/images/dashboard-icons/setting.png",
-        link: "/dashboard/settings",
-      },
+      // {
+      //   title: "Activities",
+      //   icon: "/images/dashboard-icons/activity-icon.png",
+      //   link: "/dashboard/activities",
+      // },
+      // {
+      //   title: "Security",
+      //   icon: "/images/dashboard-icons/security-icon.png",
+      //   link: "/dashboard/security",
+      // },
+      // {
+      //   title: "Settings",
+      //   icon: "/images/dashboard-icons/setting.png",
+      //   link: "/dashboard/settings",
+      // },
       {
         title: "Logout",
         icon: "/images/dashboard-icons/logout-icon.png",
