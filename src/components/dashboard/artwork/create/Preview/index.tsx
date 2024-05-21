@@ -13,11 +13,15 @@ interface Props {
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
   setFormData: React.Dispatch<React.SetStateAction<ICreateArtworkFormData>>;
   formData: ICreateArtworkFormData;
+  isUpdate?: boolean;
+  artworkId?: string;
 }
 const CreateArtworkPreview: React.FC<Props> = ({
   setActiveIndex,
   setFormData,
   formData,
+  isUpdate,
+  artworkId,
 }) => {
   const toast = useToast();
   const axiosFetch = useAxiosAuth();
@@ -31,10 +35,9 @@ const CreateArtworkPreview: React.FC<Props> = ({
         }
         firstFormData.append("file", artworkData.assets?.primaryView);
 
-        const { data: response1 } = await axiosFetch.post(
-          `/art-piece/add`,
-          firstFormData,
-        );
+        const { data: response1 } = isUpdate
+          ? await axiosFetch.put(`/art-piece/${artworkId}`, firstFormData)
+          : await axiosFetch.post(`/art-piece`, firstFormData);
         console.log(response1);
 
         if (
@@ -57,10 +60,9 @@ const CreateArtworkPreview: React.FC<Props> = ({
             "fileMounted",
             artworkData?.assets?.secondaryView?.mountedView,
           );
-          const { data: response2 } = await axiosFetch.post(
-            `/art-piece/add-assets`,
-            formData,
-          );
+          const { data: response2 } = isUpdate
+            ? await axiosFetch.put(`art-piece/assets/${artworkId}`, formData)
+            : await axiosFetch.post(`/art-piece/assets`, formData);
         }
 
         return response1?.artPiece?._id;

@@ -23,31 +23,33 @@ const DeleteDialog: React.FC<Props> = ({
     <Dialog
       open={open}
       onClose={handleClose}
+      fullWidth
+      maxWidth="sm"
       PaperProps={{
         className: "bg-white py-8 max-w-[480px] w-full px-6",
       }}
     >
-      <DialogTitle className="font-[400] p-0 text-3xl  mb-4  border-secondary border-b-[1px] ">
+      <DialogTitle className="font-[600] p-0 text-2xl  mb-4  border-secondary ">
         Delete {title}
       </DialogTitle>
-      <DialogContent>
+      <DialogContent dividers>
         <p className="tex-sm">{body}</p>
-        <div className="flex gap-4 items-center mt-6">
-          <LoadingButton
-            className="w-[156.68px] h-[41.7px] bg-primary text-white font-[600] text-[16px] leading-[16px]"
-            loading={isLoading}
-            onClick={handleDelete}
-          >
-            Delete
-          </LoadingButton>
-          <Button
-            className="w-[156.68px] h-[41.7px] bg-primary text-white font-[600] text-[16px] leading-[16px]"
-            onClick={handleClose}
-          >
-            Cancel
-          </Button>
-        </div>
       </DialogContent>
+      <div className="flex gap-4 items-center mt-6">
+        <LoadingButton
+          className="w-[156.68px] h-[41.7px] bg-primary text-white font-[600] text-[16px] leading-[16px]"
+          loading={isLoading}
+          onClick={handleDelete}
+        >
+          Delete
+        </LoadingButton>
+        <Button
+          className="w-[156.68px] h-[41.7px] bg-primary text-white font-[600] text-[16px] leading-[16px]"
+          onClick={handleClose}
+        >
+          Cancel
+        </Button>
+      </div>
     </Dialog>
   );
 };
