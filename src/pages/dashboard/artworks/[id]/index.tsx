@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Image from "@/components/common/image";
 
 import { getToken } from "next-auth/jwt";
-import axios from "@/lib/axios";
+import axios, { axiosAuth } from "@/lib/axios";
 
 import {
   Avatar,
@@ -26,6 +26,11 @@ import ArtPieceExhibition from "@/components/dashboard/artwork/Details/Exhibitio
 import ArtPieceAppraisal from "@/components/dashboard/artwork/Details/Appraisal";
 import ArtPiecePublications from "@/components/dashboard/artwork/Details/Publications";
 import ArtPieceLocation from "@/components/dashboard/artwork/Details/Location";
+import Link from "next/link";
+import DeleteDialog from "@/components/dashboard/artwork/DeleteDialog";
+import { useMutation } from "@tanstack/react-query";
+import useAxiosAuth from "@/hooks/useAxiosAuth";
+import { useToast } from "@/providers/ToastProvider";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -69,6 +74,24 @@ function ArtPiece({ artPiece }) {
     open: false,
     type: "",
     data: {},
+  });
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const axiosFetch = useAxiosAuth();
+  const toast = useToast();
+
+  const { mutate, isLoading } = useMutation({
+    mutationFn: () => axiosFetch.delete(`/art-piece/${artPiece?._id}`),
+    onSuccess: () => {
+      router.replace("/dashboard");
+      toast.success("Art Piece deleted successfully");
+    },
+    onError: (error: any) => {
+      const errorMessage =
+        error?.response?.data?.message ||
+        error?.message ||
+        "Something went wrong";
+      toast.error(errorMessage);
+    },
   });
 
   return (
@@ -124,12 +147,39 @@ function ArtPiece({ artPiece }) {
           <h1 className=" text-3xl md:text-4xl lg:text-6xl font-[400]">
             {artPiece?.title}
           </h1>
-          <Button
-            endIcon={<MdOutlineChevronRight />}
-            className="bg-secondary text-[13px] flex-shrink-0 leading-[16px] font-[400] text-primary max-w-[138px] h-[39px]"
-          >
-            View Requests
-          </Button>
+          <div className="flex gap-4 ">
+            <Button
+              component={Link}
+              href={`/dashboard/artworks/${artPiece?._id}/verification`}
+              variant="outlined"
+              className="text-[13px] leading-[16px] font-[400] border-primary border-[1px]"
+            >
+              Verify
+            </Button>
+            <Button
+              component={Link}
+              href={`/dashboard/artworks/${artPiece?._id}/edit`}
+              variant="outlined"
+              className="text-[13px] leading-[16px] font-[400] border-primary border-[1px]"
+            >
+              Edit
+            </Button>
+            <Button
+              onClick={() => {
+                setOpenDeleteDialog(true);
+              }}
+              variant="outlined"
+              className="text-[13px] leading-[16px] font-[400] border-primary border-[1px]"
+            >
+              Delete
+            </Button>
+            <Button
+              endIcon={<MdOutlineChevronRight />}
+              className="bg-secondary text-[13px] flex-shrink-0 leading-[16px] font-[400] text-primary max-w-[138px] h-[39px]"
+            >
+              View Requests
+            </Button>
+          </div>
         </Stack>
       </Stack>
       <Stack spacing={4} className="flex-1 w-full">
@@ -211,6 +261,14 @@ function ArtPiece({ artPiece }) {
           />
         </Stack>
       </Stack>
+      <DeleteDialog
+        isLoading={isLoading}
+        open={openDeleteDialog}
+        handleClose={() => setOpenDeleteDialog(false)}
+        title={"Artpiece"}
+        handleDelete={() => mutate()}
+        body="Are you sure you want to delete this artpiece? This action cannot be undone."
+      />
     </Stack>
   );
 }

@@ -3,9 +3,7 @@ import { getToken } from "next-auth/jwt";
 import axios from "@/lib/axios";
 import AdminDashboardLayout from "@/components/layout/AdminDashboardLayout";
 import {
-  Switch,
   Stack,
-  FormControlLabel,
   Button,
   Dialog,
   DialogTitle,

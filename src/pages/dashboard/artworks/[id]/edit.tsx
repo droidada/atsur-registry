@@ -1,13 +1,40 @@
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
 import ProtectedPage from "@/HOC/Protected";
 import { Stack } from "@mui/material";
 import IllustrationForm from "@/components/dashboard/artwork/create/IllustrationForm";
 import ICreateArtworkFormData from "@/types/models/createArtwork";
 import AssetsForm from "@/components/dashboard/artwork/create/AssetForm";
 import CreateArtworkPreview from "@/components/dashboard/artwork/create/Preview";
+import axios from "@/lib/axios";
+import { getToken } from "next-auth/jwt";
 
-function Dashboard() {
+export const getServerSideProps = async ({ req, query, params }) => {
+  try {
+    const { id } = params;
+    const token: any = await getToken({
+      req,
+      secret: process.env.NEXTAUTH_SECRET,
+    });
+
+    console.log(id);
+    const res = await axios.get(`/art-piece/${id}`, {
+      headers: { authorization: `Bearer ${token?.accessToken}` },
+    });
+
+    return { props: { artPiece: res.data.artPiece } };
+  } catch (error) {
+    console.error("error here looks like ", error);
+    if (error?.response?.status === 404) {
+      return {
+        notFound: true,
+      };
+    }
+    throw new Error(error);
+  }
+};
+
+function EditArtpiece({ artPiece }) {
+  console.log(artPiece);
   const [activeIndex, setActiveIndex] = useState(0);
   const handleOnClick = (index) => {
     setActiveIndex(index);
@@ -15,18 +42,20 @@ function Dashboard() {
 
   const [formData, setFormData] = useState<ICreateArtworkFormData>({
     illustration: {
-      title: "",
-      description: "",
-      medium: "",
-      subjectMatter: "",
-      height: 0,
-      width: 0,
-      depth: 0,
-      rarity: "",
-      type: "",
+      title: artPiece?.title,
+      description: artPiece?.description,
+      medium: artPiece?.medium,
+      subjectMatter: artPiece?.subjectMatter,
+      height: artPiece?.height,
+      width: artPiece?.width,
+      depth: artPiece?.depth,
+      rarity: artPiece?.rarity,
+      type: artPiece?.artType,
     },
     assets: {
-      primaryView: "",
+      primaryView: artPiece?.assets?.find((asset) =>
+        asset.url.includes("primary"),
+      )?.url,
       secondaryView: {
         leftAngleView: "",
         rightAngleView: "",
@@ -83,6 +112,8 @@ function Dashboard() {
             />,
             <CreateArtworkPreview
               key={2}
+              isUpdate
+              artworkId={artPiece?._id}
               setActiveIndex={setActiveIndex}
               setFormData={setFormData}
               formData={formData}
@@ -94,4 +125,4 @@ function Dashboard() {
   );
 }
 
-export default ProtectedPage(Dashboard);
+export default ProtectedPage(EditArtpiece);

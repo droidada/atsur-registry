@@ -29,7 +29,6 @@ const ReadyForVerification = () => {
     {
       keepPreviousData: true,
       onSuccess: () => {
-        console.log(artworks?.data?.meta?.totalPages);
         if (currentPage < artworks?.data?.meta?.totalPages) {
           queryClient.prefetchQuery([
             "artworks",
@@ -43,8 +42,6 @@ const ReadyForVerification = () => {
       },
     },
   );
-
-  console.log(artworks);
 
   return (
     <AdminDashboardLayout>
