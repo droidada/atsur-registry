@@ -11,6 +11,7 @@ interface Props {
   labelClassName?: string;
   helperText?: string;
   error?: boolean;
+  className?: string;
 }
 
 const SwitchInput: React.FC<Props> = ({
@@ -20,12 +21,12 @@ const SwitchInput: React.FC<Props> = ({
   label,
   labelPlacement,
   labelClassName,
-
+  className,
   helperText,
   error,
 }) => {
   return (
-    <div className="flex flex-col text-sm gap-1">
+    <div className={`flex flex-col text-sm gap-1 ${className}`}>
       <Controller
         name={name}
         control={control}

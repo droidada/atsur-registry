@@ -8,6 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 import { Button, Stack } from "@mui/material";
 import InputField from "@/components/Form/InputField";
 import { useToast } from "@/providers/ToastProvider";
+import VerificationFileDroper from "../VerificationFileDroper";
 
 interface Props {
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
@@ -42,53 +43,62 @@ const ArtistInformation: React.FC<Props> = ({
   });
 
   const { mutate, isLoading } = useMutation({});
-  const [attachments, setAttachments] = useState({
+  const [attachments, setAttachments] = useState<{
     video: {
-      file: "",
-      filename: "",
-    },
-    attachment1: {
-      file: "",
-      filename: "",
-    },
-    attachment2: {
-      file: "",
-      filename: "",
-    },
-  });
-  const handleUploadClick = (
-    event,
-    type: "video" | "attachment1" | "attachment2",
-  ) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    console.log(file);
-
-    let sizeLimit: number;
-    if (type === "video") {
-      sizeLimit = 100 * 1024 * 1024; // 100MB in bytes
-    } else {
-      sizeLimit = 10 * 1024 * 1024; // 10MB in bytes
-    }
-
-    if (file?.size > sizeLimit) {
-      toast.error(`File size exceeds the limit for ${type}`);
-      return;
-    }
-
-    // if(attachmentName.includes("attachment") && file.)
-
-    reader.onload = (e) => {
-      setAttachments((prev) => ({
-        ...prev,
-        [type]: {
-          file: reader.result,
-          filename: file?.name,
-        },
-      }));
+      file: any;
+      filename: string;
     };
-    reader.readAsDataURL(file);
+    attachments: {
+      file: any;
+      filename: string;
+    }[];
+  }>(null);
+  const handleUploadClick = (
+    currentFiles: any,
+    type: "video" | "attachments",
+  ) => {
+    if (type === "video") {
+      const fileDoc = currentFiles[0];
+      const reader = new FileReader();
+
+      // if(attachmentName.includes("attachment") && file.)
+
+      reader.onload = (e) => {
+        setAttachments({
+          ...attachments,
+          video: {
+            file: e.target.result,
+            filename: fileDoc.name,
+          },
+        });
+      };
+      reader.readAsDataURL(fileDoc.file);
+    } else {
+      const files = currentFiles;
+
+      console.log(files);
+
+      files.forEach((fileDoc) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          setAttachments({
+            ...attachments,
+            attachments: [
+              ...attachments?.attachments,
+              {
+                file: e.target.result,
+                filename: fileDoc.name,
+              },
+            ],
+          });
+        };
+
+        reader.readAsDataURL(fileDoc.file);
+      });
+    }
   };
+
+  console.log(attachments?.attachments);
 
   return (
     <FormContainer
@@ -120,10 +130,19 @@ const ArtistInformation: React.FC<Props> = ({
 
         <div className="flex items-stretch h-fit gap-4">
           <div className="w-2/3 flex flex-col gap-4">
-            <label className="text-sm font-thin  leading-[16px]" htmlFor="">
+            {/* <label className="text-sm font-thin  leading-[16px]" htmlFor="">
               Video
-            </label>
-            <div className=" p-4 h-full bg-secondary-white gap-4 flex flex-col items-center justify-center">
+            </label> */}
+            <VerificationFileDroper
+              className="w-full"
+              accept="video/*"
+              maxSize={100 * 1024 * 1024}
+              desc=" `Drag or choose your file to upload video (Max 100MB)`"
+              label="Video"
+              fileName={attachments?.video?.filename}
+              handleUpload={(files) => handleUploadClick(files, "video")}
+            />
+            {/* <div className=" p-4 h-full bg-secondary-white gap-4 flex flex-col items-center justify-center">
               <p className="text-xs leading-[16px]">
                 {attachments?.video.file ? (
                   attachments?.video?.filename
@@ -144,7 +163,7 @@ const ArtistInformation: React.FC<Props> = ({
                 id="attachment1"
                 onChange={(e) => handleUploadClick(e, "video")}
               />
-            </div>
+            </div> */}
           </div>
 
           <InputField
@@ -167,7 +186,23 @@ const ArtistInformation: React.FC<Props> = ({
           />
         </div>
 
-        <div className="flex items-stretch h-fit gap-4">
+        <div>
+          <VerificationFileDroper
+            className="w-full"
+            accept="application/pdf,image/*"
+            maxFiles={2}
+            maxSize={10 * 1024 * 1024}
+            desc={
+              attachments?.attachments?.length > 0
+                ? attachments?.attachments?.length + " files"
+                : " Drag or choose your file to upload PDF or Image (Max 10MB)"
+            }
+            label="Attachments"
+            handleUpload={(files) => handleUploadClick(files, "attachments")}
+          />
+        </div>
+
+        {/* <div className="flex items-stretch h-fit gap-4">
           <div className="w-2/3 flex flex-col gap-4">
             <label className="text-sm font-thin  leading-[16px]" htmlFor="">
               Attachment 1
@@ -272,7 +307,7 @@ const ArtistInformation: React.FC<Props> = ({
             }
             control={control}
           />
-        </div>
+        </div> */}
       </Stack>
     </FormContainer>
   );
