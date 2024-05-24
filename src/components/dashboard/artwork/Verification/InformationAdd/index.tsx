@@ -8,16 +8,16 @@ import CollectorInformation from "./CollectorInformation";
 interface Props {
   selectedInformationAdd: "artist" | "dealer" | "collector" | "institution";
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
-  defaultValues: any;
+  artPiece: any;
   artpieceId: string;
 }
 const ArtVerificationInformation: React.FC<Props> = ({
   setActiveIndex,
   selectedInformationAdd,
-  defaultValues,
+  artPiece,
   artpieceId,
 }) => {
-  console.log("This is selectedInformationAdd", selectedInformationAdd);
+  console.log("-----------This is the based -------------", artPiece);
 
   switch (selectedInformationAdd) {
     case "artist":
@@ -25,28 +25,27 @@ const ArtVerificationInformation: React.FC<Props> = ({
         <ArtistInformation
           artpieceId={artpieceId}
           setActiveIndex={setActiveIndex}
-          defaultValues={defaultValues}
+          defaultValues={artPiece?.custodian}
         />
       );
     case "dealer":
       return (
-        <DealerInformation
-          setActiveIndex={setActiveIndex}
-          defaultValues={defaultValues}
-        />
+        <DealerInformation setActiveIndex={setActiveIndex} defaultValues={{}} />
       );
     case "collector":
       return (
         <CollectorInformation
+          artpieceId={artpieceId}
           setActiveIndex={setActiveIndex}
-          defaultValues={defaultValues}
+          defaultValues={artPiece?.acquisition}
         />
       );
     case "institution":
       return (
         <InstitutionInformation
+          artpieceId={artpieceId}
           setActiveIndex={setActiveIndex}
-          defaultValues={defaultValues}
+          defaultValues={artPiece?.institution}
         />
       );
     default:

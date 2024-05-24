@@ -23,7 +23,6 @@ export default function CollectorInfo({
   setActiveIndex,
   defaultValues,
 }) {
-  console.log(defaultValues);
   const axiosAuth = useAxiosAuth();
   const metadataSchema = object({
     date: string().nonempty("Date is required"),
