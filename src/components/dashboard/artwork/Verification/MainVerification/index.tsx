@@ -98,6 +98,8 @@ function MainVerification({ artPiece }: Props) {
                 artPiece={artPiece}
                 selectedInformationAdd={selectedInformationAdd}
                 artpieceId={artpieceId as string}
+                handleAddDealerStep={handleAddDealerStep}
+                handleRemoveDealerStep={handleRemoveDealerStep}
                 // setSelectedInformationAdd={setSelectedInformationAdd}
               />,
               <ArtVerificationPreview

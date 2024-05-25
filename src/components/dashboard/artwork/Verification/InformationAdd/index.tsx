@@ -10,19 +10,23 @@ interface Props {
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
   artPiece: any;
   artpieceId: string;
+  handleAddDealerStep: () => void;
+  handleRemoveDealerStep: () => void;
 }
 const ArtVerificationInformation: React.FC<Props> = ({
   setActiveIndex,
   selectedInformationAdd,
   artPiece,
   artpieceId,
+  handleAddDealerStep,
+  handleRemoveDealerStep,
 }) => {
-  console.log("-----------This is the based -------------", artPiece);
-
   switch (selectedInformationAdd) {
     case "artist":
       return (
         <ArtistInformation
+          handleAddDealerStep={handleAddDealerStep}
+          handleRemoveDealerStep={handleRemoveDealerStep}
           artpieceId={artpieceId}
           setActiveIndex={setActiveIndex}
           defaultValues={artPiece?.custodian}
