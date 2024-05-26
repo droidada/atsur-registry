@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import Image from "next/image";
 import React from "react";
 interface Props {
-  selectedInformationAdd: "artist" | "dealer" | "collector" | "institution";
+  selectedInformationAdd: "artist" | "broker" | "collector" | "institution";
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
   defaultValues: any;
   artpieceId: string;

@@ -68,8 +68,6 @@ const CommisionSplit = ({
     // checkPercentError();
   }, [JSON.stringify(percentages)]);
 
-  console.log(defaultValues);
-
   useEffect(() => {
     if (defaultValues) {
       setUsers(defaultValues.map((user) => user.userInfo));

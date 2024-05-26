@@ -1,9 +1,11 @@
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import useDebounce from "@/hooks/useDebounce";
+import { axiosAuth } from "@/lib/axios";
+import { useToast } from "@/providers/ToastProvider";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Autocomplete,
   Button,
-  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -13,52 +15,51 @@ import {
 } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
-import { object, string, number, TypeOf } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { TypeOf, object, string } from "zod";
 import InputField from "../Form/InputField";
-import { useToast } from "@/providers/ToastProvider";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 interface Props {
-  setSelectedOrg: React.Dispatch<React.SetStateAction<any>>;
-  selectedOrg: any;
-  defaultValues?: any;
-  isUserOrg?: boolean;
+  selectedUsers: any;
+  setSelectedUsers: React.Dispatch<React.SetStateAction<any>>;
   className?: string;
-  sx?: React.CSSProperties;
   label?: string;
   labelClassName?: string;
+  isMultiple?: boolean;
 }
 
-const SeletectOrganization: React.FC<Props> = ({
-  selectedOrg,
-  setSelectedOrg,
-  isUserOrg,
+const InviteUsers: React.FC<Props> = ({
+  selectedUsers,
+  setSelectedUsers,
   className,
-  sx,
-  label,
   labelClassName,
+  label,
+  isMultiple,
 }) => {
   const axiosFetch = useAxiosAuth();
-  const [inviteOrg, setInviteOrg] = useState(false);
+  const toast = useToast();
+
   const [query, setQuery] = useState("");
+  const [openCreateDialog, setOpenCreateDialog] = useState(false);
 
   const debouncedQuery = useDebounce(query, 500);
 
-  const { data, isLoading, isError } = useQuery(
-    ["organization", debouncedQuery],
-    () =>
-      isUserOrg
-        ? axiosFetch
-            .get(`/org/user-orgs?q=${debouncedQuery}`)
-            .then((res) => res.data)
-        : axiosFetch.get(`/org/list?q=${debouncedQuery}`),
+  const {
+    data: users,
+    isLoading,
+    isError,
+  } = useQuery(
+    ["users", debouncedQuery],
+    () => axiosFetch.get(`/user/search?q=${debouncedQuery}`),
+
     {
       // enabled: debouncedQuery.length > 0,
       // staleTime: 1000 * 60 * 60 * 24,
     },
   );
-  console.log(isLoading);
+
+  console.log(users);
 
   return (
     <div className={`flex w-full flex-col text-base gap-2 ${className}`}>
@@ -69,14 +70,20 @@ const SeletectOrganization: React.FC<Props> = ({
       )}
 
       <Autocomplete
-        className="h-[40px] bg-white focus:border-none focus:outline-none"
-        ListboxProps={{
-          className: " bg-white focus:border-none focus:outline-none",
+        sx={{ border: "none" }}
+        multiple={isMultiple}
+        className=" bg-white focus:border-none focus:outline-none"
+        size="small"
+        // ListboxProps={{
+        //   className: " bg-white focus:border-none focus:outline-none",
+        // }}
+        value={selectedUsers}
+        onChange={(event, value) => {
+          console.log(value);
+          setSelectedUsers(value);
         }}
-        value={selectedOrg}
-        onChange={(event, value) => setSelectedOrg(value)}
-        options={data?.data?.data || []}
-        getOptionLabel={(option) => option?.name || ""}
+        options={users?.data?.users || []}
+        getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
         loading={isLoading}
         onInputChange={(event, value) => setQuery(value)}
         renderInput={(params) => (
@@ -88,60 +95,47 @@ const SeletectOrganization: React.FC<Props> = ({
             }}
             InputProps={{
               ...params.InputProps,
-              // endAdornment: (
-              //   <>
-              //     {isLoading ? (
-              //       <CircularProgress
-              //         color="inherit"
-              //         size={20}
-              //         style={{ marginLeft: 10 }}
-              //       />
-              //     ) : null}
-              //     {params.InputProps.endAdornment}
-              //   </>
-              // ),
             }}
           />
         )}
         noOptionsText={
           <div>
-            <p className="text-xs text-gray-400">No Organization Found</p>
+            <p className="text-xs text-gray-400">No User Found</p>
             <Button
-              onClick={() => setInviteOrg(true)}
+              onClick={() => setOpenCreateDialog(true)}
               className="bg-primary text-xs font-[400] text-white"
             >
-              Invite Organization
+              Invite user
             </Button>
           </div>
         }
       />
-
-      <AddOrganization
-        setSelectedOrg={setSelectedOrg}
-        open={inviteOrg}
-        onClose={() => setInviteOrg(false)}
+      <CreateNewUser
+        open={openCreateDialog}
+        onClose={() => setOpenCreateDialog(false)}
+        setSelectedUsers={setSelectedUsers}
       />
     </div>
   );
 };
 
-export default SeletectOrganization;
+export default InviteUsers;
 
-interface AddOrganizationProps {
+interface CreateNewUserProps {
   open: boolean;
   onClose: () => void;
-  setSelectedOrg: React.Dispatch<React.SetStateAction<any>>;
+  setSelectedUsers: React.Dispatch<React.SetStateAction<any>>;
 }
 
-const AddOrganization: React.FC<AddOrganizationProps> = ({
+const CreateNewUser: React.FC<CreateNewUserProps> = ({
   open,
   onClose,
-  setSelectedOrg,
+  setSelectedUsers,
 }) => {
   const organizationSchema = object({
-    email: string().email(),
-    name: string(),
-    address: string(),
+    firstName: string().nonempty("Artist first name is required"),
+    lastName: string().nonempty("Artist last name is required"),
+    email: string().email().nonempty("Artist email is required"),
   });
 
   const toast = useToast();
@@ -158,13 +152,12 @@ const AddOrganization: React.FC<AddOrganizationProps> = ({
   });
 
   const onSubmit: SubmitHandler<Metadata> = async (data) => {
-    setSelectedOrg({
-      name: data.name,
-      email: data.email,
-    });
-    onClose();
+    setSelectedUsers((prev) => ({
+      ...prev,
+      ...data,
+    }));
     reset();
-    toast.success("Organization Added Successfully");
+    onClose();
   };
 
   return (
@@ -180,8 +173,36 @@ const AddOrganization: React.FC<AddOrganizationProps> = ({
       open={open}
       onClose={onClose}
     >
-      <DialogTitle>Invite Organization</DialogTitle>
+      <DialogTitle>Invite User </DialogTitle>
       <DialogContent className="flex flex-col gap-2" dividers>
+        <InputField
+          label="First Name"
+          id=""
+          type="text"
+          placeholder=""
+          name="firstName"
+          labelClassName="font-thin"
+          inputClassName="bg-secondary w-full  "
+          aria-required={true}
+          fullWidth
+          error={!!errors["firstName"]}
+          helperText={errors["firstName"] ? errors["firstName"].message : ""}
+          control={control}
+        />
+        <InputField
+          label="Last Name"
+          id=""
+          type="text"
+          placeholder=""
+          name="lastName"
+          labelClassName="font-thin"
+          inputClassName="bg-secondary w-full  "
+          aria-required={true}
+          fullWidth
+          error={!!errors["lastName"]}
+          helperText={errors["lastName"] ? errors["lastName"].message : ""}
+          control={control}
+        />
         <InputField
           label="Email"
           id="email"
@@ -196,34 +217,6 @@ const AddOrganization: React.FC<AddOrganizationProps> = ({
           helperText={errors["email"] ? errors["email"].message : ""}
           control={control}
         />
-        <InputField
-          label="Organization Name"
-          id="name"
-          type="text"
-          placeholder=""
-          name="name"
-          labelClassName="font-thin"
-          inputClassName="bg-secondary w-full  "
-          aria-required={true}
-          fullWidth
-          error={!!errors["name"]}
-          helperText={errors["name"] ? errors["name"].message : ""}
-          control={control}
-        />
-        <InputField
-          label="Organization Address"
-          id="address"
-          type="text"
-          placeholder=""
-          name="address"
-          labelClassName="font-thin"
-          inputClassName="bg-secondary w-full  "
-          aria-required={true}
-          fullWidth
-          error={!!errors["address"]}
-          helperText={errors["address"] ? errors["address"].message : ""}
-          control={control}
-        />
       </DialogContent>
       <DialogActions>
         <Button variant="outlined" onClick={onClose}>
@@ -234,7 +227,7 @@ const AddOrganization: React.FC<AddOrganizationProps> = ({
           className="bg-primary"
           onClick={handleSubmit(onSubmit)}
         >
-          Send Invitation
+          Send Invite
         </Button>
       </DialogActions>
     </Dialog>

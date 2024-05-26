@@ -6,7 +6,7 @@ import InstitutionInformation from "./InstitutionInformation";
 import CollectorInformation from "./CollectorInformation";
 
 interface Props {
-  selectedInformationAdd: "artist" | "dealer" | "collector" | "institution";
+  selectedInformationAdd: "artist" | "broker" | "collector" | "institution";
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
   artPiece: any;
   artpieceId: string;
@@ -32,9 +32,13 @@ const ArtVerificationInformation: React.FC<Props> = ({
           defaultValues={artPiece?.custodian}
         />
       );
-    case "dealer":
+    case "broker":
       return (
-        <DealerInformation setActiveIndex={setActiveIndex} defaultValues={{}} />
+        <DealerInformation
+          artPieceId={artpieceId}
+          setActiveIndex={setActiveIndex}
+          defaultValues={{}}
+        />
       );
     case "collector":
       return (

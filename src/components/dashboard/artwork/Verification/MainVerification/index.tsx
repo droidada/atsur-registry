@@ -17,12 +17,12 @@ function MainVerification({ artPiece }: Props) {
   ]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedInformationAdd, setSelectedInformationAdd] = useState<
-    "artist" | "dealer" | "collector" | "institution"
+    "artist" | "broker" | "collector" | "institution"
   >("artist");
   const { id: artpieceId } = useRouter().query;
 
   const handleAddDealerStep = () => {
-    setSteps(["aquistion", "information add", "Dealer Info", "Preview"]);
+    setSteps(["aquistion", "information add", "Broker Info", "Preview"]);
   };
 
   const handleRemoveDealerStep = () => {
@@ -33,7 +33,7 @@ function MainVerification({ artPiece }: Props) {
     if (artPiece?.acquisition) {
       setSelectedInformationAdd("collector");
     } else if (artPiece?.custodian) {
-      setSelectedInformationAdd("dealer");
+      setSelectedInformationAdd("broker");
     } else if (artPiece?.institution) {
       setSelectedInformationAdd("institution");
     } else {
