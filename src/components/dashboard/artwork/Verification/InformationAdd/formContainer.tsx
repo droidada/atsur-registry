@@ -5,7 +5,7 @@ import React from "react";
 interface Props {
   saveIsLoading?: boolean;
   publishIsLoading?: boolean;
-  onSubmit: () => void;
+  onSubmit: React.FormEventHandler<HTMLFormElement>;
   title: string;
   children?: React.ReactNode;
   buttonTitle?: string;
