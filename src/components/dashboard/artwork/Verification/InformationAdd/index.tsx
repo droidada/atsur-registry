@@ -6,47 +6,54 @@ import InstitutionInformation from "./InstitutionInformation";
 import CollectorInformation from "./CollectorInformation";
 
 interface Props {
-  selectedInformationAdd: "artist" | "dealer" | "collector" | "institution";
+  selectedInformationAdd: "artist" | "broker" | "collector" | "institution";
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
-  defaultValues: any;
+  artPiece: any;
   artpieceId: string;
+  handleAddDealerStep: () => void;
+  handleRemoveDealerStep: () => void;
 }
 const ArtVerificationInformation: React.FC<Props> = ({
   setActiveIndex,
   selectedInformationAdd,
-  defaultValues,
+  artPiece,
   artpieceId,
+  handleAddDealerStep,
+  handleRemoveDealerStep,
 }) => {
-  console.log("This is selectedInformationAdd", selectedInformationAdd);
-
   switch (selectedInformationAdd) {
     case "artist":
       return (
         <ArtistInformation
+          handleAddDealerStep={handleAddDealerStep}
+          handleRemoveDealerStep={handleRemoveDealerStep}
           artpieceId={artpieceId}
           setActiveIndex={setActiveIndex}
-          defaultValues={defaultValues}
+          defaultValues={artPiece?.custodian}
         />
       );
-    case "dealer":
+    case "broker":
       return (
         <DealerInformation
+          artPieceId={artpieceId}
           setActiveIndex={setActiveIndex}
-          defaultValues={defaultValues}
+          defaultValues={{}}
         />
       );
     case "collector":
       return (
         <CollectorInformation
+          artpieceId={artpieceId}
           setActiveIndex={setActiveIndex}
-          defaultValues={defaultValues}
+          defaultValues={artPiece?.acquisition}
         />
       );
     case "institution":
       return (
         <InstitutionInformation
+          artpieceId={artpieceId}
           setActiveIndex={setActiveIndex}
-          defaultValues={defaultValues}
+          defaultValues={artPiece?.institution}
         />
       );
     default:

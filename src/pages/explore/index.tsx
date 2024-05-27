@@ -18,185 +18,124 @@ import ExploreLeft from "@/components/common/ExploreLeft";
 import ArtPieceCard from "@/components/common/ArtPieceCard";
 import ArtPieceLoading from "@/components/common/ArtPieceLoading";
 import UnprotectedPage from "@/HOC/Unprotected";
+import FilterComponent from "@/components/ExplorePage/FilterComponent";
+import { IoGrid } from "react-icons/io5";
+import { IoMdMenu } from "react-icons/io";
+import { BiMenuAltLeft } from "react-icons/bi";
+import { QueryClient, useQuery } from "@tanstack/react-query";
+import ExploreArtPieceCard, {
+  ExploreArtPieceCardLoading,
+} from "@/components/ExploreArtPieceCard";
 
 function Explore() {
-  const [isBidModal, setBidModal] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const handleBidModal = () => setBidModal(!isBidModal);
-  const [activeIndex, setActiveIndex] = useState(1);
-  const [searchItem, setSearchItem] = useState("");
-  const [pieces, setPieces] = useState([]);
-  const [query, setQuery] = useState({});
-  const [verified, setVerified] = useState(false);
+  const [filters, setFilters] = useState<any>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  const [error, setError] = useState(false);
-  const [openSortedMenu, setOpenSortedMenu] = useState(false);
+  const [currentQuickView, setCurrentQuickView] = useState("all");
 
-  const handleSearch = (e) => {
-    const searchTerm = e.target.value;
-    setSearchItem(searchTerm);
-    if (!searchTerm || searchTerm === "") return;
-  };
+  const {
+    data: artpieces,
+    isFetching,
+    refetch,
+  } = useQuery(
+    ["artpiece", currentPage, filters],
+    () => axios.get(`/public/explore?page=${currentPage}`),
+    { keepPreviousData: true, refetchOnWindowFocus: false },
+  );
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (searchItem) {
-      setCurrentPage(1);
-      setQuery((prev) => ({
-        ...prev,
-        search: searchItem,
-      }));
-    }
-    return;
-  };
-
-  console.log(pieces);
-
-  const generateQuery = () => {
-    let q = "";
-    for (let key in query) {
-      if (key === "filter") {
-        q += `&filter=${JSON.stringify(query[key])}`;
-      } else {
-        q += `&${key}=${query[key]}`;
-      }
-    }
-    return q;
-  };
-
-  const filterPieces = async () => {
-    try {
-      setLoading(true);
-      const res = await axios.get(
-        `/public/explore?page=${currentPage}${generateQuery()}`,
-      );
-
-      setCurrentPage(res?.data?.meta?.currentPage);
-      setTotalPages(res?.data?.meta?.totalPages);
-      // setPieces((prev) =>
-      //   removeDuplicates([...prev, res?.data?.artPieces], "_id").flat(),
-      // );
-      setPieces(res?.data?.artPieces);
-    } catch (error) {
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    filterPieces();
-  }, [JSON.stringify(query), currentPage]);
+  console.log(artpieces);
 
   return (
     <>
-      {/* <Layout headerStyle={2} footerStyle={1} currentMenuItem={"explore"}>
-        <div>
-          <div className="flat-title-page">
-            <div className="themesflat-container">
-              <div className="row">
-                <div className="col-12">
-                  <h1 className="heading text-center tf-color">
-                    Explore Art Pieces
-                  </h1>
-                  <ul className="breadcrumbs flex justify-center">
-                    <li className="icon-keyboard_arrow_right">
-                      <Link className="to-black" href="/">
-                        Home
-                      </Link>
-                    </li>
-                    <li>
-                      <Link className="to-black" href="#">
-                        Explore
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-                <div className="col-12">
-                  <div
-                    data-wow-delay="0.2s"
-                    className="wow fadeInUp widget-search"
-                    style={{ marginTop: "20px" }}
-                  >
-                    <form
-                      onSubmit={handleSubmit}
-                      action="#"
-                      method="get"
-                      role="search"
-                      className="search-form relative"
-                    >
-                      <input
-                        type="search"
-                        id="search"
-                        className="search-field style-2"
-                        placeholder="Search..."
-                        name="s"
-                        title="Search for"
-                        value={searchItem}
-                        onChange={handleSearch}
-                      />
-                      <button
-                        className="search search-submit"
-                        type="submit"
-                        title="Search"
-                      >
-                        <i className="icon-search" />
-                      </button>
-                    </form>
-                  </div>
-                </div>
-              </div>
+      <div className="flex items-center relative border-b-[1px]  ">
+        <div className="page-container flex  items-center gap-5 pb-6">
+          {["all", "trending", "collectibles", "art", "photography"].map(
+            (item, index) => (
+              <p
+                onClick={() => setCurrentQuickView(item)}
+                key={`quick-view-${index}`}
+                className={`text-[15px] capitalize relative cursor-pointer duration-700 leading-[15px] text-center ${
+                  item === currentQuickView ? "font-bold" : "font-[300]"
+                }`}
+              >
+                {item}
+                {item === currentQuickView && (
+                  <span className="w-full z-10 h-[2px] bg-primary absolute -bottom-[180%] left-0"></span>
+                )}
+              </p>
+            ),
+          )}
+        </div>
+      </div>
+      <div className="flex gap-12">
+        <FilterComponent filters={filters} setFilter={setFilters} />
+        <div className="flex-1 page-container flex flex-col gap-5 pt-12">
+          <div className="flex items-center justify-end gap-4">
+            <div className="flex gap-2 h-[34px] border-primary border-[1px] rounded-[47px] px-2">
+              <Button
+                startIcon={<IoGrid />}
+                variant="text"
+                className="text-xs font-[300] leading-[15px]"
+              >
+                Grid
+              </Button>
+              <span className="h-full w-[1px] bg-primary" />
+              <Button
+                startIcon={<IoMdMenu />}
+                variant="text"
+                className="text-xs font-[300] leading-[15px]"
+              >
+                List
+              </Button>
+            </div>
+            <div className="flex gap-2 h-[34px] border-primary border-[1px] rounded-[47px] px-2">
+              <Button
+                className="text-xs font-[300] leading-[15px]"
+                startIcon={<BiMenuAltLeft />}
+              >
+                High to Low
+              </Button>
             </div>
           </div>
-          <div className="tf-section-2 artwork loadmore-12-item-1">
-            <div className="themesflat-container">
-              <div className="row">
-                <div className="col-md-3">
-                  <ExploreLeft setQuery={setQuery} />
-                </div>
-                <div className="col-md-9">
-                  <div className="grid grid-cols-3 gap-4">
-                    {loading
-                      ? [...Array(4)].map((_, i) => <ArtPieceLoading key={i} />)
-                      : pieces?.map((piece) => (
-                          <ArtPieceCard
-                            key={piece._id}
-                            image={piece?.assets[0].url}
-                            title={piece?.title}
-                            link={`/explore/art-piece/${piece._id}`}
-                            rating={piece?.rating}
-                            user={{
-                              firstName: piece?.custodian?.profile?.firstName,
-                              lastName: piece?.custodian?.profile?.lastName,
-                              avatar: piece?.custodian?.profile?.avatar,
-                              id: piece?.creator?._id,
-                            }}
-                          />
-                        ))}
-                    {!loading && pieces?.length === 0 && (
-                      <div className="h-full grid w-full place-items-center">
-                        <Typography variant="h3" component="div">
-                          No art pieces found
-                        </Typography>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
+
+          <div className="grid grid-cols-auto-fit gap-4">
+            {isFetching ? (
+              Array(10)
+                .fill(null)
+                .map((item, index) => (
+                  <ExploreArtPieceCardLoading key={index} />
+                ))
+            ) : artpieces?.data?.artpieces?.length === 0 ? (
+              <div className="w-full col-span-full"> No Data Found</div>
+            ) : (
+              artpieces?.data?.artPieces?.map((artpiece) => (
+                <ExploreArtPieceCard
+                  link={`/explore/art-piece/${artpiece?._id}`}
+                  rating={artpiece?.rating}
+                  creator={{
+                    name: `${artpiece?.custodian?.profile?.firstName} ${artpiece?.custodian?.profile?.lastName}`,
+                    image: artpiece?.custodian?.profile?.avatar,
+                  }}
+                  image={artpiece?.assets && artpiece?.assets[0]?.url}
+                  key={artpiece?.id}
+                  title={artpiece?.title}
+                />
+              ))
+            )}
           </div>
-          <div className="flex justify-center py-4">
+
+          <div className="flex justify-center mt-12">
             <Pagination
-              count={totalPages}
-              onChange={(event, value) => {
+              count={artpieces?.data?.meta?.totalPages}
+              page={currentPage}
+              onChange={(e, value) => {
                 setCurrentPage(value);
+                refetch();
+                window.scrollTo(0, 0);
               }}
             />
           </div>
         </div>
-        <BidModal handleBidModal={handleBidModal} isBidModal={isBidModal} />
-      </Layout> */}
+      </div>
     </>
   );
 }

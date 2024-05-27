@@ -21,6 +21,9 @@ interface DateInputProps {
   error?: boolean;
   className?: string;
   inputClassName?: string;
+  labelClassName?: string;
+  maxDate?: string;
+  minDate?: string;
 }
 
 const DateInput: React.FC<DateInputProps> = ({
@@ -37,6 +40,9 @@ const DateInput: React.FC<DateInputProps> = ({
   error,
   className,
   inputClassName,
+  labelClassName,
+  maxDate,
+  minDate,
 }) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -49,7 +55,7 @@ const DateInput: React.FC<DateInputProps> = ({
           fieldState: { error: fieldError },
         }) => (
           <div className={`flex flex-col text-base gap-2 ${className}`}>
-            <label htmlFor={id} className="font-semibold">
+            <label htmlFor={id} className={`font-semibold ${labelClassName}`}>
               {label} {required ? "*" : ""}
             </label>
             <MuiDatePicker
@@ -57,6 +63,8 @@ const DateInput: React.FC<DateInputProps> = ({
               onChange={(newValue) =>
                 onChange(newValue?.format("YYYY-MM-DD").toString())
               }
+              maxDate={maxDate ? dayjs(maxDate) : null}
+              minDate={minDate ? dayjs(minDate) : null}
               // @ts-ignore
               renderInput={(params) => (
                 <TextField

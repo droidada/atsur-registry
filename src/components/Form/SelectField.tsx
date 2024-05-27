@@ -20,6 +20,7 @@ interface Props {
   children: React.ReactNode;
   selectClassName?: string;
   defaultValue?: any;
+  className?: string;
 }
 
 const SelectField: React.FC<Props> = ({
@@ -40,6 +41,7 @@ const SelectField: React.FC<Props> = ({
   selectClassName,
   control,
   defaultValue,
+  className,
   ...props
 }) => {
   const {
@@ -53,7 +55,7 @@ const SelectField: React.FC<Props> = ({
   });
 
   return (
-    <div className="flex w-full flex-col text-base gap-2">
+    <div className={`flex w-full flex-col text-base gap-2 ${className}`}>
       {label && (
         <label htmlFor={label} className={` font-semibold ${labelClassName}`}>
           {label} {isRequired ? "*" : ""}

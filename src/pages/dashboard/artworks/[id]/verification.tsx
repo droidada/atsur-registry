@@ -28,6 +28,7 @@ import ArtVerificationInformation from "@/components/dashboard/artwork/Verificat
 import MainVerification from "@/components/dashboard/artwork/Verification/MainVerification";
 import VerificationAccepted from "@/components/dashboard/artwork/Verification/VerificationAccepted";
 import VerificationRejected from "@/components/dashboard/artwork/Verification/VerificationRejected";
+import VerificationPending from "@/components/dashboard/artwork/Verification/VerificationPending";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -36,13 +37,13 @@ export const getServerSideProps = async ({ req, query }) => {
       req,
       secret: process.env.NEXTAUTH_SECRET,
     });
-    const res = await axios.get(`/art-piece/${id}`, {
+    const res = await axios.get(`/verify-artpiece/saved/${id}`, {
       headers: { authorization: `Bearer ${token?.accessToken}` },
     });
 
     console.log(res.data);
 
-    return { props: { artPiece: res.data.artPiece } };
+    return { props: { artPiece: res.data?.data } };
   } catch (error) {
     console.error("error here looks like ", error);
     if (error?.response?.status === 404) {
@@ -56,16 +57,15 @@ export const getServerSideProps = async ({ req, query }) => {
 
 function Verification({ artPiece }) {
   console.log(artPiece);
-  const [verificationStatus, setVerificationStatus] = useState(
-    artPiece.verification?.status,
-  );
 
   return (
     <>
-      {verificationStatus === "pending" || verificationStatus === "draft" ? (
+      {artPiece?.status === "draft" ? (
         <MainVerification artPiece={artPiece} />
-      ) : verificationStatus === "verified" ? (
+      ) : artPiece?.status === "verified" ? (
         <VerificationAccepted artPiece={artPiece} />
+      ) : artPiece?.status === "pending" ? (
+        <VerificationPending artPiece={artPiece} />
       ) : (
         <VerificationRejected artPiece={artPiece} />
       )}

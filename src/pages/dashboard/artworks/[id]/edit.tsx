@@ -67,7 +67,7 @@ function EditArtpiece({ artPiece }) {
   return (
     <Stack spacing={4}>
       <h1 className="font-semibold text-2xl lg:text-[30px] lg:leading-[40px]">
-        Create Artwork
+        Edit Artwork
       </h1>
       <Stack direction={"row"} className="overflow-x-auto " spacing={2}>
         {["illustration", "Assets", "Preview"].map((item, index) => (

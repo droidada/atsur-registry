@@ -28,6 +28,7 @@ const AdminAllArtworks = () => {
       ),
     {
       keepPreviousData: true,
+      refetchOnWindowFocus: false,
       onSuccess: () => {
         console.log(artworks?.data?.meta?.totalPages);
         if (currentPage < artworks?.data?.meta?.totalPages) {
