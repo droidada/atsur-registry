@@ -5,14 +5,14 @@ import React from "react";
 interface Props {
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
   setSelectedInformationAdd: React.Dispatch<
-    React.SetStateAction<"artist" | "dealer" | "collector" | "institution">
+    React.SetStateAction<"artist" | "broker" | "collector" | "institution">
   >;
-  selectedInformationAdd: "artist" | "dealer" | "collector" | "institution";
+  selectedInformationAdd: "artist" | "broker" | "collector" | "institution";
 }
 
 const informationToAdd = [
   { title: "Artist", value: "artist", image: "/images/artist.png" },
-  { title: "Dealer", value: "dealer", image: "/images/dealer.png" },
+  { title: "Broker", value: "broker", image: "/images/dealer.png" },
   { title: "Collector", value: "collector", image: "/images/collector.png" },
   {
     title: "Institution",

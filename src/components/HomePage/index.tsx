@@ -11,7 +11,6 @@ interface Props {
   pageData: IHomepageData;
 }
 const HomePage: React.FC<Props> = ({ pageData }) => {
-  console.log(pageData);
   return (
     <>
       <HeroSection />

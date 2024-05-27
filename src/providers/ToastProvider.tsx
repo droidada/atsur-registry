@@ -23,7 +23,7 @@ export const ToastProvider = ({ children }) => {
         containerClassName=""
         containerStyle={{ width: "100%" }}
         toastOptions={{
-          className: "text-2xl",
+          className: "text-sm",
           style: {
             border: "1px solid #A4442B",
             padding: "16px",

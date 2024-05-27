@@ -1,13 +1,15 @@
 import { Stack } from "@mui/material";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ArtVerificationAquisition from "../Aquisition";
 import ArtVerificationInformation from "../InformationAdd";
+import ArtVerificationPreview from "../Preview";
 
 interface Props {
   artPiece: any;
 }
 function MainVerification({ artPiece }: Props) {
+  console.log(artPiece?.acquisition);
   const [steps, setSteps] = useState([
     "aquistion",
     "information add",
@@ -15,17 +17,39 @@ function MainVerification({ artPiece }: Props) {
   ]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedInformationAdd, setSelectedInformationAdd] = useState<
-    "artist" | "dealer" | "collector" | "institution"
+    "artist" | "broker" | "collector" | "institution"
   >("artist");
   const { id: artpieceId } = useRouter().query;
 
   const handleAddDealerStep = () => {
-    setSteps(["aquistion", "information add", "Dealer Info", "Preview"]);
+    setSteps(["aquistion", "information add", "Broker Info", "Preview"]);
   };
 
   const handleRemoveDealerStep = () => {
     setSteps(["aquistion", "information add", "Preview"]);
   };
+
+  useEffect(() => {
+    if (artPiece?.acquisition) {
+      setSelectedInformationAdd("collector");
+    } else if (artPiece?.custodian) {
+      setSelectedInformationAdd("broker");
+    } else if (artPiece?.institution) {
+      setSelectedInformationAdd("institution");
+    } else {
+      setSelectedInformationAdd("artist");
+    }
+    if (
+      artPiece?.acquisition ||
+      artPiece?.custodian ||
+      artPiece?.institution ||
+      artPiece?.dealer
+    ) {
+      setActiveIndex(2);
+    } else {
+      setActiveIndex(0);
+    }
+  }, [artPiece]);
 
   return (
     <>
@@ -71,10 +95,19 @@ function MainVerification({ artPiece }: Props) {
               <ArtVerificationInformation
                 key={1}
                 setActiveIndex={setActiveIndex}
+                artPiece={artPiece}
+                selectedInformationAdd={selectedInformationAdd}
+                artpieceId={artpieceId as string}
+                handleAddDealerStep={handleAddDealerStep}
+                handleRemoveDealerStep={handleRemoveDealerStep}
+                // setSelectedInformationAdd={setSelectedInformationAdd}
+              />,
+              <ArtVerificationPreview
+                key={2}
+                setActiveIndex={setActiveIndex}
                 defaultValues={{}}
                 selectedInformationAdd={selectedInformationAdd}
                 artpieceId={artpieceId as string}
-                // setSelectedInformationAdd={setSelectedInformationAdd}
               />,
             ][activeIndex]
           }
