@@ -9,6 +9,8 @@ import { useSession } from "next-auth/react";
 import { useToast } from "@/providers/ToastProvider";
 import { LoadingButton } from "@mui/lab";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import numeral from "numeral";
 
 interface PricingCardProps {
   title: string;
@@ -68,19 +70,19 @@ const PricingCard: React.FC<PricingCardProps> = ({
   console.log("This is the features", features);
 
   return (
-    <div className="max-w-[348.19px] w-full border-[1px] border-primary flex flex-col">
+    <div className="max-w-[448.19px] w-full border-[1px] border-primary flex flex-col">
       <div className="bg-white flex flex-col items-center gap-8 px-8 py-10">
         <p className="uppercase text-[15px] leading-[18px] tracking-[40%] text-center text-primary font-[600]">
           {isFree ? "Free Service" : title}
         </p>
         {isFree ? (
-          <h4 className="font-bold text-2xl lg:text-[60px] lg:leading-[65px]">
+          <h4 className="font-bold text-2xl lg:text-[40px] lg:leading-[45px]">
             Free
           </h4>
         ) : (
           <div className="flex place-items-baseline">
-            <h4 className="font-bold text-2xl lg:text-[60px] lg:leading-[65px]">
-              ${priceInfo?.amount}
+            <h4 className="font-bold text-2xl lg:text-[40px] lg:leading-[45px]">
+              ₦{numeral(priceInfo?.amount).format("0,0")}
             </h4>
             <span className="text-[11px] capitalize leading-[14px] tracking-[5%]">
               / {interval}
@@ -88,18 +90,20 @@ const PricingCard: React.FC<PricingCardProps> = ({
           </div>
         )}
 
-        <LoadingButton
-          loading={isLoading}
-          loadingPosition="start"
+        <Button
           onClick={() => mutate()}
-          className={`text-sm font-[400] px-3 ${
+          className={`text-sm font-[400] h-[36px] w-[150.49px] px-3 ${
             isGreenButton
               ? "bg-[#00FF94] text-primary"
               : "bg-primary text-white"
           }`}
         >
-          Get Started
-        </LoadingButton>
+          {isLoading ? (
+            <AiOutlineLoading3Quarters className="animate-spin" />
+          ) : (
+            "Get Started"
+          )}
+        </Button>
       </div>
       <div className="bg-primary flex-1 flex flex-col items-start gap-4 px-8 py-10">
         {features?.map((feature) => (
@@ -110,7 +114,7 @@ const PricingCard: React.FC<PricingCardProps> = ({
               className="flex-shrink-0"
             />
             <span className="text-white text-[14px] leading-[27px] tracking-[5%]">
-              {feature}
+              {feature} {interval === "annually" && ` (per month)`}
             </span>
           </div>
         ))}

@@ -13,7 +13,7 @@ interface Props {
     id: number;
     prices: {
       amount: number;
-      interval: "monthly" | "quarterly" | "annually";
+      interval: "monthly" | "annually";
       planCode: string;
     }[];
     name: string;
@@ -24,7 +24,7 @@ interface Props {
 }
 const PriceSection: React.FC<Props> = ({ plans }) => {
   const [currentInterval, setCurrentInterval] = useState<
-    "monthly" | "quarterly" | "annually"
+    "monthly" | "annually"
   >("monthly");
 
   console.log("This is the plans -----:", plans);
@@ -50,11 +50,11 @@ const PriceSection: React.FC<Props> = ({ plans }) => {
 
   return (
     <section className="mt-10 md:mt-5 py-10 sm:py-16 md:py-12 flex gap-4 flex-col items-center">
-      <div className=" flex overflow-x-auto bg-secondary max-w-[600px] w-full  p-4 relative">
-        {["monthly", "quarterly", "annually"].map((interval) => (
+      <div className=" flex overflow-x-auto bg-secondary    p-4 relative">
+        {["monthly", "annually"].map((interval) => (
           <Button
             key={interval}
-            className={`max-w-[183px] px-2 w-[50%] whitespace-nowrap flex-shrink-0 h-[47px] capitalize text-[16px] leading-[14px] font-[400]  ${
+            className={`max-w-[183px] px-4 w-fit  whitespace-nowrap flex-shrink-0 h-[47px] capitalize text-[16px] leading-[14px] font-[400]  ${
               interval == currentInterval
                 ? "bg-black text-white"
                 : "bg-transparent text-black"
