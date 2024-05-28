@@ -11,6 +11,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/providers/ToastProvider";
 import { useRouter } from "next/router";
 import { LoadingButton } from "@mui/lab";
+import numeral from "numeral";
 
 export const getServerSideProps = async ({ req, params }) => {
   try {
@@ -26,17 +27,24 @@ export const getServerSideProps = async ({ req, params }) => {
 
     console.log(res.data);
 
-    return { props: { paymentDetails: res.data?.payment } };
+    return {
+      props: {
+        paymentDetails: res.data?.payment,
+        credits: res.data?.credits,
+        invoice: res.data?.invoice,
+      },
+    };
   } catch (error) {
     console.log(error?.response?.data);
     throw new Error(error);
   }
 };
 
-const Billing = ({ paymentDetails }) => {
+const Billing = ({ paymentDetails, credits, invoice }) => {
   const expiryDate = moment(
     `${paymentDetails?.card_details?.exp_year}-${paymentDetails?.card_details?.exp_month}-01`,
   );
+
   const axiosAuth = useAxiosAuth();
   const toast = useToast();
   const router = useRouter();
@@ -77,6 +85,8 @@ const Billing = ({ paymentDetails }) => {
       toast.error(errorMessage);
     },
   });
+
+  console.log(credits);
 
   return (
     <Stack spacing={2} className="divide-y-[1px] divide-secondary ">
@@ -128,11 +138,54 @@ const Billing = ({ paymentDetails }) => {
             {paymentDetails?.card_details ? "Change" : "Upgrage Plan"}
           </Button>
         </Stack>
-        <Stack className="p-2 py-4">
-          <h2 className="text-[15px] leading-[16px] font-semibold">
-            Atsur Credit
-          </h2>
-          <p className="text-xs leading-[16px]  ">You have 7 Atsur Credits</p>
+        <Stack>
+          <Stack
+            direction={"row"}
+            justifyContent={"space-between"}
+            className="p-2 py-4"
+          >
+            <div>
+              <h2 className="text-[15px] leading-[16px] font-semibold">
+                Atsur Credit
+              </h2>
+              <p className="text-xs leading-[16px]  ">
+                You have {credits?.length || 0} Atsur Credits
+              </p>
+            </div>
+            <div>
+              <h2 className="text-[15px] leading-[16px] font-semibold">
+                COA credits
+              </h2>
+              <p className="text-xs leading-[16px]  ">
+                You have {credits?.filter((c) => c.type === "coa")?.length || 0}{" "}
+                Certificate of Authencity Credits
+              </p>
+            </div>
+            <div>
+              <h2 className="text-[15px] leading-[16px] font-semibold">
+                RFID credits
+              </h2>
+              <p className="text-xs leading-[16px]  ">
+                You have{" "}
+                {credits?.filter((c) => c.type === "rfid")?.length || 0} RFID
+                Credits
+              </p>
+            </div>
+            <div>
+              <h2 className="text-[15px] leading-[16px] font-semibold">
+                QR Code credits
+              </h2>
+              <p className="text-xs leading-[16px]  ">
+                You have{" "}
+                {credits?.filter((c) => c.type === "qr-code")?.length || 0} QR
+                Code Credits
+              </p>
+            </div>
+          </Stack>
+          <p className="text-xs leading-[16px]  ">
+            The combination of RFID, COA and QR Code credits makes the total
+            atsur credits
+          </p>
         </Stack>
         <div className="p-2 py-4 grid grid-cols-3 gap-8">
           <div className="flex flex-col gap-4">
@@ -159,7 +212,7 @@ const Billing = ({ paymentDetails }) => {
                     )}
                   </p>
                   <p>
-                    N{paymentDetails?.amount / 100}/
+                    ₦{numeral(paymentDetails?.amount / 100).format("0,0")}/
                     {paymentDetails?.plan_interval}.{/* Visa **** */}
                   </p>
                 </div>
