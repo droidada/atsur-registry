@@ -1,3 +1,5 @@
+import ArtPieceCertificate from "@/components/Certificate";
+import verification from "@/pages/dashboard/artworks/[id]/verification";
 import { Button, Stack } from "@mui/material";
 import Image from "next/image";
 import React from "react";
@@ -6,9 +8,10 @@ interface Props {
   artPiece: any;
 }
 const VerificationAccepted: React.FC<Props> = ({ artPiece }) => {
+  console.log(artPiece?.artPiece);
   return (
-    <div className="flex lg:flex-nowrap justify-center items-center mt-6 flex-wrap md:gap-8">
-      <div
+    <div className="flex flex-col">
+      {/* <div
         style={{ aspectRatio: "1/1" }}
         className="relative md:w-[330px] w-[250px] bg-secondary rounded-full overflow-hidden"
       >
@@ -18,50 +21,58 @@ const VerificationAccepted: React.FC<Props> = ({ artPiece }) => {
           fill
           className="object-cover"
         />
-      </div>
-      <div className="flex lg:w-1/2 flex-col gap-4">
-        <h2 className="text-3xl text-[#4C4C4C] md:text-6xl  lg:text-8xl font-bold">
-          Verified
-        </h2>
+      </div> */}
+      <ArtPieceCertificate
+        artistName={`${artPiece?.artPiece?.custodian?.profile?.firstName} ${artPiece?.artPiece?.custodian?.profile?.lastName}`}
+        title={artPiece?.artPiece?.title}
+        type={artPiece?.artPiece?.artType}
+        yearOfCreation={new Date(artPiece?.artPiece?.createdAt)
+          .getFullYear()
+          .toString()}
+        medium={artPiece?.artPiece?.medium}
+        image={artPiece?.artPiece?.assets[0]?.url}
+        size={`${artPiece?.artPiece?.width} x ${artPiece?.artPiece?.height} CM`}
+      />
+      <div className="flex flex-col mt-4 gap-4">
         <p className="w-full   text-justify text-[17px] leading-[20px] font-[300]">
           Congratulations your artwork has been verified
         </p>
-        <div className="flex flex-wrap gap-4">
+        <div className="grid grid-cols-3 gap-2">
           <Button
             // onClick={() => setActiveIndex(0)}
             variant="contained"
-            className="w-[151px] h-[46px] text-xs leading-[13px] bg-[#00FF94] text-primary"
+            className=" h-[46px] w-full text-xs leading-[13px] bg-[#00FF94] text-primary"
           >
             Download
           </Button>
           <Button
             variant="outlined"
-            className="w-[151px] h-[46px] text-xs leading-[13px]"
+            className=" h-[46px] w-full text-xs leading-[13px]"
           >
             View Certificate
           </Button>
           <Button
             variant="outlined"
-            className="w-[151px] h-[46px] text-xs leading-[13px]"
+            className=" h-[46px] w-full text-xs leading-[13px]"
           >
             Mint to blockchain
           </Button>
 
           <Button
             variant="outlined"
-            className="w-[151px] h-[46px] text-xs leading-[13px]"
+            className=" h-[46px] w-full text-xs leading-[13px]"
           >
             Order physical certificate
           </Button>
           <Button
             variant="outlined"
-            className="w-[151px] h-[46px] text-xs leading-[13px]"
+            className=" h-[46px] w-full text-xs leading-[13px]"
           >
             Order RFID Tag
           </Button>
           <Button
             variant="outlined"
-            className="w-[151px] h-[46px] text-xs leading-[13px]"
+            className=" h-[46px] w-full text-xs leading-[13px]"
           >
             Order QR Sticker
           </Button>

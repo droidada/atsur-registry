@@ -1,6 +1,15 @@
 import React from "react";
 import SettingsPages from "@/HOC/SettingPages";
-import { Button, Stack } from "@mui/material";
+import {
+  Button,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 import { RiVipCrownFill } from "react-icons/ri";
 import Link from "next/link";
 import { getToken } from "next-auth/jwt";
@@ -86,7 +95,7 @@ const Billing = ({ paymentDetails, credits, invoice }) => {
     },
   });
 
-  console.log(credits);
+  console.log(invoice);
 
   return (
     <Stack spacing={2} className="divide-y-[1px] divide-secondary ">
@@ -140,7 +149,8 @@ const Billing = ({ paymentDetails, credits, invoice }) => {
         </Stack>
         <Stack>
           <Stack
-            direction={"row"}
+            direction={{ xs: "column", md: "row" }}
+            spacing={2}
             justifyContent={"space-between"}
             className="p-2 py-4"
           >
@@ -282,9 +292,41 @@ const Billing = ({ paymentDetails, credits, invoice }) => {
             <h2 className=" text-[15px] leading-[16px] font-[600] ">
               Billing History
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            <TableContainer>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    {["Due Date", "Invoice Number", "Amount", "Status"].map(
+                      (head) => (
+                        <TableCell
+                          className="font-bold text-xs leading-[16px] text-primary"
+                          key={head}
+                        >
+                          {head}
+                        </TableCell>
+                      ),
+                    )}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {invoice?.map((invoiceData) => (
+                    <TableRow key={invoiceData?._id}>
+                      <TableCell>
+                        {moment(invoiceData?.due_date).format("DD MMM, YYYY")}
+                      </TableCell>
+                      <TableCell>{invoiceData?.invoiceNumber}</TableCell>
+                      <TableCell>
+                        ₦{numeral(invoiceData?.amount / 100).format("0,0")}
+                      </TableCell>
+                      <TableCell>{invoiceData?.status}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            {/* <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               <div className="flex flex-col gap-2">
-                <h3 className="font-bold text-xs leading-[16px]">Date</h3>
+                <h3 className="font-bold text-xs leading-[16px]">Due Date</h3>
                 <div className="flex flex-col gap-2 text-xs leading-[16px]">
                   <span>1 Aug. 2020 </span>
                   <span>23 Sept. 2020 </span>
@@ -345,7 +387,7 @@ const Billing = ({ paymentDetails, credits, invoice }) => {
                   </Link>
                 </div>
               </div>
-            </div>
+            </div> */}
           </Stack>
         )}
       </Stack>

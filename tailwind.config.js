@@ -45,7 +45,29 @@ module.exports = {
         secondary: "#D9D9D9",
         "primary-gray": "#AFADAD",
         "secondary-white": "#F3F3F3",
+        golden: "#CAAA62",
+        gold: {
+          50: "#fffaf0",
+          100: "#fef3c7",
+          200: "#fde68a",
+          300: "#fcd34d",
+          400: "#fbbf24",
+          500: "#f59e0b",
+          600: "#d97706",
+          700: "#b45309",
+          800: "#92400e",
+          900: "#78350f",
+        },
       },
+      backgroundImage: (theme) => ({
+        "gold-gradient": `linear-gradient(135deg, ${theme(
+          "colors.gold.300",
+        )} 0%, ${theme("colors.gold.500")} 25%, ${theme(
+          "colors.gold.700",
+        )} 50%, ${theme("colors.gold.500")} 75%, ${theme(
+          "colors.gold.300",
+        )} 100%)`,
+      }),
       gridTemplateColumns: {
         "auto-fit": "repeat(auto-fit, minmax(250px, 1fr))",
         "auto-fill": "repeat(auto-fill, minmax(200px, 1fr))",
@@ -88,6 +110,7 @@ module.exports = {
       fontFamily: {
         primary: [fontPrimary, fontPrimaryType],
         secondary: [fontSecondary, fontSecondaryType],
+        brawler: ["Brawler", "sans-serif"],
       },
     },
   },
