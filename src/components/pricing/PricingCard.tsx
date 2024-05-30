@@ -67,7 +67,13 @@ const PricingCard: React.FC<PricingCardProps> = ({
     setPriceInfo(prices?.find((price) => price.interval === interval));
   }, [interval]);
 
-  console.log("This is the features", features);
+  const blackLists = [
+    "Cataloguing",
+    "Documentation",
+    "Verification",
+    "Public share urls",
+    "Sales",
+  ];
 
   return (
     <div className="max-w-[448.19px] w-full border-[1px] border-primary flex flex-col">
@@ -114,7 +120,11 @@ const PricingCard: React.FC<PricingCardProps> = ({
               className="flex-shrink-0"
             />
             <span className="text-white text-[14px] leading-[27px] tracking-[5%]">
-              {feature} {interval === "annually" && ` (per month)`}
+              {feature}{" "}
+              {interval === "annually" &&
+                !isFree &&
+                !blackLists.includes(feature) &&
+                `  (monthly)`}
             </span>
           </div>
         ))}
