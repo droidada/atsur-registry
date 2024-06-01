@@ -35,16 +35,17 @@ module.exports = {
       xl: "1280px",
       "2xl": "1536px",
     },
-    container: {
-      center: true,
-      padding: "2rem",
-    },
+    // container: {
+    //   center: true,
+    //   padding: "2rem",
+    // },
     extend: {
       colors: {
         primary: "#000000",
         secondary: "#D9D9D9",
         "primary-gray": "#AFADAD",
         "secondary-white": "#F3F3F3",
+        "primary-green": "#00FF94",
         golden: "#CAAA62",
         gold: {
           50: "#fffaf0",
@@ -111,6 +112,22 @@ module.exports = {
         primary: [fontPrimary, fontPrimaryType],
         secondary: [fontSecondary, fontSecondaryType],
         brawler: ["Brawler", "sans-serif"],
+        "bodrum-sans-11": ['"Bodrum Sans 11"', "sans-serif"],
+        "bodrum-sans-10-hair": ['"Bodrum Sans 10 Hair"', "sans-serif"],
+        "bodrum-sans-12-extra-light-ita": [
+          '"Bodrum Sans 12 Extra Light Ita"',
+          "sans-serif",
+        ],
+        "bodrum-sans-13": ['"Bodrum Sans 13"', "sans-serif"],
+        "bodrum-sans-14": ['"Bodrum Sans 14"', "sans-serif"],
+        "bodrum-sans-15": ['"Bodrum Sans 15"', "sans-serif"],
+        "bodrum-sans-16": ['"Bodrum Sans 16"', "sans-serif"],
+        "bodrum-sans-17-extra-bold-ita": [
+          '"Bodrum Sans 17 Extra Bold Ita"',
+          "sans-serif",
+        ],
+        "bodrum-sans-18": ['"Bodrum Sans 18"', "sans-serif"],
+        "bodrum-sans-19": ['"Bodrum Sans 19"', "sans-serif"],
       },
     },
   },

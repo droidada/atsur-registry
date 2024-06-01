@@ -1,0 +1,260 @@
+@font-face {
+    font-family: 'Bodrum Sans 11';
+    src: url('BodrumSans-11Thin.eot');
+    src: local('Bodrum Sans 11 Thin'), local('BodrumSans-11Thin'),
+        url('BodrumSans-11Thin.eot?#iefix') format('embedded-opentype'),
+        url('BodrumSans-11Thin.woff2') format('woff2'),
+        url('BodrumSans-11Thin.woff') format('woff'),
+        url('BodrumSans-11Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bodrum Sans 10 Hair';
+    src: url('BodrumSans-10HairItalic.eot');
+    src: local('Bodrum Sans 10 Hair Italic'), local('BodrumSans-10HairItalic'),
+        url('BodrumSans-10HairItalic.eot?#iefix') format('embedded-opentype'),
+        url('BodrumSans-10HairItalic.woff2') format('woff2'),
+        url('BodrumSans-10HairItalic.woff') format('woff'),
+        url('BodrumSans-10HairItalic.ttf') format('truetype');
+    font-weight: 200;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bodrum Sans 10 Hair';
+    src: url('BodrumSans-10Hair.eot');
+    src: local('Bodrum Sans 10 Hair'), local('BodrumSans-10Hair'),
+        url('BodrumSans-10Hair.eot?#iefix') format('embedded-opentype'),
+        url('BodrumSans-10Hair.woff2') format('woff2'),
+        url('BodrumSans-10Hair.woff') format('woff'),
+        url('BodrumSans-10Hair.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bodrum Sans 12 Extra Light Ita';
+    src: url('BodrumSans-12ExtraLightItalic.eot');
+    src: local('Bodrum Sans 12 Extra Light Italic'), local('BodrumSans-12ExtraLightItalic'),
+        url('BodrumSans-12ExtraLightItalic.eot?#iefix') format('embedded-opentype'),
+        url('BodrumSans-12ExtraLightItalic.woff2') format('woff2'),
+        url('BodrumSans-12ExtraLightItalic.woff') format('woff'),
+        url('BodrumSans-12ExtraLightItalic.ttf') format('truetype');
+    font-weight: 200;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bodrum Sans 12 Extra';
+    src: url('BodrumSans-12ExtraLight.eot');
+    src: local('Bodrum Sans 12 Extra Light'), local('BodrumSans-12ExtraLight'),
+        url('BodrumSans-12ExtraLight.eot?#iefix') format('embedded-opentype'),
+        url('BodrumSans-12ExtraLight.woff2') format('woff2'),
+        url('BodrumSans-12ExtraLight.woff') format('woff'),
+        url('BodrumSans-12ExtraLight.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bodrum Sans 11';
+    src: url('BodrumSans-11ThinItalic.eot');
+    src: local('Bodrum Sans 11 Thin Italic'), local('BodrumSans-11ThinItalic'),
+        url('BodrumSans-11ThinItalic.eot?#iefix') format('embedded-opentype'),
+        url('BodrumSans-11ThinItalic.woff2') format('woff2'),
+        url('BodrumSans-11ThinItalic.woff') format('woff'),
+        url('BodrumSans-11ThinItalic.ttf') format('truetype');
+    font-weight: 100;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bodrum Sans 13';
+    src: url('BodrumSans-13Light.eot');
+    src: local('Bodrum Sans 13 Light'), local('BodrumSans-13Light'),
+        url('BodrumSans-13Light.eot?#iefix') format('embedded-opentype'),
+        url('BodrumSans-13Light.woff2') format('woff2'),
+        url('BodrumSans-13Light.woff') format('woff'),
+        url('BodrumSans-13Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bodrum Sans 13';
+    src: url('BodrumSans-13LightItalic.eot');
+    src: local('Bodrum Sans 13 Light Italic'), local('BodrumSans-13LightItalic'),
+        url('BodrumSans-13LightItalic.eot?#iefix') format('embedded-opentype'),
+        url('BodrumSans-13LightItalic.woff2') format('woff2'),
+        url('BodrumSans-13LightItalic.woff') format('woff'),
+        url('BodrumSans-13LightItalic.ttf') format('truetype');
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bodrum Sans 14';
+    src: url('BodrumSans-14Regular.eot');
+    src: local('Bodrum Sans 14 Regular'), local('BodrumSans-14Regular'),
+        url('BodrumSans-14Regular.eot?#iefix') format('embedded-opentype'),
+        url('BodrumSans-14Regular.woff2') format('woff2'),
+        url('BodrumSans-14Regular.woff') format('woff'),
+        url('BodrumSans-14Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bodrum Sans 14 Regular';
+    src: url('BodrumSans-14RegularItalic.eot');
+    src: local('Bodrum Sans 14 Regular Italic'), local('BodrumSans-14RegularItalic'),
+        url('BodrumSans-14RegularItalic.eot?#iefix') format('embedded-opentype'),
+        url('BodrumSans-14RegularItalic.woff2') format('woff2'),
+        url('BodrumSans-14RegularItalic.woff') format('woff'),
+        url('BodrumSans-14RegularItalic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bodrum Sans 15';
+    src: url('BodrumSans-15MediumItalic.eot');
+    src: local('Bodrum Sans 15 Medium Italic'), local('BodrumSans-15MediumItalic'),
+        url('BodrumSans-15MediumItalic.eot?#iefix') format('embedded-opentype'),
+        url('BodrumSans-15MediumItalic.woff2') format('woff2'),
+        url('BodrumSans-15MediumItalic.woff') format('woff'),
+        url('BodrumSans-15MediumItalic.ttf') format('truetype');
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bodrum Sans 16';
+    src: url('BodrumSans-16Bold.eot');
+    src: local('Bodrum Sans 16 Bold'), local('BodrumSans-16Bold'),
+        url('BodrumSans-16Bold.eot?#iefix') format('embedded-opentype'),
+        url('BodrumSans-16Bold.woff2') format('woff2'),
+        url('BodrumSans-16Bold.woff') format('woff'),
+        url('BodrumSans-16Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bodrum Sans 15';
+    src: url('BodrumSans-15Medium.eot');
+    src: local('Bodrum Sans 15 Medium'), local('BodrumSans-15Medium'),
+        url('BodrumSans-15Medium.eot?#iefix') format('embedded-opentype'),
+        url('BodrumSans-15Medium.woff2') format('woff2'),
+        url('BodrumSans-15Medium.woff') format('woff'),
+        url('BodrumSans-15Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bodrum Sans 17 Extra Bold Ita';
+    src: url('BodrumSans-17ExtraBoldItalic.eot');
+    src: local('Bodrum Sans 17 Extra Bold Italic'), local('BodrumSans-17ExtraBoldItalic'),
+        url('BodrumSans-17ExtraBoldItalic.eot?#iefix') format('embedded-opentype'),
+        url('BodrumSans-17ExtraBoldItalic.woff2') format('woff2'),
+        url('BodrumSans-17ExtraBoldItalic.woff') format('woff'),
+        url('BodrumSans-17ExtraBoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bodrum Sans 17 Extra';
+    src: url('BodrumSans-17ExtraBold.eot');
+    src: local('Bodrum Sans 17 Extra Bold'), local('BodrumSans-17ExtraBold'),
+        url('BodrumSans-17ExtraBold.eot?#iefix') format('embedded-opentype'),
+        url('BodrumSans-17ExtraBold.woff2') format('woff2'),
+        url('BodrumSans-17ExtraBold.woff') format('woff'),
+        url('BodrumSans-17ExtraBold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bodrum Sans 16';
+    src: url('BodrumSans-16BoldItalic.eot');
+    src: local('Bodrum Sans 16 Bold Italic'), local('BodrumSans-16BoldItalic'),
+        url('BodrumSans-16BoldItalic.eot?#iefix') format('embedded-opentype'),
+        url('BodrumSans-16BoldItalic.woff2') format('woff2'),
+        url('BodrumSans-16BoldItalic.woff') format('woff'),
+        url('BodrumSans-16BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bodrum Sans 19';
+    src: url('BodrumSans-19Black.eot');
+    src: local('Bodrum Sans 19 Black'), local('BodrumSans-19Black'),
+        url('BodrumSans-19Black.eot?#iefix') format('embedded-opentype'),
+        url('BodrumSans-19Black.woff2') format('woff2'),
+        url('BodrumSans-19Black.woff') format('woff'),
+        url('BodrumSans-19Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bodrum Sans 18';
+    src: url('BodrumSans-18HeavyItalic.eot');
+    src: local('Bodrum Sans 18 Heavy Italic'), local('BodrumSans-18HeavyItalic'),
+        url('BodrumSans-18HeavyItalic.eot?#iefix') format('embedded-opentype'),
+        url('BodrumSans-18HeavyItalic.woff2') format('woff2'),
+        url('BodrumSans-18HeavyItalic.woff') format('woff'),
+        url('BodrumSans-18HeavyItalic.ttf') format('truetype');
+    font-weight: 900;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bodrum Sans 18';
+    src: url('BodrumSans-18Heavy.eot');
+    src: local('Bodrum Sans 18 Heavy'), local('BodrumSans-18Heavy'),
+        url('BodrumSans-18Heavy.eot?#iefix') format('embedded-opentype'),
+        url('BodrumSans-18Heavy.woff2') format('woff2'),
+        url('BodrumSans-18Heavy.woff') format('woff'),
+        url('BodrumSans-18Heavy.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bodrum Sans 19';
+    src: url('BodrumSans-19BlackItalic.eot');
+    src: local('Bodrum Sans 19 Black Italic'), local('BodrumSans-19BlackItalic'),
+        url('BodrumSans-19BlackItalic.eot?#iefix') format('embedded-opentype'),
+        url('BodrumSans-19BlackItalic.woff2') format('woff2'),
+        url('BodrumSans-19BlackItalic.woff') format('woff'),
+        url('BodrumSans-19BlackItalic.ttf') format('truetype');
+    font-weight: 900;
+    font-style: italic;
+    font-display: swap;
+}
+

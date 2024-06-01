@@ -12,6 +12,7 @@ import SEO from "../../next-seo.config";
 
 // import "@rainbow-me/rainbowkit/styles.css";
 import "@/styles/globals.css";
+
 import ThemeProvider from "@/styles/theme";
 import { ProtectedLayout } from "@/components/protected-layout";
 // import Preloader from "@/open9/elements/Preloader";

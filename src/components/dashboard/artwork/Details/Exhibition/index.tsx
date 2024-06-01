@@ -128,7 +128,6 @@ const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
     },
   });
 
-  console.log(errors);
   const onSubmitHandler: SubmitHandler<ExhibitionInput> = async (values) => {
     const formData = new FormData();
     formData.append("image", exhibitionImg);
@@ -160,8 +159,6 @@ const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
       setExhibitionImg(reader.result);
     }.bind(this);
   };
-
-  console.log(errors);
 
   useEffect(() => {
     setValue("name", currentExhibition?.name || "");
