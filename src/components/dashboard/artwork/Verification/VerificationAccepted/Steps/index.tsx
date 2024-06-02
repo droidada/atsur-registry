@@ -2,6 +2,8 @@ import { Stack } from "@mui/material";
 import { useState } from "react";
 import VericationConfirmPreview from "./preview";
 import GenerateQRCode from "./generate-qrcode";
+import SignCertificate from "./sign-certificate";
+import TokenizeCertificate from "./tokenize";
 
 interface Props {
   artPiece: any;
@@ -56,6 +58,16 @@ const VerificationConfirmSteps: React.FC<Props> = ({ artPiece }) => {
             setActiveIndex={setActiveIndex}
             artPiece={artPiece}
             key={`verification-step-${2}`}
+          />,
+          <SignCertificate
+            setActiveIndex={setActiveIndex}
+            artPiece={artPiece}
+            key={`verification-step-${3}`}
+          />,
+          <TokenizeCertificate
+            setActiveIndex={setActiveIndex}
+            artPiece={artPiece}
+            key={`verification-step-${4}`}
           />,
         ][activeIndex]
       }
