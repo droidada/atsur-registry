@@ -33,6 +33,7 @@ const GenerateQRCode: React.FC<Props> = ({ artPiece, setActiveIndex }) => {
   const qrRef = useRef<QRCode>(null);
 
   const [active, setActive] = useState(0);
+
   const urlSchema = object({
     urls: array(string().url()),
   });
@@ -50,7 +51,7 @@ const GenerateQRCode: React.FC<Props> = ({ artPiece, setActiveIndex }) => {
   } = useForm<UrlInput>({
     resolver: zodResolver(urlSchema),
     defaultValues: {
-      urls: ["url"],
+      urls: ["https://"],
     },
   });
 
@@ -61,6 +62,7 @@ const GenerateQRCode: React.FC<Props> = ({ artPiece, setActiveIndex }) => {
 
       // Send to server
       console.log(pngUrl);
+      setActiveIndex((prev) => prev + 1);
     }
   };
 

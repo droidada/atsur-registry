@@ -9,6 +9,7 @@ interface Props {
   medium: string;
   size: string;
   image: string;
+  signatureImage?: string;
 }
 const ArtPieceCertificate: React.FC<Props> = ({
   title,
@@ -18,6 +19,7 @@ const ArtPieceCertificate: React.FC<Props> = ({
   medium,
   size,
   image,
+  signatureImage,
 }) => {
   return (
     <div className=" border-t-[1px] border-x-[1px] border-primary font-brawler  flex flex-col ">
@@ -50,12 +52,14 @@ const ArtPieceCertificate: React.FC<Props> = ({
         </div>
         <div className="min-w-[229.72px] w-[30%] h-[323.94px] bg-gold-gradient p-[5px]">
           <div className="w-full h-full relative bg-[#D9D9D9]">
-            <Image
-              src={image}
-              fill
-              alt=""
-              className="w-full h-full object-cover"
-            />
+            <div className="w-full h-full  relative">
+              <Image
+                src={image}
+                fill
+                alt=""
+                className="w-full h-full -bottom-10 object-cover"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -63,7 +67,16 @@ const ArtPieceCertificate: React.FC<Props> = ({
         <div className="w-[114px] h-[50px] ">{/* TODO add qrcode */}</div>
         <div className="flex flex-col  items-center">
           <h4 className="text-sm">Signed By</h4>
-          <div className="h-[50px]"></div>
+          <div className="h-[50px] w-full relative">
+            {signatureImage && (
+              <Image
+                src={signatureImage}
+                fill
+                alt=""
+                className="w-full h-full  object-cover"
+              />
+            )}
+          </div>
           <p className="text-center pt-2 px-4 text-sm border-t-[1px] font-[700] uppercase border-golden ">
             {artistName}
           </p>
