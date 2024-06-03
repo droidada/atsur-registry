@@ -15,14 +15,25 @@ import SignatureCanvas from "react-signature-canvas";
 interface Props {
   artPiece: any;
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
+  signatureImage?: any;
+  setSignatureImage?: React.Dispatch<React.SetStateAction<any>>;
+  qrImage?: string;
 }
-const SignCertificate: React.FC<Props> = ({ artPiece, setActiveIndex }) => {
-  const [signatureImage, setSignatureImage] = useState<any>();
+const SignCertificate: React.FC<Props> = ({
+  artPiece,
+  setActiveIndex,
+  signatureImage,
+  setSignatureImage,
+  qrImage,
+}) => {
+  // const [signatureImage, setSignatureImage] = useState<any>();
   const [openSignatureDialog, setOpenSignatureDialog] = useState(false);
 
+  console.log(qrImage);
   return (
     <Stack spacing={2}>
       <ArtPieceCertificate
+        qrCodeImage={qrImage}
         signatureImage={signatureImage}
         artistName={`${artPiece?.artPiece?.custodian?.profile?.firstName} ${artPiece?.artPiece?.custodian?.profile?.lastName}`}
         title={artPiece?.artPiece?.title}

@@ -22,67 +22,90 @@ import { BsQrCode } from "react-icons/bs";
 interface Props {
   artPiece: any;
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
+  qrImage: string;
+  setQrImage: React.Dispatch<React.SetStateAction<string>>;
 }
-const GenerateQRCode: React.FC<Props> = ({ artPiece, setActiveIndex }) => {
+const GenerateQRCode: React.FC<Props> = ({
+  artPiece,
+  setActiveIndex,
+  qrImage,
+  setQrImage,
+}) => {
+  console.log(artPiece?.artPiece);
   const [url, setUrl] = useState("");
   const [pattern, setPattern] = useState<"squares" | "dots" | "fluid">("fluid");
   const [logo, setLogo] = useState("/default-logo.png"); // Path to default logo
   const [urls, setUrls] = useState([]);
   const [qrValue, setQrValue] = useState("");
-  const [steps, setSteps] = useState(["Link", "Style", "File Format"]);
+  const [steps, setSteps] = useState([
+    // "Link",
+    "Style",
+    // "File Format",
+  ]);
   const qrRef = useRef<QRCode>(null);
 
   const [active, setActive] = useState(0);
 
-  const urlSchema = object({
-    urls: array(string().url()),
-  });
+  // const urlSchema = object({
+  //   urls: array(string().url()),
+  // });
 
-  type UrlInput = TypeOf<typeof urlSchema>;
+  // type UrlInput = TypeOf<typeof urlSchema>;
 
-  const {
-    register,
-    formState: { errors, isSubmitSuccessful },
-    reset,
-    control,
-    handleSubmit,
-    setValue,
-    watch,
-  } = useForm<UrlInput>({
-    resolver: zodResolver(urlSchema),
-    defaultValues: {
-      urls: ["https://"],
-    },
-  });
+  // const {
+  //   register,
+  //   formState: { errors, isSubmitSuccessful },
+  //   reset,
+  //   control,
+  //   handleSubmit,
+  //   setValue,
+  //   watch,
+  // } = useForm<UrlInput>({
+  //   resolver: zodResolver(urlSchema),
+  //   defaultValues: {
+  //     urls: ["https://"],
+  //   },
+  // });
 
-  const onSubmit: SubmitHandler<UrlInput> = (data) => {
+  // const onSubmit: SubmitHandler<UrlInput> = (data) => {
+  //   const qrCanvas: any = document.getElementById("react-qrcode-logo");
+  //   if (qrCanvas) {
+  //     const pngUrl = qrCanvas.toDataURL("image/png");
+
+  //     // Send to server
+  //     console.log(pngUrl);
+  //     setActiveIndex((prev) => prev + 1);
+  //   }
+  // };
+
+  // const qrUrls = watch("urls");
+  // console.log(qrUrls);
+
+  // useEffect(() => {
+  //   console.log(qrUrls);
+  //   setQrValue(qrUrls.join("\n"));
+  // }, [JSON.stringify(qrUrls)]);
+
+  const handleSave = () => {
     const qrCanvas: any = document.getElementById("react-qrcode-logo");
+
     if (qrCanvas) {
       const pngUrl = qrCanvas.toDataURL("image/png");
 
-      // Send to server
-      console.log(pngUrl);
+      setQrImage(pngUrl);
       setActiveIndex((prev) => prev + 1);
     }
   };
 
-  const qrUrls = watch("urls");
-  console.log(qrUrls);
-
-  useEffect(() => {
-    console.log(qrUrls);
-    setQrValue(qrUrls.join("\n"));
-  }, [JSON.stringify(qrUrls)]);
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-wrap gap-5 ">
+    <div className="flex flex-wrap gap-5 ">
       <div
         style={{ aspectRatio: "1/1" }}
         className="max-w-[412px] w-full border-[1px] border-primary p-4 "
       >
         <QRCode
           ref={qrRef}
-          value={qrValue}
+          value={`${process.env.NEXT_PUBLIC_SITE_ADDRESS}/explore/art-piece/${artPiece?.artPiece?._id}`}
           qrStyle={pattern}
           //   logoImage={"/artsur-logo.png"}
           removeQrCodeBehindLogo
@@ -118,7 +141,7 @@ const GenerateQRCode: React.FC<Props> = ({ artPiece, setActiveIndex }) => {
         <div>
           {
             [
-              <Links key={`link-${1}`} control={control} errors={errors} />,
+              // <Links key={`link-${1}`} control={control} errors={errors} />,
               <Style
                 key={`style-${2}`}
                 setPattern={setPattern}
@@ -130,13 +153,13 @@ const GenerateQRCode: React.FC<Props> = ({ artPiece, setActiveIndex }) => {
         </div>
 
         <Button
-          type="submit"
+          onClick={handleSave}
           className="w-full max-w-[246px] h-[46px] text-xs font-[600] bg-primary-green"
         >
           Save QR Code
         </Button>
       </div>
-    </form>
+    </div>
   );
 };
 
@@ -202,7 +225,9 @@ const Style: React.FC<StyleProps> = ({ setPattern, pattern }) => {
       <div className="flex gap-2 flex-col">
         <label
           htmlFor="squares"
-          className="text-xs font-[300] cursor-pointer text-primary leading-[17px]"
+          className={`text-xs ${
+            pattern === "squares" ? "font-[600]" : "font-[300]"
+          } cursor-pointer text-primary leading-[17px]`}
         >
           <span>Squares</span>
           <div
@@ -227,7 +252,9 @@ const Style: React.FC<StyleProps> = ({ setPattern, pattern }) => {
       <div className="flex gap-2 flex-col">
         <label
           htmlFor="dots"
-          className="text-xs font-[300] cursor-pointer text-primary leading-[17px]"
+          className={`text-xs ${
+            pattern === "dots" ? "font-[600]" : "font-[300]"
+          } cursor-pointer text-primary leading-[17px]`}
         >
           <span>Dots</span>
           <div
@@ -253,7 +280,9 @@ const Style: React.FC<StyleProps> = ({ setPattern, pattern }) => {
       <div className="flex gap-2 flex-col">
         <label
           htmlFor="fluid"
-          className="text-xs font-[300] cursor-pointer text-primary leading-[17px]"
+          className={`text-xs ${
+            pattern === "fluid" ? "font-[600]" : "font-[300]"
+          }  cursor-pointer text-primary leading-[17px]`}
         >
           <span>Fluid</span>
           <div

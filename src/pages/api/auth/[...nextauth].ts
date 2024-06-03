@@ -16,13 +16,11 @@ export const options: any = {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req)
-      {
+      async authorize(credentials, req) {
         const payload = {
           email: credentials.email,
           password: credentials.password,
         };
-
 
         const res = await fetch(pubAPI + "/auth/login", {
           method: "POST",
@@ -49,8 +47,7 @@ export const options: any = {
     maxAge: 24 * 60 * 60, // 24 Hours
   },
   callbacks: {
-    async jwt({ token, user, account, trigger, session })
-    {
+    async jwt({ token, user, account, trigger, session }) {
       if (trigger === "update") {
         // update the user profile
         return {
@@ -58,7 +55,6 @@ export const options: any = {
           ...session,
         };
       }
-
 
       if (user) {
         return {
@@ -70,10 +66,7 @@ export const options: any = {
       return token;
     },
 
-    async session({ session, token })
-    {
-
-
+    async session({ session, token }) {
       if (token) {
         session.jwt = token?.accessToken;
         session.roles = token?.roles;
@@ -87,7 +80,6 @@ export const options: any = {
           bio: token?.bio,
           username: token?.username,
           phone: token?.phone,
-
         };
       }
 
