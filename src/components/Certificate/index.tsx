@@ -10,7 +10,9 @@ interface Props {
   size: string;
   image: string;
   signatureImage?: string;
+  qrCodeImage?: string;
 }
+
 const ArtPieceCertificate: React.FC<Props> = ({
   title,
   artistName,
@@ -20,52 +22,50 @@ const ArtPieceCertificate: React.FC<Props> = ({
   size,
   image,
   signatureImage,
+  qrCodeImage,
 }) => {
   return (
-    <div className=" border-t-[1px] border-x-[1px] border-primary font-brawler  flex flex-col ">
-      <div className="px-[55px]  pb-2 pt-[41px] flex justify-between gap-4 ">
-        <div className=" max-w-[450px]">
-          <h1 className="font-bodrum-sans-18 pr-4 text-[30px] leading-[30px] font-[800] pb-6 border-b-[1px] border-[#CAAA62]">
-            CERTIFICATE OF <br /> AUTHENCITY
+    <div className="w-full border-t-[1px] bg-[#FFFCF2] border-x-[1px] border-primary font-brawler flex flex-col ">
+      <div className="flex flex-col md:flex-row justify-between gap-4 p-4 md:p-8">
+        <div className="w-full md:w-[70%]">
+          <h1 className="font-bodrum-sans-18 text-[24px] md:text-[30px] leading-tight font-[800] pb-4 md:pb-6 border-b-[1px] border-[#CAAA62]">
+            CERTIFICATE OF <br /> AUTHENTICITY
           </h1>
-          <div className="flex mt-5 flex-col font-bold tracking-[10%] text-sm uppercase font-brawler">
-            <h4 className="   ">
+          <div className="flex flex-col font-bold tracking-[0.1em] text-sm uppercase font-brawler mt-4">
+            <h4>
               <span className="text-golden">TITLE OF ARTWORK: </span> {title}
             </h4>
-            <h4 className="   ">
+            <h4>
               <span className="text-golden">ARTIST NAME: </span> {artistName}
             </h4>
-            <h4 className="   ">
+            <h4>
               <span className="text-golden">YEAR OF CREATION: </span>{" "}
               {yearOfCreation}
             </h4>
-            <h4 className="   ">
+            <h4>
               <span className="text-golden">TYPE: </span> {type}
             </h4>
-            <h4 className="   ">
+            <h4>
               <span className="text-golden">MEDIUM: </span> {medium}
             </h4>
-            <h4 className="   ">
+            <h4>
               <span className="text-golden">SIZE: </span> {size}
             </h4>
           </div>
         </div>
-        <div className="min-w-[229.72px] w-[30%] h-[323.94px] bg-gold-gradient p-[5px]">
+        <div className="flex-none w-full max-w-[223.4px] h-[323.94px] bg-gold-gradient p-[5px]">
           <div className="w-full h-full relative bg-[#D9D9D9]">
-            <div className="w-full h-full  relative">
-              <Image
-                src={image}
-                fill
-                alt=""
-                className="w-full h-full -bottom-10 object-cover"
-              />
-            </div>
+            <Image src={image} fill alt="" className="object-cover" />
           </div>
         </div>
       </div>
-      <div className="flex justify-between items-end pl-[55px] pr-[94px]  pb-4">
-        <div className="w-[114px] h-[50px] ">{/* TODO add qrcode */}</div>
-        <div className="flex flex-col  items-center">
+      <div className="flex flex-col md:flex-row justify-between items-end p-4 md:p-8 pt-4">
+        <div className="w-[114px] h-[100px] relative">
+          {qrCodeImage && (
+            <Image src={qrCodeImage} fill alt="" className="object-contain" />
+          )}
+        </div>
+        <div className="flex flex-col items-center mt-4 md:mt-0">
           <h4 className="text-sm">Signed By</h4>
           <div className="h-[50px] w-full relative">
             {signatureImage && (
@@ -73,19 +73,19 @@ const ArtPieceCertificate: React.FC<Props> = ({
                 src={signatureImage}
                 fill
                 alt=""
-                className="w-full h-full  object-cover"
+                className="object-cover"
               />
             )}
           </div>
-          <p className="text-center pt-2 px-4 text-sm border-t-[1px] font-[700] uppercase border-golden ">
+          <p className="text-center pt-2 px-4 text-sm border-t-[1px] font-[700] uppercase border-golden">
             {artistName}
           </p>
         </div>
-        <div className="flex items-center justify-center ">
+        <div className="flex items-center justify-center mt-4 md:mt-0">
           <Image src="/atsur-badge.png" width={106} height={122} alt="atsur" />
         </div>
       </div>
-      <div className="w-full h-[36.61px] relative">
+      <div className="w-full h-[36.61px] relative mt-4">
         <Image src={"/border-bottom.png"} fill alt="border-bottom" />
       </div>
     </div>
