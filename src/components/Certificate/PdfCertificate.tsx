@@ -1,5 +1,5 @@
 import React from "react";
-import { Document, Page, View, Text, Image } from "@react-pdf/renderer";
+import { Document, Page, View, Text, Image, Svg } from "@react-pdf/renderer";
 import { createTw } from "react-pdf-tailwind";
 
 interface Props {
@@ -85,64 +85,99 @@ const PdfCertificate: React.FC<Props> = ({
       <Page wrap={false} style={tw("font-brawler bg-red-500")}>
         <View
           style={tw(
-            "border-t-[1px] w-[670px] border-x-[1px] border-primary font-brawler  flex flex-co",
+            "border-t-[1px]  w-[670px] border-x-[1px] border-primary font-brawler  flex flex-col",
           )}
         >
           <View
             style={tw("px-[55px]  pb-2 pt-[41px] flex justify-between gap-4")}
           >
-            <View style={tw(" max-w-[450px]")}>
-              <View style={tw(" pb-6 border-b-[1px] pr-4 border-[#CAAA62]")}>
+            <View style={tw("max-w-[450px]")}>
+              <View style={tw(" pb-6  pr-4 ")}>
                 <Text
                   style={tw(
                     "font-bodrum-sans-18  text-[30px] leading-[30px] font-[800]",
                   )}
                 >
-                  CERTIFICATE OF
-                </Text>
-                <Text
-                  style={tw(
-                    "font-bodrum-sans-18  text-[30px] leading-[30px] font-[800]",
-                  )}
-                >
-                  AUTHENCITY
+                  CERTIFICATE OF AUTHENCITY
                 </Text>
               </View>
+              {/* <Svg>
+                <Line>
+              </Svg> */}
               <View
                 style={tw(
-                  "flex mt-5 flex-col font-bold tracking-[10%] text-sm uppercase font-brawler",
+                  "flex mt-5 mt-[20px] flex-col gap-2 font-bold tracking-[10%] text-sm uppercase font-brawler",
                 )}
               >
                 <View style={tw(" flex flex-row gap-2  ")}>
                   <Text
                     style={tw(
-                      "text-golden text-sm uppercase font-brawler tracking-[10%]",
+                      "text-[#CAAA62] text-sm uppercase font-brawler tracking-[10%]",
                     )}
                   >
                     TITLE OF ARTWORK:{" "}
                   </Text>{" "}
                   <Text> {title}</Text>
                 </View>
-                {/* <h4 className="   ">
-                    <span className="text-golden">ARTIST NAME: </span>{" "}
-                    {artistName}
-                  </h4>
-                  <h4 className="   ">
-                    <span className="text-golden">YEAR OF CREATION: </span>{" "}
-                    {yearOfCreation}
-                  </h4>
-                  <h4 className="   ">
-                    <span className="text-golden">TYPE: </span> {type}
-                  </h4>
-                  <h4 className="   ">
-                    <span className="text-golden">MEDIUM: </span> {medium}
-                  </h4>
-                  <h4 className="   ">
-                    <span className="text-golden">SIZE: </span> {size}
-                  </h4> */}
+                <View style={tw(" flex flex-row gap-2  ")}>
+                  <Text
+                    style={tw(
+                      "text-[#CAAA62] text-sm uppercase font-brawler tracking-[10%]",
+                    )}
+                  >
+                    ARTIST NAME:{" "}
+                  </Text>
+                  <Text> {artistName}</Text>
+                </View>
+                <View style={tw(" flex flex-row gap-2  ")}>
+                  <Text
+                    style={tw(
+                      "text-[#CAAA62] text-sm uppercase font-brawler tracking-[10%]",
+                    )}
+                  >
+                    YEAR OF CREATION:{" "}
+                  </Text>
+                  <Text> {yearOfCreation}</Text>
+                </View>
+                <View style={tw(" flex flex-row gap-2  ")}>
+                  <Text
+                    style={tw(
+                      "text-[#CAAA62] text-sm uppercase font-brawler tracking-[10%]",
+                    )}
+                  >
+                    TYPE:{" "}
+                  </Text>
+                  <Text> {type}</Text>
+                </View>
+                <View style={tw(" flex flex-row gap-2  ")}>
+                  <Text
+                    style={tw(
+                      "text-[#CAAA62] text-sm uppercase font-brawler tracking-[10%]",
+                    )}
+                  >
+                    MEDIUM:{" "}
+                  </Text>
+                  <Text> {medium}</Text>
+                </View>
+                <View style={tw(" flex flex-row gap-2  ")}>
+                  <Text
+                    style={tw(
+                      "text-[#CAAA62] text-sm uppercase font-brawler tracking-[10%]",
+                    )}
+                  >
+                    SIZE:{" "}
+                  </Text>
+                  <Text> {size}</Text>
+                </View>
               </View>
             </View>
+            <View>
+              <Image src={image} style={tw("w-[200px] h-[200px]")} />
+            </View>
           </View>
+
+          <View style={tw("flex flex-row justify-between")}></View>
+          <Image src={"/border-bottom.png"} style={tw("w-[670px] h-[50px]")} />
         </View>
       </Page>
     </Document>
