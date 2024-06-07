@@ -1,187 +1,122 @@
-import React from "react";
-import { Document, Page, View, Text, Image, Svg } from "@react-pdf/renderer";
-import { createTw } from "react-pdf-tailwind";
+import React, { forwardRef } from "react";
+import ArtPieceCertificate from ".";
+import Image from "next/image";
 
 interface Props {
-  title: string;
-  artistName: string;
-  yearOfCreation: string;
-  type: string;
-  medium: string;
-  size: string;
-  image: string;
-  signatureImage?: string;
-  qrCodeImage?: string;
+  artPiece: any;
+  signatureImage: any;
+  qrImage: any;
 }
-const PdfCertificate: React.FC<Props> = ({
-  title,
-  artistName,
-  yearOfCreation,
-  type,
-  medium,
-  size,
-  image,
-  signatureImage,
-  qrCodeImage,
-}) => {
-  console.log("This is from pdf", title);
 
-  const tw = createTw({
-    theme: {
-      fontFamily: {
-        brawler: ["Brawler", "sans-serif"],
-        "bodrum-sans-11": ['"Bodrum Sans 11"', "sans-serif"],
-        "bodrum-sans-10-hair": ['"Bodrum Sans 10 Hair"', "sans-serif"],
-        "bodrum-sans-12-extra-light-ita": [
-          '"Bodrum Sans 12 Extra Light Ita"',
-          "sans-serif",
-        ],
-        "bodrum-sans-13": ['"Bodrum Sans 13"', "sans-serif"],
-        "bodrum-sans-14": ['"Bodrum Sans 14"', "sans-serif"],
-        "bodrum-sans-15": ['"Bodrum Sans 15"', "sans-serif"],
-        "bodrum-sans-16": ['"Bodrum Sans 16"', "sans-serif"],
-        "bodrum-sans-17-extra-bold-ita": [
-          '"Bodrum Sans 17 Extra Bold Ita"',
-          "sans-serif",
-        ],
-        "bodrum-sans-18": ['"Bodrum Sans 18"', "sans-serif"],
-        "bodrum-sans-19": ['"Bodrum Sans 19"', "sans-serif"],
-      },
-    },
-    extend: {
-      colors: {
-        primary: "#000000",
-        secondary: "#D9D9D9",
-        "primary-gray": "#AFADAD",
-        "secondary-white": "#F3F3F3",
-        "primary-green": "#00FF94",
-        golden: "#CAAA62",
-        gold: {
-          50: "#fffaf0",
-          100: "#fef3c7",
-          200: "#fde68a",
-          300: "#fcd34d",
-          400: "#fbbf24",
-          500: "#f59e0b",
-          600: "#d97706",
-          700: "#b45309",
-          800: "#92400e",
-          900: "#78350f",
-        },
-      },
-      backgroundImage: (theme) => ({
-        "gold-gradient": `linear-gradient(135deg, ${theme(
-          "colors.gold.300",
-        )} 0%, ${theme("colors.gold.500")} 25%, ${theme(
-          "colors.gold.700",
-        )} 50%, ${theme("colors.gold.500")} 75%, ${theme(
-          "colors.gold.300",
-        )} 100%)`,
-      }),
-    },
-  });
-  return (
-    <Document>
-      <Page wrap={false} style={tw("font-brawler bg-red-500")}>
-        <View
-          style={tw(
-            "border-t-[1px]  w-[670px] border-x-[1px] border-primary font-brawler  flex flex-col",
-          )}
-        >
-          <View
-            style={tw("px-[55px]  pb-2 pt-[41px] flex justify-between gap-4")}
-          >
-            <View style={tw("max-w-[450px]")}>
-              <View style={tw(" pb-6  pr-4 ")}>
-                <Text
-                  style={tw(
-                    "font-bodrum-sans-18  text-[30px] leading-[30px] font-[800]",
-                  )}
-                >
-                  CERTIFICATE OF AUTHENCITY
-                </Text>
-              </View>
-              {/* <Svg>
-                <Line>
-              </Svg> */}
-              <View
-                style={tw(
-                  "flex mt-5 mt-[20px] flex-col gap-2 font-bold tracking-[10%] text-sm uppercase font-brawler",
+const PdfCertificate = forwardRef(
+  ({ artPiece, signatureImage, qrImage }: Props, ref) => {
+    return (
+      // @ts-ignore
+      <div ref={ref} className="w-[752px] hidden certificate">
+        <div className="w-full border-t-[1px] bg-[#FFFCF2] border-x-[1px] border-primary font-brawler flex flex-col ">
+          <div className="flex flex-row justify-between gap-4 px-8 pt-8">
+            <div className="w-[70%]">
+              <h1 className="font-bodrum-sans-18 text-[30px] w-fit leading-tight font-[800] pb-2 ">
+                CERTIFICATE OF <br /> AUTHENTICITY
+              </h1>
+              <div className="flex flex-col font-bold border-t-[1px] w-fit pr-4 pt-2 border-[#CAAA62] tracking-[0.1em] text-sm uppercase font-brawler mt-4">
+                <h4>
+                  <span className="text-golden">TITLE OF ARTWORK: </span>{" "}
+                  {artPiece?.artPiece?.title}
+                </h4>
+                <h4>
+                  <span className="text-golden">ARTIST NAME: </span>{" "}
+                  {artPiece?.artPiece?.custodian?.profile?.firstName}{" "}
+                  {artPiece?.artPiece?.custodian?.profile?.lastName}
+                </h4>
+                <h4>
+                  <span className="text-golden">YEAR OF CREATION: </span>{" "}
+                  {new Date(artPiece?.artPiece?.createdAt)
+                    .getFullYear()
+                    .toString()}
+                </h4>
+                <h4>
+                  <span className="text-golden">TYPE: </span>{" "}
+                  {artPiece?.artPiece?.artType}
+                </h4>
+                <h4>
+                  <span className="text-golden">MEDIUM: </span>{" "}
+                  {artPiece?.artPiece?.medium}
+                </h4>
+                <h4>
+                  <span className="text-golden">SIZE: </span>{" "}
+                  {artPiece?.artPiece?.width} x {artPiece?.artPiece?.height} CM
+                </h4>
+              </div>
+            </div>
+            <div className="flex-none w-[223.4px] h-[323.94px] bg-gold-gradient p-[5px]">
+              <div className="w-full h-full relative bg-[#D9D9D9]">
+                <Image
+                  src={artPiece?.artPiece?.assets[0]?.url}
+                  fill
+                  alt=""
+                  className="object-cover"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-row justify-between items-end px-8 pt-2 ">
+            <div className="w-[114px] h-[100px] relative">
+              {qrImage && (
+                <Image src={qrImage} fill alt="" className="object-contain" />
+              )}
+            </div>
+            <div className="flex flex-col items-center w-[150.66px] mt-0">
+              <h4 className="text-sm">Signed By</h4>
+              <div className="h-[50px] w-full relative">
+                {signatureImage && (
+                  <Image
+                    src={signatureImage}
+                    fill
+                    alt=""
+                    className="object-cover w-full h-full"
+                  />
                 )}
-              >
-                <View style={tw(" flex flex-row gap-2  ")}>
-                  <Text
-                    style={tw(
-                      "text-[#CAAA62] text-sm uppercase font-brawler tracking-[10%]",
-                    )}
-                  >
-                    TITLE OF ARTWORK:{" "}
-                  </Text>{" "}
-                  <Text> {title}</Text>
-                </View>
-                <View style={tw(" flex flex-row gap-2  ")}>
-                  <Text
-                    style={tw(
-                      "text-[#CAAA62] text-sm uppercase font-brawler tracking-[10%]",
-                    )}
-                  >
-                    ARTIST NAME:{" "}
-                  </Text>
-                  <Text> {artistName}</Text>
-                </View>
-                <View style={tw(" flex flex-row gap-2  ")}>
-                  <Text
-                    style={tw(
-                      "text-[#CAAA62] text-sm uppercase font-brawler tracking-[10%]",
-                    )}
-                  >
-                    YEAR OF CREATION:{" "}
-                  </Text>
-                  <Text> {yearOfCreation}</Text>
-                </View>
-                <View style={tw(" flex flex-row gap-2  ")}>
-                  <Text
-                    style={tw(
-                      "text-[#CAAA62] text-sm uppercase font-brawler tracking-[10%]",
-                    )}
-                  >
-                    TYPE:{" "}
-                  </Text>
-                  <Text> {type}</Text>
-                </View>
-                <View style={tw(" flex flex-row gap-2  ")}>
-                  <Text
-                    style={tw(
-                      "text-[#CAAA62] text-sm uppercase font-brawler tracking-[10%]",
-                    )}
-                  >
-                    MEDIUM:{" "}
-                  </Text>
-                  <Text> {medium}</Text>
-                </View>
-                <View style={tw(" flex flex-row gap-2  ")}>
-                  <Text
-                    style={tw(
-                      "text-[#CAAA62] text-sm uppercase font-brawler tracking-[10%]",
-                    )}
-                  >
-                    SIZE:{" "}
-                  </Text>
-                  <Text> {size}</Text>
-                </View>
-              </View>
-            </View>
-            <View>
-              <Image src={image} style={tw("w-[200px] h-[200px]")} />
-            </View>
-          </View>
-
-          <View style={tw("flex flex-row justify-between")}></View>
-          <Image src={"/border-bottom.png"} style={tw("w-[670px] h-[50px]")} />
-        </View>
-      </Page>
-    </Document>
-  );
-};
-
+              </div>
+              <p className="text-center pt-2 px-4 text-sm border-t-[1px] font-[700] uppercase border-golden">
+                {artPiece?.artPiece?.custodian?.profile?.firstName}{" "}
+                {artPiece?.artPiece?.custodian?.profile?.lastName}
+              </p>
+            </div>
+            <div className="flex items-center justify-center mt-0">
+              <Image
+                src="/atsur-badge.png"
+                width={106}
+                height={122}
+                alt="atsur"
+              />
+            </div>
+          </div>
+          <div className="w-full h-[36.61px] relative mt-4">
+            <Image
+              src={"/border-bottom.png"}
+              fill
+              alt="border-bottom"
+              className="object-cover"
+            />
+          </div>
+        </div>
+        {/* <ArtPieceCertificate
+          artistName={`${artPiece?.artPiece?.custodian?.profile?.firstName} ${artPiece?.artPiece?.custodian?.profile?.lastName}`}
+          title={artPiece?.artPiece?.title}
+          type={artPiece?.artPiece?.artType}
+          yearOfCreation={new Date(artPiece?.artPiece?.createdAt)
+            .getFullYear()
+            .toString()}
+          medium={artPiece?.artPiece?.medium}
+          image={artPiece?.artPiece?.assets[0]?.url}
+          size={`${artPiece?.artPiece?.width} x ${artPiece?.artPiece?.height} CM`}
+          signatureImage={signatureImage}
+          qrCodeImage={qrImage}
+        /> */}
+      </div>
+    );
+  },
+);
+PdfCertificate.displayName = "PdfCertificate";
 export default PdfCertificate;

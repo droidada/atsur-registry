@@ -1,5 +1,5 @@
 import { Stack } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import VericationConfirmPreview from "./preview";
 import GenerateQRCode from "./generate-qrcode";
 import SignCertificate from "./sign-certificate";
@@ -20,6 +20,17 @@ const VerificationConfirmSteps: React.FC<Props> = ({ artPiece }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [signatureImage, setSignatureImage] = useState<string>("");
   const [qrImage, setQrImage] = useState("");
+
+  console.log(artPiece?.artPiece);
+
+  useEffect(() => {
+    if (artPiece?.artPiece?.signedCOA) {
+      setActiveIndex(4);
+    } else if (artPiece?.artPiece?.draftCOA) {
+      setActiveIndex(3);
+    }
+  }, [artPiece?.artPiece]);
+
   return (
     <Stack spacing={4}>
       <h2 className="font-semibold capitalize text-xl md:text-2xl lg:text-[30px] lg:leading-[40px]">
