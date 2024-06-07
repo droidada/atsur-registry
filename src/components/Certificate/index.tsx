@@ -26,12 +26,12 @@ const ArtPieceCertificate: React.FC<Props> = ({
 }) => {
   return (
     <div className="w-full border-t-[1px] bg-[#FFFCF2] border-x-[1px] border-primary font-brawler flex flex-col ">
-      <div className="flex flex-col md:flex-row justify-between gap-4 p-4 md:p-8">
+      <div className="flex flex-col md:flex-row justify-between gap-4 px-4 pt-4 md:px-8 md:pt-8">
         <div className="w-full md:w-[70%]">
-          <h1 className="font-bodrum-sans-18 text-[24px] md:text-[30px] leading-tight font-[800] pb-4 md:pb-6 border-b-[1px] border-[#CAAA62]">
+          <h1 className="font-bodrum-sans-18 text-[24px] md:text-[30px] w-fit leading-tight font-[800] pb-4 md:pb-2 ">
             CERTIFICATE OF <br /> AUTHENTICITY
           </h1>
-          <div className="flex flex-col font-bold tracking-[0.1em] text-sm uppercase font-brawler mt-4">
+          <div className="flex flex-col font-bold border-t-[1px] pt-2 border-[#CAAA62] tracking-[0.1em] text-sm uppercase font-brawler mt-4">
             <h4>
               <span className="text-golden">TITLE OF ARTWORK: </span> {title}
             </h4>
