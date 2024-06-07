@@ -1,0 +1,239 @@
+import ArtPieceCertificate from "@/components/Certificate";
+import PdfCertificate from "@/components/Certificate/PdfCertificate";
+import LoadingButton from "@/components/Form/LoadingButton";
+import useAxiosAuth from "@/hooks/useAxiosAuth";
+import { useToast } from "@/providers/ToastProvider";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Stack,
+} from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
+import React, { useRef, useState } from "react";
+import { FaSignature } from "react-icons/fa";
+import { IoMdSave } from "react-icons/io";
+import SignatureCanvas from "react-signature-canvas";
+import { useReactToPrint } from "react-to-print";
+
+interface Props {
+  artPiece: any;
+  setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
+  signatureImage?: any;
+  setSignatureImage?: React.Dispatch<React.SetStateAction<any>>;
+  qrImage?: string;
+}
+const SignCertificate: React.FC<Props> = ({
+  artPiece,
+  setActiveIndex,
+  signatureImage,
+  setSignatureImage,
+  qrImage,
+}) => {
+  // const [signatureImage, setSignatureImage] = useState<any>();
+  const [openSignatureDialog, setOpenSignatureDialog] = useState(false);
+  const certificateRef = useRef<HTMLDivElement>(null);
+  const axiosAuth = useAxiosAuth();
+  const toast = useToast();
+
+  const { mutate, isLoading } = useMutation({
+    mutationFn: async (data) =>
+      axiosAuth.post(`/art-piece/draft-coa/${artPiece?.artPiece?._id}`, data),
+    onSuccess: (data) => {
+      setActiveIndex((prev) => prev + 1);
+      // TODO refetch artpiecedata
+    },
+    onError: (error: any) => {
+      console.log(error);
+      toast.error(
+        error.response.data.message || error.message || "Something went wrong",
+      );
+    },
+  });
+
+  const handlePublish = useReactToPrint({
+    content: () => certificateRef.current,
+    documentTitle: `Certificate - ${artPiece?.artPiece?.title}.pdf`,
+    copyStyles: true,
+
+    print: async (printIframe: HTMLIFrameElement) => {
+      try {
+        const document = printIframe.contentDocument;
+        console.log(document);
+        if (document) {
+          const html = document.querySelector(".certificate");
+
+          html.classList.remove("hidden");
+
+          // html.classList.add("pt-4");
+          // html.classList.add("pl-6");
+
+          const { default: Html2Pdf } = await import("js-html2pdf");
+          const rect = html.getBoundingClientRect();
+
+          console.log(rect.width, rect.height);
+
+          const option = {
+            margin: 0,
+            filename: `Certificate - ${artPiece?.artPiece?.title}.pdf`,
+            jsPDF: {
+              unit: "px",
+              format: [772, 750],
+              orientation: "portrait",
+            },
+            html2canvas: {
+              height: rect.height,
+              backgroundColor: null,
+              removeContainer: true,
+              windowHeight: 550,
+              dpi: 192,
+              letterRendering: true,
+              scale: 2,
+            },
+          };
+
+          const exporter = new Html2Pdf(html, option);
+
+          const pdf = await exporter.getPdf(false);
+
+          const pdfBlob = pdf.output("blob");
+          const formData = new FormData();
+          formData.append("draftCOA", pdfBlob);
+
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            // @ts-ignore
+
+            mutate({
+              draftCOA: e.target?.result,
+            });
+          };
+          reader.readAsDataURL(pdfBlob);
+
+          // mutate(formData);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    // onAfterPrint: () => {
+    //   setOpenPublishDialog(false);
+    // },
+  });
+
+  return (
+    <Stack spacing={2}>
+      <ArtPieceCertificate
+        qrCodeImage={qrImage}
+        signatureImage={signatureImage}
+        artistName={`${artPiece?.artPiece?.custodian?.profile?.firstName} ${artPiece?.artPiece?.custodian?.profile?.lastName}`}
+        title={artPiece?.artPiece?.title}
+        type={artPiece?.artPiece?.artType}
+        yearOfCreation={new Date(artPiece?.artPiece?.createdAt)
+          .getFullYear()
+          .toString()}
+        medium={artPiece?.artPiece?.medium}
+        image={artPiece?.artPiece?.assets[0]?.url}
+        size={`${artPiece?.artPiece?.width} x ${artPiece?.artPiece?.height} CM`}
+      />
+
+      <PdfCertificate
+        ref={certificateRef}
+        artPiece={artPiece}
+        signatureImage={signatureImage}
+        qrImage={qrImage}
+      />
+
+      <Stack direction={"row"} spacing={2}>
+        <Button
+          onClick={() => {
+            setOpenSignatureDialog(true);
+          }}
+          className="w-full max-w-[246px] h-[46px] text-xs font-[600] bg-primary-green"
+          startIcon={<FaSignature />}
+        >
+          Sign Certificate
+        </Button>
+
+        <LoadingButton
+          loading={isLoading}
+          onClick={handlePublish}
+          disabled={!signatureImage}
+          className={`w-full max-w-[246px] h-[46px] text-xs font-[600] ${
+            !signatureImage ? "bg-gray-400" : "bg-primary"
+          } text-white`}
+          startIcon={<IoMdSave />}
+        >
+          Save
+        </LoadingButton>
+      </Stack>
+
+      <SignatureDialog
+        open={openSignatureDialog}
+        handleClose={() => setOpenSignatureDialog(false)}
+        setSignatureImage={setSignatureImage}
+      />
+    </Stack>
+  );
+};
+
+export default SignCertificate;
+
+interface SignatureDialogProps {
+  open: boolean;
+  handleClose: () => void;
+  setSignatureImage: React.Dispatch<React.SetStateAction<any>>;
+}
+const SignatureDialog: React.FC<SignatureDialogProps> = ({
+  open,
+  handleClose,
+  setSignatureImage,
+}) => {
+  const canvasRef = useRef<any>(null);
+
+  const clearSignature = () => {
+    canvasRef.current.clear();
+  };
+
+  const saveSignature = () => {
+    const signatureImage = canvasRef.current.toDataURL();
+    setSignatureImage(signatureImage);
+    handleClose();
+  };
+
+  return (
+    <Dialog fullWidth maxWidth="sm" open={open} onClose={handleClose}>
+      <DialogTitle>Draw Your Signature</DialogTitle>
+      <DialogContent dividers>
+        <SignatureCanvas
+          penColor="black"
+          ref={canvasRef}
+          canvasProps={{ className: "w-full h-[60px] bg-white" }}
+        />
+      </DialogContent>
+      <DialogActions className="flex justify-between">
+        <Button variant="outlined" color="primary" onClick={handleClose}>
+          Cancel
+        </Button>
+        <Stack direction={"row"} spacing={2}>
+          <Button
+            variant="contained"
+            className="bg-primary"
+            onClick={clearSignature}
+          >
+            Clear
+          </Button>
+          <Button
+            variant="contained"
+            className="bg-primary-green text-primary"
+            onClick={saveSignature}
+          >
+            Save
+          </Button>
+        </Stack>
+      </DialogActions>
+    </Dialog>
+  );
+};
