@@ -68,11 +68,12 @@ const PdfCertificate = forwardRef(
             </div>
             <div className="flex flex-col items-center w-[150.66px] mt-0">
               <h4 className="text-sm">Signed By</h4>
-              <div className="h-[50px] w-full relative">
+              <div className="h-[50px]  w-[150.66px] relative">
                 {signatureImage && (
                   <Image
                     src={signatureImage}
-                    fill
+                    width={350.66}
+                    height={50}
                     alt=""
                     className="object-cover w-full h-full"
                   />
