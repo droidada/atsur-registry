@@ -183,8 +183,8 @@ const TokenizeCertificate: React.FC<Props> = ({
               Select
             </option>
             <option value="ethereum">Ethereum</option>
-            <option value="polygon">Polygon</option>
-            <option value="celo">Celo</option>
+            {/* <option value="polygon">Polygon</option>
+            <option value="celo">Celo</option> */}
           </select>
           {errors.blockchainNetwork?.message && (
             <span className="text-red-500  text-xs">
