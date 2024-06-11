@@ -183,8 +183,8 @@ const TokenizeCertificate: React.FC<Props> = ({
               Select
             </option>
             <option value="ethereum">Ethereum</option>
-            <option value="polygon">Polygon</option>
-            <option value="celo">Celo</option>
+            {/* <option value="polygon">Polygon</option>
+            <option value="celo">Celo</option> */}
           </select>
           {errors.blockchainNetwork?.message && (
             <span className="text-red-500  text-xs">
@@ -214,7 +214,7 @@ const TokenizeCertificate: React.FC<Props> = ({
         <div className="flex mt-[31px] gap-4">
           <LoadingButton
             loading={isLoading}
-            onClick={handlePublish}
+            onClick={() => setActiveIndex((prev) => prev + 1)}
             variant="contained"
             className="bg-primary max-w-[146px] h-[46px] w-full"
           >

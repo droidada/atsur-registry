@@ -9,11 +9,13 @@ import {
 } from "@mui/material";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaQuestion } from "react-icons/fa6";
 import { IoIosNotifications } from "react-icons/io";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import SideBar from "./SideBar";
+import { dashboardContext } from "@/providers/DashboardContext.context";
+import { BsFillCreditCard2BackFill } from "react-icons/bs";
 
 interface Props {
   setHideSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,6 +24,10 @@ interface Props {
 const Header: React.FC<Props> = ({ setHideSidebar }) => {
   const { data } = useSession();
   const [openMobile, setOpenMobile] = useState(false);
+
+  const { credits } = useContext(dashboardContext);
+
+  console.log(credits);
 
   return (
     <div className="sticky z-[1000] border-b-[1px]  bg-white top-0 px-4  flex flex-col justify-center h-[86px]">
@@ -57,9 +63,15 @@ const Header: React.FC<Props> = ({ setHideSidebar }) => {
 
         <Stack direction="row" alignItems="center" spacing={1}>
           <span className="w-[24px] h-[24px] rounded-full bg-primary"></span>
-          <span className="w-[24px] h-[24px] rounded-full bg-primary text-secondaryh md:grid   hidden place-items-center">
-            <FaQuestion size={10} />
-          </span>
+          <div className="w-[24px] h-[24px] relative rounded-full bg-primary text-secondary md:grid   hidden place-items-center">
+            <BsFillCreditCard2BackFill size={10} />
+            <span
+              style={{ aspectRatio: "1/1" }}
+              className="absolute rounded-full w-fit  p-[2px] grid place-items-center bg-primary-green text-primary -top-1 -right-1 text-[10px] "
+            >
+              {credits?.length}
+            </span>
+          </div>
           <span className="w-[24px] h-[24px] hover:scale-95 cursor-pointer rounded-full bg-primary text-secondary grid place-items-center">
             <IoIosNotifications size={10} />
           </span>

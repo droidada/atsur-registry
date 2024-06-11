@@ -99,13 +99,13 @@ const SignCertificate: React.FC<Props> = ({
           const pdf = await exporter.getPdf(false);
 
           const pdfBlob = pdf.output("blob");
+
           const formData = new FormData();
           formData.append("draftCOA", pdfBlob);
 
           const reader = new FileReader();
           reader.onload = function (e) {
-            // @ts-ignore
-
+            //@ts-ignore
             mutate({
               draftCOA: e.target?.result,
             });

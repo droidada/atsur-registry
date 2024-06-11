@@ -1,6 +1,6 @@
 import ArtPieceCertificate from "@/components/Certificate";
 import PdfCertificate from "@/components/Certificate/PdfCertificate";
-
+import { SlTag } from "react-icons/sl";
 import {
   Button,
   Dialog,
@@ -8,6 +8,7 @@ import {
   DialogContent,
   DialogTitle,
   Stack,
+  Typography,
 } from "@mui/material";
 import { BlobProvider, PDFViewer, pdf } from "@react-pdf/renderer";
 import React, { useEffect, useRef, useState } from "react";
@@ -18,6 +19,7 @@ import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useToast } from "@/providers/ToastProvider";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import LoadingButton from "@/components/Form/LoadingButton";
+import { useRouter } from "next/router";
 
 interface Props {
   artPiece: any;
@@ -37,6 +39,7 @@ const FinalPreview: React.FC<Props> = ({
 
   const axiosAuth = useAxiosAuth();
   const toast = useToast();
+  const router = useRouter();
 
   const {
     data,
@@ -48,6 +51,7 @@ const FinalPreview: React.FC<Props> = ({
   });
 
   const [viewPdf, setViewPdf] = useState(false);
+  const [openPublishDialog, setOpenPublishDialog] = useState(false);
 
   const handleDownload = () => {
     const certifiaceUrl =
@@ -70,7 +74,7 @@ const FinalPreview: React.FC<Props> = ({
       axiosAuth.post(`/art-piece/sign-coa/${artPiece?.artPiece?._id}`),
     onSuccess: () => {
       refetch();
-
+      setOpenPublishDialog(false);
       toast.success("Certificate has been published successfully");
     },
     onError: (error: any) => {
@@ -104,11 +108,12 @@ const FinalPreview: React.FC<Props> = ({
       >
         <LoadingButton
           loading={isLoading}
-          onClick={() => {
-            mutate();
-          }}
+          onClick={() => setOpenPublishDialog(true)}
+          disabled={
+            artPiece?.artPiece?.signedCOA || data?.data?.artPiece?.signedCOA
+          }
           variant="contained"
-          className="bg-primary-green max-w-[191.83px] h-[46px] w-full text-primary text-[12px] leading-[13px] font-[600]"
+          className="bg-primary-green disabled:bg-slate-200 disabled:text-slate-400 max-w-[191.83px] h-[46px] w-full text-primary text-[12px] leading-[13px] font-[600]"
           startIcon={<LiaUploadSolid />}
         >
           Publish
@@ -119,7 +124,7 @@ const FinalPreview: React.FC<Props> = ({
             !artPiece?.artPiece?.signedCOA && !data?.data?.artPiece?.signedCOA
           }
           variant="outlined"
-          className=" max-w-[191.83px] h-[46px] w-full text-primary text-[12px] leading-[13px] font-[600]"
+          className=" max-w-[191.83px] h-[46px] w-full  disabled:bg-slate-200 disabled:text-slate-400 text-primary text-[12px] leading-[13px] font-[600]"
           startIcon={<LiaDownloadSolid />}
         >
           Download
@@ -128,19 +133,35 @@ const FinalPreview: React.FC<Props> = ({
           onClick={() => {
             setViewPdf(true);
           }}
+          disabled={
+            !artPiece?.artPiece?.signedCOA && !data?.data?.artPiece?.signedCOA
+          }
           variant="outlined"
-          className=" max-w-[191.83px] h-[46px] w-full text-primary text-[12px] leading-[13px] font-[600]"
+          className=" max-w-[191.83px] h-[46px] w-full  disabled:bg-slate-200 disabled:text-slate-400 text-primary text-[12px] leading-[13px] font-[600]"
           startIcon={<IoEyeOutline />}
         >
           View Certificate
         </Button>
+        {(artPiece?.artPiece?.signedCOA || data?.data?.artPiece?.signedCOA) && (
+          <Button
+            onClick={() => {
+              setViewPdf(true);
+            }}
+            variant="outlined"
+            className=" max-w-[191.83px] h-[46px] w-full text-primary text-[12px] leading-[13px] font-[600]"
+            startIcon={<SlTag />}
+          >
+            Order RFID Tag
+          </Button>
+        )}
       </Stack>
-      <ViewCerficateDialog
-        open={viewPdf}
-        setOpen={setViewPdf}
-        certificateUrl={
-          data?.data?.artPiece?.signedCOA || artPiece?.artPiece?.signedCOA
-        }
+      <PublishDialog
+        open={openPublishDialog}
+        setOpen={setOpenPublishDialog}
+        handlePublish={() => {
+          mutate();
+        }}
+        isLoading={isLoading}
       />
     </Stack>
   );
@@ -148,26 +169,45 @@ const FinalPreview: React.FC<Props> = ({
 
 export default FinalPreview;
 
-interface ViewCerficateDialogProps {
+interface PublishDialogProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  certificateUrl: string;
+  handlePublish: () => void;
+  isLoading: boolean;
 }
-const ViewCerficateDialog: React.FC<ViewCerficateDialogProps> = ({
+const PublishDialog: React.FC<PublishDialogProps> = ({
   open,
   setOpen,
-  certificateUrl,
+  isLoading,
+  handlePublish,
 }) => {
   return (
-    <Dialog open={open} onClose={() => setOpen(false)} maxWidth="md">
-      <DialogTitle>Certificate</DialogTitle>
-      <DialogContent dividers>
-        <iframe src={certificateUrl} width="100%" height="500%"></iframe>
-        {/* <iframe src={certificateUrl} frameborder="0"></iframe>
-        {/* <canvas ref={canvasRef} width="100%" /> */}
+    <Dialog
+      open={open}
+      onClose={() => !isLoading && setOpen(false)}
+      maxWidth="xs"
+    >
+      <DialogContent>
+        <Typography className="text-primary text-2xl  text-center">
+          You can no longer make edits once published
+        </Typography>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={() => setOpen(false)}>Close</Button>
+      <DialogActions className="flex justify-center py-5 items-center">
+        <LoadingButton
+          loading={isLoading}
+          className="w-[167.19px] h-[41.7px] "
+          onClick={handlePublish}
+          variant="contained"
+        >
+          Confirm
+        </LoadingButton>
+        <Button
+          className="w-[167.19px] h-[41.7px]"
+          variant="outlined"
+          onClick={() => setOpen(false)}
+        >
+          Exit
+        </Button>
       </DialogActions>
     </Dialog>
   );
