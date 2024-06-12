@@ -17,6 +17,8 @@ import { FaSignature } from "react-icons/fa";
 import { IoMdSave } from "react-icons/io";
 import SignatureCanvas from "react-signature-canvas";
 import { useReactToPrint } from "react-to-print";
+import { Onedoc } from "@onedoc/client";
+import { compile } from "@onedoc/react-print";
 
 interface Props {
   artPiece: any;
@@ -25,6 +27,11 @@ interface Props {
   setSignatureImage?: React.Dispatch<React.SetStateAction<any>>;
   qrImage?: string;
 }
+
+// const ff = new FileforgeClient({
+//   apiKey: process.env.NEXT_PUBLIC_FILEFORGE_API_KEY,
+// });
+
 const SignCertificate: React.FC<Props> = ({
   artPiece,
   setActiveIndex,
@@ -70,47 +77,84 @@ const SignCertificate: React.FC<Props> = ({
           // html.classList.add("pt-4");
           // html.classList.add("pl-6");
 
-          const { default: Html2Pdf } = await import("js-html2pdf");
-          const rect = html.getBoundingClientRect();
+          try {
+            const doc = new Onedoc(
+              process.env.NEXT_PUBLIC_FILEFORGE_API_KEY as string,
+            );
 
-          console.log(rect.width, rect.height);
+            console.log(process.env.NEXT_PUBLIC_FILEFORGE_API_KEY);
+            const html = await compile(
+              <PdfCertificate
+                ref={certificateRef}
+                artPiece={artPiece}
+                signatureImage={signatureImage}
+                qrImage={qrImage}
+              />,
+            );
 
-          const option = {
-            margin: 0,
-            filename: `Certificate - ${artPiece?.artPiece?.title}.pdf`,
-            jsPDF: {
-              unit: "px",
-              format: [772, 750],
-              orientation: "portrait",
-            },
-            html2canvas: {
-              height: rect.height,
-              backgroundColor: null,
-              removeContainer: true,
-              windowHeight: 550,
-              dpi: 192,
-              letterRendering: true,
-              scale: 2,
-            },
-          };
-
-          const exporter = new Html2Pdf(html, option);
-
-          const pdf = await exporter.getPdf(false);
-
-          const pdfBlob = pdf.output("blob");
-
-          const formData = new FormData();
-          formData.append("draftCOA", pdfBlob);
-
-          const reader = new FileReader();
-          reader.onload = function (e) {
-            //@ts-ignore
-            mutate({
-              draftCOA: e.target?.result,
+            const { file } = await doc.render({
+              html,
+              test: true,
+              save: true,
             });
-          };
-          reader.readAsDataURL(pdfBlob);
+
+            console.log(file);
+
+            // const file = await ff.pdf.generate(html, {
+            //   options: {
+            //     host: false,
+            //   },
+            // });
+            // const blob = await new Response(file).blob();
+            // const fileObject = new File([blob], "file.pdf", {
+            //   type: "application/pdf",
+            // });
+            // const url = URL.createObjectURL(fileObject);
+
+            // console.log(url);
+          } catch (error) {}
+
+          // const { default: Html2Pdf } = await import("js-html2pdf");
+          // const rect = html.getBoundingClientRect();
+
+          // console.log(rect.width, rect.height);
+
+          // const option = {
+          //   margin: 0,
+          //   filename: `Certificate - ${artPiece?.artPiece?.title}.pdf`,
+          //   jsPDF: {
+          //     unit: "px",
+          //     format: [772, 750],
+          //     orientation: "portrait",
+          //   },
+          //   html2canvas: {
+          //     height: rect.height,
+          //     backgroundColor: null,
+          //     removeContainer: true,
+          //     windowHeight: 550,
+          //     dpi: 192,
+          //     letterRendering: true,
+          //     scale: 2,
+          //   },
+          // };
+
+          // const exporter = new Html2Pdf(html, option);
+
+          // const pdf = await exporter.getPdf(false);
+
+          // const pdfBlob = pdf.output("blob");
+
+          // const formData = new FormData();
+          // formData.append("draftCOA", pdfBlob);
+
+          // const reader = new FileReader();
+          // reader.onload = function (e) {
+          //   //@ts-ignore
+          //   mutate({
+          //     draftCOA: e.target?.result,
+          //   });
+          // };
+          // reader.readAsDataURL(pdfBlob);
 
           // mutate(formData);
         }
