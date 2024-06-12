@@ -38,6 +38,7 @@ const DashboardContextProvider = ({ children }: Props) => {
       console.log(response.data?.credits);
       return response.data?.credits;
     },
+    refetchOnWindowFocus: false,
   });
 
   const {
@@ -47,10 +48,12 @@ const DashboardContextProvider = ({ children }: Props) => {
     isFetched: isFetchedNotifications,
   } = useQuery({
     queryFn: async () => {
-      const response = await axiosAuth.get("/notifications");
-      return response.data;
+      const { data: response } = await axiosAuth.get("/notifications/unread");
+      console.log("This is the response", response.data);
+      return response.data?.notifications;
     },
     queryKey: ["notifications"],
+    refetchOnWindowFocus: false,
   });
 
   useEffect(() => {

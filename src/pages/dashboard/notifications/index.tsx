@@ -2,7 +2,7 @@ import ProtectedPage from "@/HOC/Protected";
 import { Stack, Switch, Typography } from "@mui/material";
 import React, { useState } from "react";
 
-const views = ["All", "Invitations", "Artpiece", "Collection", "Organization"];
+const views = ["All", "Invitations"];
 const Notification = () => {
   const [currentView, setCurrentView] = useState(0);
 
