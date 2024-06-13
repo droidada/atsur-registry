@@ -19,16 +19,18 @@ import LoadingButton from "@/components/Form/LoadingButton";
 import SelectField from "@/components/Form/SelectField";
 import axios from "axios";
 import { Dropzone } from "@dropzone-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
 interface Props {
   openCreateDialog: boolean;
   setOpenCreateDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  organization?: any;
 }
 const CreateOrganizationDialog: React.FC<Props> = ({
   openCreateDialog,
   setOpenCreateDialog,
+  organization,
 }) => {
   const toast = useToast();
   const axiosAuth = useAxiosAuth();
@@ -51,17 +53,29 @@ const CreateOrganizationDialog: React.FC<Props> = ({
   });
   const [previewImg, setPreviewImg] = useState(null);
 
+  console.log(organization);
+
   const { mutate, isLoading } = useMutation({
-    mutationFn: (data) => axiosAuth.post("/org/add", data),
+    mutationFn: (data) =>
+      organization
+        ? axiosAuth.put(`/org/${organization._id}`, data)
+        : axiosAuth.post("/org/add", data),
     onSuccess: (data) => {
       console.log("This is the response", data);
       toast.success("Organization created successfully");
       reset();
       setOpenCreateDialog(false);
-      router.push(`/dashboard/organization/${data.data.organization?._id}`);
+      organization
+        ? router.replace(router.asPath)
+        : router.push(`/dashboard/organization/${data.data.organization?._id}`);
     },
     onError: (error) => {
-      toast.error("Something went wrong");
+      console.log(error);
+      toast.error(
+        error?.response?.data?.message ||
+          error?.message ||
+          "Something went wrong",
+      );
     },
   });
 
@@ -79,6 +93,17 @@ const CreateOrganizationDialog: React.FC<Props> = ({
     resolver: zodResolver(orgSchema),
   });
 
+  useEffect(() => {
+    if (organization) {
+      setValue("name", organization.name);
+      setValue("address", organization.address);
+      setValue("email", organization.email);
+      setValue("country", organization.country);
+      setValue("phone", organization.phone);
+      setValue("website", organization.website);
+    }
+  }, [organization]);
+
   const onSubmitHandler: SubmitHandler<OrgInput> = async (values) => {
     const formData = new FormData();
     formData.append("image", previewImg);
@@ -89,7 +114,7 @@ const CreateOrganizationDialog: React.FC<Props> = ({
     formData.append("country", values.country);
     //   formData.append("type", values.type);
     formData.append("website", values.website);
-
+    // @ts-ignore
     mutate(formData);
   };
 
@@ -130,7 +155,7 @@ const CreateOrganizationDialog: React.FC<Props> = ({
             {previewImg ? (
               <Image
                 alt="preview"
-                src={previewImg}
+                src={previewImg || organization?.image}
                 fill
                 className="object-cover"
               />
