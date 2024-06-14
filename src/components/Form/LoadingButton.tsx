@@ -6,7 +6,7 @@ interface Props {
   variant?: "contained" | "outlined" | "text" | undefined;
   loading: boolean;
   className?: string;
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;

@@ -69,7 +69,7 @@ const CreateOrganizationDialog: React.FC<Props> = ({
         ? router.replace(router.asPath)
         : router.push(`/dashboard/organization/${data.data.organization?._id}`);
     },
-    onError: (error) => {
+    onError: (error: any) => {
       console.log(error);
       toast.error(
         error?.response?.data?.message ||
@@ -106,7 +106,7 @@ const CreateOrganizationDialog: React.FC<Props> = ({
 
   const onSubmitHandler: SubmitHandler<OrgInput> = async (values) => {
     const formData = new FormData();
-    formData.append("image", previewImg);
+    previewImg && formData.append("image", previewImg);
     formData.append("name", values.name);
     formData.append("address", values.address);
     formData.append("email", values.email);
@@ -126,6 +126,8 @@ const CreateOrganizationDialog: React.FC<Props> = ({
     };
     reader.readAsDataURL(fileDoc.file);
   };
+
+  console.log(organization?.image);
 
   return (
     <Dialog
@@ -152,7 +154,7 @@ const CreateOrganizationDialog: React.FC<Props> = ({
           onChange={handleUpload}
         >
           <div className="flex flex-col  items-center justify-center">
-            {previewImg ? (
+            {previewImg || organization?.image ? (
               <Image
                 alt="preview"
                 src={previewImg || organization?.image}

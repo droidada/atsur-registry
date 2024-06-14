@@ -6,24 +6,80 @@ import {
   DialogTitle,
 } from "@mui/material";
 import React from "react";
+import InviteUsers from "../InviteUsers";
+import LoadingButton from "@/components/Form/LoadingButton";
+import { useMutation } from "@tanstack/react-query";
+import useAxiosAuth from "@/hooks/useAxiosAuth";
+import { useToast } from "@/providers/ToastProvider";
+import { useRouter } from "next/router";
 
 interface Props {
   open: boolean;
   handleClose: () => void;
   organizationId: string;
 }
-const inviteMemberDialog: React.FC<Props> = ({ open, handleClose }) => {
+const InviteMemberDialog: React.FC<Props> = ({
+  open,
+  handleClose,
+  organizationId,
+}) => {
+  const [selectedUser, setSelectedUser] = React.useState<any>();
+
+  console.log("This is the user", selectedUser);
+
+  const axiosAuth = useAxiosAuth();
+  const toast = useToast();
+  const router = useRouter();
+
+  const { mutate, isLoading } = useMutation({
+    mutationFn: () =>
+      axiosAuth.post(`/org/add-member/${organizationId}`, {
+        inviteeEmail: selectedUser?.email,
+        firstName: selectedUser?.firstName,
+        lastName: selectedUser?.lastName,
+      }),
+    onSuccess: () => {
+      toast.success("An invitation has been sent to the member.");
+      router.replace(router.asPath);
+      handleClose();
+    },
+    onError: (error: any) => {
+      toast.error(
+        error.response.data.message ||
+          error?.message ||
+          "Something went wrong.",
+      );
+    },
+  });
+
   return (
-    <Dialog maxWidth={"sm"} open={open} onClose={handleClose}>
+    <Dialog className="" maxWidth={"sm"} open={open} onClose={handleClose}>
       <DialogTitle>Add Member</DialogTitle>
-      <DialogContent dividers></DialogContent>
+      <DialogContent dividers>
+        <InviteUsers
+          labelClassName="text-sm font-thin  leading-[16px"
+          label="Member"
+          className="mt-4"
+          selectedUsers={selectedUser}
+          setSelectedUsers={setSelectedUser}
+        />
+      </DialogContent>
       <DialogActions>
         <Button variant="outlined" onClick={handleClose}>
           Close
         </Button>
+        <LoadingButton
+          disabled={!selectedUser}
+          variant="contained"
+          className="bg-primary"
+          loading={isLoading}
+          onClick={mutate}
+        >
+          Invite Member
+        </LoadingButton>
       </DialogActions>
     </Dialog>
   );
 };
 
-export default inviteMemberDialog;
+export default InviteMemberDialog;
