@@ -1,10 +1,21 @@
 import ProtectedPage from "@/HOC/Protected";
+import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { Stack, Switch, Typography } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
+import NotificationCard from "@/components/dashboard/notification/NoticationCard";
 
 const views = ["All", "Invitations"];
 const Notification = () => {
   const [currentView, setCurrentView] = useState(0);
+  const axiosAuth = useAxiosAuth();
+
+  const { data, refetch, isLoading } = useQuery(["notifications"], {
+    queryFn: () => axiosAuth.get("/notifications"),
+    refetchOnWindowFocus: false,
+  });
+
+  console.log(data);
 
   return (
     <Stack justifyContent={"space-between"} spacing={"35px"}>
@@ -49,6 +60,16 @@ const Notification = () => {
             Mark all as read
           </span>
         </div>
+      </Stack>
+
+      <Stack spacing={2}>
+        {data?.data?.data?.map((notification) => (
+          <NotificationCard
+            refetch={refetch}
+            key={notification._id}
+            notification={notification}
+          />
+        ))}
       </Stack>
     </Stack>
   );

@@ -47,6 +47,7 @@ import { IoMdMore } from "react-icons/io";
 import InviteesTable from "@/components/dashboard/organization/InviteeTable";
 import MembersTable from "@/components/dashboard/organization/MembersTable";
 import CreateOrganizationDialog from "@/components/dashboard/organization/CreateOrganizationDialog";
+import InviteMemberDialog from "@/components/dashboard/organization/inviteMemberDialog";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -87,6 +88,7 @@ function Organization({ organizations }) {
   const [invitees, setInvitees] = useState<any>([]);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [openAddMemberDialog, setOpenAddMemberDialog] = useState(false);
 
   console.log(session);
   console.log(organizations);
@@ -195,6 +197,7 @@ function Organization({ organizations }) {
         <div className="bg-secondary-white p-4 flex  flex-col gap-4">
           <div className="flex gap-4">
             <Button
+              onClick={() => setOpenAddMemberDialog(true)}
               variant="outlined"
               className="h-[25px] uppercase text-xs font-[400]"
             >
@@ -221,8 +224,13 @@ function Organization({ organizations }) {
       {/* Edit the organization */}
       <CreateOrganizationDialog
         openCreateDialog={openEditDialog}
-        setOpenCreateDialog={() => setOpenEditDialog}
+        setOpenCreateDialog={setOpenEditDialog}
         organization={organizations}
+      />
+      <InviteMemberDialog
+        organizationId={organizations?._id}
+        open={openAddMemberDialog}
+        handleClose={() => setOpenAddMemberDialog(false)}
       />
     </>
   );

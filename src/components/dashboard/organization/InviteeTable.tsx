@@ -81,7 +81,7 @@ const InviteesTable: React.FC<InviteesTableProps> = ({
                   member?.invitation?.responded ? (
                   <Chip label="Rejected" color="error" />
                 ) : (
-                  <Chip lable={"Pending"} color="info" />
+                  <Chip label={"Pending"} color="info" />
                 )}
               </TableCell>
 
