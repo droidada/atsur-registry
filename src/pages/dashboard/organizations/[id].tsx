@@ -1,47 +1,53 @@
 import { useEffect, useState } from "react";
-import { Menu } from "@headlessui/react";
-import Link from "next/link";
-
-import BarChart from "@/open9/elements/BarChart";
-import DashboardLayoutWithSidebar, {
-  DashboardPages,
-} from "@/components/open9/layout/DashboardLayoutWithSidebar";
-import AutoSlider1 from "@/open9/slider/AutoSlider1";
-import AutoSlider2 from "@/open9/slider/AutoSlider2";
 import { getToken } from "next-auth/jwt";
 import axios from "@/lib/axios";
 import axiosMain from "axios";
-import { Button } from "@mui/base";
-import DeleteDialog from "@/components/dashboard/DeleteDialog";
-import EditOrganization from "@/components/dashboard/edit-organization";
-import Image from "next/image";
-import { RiDeleteBin7Fill } from "react-icons/ri";
+import { FaRegCalendarAlt } from "react-icons/fa";
+import { IArtist } from "@/types/models";
+
+import useAxiosAuth from "@/hooks/useAxiosAuth";
+import { useRouter } from "next/router";
+import { useToast } from "@/providers/ToastProvider";
+import ProtectedPage from "@/HOC/Protected";
 import {
   Avatar,
-  Card,
-  CardContent,
+  Button,
+  Chip,
   Dialog,
   DialogActions,
   DialogContent,
+  DialogTitle,
+  Fade,
   IconButton,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
+  Menu,
+  MenuItem,
+  Paper,
   Stack,
-  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
 } from "@mui/material";
-import dayjs from "dayjs";
-import { FaUser } from "react-icons/fa";
-import { IArtist } from "@/types/models";
-import InviteArtist from "@/components/invite-artist";
-import useAxiosAuth from "@/hooks/useAxiosAuth";
-import { useRouter } from "next/router";
-import { LoadingButton } from "@mui/lab";
-import { useToast } from "@/providers/ToastProvider";
-import ProtectedPage from "@/HOC/Protected";
+import SearchBar from "@/components/layout/DashboardLayout/SearchBar";
+import { FaCircle } from "react-icons/fa";
+import Image from "next/image";
+import moment from "moment";
+import { SlLink } from "react-icons/sl";
+import {
+  MdLocationPin,
+  MdMailOutline,
+  MdOutlineLocalPhone,
+} from "react-icons/md";
+import { useSession } from "next-auth/react";
+import { useMutation } from "@tanstack/react-query";
+import NoData from "@/components/dashboard/NoData";
+import { IoMdMore } from "react-icons/io";
+import InviteesTable from "@/components/dashboard/organization/InviteeTable";
+import MembersTable from "@/components/dashboard/organization/MembersTable";
+import CreateOrganizationDialog from "@/components/dashboard/organization/CreateOrganizationDialog";
+import InviteMemberDialog from "@/components/dashboard/organization/inviteMemberDialog";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -69,305 +75,213 @@ export const getServerSideProps = async ({ req, query }) => {
 };
 
 function Organization({ organizations }) {
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const [openEdit, setOpenEdit] = useState(false);
-  const [members, setMembers] = useState<IArtist[]>([]);
+  // const [members, setMembers] = useState<IArtist[]>([]);
   const [listedUsers, setListedUsers] = useState<IArtist[]>([]);
-  const [openMemberInvite, setOpenMemberInvite] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
   const axiosAuth = useAxiosAuth();
   const router = useRouter();
-  const [currentMember, setCurrentMember] = useState("");
-  const [openRemoveMember, setOpenRemoveMember] = useState(false);
   const toast = useToast();
+  const { data: session } = useSession();
+  const [currentTab, setCurrentTab] = useState(0);
+
+  const [verificationStatus, setVerificationStatus] = useState(false);
+  const [members, setMembers] = useState<any>([]);
+  const [invitees, setInvitees] = useState<any>([]);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [openAddMemberDialog, setOpenAddMemberDialog] = useState(false);
+
+  console.log(session);
+  console.log(organizations);
 
   useEffect(() => {
-    // Filter out the creator from the members
-    const filterMembers = organizations.members
-      ?.filter((member) => {
-        if (member.invitation) {
-          return member;
-        }
-      })
-      .map((member) => {
-        return {
-          _id: member.invitation?._id,
-          firstName: member.invitation?.invitee?.firstName,
-          lastName: member.invitation?.invitee?.lastName,
-          status:
-            member.invitation?.responded &&
-            !member.invitation?.invitationAccepted
-              ? "rejected"
-              : member.invitation?.responded &&
-                member.invitation?.invitationAccepted
-              ? "accepted"
-              : "pending",
-        };
-      });
-    setMembers(filterMembers);
+    const mainMembers = organizations?.members?.filter(
+      (member) => member?.invitation?.invitationAccepted,
+    );
+    const invitedMembers = organizations?.members?.filter(
+      (member) => member?.invitation && !member?.invitation?.invitationAccepted,
+    );
+
+    setMembers(mainMembers);
+    setInvitees(invitedMembers);
   }, [organizations]);
-
-  console.log(members);
-
-  const handleAddMember = async () => {
-    try {
-      setLoading(true);
-      const res = await Promise.all(
-        listedUsers?.map(async (member) => {
-          const { data } = await axiosAuth.post(
-            `/org/add-member/${organizations?._id}`,
-            {
-              firstName: member.firstName,
-              lastName: member.lastName,
-              inviteeEmail: member.email,
-            },
-          );
-        }),
-      );
-      router.replace(router.asPath);
-      setOpenMemberInvite(false);
-    } catch (error) {
-      setError(true);
-      if (axiosMain.isAxiosError(error)) {
-        toast.error(error.response?.data?.message);
-      } else {
-        toast.error("Something went wrong. Please try again");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <>
-      {/* <DashboardLayoutWithSidebar hideSidebar activePage={DashboardPages.ART}>
-        <div className="w-full px-4">
-          <div className="row ">
-            <div className="action__body w-full mb-10 rounded-xl">
-              <div className="tf-tsparticles">
-                <div id="tsparticles7" data-color="#161616" data-line="#000" />
-              </div>
-              <h2>{organizations?.name}</h2>
-              <div className="flat-button flex">
-                <Button
-                  onClick={() => setOpenEdit(true)}
-                  className="tf-button style-2 h50 w190 mr-10 rounded-xl"
-                >
-                  Edit
-                  <i className="icon-arrow-up-right2" />
-                </Button>
-                <Button
-                  onClick={() => setOpenDeleteDialog(true)}
-                  className="tf-button style-2 h50 w230 rounded-xl"
-                >
-                  Delete
-                  <i className="icon-arrow-up-right2" />
-                </Button>
-              </div>
-              <div className="bg-home7">
-                <AutoSlider1 />
-                <AutoSlider2 />
-                <AutoSlider1 />
-              </div>
-            </div>
-            <div className="row  ">
-              <div className="tf-section-2 w-full pr-0 pl-0 ">
-                <div className="row px-2">
-                  <div data-wow-delay="0s" className="wow fadeInLeft col-md-8">
-                    <div className="tf-card-box style-5 mb-0">
-                      <div className="card-media mb-0 relative h-[450px] rounded-xl">
-                        <Link href="#">
-                          <Image
-                            fill
-                            src={organizations?.image}
-                            alt={organizations?.name}
-                          />
-                        </Link>
-                      </div>
-                      <h6 className="price gem">
-                        <i className="icon-gem" />
-                      </h6>
-                      <div className="wishlist-button">
-                        10
-                        <i className="icon-heart" />
-                      </div>
-
-                    </div>
-                  </div>
-                  <div className="mt-6 lg:mt-0 col-md-4 rounded-xl">
-                    <Card sx={{ borderRadius: "12px" }} className="">
-                      <CardContent>
-                        <Typography gutterBottom variant="h3" component="div">
-                          Organization Details
-                        </Typography>
-                        <Stack direction={"column"} spacing={2}>
-                          <div className="flex gap-2 ">
-                            <Typography variant="h5">Creator:</Typography>
-                            <Typography variant="body1">
-                              {organizations?.creator?.firstName}{" "}
-                              {organizations?.creator?.lastName}
-                            </Typography>
-                          </div>
-                          <div className="flex gap-2 ">
-                            <Typography variant="h5">Date:</Typography>
-                            <Typography variant="body1">
-                              {dayjs(organizations?.createdAd).format(
-                                "MMM DD, YYYY",
-                              )}{" "}
-                            </Typography>
-                          </div>
-                          <div className="flex gap-2 ">
-                            <Typography variant="h5">Address:</Typography>
-                            <Typography variant="body1">
-                              {organizations?.address}
-                            </Typography>
-                          </div>
-                          <div className="flex gap-2 ">
-                            <Typography variant="h5">Country:</Typography>
-                            <Typography variant="body1">
-                              {organizations?.country}
-                            </Typography>
-                          </div>
-                          <div className="flex gap-2 ">
-                            <Typography variant="h5">Email:</Typography>
-                            <Typography variant="body1">
-                              {organizations?.email}
-                            </Typography>
-                          </div>
-                          <div className="flex gap-2 ">
-                            <Typography variant="h5">Phone:</Typography>
-                            <Typography variant="body1">
-                              {organizations?.phone}
-                            </Typography>
-                          </div>
-                          <div className="flex gap-2 ">
-                            <Typography variant="h5">Website:</Typography>
-                            <Typography variant="body1">
-                              {organizations?.website}
-                            </Typography>
-                          </div>
-                        </Stack>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="px-4">
-              <Stack
-                direction={"row"}
-                justifyContent={"space-between"}
-                alignItems={"center"}
-                spacing={2}
+      <Stack spacing={4}>
+        <SearchBar />
+        <div className="flex gap-4">
+          {["verified", "unverified"].map((item) => (
+            <div key={item} className="flex gap-2 items-start">
+              <div
+                className={`flex gap-2 items-center  ${
+                  verificationStatus === true
+                    ? "text-[#18BAFF] font-[600]"
+                    : "text-secondary"
+                }`}
               >
-                <Typography variant="h2">Organization Members</Typography>
-                <Button
-                  onClick={() => setOpenMemberInvite(true)}
-                  className="bg-black/70 font-semibold rounded-xl"
-                >
-                  Add Members
-                </Button>
-              </Stack>
-              <Card className="row  mt-3">
-                {members.length > 0 ? (
-                  <List>
-                    {members?.map((member) => (
-                      <ListItem
-                        secondaryAction={
-                          <IconButton
-                            onClick={() => {
-                              setCurrentMember(member?._id);
-                              setOpenRemoveMember(true);
-                            }}
-                          >
-                            <RiDeleteBin7Fill />
-                          </IconButton>
-                        }
-                        key={member?._id}
-                        disablePadding
-                      >
-                        <ListItemButton>
-                          <ListItemAvatar>
-                            <Avatar>
-                              <FaUser />
-                            </Avatar>
-                          </ListItemAvatar>
-                          <ListItemText
-                            primary={`${member?.firstName} ${member?.lastName}`}
-                          />
-                        </ListItemButton>
-                      </ListItem>
-                    ))}
-                  </List>
-                ) : (
-                  <div className="h-40 grid place-items-center">
-                    <p className="font-bold"> No members yet</p>
-                  </div>
-                )}
-              </Card>
+                <FaCircle /> <span>{item}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="flex gap-7 items-center bg-secondary-white p-5">
+          <div className="max-w-[121.74px] w-full h-[159.48px] relative">
+            <Image
+              alt={organizations?.name}
+              src={organizations?.image}
+              fill
+              className="object-cover"
+            />
+          </div>
+          <div className="flex flex-col gap-2 ">
+            <h1 className="text-[35px] leading-[16px] font-[300]">
+              {organizations?.name}
+            </h1>
+            <div className="flex font-[300] mt-4 text-[12px] leading-[13px] gap-2">
+              <MdOutlineLocalPhone />
+              <span>{organizations?.phone}</span>
+            </div>
+            <div className="flex font-[300] text-[12px] leading-[13px] gap-2">
+              <MdLocationPin />
+              <span>{organizations?.email}</span>
+            </div>
+            <div className="flex font-[300] text-[12px] leading-[13px] gap-2">
+              <MdMailOutline />
+              <span>{organizations?.email}</span>
+            </div>
+            <div className="flex font-[300] text-[12px] leading-[13px] gap-2">
+              <SlLink />
+              <span>{organizations?.website}</span>
+            </div>
+            <div className="flex font-[300] text-[12px] leading-[13px] gap-2">
+              <FaRegCalendarAlt />
+              <span>
+                {moment(organizations?.createdAt).format("Do MMM, YYYY")}
+              </span>
+            </div>
+
+            <div className="flex mt-2 gap-4">
+              <Button
+                onClick={() => setOpenEditDialog(true)}
+                variant="contained"
+                className="bg-primary w-[152.14px] h-[39.71px]"
+              >
+                Edit
+              </Button>
+              <Button
+                onClick={() => setOpenDeleteDialog(true)}
+                variant="contained"
+                className="bg-[#FF0000] text-[12px] h-[39.71px]"
+              >
+                Delete Organization
+              </Button>
             </div>
           </div>
         </div>
-      </DashboardLayoutWithSidebar> */}
 
-      {/* <Dialog
-        open={openMemberInvite}
-        onClose={() => setOpenMemberInvite(false)}
-        title="Add Members"
-      >
-        <DialogContent>
-          <InviteArtist
-            listedArtists={listedUsers}
-            setListedArtists={setListedUsers}
-            label="Add Member"
-            placeholder="Search for artists..."
-            prompt="Add members to the organization"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button
-            className="tf-button style-1 rounded-xl "
-            onClick={() => setOpenMemberInvite(false)}
-          >
-            Cancel
-          </Button>
-          <LoadingButton
-            sx={{ borderRadius: "12px" }}
-            className="tf-button style-1 "
-            loading={loading}
-            disabled={listedUsers.length === 0}
-            onClick={handleAddMember}
-          >
-            Add
-          </LoadingButton>
-        </DialogActions>
-      </Dialog> */}
-
-      {/* <DeleteDialog
+        <div className="flex gap-4 border-b-2 ">
+          {["Members", "Invitees"].map((item, index) => (
+            <div
+              key={item}
+              onClick={() => setCurrentTab(index)}
+              className="relative text-[20px] leading-[19px] font-[300] cursor-pointer pb-2"
+            >
+              {item}
+              {currentTab == index && (
+                <span className="h-[5px] w-full absolute -bottom-1 bg-primary left-0" />
+              )}
+            </div>
+          ))}
+        </div>
+        {/* <h2 className="">Members</h2> */}
+        <div className="bg-secondary-white p-4 flex  flex-col gap-4">
+          <div className="flex gap-4">
+            <Button
+              onClick={() => setOpenAddMemberDialog(true)}
+              variant="outlined"
+              className="h-[25px] uppercase text-xs font-[400]"
+            >
+              Add New Member
+            </Button>
+          </div>
+          {
+            [
+              <MembersTable members={members} key={`tab-1`} />,
+              <InviteesTable
+                organizationId={organizations?._id}
+                invitees={invitees}
+                key={`tab-1`}
+              />,
+            ][currentTab]
+          }
+        </div>
+      </Stack>
+      <DeletOrganizationDialog
         open={openDeleteDialog}
-        onClose={() => setOpenDeleteDialog(false)}
-        deleteUrl={`/org/delete/${organizations?._id}`}
-        redirectUrl={`/dashboard/organizations`}
-        itemToDelete={{ itemType: "organization", itemId: "" }}
+        handleClose={() => setOpenDeleteDialog(false)}
+        organizationId={organizations?._id}
       />
-      <DeleteDialog
-        open={openRemoveMember}
-        onClose={() => setOpenRemoveMember(false)}
-        deleteUrl={`/org/remove-member/${organizations?._id}`}
-        urlBody={{ memberId: currentMember }}
-        prompText="Are you sure you want to remove this member?"
-        itemToDelete={{ itemType: "organization", itemId: "" }}
-      /> */}
-
-      {/* <EditOrganization
-        open={openEdit}
-        handleClose={() => setOpenEdit(false)}
+      {/* Edit the organization */}
+      <CreateOrganizationDialog
+        openCreateDialog={openEditDialog}
+        setOpenCreateDialog={setOpenEditDialog}
         organization={organizations}
-      /> */}
+      />
+      <InviteMemberDialog
+        organizationId={organizations?._id}
+        open={openAddMemberDialog}
+        handleClose={() => setOpenAddMemberDialog(false)}
+      />
     </>
   );
 }
 Organization.requireAuth = true;
 export default ProtectedPage(Organization);
+
+interface DeleteOrganizationDialogProps {
+  open: boolean;
+  handleClose: () => void;
+  organizationId: string;
+}
+const DeletOrganizationDialog: React.FC<DeleteOrganizationDialogProps> = ({
+  open,
+  handleClose,
+  organizationId,
+}) => {
+  const toast = useToast();
+  const axiosAuth = useAxiosAuth();
+  const router = useRouter();
+  const { mutate, isLoading } = useMutation({
+    mutationFn: () => axiosAuth.delete(`/org/${organizationId}`),
+    onSuccess: () => {
+      toast.success("Organization deleted successfully");
+      router.push("/dashboard/organizations");
+    },
+    onError: (error: any) => {
+      toast.error(
+        error.response.data.message || error.message || "Something went wrong",
+      );
+    },
+  });
+  return (
+    <Dialog
+      maxWidth={"sm"}
+      className="w-full max-w-[650px] mx-auto"
+      open={open}
+      onClose={handleClose}
+    >
+      <DialogTitle>Delete Organization</DialogTitle>
+      <DialogContent dividers>
+        Are you sure you want to delete this Organization?
+      </DialogContent>
+      <DialogActions>
+        <Button variant="outlined" onClick={handleClose}>
+          Cancel
+        </Button>
+        <Button variant="contained" onClick={handleClose} autoFocus>
+          Delete
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};

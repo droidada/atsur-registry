@@ -9,28 +9,33 @@ interface Props {
   handleExplore: () => void;
   handleCreate: () => void;
   type: "collections" | "artworks" | "organizations";
+  createTitle?: string;
 }
-const HeroHeader: React.FC<Props> = ({ handleExplore, handleCreate, type }) => {
+const HeroHeader: React.FC<Props> = ({
+  handleExplore,
+  handleCreate,
+  type,
+  createTitle,
+}) => {
   const { data } = useSession();
   return (
-    <div className="h-[257px] relative  justify-center px-4 md:px-10 lg:px-20 w-full flex flex-col bg-primary">
-      <Image
+    <div className=" relative  justify-center px-4  w-full flex flex-col ">
+      {/* <Image
         // @ts-ignore
         src={data?.user?.backgroundImage || "/background-placeholder.jpeg"}
         fill
         alt=""
         className="object-cover"
-      />
+      /> */}
       <div className="text-white relative">
         <h3 className="uppercase text-[10px] tracking-[30%] leading-[16px]">
           {type}
         </h3>
-        <h1 className=" text-2xl md:text-[50px] md:leading-[70px]">
-          {/* @ts-ignore */}
-          {data?.user?.firstName} {data?.user?.lastName[0]}.
-        </h1>
+        {/* <h1 className=" text-2xl md:text-[50px] md:leading-[70px]"> */}
+        {/* @ts-ignore */}
+        {data?.user?.firstName} {data?.user?.lastName[0]}.{/* </h1> */}
         <Stack direction="row" className="mt-2" spacing={2}>
-          <Button
+          {/* <Button
             onClick={handleExplore}
             className="bg-white text-[15px] leading-[16px] font-[400] h-[37px] w-[113px] px-2"
             endIcon={
@@ -40,18 +45,19 @@ const HeroHeader: React.FC<Props> = ({ handleExplore, handleCreate, type }) => {
             }
           >
             Explore
-          </Button>
+          </Button> */}
 
           <Button
             onClick={handleCreate}
-            className="bg-white text-[15px] leading-[16px] font-[400] h-[37px] w-[113px] px-2"
+            variant="contained"
+            className="bg-primary text-[15px] leading-[16px] font-[400] h-[37px] w-[113px] px-2"
             endIcon={
               <span className="w-[17px] rounded-[2px] h-[17px] border-[1px] border-primary grid place-items-center">
                 <FiPlus size={12} />
               </span>
             }
           >
-            Create
+            {createTitle || "Create"}
           </Button>
         </Stack>
       </div>

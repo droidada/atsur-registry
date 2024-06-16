@@ -91,6 +91,7 @@ function Login({ invitationData }) {
       const usr = await logIn(values.email, values.password);
 
       if (usr?.error) {
+        
         throw usr.error;
       }
 
@@ -103,6 +104,7 @@ function Login({ invitationData }) {
             router.replace(referrer);
       }
     } catch (error) {
+      console.log("This is the error", error);
       toast.error(
         error?.response?.data?.message ||
           error?.message ||
