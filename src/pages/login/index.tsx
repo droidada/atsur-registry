@@ -91,7 +91,6 @@ function Login({ invitationData }) {
       const usr = await logIn(values.email, values.password);
 
       if (usr?.error) {
-        
         throw usr.error;
       }
 

@@ -73,7 +73,9 @@ const InviteMemberDialog: React.FC<Props> = ({
           variant="contained"
           className="bg-primary"
           loading={isLoading}
-          onClick={mutate}
+          onClick={
+            mutate as unknown as React.MouseEventHandler<HTMLButtonElement>
+          }
         >
           Invite Member
         </LoadingButton>

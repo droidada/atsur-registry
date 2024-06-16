@@ -1,42 +1,50 @@
-// import React from "react";
+import * as Sentry from "@sentry/nextjs";
+import Link from "next/link";
+import React, { Component, ErrorInfo } from "react";
 
-// class ErrorBoundary extends React.Component {
-//     constructor(props) {
-//       super(props)
+interface Props {
+  children: React.ReactNode;
+}
 
-//       // Define a state variable to track whether is an error or not
-//       this.state = { hasError: false }
-//     }
-//     static getDerivedStateFromError(error) {
-//       // Update state so the next render will show the fallback UI
+interface State {
+  hasError: boolean;
+}
 
-//       return { hasError: true }
-//     }
-//     componentDidCatch(error, errorInfo) {
-//       // You can use your own error logging service here
-//       console.log({ error, errorInfo })
-//     }
-//     render() {
-//       // Check if the error is thrown
-//       if (this.state.hasError) {
-//         // You can render any custom fallback UI
-//         return (
-//           <div>
-//             <h2>Oops, there is an error!</h2>
-//             <button
-//               type="button"
-//               onClick={() => this.setState({ hasError: false })}
-//             >
-//               Try again?
-//             </button>
-//           </div>
-//         )
-//       }
+class ErrorBoundary extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = { hasError: false };
+  }
 
-//       // Return children components in case of no error
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error("ErrorBoundary caught an error: ", error, errorInfo);
+    this.setState({ hasError: true });
+  }
 
-//       return this.props.children
-//     }
-//   }
+  render() {
+    // Check if the error is thrown
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      return (
+        <div>
+          <h2>Oops, there is an error!</h2>
+          <button
+            type="button"
+            onClick={() => this.setState({ hasError: false })}
+          >
+            Try again?
+          </button>
+          <br />
+          <Link href={"/"}>
+            <button>Head home</button>
+          </Link>
+        </div>
+      );
+    }
 
-//   export default ErrorBoundary
+    // Return children components in case of no error
+    return this.props.children;
+  }
+}
+
+export default ErrorBoundary;
