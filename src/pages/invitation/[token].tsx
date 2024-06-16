@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
 import { getToken } from "next-auth/jwt";
 import axios from "@/lib/axios";
+import UnprotectedPage from "@/HOC/Unprotected";
 
 export const getServerSideProps = async ({ req, query, params }) => {
   try {
@@ -52,7 +53,7 @@ const Invitation = ({ invitationData }) => {
   }, [status, invitationData, data]);
 
   return (
-    <Layout headerStyle={2} footerStyle={1} currentMenuItem={"Invitation"}>
+    <>
       {status == "authenticated" ? (
         <AuthenticatedScreen
           type={invitationData?.invitation?.type}
@@ -69,8 +70,8 @@ const Invitation = ({ invitationData }) => {
           userIsRegistered={invitationData?.userIsRegistered}
         />
       )}
-    </Layout>
+    </>
   );
 };
 
-export default Invitation;
+export default UnprotectedPage(Invitation);

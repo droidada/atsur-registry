@@ -13,39 +13,49 @@ import ProtectedPage from "@/HOC/Protected";
 import SearchBar from "@/components/layout/DashboardLayout/SearchBar";
 import HeroHeader from "@/components/dashboard/HeroHeader";
 import FilterLine from "@/components/dashboard/FilterLine";
-import { Stack } from "@mui/material";
-import useAxiosAuth from "@/hooks/useAxiosAuth";
-import { useQuery } from "@tanstack/react-query";
-import OrganizationListView from "@/components/dashboard/organization/OrganizationListView";
-import OrganizationGridView from "@/components/dashboard/organization/OrganizationGridView";
+import { Dialog, DialogContent, DialogTitle, Stack } from "@mui/material";
+
+import MyOrganization from "@/components/dashboard/organization/MyOrganization";
+import InvitedOrganization from "@/components/dashboard/organization/InvitedOrganization";
+import CreateOrganizationDialog from "@/components/dashboard/organization/CreateOrganizationDialog";
 
 function Organizations() {
-  const [view, setView] = useState<"list" | "grid">("grid");
-  const axiosFetch = useAxiosAuth();
-  const {
-    data: organizations,
-    isFetching,
-    isError,
-  } = useQuery(["organizations"], () =>
-    axiosFetch.get("/org/user").then((res) => {
-      console.log(res.data);
-      return res.data.data;
-    }),
-  );
-
-  console.log(organizations);
+  const [currentTab, setCurrentTab] = useState(0);
+  const [openCreateDialog, setOpenCreateDialog] = useState(false);
 
   return (
     <Stack spacing={2}>
       <SearchBar />
       <HeroHeader
-        type="artworks"
-        handleCreate={() => {}}
+        type="organizations"
+        handleCreate={() => setOpenCreateDialog(true)}
         handleExplore={() => {}}
       />
-      <FilterLine view={view} setView={setView} title="My Organizations" />
+      <div className="flex gap-4 border-b-[2px] mt-7 mb-4 w-full">
+        {["My Organizations", "Invited Orgainization"].map((item, index) => (
+          <div
+            key={item}
+            onClick={() => setCurrentTab(index)}
+            className="relative texxt-[19px] cursor-pointer  leading-[19px] pb-3"
+          >
+            {item}
+            {index === currentTab && (
+              <span
+                className={`absolute -bottom-1  left-0 w-full h-[5px] bg-primary`}
+              />
+            )}
+          </div>
+        ))}
+      </div>
+      {/* <FilterLine view={view} setView={setView} title="My Organizations" /> */}
       <div className="mt-4">
-        {view == "grid" ? (
+        {
+          [
+            <MyOrganization key={`MyOrganization`} />,
+            <InvitedOrganization key={`OrgCard`} />,
+          ][currentTab]
+        }
+        {/* {view == "grid" ? (
           <OrganizationGridView
             organizations={organizations}
             isFetching={isFetching}
@@ -59,8 +69,12 @@ function Organizations() {
             organizations={organizations}
             baseUrl="/dashboard/organizations"
           />
-        )}
+        )} */}
       </div>
+      <CreateOrganizationDialog
+        openCreateDialog={openCreateDialog}
+        setOpenCreateDialog={setOpenCreateDialog}
+      />
     </Stack>
   );
 }

@@ -6,13 +6,14 @@ interface Props {
   variant?: "contained" | "outlined" | "text" | undefined;
   loading: boolean;
   className?: string;
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
   loadingText?: string;
   children?: React.ReactNode;
   title?: string;
+  type?: "button" | "submit" | "reset" | undefined;
 }
 
 const LoadingButton: React.FC<Props> = ({
@@ -26,9 +27,11 @@ const LoadingButton: React.FC<Props> = ({
   loadingText,
   children,
   title,
+  type,
 }) => {
   return (
     <Button
+      type={type}
       startIcon={loading ? null : startIcon}
       endIcon={loading ? null : endIcon}
       variant={variant}
