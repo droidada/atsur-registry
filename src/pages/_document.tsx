@@ -1,3 +1,4 @@
+import GoogleAnalytics from "@/components/common/GoogleAnalytics";
 import { Head, Html, Main, NextScript } from "next/document";
 
 export default function Document() {
@@ -11,6 +12,7 @@ export default function Document() {
         href="https://fonts.bunny.net/css?family=roboto:300,300i,400,400i,500,500i,700,700i,900,900i"
         rel="stylesheet"
       />
+      <GoogleAnalytics />
       <body>
         <Main />
         <NextScript />

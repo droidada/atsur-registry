@@ -1,8 +1,9 @@
+import React from "react";
 import UnprotectedPage from "@/HOC/Unprotected";
-import Layout from "@/open9/layout/Layout";
 import { Button } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
+
 function Custom500() {
   return (
     <>
