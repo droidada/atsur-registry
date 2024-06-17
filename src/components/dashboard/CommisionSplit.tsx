@@ -73,10 +73,13 @@ const CommisionSplit: React.FC<Props> = ({
     // checkPercentError();
   }, [JSON.stringify(percentages), totalPercentage]);
 
+  console.log(defaultValues);
+
   useEffect(() => {
     if (defaultValues) {
       // setUsers(defaultValues.map((user) => user.userInfo));
 
+      setSelectedUsers(defaultValues.map((user) => user.userInfo));
       setPercentages(
         defaultValues.map((user) => ({
           userInfo: user.userInfo,

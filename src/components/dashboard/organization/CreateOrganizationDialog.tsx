@@ -53,8 +53,6 @@ const CreateOrganizationDialog: React.FC<Props> = ({
   });
   const [previewImg, setPreviewImg] = useState(null);
 
-  console.log(organization);
-
   const { mutate, isLoading } = useMutation({
     mutationFn: (data) =>
       organization
@@ -67,7 +65,9 @@ const CreateOrganizationDialog: React.FC<Props> = ({
       setOpenCreateDialog(false);
       organization
         ? router.replace(router.asPath)
-        : router.push(`/dashboard/organization/${data.data.organization?._id}`);
+        : router.push(
+            `/dashboard/organizations/${data.data.organization?._id}`,
+          );
     },
     onError: (error: any) => {
       console.log(error);

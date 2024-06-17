@@ -32,7 +32,7 @@ function Organizations() {
         handleExplore={() => {}}
       />
       <div className="flex gap-4 border-b-[2px] mt-7 mb-4 w-full">
-        {["My Organizations", "Invited Orgainization"].map((item, index) => (
+        {["My Organizations", "Invited Organizations"].map((item, index) => (
           <div
             key={item}
             onClick={() => setCurrentTab(index)}

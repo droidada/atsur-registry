@@ -29,6 +29,7 @@ import MainVerification from "@/components/dashboard/artwork/Verification/MainVe
 import VerificationAccepted from "@/components/dashboard/artwork/Verification/VerificationAccepted";
 import VerificationRejected from "@/components/dashboard/artwork/Verification/VerificationRejected";
 import VerificationPending from "@/components/dashboard/artwork/Verification/VerificationPending";
+import VerificationDrafted from "@/components/dashboard/artwork/Verification/VerificationDrafted";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -60,7 +61,9 @@ function Verification({ artPiece }) {
 
   return (
     <>
-      {artPiece?.status === "draft" ? (
+      {artPiece?.status === "not-started" ? (
+        <MainVerification artPiece={artPiece} />
+      ) : artPiece?.status === "draft" ? (
         <MainVerification artPiece={artPiece} />
       ) : artPiece?.status === "verified" ? (
         <VerificationAccepted artPiece={artPiece} />

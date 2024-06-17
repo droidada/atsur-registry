@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import NoData from "../NoData";
 import {
   Avatar,
+  IconButton,
   Paper,
   Table,
   TableBody,
@@ -13,14 +14,37 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import moment from "moment";
+import { RiDeleteBin5Line } from "react-icons/ri";
+import { IoIosAt } from "react-icons/io";
+import { useState } from "react";
+import RemoveMemberDialog from "./RemoveMemberDialog";
+import { useSession } from "next-auth/react";
 
 interface MembersTableProps {
   members: any[];
+  organizationId: string;
+  creatorId: string;
 }
-const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
+const MembersTable: React.FC<MembersTableProps> = ({
+  members,
+  organizationId,
+  creatorId,
+}) => {
   const router = useRouter();
   const toast = useToast();
   const axiosAuth = useAxiosAuth();
+  const [currentMember, setCurrentMember] = useState<any>(null);
+  const [openRemoveUserDialog, setOpenRemoveUserDialog] = useState(false);
+
+  const { data: session } = useSession();
+
+  const cols =
+    session?.user?.id === creatorId
+      ? ["", "Name", "Email", "Date Joined", "Action"]
+      : ["", "Name", "Email", "Date Joined"];
+
+  console.log(members);
 
   const { mutate } = useMutation({
     mutationFn: () => axiosAuth.post(``),
@@ -34,7 +58,7 @@ const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
       <Table sx={{ minWidth: 925 }}>
         <TableHead>
           <TableRow>
-            {["", "Name", "Email", "Phone", "Action"].map((col) => (
+            {cols.map((col) => (
               <TableCell
                 key={`table-head-${col}`}
                 className="bg-primary text-white text-md font-[600]"
@@ -63,19 +87,43 @@ const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
                 </div>
               </TableCell>
               <TableCell className="py-2 text-base font-[300] border-b-[1px] border-primary">
-                {member?.invitaion?.name}
+                {member?.invitation?.invitee?.firstName}{" "}
+                {member?.invitation?.invitee?.lastName}
               </TableCell>
-              <TableCell className="py-2 text-base capitalize font-[300] border-b-[1px] border-primary">
-                {member?.address}
+              <TableCell className="py-2 text-base  font-[300] border-b-[1px] border-primary">
+                {member?.invitation?.invitee?.email}
               </TableCell>
 
               <TableCell className="py-2 text-base font-[300] border-b-[1px] border-primary">
-                {/* {moment(organization?.createdAt).format("Do MMM, YYYY")} */}
+                {moment(member?.invitation?.createdAt).format("Do MMM, YYYY")}
               </TableCell>
+              {session?.user?.id === creatorId && (
+                <TableCell className="py-2 text-base font-[300] border-b-[1px] border-primary">
+                  <IconButton
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCurrentMember(member);
+                      setOpenRemoveUserDialog(true);
+                    }}
+                    className="text-[#E60000] text-[14px]"
+                  >
+                    <IoIosAt />
+                    <RiDeleteBin5Line />
+                  </IconButton>
+                </TableCell>
+              )}
             </TableRow>
           ))}
         </TableBody>
       </Table>
+      <RemoveMemberDialog
+        memberName={` ${currentMember?.invitation?.invitee?.firstName}
+                ${currentMember?.invitation?.invitee?.lastName}`}
+        organizationId={organizationId}
+        memberId={currentMember?.invitation?._id}
+        open={openRemoveUserDialog}
+        handleClose={() => setOpenRemoveUserDialog(false)}
+      />
     </TableContainer>
   );
 };
