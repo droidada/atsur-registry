@@ -57,10 +57,8 @@ const Invitation = ({ invitationData }) => {
       {status == "authenticated" ? (
         <AuthenticatedScreen
           type={invitationData?.invitation?.type}
-          inviter={invitationData?.invitation?.inviter}
           invitee={invitationData?.invitation?.invitee}
-          data={invitationData?.artPiece || invitationData?.org}
-          objectType={invitationData?.invitation?.object}
+          invitationData={invitationData}
         />
       ) : (
         <NotAuthScreen
@@ -68,6 +66,7 @@ const Invitation = ({ invitationData }) => {
           type={invitationData?.invitation?.type}
           inviter={invitationData?.invitation?.inviter}
           userIsRegistered={invitationData?.userIsRegistered}
+          invitationData={invitationData}
         />
       )}
     </>
