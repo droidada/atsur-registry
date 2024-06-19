@@ -1,27 +1,57 @@
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import Image from "@/components/common/image";
-import DashboardLayoutWithSidebar, {
-  DashboardPages,
-} from "@/components/open9/layout/DashboardLayoutWithSidebar";
-import AutoSlider1 from "@/open9/slider/AutoSlider1";
-import AutoSlider2 from "@/open9/slider/AutoSlider2";
-import { getToken } from "next-auth/jwt";
-import axios from "@/lib/axios";
-import OrgCard from "@/components/common/OrgCard";
+
 import ProtectedPage from "@/HOC/Protected";
 import SearchBar from "@/components/layout/DashboardLayout/SearchBar";
 import HeroHeader from "@/components/dashboard/HeroHeader";
-import FilterLine from "@/components/dashboard/FilterLine";
-import { Dialog, DialogContent, DialogTitle, Stack } from "@mui/material";
+
+import { Stack } from "@mui/material";
 
 import MyOrganization from "@/components/dashboard/organization/MyOrganization";
 import InvitedOrganization from "@/components/dashboard/organization/InvitedOrganization";
 import CreateOrganizationDialog from "@/components/dashboard/organization/CreateOrganizationDialog";
+import { useRouter } from "next/router";
+import axios from "@/lib/axios";
 
-function Organizations() {
+export const getServerSideProps = async ({ req, query, params }) => {
+  console.log(query);
+  const { token } = query;
+  console.log(token);
+  if (token) {
+    try {
+      const res = await axios.post(`/invite/fetch`, {
+        token,
+      });
+
+      console.log(res.data);
+
+      return { props: { invitationData: res.data?.data } };
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
+  } else {
+    return { props: {} };
+  }
+};
+
+function Organizations({ invitationData }) {
+  console.log(invitationData?.invitation?.token);
+  const router = useRouter();
+
+  const { query } = router;
+
+  const { create } = query;
+
   const [currentTab, setCurrentTab] = useState(0);
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
+
+  console.log(create);
+
+  useEffect(() => {
+    if (create === "true") {
+      setOpenCreateDialog(true);
+    }
+  }, [invitationData]);
 
   return (
     <Stack spacing={2}>
@@ -74,6 +104,17 @@ function Organizations() {
       <CreateOrganizationDialog
         openCreateDialog={openCreateDialog}
         setOpenCreateDialog={setOpenCreateDialog}
+        organization={
+          invitationData
+            ? {
+                name: invitationData?.invitation?.invitee?.orgName,
+                email: invitationData?.invitation?.invitee?.email,
+              }
+            : undefined
+        }
+        invitationToken={
+          invitationData ? invitationData?.invitation?.token : undefined
+        }
       />
     </Stack>
   );
