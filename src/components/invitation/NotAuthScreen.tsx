@@ -5,6 +5,7 @@ import Image from "next/image";
 import LoadingButton from "../Form/LoadingButton";
 import MemberOrgInvite from "./invitationType/MemberOrgInvite";
 import CollaboratorInvite from "./invitationType/CollaboratorInvite";
+import OrgInvite from "./invitationType/OrgInvite";
 interface Props {
   userIsRegistered: boolean;
   type: string;
@@ -21,6 +22,7 @@ const NotAuthScreen = ({
 }: Props) => {
   const router = useRouter();
   console.log(invitationData);
+  console.log(type);
   switch (type) {
     case "art-piece-collaborator":
       return (
@@ -34,6 +36,15 @@ const NotAuthScreen = ({
     case "member-org":
       return (
         <MemberOrgInvite
+          isAuthenticated={false}
+          userIsRegistered={userIsRegistered}
+          token={token}
+          invitationData={invitationData}
+        />
+      );
+    case "org":
+      return (
+        <OrgInvite
           isAuthenticated={false}
           userIsRegistered={userIsRegistered}
           token={token}

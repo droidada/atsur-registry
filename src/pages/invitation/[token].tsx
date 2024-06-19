@@ -39,7 +39,8 @@ const Invitation = ({ invitationData }) => {
       if (invitationData?.invitation?.type === "org") {
         if (
           invitationData?.invitation?.invitee?.org?.creator?.email !==
-          data?.user?.email
+            data?.user?.email &&
+          invitationData?.invitation?.invitee?.email !== data?.user?.email
         ) {
           console.log(invitationData?.invitee?.org?.creator?.email);
           signOut();

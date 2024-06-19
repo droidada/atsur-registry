@@ -14,9 +14,8 @@ interface Props {
   acceptLoading?: boolean;
   rejectLoading?: boolean;
 }
-const MemberOrgInvite: React.FC<Props> = ({
+const OrgInvite: React.FC<Props> = ({
   userIsRegistered,
-
   token,
   invitationData,
   isAuthenticated,
@@ -26,10 +25,9 @@ const MemberOrgInvite: React.FC<Props> = ({
   rejectLoading,
 }) => {
   const router = useRouter();
-  console.log("This is the invitationData", invitationData);
   return (
     <div className="flex flex-col gap-4 divide-y-[1px] divide-primary ">
-      <div className="flex justify-between pb-4 gap-5">
+      <div className="flex justify-between flex-wrap pb-4 gap-5">
         <div className="flex flex-col gap-6">
           <h1 className="font-[600] text-[50px] leading-[60px]">Invitations</h1>
           <div className="md:px-3 flex gap-4">
@@ -44,40 +42,22 @@ const MemberOrgInvite: React.FC<Props> = ({
                 {invitationData?.invitation?.inviter?.lastName} has invited you
               </h2>
               <p className="">
-                You have been invited to be a member of
-                <span className="font-[600]">
-                  {" "}
-                  {invitationData?.org?.name}
-                </span>{" "}
-                Organization
+                Your organization has invited you to join artsur
               </p>
             </div>
           </div>
         </div>
-        <div className="w-[240px] h-[300px] relative">
-          <Image
-            src={invitationData?.org?.image}
-            fill
-            alt={invitationData?.org?.name}
-            className="object-cover"
-          />
-        </div>
+        {/* <div className="w-[240px] h-[300px] bg-secondary-white relative"> */}
+        <Image
+          src={"/artsur-logo.png"}
+          width={240}
+          height={300}
+          alt={"logo"}
+          className="object-cover object-center"
+        />
+        {/* </div> */}
       </div>
-      <div className="py-5 flex items-center justify-between gap-5">
-        <div className="flex-col flex justify-between gap-4">
-          <h3 className="font-[600] text-[25px] ">Organization Details</h3>
-
-          <div className="grid max-w-[450px] w-full mt-5 grid-cols-2 text-xs gap-4">
-            <span className="font-bold"> Name:</span>
-            <span>{invitationData?.org?.name}</span>
-            <span className="font-bold"> Address:</span>
-            <span>{invitationData?.org?.address}</span>
-            <span className="font-bold"> Email:</span>
-            <span>{invitationData?.org?.email}</span>
-            {/* <span className="font-bold"> Email:</span>
-          <span>{invitationData?.org?.email}</span> */}
-          </div>
-        </div>
+      <div className="py-5 flex flex-col flex-wrap justify-between gap-5">
         <div className=" ">
           {isAuthenticated ? (
             <div className="flex gap-4">
@@ -85,7 +65,7 @@ const MemberOrgInvite: React.FC<Props> = ({
                 loading={acceptLoading}
                 onClick={handleAccept}
                 variant="contained"
-                className=" text-[15px] leading-[16px] font-[600] h-[46px] bg-primary "
+                className=" text-[15px] leading-[16px] font-[600] h-[46px] px-4 bg-primary "
               >
                 Accept
               </LoadingButton>
@@ -93,7 +73,7 @@ const MemberOrgInvite: React.FC<Props> = ({
                 onClick={handleReject}
                 loading={rejectLoading}
                 variant="outlined"
-                className=" text-[15px] leading-[16px] font-[600] h-[46px]  "
+                className=" text-[15px] leading-[16px] font-[600] h-[46px] px-4  "
               >
                 Reject
               </LoadingButton>
@@ -101,7 +81,7 @@ const MemberOrgInvite: React.FC<Props> = ({
           ) : (
             <LoadingButton
               variant="contained"
-              className=" text-[15px] leading-[16px] font-[600] h-[46px] bg-primary "
+              className=" text-[15px] leading-[16px] font-[600] h-[46px] px-4 bg-primary "
               loading={false}
               onClick={() => {
                 if (userIsRegistered) {
@@ -122,4 +102,4 @@ const MemberOrgInvite: React.FC<Props> = ({
   );
 };
 
-export default MemberOrgInvite;
+export default OrgInvite;

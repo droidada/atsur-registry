@@ -1,5 +1,6 @@
 import LoadingButton from "@/components/Form/LoadingButton";
 import { Avatar } from "@mui/material";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
@@ -26,11 +27,16 @@ const CollaboratorInvite: React.FC<Props> = ({
   rejectLoading,
 }) => {
   const router = useRouter();
+  const { data: session } = useSession();
 
-  console.log(invitationData?.artPiece);
+  const commission =
+    invitationData?.artPiece?.verification?.custodian?.broker?.collaborators?.find(
+      (collaborator) => collaborator?.userInfo?.email === session?.user?.email,
+    );
+  console.log(commission);
   return (
     <div className="flex flex-col gap-4 divide-y-[1px] divide-primary ">
-      <div className="flex justify-between pb-4 gap-5">
+      <div className="flex justify-between flex-wrap pb-4 gap-5">
         <div className="flex flex-col gap-6">
           <h1 className="font-[600] text-[50px] leading-[60px]">Invitations</h1>
           <div className="md:px-3 flex gap-4">
@@ -55,7 +61,7 @@ const CollaboratorInvite: React.FC<Props> = ({
             </div>
           </div>
         </div>
-        <div className="w-[240px] h-[300px] relative">
+        <div className="w-[240px] h-[300px] bg-secondary-white relative">
           <Image
             src={
               invitationData?.artPiece?.assets &&
@@ -67,13 +73,27 @@ const CollaboratorInvite: React.FC<Props> = ({
           />
         </div>
       </div>
-      <div className="py-5 flex items-center justify-between gap-5">
+      <div className="py-5 flex flex-col flex-wrap justify-between gap-5">
         <div className="flex-col flex justify-between gap-4">
           <h3 className="font-[600] text-[25px] ">Description</h3>
 
           <p className="max-w-[512px] text-xs w-full">
             {invitationData?.artPiece?.description}
           </p>
+        </div>
+        <div className="flex flex-col gap-4">
+          <label className="font-[300] text-lg " htmlFor="">
+            Commission
+          </label>
+          <div className="max-w-[1194px] w-full h-[57px] bg-secondary-white relative">
+            <div
+              style={{ width: `${commission?.percentageNumerator}%` }}
+              className="bg-secondary h-full"
+            ></div>
+            <div className="h-full absolute right-0 top-0 text-lg flex items-center px-2 ">
+              {commission?.percentageNumerator}%
+            </div>
+          </div>
         </div>
         <div className=" ">
           {isAuthenticated ? (
@@ -82,7 +102,7 @@ const CollaboratorInvite: React.FC<Props> = ({
                 loading={acceptLoading}
                 onClick={handleAccept}
                 variant="contained"
-                className=" text-[15px] leading-[16px] font-[600] h-[46px] bg-primary "
+                className=" text-[15px] leading-[16px] font-[600] h-[46px] px-4 bg-primary "
               >
                 Accept
               </LoadingButton>
@@ -90,7 +110,7 @@ const CollaboratorInvite: React.FC<Props> = ({
                 onClick={handleReject}
                 loading={rejectLoading}
                 variant="outlined"
-                className=" text-[15px] leading-[16px] font-[600] h-[46px]  "
+                className=" text-[15px] leading-[16px] font-[600] h-[46px] px-4  "
               >
                 Reject
               </LoadingButton>
@@ -98,7 +118,7 @@ const CollaboratorInvite: React.FC<Props> = ({
           ) : (
             <LoadingButton
               variant="contained"
-              className=" text-[15px] leading-[16px] font-[600] h-[46px] bg-primary "
+              className=" text-[15px] leading-[16px] font-[600] h-[46px] px-4 bg-primary "
               loading={false}
               onClick={() => {
                 if (userIsRegistered) {

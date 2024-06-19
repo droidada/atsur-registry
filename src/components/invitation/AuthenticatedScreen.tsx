@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import MemberOrgInvite from "./invitationType/MemberOrgInvite";
 import CollaboratorInvite from "./invitationType/CollaboratorInvite";
+import OrgInvite from "./invitationType/OrgInvite";
 
 interface Props {
   type: string;
@@ -41,7 +42,7 @@ const AuthenticatedScreen = ({ type, invitee, invitationData }: Props) => {
           userResponse: "accepted",
         });
         toast.success("Successfully accepted the invitation!");
-        router.push("/dashboard");
+        router.replace("/dashboard");
       } else {
         if (invitee?.org) {
           const { data } = await axiosFetch.post("/invite/accept", {
@@ -49,13 +50,12 @@ const AuthenticatedScreen = ({ type, invitee, invitationData }: Props) => {
             userResponse: "accepted",
           });
           toast.success("Successfully accepted the invitation!");
-          router.push(`/dashboard/organizations/${invitee?.org}`);
+          router.replace(`/dashboard/organizations/${invitee?.org}`);
         }
-        router.push(`/dashboard/organizations/create?token=${token}`);
+        router.replace(`/dashboard/organizations?create=true&token=${token}`);
       }
     } catch (error) {
       toast.error("Error accepting the invitation!");
-      console.log(error);
     } finally {
       setAcceptLoading(false);
     }
@@ -94,6 +94,18 @@ const AuthenticatedScreen = ({ type, invitee, invitationData }: Props) => {
     case "member-org":
       return (
         <MemberOrgInvite
+          isAuthenticated={true}
+          handleAccept={handleAccept}
+          handleReject={handleReject}
+          acceptLoading={acceptLoading}
+          rejectLoading={rejectLoading}
+          token={token as string}
+          invitationData={invitationData}
+        />
+      );
+    case "org":
+      return (
+        <OrgInvite
           isAuthenticated={true}
           handleAccept={handleAccept}
           handleReject={handleReject}

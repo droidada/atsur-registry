@@ -29,10 +29,10 @@ const VerifyDocument: React.FC<Props> = ({ country, idType }) => {
         );
 
         if (response.status === 200) {
-          router.push("/dashboard/security/verify-document/status");
+          router.push("/dashboard/settings/security/kyc-verification/status");
         }
       } catch (error) {
-        router.push("/dashboard/security/verify-document/status");
+        router.push("/dashboard/settings/security/kyc-verification/status");
 
         console.log(error?.response?.data);
       }
