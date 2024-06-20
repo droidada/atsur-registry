@@ -7,6 +7,7 @@ import { Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import PricingCard from "./PricingCard";
 import { BsLightbulbFill } from "react-icons/bs";
+import Link from "next/link";
 
 interface Props {
   plans: {
@@ -135,7 +136,9 @@ const PriceSection: React.FC<Props> = ({ plans }) => {
                 >
                   <BsLightbulbFill className="flex-shrink-0" />
                   <div className="flex flex-col text-lg md:text-[20px] md:leading-[34px]">
-                    <h5 className="font-bold">{service.title}</h5>
+                    <Link href={service.link} className="font-bold">
+                      {service.title}
+                    </Link>
                     <p>{service.desc}</p>
                   </div>
                 </div>
