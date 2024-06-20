@@ -10,7 +10,7 @@ interface Props {
 }
 const PricingLayout: React.FC<Props> = ({ children, HeroSection }) => {
   return (
-    <Stack>
+    <Stack className="bg-white">
       <div className="bg-secondary">
         <LandindingPageHeader />
         <div className="page-container">{HeroSection}</div>
