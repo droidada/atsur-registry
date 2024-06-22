@@ -39,7 +39,8 @@ const Invitation = ({ invitationData }) => {
       if (invitationData?.invitation?.type === "org") {
         if (
           invitationData?.invitation?.invitee?.org?.creator?.email !==
-          data?.user?.email
+            data?.user?.email &&
+          invitationData?.invitation?.invitee?.email !== data?.user?.email
         ) {
           console.log(invitationData?.invitee?.org?.creator?.email);
           signOut();
@@ -57,10 +58,8 @@ const Invitation = ({ invitationData }) => {
       {status == "authenticated" ? (
         <AuthenticatedScreen
           type={invitationData?.invitation?.type}
-          inviter={invitationData?.invitation?.inviter}
           invitee={invitationData?.invitation?.invitee}
-          data={invitationData?.artPiece || invitationData?.org}
-          objectType={invitationData?.invitation?.object}
+          invitationData={invitationData}
         />
       ) : (
         <NotAuthScreen
@@ -68,6 +67,7 @@ const Invitation = ({ invitationData }) => {
           type={invitationData?.invitation?.type}
           inviter={invitationData?.invitation?.inviter}
           userIsRegistered={invitationData?.userIsRegistered}
+          invitationData={invitationData}
         />
       )}
     </>

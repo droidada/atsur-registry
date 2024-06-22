@@ -20,10 +20,12 @@ import RemoveMemberDialog from "./RemoveMemberDialog";
 interface InviteesTableProps {
   invitees: any[];
   organizationId: string;
+  creatorId: string;
 }
 const InviteesTable: React.FC<InviteesTableProps> = ({
   invitees,
   organizationId,
+  creatorId,
 }) => {
   const [menuState, setMenuState] = useState({ anchorEl: null, rowId: null });
   const [openRemoveUserDialog, setOpenRemoveUserDialog] = useState(false);
@@ -32,7 +34,7 @@ const InviteesTable: React.FC<InviteesTableProps> = ({
   if (invitees.length === 0) {
     return <NoData text="No member found" />;
   }
-  console.log(currentMember);
+
   const open = Boolean(menuState.anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>, rowId: string) => {
     const currentMember = invitees.find((member) => member?._id === rowId);
@@ -43,7 +45,6 @@ const InviteesTable: React.FC<InviteesTableProps> = ({
     setMenuState({ anchorEl: null, rowId: null });
   };
 
-  console.log("This is the current member", currentMember);
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 925 }}>

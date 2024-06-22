@@ -9,7 +9,7 @@ interface Props {
   artPiece: any;
 }
 function MainVerification({ artPiece }: Props) {
-  console.log(artPiece?.acquisition);
+  console.log(artPiece);
   const [steps, setSteps] = useState([
     "aquistion",
     "information add",
@@ -32,7 +32,7 @@ function MainVerification({ artPiece }: Props) {
   useEffect(() => {
     if (artPiece?.acquisition) {
       setSelectedInformationAdd("collector");
-    } else if (artPiece?.custodian) {
+    } else if (artPiece?.custodian?.broker) {
       setSelectedInformationAdd("broker");
     } else if (artPiece?.institution) {
       setSelectedInformationAdd("institution");

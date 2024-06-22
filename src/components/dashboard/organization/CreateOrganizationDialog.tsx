@@ -26,12 +26,15 @@ interface Props {
   openCreateDialog: boolean;
   setOpenCreateDialog: React.Dispatch<React.SetStateAction<boolean>>;
   organization?: any;
+  invitationToken?: any;
 }
 const CreateOrganizationDialog: React.FC<Props> = ({
   openCreateDialog,
   setOpenCreateDialog,
   organization,
+  invitationToken: token,
 }) => {
+  console.log(organization);
   const toast = useToast();
   const axiosAuth = useAxiosAuth();
   const router = useRouter();
@@ -53,21 +56,34 @@ const CreateOrganizationDialog: React.FC<Props> = ({
   });
   const [previewImg, setPreviewImg] = useState(null);
 
-  console.log(organization);
-
   const { mutate, isLoading } = useMutation({
     mutationFn: (data) =>
-      organization
+      organization && !token
         ? axiosAuth.put(`/org/${organization._id}`, data)
         : axiosAuth.post("/org/add", data),
-    onSuccess: (data) => {
-      console.log("This is the response", data);
+    onSuccess: async (data) => {
+      if (token) {
+        const { data: response } = await axiosAuth.post("/invite/accept", {
+          token,
+          userResponse: "accepted",
+          orgId: data?.data?.organization?._id,
+        });
+
+        console.log(data);
+      }
+
       toast.success("Organization created successfully");
       reset();
       setOpenCreateDialog(false);
       organization
         ? router.replace(router.asPath)
-        : router.push(`/dashboard/organization/${data.data.organization?._id}`);
+        : token
+        ? router.replace(
+            `/dashboard/organizations/${data.data.organization?._id}`,
+          )
+        : router.push(
+            `/dashboard/organizations/${data.data.organization?._id}`,
+          );
     },
     onError: (error: any) => {
       console.log(error);
@@ -183,6 +199,7 @@ const CreateOrganizationDialog: React.FC<Props> = ({
           name={`email`}
           label="Email"
           inputClassName="bg-secondary"
+          disabled={token ? true : false}
           type="text"
           error={!!errors?.email}
           helperText={errors?.email?.message}

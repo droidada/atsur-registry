@@ -90,8 +90,8 @@ function Organization({ organizations }) {
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openAddMemberDialog, setOpenAddMemberDialog] = useState(false);
 
-  console.log(session);
-  console.log(organizations);
+  console.log(session?.user?._id);
+  console.log(organizations?.creator?.id);
 
   useEffect(() => {
     const mainMembers = organizations?.members?.filter(
@@ -159,55 +159,75 @@ function Organization({ organizations }) {
                 {moment(organizations?.createdAt).format("Do MMM, YYYY")}
               </span>
             </div>
-
-            <div className="flex mt-2 gap-4">
-              <Button
-                onClick={() => setOpenEditDialog(true)}
-                variant="contained"
-                className="bg-primary w-[152.14px] h-[39.71px]"
-              >
-                Edit
-              </Button>
-              <Button
-                onClick={() => setOpenDeleteDialog(true)}
-                variant="contained"
-                className="bg-[#FF0000] text-[12px] h-[39.71px]"
-              >
-                Delete Organization
-              </Button>
-            </div>
+            {organizations?.creator?.id === session?.user?._id && (
+              <div className="flex mt-2 gap-4">
+                <Button
+                  onClick={() => setOpenEditDialog(true)}
+                  variant="contained"
+                  className="bg-primary w-[152.14px] h-[39.71px]"
+                >
+                  Edit
+                </Button>
+                <Button
+                  onClick={() => setOpenDeleteDialog(true)}
+                  variant="contained"
+                  className="bg-[#FF0000] text-[12px] h-[39.71px]"
+                >
+                  Delete Organization
+                </Button>
+              </div>
+            )}
           </div>
         </div>
 
-        <div className="flex gap-4 border-b-2 ">
-          {["Members", "Invitees"].map((item, index) => (
-            <div
-              key={item}
-              onClick={() => setCurrentTab(index)}
-              className="relative text-[20px] leading-[19px] font-[300] cursor-pointer pb-2"
-            >
-              {item}
-              {currentTab == index && (
-                <span className="h-[5px] w-full absolute -bottom-1 bg-primary left-0" />
-              )}
-            </div>
-          ))}
+        <div
+          className={`flex gap-4 ${
+            organizations?.creator?.id === session?.user?._id
+              ? "border-b-2"
+              : "border-b-0"
+          }  `}
+        >
+          {organizations?.creator?.id === session?.user?._id ? (
+            ["Members", "Invitees"].map((item, index) => (
+              <div
+                key={item}
+                onClick={() => setCurrentTab(index)}
+                className="relative text-[20px] leading-[19px] font-[300] cursor-pointer pb-2"
+              >
+                {item}
+                {currentTab == index && (
+                  <span className="h-[5px] w-full absolute -bottom-1 bg-primary left-0" />
+                )}
+              </div>
+            ))
+          ) : (
+            <h2 className="text-[20px] leading-[19px] font-[300]">Members</h2>
+          )}
         </div>
         {/* <h2 className="">Members</h2> */}
         <div className="bg-secondary-white p-4 flex  flex-col gap-4">
-          <div className="flex gap-4">
-            <Button
-              onClick={() => setOpenAddMemberDialog(true)}
-              variant="outlined"
-              className="h-[25px] uppercase text-xs font-[400]"
-            >
-              Add New Member
-            </Button>
-          </div>
+          {organizations?.creator?.id === session?.user?._id && (
+            <div className="flex gap-4">
+              <Button
+                onClick={() => setOpenAddMemberDialog(true)}
+                variant="outlined"
+                className="h-[25px] uppercase text-xs font-[400]"
+              >
+                Add New Member
+              </Button>
+            </div>
+          )}
+
           {
             [
-              <MembersTable members={members} key={`tab-1`} />,
+              <MembersTable
+                creatorId={organizations?.creator?.id}
+                organizationId={organizations?._id}
+                members={members}
+                key={`tab-1`}
+              />,
               <InviteesTable
+                creatorId={organizations?.creator?.id}
                 organizationId={organizations?._id}
                 invitees={invitees}
                 key={`tab-1`}
