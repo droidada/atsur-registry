@@ -1,13 +1,38 @@
+import TrustedComponents from "@/components/ServicesPage/TrustedComponent";
 import PricingLayout from "@/components/layout/PricingLayout";
+import axios from "@/lib/axios";
 import { Button } from "@mui/material";
+import { getToken } from "next-auth/jwt";
 import Image from "next/image";
 import React from "react";
 
-const CertificatesOfAuthenticity = () => {
+export const getServerSideProps = async ({ req, query }) => {
+  try {
+    const token: any = await getToken({
+      req,
+      secret: process.env.NEXTAUTH_SECRET,
+    });
+    const res = await axios.get(`/public/explore?limit=4&page=1`, {
+      headers: { authorization: `Bearer ${token?.accessToken}` },
+    });
+
+    return { props: { artPieces: res?.data?.artPieces } };
+  } catch (error) {
+    console.error("error here looks like ", error);
+    if (error?.response?.status === 404) {
+      return {
+        notFound: true,
+      };
+    }
+    throw new Error(error);
+  }
+};
+
+const CertificatesOfAuthenticity = ({ artPieces }) => {
   return (
     <PricingLayout
       HeroSection={
-        <div className="flex gap-24 flex-col md:flex-row  justify-center py-12 items-center">
+        <div className="flex gap-4 flex-col md:flex-row  justify-center py-12 items-center">
           <div className="flex md:text-left text-center max-w-[556px] w-full flex-col items-center md:items-start gap-4 ">
             <h1 className="text-5xl lg:text-[80px] lg:leading-[65px]  ">
               Certificate of Authenticity
@@ -24,61 +49,11 @@ const CertificatesOfAuthenticity = () => {
           </div>
           <div className="relative overflow-x-hidden md:overflow-visible">
             <Image
-              src="/images/archiving/vector-1.svg"
-              alt=""
-              width={309}
-              height={330}
-              className="absolute -left-2 top-5"
-            />
-            <Image
-              src="/images/archiving/vector-4.png"
-              alt="archiving"
-              width={345}
-              height={364}
-              className="absolute top-10 left-5"
-            />
-            <Image
-              src="/images/catalog/catalog.svg"
+              src="/images/catalog/certificate-hero.png"
               alt="catalog"
-              width={415}
-              height={378}
+              width={562.51}
+              height={592}
               className="relative "
-            />
-
-            <Image
-              src="/images/archiving/vector-2.svg"
-              alt=""
-              width={34}
-              height={30}
-              className="absolute top-0 left-0 md:block hidden"
-            />
-            <Image
-              src="/images/archiving/vector-3.svg"
-              alt=""
-              width={35}
-              height={37}
-              className="absolute bottom-0 right-0"
-            />
-            <Image
-              src="/images/archiving/vector-4.svg"
-              alt=""
-              width={34}
-              height={30}
-              className="absolute top-0"
-            />
-            <Image
-              src="/images/archiving/vector-2.svg"
-              alt=""
-              width={34}
-              height={30}
-              className="absolute top-0 left-0"
-            />
-            <Image
-              src="/images/archiving/vector.svg"
-              alt=""
-              width={76}
-              height={79}
-              className="absolute top-[20%] -right-10"
             />
           </div>
         </div>
@@ -193,6 +168,7 @@ const CertificatesOfAuthenticity = () => {
           </div>
         </div>
       </section>
+      <TrustedComponents artworkData={artPieces} />
     </PricingLayout>
   );
 };
