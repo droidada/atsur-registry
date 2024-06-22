@@ -21,6 +21,8 @@ const ArtVerificationInformation: React.FC<Props> = ({
   handleAddDealerStep,
   handleRemoveDealerStep,
 }) => {
+  console.log(artPiece);
+
   switch (selectedInformationAdd) {
     case "artist":
       return (
@@ -37,7 +39,7 @@ const ArtVerificationInformation: React.FC<Props> = ({
         <DealerInformation
           artPieceId={artpieceId}
           setActiveIndex={setActiveIndex}
-          defaultValues={{}}
+          defaultValues={artPiece?.custodian?.broker}
         />
       );
     case "collector":

@@ -77,42 +77,53 @@ export const allPriceService = [
     {
       title: "Archiving ",
       desc: "Uploading art information on platform and showcasing external url",
+      link: "/services/archiving"
     },
     {
       title: "Due Diligence",
       desc: "Verifying art documentation",
+      link: "/services/due-diligence"
     },
     {
       title: "Tokenization",
       desc: "Minting NFT of certificate of authenticity of art work on Ethereum and Polygon networks",
+      link: "/services/tokenization"
     },
     {
       title: "Asset Tagging",
       desc: "RFID tags for physically tagging art piece with digital information",
+      link: "/services/asset-tagging"
+
     },
     {
       title: "Certificates of Authenticity",
       desc: "Digital is free Physical has a fee",
+      link: "/services/certificates-of-authenticity"
     },
   ],
   [
     {
       title: "Sales Smart Contracts",
       desc: "Smart contract to enforce sales commissions using blockchain technology",
+      link: "/services/sales-smart-contracts"
     },
     {
       title: "Tokengates",
       desc: "Share ownership of artwork using blockchain technology",
+      link: "/services/token-gates"
     },
     {
       title: "Property Protocol",
       desc: "Enforce resale royalties and sales commissions using blockchain technology",
+      link: "/services/property-protocol"
     },
     {
       title: "Advanced cataloging",
       desc: `Advanced platform features such as image counterfeit detection,
       automated art document creation and signing(create art documentation and
         send to be signed using our platform) etc…`,
+      link: "/services/advanced-cataloging"
+
     },
   ],
 ];

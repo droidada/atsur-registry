@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FormContainer from "./formContainer";
 import { Stack } from "@mui/material";
 import SeletectOrganization from "@/components/dashboard/SeleteOrganization";
@@ -56,6 +56,17 @@ const DealerInformation = ({ setActiveIndex, defaultValues, artPieceId }) => {
     resolver: zodResolver(metadataSchema),
   });
 
+  console.log("This is default values", defaultValues);
+
+  useEffect(() => {
+    if (defaultValues) {
+      setValue("notes", defaultValues?.notes);
+      setSelectedOrganization(defaultValues?.organization);
+      // setPercentages(defaultValues?.commission);
+      // setSelectedUsers(defaultValues?.users);
+    }
+  }, [defaultValues]);
+
   const handleUpload = (files: any) => {
     const fileDoc = files[0];
     const reader = new FileReader();
@@ -111,7 +122,8 @@ const DealerInformation = ({ setActiveIndex, defaultValues, artPieceId }) => {
     }
 
     const formData = new FormData();
-    formData.append("agreementDocument", agreementDocument?.file);
+    !defaultValues?.agreementAttachment &&
+      formData.append("agreement", agreementDocument?.file);
     formData.append("commission", JSON.stringify(percentages));
     formData.append("save", JSON.stringify(save));
     formData.append("notes", values.notes);
@@ -131,7 +143,7 @@ const DealerInformation = ({ setActiveIndex, defaultValues, artPieceId }) => {
     >
       <Stack spacing={4}>
         <SeletectOrganization
-          isUserOrg
+          // isUserOrg
           labelClassName="text-sm font-thin  leading-[16px"
           label=" Organization"
           selectedOrg={selectedOrganization}
@@ -144,6 +156,7 @@ const DealerInformation = ({ setActiveIndex, defaultValues, artPieceId }) => {
           percentages={percentages}
           setPercentages={setPercentages}
           errorTree={errorTree}
+          defaultValues={defaultValues?.collaborators}
         />
 
         <div className="flex flex-col gap-4 mt-7">
@@ -153,7 +166,10 @@ const DealerInformation = ({ setActiveIndex, defaultValues, artPieceId }) => {
           <VerificationFileDroper
             maxFiles={1}
             label="Agreement Document"
-            fileName={agreementDocument?.filename}
+            fileName={
+              agreementDocument?.filename ||
+              defaultValues?.agreementAttachment?.split("/")?.pop()
+            }
             // defaultFile={defaultFile}
             handleUpload={handleUpload}
             className="w-full"
