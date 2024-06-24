@@ -21,28 +21,28 @@ const ArtPieceCard: React.FC<Props> = ({
   url,
 }) => {
   return (
-    <Link href={url} className="bg-primary w-full max-w-[281px] ">
+    <Link href={url} className="bg-primary w-full  ">
       <Image
         src={image || "/placeholder.png"}
         alt={title}
         width={281}
         height={273}
-        className="object-cover h-[60%]"
+        className="object-cover h-[281px]"
       />
       <Stack
         direction={"column"}
         spacing={2}
-        className="md:py-[28px]  p-4 text-secondary text-justify "
+        className=" p-4 py-[28px]  text-secondary text-justify "
       >
         <div className="flex justify-center">
           <Rating size="small" name="read-only" value={rating} readOnly />
         </div>
-        <Typography
-          variant="h4"
-          className="font-[300] text-xl md:text-2xl lg:text-3xl lg:leading-4"
+        <h4
+          // variant="h4"
+          className="font-[300] text-xl md:text-[30px] "
         >
           {title}
-        </Typography>
+        </h4>
         <Stack direction={"row"} alignItems={"center"} spacing={2}>
           <div className="flex items-center gap-3">
             <Avatar src={creator?.image} alt={creator?.name} />
