@@ -1,9 +1,37 @@
+import TrustedComponents from "@/components/ServicesPage/TrustedComponent";
 import PricingLayout from "@/components/layout/PricingLayout";
+import axios from "@/lib/axios";
 import { Button } from "@mui/material";
+import { getToken } from "next-auth/jwt";
 import Image from "next/image";
 import React from "react";
 
-const Archiving = () => {
+export const getServerSideProps = async ({ req, query }) => {
+  try {
+    const token: any = await getToken({
+      req,
+      secret: process.env.NEXTAUTH_SECRET,
+    });
+    const res = await axios.get(`/public/explore?limit=4&page=1`, {
+      headers: { authorization: `Bearer ${token?.accessToken}` },
+    });
+
+    console.log("res here ", res?.data?.artPieces);
+
+    return { props: { artPieces: res?.data?.artPieces } };
+  } catch (error) {
+    console.error("error here looks like ", error);
+    if (error?.response?.status === 404) {
+      return {
+        notFound: true,
+      };
+    }
+    throw new Error(error);
+  }
+};
+
+const Archiving = ({ artPieces }) => {
+  console.log(artPieces);
   return (
     <PricingLayout
       HeroSection={
@@ -182,13 +210,7 @@ const Archiving = () => {
         </div>
       </section>
 
-      <section className="page-container py-12">
-        <div className="max-w-[1000px] mx-auto w-full">
-          <h2 className="font-[300] text-[47px]  leading-[57px]">
-            Trusted by Leading Artists
-          </h2>
-        </div>
-      </section>
+      <TrustedComponents artworkData={artPieces} />
     </PricingLayout>
   );
 };
