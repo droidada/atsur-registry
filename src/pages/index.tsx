@@ -19,6 +19,7 @@ const whatwedo = [
 `,
     color: "#000000",
   },
+
   {
     Icon: <PiBracketsCurlyBold />,
     title: "Automating Art Due Diligence Processes",
@@ -26,16 +27,43 @@ const whatwedo = [
     color: "#444444",
   },
   {
-    Icon: <PiBracketsCurlyBold />,
+    Icon: (
+      <Image
+        src="/images/homepage/africa-icon.png"
+        alt="africa"
+        width={40}
+        height={40}
+      />
+    ),
     title: "Automating Art Due Diligence Processes",
     content: ``,
     color: "#656565",
   },
   {
-    Icon: <PiBracketsCurlyBold />,
+    Icon: (
+      <Image
+        src="/images/homepage/padding.png"
+        alt="padding"
+        width={40}
+        height={40}
+      />
+    ),
     title: "Automating Art Due Diligence Processes",
     content: ``,
     color: "#898989",
+  },
+  {
+    Icon: (
+      <Image
+        src="/images/homepage/people.png"
+        alt="people"
+        width={40}
+        height={40}
+      />
+    ),
+    title: "Automating Art Due Diligence Processes",
+    content: ``,
+    color: "#9D9D9D",
   },
 ];
 
@@ -126,13 +154,13 @@ const Homepage = () => {
             <div className="relative flex gap-10">
               <Button
                 variant="contained"
-                className="bg-primary text-[15px] font-[400] w-[185.21px] h-[43.43px]  text-white"
+                className="bg-primary text-[15px] font-[400] w-[140.21px] h-[43.43px]  text-white"
               >
                 Explore
               </Button>
               <Button
                 variant="contained"
-                className="bg-[#DEDEDE]  text-[15px] font-[400] w-[185.21px] h-[43.43px]  text-primary"
+                className="bg-[#DEDEDE]  text-[15px] font-[400] w-[140.21px] h-[43.43px]  text-primary"
               >
                 Create
               </Button>
@@ -149,7 +177,7 @@ const Homepage = () => {
               {[...Array(6)].map((_, index) => (
                 <div
                   key={`partners-${index}`}
-                  className="w-[60px] h-[60px] rounded-full bg-[#C3C3C3]"
+                  className="w-[40px] h-[40px] md:w-[60px] md:h-[60px] rounded-full bg-[#C3C3C3]"
                 ></div>
               ))}
             </div>
@@ -176,7 +204,7 @@ const Homepage = () => {
                     className={`h-[505px] flex-shrink-0 duration-700 ${
                       currentView === index
                         ? "flex-1   justify-between"
-                        : "w-[185.5px] justify-end"
+                        : "w-[140.5px] justify-end"
                     }  flex flex-col text-white p-6`}
                   >
                     {currentView === index && (
@@ -209,7 +237,7 @@ const Homepage = () => {
               </div>
             </div>
 
-            <div className="flex min-h-[250px] px-5 justify-between mt-10 gap-20 w-full  items-start ">
+            <div className="flex md:flex-row flex-col-reverse min-h-[250px] px-5 justify-between mt-10 gap-20 w-full  items-start ">
               <p className=" max-w-[720px] w-full text-[23px]">
                 {whatwedo[currentView]?.content}
               </p>
@@ -252,7 +280,7 @@ const Homepage = () => {
           <div className="grid gap-4  justify-center mt-8 items-stretch md:grid-cols-2">
             {services?.map((service, index) => (
               <div
-                className={`min-h-[361px] flex justify-between gap-10 items-center p-5 ${
+                className={`min-h-[361px] md:flex-row flex-col flex justify-between gap-10 items-center p-5 ${
                   service.color === "#000"
                     ? "bg-primary text-white"
                     : "border-primary border-[1px] text-primary"
@@ -336,4 +364,4 @@ const Homepage = () => {
   );
 };
 
-export default Homepa
+export default Homepage;
