@@ -25,8 +25,8 @@ export interface ICreateArtworkAssets
 {
   primaryView: any;
   secondaryView: {
-    leftAngleView: any;
-    rightAngleView: any;
+    primaryViewPortrait: any;
+    framedView: any;
     mountedView: any;
   };
 }

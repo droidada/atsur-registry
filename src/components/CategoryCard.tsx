@@ -16,7 +16,7 @@ const CategoryCard: React.FC<Props> = ({ category, url }) => {
       <div className="w-full p-5 border-[1.5px] h-[345.05px] gap-[17px] border-primary grid grid-cols-2">
         {category.artPieces.slice(0, 4).map((artPiece) => (
           <Image
-            key={artPiece?._id}
+            key={artPiece?.id}
             width={104.79}
             height={130.48}
             alt={artPiece?.title}
@@ -26,7 +26,7 @@ const CategoryCard: React.FC<Props> = ({ category, url }) => {
         ))}
       </div>
       <h4 className="text-[17px] capitalize text-center leading-[12px] mt-[8px]">
-        {category?._id?.replace(/-/g, " ")}
+        {category?.id?.replace(/-/g, " ")}
       </h4>
     </Link>
   );

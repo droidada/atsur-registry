@@ -31,6 +31,7 @@ import DeleteDialog from "@/components/dashboard/artwork/DeleteDialog";
 import { useMutation } from "@tanstack/react-query";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useToast } from "@/providers/ToastProvider";
+import ArtPieceCompetition from "@/components/dashboard/artwork/Details/Competition";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -63,6 +64,7 @@ export type ViewProps = {
     | "publication"
     | "location"
     | "exhibition"
+    | "competition"
     | "";
   data: any;
 };
@@ -199,7 +201,7 @@ function ArtPiece({ artPiece }) {
             </div>
             <div className="flex gap-2 items-center text-xs font-[300]">
               <GiAlarmClock />
-              <span>Created</span>
+              <span>Added on</span>
               <span>{moment(artPiece?.createdAt).format("DD/MM/YYYY")}</span>
             </div>
           </Stack>
@@ -248,6 +250,10 @@ function ArtPiece({ artPiece }) {
           <ArtPieceExhibition
             artPieceId={artPiece?._id}
             exhibitions={artPiece?.exhibitions}
+          />
+          <ArtPieceCompetition
+            artPieceId={artPiece?._id}
+            competitions={artPiece?.competitions}
           />
           <ArtPieceAppraisal
             artpieceId={artPiece?._id}

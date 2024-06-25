@@ -28,7 +28,7 @@ export default function FlatTitle5({ pieces }) {
                     href="#"
                     className="tf-button rounded-xl style-1 h50 w140 active"
                   >
-                    Create <i className="icon-arrow-up-right2" />
+                    Get Started <i className="icon-arrow-up-right2" />
                   </Link>
                 </div>
               </div>

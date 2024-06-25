@@ -19,7 +19,7 @@ const TopCollection: React.FC<Props> = ({ artpieces }) => {
     >
       <Stack spacing={4} direction="row" justifyContent="space-between">
         <Typography className="text-[17px] leading-[16px] font-[600]">
-          Top Collections in a week
+          Top Collections in this week
         </Typography>
         <Link className="text-[17px] leading-[16px] font-[400] " href="/">
           Discover More

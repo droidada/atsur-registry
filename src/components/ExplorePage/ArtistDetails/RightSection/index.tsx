@@ -27,11 +27,11 @@ const RightSection: React.FC<Props> = ({ artist }) => {
 
   const tabs = [
     {
-      label: "Detail",
+      label: "Bio",
       icon: <IoIosMenu size={15} />,
     },
     {
-      label: "My Projects",
+      label: "Pieces",
       icon: <BsFillFolderFill size={15} />,
     },
     // {
