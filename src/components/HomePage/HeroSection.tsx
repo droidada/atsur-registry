@@ -47,7 +47,7 @@ const HeroSection = () => {
             endIcon={<MdOutlineArrowOutward />}
             className="h-[29px] bg-secondary text-primary font-[400] hover:scale-95 duration-700 text-[15px] leading-[16px]"
           >
-            Create
+            Get Started
           </Button>
         </Stack>
       </Stack>

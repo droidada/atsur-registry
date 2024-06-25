@@ -50,7 +50,7 @@ const FormContainer: React.FC<Props> = ({
               className="px-2 bg-primary text-white text-sm h-[46px] md:w-[250px]  w-full leading-[16px]"
               loading={publishIsLoading}
             >
-              Publish
+              Next
             </LoadingButton>
           </div>
         </div>

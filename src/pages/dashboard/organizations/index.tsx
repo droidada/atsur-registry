@@ -62,7 +62,7 @@ function Organizations({ invitationData }) {
         handleExplore={() => {}}
       />
       <div className="flex gap-4 border-b-[2px] mt-7 mb-4 w-full">
-        {["My Organizations", "Invited Organizations"].map((item, index) => (
+        {["Added", "Invited"].map((item, index) => (
           <div
             key={item}
             onClick={() => setCurrentTab(index)}

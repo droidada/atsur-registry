@@ -87,7 +87,7 @@ const HeroSection: React.FC<Props> = ({ artpiece }) => {
             {/* @ts-ignore */}
             <Stack
               component={Link}
-              href={`/explore/artist/${artpiece.custodian?.profile?._id}`}
+              href={`/explore/artist/${artpiece.custodian?.profile?.id}`}
               direction={"row"}
               spacing={1}
             >
@@ -101,13 +101,13 @@ const HeroSection: React.FC<Props> = ({ artpiece }) => {
                 {artpiece?.custodian?.profile?.lastName}{" "}
               </span>
             </Stack>
-            <Rating
+            {/* <Rating
               name="rating"
               className="bg-secondary px-2 py-1 rounded-[16px]"
               value={artpiece.rating}
               readOnly
               size="small"
-            />
+            /> */}
           </Stack>
 
           <Accordion className="bg-white" defaultExpanded={true}>
@@ -128,14 +128,20 @@ const HeroSection: React.FC<Props> = ({ artpiece }) => {
               <span className="font-[400]">{artpiece.medium}</span>
               <span className="font-[600]  ">Rarity</span>
               <span className="font-[400]">{artpiece.rarity}</span>
-              <span className="font-[600]  ">Depth</span>
-              <span className="font-[400]">{artpiece.depth}</span>
+              {artpiece.depth > 0 &&
+              <>
+                <span className="font-[600]">Depth</span>
+                <span className="font-[400]">{artpiece.depth}</span>
+              </>}
               <span className="font-[600]  ">Height</span>
-              <span className="font-[400]">{artpiece.height} &quot;</span>
+              <span className="font-[400]">{artpiece.height} &quot; inches</span>
               <span className="font-[600]  ">Width</span>
-              <span className="font-[400]">{artpiece.width} &quot; </span>
-              <span className="font-[600]  ">Weight</span>
-              <span className="font-[400]">{artpiece.weight} kg</span>
+              <span className="font-[400]">{artpiece.width} &quot; inches </span>
+              {artpiece.weight > 0 &&
+              <>
+                <span className="font-[600]  ">Weight</span>
+                <span className="font-[400]">{artpiece.weight} kg</span>
+              </>}
             </AccordionDetails>
           </Accordion>
         </Stack>

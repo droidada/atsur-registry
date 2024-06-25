@@ -105,7 +105,7 @@ const AdminArtPieceDetails = ({ artPiece }) => {
               </div>
               <div className="flex gap-2 items-center text-xs font-[300]">
                 <GiAlarmClock />
-                <span>Created</span>
+                <span>Added on</span>
                 <span>{moment(artPiece?.createdAt).format("DD/MM/YYYY")}</span>
               </div>
             </Stack>

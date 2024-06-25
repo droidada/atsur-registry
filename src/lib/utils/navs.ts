@@ -23,10 +23,10 @@ export const landingPageNavMenu = [
 
 export const dashboardSidebarMenu = [
   {
-    title: "ARTWORK",
+    title: "ART",
     menus: [
       {
-        title: "Art",
+        title: "Art Pieces",
         icon: "/images/dashboard-icons/artwork-icon.png",
         link: "/dashboard",
       },
@@ -46,6 +46,11 @@ export const dashboardSidebarMenu = [
         icon: "/images/dashboard-icons/wishlist.png",
         link: "/dashboard/Wishlist",
       },
+    ],
+  },
+  {
+    title: "Engagement",
+    menus: [
       {
         title: "Deals",
         icon: "/images/dashboard-icons/deal-icon.png",
@@ -64,7 +69,7 @@ export const dashboardSidebarMenu = [
       {
         title: "Security",
         icon: "/images/dashboard-icons/security-icon.png",
-        link: "/dashboard/security",
+        link: "/dashboard/settings/security",
       },
       {
         title: "Settings",

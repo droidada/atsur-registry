@@ -246,28 +246,6 @@ function SignUp({ invitationData, countries }) {
           control={control}
         />
 
-        <SelectField
-          control={control}
-          name="country"
-          // @ts-ignore
-          sx={{
-            "& fieldset": { borderRadius: "100px", borderColor: "black" },
-            borderColor: "black",
-          }}
-          label="Country"
-          fullWidth
-        >
-          <MenuItem selected value={""} disabled>
-            Select a country
-          </MenuItem>
-
-          {countries.map((country) => (
-            <MenuItem key={country.code} value={country.code}>
-              {country.name}
-            </MenuItem>
-          ))}
-        </SelectField>
-
         <InputField
           hasBorder
           sx={{
@@ -306,6 +284,28 @@ function SignUp({ invitationData, countries }) {
           }
           control={control}
         />
+
+      <SelectField
+          control={control}
+          name="country"
+          // @ts-ignore
+          sx={{
+            "& fieldset": { borderRadius: "100px", borderColor: "black" },
+            borderColor: "black",
+          }}
+          label="Country"
+          fullWidth
+        >
+          <MenuItem selected value={""} disabled>
+            Select a country
+          </MenuItem>
+
+          {countries.map((country) => (
+            <MenuItem key={country.code} value={country.code}>
+              {country.name}
+            </MenuItem>
+          ))}
+        </SelectField>
 
         <div className="flex  text-xs leading-[17px] items-center">
           <Checkbox id="agree" />
