@@ -79,6 +79,8 @@ function ArtPiece({ artPiece }) {
   const axiosFetch = useAxiosAuth();
   const toast = useToast();
 
+  console.log("artpiecee-----", artPiece);
+
   const { mutate, isLoading } = useMutation({
     mutationFn: () => axiosFetch.delete(`/art-piece/${artPiece?._id}`),
     onSuccess: () => {

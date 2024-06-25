@@ -4,26 +4,6 @@ import { useLoadingContext } from "@/providers/loading.context";
 import UnprotectedPage from "@/HOC/Unprotected";
 import HomePage from "@/components/HomePage";
 
-// export const getServerSideProps = async ({ req, query }) => {
-//   try {
-//     const res = await axios.get(`/public/home`);
-//     console.log(res.data);
-//     return { props: { data: res.data } };
-//   } catch (error) {
-//     console.log(error?.response?.data);
-//     throw new Error(error);
-//   }
-// };
-
-// function Home({ data }) {
-//   console.log(data?.data?.allPieces[0]?.type);
-
-//   const artPieces = data?.data?.allPieces[0]?.type?.filter(
-//     (item) => item._id === "art-piece",
-//   );
-
-//   console.log(artPieces[0]?.artPieces?.length);
-
 function Home() {
   const [data, setData] = useState();
   const [artPieces, setArtPieces] = useState();

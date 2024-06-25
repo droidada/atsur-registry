@@ -130,7 +130,6 @@ const IllustrationForm: React.FC<Props> = ({
           id="title"
           placeholder=""
           name="title"
-          tabIndex={2}
           aria-required="true"
           fullWidth
           error={!!errors["title"]}
@@ -143,7 +142,6 @@ const IllustrationForm: React.FC<Props> = ({
           id="description"
           placeholder=""
           name="description"
-          tabIndex={2}
           multiline
           rows={4}
           inputClassName="bg-secondary"
@@ -163,7 +161,6 @@ const IllustrationForm: React.FC<Props> = ({
             name="subjectMatter"
             inputClassName="bg-secondary"
             className="w-full"
-            tabIndex={2}
             aria-required="true"
             fullWidth
             error={!!errors["subjectMatter"]}
@@ -197,11 +194,10 @@ const IllustrationForm: React.FC<Props> = ({
             label="Height"
             id="height"
             type="number"
-            placeholder=""
+            placeholder="in inches"
             name="height"
             className="w-full"
             inputClassName="bg-secondary"
-            tabIndex={2}
             fullWidth
             aria-required="true"
             error={!!errors["height"]}
@@ -212,11 +208,10 @@ const IllustrationForm: React.FC<Props> = ({
             label="Width"
             id="width"
             type="number"
-            placeholder=""
+            placeholder="in inches"
             name="width"
             className="w-full"
             inputClassName="bg-secondary"
-            tabIndex={2}
             aria-required="true"
             fullWidth
             error={!!errors["width"]}
@@ -227,10 +222,9 @@ const IllustrationForm: React.FC<Props> = ({
             label="Depth"
             id="depth"
             type="number"
-            placeholder=""
+            placeholder="in inches"
             inputClassName="bg-secondary"
             name="depth"
-            tabIndex={2}
             className="w-full"
             aria-required="true"
             fullWidth
