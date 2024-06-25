@@ -11,10 +11,10 @@ export interface ICreateArtworkIllustration {
 }
 
 export interface ICreateArtworkAssets {
-  primaryView: any;
+  primaryViewLandscape: any;
   secondaryView: {
-    leftAngleView: any;
-    rightAngleView: any;
+    primaryViewPortrait: any;
+    framedView: any;
     mountedView: any;
   };
 }

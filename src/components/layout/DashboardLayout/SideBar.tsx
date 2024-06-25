@@ -38,7 +38,7 @@ const SideBar: React.FC<Props> = ({ hideSidebar, isMobile, isAdmin }) => {
         />
       </div>
 
-      <Stack direction={"column"} className="gap-14 px-8 pb-20">
+      <Stack direction={"column"} className="gap-14 px-8 pb-10">
         <div className="mt-10 flex justify-center">
           {isAdmin ? (
             <h3 className="text-[20px] font-[600] text-center">

@@ -23,7 +23,7 @@ import InstitutionInfo from "@/components/dashboard/art-verification/institution
 import { useRouter } from "next/router";
 
 import ProtectedPage from "@/HOC/Protected";
-import ArtVerificationAquisition from "@/components/dashboard/artwork/Verification/Aquisition";
+import ArtVerificationAquisition from "@/components/dashboard/artwork/Verification/Acquisition";
 import ArtVerificationInformation from "@/components/dashboard/artwork/Verification/InformationAdd";
 import MainVerification from "@/components/dashboard/artwork/Verification/MainVerification";
 import VerificationAccepted from "@/components/dashboard/artwork/Verification/VerificationAccepted";

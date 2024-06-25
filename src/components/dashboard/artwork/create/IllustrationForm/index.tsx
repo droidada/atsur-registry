@@ -39,12 +39,12 @@ const IllustrationForm: React.FC<Props> = ({
         (data) => !isNaN(parseFloat(data)) && parseFloat(data) > 0,
         "Width must be a number greater than 0",
       ),
-    depth: string()
-      .nonempty("Depth is required")
-      .refine(
-        (data) => !isNaN(parseFloat(data)) && parseFloat(data) > 0,
-        "Depth must be a number greater than 0",
-      ),
+    depth: string(),
+      // .nonempty("Depth is required")
+      // .refine(
+      //   (data) => !isNaN(parseFloat(data)) && parseFloat(data) > 0,
+      //   "Depth must be a number greater than 0",
+      // ),
     medium: string().nonempty("Medium is required"),
     subjectMatter: string().nonempty("Subject matter is required"),
     rarity: string().nonempty("Rarity is required"),
@@ -194,7 +194,7 @@ const IllustrationForm: React.FC<Props> = ({
 
         <div className="flex gap-4 items-center">
           <InputField
-            label="Height"
+            label="Height [in inches]"
             id="height"
             type="number"
             placeholder=""
@@ -209,7 +209,7 @@ const IllustrationForm: React.FC<Props> = ({
             control={control}
           />
           <InputField
-            label="Width"
+            label="Width [in inches]"
             id="width"
             type="number"
             placeholder=""
@@ -224,7 +224,7 @@ const IllustrationForm: React.FC<Props> = ({
             control={control}
           />
           <InputField
-            label="Depth"
+            label="Depth [in inches]"
             id="depth"
             type="number"
             placeholder=""
@@ -232,7 +232,7 @@ const IllustrationForm: React.FC<Props> = ({
             name="depth"
             tabIndex={2}
             className="w-full"
-            aria-required="true"
+            aria-required="false"
             fullWidth
             error={!!errors["depth"]}
             helperText={errors["depth"] ? errors["depth"].message : ""}

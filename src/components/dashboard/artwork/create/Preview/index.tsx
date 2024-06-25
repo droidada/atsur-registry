@@ -33,7 +33,7 @@ const CreateArtworkPreview: React.FC<Props> = ({
         for (let data in artworkData.illustration) {
           firstFormData.append(`${data}`, artworkData?.illustration[data]);
         }
-        firstFormData.append("file", artworkData.assets?.primaryView);
+        firstFormData.append("file", artworkData.assets?.primaryViewLandscape);
 
         const { data: response1 } = isUpdate
           ? await axiosFetch.put(`/art-piece/${artworkId}`, firstFormData)
@@ -41,8 +41,8 @@ const CreateArtworkPreview: React.FC<Props> = ({
         console.log(response1);
 
         if (
-          artworkData?.assets?.secondaryView?.leftAngleView ||
-          artworkData?.assets?.secondaryView?.rightAngleView ||
+          artworkData?.assets?.secondaryView?.primaryViewPortrait ||
+          artworkData?.assets?.secondaryView?.framedView ||
           artworkData?.assets?.secondaryView?.mountedView
         ) {
           const formData = new FormData();
@@ -50,11 +50,11 @@ const CreateArtworkPreview: React.FC<Props> = ({
 
           formData.append(
             "fileLeft",
-            artworkData?.assets?.secondaryView?.leftAngleView,
+            artworkData?.assets?.secondaryView?.primaryViewPortrait,
           );
           formData.append(
             "fileRight",
-            artworkData?.assets?.secondaryView?.rightAngleView,
+            artworkData?.assets?.secondaryView?.framedView,
           );
           formData.append(
             "fileMounted",
@@ -149,58 +149,58 @@ const CreateArtworkPreview: React.FC<Props> = ({
             </p>
           </div>
           <div className="flex flex-col gap-2">
-            <h4 className="font-semibold text-[15px] leading-[16px]">width</h4>
+            <h4 className="font-semibold text-[15px] leading-[16px]">Width</h4>
             <p className="text-[17px] leading-[16px] font-[300]">
               {formData?.illustration?.width} inches
             </p>
           </div>
-          <div className="flex flex-col gap-2">
+          {formData?.illustration?.depth && <div className="flex flex-col gap-2">
             <h4 className="font-semibold text-[15px] leading-[16px]">Depth</h4>
             <p className="text-[17px] leading-[16px] font-[300]">
               {formData?.illustration?.depth} inches
             </p>
-          </div>
+          </div>}
         </div>
 
         <div className="grid gap-4 md:grid-cols-4">
           <div className="flex flex-col gap-2">
             <Image
-              src={formData?.assets?.primaryView}
+              src={formData?.assets?.primaryViewLandscape}
               alt="primary View"
               width={192}
               height={224}
               className="max-w-[192px] h-[224px] w-full object-cover "
             />
             <p className="italic text-[15px] leading-[20px] font-[300]">
-              Primary View
+              Primary View [Landscape]
             </p>
           </div>
-          {formData?.assets?.secondaryView?.leftAngleView && (
+          {formData?.assets?.secondaryView?.primaryViewPortrait && (
             <div className="flex flex-col gap-2">
               <Image
-                src={formData?.assets?.secondaryView?.leftAngleView}
-                alt="Left Angle View"
+                src={formData?.assets?.secondaryView?.primaryViewPortrait}
+                alt="Primary View Portrait"
                 width={192}
                 height={224}
                 className="max-w-[192px] h-[224px] w-full object-cover "
               />
               <p className="italic text-[15px] leading-[20px] font-[300]">
-                Left Angle View
+                Primary View Portrait
               </p>
             </div>
           )}
 
-          {formData?.assets?.secondaryView?.rightAngleView && (
+          {formData?.assets?.secondaryView?.framedView && (
             <div className="flex flex-col gap-2">
               <Image
-                src={formData?.assets?.secondaryView?.rightAngleView}
-                alt="Right Angle View"
+                src={formData?.assets?.secondaryView?.framedView}
+                alt="Framed View"
                 width={192}
                 height={224}
                 className="max-w-[192px] h-[224px] w-full object-cover "
               />
               <p className="italic text-[15px] leading-[20px] font-[300]">
-                Right Angle View
+                Framed View
               </p>
             </div>
           )}

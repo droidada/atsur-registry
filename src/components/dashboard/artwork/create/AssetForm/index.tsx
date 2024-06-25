@@ -16,15 +16,15 @@ const AssetsForm: React.FC<Props> = ({
   formData,
 }) => {
   const [files, setFiles] = useState({
-    primaryView: "",
+    primaryViewLandscape: "",
     mountedView: "",
-    rightAngleView: "",
-    leftAngleView: "",
+    framedView: "",
+    primaryViewPortrait: "",
   });
 
   const handleUploadClick = (
     event: React.ChangeEvent<HTMLInputElement>,
-    type: "primaryView" | "mountedView" | "rightAngleView" | "leftAngleView",
+    type: "primaryViewLandscape" | "mountedView" | "framedView" | "primaryViewPortrait",
   ) => {
     let file = event.target.files[0];
     const reader = new FileReader();
@@ -37,7 +37,7 @@ const AssetsForm: React.FC<Props> = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!files.primaryView && !formData?.assets?.primaryView) {
+    if (!files.primaryViewLandscape && !formData?.assets?.primaryViewLandscape) {
       toast.error("Primary View image is required");
       return;
     }
@@ -45,16 +45,16 @@ const AssetsForm: React.FC<Props> = ({
     setFormData((prev) => ({
       ...prev,
       assets: {
-        primaryView: files.primaryView || formData?.assets?.primaryView,
+        primaryViewLandscape: files.primaryViewLandscape || formData?.assets?.primaryViewLandscape,
         secondaryView: {
           mountedView:
             files.mountedView || formData?.assets?.secondaryView?.mountedView,
-          leftAngleView:
-            files.leftAngleView ||
-            formData?.assets?.secondaryView?.leftAngleView,
-          rightAngleView:
-            files.rightAngleView ||
-            formData?.assets?.secondaryView?.rightAngleView,
+          primaryViewPortrait:
+            files.primaryViewPortrait ||
+            formData?.assets?.secondaryView?.primaryViewPortrait,
+          framedView:
+            files.framedView ||
+            formData?.assets?.secondaryView?.framedView,
         },
       },
     }));
@@ -71,12 +71,12 @@ const AssetsForm: React.FC<Props> = ({
     >
       <Stack spacing={4}>
         <div className="flex flex-col gap-4">
-          <h2 className="text-[17px] leading-[16px] ">Primary View</h2>
+          <h2 className="text-[17px] leading-[16px] ">Primary View [Landscape] *</h2>
           <div className="w-full relative h-[162px] bg-secondary p-4 gap-4 flex flex-col justify-center items-center">
-            {(files.primaryView || formData?.assets?.primaryView) && (
+            {(files.primaryViewLandscape || formData?.assets?.primaryViewLandscape) && (
               <Image
-                alt="primaryView"
-                src={files.primaryView || formData?.assets?.primaryView}
+                alt="primaryViewLandscape"
+                src={files.primaryViewLandscape || formData?.assets?.primaryViewLandscape}
                 fill
                 className="object-cover"
               />
@@ -84,7 +84,7 @@ const AssetsForm: React.FC<Props> = ({
 
             <div
               className={`flex flex-col gap-4 items-center relative ${
-                files.primaryView || formData?.assets?.primaryView
+                files.primaryViewLandscape || formData?.assets?.primaryViewLandscape
                   ? "backdrop-blur-sm bg-black/70 text-white p-4 drop-shadow-md"
                   : ""
               }`}
@@ -94,34 +94,34 @@ const AssetsForm: React.FC<Props> = ({
                 MP3 (Max 1GB)
               </p>
               <label
-                htmlFor="primaryView"
+                htmlFor="primaryViewLandscape"
                 className="w-[122px] cursor-pointer hover:bg-secondary-white grid place-items-center h-[32px] bg-[#CECDCD] font-normal text-[11px] leading-[16px] text-primary"
               >
                 Browse file
               </label>
               <input
                 type="file"
-                onChange={(e) => handleUploadClick(e, "primaryView")}
+                onChange={(e) => handleUploadClick(e, "primaryViewLandscape")}
                 hidden
                 accept="image/*"
-                id="primaryView"
+                id="primaryViewLandscape"
               />
             </div>
           </div>
         </div>
         <div className="flex flex-col gap-4">
-          <h2 className="text-[17px] leading-[16px] ">Secondary View</h2>
+          {/* <h2 className="text-[17px] leading-[16px] ">Secondary View</h2> */}
           <div className="flex flex-col md:flex-row gap-4 items-center ">
             <div className="flex flex-col gap-4">
-              <h4 className="text-[14px] leading-[16px]">Left Angle View</h4>
+              <h4 className="text-[14px] leading-[16px]">Portrait View</h4>
               <div className="w-full h-[162px] relative bg-secondary p-4 gap-4 flex flex-col justify-center items-center">
-                {(files.leftAngleView ||
-                  formData?.assets?.secondaryView?.leftAngleView) && (
+                {(files.primaryViewPortrait ||
+                  formData?.assets?.secondaryView?.primaryViewPortrait) && (
                   <Image
-                    alt="leftAngleView"
+                    alt="primaryViewPortrait"
                     src={
-                      files.leftAngleView ||
-                      formData?.assets?.secondaryView?.leftAngleView
+                      files.primaryViewPortrait ||
+                      formData?.assets?.secondaryView?.primaryViewPortrait
                     }
                     fill
                     className="object-cover"
@@ -129,8 +129,8 @@ const AssetsForm: React.FC<Props> = ({
                 )}
                 <div
                   className={`flex flex-col gap-4 items-center relative ${
-                    files.leftAngleView ||
-                    formData?.assets?.secondaryView?.leftAngleView
+                    files.primaryViewPortrait ||
+                    formData?.assets?.secondaryView?.primaryViewPortrait
                       ? "backdrop-blur-sm bg-black/70 text-white p-4 drop-shadow-md"
                       : ""
                   }`}
@@ -140,31 +140,31 @@ const AssetsForm: React.FC<Props> = ({
                     or MP3 (Max 1GB)
                   </p>
                   <label
-                    htmlFor="leftAngleView"
+                    htmlFor="primaryViewPortrait"
                     className="w-[122px] cursor-pointer hover:bg-secondary-white grid place-items-center h-[32px] bg-[#CECDCD] font-normal text-[11px] leading-[16px] text-primary"
                   >
                     Browse file
                   </label>
                   <input
                     type="file"
-                    onChange={(e) => handleUploadClick(e, "leftAngleView")}
+                    onChange={(e) => handleUploadClick(e, "primaryViewPortrait")}
                     hidden
                     accept="image/*"
-                    id="leftAngleView"
+                    id="primaryViewPortrait"
                   />
                 </div>
               </div>
             </div>
             <div className="flex flex-col gap-4">
-              <h4 className="text-[14px] leading-[16px]">Right Angle View</h4>
+              <h4 className="text-[14px] leading-[16px]">Framed View</h4>
               <div className="w-full h-[162px] relative bg-secondary p-4 gap-4 flex flex-col justify-center items-center">
-                {(files.rightAngleView ||
-                  formData?.assets?.secondaryView?.rightAngleView) && (
+                {(files.framedView ||
+                  formData?.assets?.secondaryView?.framedView) && (
                   <Image
-                    alt="rightAngleView"
+                    alt="framedView"
                     src={
-                      files.rightAngleView ||
-                      formData?.assets?.secondaryView?.rightAngleView
+                      files.framedView ||
+                      formData?.assets?.secondaryView?.framedView
                     }
                     fill
                     className="object-cover"
@@ -172,8 +172,8 @@ const AssetsForm: React.FC<Props> = ({
                 )}
                 <div
                   className={`flex flex-col gap-4 items-center relative ${
-                    files.rightAngleView ||
-                    formData?.assets?.secondaryView?.rightAngleView
+                    files.framedView ||
+                    formData?.assets?.secondaryView?.framedView
                       ? "backdrop-blur-sm bg-black/70 text-white p-4 drop-shadow-md"
                       : ""
                   }`}
@@ -183,17 +183,17 @@ const AssetsForm: React.FC<Props> = ({
                     or MP3 (Max 1GB)
                   </p>
                   <label
-                    htmlFor="rightAngleView"
+                    htmlFor="framedView"
                     className="w-[122px] cursor-pointer hover:bg-secondary-white grid place-items-center h-[32px] bg-[#CECDCD] font-normal text-[11px] leading-[16px] text-primary"
                   >
                     Browse file
                   </label>
                   <input
                     type="file"
-                    onChange={(e) => handleUploadClick(e, "rightAngleView")}
+                    onChange={(e) => handleUploadClick(e, "framedView")}
                     hidden
                     accept="image/*"
-                    id="rightAngleView"
+                    id="framedView"
                   />
                 </div>
               </div>

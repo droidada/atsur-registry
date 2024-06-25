@@ -25,7 +25,7 @@ import {
   Switch,
 } from "@mui/material";
 import SwitchInput from "@/components/Form/SwitchInput";
-import ExhibitionTable from "./ExhibitionTable";
+import CompetitionTable from "./CompetitionTable";
 import { useRouter } from "next/router";
 import {
   MdAddCircleOutline,
@@ -33,16 +33,16 @@ import {
 } from "react-icons/md";
 
 interface Props {
-  exhibitions: any[];
+  competitions: any[];
   artPieceId: string;
 }
-const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
+const ArtPieceCompetition: React.FC<Props> = ({ competitions, artPieceId }) => {
   const [open, setOpen] = useState(false);
   const toast = useToast();
-  const [exhibitionImg, setExhibitionImg] = useState(null);
+  const [competitionImg, setCompetitionImg] = useState(null);
   const axiosAuth = useAxiosAuth();
   const router = useRouter();
-  const [currentExhibition, setCurrentExhibition] = useState<any>(null);
+  const [currentCompetition, setCurrentCompetition] = useState<any>(null);
 
   const jurorSchema = object({
     name: string().nonempty({ message: "Juror name is required" }),
@@ -60,8 +60,8 @@ const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
       .nonempty({ message: "Email is required" }),
   });
 
-  const exhibitionSchema = object({
-    name: string().nonempty("Exhibition name is required"),
+  const competitionSchema = object({
+    name: string().nonempty("competition name is required"),
     description: string().nonempty("Description is required"),
     type: string().nonempty("Type is required"),
     showingType: string().nonempty("Showing is required"),
@@ -78,7 +78,7 @@ const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
     curators: array(curatorSchema),
   });
 
-  type ExhibitionInput = TypeOf<typeof exhibitionSchema>;
+  type competitionInput = TypeOf<typeof competitionSchema>;
 
   const {
     register,
@@ -88,8 +88,8 @@ const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
     handleSubmit,
     setValue,
     watch,
-  } = useForm<ExhibitionInput>({
-    resolver: zodResolver(exhibitionSchema),
+  } = useForm<competitionInput>({
+    resolver: zodResolver(competitionSchema),
     defaultValues: {
       jurors: [{ name: "", phone: "", email: "" }],
       curators: [{ name: "", phone: "", email: "" }],
@@ -104,15 +104,15 @@ const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
     mutate: submit,
   } = useMutation({
     mutationFn: (data) =>
-      currentExhibition
-        ? axiosAuth.post(`/exhibition/update`, data)
-        : axiosAuth.post(`/exhibition/add`, data),
+      currentCompetition
+        ? axiosAuth.post(`/competition/update`, data)
+        : axiosAuth.post(`/competition/add`, data),
     onSuccess: () => {
       reset();
       setOpen(false);
 
       toast.success(
-        `Exhibition ${currentExhibition ? "updated" : "added"}  successfully.`,
+        `competition ${currentCompetition ? "updated" : "added"}  successfully.`,
       );
 
       router.replace(router.asPath);
@@ -122,15 +122,15 @@ const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
         // @ts-ignore
         error.response?.data?.message ||
         `An error occurred while ${
-          currentExhibition ? "updating" : "adding"
-        } the exhibition.`;
+          currentCompetition ? "updating" : "adding"
+        } the competition.`;
       toast.error(errorMessage);
     },
   });
 
-  const onSubmitHandler: SubmitHandler<ExhibitionInput> = async (values) => {
+  const onSubmitHandler: SubmitHandler<competitionInput> = async (values) => {
     const formData = new FormData();
-    formData.append("image", exhibitionImg);
+    formData.append("image", competitionImg);
     formData.append("artPieceId", artPieceId);
     formData.append("name", values.name);
     formData.append("description", values.description);
@@ -144,8 +144,8 @@ const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
     formData.append("endDate", values.endDate);
     formData.append("jurors", JSON.stringify(values.jurors));
     formData.append("curators", JSON.stringify(values.curators));
-    currentExhibition &&
-      formData.append("exhibitionId", currentExhibition?._id);
+    currentCompetition &&
+      formData.append("competitionId", currentCompetition?._id);
 
     // @ts-ignore
     submit(formData);
@@ -156,36 +156,36 @@ const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
     const reader = new FileReader();
     let url = reader.readAsDataURL(file);
     reader.onloadend = function (e) {
-      setExhibitionImg(reader.result);
+      setCompetitionImg(reader.result);
     }.bind(this);
   };
 
   useEffect(() => {
-    setValue("name", currentExhibition?.name || "");
-    setValue("description", currentExhibition?.description || "");
-    setValue("type", currentExhibition?.type || "");
-    setValue("showingType", currentExhibition?.showingType || "");
-    setValue("organizerName", currentExhibition?.organizer?.name || "");
-    // setValue("organizerLocation", currentExhibition?.organizerLocation || "");
-    setValue("organizerWebsite", currentExhibition?.organizer?.website || "");
-    setValue("organizerEmail", currentExhibition?.organizer?.email || "");
-    setValue("organizerPhone", currentExhibition?.organizer?.phone || "");
-    setValue("startDate", currentExhibition?.date?.startDate || "");
-    setValue("endDate", currentExhibition?.date?.endDate || "");
-    setValue("isCirca", currentExhibition?.date?.isCirca || false);
-  }, [currentExhibition]);
+    setValue("name", currentCompetition?.name || "");
+    setValue("description", currentCompetition?.description || "");
+    setValue("type", currentCompetition?.type || "");
+    setValue("showingType", currentCompetition?.showingType || "");
+    setValue("organizerName", currentCompetition?.organizer?.name || "");
+    // setValue("organizerLocation", currentCompetition?.organizerLocation || "");
+    setValue("organizerWebsite", currentCompetition?.organizer?.website || "");
+    setValue("organizerEmail", currentCompetition?.organizer?.email || "");
+    setValue("organizerPhone", currentCompetition?.organizer?.phone || "");
+    setValue("startDate", currentCompetition?.date?.startDate || "");
+    setValue("endDate", currentCompetition?.date?.endDate || "");
+    setValue("isCirca", currentCompetition?.date?.isCirca || false);
+  }, [currentCompetition]);
 
   return (
     <ArtDetailsAccordionContainer
       onClick={() => setOpen(true)}
-      title={"Exhibitions"}
+      title={"Competitions"}
     >
       <>
-        {exhibitions?.length > 0 && (
-          <ExhibitionTable
+        {competitions?.length > 0 && (
+          <CompetitionTable
             setOpenDialog={setOpen}
-            setCurrentExhibition={setCurrentExhibition}
-            exhibitions={exhibitions}
+            setCurrentCompetition={setCurrentCompetition}
+            competitions={competitions}
             artpieceId={artPieceId}
           />
         )}
@@ -193,27 +193,27 @@ const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
 
       <FormDialogContainer
         onSubmit={handleSubmit(onSubmitHandler)}
-        title="Exhibition"
+        title="competition"
         open={open}
         isLoading={isLoading}
         handleClose={() => {
-          setCurrentExhibition(null);
+          setCurrentCompetition(null);
           setOpen(false);
         }}
       >
         <FormDataComponent
-          exhibitionImg={exhibitionImg}
+          competitionImg={competitionImg}
           handleUploadClick={handleUploadClick}
           control={control}
           errors={errors}
-          // exhibitions={[]}
+          // competitions={[]}
         />
       </FormDialogContainer>
     </ArtDetailsAccordionContainer>
   );
 };
 
-export default ArtPieceExhibition;
+export default ArtPieceCompetition;
 
 interface FormDataProps {
   errors: FieldErrors<{
@@ -247,26 +247,26 @@ interface FormDataProps {
     },
     any
   >;
-  exhibitionImg: any;
+  competitionImg: any;
   handleUploadClick: (event: any) => void;
 }
 const FormDataComponent: React.FC<FormDataProps> = ({
   errors,
   control,
-  exhibitionImg,
+  competitionImg,
   handleUploadClick,
 }) => {
   return (
     <div className="py-6 flex-col flex gap-4">
       <div className="flex gap-4 items-start">
         <div className="w-[166px] relative h-[193px] bg-secondary-white">
-          {exhibitionImg && (
-            <Image src={exhibitionImg} alt="" className="object-cover" fill />
+          {competitionImg && (
+            <Image src={competitionImg} alt="" className="object-cover" fill />
           )}
         </div>
         <div className="flex flex-col gap-3 max-w-[256px] w-full">
           <p className="text-[19px] leading-[27px] tracking-[-4%]">
-            Drag or choose exhibition image to upload
+            Drag or choose competition image to upload
           </p>
           <label
             htmlFor="file"
@@ -339,7 +339,7 @@ const FormDataComponent: React.FC<FormDataProps> = ({
           error={!!errors["type"]}
         >
           <MenuItem>Select</MenuItem>
-          <MenuItem value="exhibition">Exhibition</MenuItem>
+          <MenuItem value="competition">competition</MenuItem>
           <MenuItem value="competition">Competition</MenuItem>
         </SelectField>
       </div>

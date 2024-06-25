@@ -30,7 +30,7 @@ export default function FlatTitle2({ pieces }) {
                     <i className="icon-arrow-up-right2" />
                   </Link>
                   <Link href="#" className="tf-button style-1 h50 w190 active">
-                    Create
+                    Get Started
                     <i className="icon-arrow-up-right2" />
                   </Link>
                 </div>

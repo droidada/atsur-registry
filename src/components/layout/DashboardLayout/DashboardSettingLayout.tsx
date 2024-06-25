@@ -17,16 +17,12 @@ interface Props {
 
 const navs = [
   {
-    title: "My Profile",
+    title: "Profile",
     link: "/dashboard/settings",
   },
   {
     title: "Security",
     link: "/dashboard/settings/security",
-  },
-  {
-    title: "Artworks",
-    link: "/dashboard/settings/artworks",
   },
   {
     title: "Notifications",
@@ -35,10 +31,6 @@ const navs = [
   {
     title: "Billing",
     link: "/dashboard/settings/billing",
-  },
-  {
-    title: "Data Entry",
-    link: "/dashboard/settings/data-entry",
   },
 ];
 

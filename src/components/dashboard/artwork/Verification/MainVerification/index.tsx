@@ -1,7 +1,7 @@
 import { Stack } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import ArtVerificationAquisition from "../Aquisition";
+import ArtVerificationAcquisition from "../Acquisition";
 import ArtVerificationInformation from "../InformationAdd";
 import ArtVerificationPreview from "../Preview";
 
@@ -11,8 +11,8 @@ interface Props {
 function MainVerification({ artPiece }: Props) {
   console.log(artPiece);
   const [steps, setSteps] = useState([
-    "aquistion",
-    "information add",
+    "acquisition",
+    "information",
     "Preview",
   ]);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -22,11 +22,11 @@ function MainVerification({ artPiece }: Props) {
   const { id: artpieceId } = useRouter().query;
 
   const handleAddDealerStep = () => {
-    setSteps(["aquistion", "information add", "Broker Info", "Preview"]);
+    setSteps(["acquisition", "information", "Broker Info", "Preview"]);
   };
 
   const handleRemoveDealerStep = () => {
-    setSteps(["aquistion", "information add", "Preview"]);
+    setSteps(["acquisition", "information", "Preview"]);
   };
 
   useEffect(() => {
@@ -68,7 +68,7 @@ function MainVerification({ artPiece }: Props) {
                   activeIndex === index ? "font-bold" : ""
                 }`}
               >
-                {item === "information add" ? selectedInformationAdd : item}
+                {item === "information" ? selectedInformationAdd : item}
               </span>
               <span
                 className={`h-[7px] w-full rounded-[23px]  ${
@@ -86,7 +86,7 @@ function MainVerification({ artPiece }: Props) {
         <div>
           {
             [
-              <ArtVerificationAquisition
+              <ArtVerificationAcquisition
                 key={0}
                 setActiveIndex={setActiveIndex}
                 selectedInformationAdd={selectedInformationAdd}
