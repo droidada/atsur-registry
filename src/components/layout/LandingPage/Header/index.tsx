@@ -148,26 +148,6 @@ const MobileMenuContent = () => {
         </List>
       </div>
 
-      {/* <div className="  mt-4 bg-secondary p-2">
-        <h3 className="text-lg font-semibold">Company</h3>
-        <List>
-          {[
-            { link: "/", title: "Help Center" },
-            { link: "/", title: "Platform Status" },
-          ].map((item) => (
-            <ListItem
-              className="my-2"
-              key={`mobile-menu-${item.title}`}
-              disablePadding
-            >
-              <Link className="text-sm hover:underline" href={item.link}>
-                {item.title}
-              </Link>
-            </ListItem>
-          ))}
-        </List>
-      </div> */}
-
       <div className="  mt-4 bg-secondary p-2">
         <h3 className="text-lg font-semibold">Join the community</h3>
         <Stack direction={"row"} className="mt-4" spacing={1}>
