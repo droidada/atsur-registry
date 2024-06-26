@@ -12,7 +12,7 @@ const LandingPageLayout: React.FC<Props> = ({ children }) => {
   const pathname = router.pathname;
   console.log(pathname);
   return (
-    <>
+    <div className="relative">
       <LandingPageHeader />
       <main
         className={`${
@@ -23,7 +23,7 @@ const LandingPageLayout: React.FC<Props> = ({ children }) => {
         {children}
       </main>
       <LandingPageFooter />
-    </>
+    </div>
   );
 };
 

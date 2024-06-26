@@ -35,7 +35,7 @@ const socialLinks = [
 
 const LandingPageFooter = () => {
   return (
-    <footer className="bg-black py-4 md:py-9 text-white">
+    <footer className="bg-black relative py-4 md:py-9 text-white">
       <Stack
         direction={{ xs: "column", md: "row" }}
         className="page-container "

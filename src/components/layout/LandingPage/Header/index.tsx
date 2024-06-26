@@ -36,7 +36,12 @@ const LandindingPageHeader = () => {
           alignItems={"center"}
           justifyContent={"space-between"}
         >
-          <Stack direction="row" alignItems={"center"} spacing={4}>
+          <Stack
+            direction="row"
+            className="z-10"
+            alignItems={"center"}
+            spacing={4}
+          >
             <Link href={"/"}>
               <Image src={logo} width={66} height={58.98} alt="Atsur" />
             </Link>
