@@ -45,7 +45,7 @@
     "src/styles/theme/index.jsx",
     "src/components/open9/elements/AddClassBody.js",
     "src/components/open9/layout/Layout.js",
-    "src/pages/index_1.jsx",
+    "src/pages/explore/index_1.jsx",
     "src/pages/404.tsx",
     "src/pages/signup/index.tsx",
     "src/components/open9/layout/DashboardLayoutWithSidebar.js",
