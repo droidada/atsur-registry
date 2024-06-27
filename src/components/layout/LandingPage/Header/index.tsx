@@ -29,7 +29,7 @@ const LandindingPageHeader = () => {
 
   const { status } = useSession();
   return (
-    <header className="border-b-[1px]">
+    <header className="">
       <div className="page-container ">
         <Stack
           direction="row"
