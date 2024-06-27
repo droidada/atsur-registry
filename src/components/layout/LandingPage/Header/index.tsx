@@ -29,14 +29,20 @@ const LandindingPageHeader = () => {
 
   const { status } = useSession();
   return (
-    <header className="border-b-[1px]">
+    <header className="">
       <div className="page-container ">
         <Stack
           direction="row"
           alignItems={"center"}
           justifyContent={"space-between"}
         >
-          <Stack direction="row" alignItems={"center"} spacing={4}>
+          {/*     */}
+          <Stack
+            direction="row"
+            className="z-10"
+            alignItems={"center"}
+            spacing={4}
+          >
             <Link href={"/"}>
               <Image src={logo} width={66} height={58.98} alt="Atsur" />
             </Link>
@@ -147,26 +153,6 @@ const MobileMenuContent = () => {
           ))}
         </List>
       </div>
-
-      {/* <div className="  mt-4 bg-secondary p-2">
-        <h3 className="text-lg font-semibold">Company</h3>
-        <List>
-          {[
-            { link: "/", title: "Help Center" },
-            { link: "/", title: "Platform Status" },
-          ].map((item) => (
-            <ListItem
-              className="my-2"
-              key={`mobile-menu-${item.title}`}
-              disablePadding
-            >
-              <Link className="text-sm hover:underline" href={item.link}>
-                {item.title}
-              </Link>
-            </ListItem>
-          ))}
-        </List>
-      </div> */}
 
       <div className="  mt-4 bg-secondary p-2">
         <h3 className="text-lg font-semibold">Join the community</h3>
