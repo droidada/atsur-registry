@@ -12,17 +12,18 @@ const LandingPageLayout: React.FC<Props> = ({ children }) => {
   const pathname = router.pathname;
   console.log(pathname);
   return (
-    <>
+    <div className="relative">
       <LandingPageHeader />
       <main
         className={`${
-          pathname !== "/explore" && "page-container"
-        } min-h-screen pt-8 pb-12`}
+          !["/explore", "/contact"].includes(pathname) &&
+          "page-container pt-8 pb-12"
+        } min-h-screen `}
       >
         {children}
       </main>
       <LandingPageFooter />
-    </>
+    </div>
   );
 };
 
