@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-
-import DashboardLayoutWithSidebar, {
-  DashboardPages,
-} from "@/components/open9/layout/DashboardLayoutWithSidebar";
 import axios from "@/lib/axios";
 import {
   Autocomplete,

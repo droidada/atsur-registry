@@ -3,9 +3,6 @@ import Image from "@/components/common/image";
 import { useEffect, useState } from "react";
 import { getToken } from "next-auth/jwt";
 import axios from "@/lib/axios";
-import DashboardLayoutWithSidebar, {
-  DashboardPages,
-} from "@/components/open9/layout/DashboardLayoutWithSidebar";
 import { ToggleButtonGroup, ToggleButton, Stack } from "@mui/material";
 import { artRoles } from "@/types";
 import {

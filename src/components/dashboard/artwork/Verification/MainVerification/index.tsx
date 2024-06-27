@@ -10,11 +10,7 @@ interface Props {
 }
 function MainVerification({ artPiece }: Props) {
   console.log(artPiece);
-  const [steps, setSteps] = useState([
-    "acquisition",
-    "information",
-    "Preview",
-  ]);
+  const [steps, setSteps] = useState(["acquisition", "information", "Preview"]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedInformationAdd, setSelectedInformationAdd] = useState<
     "artist" | "broker" | "collector" | "institution"

@@ -40,11 +40,11 @@ const IllustrationForm: React.FC<Props> = ({
         "Width must be a number greater than 0",
       ),
     depth: string(),
-      // .nonempty("Depth is required")
-      // .refine(
-      //   (data) => !isNaN(parseFloat(data)) && parseFloat(data) > 0,
-      //   "Depth must be a number greater than 0",
-      // ),
+    // .nonempty("Depth is required")
+    // .refine(
+    //   (data) => !isNaN(parseFloat(data)) && parseFloat(data) > 0,
+    //   "Depth must be a number greater than 0",
+    // ),
     medium: string().nonempty("Medium is required"),
     subjectMatter: string().nonempty("Subject matter is required"),
     rarity: string().nonempty("Rarity is required"),

@@ -154,12 +154,16 @@ const CreateArtworkPreview: React.FC<Props> = ({
               {formData?.illustration?.width} inches
             </p>
           </div>
-          {formData?.illustration?.depth && <div className="flex flex-col gap-2">
-            <h4 className="font-semibold text-[15px] leading-[16px]">Depth</h4>
-            <p className="text-[17px] leading-[16px] font-[300]">
-              {formData?.illustration?.depth} inches
-            </p>
-          </div>}
+          {formData?.illustration?.depth && (
+            <div className="flex flex-col gap-2">
+              <h4 className="font-semibold text-[15px] leading-[16px]">
+                Depth
+              </h4>
+              <p className="text-[17px] leading-[16px] font-[300]">
+                {formData?.illustration?.depth} inches
+              </p>
+            </div>
+          )}
         </div>
 
         <div className="grid gap-4 md:grid-cols-4">

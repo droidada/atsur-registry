@@ -4,7 +4,7 @@ interface IArtPieceDetails {
   };
   custodian: {
     profile: {
-      _id: string;
+      id: string;
       firstName: string;
       lastName: string;
       avatar: string;
@@ -64,7 +64,7 @@ interface IArtPieceDetails {
 export interface IRelatedArtPiece {
   custodian: {
     profile: {
-      _id: string;
+      id: string;
       firstName: string;
       lastName: string;
       avatar: string;

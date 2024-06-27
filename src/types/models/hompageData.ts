@@ -21,6 +21,7 @@ export interface IArtAsset {
 
 export interface IArtPiece {
   _id: string;
+  id: string;
   title: string;
   medium: string;
   artType: string;
@@ -30,6 +31,7 @@ export interface IArtPiece {
 
 export interface ICategory {
   _id: string;
+  id: string;
   artPieces: IArtPiece[];
 }
 

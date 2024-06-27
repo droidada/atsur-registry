@@ -5,12 +5,9 @@ import { Menu } from "@headlessui/react";
 import DashboardLayoutWithSidebar, {
   DashboardPages,
 } from "@/open9/layout/DashboardLayoutWithSidebar";
-import AutoSlider1 from "@/open9/slider/AutoSlider1";
-import AutoSlider2 from "@/open9/slider/AutoSlider2";
 import UploadIcon from "@/components/icons/UploadIcon";
 import WithdrawalIcon from "@/components/icons/WithdrawalIcon";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import { Http2ServerRequest } from "http2";
 
 function Wallet() {
   const [activeIndex, setActiveIndex] = useState(1);

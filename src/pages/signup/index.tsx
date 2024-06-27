@@ -6,7 +6,6 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import Layout from "@/open9/layout/Layout";
 import Link from "next/link";
 import Image from "@/components/common/image";
 import { useState, useEffect } from "react";
@@ -285,7 +284,7 @@ function SignUp({ invitationData, countries }) {
           control={control}
         />
 
-      <SelectField
+        <SelectField
           control={control}
           name="country"
           // @ts-ignore

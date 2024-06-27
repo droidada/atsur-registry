@@ -10,16 +10,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { DefaultSeo } from "next-seo";
 import SEO from "../../next-seo.config";
 
-// import "@rainbow-me/rainbowkit/styles.css";
 import "@/styles/globals.css";
 
 import ThemeProvider from "@/styles/theme";
 import { ProtectedLayout } from "@/components/protected-layout";
-// import Preloader from "@/open9/elements/Preloader";
-// import AddClassBody from "@/open9/elements/AddClassBody";
-// import "/public/assets/css/style.css";
-// import "/public/assets/css/responsive.css";
-// import "wowjs/css/libs/animate.css";
 
 import Router from "next/router";
 import NProgress from "nprogress";

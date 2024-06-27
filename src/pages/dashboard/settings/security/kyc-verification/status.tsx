@@ -3,9 +3,6 @@ import { getToken } from "next-auth/jwt";
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
 
-import DashboardLayoutWithSidebar, {
-  DashboardPages,
-} from "@/components/open9/layout/DashboardLayoutWithSidebar";
 import { useRouter } from "next/router";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 
