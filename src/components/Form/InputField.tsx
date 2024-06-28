@@ -1,5 +1,6 @@
-import { TextField } from "@mui/material";
-import React from "react";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { IconButton, InputAdornment, TextField } from "@mui/material";
+import React, { useState } from "react";
 import { useController, Control } from "react-hook-form";
 
 interface Props {
@@ -65,6 +66,28 @@ const InputField: React.FC<Props> = ({
     defaultValue: defaultValue || "",
     rules: { required: isRequired },
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const endAdornment = type === "password" && (
+    <InputAdornment position="end">
+      <IconButton
+        aria-label="toggle password visibility"
+        onClick={handleClickShowPassword}
+        onMouseDown={handleMouseDownPassword}
+        edge="end"
+      >
+        {showPassword ? <VisibilityOff /> : <Visibility />}
+      </IconButton>
+    </InputAdornment>
+  );
+
   return (
     <div className={`flex flex-col text-base gap-2  ${className}`}>
       <label htmlFor={label} className={` font-semibold ${labelClassName}`}>
@@ -79,11 +102,20 @@ const InputField: React.FC<Props> = ({
         }}
         rows={rows || 2}
         multiline={multiline}
-        type={type || "text"}
+        type={
+          type == "password"
+            ? showPassword
+              ? "text"
+              : "password"
+            : type || "text"
+        }
         id={id}
         className={`h-fit w-full ${inputClassName} `}
         inputProps={{
           className: `focus:outline-none focus:ring-0 border-none outline-0 remove-input-outline hover:outline-offset-2 border-none focus: focus:outline-offset-0 focus:border-none focus:shadow-outline ${inputClassName}`,
+        }}
+        InputProps={{
+          endAdornment: endAdornment,
         }}
         placeholder={placeholder}
         defaultValue={defaultValue}

@@ -6,7 +6,7 @@ import { Button, Stack, TextField } from "@mui/material";
 import { object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { LoadingButton } from "@mui/lab";
+
 import { useRouter } from "next/router";
 import { useAuthContext } from "../../providers/auth.context";
 import { useToast } from "@/providers/ToastProvider";
@@ -14,6 +14,8 @@ import axios from "@/lib/axios";
 import UnprotectedPage from "@/HOC/Unprotected";
 import InputField from "@/components/Form/InputField";
 import AuthLayout from "@/components/layout/AuthLayout";
+import { FaLinkedin } from "react-icons/fa";
+import LoadingButton from "@/components/Form/LoadingButton";
 
 export const getServerSideProps = async ({ req, query, params }) => {
   console.log(query);
@@ -136,18 +138,11 @@ function Login({ invitationData }) {
               Sign in with Google
             </Button>
             <Button
-              startIcon={
-                <Image
-                  src="/assets/images/facebook.png"
-                  height={20}
-                  width={20}
-                  alt="facebook"
-                />
-              }
+              startIcon={<FaLinkedin className="text-blue-700" size={20} />}
               className="rounded-[100px] border-secondary"
               variant={"outlined"}
             >
-              Sign in with Facebook
+              Sign in with Linkedin
             </Button>
           </div>
           <p className="text-center text-[15px] leading-[16px] flex gap-2 items-center">

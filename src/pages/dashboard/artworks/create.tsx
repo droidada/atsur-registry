@@ -6,6 +6,7 @@ import IllustrationForm from "@/components/dashboard/artwork/create/Illustration
 import ICreateArtworkFormData from "@/types/models/createArtwork";
 import AssetsForm from "@/components/dashboard/artwork/create/AssetForm";
 import CreateArtworkPreview from "@/components/dashboard/artwork/create/Preview";
+import PricingForm from "@/components/dashboard/artwork/create/Pricing";
 
 function Dashboard() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -41,7 +42,7 @@ function Dashboard() {
         Create Artwork
       </h1>
       <Stack direction={"row"} className="overflow-x-auto " spacing={2}>
-        {["illustration", "Assets", "Preview"].map((item, index) => (
+        {["illustration", "Assets", "Pricing", "Preview"].map((item, index) => (
           <div
             key={`active-bar-${item}`}
             className="flex-shrink-0 lg:flex-shrink flex flex-col max-w-[312px] w-full gap-2"
@@ -75,8 +76,15 @@ function Dashboard() {
               setFormData={setFormData}
               formData={formData}
             />,
+
             <AssetsForm
               key={1}
+              setActiveIndex={setActiveIndex}
+              setFormData={setFormData}
+              formData={formData}
+            />,
+            <PricingForm
+              key={4}
               setActiveIndex={setActiveIndex}
               setFormData={setFormData}
               formData={formData}

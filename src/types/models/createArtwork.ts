@@ -1,4 +1,5 @@
-export interface ICreateArtworkIllustration {
+export interface ICreateArtworkIllustration
+{
   title: string;
   description: string;
   medium: string;
@@ -8,9 +9,12 @@ export interface ICreateArtworkIllustration {
   depth: number;
   rarity: string;
   type: string;
+  withFrame: boolean;
+
 }
 
-export interface ICreateArtworkAssets {
+export interface ICreateArtworkAssets
+{
   primaryViewLandscape: any;
   secondaryView: {
     primaryViewPortrait: any;
@@ -19,7 +23,8 @@ export interface ICreateArtworkAssets {
   };
 }
 
-export default interface ICreateArtworkFormData {
+export default interface ICreateArtworkFormData
+{
   illustration: ICreateArtworkIllustration;
   assets: ICreateArtworkAssets;
 }
