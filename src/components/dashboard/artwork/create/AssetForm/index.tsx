@@ -24,7 +24,11 @@ const AssetsForm: React.FC<Props> = ({
 
   const handleUploadClick = (
     event: React.ChangeEvent<HTMLInputElement>,
-    type: "primaryViewLandscape" | "mountedView" | "framedView" | "primaryViewPortrait",
+    type:
+      | "primaryViewLandscape"
+      | "mountedView"
+      | "framedView"
+      | "primaryViewPortrait",
   ) => {
     let file = event.target.files[0];
     const reader = new FileReader();
@@ -37,7 +41,10 @@ const AssetsForm: React.FC<Props> = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!files.primaryViewLandscape && !formData?.assets?.primaryViewLandscape) {
+    if (
+      !files.primaryViewLandscape &&
+      !formData?.assets?.primaryViewLandscape
+    ) {
       toast.error("Primary View image is required");
       return;
     }
@@ -45,7 +52,8 @@ const AssetsForm: React.FC<Props> = ({
     setFormData((prev) => ({
       ...prev,
       assets: {
-        primaryViewLandscape: files.primaryViewLandscape || formData?.assets?.primaryViewLandscape,
+        primaryViewLandscape:
+          files.primaryViewLandscape || formData?.assets?.primaryViewLandscape,
         secondaryView: {
           mountedView:
             files.mountedView || formData?.assets?.secondaryView?.mountedView,
@@ -53,8 +61,7 @@ const AssetsForm: React.FC<Props> = ({
             files.primaryViewPortrait ||
             formData?.assets?.secondaryView?.primaryViewPortrait,
           framedView:
-            files.framedView ||
-            formData?.assets?.secondaryView?.framedView,
+            files.framedView || formData?.assets?.secondaryView?.framedView,
         },
       },
     }));
@@ -71,12 +78,18 @@ const AssetsForm: React.FC<Props> = ({
     >
       <Stack spacing={4}>
         <div className="flex flex-col gap-4">
-          <h2 className="text-[17px] leading-[16px] ">Primary View [Landscape] *</h2>
+          <h2 className="text-[17px] leading-[16px] ">
+            Primary View [Landscape] *
+          </h2>
           <div className="w-full relative h-[162px] bg-secondary p-4 gap-4 flex flex-col justify-center items-center">
-            {(files.primaryViewLandscape || formData?.assets?.primaryViewLandscape) && (
+            {(files.primaryViewLandscape ||
+              formData?.assets?.primaryViewLandscape) && (
               <Image
                 alt="primaryViewLandscape"
-                src={files.primaryViewLandscape || formData?.assets?.primaryViewLandscape}
+                src={
+                  files.primaryViewLandscape ||
+                  formData?.assets?.primaryViewLandscape
+                }
                 fill
                 className="object-cover"
               />
@@ -84,7 +97,8 @@ const AssetsForm: React.FC<Props> = ({
 
             <div
               className={`flex flex-col gap-4 items-center relative ${
-                files.primaryViewLandscape || formData?.assets?.primaryViewLandscape
+                files.primaryViewLandscape ||
+                formData?.assets?.primaryViewLandscape
                   ? "backdrop-blur-sm bg-black/70 text-white p-4 drop-shadow-md"
                   : ""
               }`}
@@ -147,7 +161,9 @@ const AssetsForm: React.FC<Props> = ({
                   </label>
                   <input
                     type="file"
-                    onChange={(e) => handleUploadClick(e, "primaryViewPortrait")}
+                    onChange={(e) =>
+                      handleUploadClick(e, "primaryViewPortrait")
+                    }
                     hidden
                     accept="image/*"
                     id="primaryViewPortrait"

@@ -21,38 +21,44 @@ const ExploreArtpieceDetailsPage: React.FC<Props> = ({
     <>
       <HeroSection artpiece={artpiece} />
       <Stack direction="column" className="mt-8 lg:mt-[60px]" spacing={4}>
-        {artpiece.publications.length > 0 &&
+        {artpiece.publications.length > 0 && (
           <DetailColumn
             type={"publications"}
             columns={["Publications Name", "Title", "Date", "Attachment"]}
           >
             <></>
-          </DetailColumn>}
-          {artpiece.exhibitions.length > 0 &&
-            <DetailColumn
-              type={"exhibitions"}
-              columns={["Name", "Type", "Showing", "Attachment"]}
-            >
-              <></>
-            </DetailColumn>}
-            {artpiece.appraisals.length > 0 &&
-            <DetailColumn
-              type={"appraisals"}
-              columns={["Appraisal Name", "Details", "Attachment"]}
-            >
-              <></>
-            </DetailColumn>}
-            {artpiece.locations.length > 0 &&
-            <DetailColumn
-              type={"locations"}
-              columns={["City", "Address", "Attachment"]}
-            >
-              <></>
-            </DetailColumn>}
+          </DetailColumn>
+        )}
+        {artpiece.exhibitions.length > 0 && (
+          <DetailColumn
+            type={"exhibitions"}
+            columns={["Name", "Type", "Showing", "Attachment"]}
+          >
+            <></>
+          </DetailColumn>
+        )}
+        {artpiece.appraisals.length > 0 && (
+          <DetailColumn
+            type={"appraisals"}
+            columns={["Appraisal Name", "Details", "Attachment"]}
+          >
+            <></>
+          </DetailColumn>
+        )}
+        {artpiece.locations.length > 0 && (
+          <DetailColumn
+            type={"locations"}
+            columns={["City", "Address", "Attachment"]}
+          >
+            <></>
+          </DetailColumn>
+        )}
       </Stack>
-      {relatedArtpieces.length > 0 && <div className="mt-8 lg:mt-[60px]">
-        <RelatedArtpiece relatedArtpieces={relatedArtpieces} />
-      </div>}
+      {relatedArtpieces.length > 0 && (
+        <div className="mt-8 lg:mt-[60px]">
+          <RelatedArtpiece relatedArtpieces={relatedArtpieces} />
+        </div>
+      )}
     </>
   );
 };

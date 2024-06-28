@@ -21,6 +21,7 @@ const nextConfig = {
   basePath: "",
   trailingSlash: false,
   images: {
+    minimumCacheTTL: 60,
     domains: [
       "atsur-registry-artifacts-dev.s3.eu-north-1.amazonaws.com",
       "localhost",

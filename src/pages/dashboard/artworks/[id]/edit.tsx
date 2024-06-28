@@ -53,12 +53,12 @@ function EditArtpiece({ artPiece }) {
       type: artPiece?.artType,
     },
     assets: {
-      primaryView: artPiece?.assets?.find((asset) =>
+      primaryViewLandscape: artPiece?.assets?.find((asset) =>
         asset.url.includes("primary"),
       )?.url,
       secondaryView: {
-        leftAngleView: "",
-        rightAngleView: "",
+        primaryViewPortrait: "",
+        framedView: "",
         mountedView: "",
       },
     },

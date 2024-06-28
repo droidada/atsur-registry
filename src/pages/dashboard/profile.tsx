@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/router";
 import axios from "axios";
-import Link from "next/link";
 import Image from "@/components/common/image";
 import DashboardLayoutWithSidebar, {
   DashboardPages,

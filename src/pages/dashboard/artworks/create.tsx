@@ -27,10 +27,10 @@ function Dashboard() {
       type: "",
     },
     assets: {
-      primaryView: "",
+      primaryViewLandscape: "",
       secondaryView: {
-        leftAngleView: "",
-        rightAngleView: "",
+        primaryViewPortrait: "",
+        framedView: "",
         mountedView: "",
       },
     },

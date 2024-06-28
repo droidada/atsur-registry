@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import Layout from "@/open9/layout/Layout";
 import { useSession } from "next-auth/react";
 import AuthenticatedScreen from "@/components/invitation/AuthenticatedScreen";
 import NotAuthScreen from "@/components/invitation/NotAuthScreen";

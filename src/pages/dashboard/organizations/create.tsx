@@ -9,11 +9,6 @@ import { TextField } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { useAuthContext } from "@/providers/auth.context";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
-import DashboardLayoutWithSidebar, {
-  DashboardPages,
-} from "@/components/open9/layout/DashboardLayoutWithSidebar";
-import AutoSlider1 from "@/open9/slider/AutoSlider1";
-import AutoSlider2 from "@/open9/slider/AutoSlider2";
 import axios from "@/lib/axios";
 import ProtectedPage from "@/HOC/Protected";
 

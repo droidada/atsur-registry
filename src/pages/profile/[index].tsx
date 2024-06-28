@@ -1,11 +1,3 @@
-import Head from "next/head";
-import {
-  Box,
-  Container,
-  Stack,
-  Typography,
-  Unstable_Grid2 as Grid,
-} from "@mui/material";
 import Image from "@/components/common/image";
 import { AccountProfile } from "@/components/profile/profile";
 import { AccountProfileDetails } from "@/components/profile/profileDetails";

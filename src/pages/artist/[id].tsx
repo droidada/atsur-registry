@@ -1,12 +1,9 @@
 import React from "react";
-import { getToken } from "next-auth/jwt";
 import axios from "@/lib/axios";
 import Link from "next/link";
 import Image from "@/components/common/image";
 import Layout from "@/components/open9/layout/Layout";
-import FeaturedItem5 from "@/components/open9/sections/FeaturedItem5";
 import FeaturedItem6 from "@/components/open9/sections/FeaturedItem6";
-import Seller7 from "@/components/open9/sections/Seller7";
 import TopCollections5 from "@/components/open9/sections/TopCollections5";
 
 export const getServerSideProps = async ({ req, query }) => {
