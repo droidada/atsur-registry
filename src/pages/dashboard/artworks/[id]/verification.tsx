@@ -39,8 +39,6 @@ export const getServerSideProps = async ({ req, query }) => {
       headers: { authorization: `Bearer ${token?.accessToken}` },
     });
 
-    console.log(res.data);
-
     return { props: { artPiece: res.data?.data } };
   } catch (error) {
     console.error("error here looks like ", error);
@@ -54,7 +52,7 @@ export const getServerSideProps = async ({ req, query }) => {
 };
 
 function Verification({ artPiece }) {
-  console.log(artPiece);
+
 
   return (
     <>

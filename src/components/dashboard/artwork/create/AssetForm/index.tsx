@@ -33,6 +33,12 @@ const AssetsForm: React.FC<Props> = ({
     let file = event.target.files[0];
     const reader = new FileReader();
     let url = reader.readAsDataURL(file);
+
+    // donot upload files more than 10mb
+    if (file.size > 10000000) {
+      toast.error("File size is too large");
+      return;
+    }
     reader.onloadend = function (e) {
       setFiles((prev) => ({ ...prev, [type]: reader.result }));
     }.bind(this);
@@ -67,6 +73,8 @@ const AssetsForm: React.FC<Props> = ({
     }));
     setActiveIndex((prev) => prev + 1);
   };
+
+  console.log(formData);
 
   return (
     <CreateArtWorkFormContainer
@@ -104,8 +112,8 @@ const AssetsForm: React.FC<Props> = ({
               }`}
             >
               <p className="text-[10px] leading-[16px] text-center">
-                Drag or choose your file to upload PNG, JPEG, GIF, WEBP, MP4 or
-                MP3 (Max 1GB)
+                Drag or choose your file to upload PNG, JPEG, or WEBP, (Max
+                10MB)
               </p>
               <label
                 htmlFor="primaryViewLandscape"
@@ -150,8 +158,8 @@ const AssetsForm: React.FC<Props> = ({
                   }`}
                 >
                   <p className="text-[10px] leading-[16px] text-center">
-                    Drag or choose your file to upload PNG, JPEG, GIF, WEBP, MP4
-                    or MP3 (Max 1GB)
+                    Drag or choose your file to upload PNG, JPEG, or WEBP, (Max
+                    10MB)
                   </p>
                   <label
                     htmlFor="primaryViewPortrait"
@@ -195,8 +203,8 @@ const AssetsForm: React.FC<Props> = ({
                   }`}
                 >
                   <p className="text-[10px] leading-[16px] text-center">
-                    Drag or choose your file to upload PNG, JPEG, GIF, WEBP, MP4
-                    or MP3 (Max 1GB)
+                    Drag or choose your file to upload PNG, JPEG, or WEBP, (Max
+                    10MB)
                   </p>
                   <label
                     htmlFor="framedView"
@@ -238,8 +246,8 @@ const AssetsForm: React.FC<Props> = ({
                   }`}
                 >
                   <p className="text-[10px] leading-[16px] text-center">
-                    Drag or choose your file to upload PNG, JPEG, GIF, WEBP, MP4
-                    or MP3 (Max 1GB)
+                    Drag or choose your file to upload PNG, JPEG, or WEBP, (Max
+                    10MB)
                   </p>
                   <label
                     htmlFor="mountedView"

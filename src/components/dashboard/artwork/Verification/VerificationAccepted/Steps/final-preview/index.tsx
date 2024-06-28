@@ -63,8 +63,6 @@ const FinalPreview: React.FC<Props> = ({
     const link = document.createElement("a");
     link.href = certifiaceUrl;
 
-    console.log(certifiaceUrl);
-
     link.download = certifiaceUrl.split("/").pop();
     link.click();
   };
@@ -145,7 +143,9 @@ const FinalPreview: React.FC<Props> = ({
         {(artPiece?.artPiece?.signedCOA || data?.data?.artPiece?.signedCOA) && (
           <Button
             onClick={() => {
-              setViewPdf(true);
+              router.push(
+                `/dashboard/artworks/${artPiece?.artPiece?._id}/order-tag`,
+              );
             }}
             variant="outlined"
             className=" max-w-[191.83px] h-[46px] w-full text-primary text-[12px] leading-[13px] font-[600]"

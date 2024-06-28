@@ -10,7 +10,15 @@ export interface ICreateArtworkIllustration
   rarity: string;
   type: string;
   withFrame: boolean;
-
+  price: {
+    amount: number;
+    currency: string;
+    type: string;
+  },
+  creationDate: {
+    date: string,
+    isCirca: boolean;
+  };
 }
 
 export interface ICreateArtworkAssets

@@ -73,15 +73,15 @@ const SelectField: React.FC<Props> = ({
           defaultValue={defaultValue}
           error={error}
           inputProps={{
-            className: ``,
+            className: ` z-10`,
           }}
           {...props}
           className={`h-[40px] bg-white focus:border-none ${selectClassName}`}
         >
           {children}
         </Select>
-        <small className="text-red-500 font-normal">
-          {error && helperText}
+        <small className="text-red-500  font-normal">
+          {(error && helperText) || " "}
         </small>
       </div>
     </div>

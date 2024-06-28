@@ -31,7 +31,17 @@ const CreateArtworkPreview: React.FC<Props> = ({
       try {
         const firstFormData = new FormData();
         for (let data in artworkData.illustration) {
-          firstFormData.append(`${data}`, artworkData?.illustration[data]);
+          if (typeof artworkData?.illustration[data] === "object") {
+            for (let key in artworkData?.illustration[data]) {
+              firstFormData.append(
+                `${data}[${key}]`,
+                artworkData?.illustration[data][key],
+              );
+            }
+            continue;
+          } else {
+            firstFormData.append(`${data}`, artworkData?.illustration[data]);
+          }
         }
         firstFormData.append("file", artworkData.assets?.primaryViewLandscape);
 
@@ -125,9 +135,36 @@ const CreateArtworkPreview: React.FC<Props> = ({
             </p>
           </div>
           <div className="flex flex-col gap-2">
-            <h4 className="font-semibold text-[15px] leading-[16px]">Type</h4>
+            <h4 className="font-semibold text-[15px] leading-[16px]">
+              Createion Date
+            </h4>
             <p className="text-[17px] leading-[16px] font-[300]">
-              {formData?.illustration?.type}
+              {formData?.illustration?.creationDate.date}
+            </p>
+          </div>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-4">
+          <div className="flex flex-col gap-2">
+            <h4 className="font-semibold text-[15px] leading-[16px]">
+              Is Circa
+            </h4>
+            <p className="text-[17px] leading-[16px] font-[300]">
+              {formData?.illustration?.creationDate.isCirca ? "Yes" : "No"}
+            </p>
+          </div>
+          <div className="flex flex-col gap-2">
+            <h4 className="font-semibold text-[15px] leading-[16px]">Price</h4>
+            <p className="text-[17px] leading-[16px] font-[300]">
+              {formData?.illustration?.price?.amount}
+            </p>
+          </div>
+          <div className="flex flex-col gap-2">
+            <h4 className="font-semibold text-[15px] leading-[16px]">
+              Price Type
+            </h4>
+            <p className="text-[17px] leading-[16px] font-[300]">
+              {formData?.illustration?.price?.type}
             </p>
           </div>
         </div>

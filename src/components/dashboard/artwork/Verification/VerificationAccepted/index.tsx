@@ -9,7 +9,6 @@ interface Props {
   artPiece: any;
 }
 const VerificationAccepted: React.FC<Props> = ({ artPiece }) => {
-  console.log(artPiece?.artPiece);
   return <VerificationConfirmSteps artPiece={artPiece} />;
 };
 

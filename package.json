@@ -74,6 +74,7 @@
     "react-hook-form": "^7.46.2",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.9.0",
+    "react-number-format": "^5.4.0",
     "react-paystack": "^4.0.3",
     "react-pdf": "^7.7.1",
     "react-pdf-tailwind": "^2.3.0",

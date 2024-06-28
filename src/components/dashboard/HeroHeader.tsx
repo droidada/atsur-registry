@@ -34,7 +34,12 @@ const HeroHeader: React.FC<Props> = ({
         {/* <h1 className=" text-2xl md:text-[50px] md:leading-[70px]"> */}
         {/* @ts-ignore */}
         {data?.user?.firstName} {data?.user?.lastName[0]}.{/* </h1> */}
-        <Stack direction="row" className="mt-2" spacing={2}>
+        <Stack
+          direction="row"
+          justifyContent={"end"}
+          className="mt-2"
+          spacing={2}
+        >
           {/* <Button
             onClick={handleExplore}
             className="bg-white text-[15px] leading-[16px] font-[400] h-[37px] w-[113px] px-2"
