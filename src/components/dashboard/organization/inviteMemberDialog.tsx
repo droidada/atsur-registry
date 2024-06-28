@@ -25,7 +25,7 @@ const InviteMemberDialog: React.FC<Props> = ({
 }) => {
   const [selectedUser, setSelectedUser] = React.useState<any>();
 
-  console.log("This is the user", selectedUser);
+  // console.log("This is the user", selectedUser);
 
   const axiosAuth = useAxiosAuth();
   const toast = useToast();

@@ -1,5 +1,7 @@
 export interface ICreateArtworkIllustration
 {
+  price?: any;
+  creationDate?: any;
   title: string;
   description: string;
   medium: string;
@@ -9,16 +11,7 @@ export interface ICreateArtworkIllustration
   depth: number;
   rarity: string;
   type: string;
-  withFrame: boolean;
-  price: {
-    amount: number;
-    currency: string;
-    type: string;
-  },
-  creationDate: {
-    date: string,
-    isCirca: boolean;
-  };
+  withFrame?: boolean;
 }
 
 export interface ICreateArtworkAssets

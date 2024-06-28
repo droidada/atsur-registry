@@ -18,7 +18,7 @@ function MainVerification({ artPiece }: Props) {
   const { id: artpieceId } = useRouter().query;
 
   const handleAddDealerStep = () => {
-    setSteps(["acquisition", "information", "Broker Info", "Preview"]);
+    setSteps(["acquisition", "information", "Broker Information", "Preview"]);
   };
 
   const handleRemoveDealerStep = () => {
