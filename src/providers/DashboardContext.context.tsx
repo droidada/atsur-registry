@@ -49,7 +49,7 @@ const DashboardContextProvider = ({ children }: Props) => {
   } = useQuery({
     queryFn: async () => {
       const { data: response } = await axiosAuth.get("/notifications/unread");
-      console.log("This is the response", response.data);
+      // console.log("This is the response", response.data);
       return response.data?.notifications;
     },
     queryKey: ["notifications"],

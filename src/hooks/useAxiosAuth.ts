@@ -11,7 +11,6 @@ const useAxiosAuth = () => {
     const requestIntercept = axiosAuth.interceptors.request.use(
       async (config) => {
         const session: any = await getSession();
-        console.log("useAxiosAuth: we have session here in ", session);
 
         if (session) {
           if (!config.headers["Authorization"]) {
@@ -29,7 +28,7 @@ const useAxiosAuth = () => {
     const responseIntercept = axiosAuth.interceptors.response.use(
       (response) => response,
       async (error) => {
-        console.log("response interceptor error here ", error);
+        // console.log("response interceptor error here ", error);
         const prevRequest = error?.config;
         if (error?.response?.status === 401 && !prevRequest?.sent) {
           prevRequest.sent = true;
