@@ -17,12 +17,13 @@ import { useRouter } from "next/router";
 import axios from "@/lib/axios";
 import rawAxios from "axios";
 import { useToast } from "@/providers/ToastProvider";
-import { LoadingButton } from "@mui/lab";
-import UnprotectedPage from "@/HOC/Unprotected";
+
 import InputField from "@/components/Form/InputField";
 import SelectField from "@/components/Form/SelectField";
 import { count } from "console";
 import AuthLayout from "@/components/layout/AuthLayout";
+import { FaLinkedin } from "react-icons/fa";
+import LoadingButton from "@/components/Form/LoadingButton";
 
 const pubAPI = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
@@ -175,13 +176,8 @@ function SignUp({ invitationData, countries }) {
             <span> Sign in with Google</span>
           </button>
           <button className="rounded-[100px] text-[15px] flex justify-center items-center md:w-1/2 w-full gap-2  h-[43px] flex-shrink-0 font-[300] leading-[17px] border-[1px] border-secondary">
-            <Image
-              src="/assets/images/facebook.png"
-              height={20}
-              width={20}
-              alt="facebook"
-            />
-            <span>Sign in with Facebook</span>
+            <FaLinkedin className="text-blue-700" size={20} />
+            <span>Sign in with Linkedin</span>
           </button>
         </div>
         <p className="text-center my-4 text-[15px] leading-[16px] flex gap-2 items-center">
@@ -285,7 +281,7 @@ function SignUp({ invitationData, countries }) {
           control={control}
         />
 
-      <SelectField
+        <SelectField
           control={control}
           name="country"
           // @ts-ignore
@@ -326,7 +322,7 @@ function SignUp({ invitationData, countries }) {
           </LoadingButton>
           <p className="text-center text-xs ">
             Already have an account?{" "}
-            <Link className="text-[#FF0000]" href="/signup">
+            <Link className="text-[#FF0000]" href="/login">
               Sign in
             </Link>
           </p>

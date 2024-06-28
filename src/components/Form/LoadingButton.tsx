@@ -36,7 +36,7 @@ const LoadingButton: React.FC<Props> = ({
       endIcon={loading ? null : endIcon}
       variant={variant}
       className={` ${className} ${
-        loading && "flex items-center justify-center"
+        loading && "flex cursor-not-allowed items-center justify-center"
       }`}
       onClick={onClick}
       disabled={disabled}

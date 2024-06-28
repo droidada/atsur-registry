@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import CreateArtWorkFormContainer from "../FormContainer";
-import { object, string, number, TypeOf } from "zod";
+import { object, string, number, TypeOf, boolean } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
@@ -11,6 +11,7 @@ import ICreateArtworkFormData, {
 import InputField from "@/components/Form/InputField";
 import { MenuItem, Stack } from "@mui/material";
 import SelectField from "@/components/Form/SelectField";
+import SwitchInput from "@/components/Form/SwitchInput";
 
 interface Props {
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
@@ -40,15 +41,16 @@ const IllustrationForm: React.FC<Props> = ({
         "Width must be a number greater than 0",
       ),
     depth: string(),
-      // .nonempty("Depth is required")
-      // .refine(
-      //   (data) => !isNaN(parseFloat(data)) && parseFloat(data) > 0,
-      //   "Depth must be a number greater than 0",
-      // ),
+    // .nonempty("Depth is required")
+    // .refine(
+    //   (data) => !isNaN(parseFloat(data)) && parseFloat(data) > 0,
+    //   "Depth must be a number greater than 0",
+    // ),
     medium: string().nonempty("Medium is required"),
     subjectMatter: string().nonempty("Subject matter is required"),
     rarity: string().nonempty("Rarity is required"),
-    type: string().nonempty("Type is required"),
+    withFrame: boolean().default(false),
+    // type: string().nonempty("Type is required"),
   });
 
   type MetadataInput = TypeOf<typeof metadataSchema>;
@@ -116,7 +118,8 @@ const IllustrationForm: React.FC<Props> = ({
     setValue("rarity", formData?.illustration?.rarity);
     setValue("medium", formData?.illustration?.medium);
     setValue("subjectMatter", formData?.illustration?.subjectMatter);
-    setValue("type", formData?.illustration?.type);
+    setValue("withFrame", formData?.illustration?.withFrame);
+    // setValue("type", formData?.illustration?.type);
   }, [formData]);
 
   return (
@@ -255,7 +258,20 @@ const IllustrationForm: React.FC<Props> = ({
               </MenuItem>
             ))}
           </SelectField>
-          <SelectField
+          <div className="max-w-[300px] w-full">
+            <SwitchInput
+              labelPlacement="start"
+              label="With Frame"
+              name="withFrame"
+              control={control}
+              error={!!errors["withFrame"]}
+              // @ts-ignore
+              helperText={
+                errors["withFrame"] ? errors["withFrame"].message : ""
+              }
+            />
+          </div>
+          {/* <SelectField
             label="Type"
             name="type"
             selectClassName="bg-secondary"
@@ -273,7 +289,7 @@ const IllustrationForm: React.FC<Props> = ({
                 {item}
               </MenuItem>
             ))}
-          </SelectField>
+          </SelectField> */}
         </div>
       </Stack>
     </CreateArtWorkFormContainer>
