@@ -19,6 +19,7 @@ import SignatureCanvas from "react-signature-canvas";
 import { useReactToPrint } from "react-to-print";
 import { Onedoc } from "@onedoc/client";
 import { compile } from "@onedoc/react-print";
+import axios from "axios";
 
 interface Props {
   artPiece: any;
@@ -68,95 +69,57 @@ const SignCertificate: React.FC<Props> = ({
     print: async (printIframe: HTMLIFrameElement) => {
       try {
         const document = printIframe.contentDocument;
-        console.log(document);
+
         if (document) {
           const html = document.querySelector(".certificate");
 
           html.classList.remove("hidden");
 
-          // html.classList.add("pt-4");
-          // html.classList.add("pl-6");
+          const { default: Html2Pdf } = await import("js-html2pdf");
+          const rect = html.getBoundingClientRect();
 
-          try {
-            const doc = new Onedoc(
-              process.env.NEXT_PUBLIC_FILEFORGE_API_KEY as string,
-            );
+          console.log(rect.width, rect.height);
 
-            console.log(process.env.NEXT_PUBLIC_FILEFORGE_API_KEY);
-            const html = await compile(
-              <PdfCertificate
-                ref={certificateRef}
-                artPiece={artPiece}
-                signatureImage={signatureImage}
-                qrImage={qrImage}
-              />,
-            );
+          const option = {
+            margin: 0,
+            filename: `Certificate - ${artPiece?.artPiece?.title}.pdf`,
+            jsPDF: {
+              unit: "px",
+              format: [772, 750],
+              orientation: "portrait",
+            },
+            html2canvas: {
+              height: rect.height,
+              backgroundColor: null,
+              removeContainer: true,
+              windowHeight: 550,
+              dpi: 192,
+              letterRendering: true,
+              scale: 2,
+            },
+          };
 
-            const { file } = await doc.render({
-              html,
-              test: true,
-              save: true,
+          const exporter = new Html2Pdf(html, option);
+
+          const pdf = await exporter.getPdf(false);
+
+          const pdfBlob = pdf.output("blob");
+
+          const formData = new FormData();
+          // console.log(pd)
+          formData.append("draftCOA", pdfBlob);
+          formData.append("signature", signatureImage);
+
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            //@ts-ignore
+            mutate({
+              draftCOA: e.target?.result,
+              signature: signatureImage,
+              qrCode: qrImage,
             });
-
-            console.log(file);
-
-            // const file = await ff.pdf.generate(html, {
-            //   options: {
-            //     host: false,
-            //   },
-            // });
-            // const blob = await new Response(file).blob();
-            // const fileObject = new File([blob], "file.pdf", {
-            //   type: "application/pdf",
-            // });
-            // const url = URL.createObjectURL(fileObject);
-
-            // console.log(url);
-          } catch (error) {}
-
-          // const { default: Html2Pdf } = await import("js-html2pdf");
-          // const rect = html.getBoundingClientRect();
-
-          // console.log(rect.width, rect.height);
-
-          // const option = {
-          //   margin: 0,
-          //   filename: `Certificate - ${artPiece?.artPiece?.title}.pdf`,
-          //   jsPDF: {
-          //     unit: "px",
-          //     format: [772, 750],
-          //     orientation: "portrait",
-          //   },
-          //   html2canvas: {
-          //     height: rect.height,
-          //     backgroundColor: null,
-          //     removeContainer: true,
-          //     windowHeight: 550,
-          //     dpi: 192,
-          //     letterRendering: true,
-          //     scale: 2,
-          //   },
-          // };
-
-          // const exporter = new Html2Pdf(html, option);
-
-          // const pdf = await exporter.getPdf(false);
-
-          // const pdfBlob = pdf.output("blob");
-
-          // const formData = new FormData();
-          // formData.append("draftCOA", pdfBlob);
-
-          // const reader = new FileReader();
-          // reader.onload = function (e) {
-          //   //@ts-ignore
-          //   mutate({
-          //     draftCOA: e.target?.result,
-          //   });
-          // };
-          // reader.readAsDataURL(pdfBlob);
-
-          // mutate(formData);
+          };
+          reader.readAsDataURL(pdfBlob);
         }
       } catch (error) {
         console.log(error);
@@ -166,6 +129,8 @@ const SignCertificate: React.FC<Props> = ({
     //   setOpenPublishDialog(false);
     // },
   });
+
+  console.log(qrImage);
 
   return (
     <Stack spacing={2}>

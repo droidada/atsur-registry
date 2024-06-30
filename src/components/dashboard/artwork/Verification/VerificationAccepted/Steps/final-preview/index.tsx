@@ -67,6 +67,8 @@ const FinalPreview: React.FC<Props> = ({
     link.click();
   };
 
+  console.log(data);
+
   const { mutate, isLoading } = useMutation({
     mutationFn: () =>
       axiosAuth.post(`/art-piece/sign-coa/${artPiece?.artPiece?._id}`),
@@ -82,6 +84,8 @@ const FinalPreview: React.FC<Props> = ({
     },
   });
 
+  console.log(artPiece?.artPiece);
+
   return (
     <Stack>
       {/* <div className=" flex flex-col items-center  certificate" ref={ref}> */}
@@ -95,8 +99,8 @@ const FinalPreview: React.FC<Props> = ({
         medium={artPiece?.artPiece?.medium}
         image={artPiece?.artPiece?.assets[0]?.url}
         size={`${artPiece?.artPiece?.width} x ${artPiece?.artPiece?.height} CM`}
-        signatureImage={signatureImage}
-        qrCodeImage={qrImage}
+        signatureImage={signatureImage || artPiece?.artPiece?.signature}
+        qrCodeImage={qrImage || artPiece?.artPiece?.qrCode}
       />
       {/* </div> */}
       <Stack

@@ -22,7 +22,7 @@ const whatwedo = [
 
   {
     Icon: <PiBracketsCurlyBold />,
-    title: "Automating Art Due Diligence Processes",
+    title: "Data Integrity",
     content: ``,
     color: "#444444",
   },
@@ -35,7 +35,7 @@ const whatwedo = [
         height={40}
       />
     ),
-    title: "Automating Art Due Diligence Processes",
+    title: "African Focus",
     content: ``,
     color: "#656565",
   },
@@ -48,7 +48,7 @@ const whatwedo = [
         height={40}
       />
     ),
-    title: "Automating Art Due Diligence Processes",
+    title: "Democratized",
     content: ``,
     color: "#898989",
   },
@@ -61,7 +61,7 @@ const whatwedo = [
         height={40}
       />
     ),
-    title: "Automating Art Due Diligence Processes",
+    title: "Our Community",
     content: ``,
     color: "#9D9D9D",
   },

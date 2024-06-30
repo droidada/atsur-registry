@@ -88,6 +88,7 @@ const InputField: React.FC<Props> = ({
         onClick={handleClickShowPassword}
         onMouseDown={handleMouseDownPassword}
         edge="end"
+        className="pr-6"
       >
         {showPassword ? <VisibilityOff /> : <Visibility />}
       </IconButton>
@@ -153,9 +154,11 @@ const InputField: React.FC<Props> = ({
               : type || "text"
           }
           id={id}
-          className={`h-fit w-full ${textFieldClassName} `}
+          className={`h-fit w-full  ${textFieldClassName}  `}
           inputProps={{
-            className: `focus:outline-none focus:ring-0 border-none w-full outline-0 remove-input-outline hover:outline-offset-2 border-none focus: focus:outline-offset-0 focus:border-none focus:shadow-outline ${inputClassName}`,
+            className: `focus:outline-none  focus:ring-0 border-none w-full outline-0 remove-input-outline hover:outline-offset-2 border-none focus: focus:outline-offset-0 focus:border-none focus:shadow-outline ${
+              multiline && "p-2"
+            } ${inputClassName}`,
           }}
           InputProps={{
             endAdornment: endAdornment,
