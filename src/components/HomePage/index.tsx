@@ -12,14 +12,14 @@ interface Props {
 }
 const HomePage: React.FC<Props> = ({ pageData }) => {
   return (
-    <>
+    <div className="page-container py-12">
       <HeroSection />
       <CategorySection categories={pageData.allPieces[0].categories} />
       <TopArtists artists={pageData.artists} />
       <Featured featured={pageData.artPieces} />
       <TopCollection artpieces={pageData.artPieces} />
       <JoinUs />
-    </>
+    </div>
   );
 };
 

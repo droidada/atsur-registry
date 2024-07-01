@@ -20,7 +20,7 @@ import ArtPieceLoading from "@/components/common/ArtPieceLoading";
 import UnprotectedPage from "@/HOC/Unprotected";
 import FilterComponent from "@/components/ExplorePage/FilterComponent";
 import { IoGrid } from "react-icons/io5";
-import { IoMdMenu } from "react-icons/io";
+import { IoIosSearch, IoMdMenu } from "react-icons/io";
 import { BiMenuAltLeft } from "react-icons/bi";
 import { QueryClient, useQuery } from "@tanstack/react-query";
 import ExploreArtPieceCard, {
@@ -28,25 +28,46 @@ import ExploreArtPieceCard, {
 } from "@/components/ExploreArtPieceCard";
 
 function Explore() {
-  const [filters, setFilters] = useState<any>(null);
+  const [filters, setFilters] = useState<{
+    medium: string[];
+    rarity: string[];
+    priceRange: {
+      min: number;
+      max: number;
+    };
+  }>({
+    medium: [],
+    rarity: [],
+    priceRange: {
+      min: 0,
+      max: 0,
+    },
+  });
   const [currentPage, setCurrentPage] = useState(1);
+  const [rating, setRating] = useState(0);
   const [currentQuickView, setCurrentQuickView] = useState("all");
+  const [search, setSearch] = useState("");
+
+  console.log(search);
 
   const {
     data: artpieces,
     isFetching,
     refetch,
   } = useQuery(
-    ["artpiece", currentPage, filters],
-    () => axios.get(`/public/explore?page=${currentPage}`),
+    ["artpiece", currentPage, filters, rating],
+    () =>
+      axios.get(
+        `/public/explore?page=${currentPage}&filter=${JSON.stringify(
+          filters,
+        )}&rating=${rating}&search=${search}`,
+      ),
     { keepPreviousData: true, refetchOnWindowFocus: false },
   );
 
-  console.log(artpieces);
-
   return (
     <>
-      <div className="flex items-center relative border-b-[1px]  ">
+      {/* <div className="flex items-center relative border-b-[1px]  ">
         <div className="page-container flex  items-center gap-5 pb-6">
           {["all", "trending", "collectibles", "art", "photography"].map(
             (item, index) => (
@@ -65,12 +86,44 @@ function Explore() {
             ),
           )}
         </div>
-      </div>
-      <div className="flex gap-12">
-        <FilterComponent filters={filters} setFilter={setFilters} />
-        <div className="flex-1 page-container flex flex-col gap-5 pt-12">
+      </div> */}
+      <div className="flex md:flex-row flex-col gap-12">
+        <FilterComponent
+          rating={rating}
+          setRating={setRating}
+          filters={filters}
+          setFilter={setFilters}
+        />
+        <div className="flex-1 page-container flex flex-col gap-5 ">
           <div className="flex items-center justify-end gap-4">
-            <div className="flex gap-2 h-[34px] border-primary border-[1px] rounded-[47px] px-2">
+            <form
+              className="flex-1"
+              onSubmit={(e) => {
+                e.preventDefault();
+                // @ts-ignore
+                const query = e.target.search.value;
+                console.log("This is the query", query);
+                //
+
+                setSearch(query);
+                refetch();
+                setCurrentPage(1);
+                // e.target.search.value = "";
+              }}
+            >
+              <div className="flex items-center overflow-hidden divide-x-[1px] divide-primary border-[1px] border-primary rounded-[47px] h-[34px]  gap-2">
+                <input
+                  name="search"
+                  type="search"
+                  className="flex-1 h-full outline-none focus:ring-0 px-3 border-none ring-none bg-transparent"
+                  placeholder="Search"
+                />
+                <buttton className="px-2 h-full grid place-items-center">
+                  <IoIosSearch />
+                </buttton>
+              </div>
+            </form>
+            <div className="hidden md:flex gap-2 h-[34px] border-primary border-[1px] rounded-[47px] px-2">
               <Button
                 startIcon={<IoGrid />}
                 variant="text"
@@ -97,7 +150,7 @@ function Explore() {
             </div>
           </div>
 
-          <div className="grid grid-cols-auto-fit gap-4">
+          <div className="grid grid-cols-auto-fit items-stretch gap-4">
             {isFetching ? (
               Array(10)
                 .fill(null)

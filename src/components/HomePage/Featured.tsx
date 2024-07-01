@@ -20,7 +20,10 @@ const Featured: React.FC<Props> = ({ featured }) => {
         <Typography className="text-[17px] leading-[16px] font-[600]">
           Featured Items
         </Typography>
-        <Link className="text-[17px] leading-[16px] font-[400] " href="/">
+        <Link
+          className="text-[17px] leading-[16px] font-[400] "
+          href="/explore/more"
+        >
           Discover More
         </Link>
       </Stack>

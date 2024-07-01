@@ -6,8 +6,10 @@ import HeroImage2 from "../../../public/images/hero-join/2.png";
 import HeroImage3 from "../../../public/images/hero-join/3.png";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 const HeroSection = () => {
   const router = useRouter();
+  const { status } = useSession();
   return (
     <Stack
       component={"section"}
@@ -37,17 +39,22 @@ const HeroSection = () => {
         </Typography>
         <Stack direction={"row"} spacing={2}>
           <Button
-            onClick={() => router.push("/explore")}
+            onClick={() => router.push("/explore/more")}
             endIcon={<MdOutlineArrowOutward />}
             className="h-[29px] bg-primary text-white font-[400] hover:scale-95 duration-700 text-[15px] leading-[16px]"
           >
             Explore
           </Button>
           <Button
+            onClick={() =>
+              status === "authenticated"
+                ? router.push("/dashboard")
+                : router.push("/signup")
+            }
             endIcon={<MdOutlineArrowOutward />}
             className="h-[29px] bg-secondary text-primary font-[400] hover:scale-95 duration-700 text-[15px] leading-[16px]"
           >
-            Get Started
+            {status === "authenticated" ? "Dashboard" : "Get Started"}
           </Button>
         </Stack>
       </Stack>
