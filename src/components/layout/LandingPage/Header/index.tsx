@@ -8,7 +8,7 @@ import {
   Stack,
   SwipeableDrawer,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import logo from "../../../../../public/artsur-logo.png";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,9 +23,26 @@ import { landingPageNavMenu } from "@/lib/utils/navs";
 const LandindingPageHeader = () => {
   const router = useRouter();
   const pathname = router.pathname;
+
+  const [hoveredMenu, setHoveredMenu] = useState(null);
   const [open, setOpen] = useState(false);
   const isCurrentPath = (link: string) =>
     link !== "/" && pathname.includes(link) ? true : pathname === link;
+  const hoverTimeoutRef = useRef(null);
+
+  const handleMouseEnter = (menuTitle) => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+    setHoveredMenu(menuTitle);
+  };
+
+  const handleMouseLeave = () => {
+    hoverTimeoutRef.current = setTimeout(() => {
+      setHoveredMenu(null);
+    }, 200);
+  };
 
   const { status } = useSession();
   return (
@@ -47,17 +64,47 @@ const LandindingPageHeader = () => {
               <Image src={logo} width={66} height={58.98} alt="Atsur" />
             </Link>
             <div className="hidden md:flex items-center gap-8 ">
-              {landingPageNavMenu.map((item) => (
-                <Link
-                  className={`text-[17px] leading-[16px] hover:font-bold duration-500 text-justified ${
-                    isCurrentPath(item.link) ? "font-[600]" : "font-[400]"
-                  }`}
-                  href={item.link}
-                  key={item.title}
-                >
-                  {item.title}
-                </Link>
-              ))}
+              {landingPageNavMenu.map((item) =>
+                item.menus ? (
+                  <div
+                    key={item.title}
+                    className="relative"
+                    onMouseEnter={() => handleMouseEnter(item.title)}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <span
+                      className={`text-[17px] leading-[16px] hover:font-bold duration-500 text-justified ${
+                        isCurrentPath(item.link) ? "font-[600]" : "font-[400]"
+                      }`}
+                    >
+                      {item.title}
+                    </span>
+                    {hoveredMenu === item.title && (
+                      <div className="absolute left-0 top-full mt-2 w-48 bg-white shadow-lg z-20">
+                        {item.menus.map((subItem) => (
+                          <Link
+                            key={subItem.title}
+                            href={subItem.link}
+                            className="block px-4 py-2 text-[16px] hover:bg-gray-200"
+                          >
+                            {subItem.title}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <Link
+                    className={`text-[17px] leading-[16px] hover:font-bold duration-500 text-justified ${
+                      isCurrentPath(item.link) ? "font-[600]" : "font-[400]"
+                    }`}
+                    href={item.link}
+                    key={item.title}
+                  >
+                    {item.title}
+                  </Link>
+                ),
+              )}
             </div>
           </Stack>
           <Stack spacing={1} alignItems={"center"} direction={"row"}>

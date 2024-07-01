@@ -4,13 +4,54 @@ export const landingPageNavMenu = [
     link: "/",
   },
   {
+    title: "Service",
+    link: "/service",
+    menus: [
+      {
+        title: "Archiving ",
+        link: "/services/archiving",
+      },
+      {
+        title: "Due Diligence",
+        link: "/services/due-diligence",
+      },
+      {
+        title: "Tokenization",
+        link: "/services/tokenization",
+      },
+      {
+        title: "Asset Tagging",
+        link: "/services/asset-tagging",
+      },
+      {
+        title: "Certificates of Authenticity",
+        link: "/services/certificates-of-authenticity",
+      },
+      {
+        title: "Sales Smart Contracts",
+        link: "/services/sales-smart-contracts",
+      },
+
+      {
+        title: "Asset Ownership",
+        link: "/services/asset-ownership",
+      },
+      {
+        title: "Custom Services",
+        link: "/services/custom-services",
+      },
+    ]
+  },
+  {
     title: "Pricing",
     link: "/pricing",
   },
+
   {
     title: "About",
     link: "/about",
   },
+
   {
     title: "Explore",
     link: "/explore",

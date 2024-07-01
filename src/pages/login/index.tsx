@@ -89,6 +89,7 @@ function Login({ invitationData }) {
     try {
       setLoading(true);
 
+      setErrorMessage("");
       const usr = await logIn(values.email, values.password);
 
       if (usr?.error) {
@@ -97,19 +98,23 @@ function Login({ invitationData }) {
 
       if (usr.ok) {
         const referrer = router.query.callbackUrl || "/dashboard";
-        console.log(referrer);
+
         invitee
           ? router.replace(`/invitation/${router.query.token}`)
           : // @ts-ignore
             router.replace(referrer);
       }
     } catch (error) {
-      console.log("This is the error", error);
-      toast.error(
-        error?.response?.data?.message ||
-          error?.message ||
-          "Something went wrong. Please try again",
-      );
+
+
+      const message =
+        typeof error === "string"
+          ? error
+          : error?.response?.data?.message ||
+            error?.message ||
+            "Something went wrong. Please try again";
+      setErrorMessage(message);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -118,6 +123,7 @@ function Login({ invitationData }) {
   return (
     <AuthLayout title="Login" paragraph="Please enter your details">
       <Stack direction={"column"} spacing={4} className=" w-full">
+        {}
         <form
           onSubmit={handleSubmit(onSubmitHandler)}
           className=" flex flex-col gap-4 w-full"
@@ -151,6 +157,9 @@ function Login({ invitationData }) {
             <span className="h-[1px] bg-secondary w-full " />
           </p>
           <div className="mt-7 flex flex-col gap-4">
+            {errorMessage && (
+              <p className="text-red-500 text-center text-xs">{errorMessage}</p>
+            )}
             <InputField
               label="Email"
               type="email"

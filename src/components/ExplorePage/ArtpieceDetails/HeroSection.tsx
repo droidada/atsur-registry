@@ -46,33 +46,21 @@ const HeroSection: React.FC<Props> = ({ artpiece }) => {
         </Stack>
         <Stack className="flex-1 py-8" spacing={4} direction={"column"}>
           <Stack spacing={2} direction={"row"} className="">
-            {["verified", "unverified"].map((status) => (
-              <div
-                key={status}
-                className="flex font-[600] text-[17px] leading-[16px] gap-2 text-justify items-center"
-              >
-                <span
-                  className={`w-[25px] h-[25px] rounded-full ${
-                    artpiece?.verification?.status == "verified" ||
-                    (artpiece?.verification?.status !== "verified" &&
-                      status == "unverified")
-                      ? "bg-[#18BAFF]"
-                      : "bg-secondary"
-                  }`}
-                />
-                <span
-                  className={`capitalize ${
-                    artpiece?.verification?.status == status ||
-                    (artpiece?.verification?.status !== "verified" &&
-                      status == "unverified")
-                      ? "text-[#18BAFF]"
-                      : "text-primary"
-                  } `}
-                >
-                  {status}
-                </span>
-              </div>
-            ))}
+            <div className="flex font-[600] text-[17px] leading-[16px] gap-2 text-justify items-center">
+              <span
+                className={`w-[25px] h-[25px] rounded-full ${
+                  artpiece?.verification?.status == "verified"
+                    ? "bg-[#18BAFF]"
+                    : "bg-secondary"
+                }`}
+              />
+
+              <span>
+                {artpiece?.verification?.status == "verified"
+                  ? "Verified"
+                  : "Unverified"}
+              </span>
+            </div>
           </Stack>
           <div className="flex flex-col gap-4">
             <h1 className="text-3xl  capitalize text-primary lg:text-[90px] lg:leading-[70px] md:text-[60px] md:leading-[50px]">
