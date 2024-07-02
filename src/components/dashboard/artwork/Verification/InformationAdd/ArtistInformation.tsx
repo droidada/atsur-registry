@@ -189,7 +189,7 @@ const ArtistInformation: React.FC<Props> = ({
           placeholder="Tell us a story about your artpiece"
           name="story"
           tabIndex={2}
-          labelClassName="font-thin"
+          labelClassName="font-[400] text-sm"
           inputClassName="bg-secondary-white"
           isRequired
           multiline
@@ -203,7 +203,7 @@ const ArtistInformation: React.FC<Props> = ({
 
         <div className="grid grid-cols-2 gap-4">
           <SelectField
-            labelClassName={"text-sm font-thin  leading-[16px]"}
+            labelClassName={"text-sm font-[400]  "}
             label="Do you want to sell the artpiece?"
             id="planToSell"
             name="planToSell"
@@ -229,7 +229,7 @@ const ArtistInformation: React.FC<Props> = ({
 
           {planToSell === "yes" && (
             <SelectField
-              labelClassName={"text-sm font-thin  leading-[16px]"}
+              labelClassName={"text-sm font-[400]  "}
               label="Sell As"
               id="sellerType"
               name="sellerType"
@@ -262,7 +262,7 @@ const ArtistInformation: React.FC<Props> = ({
         </div>
 
         <SelectField
-          labelClassName={"text-sm font-thin  leading-[16px]"}
+          labelClassName={"text-sm font-[400]  le[400] text-smg-[16px]"}
           label="Is this artpiece part of a series?"
           id="isSeries"
           name="isSeries"
@@ -285,7 +285,7 @@ const ArtistInformation: React.FC<Props> = ({
 
         {isSeries === "yes" && (
           <SelectedSeries
-            labelClassName={"text-sm font-thin  leading-[16px]"}
+            labelClassName={"text-sm font-[400]  le[400] text-smg-[16px]"}
             label="Series"
             selectedSeries={selectedSeries}
             setSelectedSeries={setSelectedSeries}
@@ -319,7 +319,7 @@ const ArtistInformation: React.FC<Props> = ({
               placeholder=""
               name="videoCaption"
               tabIndex={2}
-              labelClassName="font-thin"
+              labelClassName="font-[400] text-sm"
               inputClassName="bg-secondary-white w-full h-[141px] "
               multiline
               rows={3}

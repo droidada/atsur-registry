@@ -169,7 +169,8 @@ const Homepage = () => {
         </div>
       }
     >
-      <section className="bg-secondary py-10">
+      {/*-------------- PARTNERS ------------*/}
+      <section className="py-10">
         <div className=" page-container  ">
           <div className="flex justify-between md:px-10 flex-wrap items-center  gap-14">
             <h3 className="text-[26px]">Our Partners</h3>
@@ -249,6 +250,7 @@ const Homepage = () => {
         </div>
       </section>
 
+      {/*--------- VISION -----------------*/}
       <section className="bg-primary">
         <div className="container flex flex-col md:flex-row justify-between items-center mx-auto">
           <div className="flex flex-col gap-6 text-white p-10 ">
@@ -280,7 +282,7 @@ const Homepage = () => {
           <div className="grid gap-4  justify-center mt-8 items-stretch md:grid-cols-2">
             {services?.map((service, index) => (
               <div
-                className={`min-h-[361px] md:flex-row flex-col flex justify-between gap-10 items-center p-5 ${
+                className={`w-fit max-w-[350px] w-full md:flex-row flex-col flex justify-between gap-10 items-center p-5 ${
                   service.color === "#000"
                     ? "bg-primary text-white"
                     : "border-primary border-[1px] text-primary"
@@ -288,10 +290,10 @@ const Homepage = () => {
                 key={`our-services-${index}`}
               >
                 <div className="flex flex-col items-start justify-between h-full">
-                  <h3 className="text-[40px]">{service.title}</h3>
+                  <h3 className="text-xl">{service.title}</h3>
                   <Button
                     variant="text"
-                    className={` font-[300] text-[20px] ${
+                    className={` font-[300]  ${
                       service.color === "#000" ? "text-white" : "text-primary"
                     }`}
                     startIcon={<BsArrowUpRightCircleFill size={28} />}
@@ -304,8 +306,8 @@ const Homepage = () => {
                   className="relative"
                   src={service.image}
                   alt={service?.title}
-                  width={202}
-                  height={202}
+                  width={100}
+                  height={100}
                 />
               </div>
             ))}

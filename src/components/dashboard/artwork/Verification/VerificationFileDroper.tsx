@@ -26,7 +26,7 @@ const VerificationFileDroper: React.FC<Props> = ({
 }) => {
   return (
     <div className={`w-2/3 flex flex-col gap-4 ${className}`}>
-      <label className="text-sm font-thin  leading-[16px]" htmlFor="">
+      <label className="text-sm   leading-[16px]" htmlFor="">
         {label}
       </label>
       <Dropzone

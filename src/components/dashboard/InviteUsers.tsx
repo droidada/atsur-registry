@@ -10,6 +10,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  MenuItem,
   Paper,
   TextField,
 } from "@mui/material";
@@ -19,6 +20,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { TypeOf, object, string } from "zod";
 import InputField from "../Form/InputField";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import SelectField from "../Form/SelectField";
 
 interface Props {
   selectedUsers: any;
@@ -27,6 +29,7 @@ interface Props {
   label?: string;
   labelClassName?: string;
   isMultiple?: boolean;
+  isBrokerInvite?: boolean;
 }
 
 const InviteUsers: React.FC<Props> = ({
@@ -36,6 +39,7 @@ const InviteUsers: React.FC<Props> = ({
   labelClassName,
   label,
   isMultiple,
+  isBrokerInvite,
 }) => {
   const axiosFetch = useAxiosAuth();
   const toast = useToast();
@@ -59,8 +63,6 @@ const InviteUsers: React.FC<Props> = ({
     },
   );
 
-  console.log(users);
-
   return (
     <div className={`flex w-full flex-col text-base gap-2 ${className}`}>
       {label && (
@@ -79,7 +81,6 @@ const InviteUsers: React.FC<Props> = ({
         // }}
         value={selectedUsers}
         onChange={(event, value) => {
-          console.log(value);
           setSelectedUsers(value);
         }}
         options={users?.data?.users || []}
@@ -111,6 +112,7 @@ const InviteUsers: React.FC<Props> = ({
         }
       />
       <CreateNewUser
+        isBrokerInvite={isBrokerInvite}
         open={openCreateDialog}
         onClose={() => setOpenCreateDialog(false)}
         setSelectedUsers={setSelectedUsers}
@@ -125,17 +127,22 @@ interface CreateNewUserProps {
   open: boolean;
   onClose: () => void;
   setSelectedUsers: React.Dispatch<React.SetStateAction<any>>;
+  isBrokerInvite?: boolean;
 }
 
 const CreateNewUser: React.FC<CreateNewUserProps> = ({
   open,
   onClose,
   setSelectedUsers,
+  isBrokerInvite,
 }) => {
   const organizationSchema = object({
     firstName: string().nonempty("Artist first name is required"),
     lastName: string().nonempty("Artist last name is required"),
     email: string().email().nonempty("Artist email is required"),
+    role: isBrokerInvite
+      ? string({ required_error: "Artist Role is required" })
+      : string().optional(),
   });
 
   const toast = useToast();
@@ -146,6 +153,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = ({
     control,
     handleSubmit,
     reset,
+    watch,
     formState: { isSubmitting, errors },
   } = useForm<Metadata>({
     resolver: zodResolver(organizationSchema),
@@ -160,6 +168,10 @@ const CreateNewUser: React.FC<CreateNewUserProps> = ({
     onClose();
   };
 
+  // @ts-ignore
+  const isMainArtist = watch("isMainArtist");
+
+  console.log(isMainArtist);
   return (
     <Dialog
       PaperComponent={Paper}
@@ -181,7 +193,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = ({
           type="text"
           placeholder=""
           name="firstName"
-          labelClassName="font-thin"
+          labelClassName="font-[400]"
           inputClassName="bg-secondary w-full  "
           aria-required={true}
           fullWidth
@@ -195,7 +207,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = ({
           type="text"
           placeholder=""
           name="lastName"
-          labelClassName="font-thin"
+          labelClassName="font-[400]"
           inputClassName="bg-secondary w-full  "
           aria-required={true}
           fullWidth
@@ -209,7 +221,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = ({
           type="email"
           placeholder=""
           name="email"
-          labelClassName="font-thin"
+          labelClassName="font-[400]"
           inputClassName="bg-secondary w-full  "
           aria-required={true}
           fullWidth
@@ -217,7 +229,34 @@ const CreateNewUser: React.FC<CreateNewUserProps> = ({
           helperText={errors["email"] ? errors["email"].message : ""}
           control={control}
         />
+        {isBrokerInvite && (
+          <SelectField
+            labelClassName={"text-sm font-[400]  le[400] text-smg-[16px]"}
+            label="Is this the main artist?"
+            id="isMainArtist"
+            name="isMainArtist"
+            // sx={{"& .fieldS"}}
+            selectClassName="bg-secondary capitalize"
+            control={control}
+            fullWidth
+            helperText={
+              errors["isMainArtist"] ? errors["isMainArtist"].message : ""
+            }
+            error={!!errors["isMainArtist"]}
+          >
+            {["yes", "no"].map((item) => (
+              <MenuItem
+                key={item}
+                value={item}
+                className="text-xm capitalize bg-secondary"
+              >
+                {item}
+              </MenuItem>
+            ))}
+          </SelectField>
+        )}
       </DialogContent>
+
       <DialogActions>
         <Button variant="outlined" onClick={onClose}>
           Cancel

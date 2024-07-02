@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm, Controller, Control } from "react-hook-form";
-import { FormControlLabel, Switch } from "@mui/material";
+import { FormControlLabel, IconButton, Switch, Tooltip } from "@mui/material";
+import { GoInfo } from "react-icons/go";
 
 interface Props {
   control: Control<any>;
@@ -12,6 +13,8 @@ interface Props {
   helperText?: string;
   error?: boolean;
   className?: string;
+  hasInfo?: boolean;
+  info?: string;
 }
 
 const SwitchInput: React.FC<Props> = ({
@@ -24,6 +27,8 @@ const SwitchInput: React.FC<Props> = ({
   className,
   helperText,
   error,
+  hasInfo,
+  info,
 }) => {
   return (
     <div className={`flex flex-col text-sm gap-1 ${className}`}>
@@ -39,7 +44,18 @@ const SwitchInput: React.FC<Props> = ({
                 onChange={(e) => onChange(e.target.checked)}
               />
             }
-            label={label}
+            label={
+              <>
+                {label}{" "}
+                {hasInfo && (
+                  <Tooltip title={info}>
+                    <IconButton className="w-fit h-fit">
+                      <GoInfo />
+                    </IconButton>
+                  </Tooltip>
+                )}
+              </>
+            }
             labelPlacement={labelPlacement || "top"}
             classes={{
               label: `text-sm font-semibold ${labelClassName}`,

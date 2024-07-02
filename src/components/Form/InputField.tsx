@@ -1,7 +1,8 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { IconButton, InputAdornment, TextField } from "@mui/material";
+import { IconButton, InputAdornment, TextField, Tooltip } from "@mui/material";
 import React, { useState } from "react";
 import { useController, Control } from "react-hook-form";
+import { GoInfo } from "react-icons/go";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
 
 interface Props {
@@ -31,6 +32,8 @@ interface Props {
   sx?: any;
   textFieldClassName?: string;
   numericFormat?: NumericFormatProps;
+  hasInfo?: boolean;
+  info?: string;
 }
 
 const InputField: React.FC<Props> = ({
@@ -60,6 +63,8 @@ const InputField: React.FC<Props> = ({
   sx,
   textFieldClassName,
   numericFormat,
+  hasInfo,
+  info,
   ...props
 }) => {
   const {
@@ -99,7 +104,14 @@ const InputField: React.FC<Props> = ({
   return (
     <div className={`flex flex-col text-base gap-2  items-start  ${className}`}>
       <label htmlFor={label} className={` font-semibold ${labelClassName}`}>
-        {label} {isRequired ? "*" : ""}
+        {label} {isRequired ? "*" : ""}{" "}
+        {hasInfo && (
+          <Tooltip title={info}>
+            <IconButton className="w-fit h-fit">
+              <GoInfo />
+            </IconButton>
+          </Tooltip>
+        )}
       </label>
       {type === "price" ? (
         <NumericFormat

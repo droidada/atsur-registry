@@ -11,10 +11,10 @@ export const landingPageNavMenu = [
         title: "Archiving ",
         link: "/services/archiving",
       },
-      {
-        title: "Due Diligence",
-        link: "/services/due-diligence",
-      },
+      // {
+      //   title: "Due Diligence",
+      //   link: "/services/due-diligence",
+      // },
       {
         title: "Tokenization",
         link: "/services/tokenization",

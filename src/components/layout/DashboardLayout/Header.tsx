@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { FaQuestion } from "react-icons/fa6";
 import { IoIosNotifications } from "react-icons/io";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
@@ -23,6 +23,7 @@ import { signOut } from "next-auth/react";
 import { FaUser } from "react-icons/fa";
 import { MdLogout } from "react-icons/md";
 import { useRouter } from "next/router";
+import ProfileButton from "./ProfileButton";
 
 interface Props {
   setHideSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -30,9 +31,26 @@ interface Props {
 
 const Header: React.FC<Props> = ({ setHideSidebar }) => {
   const { data } = useSession();
+  const router = useRouter();
+  const pathname = router.pathname;
   const [openMobile, setOpenMobile] = useState(false);
-
   const { credits, notifications } = useContext(dashboardContext);
+  const [hoveredMenu, setHoveredMenu] = useState(null);
+  const hoverTimeoutRef = useRef(null);
+  const handleMouseEnter = (menuTitle) => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+    setHoveredMenu(menuTitle);
+  };
+  const isCurrentPath = (link: string) =>
+    link !== "/" && pathname.includes(link) ? true : pathname === link;
+  const handleMouseLeave = () => {
+    hoverTimeoutRef.current = setTimeout(() => {
+      setHoveredMenu(null);
+    }, 200);
+  };
 
   return (
     <div className="sticky z-[1000] border-b-[1px]  bg-white top-0 px-4  flex flex-col justify-center h-[86px]">
@@ -55,15 +73,47 @@ const Header: React.FC<Props> = ({ setHideSidebar }) => {
         </IconButton>
 
         <div className="hidden md:flex gap-4 lg:gap-6 items-center">
-          {landingPageNavMenu?.map((nav) => (
-            <Link
-              key={`main-page-nav-${nav.title}`}
-              href={nav.link}
-              className="text-[17px] leading-[16px] hover:underline"
-            >
-              {nav.title}
-            </Link>
-          ))}
+          {landingPageNavMenu.map((item) =>
+            item.menus ? (
+              <div
+                key={item.title}
+                className="relative"
+                onMouseEnter={() => handleMouseEnter(item.title)}
+                onMouseLeave={handleMouseLeave}
+              >
+                <span
+                  className={`text-[17px] cursor-pointer leading-[16px] hover:font-bold duration-500 text-justified ${
+                    isCurrentPath(item.link) ? "font-[600]" : "font-[400]"
+                  }`}
+                >
+                  {item.title}
+                </span>
+                {hoveredMenu === item.title && (
+                  <div className="absolute left-0 top-full mt-2 w-48 bg-white shadow-lg z-20">
+                    {item.menus.map((subItem) => (
+                      <Link
+                        key={subItem.title}
+                        href={subItem.link}
+                        className="block px-4 py-2 text-[16px] hover:bg-gray-200"
+                      >
+                        {subItem.title}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                className={`text-[17px] leading-[16px] hover:font-bold duration-500 text-justified ${
+                  isCurrentPath(item.link) ? "font-[600]" : "font-[400]"
+                }`}
+                href={item.link}
+                key={item.title}
+              >
+                {item.title}
+              </Link>
+            ),
+          )}
         </div>
 
         <Stack direction="row" alignItems="center" spacing={1}>
@@ -109,61 +159,3 @@ const Header: React.FC<Props> = ({ setHideSidebar }) => {
 };
 
 export default Header;
-
-interface ProfileButtonProps {
-  user: any;
-}
-
-const ProfileButton: React.FC<ProfileButtonProps> = ({ user }) => {
-  const router = useRouter();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  return (
-    <div>
-      <Button
-        aria-controls={open ? "menu-appbar" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-        variant="outlined"
-        onClick={handleClick}
-        className="rounded-[23px] flex px-2 gap-2"
-      >
-        {/* @ts-ignore */}
-        <Avatar className="w-[25px] h-[25px] " src={user?.avatar} />
-        <span className="text-[19px] md:block hidden leading-[16px] capitalize font-[600]">
-          {/* @ts-ignore */}
-          {user?.firstName} {user?.lastName[0]}.
-        </span>
-      </Button>
-      <Menu
-        id="menu-appbar"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "menu-appbar",
-        }}
-      >
-        <MenuItem
-          className="flex gap-2 items-center"
-          onClick={() => {
-            router.push("/dashboard/settings");
-            handleClose();
-          }}
-        >
-          <FaUser /> <span>Profile</span>
-        </MenuItem>
-
-        <MenuItem className="flex gap-2 items-center" onClick={() => signOut()}>
-          <MdLogout /> <span>Logout</span>
-        </MenuItem>
-      </Menu>
-    </div>
-  );
-};

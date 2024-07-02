@@ -105,8 +105,6 @@ function Login({ invitationData }) {
             router.replace(referrer);
       }
     } catch (error) {
-
-
       const message =
         typeof error === "string"
           ? error

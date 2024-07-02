@@ -144,7 +144,7 @@ const DealerInformation = ({ setActiveIndex, defaultValues, artPieceId }) => {
       <Stack spacing={4}>
         <SeletectOrganization
           // isUserOrg
-          labelClassName="text-sm font-thin  leading-[16px"
+          labelClassName="text-sm font-[400]  leading-[16px"
           label=" Organization"
           selectedOrg={selectedOrganization}
           setSelectedOrg={setSelectedOrganization}

@@ -19,6 +19,7 @@ import { IoSearchCircleOutline } from "react-icons/io5";
 import { MdFacebook } from "react-icons/md";
 import { AiOutlineInstagram, AiOutlineTwitter } from "react-icons/ai";
 import { landingPageNavMenu } from "@/lib/utils/navs";
+import ProfileButton from "../../DashboardLayout/ProfileButton";
 
 const LandindingPageHeader = () => {
   const router = useRouter();
@@ -44,7 +45,7 @@ const LandindingPageHeader = () => {
     }, 200);
   };
 
-  const { status } = useSession();
+  const { status, data: session } = useSession();
   return (
     <header className="">
       <div className="page-container ">
@@ -73,7 +74,7 @@ const LandindingPageHeader = () => {
                     onMouseLeave={handleMouseLeave}
                   >
                     <span
-                      className={`text-[17px] leading-[16px] hover:font-bold duration-500 text-justified ${
+                      className={`text-[17px] leading-[16px] cursor-pointer hover:font-bold duration-500 text-justified ${
                         isCurrentPath(item.link) ? "font-[600]" : "font-[400]"
                       }`}
                     >
@@ -109,13 +110,16 @@ const LandindingPageHeader = () => {
           </Stack>
           <Stack spacing={1} alignItems={"center"} direction={"row"}>
             {status == "authenticated" ? (
-              <Button
-                onClick={() => router.push("/dashboard")}
-                variant="contained"
-                className="h-[29px] hover:scale-95 duration-500 bg-black text-white text-[15px] leading-[16px]"
-              >
-                Dashboard
-              </Button>
+              <>
+                <Button
+                  onClick={() => router.push("/dashboard")}
+                  variant="contained"
+                  className="h-[29px] hover:scale-95 duration-500 bg-black text-white text-[15px] leading-[16px]"
+                >
+                  Dashboard
+                </Button>
+                <ProfileButton user={session?.user} />
+              </>
             ) : (
               <Button
                 onClick={() => router.push("/login")}

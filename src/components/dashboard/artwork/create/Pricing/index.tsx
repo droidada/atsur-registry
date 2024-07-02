@@ -6,9 +6,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import DateInput from "@/components/Form/DateInput";
 import InputField from "@/components/Form/InputField";
-import { Stack } from "@mui/material";
+import { MenuItem, Stack } from "@mui/material";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import SwitchInput from "@/components/Form/SwitchInput";
+import SelectField from "@/components/Form/SelectField";
 
 interface Props {
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
@@ -36,7 +37,12 @@ const PricingForm: React.FC<Props> = ({
   } = useForm({ resolver: zodResolver(PricingSchema) });
 
   type PricingData = TypeOf<typeof PricingSchema>;
-  console.log(formData);
+
+  const currentYear = new Date().getFullYear();
+  const years = Array.from(
+    { length: currentYear - 1960 + 1 },
+    (_, index) => 1960 + index,
+  );
 
   useEffect(() => {
     setValue("creationDate", formData?.illustration?.creationDate?.date);
@@ -76,28 +82,39 @@ const PricingForm: React.FC<Props> = ({
     >
       <Stack spacing={4}>
         <div className="flex gap-4 items-center">
-          <DateInput
-            className="flex-1"
-            id="creationDate"
-            label="Date Of Creation"
-            name="creationDate"
-            //   inputClassName="bg-secondary"
+          <SelectField
+            hasInfo
+            info="Date the artwork was created"
             control={control}
+            name="creationDate"
             // @ts-ignore
-            helperText={
-              errors["creationDate"] ? errors["creationDate"].message : ""
-            }
-            error={!!errors["creationDate"]}
-          />
+            sx={{
+              "& fieldset": { border: "none", backgroundColor: "#D9D9D9" },
+              borderColor: "black",
+            }}
+            label="Creation Date"
+            fullWidth
+            error={!!errors?.creationDate}
+            helperText={errors?.creationDate?.message as string}
+          >
+            <MenuItem selected value={""} disabled>
+              Select a year
+            </MenuItem>
+            {years.map((year) => (
+              <MenuItem key={year} value={year}>
+                {year}
+              </MenuItem>
+            ))}
+          </SelectField>
 
-          <SwitchInput
+          {/* <SwitchInput
             label="isCirca"
             name="isCirca"
             control={control}
             error={!!errors["isCirca"]}
             // @ts-ignore
             helperText={errors["isCirca"] ? errors["isCirca"].message : ""}
-          />
+          /> */}
         </div>
         <InputField
           label="Price"
@@ -105,6 +122,8 @@ const PricingForm: React.FC<Props> = ({
           placeholder=""
           name="price"
           type="price"
+          hasInfo
+          info="The price of the artwork"
           //   inputClassName="bg-secondary-white"
           tabIndex={2}
           aria-required="true"
