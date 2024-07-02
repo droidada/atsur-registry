@@ -23,7 +23,10 @@ const ExploreArtPieceCard: React.FC<Props> = ({
   link,
 }) => {
   return (
-    <Link href={link || "#"} className="flex flex-col max-w-[300.16px] w-full">
+    <Link
+      href={link || "#"}
+      className="flex flex-col  self-stretch max-w-[300.16px] w-full"
+    >
       <div className="w-full bg-secondary relative h-[251px]">
         <Image
           fill
@@ -32,8 +35,8 @@ const ExploreArtPieceCard: React.FC<Props> = ({
           className="object-cover"
         />
       </div>
-      <div className="bg-primary p-4 flex flex-col gap-4 justify-between ">
-        <h4 className="lg:text-[30px] text-white lg:leading-[16px] font-[300] text-2xl">
+      <div className="bg-primary p-4 flex flex-col gap-4 flex-1  justify-center gap-7 ">
+        <h4 className="lg:text-[30px] text-white  font-[300] text-2xl">
           {title}
         </h4>
         <div className="flex gap-4 items-start">

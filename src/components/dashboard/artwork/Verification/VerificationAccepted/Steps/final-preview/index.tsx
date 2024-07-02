@@ -63,11 +63,11 @@ const FinalPreview: React.FC<Props> = ({
     const link = document.createElement("a");
     link.href = certifiaceUrl;
 
-    console.log(certifiaceUrl);
-
     link.download = certifiaceUrl.split("/").pop();
     link.click();
   };
+
+  console.log(data);
 
   const { mutate, isLoading } = useMutation({
     mutationFn: () =>
@@ -84,6 +84,8 @@ const FinalPreview: React.FC<Props> = ({
     },
   });
 
+  console.log(artPiece?.artPiece);
+
   return (
     <Stack>
       {/* <div className=" flex flex-col items-center  certificate" ref={ref}> */}
@@ -97,8 +99,8 @@ const FinalPreview: React.FC<Props> = ({
         medium={artPiece?.artPiece?.medium}
         image={artPiece?.artPiece?.assets[0]?.url}
         size={`${artPiece?.artPiece?.width} x ${artPiece?.artPiece?.height} CM`}
-        signatureImage={signatureImage}
-        qrCodeImage={qrImage}
+        signatureImage={signatureImage || artPiece?.artPiece?.signature}
+        qrCodeImage={qrImage || artPiece?.artPiece?.qrCode}
       />
       {/* </div> */}
       <Stack
@@ -145,7 +147,9 @@ const FinalPreview: React.FC<Props> = ({
         {(artPiece?.artPiece?.signedCOA || data?.data?.artPiece?.signedCOA) && (
           <Button
             onClick={() => {
-              setViewPdf(true);
+              router.push(
+                `/dashboard/artworks/${artPiece?.artPiece?._id}/order-tag`,
+              );
             }}
             variant="outlined"
             className=" max-w-[191.83px] h-[46px] w-full text-primary text-[12px] leading-[13px] font-[600]"

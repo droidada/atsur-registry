@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CreateArtWorkFormContainer from "../FormContainer";
 import ICreateArtworkFormData from "@/types/models/createArtwork";
 import { object, string, number, TypeOf, boolean } from "zod";
@@ -30,28 +30,42 @@ const PricingForm: React.FC<Props> = ({
   const {
     control,
     handleSubmit,
+    setValue,
     formState: { errors },
     register,
   } = useForm({ resolver: zodResolver(PricingSchema) });
 
   type PricingData = TypeOf<typeof PricingSchema>;
+  console.log(formData);
+
+  useEffect(() => {
+    setValue("creationDate", formData?.illustration?.creationDate?.date);
+    setValue("price", formData?.illustration?.price?.amount);
+    setValue("type", formData?.illustration?.price?.type);
+    setValue("isCirca", formData?.illustration?.creationDate?.isCirca);
+  }, [formData]);
 
   const onSubmit: SubmitHandler<PricingData> = (data) => {
     setFormData({
       ...formData,
       illustration: {
         ...formData.illustration,
+        // @ts-ignore
         creationDate: {
+          // @ts-ignore
           ...formData.illustration.creationDate,
           date: data.creationDate,
+          isCirca: data.isCirca,
         },
         price: {
+          // @ts-ignore
           ...formData.illustration.price,
           amount: Number(data.price),
           type: data?.type,
         },
       },
     });
+
     setActiveIndex((prev) => prev + 1);
   };
 
@@ -90,7 +104,7 @@ const PricingForm: React.FC<Props> = ({
           id="price"
           placeholder=""
           name="price"
-          type="number"
+          type="price"
           //   inputClassName="bg-secondary-white"
           tabIndex={2}
           aria-required="true"

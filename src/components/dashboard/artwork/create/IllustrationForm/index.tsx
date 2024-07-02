@@ -149,7 +149,8 @@ const IllustrationForm: React.FC<Props> = ({
           tabIndex={2}
           multiline
           rows={4}
-          inputClassName="bg-secondary"
+          // textFieldClassName="bg-secondary"
+          inputClassName="bg-secondary p-2"
           aria-required="true"
           fullWidth
           error={!!errors["description"]}
@@ -158,7 +159,7 @@ const IllustrationForm: React.FC<Props> = ({
           }
           control={control}
         />
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-4 items-start">
           <InputField
             label="Subject Matter"
             id="subjectMatter"
@@ -178,6 +179,16 @@ const IllustrationForm: React.FC<Props> = ({
           <SelectField
             label="Medium"
             name="medium"
+            // @ts-ignore
+            sx={{
+              "& fieldset": {
+                background: "#DCDCDC",
+                border: "none",
+                color: "black",
+              },
+
+              // borderColor: "black",
+            }}
             control={control}
             fullWidth
             helperText={errors["medium"] ? errors["medium"].message : ""}
@@ -245,6 +256,12 @@ const IllustrationForm: React.FC<Props> = ({
         <div className="flex gap-4 items-center">
           <SelectField
             label="Rarity"
+            className=""
+            // @ts-ignore
+            sx={{
+              "& fieldset": { background: "#DCDCDC", border: "none" },
+              // borderColor: "black",
+            }}
             name="rarity"
             selectClassName="bg-secondary"
             control={control}

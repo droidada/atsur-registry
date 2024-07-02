@@ -209,7 +209,7 @@ function ArtPiece({ artPiece }) {
               alt="art piece image"
               width={700}
               height={404}
-              className="flex-1 w-full md:h-[404px]  object-full "
+              className="flex-1 w-full md:h-[404px]  object-cover "
             />
           </div>
           <div className="flex flex-wrap-reverse items-stretch gap-4">
@@ -229,14 +229,14 @@ function ArtPiece({ artPiece }) {
                 {artPiece?.description}
               </AccordionDetails>
             </Accordion>
-            <div className="flex flex-shrink-0 gap-4">
+            <div className="flex w-full flex-shrink-0 gap-4">
               {artPiece?.assets?.map((asset, index) => (
                 <Image
                   src={asset?.url}
                   alt=""
                   width={210.35}
                   height={210.35}
-                  className={`flex-1 w-full max-w-[210px] cursor-pointer  h-full object-full ${
+                  className={`flex-1 w-full max-w-[23%] cursor-pointer  h-[210px] object-cover ${
                     currentAsset == index ? "border-2 border-black p-2" : ""
                   }`}
                   key={index}

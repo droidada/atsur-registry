@@ -7,6 +7,7 @@ import AssetsForm from "@/components/dashboard/artwork/create/AssetForm";
 import CreateArtworkPreview from "@/components/dashboard/artwork/create/Preview";
 import axios from "@/lib/axios";
 import { getToken } from "next-auth/jwt";
+import PricingForm from "@/components/dashboard/artwork/create/Pricing";
 
 export const getServerSideProps = async ({ req, query, params }) => {
   try {
@@ -34,6 +35,7 @@ export const getServerSideProps = async ({ req, query, params }) => {
 };
 
 function EditArtpiece({ artPiece }) {
+  console.log(artPiece?.price);
   console.log(artPiece);
   const [activeIndex, setActiveIndex] = useState(0);
   const handleOnClick = (index) => {
@@ -42,35 +44,35 @@ function EditArtpiece({ artPiece }) {
 
   const [formData, setFormData] = useState<ICreateArtworkFormData>({
     illustration: {
-      title: artPiece?.title,
-      description: artPiece?.description,
-      medium: artPiece?.medium,
-      subjectMatter: artPiece?.subjectMatter,
-      height: artPiece?.height,
-      width: artPiece?.width,
-      depth: artPiece?.depth,
-      rarity: artPiece?.rarity,
-      type: artPiece?.artType,
+      ...artPiece,
+      // withFrame: artPiece?.withFrame,
     },
     assets: {
       primaryViewLandscape: artPiece?.assets?.find((asset) =>
         asset.url.includes("primary"),
       )?.url,
       secondaryView: {
-        primaryViewPortrait: "",
-        framedView: "",
-        mountedView: "",
+        primaryViewPortrait: artPiece?.assets?.find((asset) =>
+          asset.url.toLowerCase().includes("left"),
+        )?.url,
+        framedView: artPiece?.assets?.find((asset) =>
+          asset.url.toLowerCase().includes("right"),
+        )?.url,
+        mountedView: artPiece?.assets?.find((asset) =>
+          asset.url.toLowerCase().includes("mounted"),
+        )?.url,
       },
     },
   });
 
+  console.log(formData);
   return (
     <Stack spacing={4}>
       <h1 className="font-semibold text-2xl lg:text-[30px] lg:leading-[40px]">
         Edit Artwork
       </h1>
       <Stack direction={"row"} className="overflow-x-auto " spacing={2}>
-        {["illustration", "Assets", "Preview"].map((item, index) => (
+        {["illustration", "Assets", "Price", "Preview"].map((item, index) => (
           <div
             key={`active-bar-${item}`}
             className="flex-shrink-0 lg:flex-shrink flex flex-col max-w-[312px] w-full gap-2"
@@ -106,6 +108,12 @@ function EditArtpiece({ artPiece }) {
             />,
             <AssetsForm
               key={1}
+              setActiveIndex={setActiveIndex}
+              setFormData={setFormData}
+              formData={formData}
+            />,
+            <PricingForm
+              key={4}
               setActiveIndex={setActiveIndex}
               setFormData={setFormData}
               formData={formData}

@@ -21,7 +21,10 @@ const TopCollection: React.FC<Props> = ({ artpieces }) => {
         <Typography className="text-[17px] leading-[16px] font-[600]">
           Top Collections in this week
         </Typography>
-        <Link className="text-[17px] leading-[16px] font-[400] " href="/">
+        <Link
+          className="text-[17px] leading-[16px] font-[400] "
+          href="/explore/more"
+        >
           Discover More
         </Link>
       </Stack>

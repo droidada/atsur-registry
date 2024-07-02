@@ -154,8 +154,8 @@ const TokenizeCertificate: React.FC<Props> = ({
           medium={artPiece?.artPiece?.medium}
           image={artPiece?.artPiece?.assets[0]?.url}
           size={`${artPiece?.artPiece?.width} x ${artPiece?.artPiece?.height} CM`}
-          signatureImage={signatureImage}
-          qrCodeImage={qrImage}
+          signatureImage={signatureImage || artPiece?.artPiece?.signature}
+          qrCodeImage={qrImage || artPiece?.artPiece?.qrCode}
         />
       </div>
       <PdfCertificate
