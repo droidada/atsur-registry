@@ -118,9 +118,9 @@ function Explore() {
                   className="flex-1 h-full outline-none focus:ring-0 px-3 border-none ring-none bg-transparent"
                   placeholder="Search"
                 />
-                <buttton className="px-2 h-full grid place-items-center">
+                <button className="px-2 h-full grid place-items-center">
                   <IoIosSearch />
-                </buttton>
+                </button>
               </div>
             </form>
             <div className="hidden md:flex gap-2 h-[34px] border-primary border-[1px] rounded-[47px] px-2">
