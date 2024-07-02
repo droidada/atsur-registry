@@ -25,6 +25,15 @@ function Dashboard() {
       depth: 0,
       rarity: "",
       type: "",
+      price: {
+        amount: 0,
+        currency: "",
+        type: "",
+      },
+      creationDate: {
+        date: "",
+        isCirca: false,
+      },
     },
     assets: {
       primaryViewLandscape: "",
