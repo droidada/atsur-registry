@@ -3,10 +3,12 @@ import React from "react";
 import { getToken } from "next-auth/jwt";
 import axios from "@/lib/axios";
 import ArtistDetailsPage from "@/components/ExplorePage/ArtistDetails";
+import { useSession } from "next-auth/react";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
     const id = query?.id;
+
     const token: any = await getToken({
       req,
       secret: process.env.NEXTAUTH_SECRET,
@@ -15,8 +17,6 @@ export const getServerSideProps = async ({ req, query }) => {
     const res = await axios.get(`/public/artist/${id}`, {
       headers: { authorization: `Bearer ${token?.accessToken}` },
     });
-
-    console.log(res?.data);
 
     return {
       props: {

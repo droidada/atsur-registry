@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import InviteUsers from "./InviteUsers";
 import { TiDeleteOutline } from "react-icons/ti";
 import {
@@ -50,35 +50,28 @@ const CommissionSplit: React.FC<Props> = ({
   selectedUsers,
   setSelectedUsers,
 }) => {
-  const [totalPercentage, setTotalPercentage] = useState(0);
+  // const [totalPercentage, setTotalPercentage] = useState(0);
   const [open, setOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState<UserInfo | null>(null);
 
-  const calculateTotalPercentage = () => {
-    const updatedErrorTree = { ...errorTree };
-    delete updatedErrorTree.commission;
+  const totalPercentage = useMemo(
+    () => percentages.reduce((acc, curr) => acc + (curr.percentage || 0), 0),
+    [percentages],
+  );
 
+  useEffect(() => {
     if (Math.abs(totalPercentage - 100) > 0.001) {
       setErrorTree((prev) => ({
         ...prev,
         commission: "Commission split error: The total percentage must be 100%",
       }));
     } else {
-      setErrorTree(updatedErrorTree);
+      setErrorTree((prev) => {
+        const { commission, ...rest } = prev;
+        return rest;
+      });
     }
-  };
-
-  useEffect(() => {
-    setTotalPercentage(
-      percentages.reduce((acc, curr) => acc + (curr.percentage || 0), 0),
-    );
-  }, [percentages, selectedUsers]);
-
-  useEffect(() => {
-    if (percentages) {
-      calculateTotalPercentage();
-    }
-  }, [JSON.stringify(percentages), totalPercentage]);
+  }, [totalPercentage]);
 
   useEffect(() => {
     if (defaultValues) {
@@ -90,28 +83,36 @@ const CommissionSplit: React.FC<Props> = ({
         })),
       );
     }
-  }, [defaultValues]);
+  }, [defaultValues, setPercentages, setSelectedUsers]);
 
   console.log(percentages);
 
   const handlePercentageChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     user: UserInfo,
+    role: string,
   ) => {
     const value = parseFloat(e.target.value);
     const checkUserDataInPercentage = percentages.find(
       (item) => item.userInfo.email === user.email,
     );
-    const updatedPercentages = checkUserDataInPercentage
-      ? percentages.map((item) => {
-          if (item.userInfo.email === user.email) {
-            return { ...item, percentage: value };
-          }
-          return item;
-        })
-      : [...percentages, { userInfo: user, percentage: value }];
 
-    setPercentages(updatedPercentages);
+    if (checkUserDataInPercentage) {
+      const updatedPercentages = percentages.map((item) =>
+        item.userInfo.email === user.email
+          ? {
+              userInfo: { ...item.userInfo, role },
+              percentage: value,
+            }
+          : item,
+      );
+      setPercentages(updatedPercentages);
+    } else {
+      setPercentages((prev) => [
+        ...prev,
+        { userInfo: { ...user, role }, percentage: value },
+      ]);
+    }
   };
 
   const removeUser = (email: string) => {
@@ -132,6 +133,7 @@ const CommissionSplit: React.FC<Props> = ({
         className="mt-4"
         selectedUsers={selectedUsers}
         setSelectedUsers={setSelectedUsers}
+        removeUser={removeUser}
       />
       <div className="flex flex-col mt-8 gap-2">
         {selectedUsers.map((user) => (
@@ -143,15 +145,16 @@ const CommissionSplit: React.FC<Props> = ({
                 } text-xs h-full flex-shrink-0  flex gap-4 items-center capitalize px-4 py-2`}
               >
                 {user.firstName} {user.lastName}
-                <Chip
-                  deleteIcon={<IoMdCheckmarkCircle className="bg-primary" />}
-                  className={`${
+                <div
+                  className={`px-2 py-1 rounded-full items-center flex gap-2 ${
                     user.role === "main artist"
                       ? "bg-secondary"
                       : "bg-secondary-white"
                   }`}
-                  label={user?.role}
-                />
+                >
+                  {user?.role}
+                  <IoMdCheckmarkCircle className="text-primary text-[11px]" />
+                </div>
               </label>
               <Button
                 onClick={() => {
@@ -217,6 +220,7 @@ interface PercentageModalProps {
   handlePercentageChange: (
     e: React.ChangeEvent<HTMLInputElement>,
     user: UserInfo,
+    role: string,
   ) => void;
   removeUser: (email: string) => void;
   user: UserInfo | null;
@@ -238,17 +242,25 @@ const PercentageModal: React.FC<PercentageModalProps> = ({
 }) => {
   const percentageSchema = object({
     role: string().optional(),
-    percent: string(),
+    percent: string().nonempty("Enter the percentage"),
     isMainArtist: string({
       required_error: "Add the broker role",
-    }),
+    }).nonempty("Select an option"),
   }).superRefine((values, ctx) => {
-    if (Number(values.percent) > 100 - totalPercentage) {
+    // if (totalPercentage > 100) {
+    //   ctx.addIssue({
+    //     code: "custom",
+    //     message: "Percentage sum must be 100%",
+    //     fatal: true,
+    //     path: ["percent"],
+    //   });
+    // }
+    if (isMainArtist === "no" && !values.role) {
       ctx.addIssue({
         code: "custom",
-        message: "Percentage sum must be 100%",
+        message: "Add the broker role",
         fatal: true,
-        path: ["percent"],
+        path: ["role"],
       });
     }
   });
@@ -264,7 +276,7 @@ const PercentageModal: React.FC<PercentageModalProps> = ({
   } = useForm<Metadata>({
     resolver: zodResolver(percentageSchema),
   });
-  // @ts-ignore
+
   const isMainArtist = watch("isMainArtist");
 
   const onSubmit: SubmitHandler<Metadata> = (data) => {
@@ -272,9 +284,10 @@ const PercentageModal: React.FC<PercentageModalProps> = ({
 
     handlePercentageChange(
       {
-        target: { value: String(data.percent) },
+        target: { value: data.percent },
       } as React.ChangeEvent<HTMLInputElement>,
       user!,
+      data.role,
     );
     if (isMainArtist === "yes") {
       setSelectedUsers((prev) =>
@@ -291,6 +304,7 @@ const PercentageModal: React.FC<PercentageModalProps> = ({
     }
 
     handleClose();
+    reset();
   };
 
   useEffect(() => {
@@ -299,12 +313,8 @@ const PercentageModal: React.FC<PercentageModalProps> = ({
     )?.percentage;
     const userRole = user?.role;
     setValue("percent", String(percentage));
-    if (userRole === "main artist") {
-      setValue("isMainArtist", "yes");
-    } else {
-      setValue("role", userRole);
-    }
-  }, [user, percentages]);
+    setValue("role", userRole);
+  }, [user, setValue, percentages]);
 
   return (
     <Dialog
@@ -320,10 +330,12 @@ const PercentageModal: React.FC<PercentageModalProps> = ({
     >
       <DialogTitle>Add Percentage</DialogTitle>
       <DialogContent dividers>
-        <p className="text-xs text-right font-[400]">
+        {/* <p className="text-xs text-right font-[400]">
           Total Percentage Left{" "}
-          <span className="font-bold">{100 - totalPercentage}%</span>
-        </p>
+          <span className="font-bold">
+            {100 - totalPercentage + Number(watch("percent")) || 0}%
+          </span>
+        </p> */}
         <div className="flex flex-col gap-4">
           <InputField
             label="Percent"
@@ -332,22 +344,25 @@ const PercentageModal: React.FC<PercentageModalProps> = ({
             id="percent"
             name="percent"
             aria-required="true"
+            // onChange={(e) => handlePercentageChange(e, user!)}
             fullWidth
             error={!!errors.percent}
             helperText={errors.percent ? errors.percent.message : ""}
             control={control}
           />
           <SelectField
-            labelClassName="text-sm font-[400]"
-            label="Is this the main artist?"
-            id="isMainArtist"
             name="isMainArtist"
-            selectClassName="bg-secondary capitalize"
             control={control}
+            label="Is Main Artist?"
+            defaultValue="no"
+            isRequired
             fullWidth
             helperText={errors.isMainArtist ? errors.isMainArtist.message : ""}
             error={!!errors.isMainArtist}
           >
+            <MenuItem value="" selected>
+              Select Answer
+            </MenuItem>
             {["yes", "no"].map((item) => (
               <MenuItem
                 key={item}

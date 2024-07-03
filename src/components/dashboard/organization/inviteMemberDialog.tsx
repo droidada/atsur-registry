@@ -4,6 +4,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Paper,
 } from "@mui/material";
 import React from "react";
 import InviteUsers from "../InviteUsers";
@@ -53,11 +54,18 @@ const InviteMemberDialog: React.FC<Props> = ({
   });
 
   return (
-    <Dialog className="" maxWidth={"sm"} open={open} onClose={handleClose}>
+    <Dialog
+      PaperComponent={Paper}
+      maxWidth={"md"}
+      fullWidth
+      className="w-full max-w-[650px] mx-auto"
+      open={open}
+      onClose={handleClose}
+    >
       <DialogTitle>Add Member</DialogTitle>
       <DialogContent dividers>
         <InviteUsers
-          labelClassName="text-sm font-thin  leading-[16px"
+          labelClassName="text-sm font-[400]  "
           label="Member"
           className="mt-4"
           selectedUsers={selectedUser}
@@ -71,7 +79,7 @@ const InviteMemberDialog: React.FC<Props> = ({
         <LoadingButton
           disabled={!selectedUser}
           variant="contained"
-          className="bg-primary"
+          className="bg-primary text-white"
           loading={isLoading}
           onClick={
             mutate as unknown as React.MouseEventHandler<HTMLButtonElement>

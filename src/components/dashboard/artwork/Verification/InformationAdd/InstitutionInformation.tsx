@@ -14,6 +14,7 @@ import SeletectOrganization from "@/components/dashboard/SeleteOrganization";
 import InputField from "@/components/Form/InputField";
 import VerificationFileDroper from "../VerificationFileDroper";
 import { useMutation } from "@tanstack/react-query";
+import InviteUsers from "@/components/dashboard/InviteUsers";
 
 interface Props {
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
@@ -28,7 +29,12 @@ const InstitutionInformation = ({
   const axiosFetch = useAxiosAuth();
   const toast = useToast();
   const router = useRouter();
-
+  const [artist, setArtist] = useState<{
+    firstName: string;
+    lasName: string;
+    email: string;
+    _id?: string;
+  }>();
   const [selectedOrganization, setSelectedOrganization] =
     React.useState<any>(null);
   const [file, setFile] = useState<{
@@ -176,7 +182,7 @@ const InstitutionInformation = ({
       <div className="grid md:grid-cols-2 gap-4">
         <div className="flex gap-2 col-span-2 items-center">
           <DateInput
-            labelClassName="text-sm font-thin  leading-[16px]"
+            labelClassName="text-sm font-[400]  leading-[16px]"
             id="date"
             label="Date of Purchase"
             name="date"
@@ -189,14 +195,14 @@ const InstitutionInformation = ({
           <SwitchInput
             label="Is Circa"
             name="isCirca"
-            labelClassName="text-sm font-thin  leading-[16px]"
+            labelClassName="text-sm font-[400]  leading-[16px]"
             control={control}
             error={!!errors["isCirca"]}
             helperText={errors["isCirca"] ? errors["isCirca"].message : ""}
           />
         </div>
         <SelectField
-          labelClassName={"text-sm font-thin  leading-[16px]"}
+          labelClassName={"text-sm font-[400]  leading-[16px]"}
           label="Acquisition Type"
           name="acquisitionType"
           selectClassName="bg-secondary capitalize"
@@ -227,7 +233,7 @@ const InstitutionInformation = ({
           ))}
         </SelectField>
         <SelectField
-          labelClassName={"text-sm font-thin  leading-[16px] capitalize"}
+          labelClassName={"text-sm font-[400]  leading-[16px] capitalize"}
           label="Acquisition Purpose"
           name="acquisitionPurpose"
           selectClassName="bg-secondary capitalize"
@@ -262,7 +268,7 @@ const InstitutionInformation = ({
           label="Bought from Organization?"
           className="w-fit"
           name="boughtFromOrganization"
-          labelClassName="text-sm font-thin  leading-[16px]"
+          labelClassName="text-sm font-[400]  leading-[16px]"
           control={control}
           error={!!errors["boughtFromOrganization"]}
           helperText={
@@ -280,6 +286,13 @@ const InstitutionInformation = ({
           />
         )}
       </div>
+      <InviteUsers
+        labelClassName="text-sm font-[400] leading-[16px"
+        label="Artist"
+        className="mt-4 col-span-2 "
+        selectedUsers={artist}
+        setSelectedUsers={setArtist}
+      />
       <div className="col-span-2 mt-6 flex gap-4 justify-between">
         <VerificationFileDroper
           label="Acquisition Document"
@@ -293,7 +306,7 @@ const InstitutionInformation = ({
           placeholder=""
           name="acquisitionDocumentCaption"
           tabIndex={2}
-          labelClassName="font-thin"
+          labelClassName="font-[400]"
           inputClassName="bg-secondary-white w-full h-[141px] "
           multiline
           rows={3}

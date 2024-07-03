@@ -150,7 +150,10 @@ const InputField: React.FC<Props> = ({
         <TextField
           {...field}
           variant={variant}
-          onChange={onControllerChange}
+          onChange={(e) => {
+            onControllerChange(e);
+            onChange && onChange(e);
+          }}
           onBlur={onBlur}
           sx={{
             "& fieldset": { border: !hasBorder && "none" },

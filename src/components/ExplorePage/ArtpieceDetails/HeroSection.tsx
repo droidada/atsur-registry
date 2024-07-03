@@ -4,11 +4,14 @@ import {
   AccordionDetails,
   AccordionSummary,
   Avatar,
+  Button,
   Rating,
   Stack,
 } from "@mui/material";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { MdOutlineExpandMore } from "react-icons/md";
 
@@ -19,6 +22,10 @@ interface Props {
 const HeroSection: React.FC<Props> = ({ artpiece }) => {
   const [assets, setAssets] = useState(artpiece?.assets);
   const [currentAsset, setCurrentAsset] = useState(0);
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  const checkUser = artpiece.custodian?.profile?.id == session.user?._id;
 
   useEffect(() => {
     setAssets(artpiece?.assets);
@@ -46,20 +53,40 @@ const HeroSection: React.FC<Props> = ({ artpiece }) => {
         </Stack>
         <Stack className="flex-1 py-8" spacing={4} direction={"column"}>
           <Stack spacing={2} direction={"row"} className="">
-            <div className="flex font-[600] text-[17px] leading-[16px] gap-2 text-justify items-center">
-              <span
-                className={`w-[25px] h-[25px] rounded-full ${
-                  artpiece?.verification?.status == "verified"
-                    ? "bg-[#18BAFF]"
-                    : "bg-secondary"
-                }`}
-              />
+            <div className="flex  w-full font-[600] text-[17px] justify-between leading-[16px] gap-2 text-justify items-center">
+              <div className="flex gap-2 items-center">
+                <span
+                  className={`w-[25px] h-[25px] rounded-full ${
+                    artpiece?.verification?.status == "verified"
+                      ? "bg-[#18BAFF]"
+                      : "bg-secondary"
+                  }`}
+                />
 
-              <span>
-                {artpiece?.verification?.status == "verified"
-                  ? "Verified"
-                  : "Unverified"}
-              </span>
+                <span
+                  className={
+                    artpiece?.verification?.status == "verified"
+                      ? "text-[#18BAFF]"
+                      : "text-secondary"
+                  }
+                >
+                  {artpiece?.verification?.status == "verified"
+                    ? "Verified"
+                    : "Unverified"}
+                </span>
+              </div>
+
+              {checkUser && (
+                <Button
+                  variant="contained"
+                  className="bg-primary text-white"
+                  onClick={() =>
+                    router.push(`/dashboard/artworks/${artpiece?._id}/edit`)
+                  }
+                >
+                  Edit
+                </Button>
+              )}
             </div>
           </Stack>
           <div className="flex flex-col gap-4">

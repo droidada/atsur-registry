@@ -60,8 +60,6 @@ export const getServerSideProps = async ({ req, query }) => {
       headers: { authorization: `Bearer ${token?.accessToken}` },
     });
 
-    console.log(res.data);
-
     return { props: { organizations: res.data.organization } };
   } catch (error) {
     console.error("error here looks like ", error);
@@ -110,19 +108,20 @@ function Organization({ organizations }) {
       <Stack spacing={4}>
         <SearchBar />
         <div className="flex gap-4">
-          {["verified", "unverified"].map((item) => (
-            <div key={item} className="flex gap-2 items-start">
-              <div
-                className={`flex gap-2 items-center  ${
-                  verificationStatus === true
-                    ? "text-[#18BAFF] font-[600]"
-                    : "text-secondary"
-                }`}
-              >
-                <FaCircle /> <span>{item}</span>
-              </div>
+          <div className="flex gap-2 items-start">
+            <div
+              className={`flex gap-2 items-center  ${
+                verificationStatus === true
+                  ? "text-[#18BAFF] font-[600]"
+                  : "text-secondary"
+              }`}
+            >
+              <FaCircle />{" "}
+              <span>
+                {verificationStatus === true ? "Verified" : "Unverified"}
+              </span>
             </div>
-          ))}
+          </div>
         </div>
         <div className="flex gap-7 items-center bg-secondary-white p-5">
           <div className="max-w-[121.74px] w-full h-[159.48px] relative">
@@ -143,7 +142,7 @@ function Organization({ organizations }) {
             </div>
             <div className="flex font-[300] text-[12px] leading-[13px] gap-2">
               <MdLocationPin />
-              <span>{organizations?.email}</span>
+              <span>{organizations?.address}</span>
             </div>
             <div className="flex font-[300] text-[12px] leading-[13px] gap-2">
               <MdMailOutline />
@@ -285,8 +284,9 @@ const DeletOrganizationDialog: React.FC<DeleteOrganizationDialogProps> = ({
   });
   return (
     <Dialog
-      maxWidth={"sm"}
+      maxWidth={"md"}
       className="w-full max-w-[650px] mx-auto"
+      PaperComponent={Paper}
       open={open}
       onClose={handleClose}
     >

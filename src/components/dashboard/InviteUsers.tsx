@@ -30,6 +30,7 @@ interface Props {
   labelClassName?: string;
   isMultiple?: boolean;
   isBrokerInvite?: boolean;
+  removeUser?: (email: string) => void;
 }
 
 const InviteUsers: React.FC<Props> = ({
@@ -40,6 +41,7 @@ const InviteUsers: React.FC<Props> = ({
   label,
   isMultiple,
   isBrokerInvite,
+  removeUser,
 }) => {
   const axiosFetch = useAxiosAuth();
   const toast = useToast();
@@ -81,6 +83,14 @@ const InviteUsers: React.FC<Props> = ({
         // }}
         value={selectedUsers}
         onChange={(event, value) => {
+          if (selectedUsers?.length > value.length) {
+            const removedUser = selectedUsers.find(
+              (user: any) => !value.includes(user),
+            );
+            if (removedUser && removeUser) {
+              removeUser(removedUser.email);
+            }
+          }
           setSelectedUsers(value);
         }}
         options={users?.data?.users || []}
@@ -229,7 +239,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = ({
           helperText={errors["email"] ? errors["email"].message : ""}
           control={control}
         />
-        {isBrokerInvite && (
+        {/* {isBrokerInvite && (
           <SelectField
             labelClassName={"text-sm font-[400]  le[400] text-smg-[16px]"}
             label="Is this the main artist?"
@@ -254,7 +264,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = ({
               </MenuItem>
             ))}
           </SelectField>
-        )}
+        )} */}
       </DialogContent>
 
       <DialogActions>

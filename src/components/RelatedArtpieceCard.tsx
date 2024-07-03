@@ -26,7 +26,7 @@ const RelatedArtpieceCard: React.FC<Props> = ({
   return (
     <Link
       href={link}
-      className={`flex flex-col self-stretch h-[350px] max-w-[348.91px] w-full bg-primary ${className}`}
+      className={`flex flex-col self-stretch min-h-full w-full  bg-primary ${className}`}
     >
       <Image
         src={image}

@@ -16,6 +16,7 @@ import InputField from "@/components/Form/InputField";
 import { useMutation } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { useToast } from "@/providers/ToastProvider";
+import InviteUsers from "@/components/dashboard/InviteUsers";
 
 interface Props {
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
@@ -29,7 +30,6 @@ const CollectorInformation: React.FC<Props> = ({
 }) => {
   const axiosAuth = useAxiosAuth();
   const router = useRouter();
-
   const [selectedOrganization, setSelectedOrganization] =
     React.useState<any>(null);
   const [file, setFile] = React.useState<any>(null);
@@ -43,6 +43,13 @@ const CollectorInformation: React.FC<Props> = ({
     "save" | "publish"
   >(null);
 
+  const [artist, setArtist] = useState<{
+    firstName: string;
+    lasName: string;
+    email: string;
+    _id?: string;
+  }>();
+
   const metadataSchema = object({
     date: string().nonempty("Date is required"),
     acquisitionType: string().nonempty("Acquisition type is required"),
@@ -53,9 +60,6 @@ const CollectorInformation: React.FC<Props> = ({
   });
 
   type MetadataInput = TypeOf<typeof metadataSchema>;
-
-  console.log("defaultValues", defaultValues);
-
   const {
     register,
     formState: { errors, isSubmitSuccessful },
@@ -70,7 +74,6 @@ const CollectorInformation: React.FC<Props> = ({
   });
 
   useEffect(() => {
-    console.log("defaultValues from collector", defaultValues);
     if (defaultValues) {
       setValue("date", defaultValues?.date);
       setValue("acquisitionType", defaultValues?.type);
@@ -114,6 +117,11 @@ const CollectorInformation: React.FC<Props> = ({
     const buttonClicked = event.nativeEvent.submitter.name;
     const save = buttonClicked === "save" ? true : false;
 
+    if (!artist) {
+      toast.error("Please select an artist");
+      return;
+    }
+
     setCurrentSubmitType(buttonClicked);
 
     const formData = new FormData();
@@ -134,6 +142,9 @@ const CollectorInformation: React.FC<Props> = ({
 
     console.log("This is the file", file);
     file && formData.append("acquisitionDocument", file);
+    formData.append("artist", JSON.stringify(artist) || "");
+
+
 
     mutate(formData);
   };
@@ -149,7 +160,7 @@ const CollectorInformation: React.FC<Props> = ({
       <div className="grid md:grid-cols-2 gap-4">
         <div className="flex gap-2 col-span-2 items-center">
           <DateInput
-            labelClassName="text-sm font-thin  leading-[16px]"
+            labelClassName="text-sm font-[400]  leading-[16px]"
             id="date"
             label="Date of Purchase"
             name="date"
@@ -162,14 +173,14 @@ const CollectorInformation: React.FC<Props> = ({
           <SwitchInput
             label="Is Circa"
             name="isCirca"
-            labelClassName="text-sm font-thin  leading-[16px]"
+            labelClassName="text-sm font-[400]  leading-[16px]"
             control={control}
             error={!!errors["isCirca"]}
             helperText={errors["isCirca"] ? errors["isCirca"].message : ""}
           />
         </div>
         <SelectField
-          labelClassName={"text-sm font-thin  leading-[16px]"}
+          labelClassName={"text-sm font-[400]  leading-[16px]"}
           label="Acquisition Type"
           name="acquisitionType"
           selectClassName="bg-secondary capitalize"
@@ -200,7 +211,7 @@ const CollectorInformation: React.FC<Props> = ({
           ))}
         </SelectField>
         <SelectField
-          labelClassName={"text-sm font-thin  leading-[16px] capitalize"}
+          labelClassName={"text-sm font-[400]  leading-[16px] capitalize"}
           label="Acquisition Purpose"
           name="acquisitionPurpose"
           selectClassName="bg-secondary capitalize"
@@ -232,7 +243,7 @@ const CollectorInformation: React.FC<Props> = ({
           ))}
         </SelectField>
         <SelectField
-          labelClassName={"text-sm font-thin  leading-[16px]"}
+          labelClassName={"text-sm font-[400]  leading-[16px]"}
           className="col-span-2"
           label="Method of Purchase"
           name="methodOfPurchase"
@@ -267,6 +278,13 @@ const CollectorInformation: React.FC<Props> = ({
           />
         )}
 
+        <InviteUsers
+          labelClassName="text-sm font-[400] leading-[16px"
+          label="Artist"
+          className="mt-4 col-span-2 "
+          selectedUsers={artist}
+          setSelectedUsers={setArtist}
+        />
         <div className="col-span-2 mt-4 flex gap-4 justify-between">
           <FileDropZone
             file={file}
@@ -279,7 +297,7 @@ const CollectorInformation: React.FC<Props> = ({
             placeholder=""
             name="acquisitionDocumentCaption"
             tabIndex={2}
-            labelClassName="font-thin"
+            labelClassName="font-[400]"
             inputClassName="bg-secondary-white w-full h-[141px] "
             multiline
             rows={3}
@@ -348,7 +366,7 @@ const FileDropZone: React.FC<FileDropZoneProps> = ({
   };
   return (
     <div className="w-2/3 flex flex-col gap-4">
-      <label className="text-sm font-thin  leading-[16px]" htmlFor="">
+      <label className="text-sm font-[400]  leading-[16px]" htmlFor="">
         Acquisition Document
       </label>
       <Dropzone
