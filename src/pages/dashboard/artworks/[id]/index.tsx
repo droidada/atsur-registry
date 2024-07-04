@@ -118,16 +118,13 @@ function ArtPiece({ artPiece }) {
                   : "text-secondary"
               }`}
             >
-              <FaCircle /> <span>Verified</span>
-            </div>
-            <div
-              className={`flex gap-2 items-center  ${
-                artPiece?.verification?.status !== "verified"
-                  ? "text-[#18BAFF] font-[600]"
-                  : "text-secondary"
-              }`}
-            >
-              <FaCircle /> <span>Unverified</span>
+              <FaCircle />{" "}
+              <span>
+                {" "}
+                {artPiece?.verification?.status === "verified"
+                  ? "Verified"
+                  : "Unverified"}
+              </span>
             </div>
           </div>
           <div>

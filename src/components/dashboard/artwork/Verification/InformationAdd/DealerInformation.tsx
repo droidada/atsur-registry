@@ -26,7 +26,12 @@ const DealerInformation = ({ setActiveIndex, defaultValues, artPieceId }) => {
   const [selectedOrganization, setSelectedOrganization] = useState<any>(null);
   const [percentages, setPercentages] = useState<
     {
-      userInfo: { firstName: string; lastName: string; email: string };
+      userInfo: {
+        firstName: string;
+        lastName: string;
+        email: string;
+        role?: string;
+      };
       percentage: number;
     }[]
   >([]);
@@ -56,7 +61,7 @@ const DealerInformation = ({ setActiveIndex, defaultValues, artPieceId }) => {
     resolver: zodResolver(metadataSchema),
   });
 
-  console.log("This is default values", defaultValues);
+  console.log("This is default values", percentages);
 
   useEffect(() => {
     if (defaultValues) {
@@ -105,6 +110,21 @@ const DealerInformation = ({ setActiveIndex, defaultValues, artPieceId }) => {
     // @ts-ignore
     const buttonClicked = event.nativeEvent.submitter.name;
     const save = buttonClicked === "save" ? true : false;
+    const checkMainArtistRole = percentages.filter(
+      (item) => item.userInfo?.role === "main artist",
+    );
+
+    if (checkMainArtistRole.length > 1) {
+      toast.error(
+        "Only one main artist role is allowed, for commision split broker",
+      );
+      return;
+    }
+
+    if (checkMainArtistRole.length === 0) {
+      toast.error("Main artist is required for commision split broker");
+      return;
+    }
 
     setCurrentSubmitType(buttonClicked);
 
@@ -144,7 +164,7 @@ const DealerInformation = ({ setActiveIndex, defaultValues, artPieceId }) => {
       <Stack spacing={4}>
         <SeletectOrganization
           // isUserOrg
-          labelClassName="text-sm font-thin  leading-[16px"
+          labelClassName="text-sm font-[400]  leading-[16px"
           label=" Organization"
           selectedOrg={selectedOrganization}
           setSelectedOrg={setSelectedOrganization}

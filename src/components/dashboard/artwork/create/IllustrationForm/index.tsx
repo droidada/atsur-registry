@@ -130,6 +130,8 @@ const IllustrationForm: React.FC<Props> = ({
       <Stack spacing={4}>
         <InputField
           label="Title"
+          hasInfo
+          info="Title of the artwork"
           id="title"
           placeholder=""
           name="title"
@@ -143,6 +145,8 @@ const IllustrationForm: React.FC<Props> = ({
         />
         <InputField
           label="Description"
+          hasInfo
+          info="Description of the artwork"
           id="description"
           placeholder=""
           name="description"
@@ -179,6 +183,8 @@ const IllustrationForm: React.FC<Props> = ({
           <SelectField
             label="Medium"
             name="medium"
+            hasInfo
+            info="Medium used in the artwork"
             // @ts-ignore
             sx={{
               "& fieldset": {
@@ -208,6 +214,8 @@ const IllustrationForm: React.FC<Props> = ({
 
         <div className="flex gap-4 items-center">
           <InputField
+            hasInfo
+            info="Height of the artwork. Must be in inches"
             label="Height [in inches]"
             id="height"
             type="number"
@@ -223,6 +231,8 @@ const IllustrationForm: React.FC<Props> = ({
             control={control}
           />
           <InputField
+            hasInfo
+            info="Width of the artwork. Must be in inches"
             label="Width [in inches]"
             id="width"
             type="number"
@@ -239,6 +249,8 @@ const IllustrationForm: React.FC<Props> = ({
           />
           <InputField
             label="Depth [in inches]"
+            hasInfo
+            info="Depth of the artwork. Must be in inches"
             id="depth"
             type="number"
             placeholder=""
@@ -256,6 +268,8 @@ const IllustrationForm: React.FC<Props> = ({
         <div className="flex gap-4 items-center">
           <SelectField
             label="Rarity"
+            hasInfo
+            info="How rare is the artwork"
             className=""
             // @ts-ignore
             sx={{
@@ -277,6 +291,8 @@ const IllustrationForm: React.FC<Props> = ({
           </SelectField>
           <div className="max-w-[300px] w-full">
             <SwitchInput
+              hasInfo
+              info="Does the artwork has a frame"
               labelPlacement="start"
               label="With Frame"
               name="withFrame"

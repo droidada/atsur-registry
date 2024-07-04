@@ -58,6 +58,7 @@
     "js-html2pdf": "^1.1.4",
     "jsonwebtoken": "^9.0.0",
     "jspdf": "^2.5.1",
+    "libphonenumber-js": "^1.11.4",
     "material-ui-dropzone": "^3.5.0",
     "moment": "^2.30.1",
     "next": "^14.0.3",

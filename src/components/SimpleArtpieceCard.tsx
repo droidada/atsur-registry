@@ -36,7 +36,7 @@ const SimpleArtpieceCard: React.FC<Props> = ({
         alt={title}
         width={281}
         height={273}
-        className="object-cover flex-1"
+        className="object-cover w-full flex-1"
       />
       <Stack
         direction={"column"}

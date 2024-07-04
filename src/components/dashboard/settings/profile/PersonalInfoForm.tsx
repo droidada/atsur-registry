@@ -8,7 +8,12 @@ import { useSession } from "next-auth/react";
 import { LoadingButton } from "@mui/lab";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useMutation } from "@tanstack/react-query";
-const PersonalInfoForm = () => {
+
+interface Props {
+  setIsEdit: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const PersonalInfoForm: React.FC<Props> = ({ setIsEdit }) => {
   const { data } = useSession();
   const signUpSchema = object({
     firstName: string().nonempty("First name is required"),
@@ -51,6 +56,7 @@ const PersonalInfoForm = () => {
     onSuccess: async (data) => {
       console.log(data?.data?.data);
       await update({ ...session, ...data?.data?.data });
+      setIsEdit(false);
       toast.success("Profile updated successfully");
     },
     onError: (error: any) => {

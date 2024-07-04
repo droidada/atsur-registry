@@ -56,7 +56,7 @@ const Projects: React.FC<Props> = ({ artistId }) => {
 
   return (
     <div>
-      <div className="grid grid-cols-auto-fit gap-4">
+      <div className="grid grid-cols-auto-fit gap-4 ">
         {projects?.map((project) => (
           <SimpleArtpieceCard
             isBlack

@@ -16,7 +16,8 @@ export const options: any = {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials, req)
+      {
         const payload = {
           email: credentials.email,
           password: credentials.password,
@@ -33,9 +34,9 @@ export const options: any = {
         });
 
         const data = await res.json();
-        // console.log("response data here---------- ", data);
-        if (!data) {
-          throw new Error("Email or password incorrect.");
+        console.log("response data here---------- ", data);
+        if (data?.success == false) {
+          throw new Error(data?.message);
         }
 
         return data.user;
@@ -47,7 +48,8 @@ export const options: any = {
     maxAge: 24 * 60 * 60, // 24 Hours
   },
   callbacks: {
-    async jwt({ token, user, account, trigger, session }) {
+    async jwt({ token, user, account, trigger, session })
+    {
       if (trigger === "update") {
         // update the user profile
         return {
@@ -66,7 +68,8 @@ export const options: any = {
       return token;
     },
 
-    async session({ session, token }) {
+    async session({ session, token })
+    {
       if (token) {
         session.jwt = token?.accessToken;
         session.roles = token?.roles;

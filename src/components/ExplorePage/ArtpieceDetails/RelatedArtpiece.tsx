@@ -55,9 +55,9 @@ const RelatedArtpiece: React.FC<Props> = ({ relatedArtpieces }) => {
         Related Pieces
       </h2>
       <div className="w-full lg:w-2/3">
-        <Swiper className="items-stretch  " {...swiperOptions}>
+        <Swiper className="min-h-fit  " {...swiperOptions}>
           {relatedArtpieces?.slice(0, 4)?.map((artpiece) => (
-            <SwiperSlide className="h-[auto]" key={artpiece._id}>
+            <SwiperSlide className="min-h-full bg-blue-500" key={artpiece._id}>
               <RelatedArtpieceCard
                 key={artpiece._id}
                 className="flex-shrink-0"

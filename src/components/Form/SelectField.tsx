@@ -1,6 +1,8 @@
-import { Select } from "@mui/material";
+import { IconButton, Select, Tooltip } from "@mui/material";
 import React from "react";
 import { useController, Control } from "react-hook-form";
+
+import { GoInfo } from "react-icons/go";
 
 interface Props {
   control: Control<any>;
@@ -21,6 +23,8 @@ interface Props {
   selectClassName?: string;
   defaultValue?: any;
   className?: string;
+  hasInfo?: boolean;
+  info?: string;
 }
 
 const SelectField: React.FC<Props> = ({
@@ -42,6 +46,8 @@ const SelectField: React.FC<Props> = ({
   control,
   defaultValue,
   className,
+  hasInfo,
+  info,
   ...props
 }) => {
   const {
@@ -57,8 +63,18 @@ const SelectField: React.FC<Props> = ({
   return (
     <div className={`flex w-full flex-col text-base gap-2 ${className}`}>
       {label && (
-        <label htmlFor={label} className={` font-semibold ${labelClassName}`}>
-          {label} {isRequired ? "*" : ""}
+        <label
+          htmlFor={label}
+          className={` font-semibold flex gap-4 items-center ${labelClassName}`}
+        >
+          {label} {isRequired ? "*" : ""}{" "}
+          {hasInfo && (
+            <Tooltip title={info}>
+              <IconButton className="w-fit h-fit">
+                <GoInfo />
+              </IconButton>
+            </Tooltip>
+          )}
         </label>
       )}
       <div>

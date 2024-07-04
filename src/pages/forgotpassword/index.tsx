@@ -11,6 +11,8 @@ import InputField from "@/components/Form/InputField";
 import UnprotectedPage from "@/HOC/Unprotected";
 import AuthLayout from "@/components/layout/AuthLayout";
 import LoadingButton from "@/components/Form/LoadingButton";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 const pubAPI = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
@@ -33,6 +35,7 @@ function ForgotPassword() {
 
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
   const [error, setError] = useState(false);
   const { logIn, user, error: forgotPasswordError } = useAuthContext();
 
@@ -48,25 +51,26 @@ function ForgotPassword() {
     // setSuccess(false);
   }, []);
 
+  const { mutate, isLoading } = useMutation({
+    mutationFn: async (data: { email: string }) =>
+      axios.post(`/auth/forgot-password`, data),
+    onSuccess: (data) => {
+      console.log(data);
+      toast.success("Password reset link sent to your email");
+    },
+    onError: (error: any) => {
+      toast.error(
+        error?.response?.data?.errors ||
+          error?.message ||
+          "Something went wrong",
+      );
+    },
+  });
+
   const onSubmitHandler: SubmitHandler<ForgotPasswordInput> = async (
     values,
   ) => {
-    try {
-      setLoading(true);
-      console.log(values);
-      const res = await axios.post(`/auth/forgot-password`, {
-        email: values.email,
-      });
-      console.log(res);
-      setLoading(false);
-
-      // router.replace("/dashboard");
-      return;
-    } catch (error) {
-      console.log(error);
-      setError(true);
-      setLoading(false);
-    }
+    mutate({ email: values.email });
   };
 
   return (
@@ -101,7 +105,7 @@ function ForgotPassword() {
         <div className="flex flex-col gap-3 text-base">
           <LoadingButton
             type="submit"
-            loading={loading}
+            loading={isLoading}
             className="bg-primary text-secondary hover:bg-gray-800"
           >
             Submit

@@ -191,7 +191,7 @@ function Settings() {
           spacing={4}
         >
           {isEditPersonalInfo ? (
-            <PersonalInfoForm />
+            <PersonalInfoForm setIsEdit={setIsEditPersonalInfo} />
           ) : (
             <div className="flex-1 gap-4 grid grid-cols-2">
               <div className="flex flex-col font-[400] text-[12px] leading-[16px]">

@@ -11,12 +11,19 @@ import { FaInstagram } from "react-icons/fa";
 import { TiSocialLinkedinCircular } from "react-icons/ti";
 import { IoLogoFacebook } from "react-icons/io5";
 import RightSection from "./RightSection";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 interface Props {
   artist: IArtistDetails;
 }
 const ArtistDetailsPage: React.FC<Props> = ({ artist }) => {
-  // const check
+  const { data: session } = useSession();
+  console.log(artist);
+  const checkUser = session?.user?._id === artist?._id;
+  const router = useRouter();
+
+  console.log(checkUser);
   return (
     <>
       <HeroSection
@@ -26,6 +33,7 @@ const ArtistDetailsPage: React.FC<Props> = ({ artist }) => {
       />
       <Stack
         className="gap-4 md:gap-12"
+        spacing={7}
         direction={{ xs: "column", md: "row" }}
       >
         <Stack
@@ -87,6 +95,15 @@ const ArtistDetailsPage: React.FC<Props> = ({ artist }) => {
               <TiSocialLinkedinCircular size={43} />
             </IconButton>
           </Stack>
+          {checkUser && (
+            <Button
+              variant="contained"
+              onClick={() => router.push("/dashboard/settings")}
+              className="bg-primary text-white rounded-full"
+            >
+              Edit Profile
+            </Button>
+          )}
         </Stack>
 
         <RightSection artist={artist} />

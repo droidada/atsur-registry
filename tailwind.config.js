@@ -40,6 +40,16 @@ module.exports = {
     //   padding: "2rem",
     // },
     extend: {
+      keyframes: {
+        "sleek-in": {
+          "0%": { opacity: "0", transform: "translateY(-10px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "sleek-out": {
+          "0%": { opacity: "1", transform: "translateY(0)" },
+          "100%": { opacity: "0", transform: "translateY(-10px)" },
+        },
+      },
       colors: {
         primary: "#000000",
         secondary: "#D9D9D9",
@@ -128,6 +138,10 @@ module.exports = {
         ],
         "bodrum-sans-18": ['"Bodrum Sans 18"', "sans-serif"],
         "bodrum-sans-19": ['"Bodrum Sans 19"', "sans-serif"],
+      },
+      animation: {
+        "sleek-in": "sleek-in 0.5s ease-out",
+        "sleek-out": "sleek-out 0.5s ease-in",
       },
     },
   },

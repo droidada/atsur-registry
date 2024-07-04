@@ -106,22 +106,20 @@ export const allPriceService = [
       desc: "Smart contract to enforce sales commissions using blockchain technology",
       link: "/services/sales-smart-contracts",
     },
+    // {
+    //   title: "Tokengates",
+    //   desc: "Share ownership of artwork using blockchain technology",
+    //   link: "/services/token-gates",
+    // },
     {
-      title: "Tokengates",
-      desc: "Share ownership of artwork using blockchain technology",
-      link: "/services/token-gates",
-    },
-    {
-      title: "Property Protocol",
+      title: "Asset Ownership",
       desc: "Enforce resale royalties and sales commissions using blockchain technology",
-      link: "/services/property-protocol",
+      link: "/services/asset-ownership",
     },
     {
-      title: "Advanced cataloging",
-      desc: `Advanced platform features such as image counterfeit detection,
-      automated art document creation and signing(create art documentation and
-        send to be signed using our platform) etc…`,
-      link: "/services/advanced-cataloging",
+      title: "Custom Services",
+      desc: `Custom built archiving solutions platform including open APIs powered and managed by Atsur`,
+      link: "/services/custom-services",
     },
   ],
 ];

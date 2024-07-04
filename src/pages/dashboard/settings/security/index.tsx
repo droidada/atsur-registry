@@ -6,7 +6,11 @@ import { getToken } from "next-auth/jwt";
 import axios from "@/lib/axios";
 import { useRouter } from "next/router";
 import { HiChevronRight } from "react-icons/hi";
+import { FcGoogle } from "react-icons/fc";
 import { BsChevronRight } from "react-icons/bs";
+import Image from "next/image";
+import { FaLinkedin } from "react-icons/fa";
+import ChangePasswordDialog from "@/components/dashboard/settings/security/ChangePasswordDialog";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -36,8 +40,6 @@ const SecurityPage = ({ user }) => {
   const { data } = useSession();
   const [openResetPasswordDialog, setOpenResetPasswordDialog] = useState(false);
   const router = useRouter();
-
-  console.log(user);
 
   return (
     <Stack spacing={2} className="divide-y-[1px] divide-secondary ">
@@ -83,8 +85,38 @@ const SecurityPage = ({ user }) => {
             Linked Accounts
           </label>
           <div className="flex gap-4">
-            <div className="h-[90px] max-w-[50%] w-full border-[1px] border-primary"></div>
-            <div className="h-[90px] max-w-[50%] w-full border-[1px] border-primary"></div>
+            <div className=" p-4  flex gap-2 w-full border-[1px] border-primary">
+              <FcGoogle size={40} />
+              <div className="flex flex-1 divide-y-[1px] divide-primary flex-col gap-2">
+                <div className="flex flex-col">
+                  <span className="text-xs font-semibold">
+                    {data?.user?.email}
+                  </span>
+                  <span className="text-xs font-semibold">**********</span>
+                </div>
+                <div className="py-1">
+                  <Button className="h-[20px] text-xs w-fit px-0 bg-secondary rounded-full font-[400]">
+                    Edit
+                  </Button>
+                </div>
+              </div>
+            </div>
+            <div className=" p-4 w-full border-[1px] flex gap-2 border-primary">
+              <FaLinkedin className="text-blue-700" size={40} />
+              <div className="flex flex-1 divide-y-[1px] divide-primary flex-col gap-2">
+                <div className="flex flex-col">
+                  <span className="text-xs font-semibold">
+                    @{data?.user?.firstName + "_" + data?.user?.lastName}
+                  </span>
+                  <span className="text-xs font-semibold">**********</span>
+                </div>
+                <div className="py-1">
+                  <Button className="h-[20px] text-xs w-fit px-0 bg-secondary rounded-full font-[400]">
+                    Edit
+                  </Button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div className="flex flex-col gap-2">
@@ -135,6 +167,11 @@ const SecurityPage = ({ user }) => {
           </div>
         </div>
       </Stack>
+
+      <ChangePasswordDialog
+        open={openResetPasswordDialog}
+        handleClose={() => setOpenResetPasswordDialog(false)}
+      />
     </Stack>
   );
 };

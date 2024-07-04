@@ -28,7 +28,6 @@ const PriceSection: React.FC<Props> = ({ plans }) => {
     "monthly" | "annually"
   >("monthly");
 
-  console.log("This is the plans -----:", plans);
   const [filteredPlans, setFilteredPlans] = useState<{
     businessPlans: any[];
     individualPlans: any[];

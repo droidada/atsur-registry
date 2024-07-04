@@ -24,6 +24,7 @@ interface Props {
 }
 const RightSection: React.FC<Props> = ({ artist }) => {
   const [value, setValue] = useState(0);
+  const [currentTab, setCurrentTab] = useState(0);
 
   const tabs = [
     {
@@ -50,7 +51,21 @@ const RightSection: React.FC<Props> = ({ artist }) => {
   return (
     <section className="mt-10 flex-1">
       <div className="">
-        <Tabs
+        <div className="flex justify-between items-center ">
+          {tabs.map((tab, index) => (
+            <div
+              onClick={() => setCurrentTab(index)}
+              className={`flex gap-4  justify-center ${
+                currentTab == index ? "bg-secondary text-primary" : ""
+              } items-center font-[600] p-2 px-4 w-full cursor-pointer text-[19px]  h-fit rounded-[21px] `}
+              key={tab.label}
+            >
+              {tab.icon}
+              {tab.label}
+            </div>
+          ))}
+        </div>
+        {/* <Tabs
           TabIndicatorProps={{ style: { display: "none" } }}
           onChange={handleChange}
           variant="fullWidth"
@@ -67,7 +82,7 @@ const RightSection: React.FC<Props> = ({ artist }) => {
               iconPosition={"start"}
             />
           ))}
-        </Tabs>
+        </Tabs> */}
 
         <div className="mt-10">
           {
@@ -76,7 +91,7 @@ const RightSection: React.FC<Props> = ({ artist }) => {
               <Projects artistId={artist?._id} key={"projects"} />,
               // <Board key={"board"} />,
               <Favourites artistId={artist?._id} key={"favorites"} />,
-            ][value]
+            ][currentTab]
           }
         </div>
       </div>

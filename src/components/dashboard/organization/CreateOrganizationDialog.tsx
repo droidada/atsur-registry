@@ -21,6 +21,7 @@ import axios from "axios";
 import { Dropzone } from "@dropzone-ui/react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { parsePhoneNumberFromString, isValidNumber } from "libphonenumber-js";
 
 interface Props {
   openCreateDialog: boolean;
@@ -34,9 +35,10 @@ const CreateOrganizationDialog: React.FC<Props> = ({
   organization,
   invitationToken: token,
 }) => {
-  console.log(organization);
   const toast = useToast();
   const axiosAuth = useAxiosAuth();
+  const [phonePrefix, setPhonePrefix] = useState("");
+  const [sortedCountries, setSortedCountries] = useState([]);
   const router = useRouter();
   const orgSchema = object({
     name: string().nonempty("Name is required"),
@@ -46,12 +48,26 @@ const CreateOrganizationDialog: React.FC<Props> = ({
     phone: string(),
     website: string(),
     // type: string(),
+  }).superRefine((values, ctx) => {
+    if (values.country) {
+      const countryCode = sortedCountries.find(
+        (country) => country.name === values.country,
+      ).code;
+
+      if (!isValidNumber(values.phone, countryCode)) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Invalid phone number",
+          path: ["phone"],
+        });
+      }
+    }
   });
 
   const { data: countries } = useQuery({
     queryKey: ["countries"],
     queryFn: () =>
-      axios.get("https://restcountries.com/v3.1/all?fields=name,cca2"),
+      axios.get("https://restcountries.com/v3.1/all?fields=name,cca2,idd"),
     refetchOnWindowFocus: false,
   });
   const [previewImg, setPreviewImg] = useState(null);
@@ -103,11 +119,26 @@ const CreateOrganizationDialog: React.FC<Props> = ({
     reset,
     handleSubmit,
     control,
-    getValues,
+    watch,
     setValue,
   } = useForm<OrgInput>({
     resolver: zodResolver(orgSchema),
   });
+
+  useEffect(() => {
+    if (countries) {
+      const sorted = countries?.data
+        ?.map((country) => ({
+          name: country.name.common,
+          code: country.cca2,
+          callingCode:
+            country?.idd?.root +
+            (country?.idd?.suffixes ? country?.idd?.suffixes[0] : ""),
+        }))
+        .sort((a, b) => a.name.localeCompare(b.name));
+      setSortedCountries(sorted);
+    }
+  }, [countries]);
 
   useEffect(() => {
     if (organization) {
@@ -119,6 +150,24 @@ const CreateOrganizationDialog: React.FC<Props> = ({
       setValue("website", organization.website);
     }
   }, [organization]);
+
+  const selectedCountry = watch("country");
+
+  console.log(selectedCountry);
+
+  useEffect(() => {
+    if (selectedCountry) {
+      sortedCountries.find((country) => country.name === selectedCountry)
+        ?.callingCode &&
+        setValue(
+          "phone",
+          sortedCountries.find((country) => country.name === selectedCountry)
+            ?.callingCode,
+        );
+    }
+  }, [selectedCountry]);
+
+  console.log(phonePrefix);
 
   const onSubmitHandler: SubmitHandler<OrgInput> = async (values) => {
     const formData = new FormData();
@@ -142,8 +191,6 @@ const CreateOrganizationDialog: React.FC<Props> = ({
     };
     reader.readAsDataURL(fileDoc.file);
   };
-
-  console.log(organization?.image);
 
   return (
     <Dialog
@@ -232,12 +279,8 @@ const CreateOrganizationDialog: React.FC<Props> = ({
             Select a country
           </MenuItem>
 
-          {countries?.data
-            ?.map((country) => ({
-              name: country.name.common,
-              code: country.cca2,
-            }))
-            ?.map((country) => (
+          {sortedCountries?.length > 0 &&
+            sortedCountries?.map((country) => (
               <MenuItem key={country.code} value={country.name}>
                 {country.name}
               </MenuItem>
