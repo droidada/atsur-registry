@@ -48,6 +48,7 @@ import InviteesTable from "@/components/dashboard/organization/InviteeTable";
 import MembersTable from "@/components/dashboard/organization/MembersTable";
 import CreateOrganizationDialog from "@/components/dashboard/organization/CreateOrganizationDialog";
 import InviteMemberDialog from "@/components/dashboard/organization/inviteMemberDialog";
+import OrganizationArtworks from "@/components/dashboard/organization/OrganizationArtworks";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -88,9 +89,6 @@ function Organization({ organizations }) {
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openAddMemberDialog, setOpenAddMemberDialog] = useState(false);
 
-  console.log(session?.user?._id);
-  console.log(organizations?.creator?.id);
-
   useEffect(() => {
     const mainMembers = organizations?.members?.filter(
       (member) => member?.invitation?.invitationAccepted,
@@ -122,6 +120,11 @@ function Organization({ organizations }) {
               </span>
             </div>
           </div>
+          {!verificationStatus && (
+            <Button variant="contained" className="bg-primary text-white">
+              Start KYC Verification
+            </Button>
+          )}
         </div>
         <div className="flex gap-7 items-center bg-secondary-white p-5">
           <div className="max-w-[121.74px] w-full h-[159.48px] relative">
@@ -187,7 +190,7 @@ function Organization({ organizations }) {
           }  `}
         >
           {organizations?.creator?.id === session?.user?._id ? (
-            ["Members", "Invitees"].map((item, index) => (
+            ["Members", "Invitees", "Artworks"].map((item, index) => (
               <div
                 key={item}
                 onClick={() => setCurrentTab(index)}
@@ -229,7 +232,11 @@ function Organization({ organizations }) {
                 creatorId={organizations?.creator?.id}
                 organizationId={organizations?._id}
                 invitees={invitees}
-                key={`tab-1`}
+                key={`tab-2`}
+              />,
+              <OrganizationArtworks
+                organizationId={organizations?._id as string}
+                key={`tab-3`}
               />,
             ][currentTab]
           }

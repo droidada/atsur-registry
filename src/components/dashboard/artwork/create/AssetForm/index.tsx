@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Button, Stack } from "@mui/material";
 import { useToast } from "@/providers/ToastProvider";
 import Image from "next/image";
+import VerificationFileDroper from "../../Verification/VerificationFileDroper";
 
 interface Props {
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
@@ -23,25 +24,20 @@ const AssetsForm: React.FC<Props> = ({
   });
 
   const handleUploadClick = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    files,
     type:
       | "primaryViewLandscape"
       | "mountedView"
       | "framedView"
       | "primaryViewPortrait",
   ) => {
-    let file = event.target.files[0];
+    let file = files[0];
     const reader = new FileReader();
-    let url = reader.readAsDataURL(file);
+    let url = reader.readAsDataURL(file.file);
 
-    // donot upload files more than 10mb
-    if (file.size > 10000000) {
-      toast.error("File size is too large");
-      return;
-    }
     reader.onloadend = function (e) {
       setFiles((prev) => ({ ...prev, [type]: reader.result }));
-    }.bind(this);
+    };
   };
   const toast = useToast();
 
@@ -74,8 +70,6 @@ const AssetsForm: React.FC<Props> = ({
     setActiveIndex((prev) => prev + 1);
   };
 
-  console.log(formData);
-
   return (
     <CreateArtWorkFormContainer
       handleGoBack={() => {
@@ -89,181 +83,79 @@ const AssetsForm: React.FC<Props> = ({
           <h2 className="text-[17px] leading-[16px] ">
             Primary View [Landscape] *
           </h2>
-          <div className="w-full relative h-[162px] bg-secondary p-4 gap-4 flex flex-col justify-center items-center">
-            {(files.primaryViewLandscape ||
-              formData?.assets?.primaryViewLandscape) && (
-              <Image
-                alt="primaryViewLandscape"
-                src={
-                  files.primaryViewLandscape ||
-                  formData?.assets?.primaryViewLandscape
-                }
-                fill
-                className="object-cover"
-              />
-            )}
-
-            <div
-              className={`flex flex-col gap-4 items-center relative ${
-                files.primaryViewLandscape ||
-                formData?.assets?.primaryViewLandscape
-                  ? "backdrop-blur-sm bg-black/70 text-white p-4 drop-shadow-md"
-                  : ""
-              }`}
-            >
-              <p className="text-[10px] leading-[16px] text-center">
-                Drag or choose your file to upload PNG, JPEG, or WEBP, (Max
-                10MB)
-              </p>
-              <label
-                htmlFor="primaryViewLandscape"
-                className="w-[122px] cursor-pointer hover:bg-secondary-white grid place-items-center h-[32px] bg-[#CECDCD] font-normal text-[11px] leading-[16px] text-primary"
-              >
-                Browse file
-              </label>
-              <input
-                type="file"
-                onChange={(e) => handleUploadClick(e, "primaryViewLandscape")}
-                hidden
-                accept="image/*"
-                id="primaryViewLandscape"
-              />
-            </div>
-          </div>
+          <VerificationFileDroper
+            maxSize={10 * 1024 * 1024}
+            maxFiles={1}
+            desc="Drag or choose your file to upload PNG, JPEG, or WEBP, (Max 10MB)"
+            handleUpload={(e) => handleUploadClick(e, "primaryViewLandscape")}
+            className="w-full"
+            buttonClassName="bg-[#CECDCD]"
+            dropzoneClassName="w-full relative h-[162px] bg-secondary"
+            accept="image/png, image/jpeg, image/webp"
+            previewImage={
+              files.primaryViewLandscape ||
+              formData?.assets?.primaryViewLandscape
+            }
+            isImage={true}
+          />
         </div>
         <div className="flex flex-col gap-4">
-          {/* <h2 className="text-[17px] leading-[16px] ">Secondary View</h2> */}
           <div className="flex flex-col md:flex-row gap-4 items-center ">
             <div className="flex flex-col gap-4">
               <h4 className="text-[14px] leading-[16px]">Portrait View</h4>
-              <div className="w-full h-[162px] relative bg-secondary p-4 gap-4 flex flex-col justify-center items-center">
-                {(files.primaryViewPortrait ||
-                  formData?.assets?.secondaryView?.primaryViewPortrait) && (
-                  <Image
-                    alt="primaryViewPortrait"
-                    src={
-                      files.primaryViewPortrait ||
-                      formData?.assets?.secondaryView?.primaryViewPortrait
-                    }
-                    fill
-                    className="object-cover"
-                  />
-                )}
-                <div
-                  className={`flex flex-col gap-4 items-center relative ${
-                    files.primaryViewPortrait ||
-                    formData?.assets?.secondaryView?.primaryViewPortrait
-                      ? "backdrop-blur-sm bg-black/70 text-white p-4 drop-shadow-md"
-                      : ""
-                  }`}
-                >
-                  <p className="text-[10px] leading-[16px] text-center">
-                    Drag or choose your file to upload PNG, JPEG, or WEBP, (Max
-                    10MB)
-                  </p>
-                  <label
-                    htmlFor="primaryViewPortrait"
-                    className="w-[122px] cursor-pointer hover:bg-secondary-white grid place-items-center h-[32px] bg-[#CECDCD] font-normal text-[11px] leading-[16px] text-primary"
-                  >
-                    Browse file
-                  </label>
-                  <input
-                    type="file"
-                    onChange={(e) =>
-                      handleUploadClick(e, "primaryViewPortrait")
-                    }
-                    hidden
-                    accept="image/*"
-                    id="primaryViewPortrait"
-                  />
-                </div>
-              </div>
+              <VerificationFileDroper
+                maxSize={10 * 1024 * 1024}
+                maxFiles={1}
+                desc="Drag or choose your file to upload PNG, JPEG, or WEBP, (Max 10MB)"
+                handleUpload={(e) =>
+                  handleUploadClick(e, "primaryViewPortrait")
+                }
+                className="w-full"
+                buttonClassName="bg-[#CECDCD]"
+                dropzoneClassName="w-full relative h-[162px] bg-secondary"
+                accept="image/png, image/jpeg, image/webp"
+                previewImage={
+                  files.primaryViewPortrait ||
+                  formData?.assets?.secondaryView?.primaryViewPortrait
+                }
+                isImage={true}
+              />
             </div>
             <div className="flex flex-col gap-4">
               <h4 className="text-[14px] leading-[16px]">Framed View</h4>
-              <div className="w-full h-[162px] relative bg-secondary p-4 gap-4 flex flex-col justify-center items-center">
-                {(files.framedView ||
-                  formData?.assets?.secondaryView?.framedView) && (
-                  <Image
-                    alt="framedView"
-                    src={
-                      files.framedView ||
-                      formData?.assets?.secondaryView?.framedView
-                    }
-                    fill
-                    className="object-cover"
-                  />
-                )}
-                <div
-                  className={`flex flex-col gap-4 items-center relative ${
-                    files.framedView ||
-                    formData?.assets?.secondaryView?.framedView
-                      ? "backdrop-blur-sm bg-black/70 text-white p-4 drop-shadow-md"
-                      : ""
-                  }`}
-                >
-                  <p className="text-[10px] leading-[16px] text-center">
-                    Drag or choose your file to upload PNG, JPEG, or WEBP, (Max
-                    10MB)
-                  </p>
-                  <label
-                    htmlFor="framedView"
-                    className="w-[122px] cursor-pointer hover:bg-secondary-white grid place-items-center h-[32px] bg-[#CECDCD] font-normal text-[11px] leading-[16px] text-primary"
-                  >
-                    Browse file
-                  </label>
-                  <input
-                    type="file"
-                    onChange={(e) => handleUploadClick(e, "framedView")}
-                    hidden
-                    accept="image/*"
-                    id="framedView"
-                  />
-                </div>
-              </div>
+              <VerificationFileDroper
+                maxSize={10 * 1024 * 1024}
+                maxFiles={1}
+                desc="Drag or choose your file to upload PNG, JPEG, or WEBP, (Max 10MB)"
+                handleUpload={(e) => handleUploadClick(e, "framedView")}
+                className="w-full"
+                buttonClassName="bg-[#CECDCD]"
+                dropzoneClassName="w-full relative h-[162px] bg-secondary"
+                accept="image/png, image/jpeg, image/webp"
+                previewImage={
+                  files.framedView ||
+                  formData?.assets?.secondaryView?.framedView
+                }
+                isImage={true}
+              />
             </div>
             <div className="flex flex-col gap-4">
               <h4 className="text-[14px] leading-[16px]">Mounted View</h4>
-              <div className="w-full h-[162px] relative bg-secondary p-4 gap-4 flex flex-col justify-center items-center">
-                {(formData?.assets?.secondaryView?.mountedView ||
-                  files.mountedView) && (
-                  <Image
-                    alt="mountedView"
-                    src={
-                      formData?.assets?.secondaryView?.mountedView ||
-                      files.mountedView
-                    }
-                    fill
-                    className="object-cover"
-                  />
-                )}
-                <div
-                  className={`flex flex-col gap-4 items-center relative ${
-                    formData?.assets?.secondaryView?.mountedView ||
-                    files.mountedView
-                      ? "backdrop-blur-sm bg-black/70 text-white p-4 drop-shadow-md"
-                      : ""
-                  }`}
-                >
-                  <p className="text-[10px] leading-[16px] text-center">
-                    Drag or choose your file to upload PNG, JPEG, or WEBP, (Max
-                    10MB)
-                  </p>
-                  <label
-                    htmlFor="mountedView"
-                    className="w-[122px] cursor-pointer hover:bg-secondary-white grid place-items-center h-[32px] bg-[#CECDCD] font-normal text-[11px] leading-[16px] text-primary"
-                  >
-                    Browse file
-                  </label>
-                  <input
-                    type="file"
-                    onChange={(e) => handleUploadClick(e, "mountedView")}
-                    hidden
-                    accept="image/*"
-                    id="mountedView"
-                  />
-                </div>
-              </div>
+              <VerificationFileDroper
+                maxSize={10 * 1024 * 1024}
+                maxFiles={1}
+                desc="Drag or choose your file to upload PNG, JPEG, or WEBP, (Max 10MB)"
+                handleUpload={(e) => handleUploadClick(e, "mountedView")}
+                className="w-full"
+                buttonClassName="bg-[#CECDCD]"
+                dropzoneClassName="w-full relative h-[162px] bg-secondary"
+                accept="image/png, image/jpeg, image/webp"
+                previewImage={
+                  formData?.assets?.secondaryView?.mountedView ||
+                  files.mountedView
+                }
+                isImage={true}
+              />
             </div>
           </div>
         </div>

@@ -23,7 +23,6 @@ const ArtistDetailsPage: React.FC<Props> = ({ artist }) => {
   const checkUser = session?.user?._id === artist?._id;
   const router = useRouter();
 
-  console.log(checkUser);
   return (
     <>
       <HeroSection
@@ -32,7 +31,7 @@ const ArtistDetailsPage: React.FC<Props> = ({ artist }) => {
         name={`${artist?.firstName} ${artist?.lastName}`}
       />
       <Stack
-        className="gap-4 md:gap-12"
+        className="gap-"
         spacing={7}
         direction={{ xs: "column", md: "row" }}
       >

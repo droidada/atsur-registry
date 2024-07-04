@@ -14,6 +14,7 @@ import {
   Stack,
   FormControlLabel,
   Button,
+  CircularProgress,
 } from "@mui/material";
 
 import { useRouter } from "next/router";
@@ -80,6 +81,7 @@ function ArtPiece({ artPiece }) {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const axiosFetch = useAxiosAuth();
   const toast = useToast();
+  const [publish, setPublish] = useState<boolean>(artPiece?.published);
 
   const { mutate, isLoading } = useMutation({
     mutationFn: () => axiosFetch.delete(`/art-piece/${artPiece?._id}`),
@@ -96,12 +98,32 @@ function ArtPiece({ artPiece }) {
     },
   });
 
+  const { mutate: mutateArtPiece, isLoading: isLoadingPublish } = useMutation({
+    mutationFn: (state: boolean) =>
+      state
+        ? axiosFetch.post(`/art-piece/${artPiece?._id}/publish`)
+        : axiosFetch.post(`/art-piece/${artPiece?._id}/unpublish`),
+    onSuccess: () => {
+      toast.success("Art Piece published successfully");
+      router.replace(router.asPath);
+    },
+  });
+
+  useEffect(() => {
+    setPublish(artPiece?.published);
+  }, [artPiece?.published]);
+
   return (
     <Stack
       spacing={4}
       className=" divide-y-[1px]  divide-secondary"
       direction={{ xs: "column" }}
     >
+      {isLoadingPublish && (
+        <div className="fixed w-full h-screen top-0 left-0 bg-black/50 backdrop-blur-sm z-[3000] flex justify-center items-center">
+          <CircularProgress color="inherit" size={20} />
+        </div>
+      )}
       <Stack spacing={2}>
         <Stack
           direction={{ xs: "column", sm: "row" }}
@@ -131,7 +153,13 @@ function ArtPiece({ artPiece }) {
             <FormControlLabel
               className=""
               labelPlacement="start"
-              control={<Switch size="small" />}
+              control={
+                <Switch
+                  onChange={(e) => mutateArtPiece(e.target.checked)}
+                  checked={publish}
+                  size="small"
+                />
+              }
               label="Publish"
             />
           </div>

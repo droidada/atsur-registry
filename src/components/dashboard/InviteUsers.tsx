@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Autocomplete,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -96,6 +97,7 @@ const InviteUsers: React.FC<Props> = ({
         options={users?.data?.users || []}
         getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
         loading={isLoading}
+        loadingText={<CircularProgress color="inherit" size={20} />}
         onInputChange={(event, value) => setQuery(value)}
         renderInput={(params) => (
           <TextField
@@ -106,6 +108,14 @@ const InviteUsers: React.FC<Props> = ({
             }}
             InputProps={{
               ...params.InputProps,
+              // endAdornment: (
+              //   <React.Fragment>
+              //     {isloading ? (
+              //       <CircularProgress color="inherit" size={20} />
+              //     ) : null}
+              //     {params.InputProps.endAdornment}
+              //   </React.Fragment>
+              // ),
             }}
           />
         )}
@@ -178,10 +188,6 @@ const CreateNewUser: React.FC<CreateNewUserProps> = ({
     onClose();
   };
 
-  // @ts-ignore
-  const isMainArtist = watch("isMainArtist");
-
-  console.log(isMainArtist);
   return (
     <Dialog
       PaperComponent={Paper}

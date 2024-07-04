@@ -62,12 +62,19 @@ const DashboardSettingLayout: React.FC<Props> = ({ children }) => {
           <Button
             onClick={() => setOpenDeleteModal(true)}
             variant="text"
-            className="px-0 text-[#FF0000] font-[400] leading-[16px] text-[17px]"
+            className="px-0 lg:block hidden text-[#FF0000] font-[400] leading-[16px] text-[17px]"
           >
             Delete Account
           </Button>
         </div>
         <div className="flex-1 p-2 lg:p-5">{children}</div>
+        <Button
+          onClick={() => setOpenDeleteModal(true)}
+          variant="text"
+          className="px-0 lg:hidden block text-[#FF0000] font-[400] leading-[16px] text-[17px]"
+        >
+          Delete Account
+        </Button>
       </div>
       <DeleteModal
         open={openDeleteModal}

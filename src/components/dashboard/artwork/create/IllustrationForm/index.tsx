@@ -165,6 +165,8 @@ const IllustrationForm: React.FC<Props> = ({
         />
         <div className="flex gap-4 items-start">
           <InputField
+            hasInfo
+            info="Subject matter of the artpiece"
             label="Subject Matter"
             id="subjectMatter"
             placeholder=""

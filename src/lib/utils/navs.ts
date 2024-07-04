@@ -40,7 +40,7 @@ export const landingPageNavMenu = [
         title: "Custom Services",
         link: "/services/custom-services",
       },
-    ]
+    ],
   },
   {
     title: "Pricing",
