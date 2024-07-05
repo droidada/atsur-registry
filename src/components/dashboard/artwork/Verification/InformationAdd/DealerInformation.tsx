@@ -61,8 +61,6 @@ const DealerInformation = ({ setActiveIndex, defaultValues, artPieceId }) => {
     resolver: zodResolver(metadataSchema),
   });
 
-  console.log("This is default values", percentages);
-
   useEffect(() => {
     if (defaultValues) {
       setValue("notes", defaultValues?.notes);

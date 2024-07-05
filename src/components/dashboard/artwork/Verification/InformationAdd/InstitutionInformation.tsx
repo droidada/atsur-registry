@@ -37,6 +37,7 @@ const InstitutionInformation = ({
   }>();
   const [selectedOrganization, setSelectedOrganization] =
     React.useState<any>(null);
+  const [myOrganization, setMyOrganization] = React.useState<any>(null);
   const [file, setFile] = useState<{
     filename: string;
     fileUrl: any;
@@ -117,7 +118,6 @@ const InstitutionInformation = ({
   });
 
   useEffect(() => {
-    console.log("defaultValues", defaultValues);
     if (defaultValues) {
       setValue("date", defaultValues?.date);
       setValue("acquisitionType", defaultValues?.type);
@@ -180,6 +180,14 @@ const InstitutionInformation = ({
       publishIsLoading={currentSubmitType === "publish" && isLoading}
     >
       <div className="grid md:grid-cols-2 gap-4">
+        <SeletectOrganization
+          isUserOrg
+          labelClassName="text-sm font-[400]  leading-[16px"
+          label="Your Organization"
+          className="col-span-2 mb-4"
+          selectedOrg={myOrganization}
+          setSelectedOrg={setMyOrganization}
+        />
         <div className="flex gap-2 col-span-2 items-center">
           <DateInput
             labelClassName="text-sm font-[400]  leading-[16px]"

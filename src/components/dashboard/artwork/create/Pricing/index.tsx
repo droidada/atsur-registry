@@ -22,10 +22,10 @@ const PricingForm: React.FC<Props> = ({
   formData,
 }) => {
   const PricingSchema = object({
-    creationDate: string(),
+    creationDate: number(),
     price: string(),
     type: string(),
-    isCirca: boolean(),
+    // isCirca: boolean(),
   });
 
   const {
@@ -51,6 +51,8 @@ const PricingForm: React.FC<Props> = ({
     setValue("isCirca", formData?.illustration?.creationDate?.isCirca);
   }, [formData]);
 
+  console.log(errors);
+
   const onSubmit: SubmitHandler<PricingData> = (data) => {
     setFormData({
       ...formData,
@@ -60,8 +62,8 @@ const PricingForm: React.FC<Props> = ({
         creationDate: {
           // @ts-ignore
           ...formData.illustration.creationDate,
+          //@ts-ignore
           date: data.creationDate,
-          isCirca: data.isCirca,
         },
         price: {
           // @ts-ignore

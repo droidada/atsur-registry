@@ -58,7 +58,8 @@ const SeletectOrganization: React.FC<Props> = ({
       // staleTime: 1000 * 60 * 60 * 24,
     },
   );
-  console.log(isLoading);
+
+  console.log(data?.data);
 
   return (
     <div className={`flex w-full flex-col text-base gap-2 ${className}`}>
@@ -75,9 +76,10 @@ const SeletectOrganization: React.FC<Props> = ({
         }}
         value={selectedOrg}
         onChange={(event, value) => setSelectedOrg(value)}
-        options={data?.data?.data || []}
+        options={data?.data?.data || data?.data || []}
         getOptionLabel={(option) => option?.name || ""}
         loading={isLoading}
+        loadingText={<CircularProgress color="inherit" size={20} />}
         onInputChange={(event, value) => setQuery(value)}
         renderInput={(params) => (
           <TextField

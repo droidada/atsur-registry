@@ -7,18 +7,28 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import React from "react";
-interface Props {
-  artworks: any[];
-  baseUrl: string;
-  isFetching: boolean;
-  isError: boolean;
-}
+import React, { Dispatch, SetStateAction } from "react";
+
 import moment from "moment";
 import Image from "next/image";
 import NoData from "../NoData";
 import TableLoading from "../loadingComponents/TableLoading";
 import { useRouter } from "next/router";
+
+interface Props {
+  artworks: any[];
+  baseUrl: string;
+  isFetching: boolean;
+  isError: boolean;
+  meta: {
+    currentPage: number;
+    limit: number;
+    totalDoc: number;
+    totalPages: number;
+  };
+  setCurrentPage: Dispatch<SetStateAction<number>>;
+  setLimit: Dispatch<SetStateAction<number>>;
+}
 
 const ListView: React.FC<Props> = ({
   artworks,

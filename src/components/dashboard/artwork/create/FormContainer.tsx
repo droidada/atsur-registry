@@ -1,4 +1,4 @@
-import { LoadingButton } from "@mui/lab";
+import LoadingButton from "@/components/Form/LoadingButton";
 import { Button } from "@mui/material";
 import React from "react";
 
