@@ -144,8 +144,6 @@ const CollectorInformation: React.FC<Props> = ({
     file && formData.append("acquisitionDocument", file);
     formData.append("artist", JSON.stringify(artist) || "");
 
-
-
     mutate(formData);
   };
 

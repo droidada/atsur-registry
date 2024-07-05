@@ -22,6 +22,7 @@ import { Dropzone } from "@dropzone-ui/react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { parsePhoneNumberFromString, isValidNumber } from "libphonenumber-js";
+import VerificationFileDroper from "../artwork/Verification/VerificationFileDroper";
 
 interface Props {
   openCreateDialog: boolean;
@@ -167,8 +168,6 @@ const CreateOrganizationDialog: React.FC<Props> = ({
     }
   }, [selectedCountry]);
 
-  console.log(phonePrefix);
-
   const onSubmitHandler: SubmitHandler<OrgInput> = async (values) => {
     const formData = new FormData();
     previewImg && formData.append("image", previewImg);
@@ -207,28 +206,17 @@ const CreateOrganizationDialog: React.FC<Props> = ({
     >
       <DialogTitle>Create Organization</DialogTitle>
       <DialogContent className="grid grid-cols-2 gap-4" dividers>
-        <Dropzone
-          maxFileSize={10 * 1024 * 1024}
-          footer={false}
-          header={false}
-          accept={"image/*"}
-          className="p-4 h-full col-span-2 border-none relative  rounded-none bg-secondary-white gap-4 text-xs leading-[16px] flex flex-col items-center justify-center"
-          maxFiles={1}
-          onChange={handleUpload}
-        >
-          <div className="flex flex-col  items-center justify-center">
-            {previewImg || organization?.image ? (
-              <Image
-                alt="preview"
-                src={previewImg || organization?.image}
-                fill
-                className="object-cover"
-              />
-            ) : (
-              "Drag or choose your organization logo to upload PNG, JPEG, GIF, or  WEBP"
-            )}
-          </div>
-        </Dropzone>
+        <VerificationFileDroper
+          maxSize={10 * 1024 * 1024}
+          desc="Drag and drop your organization logo to upload PNG, JPEG, GIF, or  WEBP (max 10MB)"
+          handleUpload={handleUpload}
+          className="w-full col-span-2"
+          buttonClassName="bg-[#CECDCD]"
+          dropzoneClassName="w-full relative h-[162px] "
+          accept="image/png, image/jpeg, image/webp"
+          previewImage={previewImg || organization?.image}
+          isImage={true}
+        />
 
         <InputField
           className=""
@@ -247,7 +235,7 @@ const CreateOrganizationDialog: React.FC<Props> = ({
           label="Email"
           inputClassName="bg-secondary"
           disabled={token ? true : false}
-          type="text"
+          type="email"
           error={!!errors?.email}
           helperText={errors?.email?.message}
         />
