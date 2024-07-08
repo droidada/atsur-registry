@@ -24,6 +24,8 @@ import AuthLayout from "@/components/layout/AuthLayout";
 import { FaLinkedin } from "react-icons/fa";
 import LoadingButton from "@/components/Form/LoadingButton";
 
+import { signIn, useSession } from "next-auth/react";
+
 const pubAPI = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 export const getServerSideProps = async ({ req, query, params }) => {
@@ -108,6 +110,18 @@ function SignUp({ invitationData, countries }) {
     resolver: zodResolver(signUpSchema),
   });
 
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (session) {
+      toast.success("You have successfully logged in!");
+      console.log("session info here =======>>", session);
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 800);
+    }
+  }, [session]);
+
   useEffect(() => {
     setValue("firstName", invitee?.firstName);
     setValue("lastName", invitee?.lastName);
@@ -165,7 +179,10 @@ function SignUp({ invitationData, countries }) {
         className=" flex flex-col gap-4 w-full "
       >
         <div className="flex md:flex-row flex-col gap-2 ">
-          <button className="rounded-[100px] text-[15px] flex justify-center items-center md:w-1/2 w-full gap-2   h-[43px] flex-shrink-0 font-[300] leading-[17px] border-[1px] border-secondary">
+          <button
+            onClick={() => signIn("google")}
+            className="rounded-[100px] text-[15px] flex justify-center items-center md:w-1/2 w-full gap-2   h-[43px] flex-shrink-0 font-[300] leading-[17px] border-[1px] border-secondary"
+          >
             <Image
               src="/assets/images/google.png"
               height={20}
@@ -174,10 +191,10 @@ function SignUp({ invitationData, countries }) {
             />
             <span> Sign in with Google</span>
           </button>
-          <button className="rounded-[100px] text-[15px] flex justify-center items-center md:w-1/2 w-full gap-2  h-[43px] flex-shrink-0 font-[300] leading-[17px] border-[1px] border-secondary">
+          {/* <button onClick={()=> signIn('linkedin')} className="rounded-[100px] text-[15px] flex justify-center items-center md:w-1/2 w-full gap-2  h-[43px] flex-shrink-0 font-[300] leading-[17px] border-[1px] border-secondary">
             <FaLinkedin className="text-blue-700" size={20} />
             <span>Sign in with Linkedin</span>
-          </button>
+          </button> */}
         </div>
         <p className="text-center my-4 text-[15px] leading-[16px] flex gap-2 items-center">
           <span className="h-[1px] bg-secondary w-full " />
