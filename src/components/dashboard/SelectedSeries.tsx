@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Autocomplete,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -72,6 +73,7 @@ const SelectedSeries: React.FC<Props> = ({
         ListboxProps={{
           className: " bg-white focus:border-none focus:outline-none",
         }}
+        loadingText={<CircularProgress color="inherit" size={20} />}
         value={selectedSeries}
         onChange={(event, value) => {
           console.log(value);

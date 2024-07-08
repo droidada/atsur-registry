@@ -3,13 +3,14 @@ import InviteUsers from "./InviteUsers";
 import { TiDeleteOutline } from "react-icons/ti";
 import {
   Button,
-  Chip,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControlLabel,
   MenuItem,
   Paper,
+  Switch,
 } from "@mui/material";
 import { number, object, string, TypeOf } from "zod";
 import InputField from "../Form/InputField";
@@ -52,7 +53,9 @@ const CommissionSplit: React.FC<Props> = ({
 }) => {
   // const [totalPercentage, setTotalPercentage] = useState(0);
   const [open, setOpen] = useState(false);
+
   const [currentUser, setCurrentUser] = useState<UserInfo | null>(null);
+  const [roleInputs, setRoleInputs] = useState<{ [key: string]: string }>({});
 
   const totalPercentage = useMemo(
     () => percentages.reduce((acc, curr) => acc + (curr.percentage || 0), 0),
@@ -85,40 +88,52 @@ const CommissionSplit: React.FC<Props> = ({
     }
   }, [defaultValues, setPercentages, setSelectedUsers]);
 
-  console.log(percentages);
-
   const handlePercentageChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     user: UserInfo,
-    role: string,
   ) => {
     const value = parseFloat(e.target.value);
-    const checkUserDataInPercentage = percentages.find(
-      (item) => item.userInfo.email === user.email,
+    const updated = percentages.filter(
+      (item) => item.userInfo.email !== user.email,
     );
-
-    if (checkUserDataInPercentage) {
-      const updatedPercentages = percentages.map((item) =>
-        item.userInfo.email === user.email
-          ? {
-              userInfo: { ...item.userInfo, role },
-              percentage: value,
-            }
-          : item,
-      );
-      setPercentages(updatedPercentages);
-    } else {
-      setPercentages((prev) => [
-        ...prev,
-        { userInfo: { ...user, role }, percentage: value },
-      ]);
-    }
+    updated.push({ userInfo: user, percentage: value });
+    setPercentages(updated);
   };
 
   const removeUser = (email: string) => {
     setSelectedUsers(selectedUsers.filter((user) => user.email !== email));
     setPercentages(percentages.filter((item) => item.userInfo.email !== email));
   };
+
+  const handleRoleChange = (user: UserInfo, isMainArtist: boolean) => {
+    console.log(isMainArtist);
+    if (isMainArtist) {
+      setSelectedUsers((prev) =>
+        prev.map((item) =>
+          item.email === user.email ? { ...item, role: "main artist" } : item,
+        ),
+      );
+      setRoleInputs((prev) => ({ ...prev, [user.email]: "main artist" }));
+    } else {
+      setSelectedUsers((prev) =>
+        prev.map((item) =>
+          item.email === user.email ? { ...item, role: "" } : item,
+        ),
+      );
+    }
+  };
+
+  console.log(roleInputs);
+  const handleCustomRoleChange = (user: UserInfo, customRole: string) => {
+    setSelectedUsers((prev) =>
+      prev.map((item) =>
+        item.email === user.email ? { ...item, role: customRole } : item,
+      ),
+    );
+    setRoleInputs((prev) => ({ ...prev, [user.email]: customRole }));
+  };
+
+  console.log(percentages);
 
   return (
     <div>
@@ -138,7 +153,7 @@ const CommissionSplit: React.FC<Props> = ({
       <div className="flex flex-col mt-8 gap-2">
         {selectedUsers.map((user) => (
           <div key={user.email}>
-            <div className="flex  gap-[4px] w-full items-stretch">
+            <div className="flex  gap-4 w-full items-center">
               <label
                 className={`${
                   user.role === "main artist" ? "bg-[#00FF94]" : "bg-secondary"
@@ -153,19 +168,57 @@ const CommissionSplit: React.FC<Props> = ({
                   }`}
                 >
                   {user?.role}
-                  <IoMdCheckmarkCircle className="text-primary text-[11px]" />
+                  {user.role === "main artist" && (
+                    <IoMdCheckmarkCircle className="text-primary text-[11px]" />
+                  )}
                 </div>
               </label>
-              <Button
-                onClick={() => {
-                  setCurrentUser(user);
-                  setOpen(true);
-                }}
-                className="bg-secondary"
-              >
-                Edit
-              </Button>
-              <div
+
+              <FormControlLabel
+                control={<Switch />}
+                checked={user.role === "main artist"}
+                // @ts-ignore
+                onChange={(e) => handleRoleChange(user, e.target.checked)}
+                label="is main artist?"
+                labelPlacement="start"
+                className="text-xs flex-shrink-0"
+              />
+              {/* <Switch
+                checked={user.role === "main artist"}
+                onChange={(e) => handleRoleChange(user, e.target.checked)}
+              /> */}
+              {user.role !== "main artist" && (
+                <input
+                  type="text"
+                  placeholder="Enter role"
+                  value={roleInputs[user.email] || ""}
+                  onChange={(e) => handleCustomRoleChange(user, e.target.value)}
+                  className="w-fit"
+                />
+              )}
+              {user.role && (
+                <div className="flex items-center gap-2">
+                  <input
+                    min="0"
+                    step="0.01"
+                    id={user?._id}
+                    type="number"
+                    placeholder="0.00"
+                    value={
+                      percentages.find(
+                        (userI) => userI.userInfo.email === user.email,
+                      )?.percentage || ""
+                    }
+                    onChange={(e) => handlePercentageChange(e, user)}
+                    className=""
+                  />
+                  <TiDeleteOutline
+                    onClick={() => removeUser(user.email)}
+                    className="text-red-600"
+                  />
+                </div>
+              )}
+              {/* <div
                 style={{
                   width: `${
                     percentages.find(
@@ -179,7 +232,7 @@ const CommissionSplit: React.FC<Props> = ({
                 {percentages.find((item) => item.userInfo.email === user.email)
                   ?.percentage || 0}
                 %
-              </div>
+              </div> */}
             </div>
           </div>
         ))}
@@ -196,7 +249,7 @@ const CommissionSplit: React.FC<Props> = ({
           </div>
         )}
       </div>
-      <PercentageModal
+      {/* <PercentageModal
         totalPercentage={totalPercentage}
         open={open}
         setSelectedUsers={setSelectedUsers}
@@ -206,7 +259,7 @@ const CommissionSplit: React.FC<Props> = ({
         user={currentUser}
         percentages={percentages}
         selectedUsers={selectedUsers}
-      />
+      /> */}
     </div>
   );
 };

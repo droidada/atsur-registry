@@ -42,6 +42,7 @@ const CollectorInformation: React.FC<Props> = ({
   const [currentSubmitType, setCurrentSubmitType] = React.useState<
     "save" | "publish"
   >(null);
+  const [selectedUsers, setSelectedUsers] = useState<any[]>([]);
 
   const [artist, setArtist] = useState<{
     firstName: string;
@@ -177,6 +178,14 @@ const CollectorInformation: React.FC<Props> = ({
             helperText={errors["isCirca"] ? errors["isCirca"].message : ""}
           />
         </div>
+        <SeletectOrganization
+          // isUserOrg
+          labelClassName="text-sm font-[400]  leading-[16px"
+          label=" Organization"
+          className="col-span-2 my-3"
+          selectedOrg={selectedOrganization}
+          setSelectedOrg={setSelectedOrganization}
+        />
         <SelectField
           labelClassName={"text-sm font-[400]  leading-[16px]"}
           label="Acquisition Type"

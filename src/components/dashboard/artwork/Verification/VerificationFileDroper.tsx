@@ -56,7 +56,7 @@ const VerificationFileDroper: React.FC<Props> = ({
         header={false}
         accept={accept || "image/*, video/*, application/pdf"}
         className={`p-4 h-full border-none  rounded-none ${
-          !dropzoneClassName.includes("bg") ? "bg-secondary-white" : ""
+          !dropzoneClassName?.includes("bg") ? "bg-secondary-white" : ""
         } gap-4 text-xs leading-[16px] relat flex flex-col items-center justify-center ${dropzoneClassName}`}
         maxFiles={maxFiles || 1}
         onChange={handleUpload}
@@ -75,7 +75,7 @@ const VerificationFileDroper: React.FC<Props> = ({
                     MP4 (Max 10MB)`}
               <label
                 className={`w-[114.8px] flex flex-col items-center justify-center h-[30.3px] ${
-                  !buttonClassName.includes("bg") ? "bg-secondary" : ""
+                  !buttonClassName?.includes("bg") ? "bg-secondary" : ""
                 } text-xs leading-[16px] ${buttonClassName}`}
               >
                 Browse File
@@ -96,7 +96,7 @@ const VerificationFileDroper: React.FC<Props> = ({
             )}
             <label
               className={`w-[114.8px] flex flex-col items-center justify-center h-[30.3px] ${
-                !buttonClassName.includes("bg") ? "bg-secondary" : ""
+                !buttonClassName?.includes("bg") ? "bg-secondary" : ""
               } text-xs leading-[16px] ${buttonClassName}`}
             >
               Browse File
