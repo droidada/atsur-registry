@@ -1,15 +1,4 @@
 import { useEffect, useState } from "react";
-import {
-  Grid,
-  Box,
-  Button,
-  Typography,
-  Stepper,
-  Step,
-  StepButton,
-} from "@mui/material";
-import DashboardLayout from "@/components/layout/dashboard-layout";
-import AddArtworkFlow from "@/components/artwork/add-artwork-flow";
 import ProtectedPage from "@/HOC/Protected";
 
 const steps = ["Metadata", "Assets", "Series", "Artists", "Agreements"];
