@@ -16,6 +16,7 @@ import InputField from "@/components/Form/InputField";
 import AuthLayout from "@/components/layout/AuthLayout";
 import { FaLinkedin } from "react-icons/fa";
 import LoadingButton from "@/components/Form/LoadingButton";
+import { signIn, useSession } from "next-auth/react";
 
 export const getServerSideProps = async ({ req, query, params }) => {
   console.log(query);
@@ -49,6 +50,17 @@ function Login({ invitationData }) {
       .max(32, "Password must be less than 32 characters"),
   });
   const toast = useToast();
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (session) {
+      toast.success("You have successfully logged in!");
+      console.log("session info here =======>>", session);
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 800);
+    }
+  }, [session]);
 
   type LoginInput = TypeOf<typeof loginSchema>;
 
@@ -138,16 +150,18 @@ function Login({ invitationData }) {
               }
               className="rounded-[100px] border-secondary"
               variant={"outlined"}
+              onClick={() => signIn("google")}
             >
               Sign in with Google
             </Button>
-            <Button
+            {/* <Button
               startIcon={<FaLinkedin className="text-blue-700" size={20} />}
               className="rounded-[100px] border-secondary"
               variant={"outlined"}
+              onClick={()=> signIn('linkedin')}
             >
               Sign in with Linkedin
-            </Button>
+            </Button> */}
           </div>
           <p className="text-center text-[15px] leading-[16px] flex gap-2 items-center">
             <span className="h-[1px] bg-secondary w-full " />
