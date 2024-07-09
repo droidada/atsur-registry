@@ -5,9 +5,9 @@ import { object, string, number, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { TextField } from "@mui/material";
-import { LoadingButton } from "@mui/lab";
 import { useAuthContext } from "@/providers/auth.context";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
+import LoadingButton from "../Form/LoadingButton";
 
 export default function CreateMetadata({ nextPage = (x) => {} }) {
   const axiosAuth = useAxiosAuth();

@@ -54,6 +54,7 @@
     "dotenv": "^16.0.3",
     "ethers": "5.0.5",
     "html-pdf-node": "^1.0.8",
+    "html2pdf.js": "^0.10.2",
     "i": "^0.3.7",
     "js-html2pdf": "^1.1.4",
     "jsonwebtoken": "^9.0.0",

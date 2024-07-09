@@ -75,51 +75,62 @@ const SignCertificate: React.FC<Props> = ({
 
           html.classList.remove("hidden");
 
-          const { default: Html2Pdf } = await import("js-html2pdf");
+          // const { default: Html2Pdf } = await import("js-html2pdf");
           const rect = html.getBoundingClientRect();
 
-          console.log(rect.width, rect.height);
+          // const option = {
+          //   margin: 0,
+          //   filename: `Certificate - ${artPiece?.artPiece?.title}.pdf`,
+          //   jsPDF: {
+          //     unit: "px",
+          //     format: "A6",
+          //     orientation: "portrait",
+          //   },
+          //   html2canvas: {
+          //     removeContainer: true,
+          //     dpi: 192,
+          //     letterRendering: true,
+          //     scale: 2,
+          //   },
+          // };
 
-          const option = {
-            margin: 0,
-            filename: `Certificate - ${artPiece?.artPiece?.title}.pdf`,
-            jsPDF: {
-              unit: "px",
-              format: [772, 750],
-              orientation: "portrait",
-            },
-            html2canvas: {
-              height: rect.height,
-              backgroundColor: null,
-              removeContainer: true,
-              windowHeight: 550,
-              dpi: 192,
-              letterRendering: true,
-              scale: 2,
-            },
-          };
+          const html2pdf = (await import("html2pdf.js")).default;
 
-          const exporter = new Html2Pdf(html, option);
+          const pdf = html2pdf(html, {
+            image: { type: "jpeg", quality: 1 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: "mm", format: "a5", orientation: "landscape" },
+            pagebreak: { mode: ["css", "legacy"] },
+          });
 
-          const pdf = await exporter.getPdf(false);
+          // const exporter = new Html2Pdf(html, option);
 
-          const pdfBlob = pdf.output("blob");
+          // const pdf = await exporter.getPdf(false);
 
-          const formData = new FormData();
-          // console.log(pd)
-          formData.append("draftCOA", pdfBlob);
-          formData.append("signature", signatureImage);
+          // const pdfBlob = pdf.output("blob");
 
-          const reader = new FileReader();
-          reader.onload = function (e) {
-            //@ts-ignore
-            mutate({
-              draftCOA: e.target?.result,
-              signature: signatureImage,
-              qrCode: qrImage,
-            });
-          };
-          reader.readAsDataURL(pdfBlob);
+          // const formData = new FormData();
+          // // console.log(pd)
+          // formData.append("draftCOA", pdfBlob);
+          // formData.append("signature", signatureImage);
+
+          // const reader = new FileReader();
+          // reader.onload = function (e) {
+          //   if (e.target.result) {
+          //     const url = URL.createObjectURL(pdfBlob);
+          //     const link = document.createElement("a");
+          //     link.href = url;
+
+          //     console.log(url);
+          //     //@ts-ignore
+          //     // mutate({
+          //     //   draftCOA: e.target?.result,
+          //     //   signature: signatureImage,
+          //     //   qrCode: qrImage,
+          //     // });
+          //   }
+          // };
+          // reader.readAsDataURL(pdfBlob);
         }
       } catch (error) {
         console.log(error);
@@ -129,8 +140,6 @@ const SignCertificate: React.FC<Props> = ({
     //   setOpenPublishDialog(false);
     // },
   });
-
-  console.log(qrImage);
 
   return (
     <Stack spacing={2}>

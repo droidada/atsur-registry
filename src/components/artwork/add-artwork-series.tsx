@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { array, object, string, number, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { LoadingButton } from "@mui/lab";
+
 import {
   Typography,
   Grid,
@@ -26,6 +26,7 @@ import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useAuthContext } from "@/providers/auth.context";
 import { ROLE_IDS_TO_ROLES } from "@/types/constants";
 import InviteArtist from "../invite-artist";
+import LoadingButton from "../Form/LoadingButton";
 
 interface Author {
   first_name: string;
@@ -174,10 +175,10 @@ const AddArtworkSeries = ({ activeStep, setActiveStep, setCompleted }) => {
       <Box gridColumn="span 12">
         <LoadingButton
           variant="contained"
-          fullWidth
+          // fullWidth
           type="submit"
           loading={loading}
-          sx={{ mt: 3, mb: 2, p: 2 }}
+          // sx={{ mt: 3, mb: 2, p: 2 }}
         >
           Add Series
         </LoadingButton>

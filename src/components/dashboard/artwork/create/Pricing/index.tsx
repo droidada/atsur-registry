@@ -6,10 +6,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import DateInput from "@/components/Form/DateInput";
 import InputField from "@/components/Form/InputField";
-import { MenuItem, Stack } from "@mui/material";
+import { Autocomplete, MenuItem, Stack, TextField } from "@mui/material";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import SwitchInput from "@/components/Form/SwitchInput";
 import SelectField from "@/components/Form/SelectField";
+import path from "path";
 
 interface Props {
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
@@ -23,15 +24,31 @@ const PricingForm: React.FC<Props> = ({
 }) => {
   const PricingSchema = object({
     creationDate: number(),
-    price: string(),
-    type: string(),
-    // isCirca: boolean(),
+    price: string().optional(),
+    type: string().optional(),
+    forSale: boolean().optional(),
+  }).superRefine((data, ctx) => {
+    if (data.forSale && !data.price) {
+      ctx.addIssue({
+        path: ["price"],
+        message: "Price is required for sale",
+        code: "custom",
+      });
+    }
+    if (data.forSale && !data.type) {
+      ctx.addIssue({
+        path: ["type"],
+        message: "Type is required for sale",
+        code: "custom",
+      });
+    }
   });
 
   const {
     control,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
     register,
   } = useForm({ resolver: zodResolver(PricingSchema) });
@@ -51,7 +68,7 @@ const PricingForm: React.FC<Props> = ({
     setValue("isCirca", formData?.illustration?.creationDate?.isCirca);
   }, [formData]);
 
-  console.log(errors);
+  const forSale = watch("forSale");
 
   const onSubmit: SubmitHandler<PricingData> = (data) => {
     setFormData({
@@ -71,6 +88,7 @@ const PricingForm: React.FC<Props> = ({
           amount: Number(data.price),
           type: data?.type,
         },
+        forSale: data.forSale,
       },
     });
 
@@ -84,78 +102,92 @@ const PricingForm: React.FC<Props> = ({
     >
       <Stack spacing={4}>
         <div className="flex gap-4 items-center">
-          <SelectField
-            hasInfo
-            info="Date the artwork was created"
-            control={control}
-            name="creationDate"
-            // @ts-ignore
-            sx={{
-              "& fieldset": { border: "none", backgroundColor: "#D9D9D9" },
-              borderColor: "black",
-            }}
-            label="Creation Date"
-            fullWidth
-            error={!!errors?.creationDate}
-            helperText={errors?.creationDate?.message as string}
-          >
-            <MenuItem selected value={""} disabled>
-              Select a year
-            </MenuItem>
-            {years.map((year) => (
-              <MenuItem key={year} value={year}>
-                {year}
-              </MenuItem>
-            ))}
-          </SelectField>
+          <div className="flex flex-col text-base gap-2  items-start w-full">
+            <label htmlFor="creationDate" className="capitalize font-semibold">
+              Creation Date
+            </label>
+            <Controller
+              name="creationDate"
+              control={control}
+              render={({ field }) => (
+                <Autocomplete
+                  className="w-full"
+                  {...field}
+                  options={years}
+                  getOptionLabel={(option) => option.toString()}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      // label="Creation Date"
+                      error={!!errors.creationDate}
+                      helperText={errors.creationDate?.message as string}
+                      fullWidth
+                      sx={{
+                        "& fieldset": {
+                          border: "none",
+                          // backgroundColor: "#D9D9D9",
+                        },
+                      }}
+                    />
+                  )}
+                  onChange={(_, newValue) => field.onChange(newValue)}
+                />
+              )}
+            />
+          </div>
 
-          {/* <SwitchInput
-            label="isCirca"
-            name="isCirca"
+          <SwitchInput
+            label="Is the artwork for sale?"
+            id="forSale"
+            name="forSale"
             control={control}
-            error={!!errors["isCirca"]}
+            error={!!errors["forSale"]}
             // @ts-ignore
-            helperText={errors["isCirca"] ? errors["isCirca"].message : ""}
-          /> */}
+            helperText={errors["forSale"] ? errors["forSale"].message : ""}
+          />
         </div>
-        <InputField
-          label="Price"
-          id="price"
-          placeholder=""
-          name="price"
-          type="price"
-          hasInfo
-          info="The price of the artwork"
-          //   inputClassName="bg-secondary-white"
-          tabIndex={2}
-          aria-required="true"
-          fullWidth
-          error={!!errors["price"]}
-          // @ts-ignore
-          helperText={errors["price"] ? errors["price"].message : ""}
-          control={control}
-        />
-        <div className="flex gap-4 items-center">
-          {["fixed", "minimum-price"].map((item) => (
-            <div key={item} className="flex gap-2 items-center">
-              <label htmlFor={item} className="capitalize">
-                {item.replace("-", " ")}
-              </label>
-              <input
-                type="radio"
-                id={item}
-                name="type"
-                value={item}
-                {...register("type")}
-              />
+        {forSale && (
+          <>
+            <InputField
+              label="Price"
+              id="price"
+              placeholder=""
+              name="price"
+              type="price"
+              hasInfo
+              info="The price of the artwork"
+              //   inputClassName="bg-secondary-white"
+              tabIndex={2}
+              aria-required="true"
+              fullWidth
+              error={!!errors["price"]}
+              // @ts-ignore
+              helperText={errors["price"] ? errors["price"].message : ""}
+              control={control}
+            />
+            <div className="flex gap-4 items-center">
+              {["fixed", "minimum-price"].map((item) => (
+                <div key={item} className="flex gap-2 items-center">
+                  <label htmlFor={item} className="capitalize">
+                    {item.replace("-", " ")}
+                  </label>
+                  <input
+                    type="radio"
+                    id={item}
+                    name="type"
+                    value={item}
+                    {...register("type")}
+                  />
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
 
-        <div className="flex gap-2 items-center text-[15px] italic">
-          it is important not to over price a work to encourage sales
-          <IoIosInformationCircleOutline />
-        </div>
+            <div className="flex gap-2 items-center text-[15px] italic">
+              it is important not to over price a work to encourage sales
+              <IoIosInformationCircleOutline />
+            </div>
+          </>
+        )}
       </Stack>
     </CreateArtWorkFormContainer>
   );

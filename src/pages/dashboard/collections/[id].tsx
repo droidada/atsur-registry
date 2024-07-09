@@ -19,7 +19,7 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
-import { LoadingButton } from "@mui/lab";
+
 import ProtectedPage from "@/HOC/Protected";
 
 export const getServerSideProps = async ({ req, query }) => {

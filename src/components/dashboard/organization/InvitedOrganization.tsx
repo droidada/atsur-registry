@@ -15,7 +15,7 @@ const MyOrganization = () => {
   } = useQuery(
     ["InvitedOrganization"],
     () =>
-      axiosAuth.get("/org/user-orgs").then((res) => {
+      axiosAuth.get("/org/belonging-to-me").then((res) => {
         return res.data.data;
       }),
     {

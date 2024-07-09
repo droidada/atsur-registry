@@ -18,7 +18,7 @@ import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useToast } from "@/providers/ToastProvider";
 import { useMutation } from "@tanstack/react-query";
 import { useReactToPrint } from "react-to-print";
-import { LoadingButton } from "@mui/lab";
+import LoadingButton from "@/components/Form/LoadingButton";
 
 interface Props {
   artPiece: any;

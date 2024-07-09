@@ -1,6 +1,6 @@
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { CheckBox } from "@mui/icons-material";
-import { LoadingButton } from "@mui/lab";
+
 import {
   Button,
   Checkbox,
@@ -16,6 +16,7 @@ import React, { useEffect, useState } from "react";
 
 import { useRouter } from "next/router";
 import { useToast } from "@/providers/ToastProvider";
+import LoadingButton from "../Form/LoadingButton";
 
 interface Props {
   collection: any;
@@ -155,8 +156,9 @@ const AddArtworkToCollection: React.FC<Props> = ({
         </Button>
         {artworks?.length > 0 && (
           <LoadingButton
-            sx={{ borderRadius: "12px" }}
-            className="tf-button style-1"
+            // sx={{ borderRadius: "12px" }}
+
+            className="tf-button style-1 "
             loading={adding}
             onClick={handleAdd}
           >
