@@ -137,11 +137,10 @@ const CollectorInformation: React.FC<Props> = ({
       values.acquisitionDocumentCaption || "",
     );
     formData.append("aquisitionType", values.acquisitionType);
-    formData.append("organization", JSON.stringify(selectedOrganization) || "");
+    formData.append("organization", selectedOrganization?._id || "");
     // @ts-ignore
     values.isCirca && formData.append("isCirca", values.isCirca);
 
-    console.log("This is the file", file);
     file && formData.append("acquisitionDocument", file);
     formData.append("artist", JSON.stringify(artist) || "");
 
@@ -178,14 +177,14 @@ const CollectorInformation: React.FC<Props> = ({
             helperText={errors["isCirca"] ? errors["isCirca"].message : ""}
           />
         </div>
-        <SeletectOrganization
+        {/* <SeletectOrganization
           // isUserOrg
           labelClassName="text-sm font-[400]  leading-[16px"
           label=" Organization"
           className="col-span-2 my-3"
           selectedOrg={selectedOrganization}
           setSelectedOrg={setSelectedOrganization}
-        />
+        /> */}
         <SelectField
           labelClassName={"text-sm font-[400]  leading-[16px]"}
           label="Acquisition Type"
@@ -278,6 +277,7 @@ const CollectorInformation: React.FC<Props> = ({
 
         {methodOfPurchase === "organization" && (
           <SeletectOrganization
+            isUserOrg
             className="col-span-2"
             label="Organization"
             selectedOrg={selectedOrganization}

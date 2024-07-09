@@ -50,7 +50,7 @@ const SeletectOrganization: React.FC<Props> = ({
     () =>
       isUserOrg
         ? axiosFetch
-            .get(`/org/user-orgs?q=${debouncedQuery}`)
+            .get(`/org/my-organizations?q=${debouncedQuery}`)
             .then((res) => res.data)
         : axiosFetch.get(`/org/list?q=${debouncedQuery}`),
     {

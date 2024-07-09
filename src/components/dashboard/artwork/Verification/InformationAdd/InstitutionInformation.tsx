@@ -37,6 +37,7 @@ const InstitutionInformation = ({
   }>();
   const [selectedOrganization, setSelectedOrganization] =
     React.useState<any>(null);
+
   const [myOrganization, setMyOrganization] = React.useState<any>(null);
   const [file, setFile] = useState<{
     filename: string;
@@ -60,6 +61,7 @@ const InstitutionInformation = ({
     isCirca: boolean().optional().default(false),
     boughtFromOrganization: boolean().optional().default(false),
     acquisitionDocumentCaption: string().optional(),
+    methodOfPurchase: string().nonempty("Method purchase is required"),
   });
 
   type MetadataInput = TypeOf<typeof metadataSchema>;
@@ -129,7 +131,11 @@ const InstitutionInformation = ({
         filename: defaultValues?.attachment?.split("/").pop(),
         fileUrl: defaultValues?.attachment,
       });
+      setValue("methodOfPurchase", defaultValues?.methodOfPurchase);
+
+      setMyOrganization(defaultValues?.myOrganization);
       setSelectedOrganization(defaultValues?.organization?.orgInfo);
+      setArtist(defaultValues?.artist);
     }
   }, [defaultValues]);
 
@@ -165,12 +171,20 @@ const InstitutionInformation = ({
         "acquisitionDocumentCaption",
         values.acquisitionDocumentCaption,
       );
+    formData.append("methodOfPurchase", values.methodOfPurchase);
+    formData.append("artist", JSON.stringify(artist));
+    formData.append("myOrganization", myOrganization._id || "");
+
     formData.append("acquisitionDocument", file.fileUrl);
 
     mutate(formData);
   };
 
   const boughtFromOrganization = watch("boughtFromOrganization");
+  const methodOfPurchase = watch("methodOfPurchase");
+
+  console.log(myOrganization);
+
   return (
     <FormContainer
       setActiveIndex={setActiveIndex}
@@ -180,14 +194,14 @@ const InstitutionInformation = ({
       publishIsLoading={currentSubmitType === "publish" && isLoading}
     >
       <div className="grid md:grid-cols-2 gap-4">
-        <SeletectOrganization
+        {/* <SeletectOrganization
           isUserOrg
           labelClassName="text-sm font-[400]  leading-[16px"
           label="Your Organization"
           className="col-span-2 mb-4"
           selectedOrg={myOrganization}
           setSelectedOrg={setMyOrganization}
-        />
+        /> */}
         <div className="flex gap-2 col-span-2 items-center">
           <DateInput
             labelClassName="text-sm font-[400]  leading-[16px]"
@@ -301,7 +315,43 @@ const InstitutionInformation = ({
         selectedUsers={artist}
         setSelectedUsers={setArtist}
       />
-      <div className="col-span-2 mt-6 flex gap-4 justify-between">
+      <SelectField
+        labelClassName={"text-sm font-[400]   leading-[16px]"}
+        className="col-span-2 my-4"
+        label="Method of Purchase"
+        name="methodOfPurchase"
+        selectClassName="bg-secondary  capitalize"
+        control={control}
+        fullWidth
+        helperText={
+          errors["methodOfPurchase"] ? errors["methodOfPurchase"].message : ""
+        }
+        error={!!errors["methodOfPurchase"]}
+      >
+        <MenuItem value="" disabled selected>
+          How did you purchase the artpiece?
+        </MenuItem>
+        {["organization", "individual"].map((item) => (
+          <MenuItem
+            key={item}
+            value={item}
+            className=" capitalize bg-secondary"
+          >
+            As an {item}
+          </MenuItem>
+        ))}
+      </SelectField>
+
+      {methodOfPurchase === "organization" && (
+        <SeletectOrganization
+          isUserOrg
+          className="col-span-2 "
+          label="My Organization"
+          selectedOrg={myOrganization}
+          setSelectedOrg={setMyOrganization}
+        />
+      )}
+      <div className="col-span-2 mt-8 flex gap-4 justify-between">
         <VerificationFileDroper
           label="Acquisition Document"
           fileName={file.filename}
