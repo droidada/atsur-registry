@@ -68,12 +68,13 @@ const PdfCertificate = forwardRef(
             </div>
             <div className="flex flex-col items-center w-[150.66px] mt-0">
               <h4 className="text-sm">Signed By</h4>
-              <div className="h-[50px]  w-[150.66px] relative">
+              <div className="h-[50px]  w-full relative">
                 {signatureImage && (
-                  <img
+                  <Image
+                    fill
                     src={signatureImage}
                     alt=""
-                    className="object-contain bg-red-500 w-[120%] h-full"
+                    className="object-cover  w-full h-full  "
                   />
                 )}
               </div>
@@ -84,11 +85,10 @@ const PdfCertificate = forwardRef(
             </div>
             {/* <div className="flex items-center justify-center mt-0"> */}
             <div className="w-[106px] h-[122px] relative">
-              <Image
+              <img
                 src="/atsur-badge.png"
-                fill
                 alt="atsur"
-                className="object-contain"
+                className="object-contain w-[106px] h-[122px]"
               />
             </div>
             {/* </div> */}
