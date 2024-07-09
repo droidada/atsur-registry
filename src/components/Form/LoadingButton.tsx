@@ -14,6 +14,7 @@ interface Props {
   children?: React.ReactNode;
   title?: string;
   type?: "button" | "submit" | "reset" | undefined;
+  name?: string;
 }
 
 const LoadingButton: React.FC<Props> = ({
@@ -27,10 +28,12 @@ const LoadingButton: React.FC<Props> = ({
   loadingText,
   children,
   title,
+  name,
   type,
 }) => {
   return (
     <Button
+      name={name}
       type={type}
       startIcon={loading ? null : startIcon}
       endIcon={loading ? null : endIcon}

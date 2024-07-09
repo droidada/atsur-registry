@@ -14,7 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Image from "next/image";
 import { useToast } from "@/providers/ToastProvider";
-import { LoadingButton } from "@mui/lab";
+import LoadingButton from "./Form/LoadingButton";
 
 interface Props {
   setSelectedSeries: React.Dispatch<React.SetStateAction<any>>;
@@ -221,7 +221,7 @@ export default function SelectSeries({
                 <LoadingButton
                   loading={isSubmitting}
                   className="tf-button style-1 h50 active"
-                  style={{ marginTop: "2.5em" }}
+                  // style={{ marginTop: "2.5em" }}
                   onClick={handleSubmit}
                 >
                   Add

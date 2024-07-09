@@ -1,5 +1,5 @@
 import useAxiosAuth from "@/hooks/useAxiosAuth";
-import { LoadingButton } from "@mui/lab";
+
 import {
   Button,
   Dialog,
@@ -13,6 +13,7 @@ import React, { useState } from "react";
 import { error } from "console";
 import { useRouter } from "next/router";
 import { useToast } from "@/providers/ToastProvider";
+import LoadingButton from "../Form/LoadingButton";
 
 interface Props {
   open: boolean;
@@ -115,7 +116,7 @@ const DeleteDialog: React.FC<Props> = ({
           Cancel
         </Button>
         <LoadingButton
-          sx={{ borderRadius: "12px" }}
+          // sx={{ borderRadius: "12px" }}
           className="tf-button style-1"
           loading={isLoading}
           onClick={handleDelete}

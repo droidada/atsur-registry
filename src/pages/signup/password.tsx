@@ -21,11 +21,12 @@ import Layout from "@/components/layout/layout";
 import { literal, object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { LoadingButton } from "@mui/lab";
+// import { LoadingButton } from "@mui/lab";
 
 // import axios from "@/lib/axios";
 import axios from "axios";
 import ConfirmationDialog from "@/components/signup/confirmation-dialog";
+import LoadingButton from "@/components/Form/LoadingButton";
 
 function Copyright(props: any) {
   return (
@@ -181,12 +182,12 @@ function SignUpPassword() {
               label="Remember me"
             />
             <LoadingButton
-              color="secondary"
+              // color="secondary"
               variant="contained"
-              fullWidth
+              // fullWidth
               type="submit"
               loading={loading}
-              sx={{ mt: 3, mb: 2 }}
+              // sx={{ mt: 3, mb: 2 }}
             >
               Sign Up
             </LoadingButton>

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { literal, object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { LoadingButton } from "@mui/lab";
+
 import {
   Typography,
   Grid,
@@ -22,6 +22,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useAuthContext } from "@/providers/auth.context";
 import { ROLE_IDS_TO_ROLES, Roles } from "../../types/constants";
+import LoadingButton from "../Form/LoadingButton";
 
 const InvitesStep = ({
   activeStep: number,
@@ -333,10 +334,11 @@ const InvitesStep = ({
             <Box gridColumn="span 4">
               <LoadingButton
                 variant="contained"
-                fullWidth
+                // fullWidth
                 type="submit"
                 loading={loading}
-                sx={{ py: 2 }}
+                // sx={{ py: 2 }}
+                className="w-full py-2"
               >
                 Invite
               </LoadingButton>

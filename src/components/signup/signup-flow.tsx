@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { literal, object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { LoadingButton } from "@mui/lab";
+// import { LoadingButton } from "@mui/lab";
 import {
   Typography,
   Grid,
@@ -25,6 +25,7 @@ import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useAuthContext } from "@/providers/auth.context";
 import CompanySetup from "./org-setup";
 import InvitesStep from "./invites-step";
+import LoadingButton from "../Form/LoadingButton";
 
 const SignUpFlow = ({ activeStep, setActiveStep, setCompleted }) => {
   const profileSchema = object({
@@ -155,10 +156,10 @@ const SignUpFlow = ({ activeStep, setActiveStep, setCompleted }) => {
           </FormControl>
           <LoadingButton
             variant="contained"
-            fullWidth
+            // fullWidth
             type="submit"
             loading={loading}
-            sx={{ mt: 3, mb: 2 }}
+            // sx={{ mt: 3, mb: 2 }}
           >
             Set Profile
           </LoadingButton>

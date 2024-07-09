@@ -4,9 +4,10 @@ import { useRouter } from "next/router";
 import { object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { LoadingButton } from "@mui/lab";
+
 import { useAuthContext } from "@/providers/auth.context";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
+import LoadingButton from "../Form/LoadingButton";
 
 export default function CreateAssets({ nextPage = (x) => {} }) {
   const axiosAuth = useAxiosAuth();
@@ -150,7 +151,7 @@ export default function CreateAssets({ nextPage = (x) => {} }) {
               className="tf-button style-1 h50"
               loading={loading}
               type="submit"
-              fullWidth
+              // fullWidth
               onClick={onSubmitHandler}
             >
               Submit

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { array, coerce, object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { LoadingButton } from "@mui/lab";
+// import { LoadingButton } from "@mui/lab";
 import {
   Typography,
   Grid,
@@ -23,6 +23,7 @@ import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useAuthContext } from "@/providers/auth.context";
 import { ROLE_IDS_TO_ROLES, Roles } from "../../types/constants";
 import Button from "../Form/Button";
+import LoadingButton from "../Form/LoadingButton";
 
 interface Org {
   name: string;
@@ -333,10 +334,10 @@ const CompanySetup = ({
                   </FormControl>
                   <LoadingButton
                     variant="contained"
-                    fullWidth
+                    // fullWidth
                     type="submit"
                     loading={loading}
-                    sx={{ mt: 3, mb: 2 }}
+                    // sx={{ mt: 3, mb: 2 }}
                   >
                     {ROLE_IDS_TO_ROLES[user.role] === Roles.GALLERY
                       ? "Add Gallery"

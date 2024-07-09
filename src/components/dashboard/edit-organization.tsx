@@ -1,6 +1,5 @@
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useAuthContext } from "@/providers/auth.context";
-import { LoadingButton } from "@mui/lab";
 import { object, string, number, TypeOf } from "zod";
 import { Dialog, TextField } from "@mui/material";
 import { useRouter } from "next/router";
@@ -12,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import axios from "axios";
 import { useToast } from "@/providers/ToastProvider";
+import LoadingButton from "../Form/LoadingButton";
 
 interface Props {
   open: boolean;
