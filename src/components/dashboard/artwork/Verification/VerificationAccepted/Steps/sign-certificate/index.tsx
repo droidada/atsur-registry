@@ -93,7 +93,7 @@ const SignCertificate: React.FC<Props> = ({
           //     scale: 2,
           //   },
           // };
-
+          //@ts-ignore
           const html2pdf = (await import("html2pdf.js")).default;
 
           const pdf = html2pdf(html, {

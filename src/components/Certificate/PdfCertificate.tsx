@@ -10,7 +10,7 @@ interface Props {
 }
 
 const PdfCertificate = forwardRef(
-  ({ artPiece, signatureImage, qrImage }: Props, ref) => {
+  ({ artPiece, signatureImage, qrImage }: Props, ref: any) => {
     return (
       <div ref={ref} className="w-full hidden h-full certificate">
         <div className="w-full border-t-[1px] h-full bg-[#FFFCF2] border-x-[1px] border-primary font-brawler flex flex-col ">
