@@ -1,6 +1,6 @@
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useAuthContext } from "@/providers/auth.context";
-import { LoadingButton } from "@mui/lab";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { object, string, number, TypeOf } from "zod";
 import { Dialog, TextField } from "@mui/material";
 import { useRouter } from "next/router";

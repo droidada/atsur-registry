@@ -21,7 +21,7 @@ import Layout from "@/components/layout/layout";
 import { literal, object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { LoadingButton } from "@mui/lab";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 // import axios from "@/lib/axios";
 import axios from "axios";

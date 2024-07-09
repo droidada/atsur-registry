@@ -19,7 +19,7 @@ import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/providers/ToastProvider";
 import { useRouter } from "next/router";
-import { LoadingButton } from "@mui/lab";
+import LoadingButton from "@mui/lab/LoadingButton";
 import numeral from "numeral";
 
 export const getServerSideProps = async ({ req, params }) => {

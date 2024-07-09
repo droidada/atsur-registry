@@ -7,7 +7,7 @@ import axios from "@/lib/axios";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useToast } from "@/providers/ToastProvider";
-import { LoadingButton } from "@mui/lab";
+import LoadingButton from "@mui/lab/LoadingButton";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import numeral from "numeral";

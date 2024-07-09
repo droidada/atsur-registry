@@ -12,7 +12,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { literal, object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
-import { LoadingButton } from "@mui/lab";
+import LoadingButton from "@mui/lab/LoadingButton";
 import Checkbox from "@mui/material/Checkbox";
 import Layout from "@/components/layout/layout";
 

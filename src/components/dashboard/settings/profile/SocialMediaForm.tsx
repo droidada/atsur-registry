@@ -5,7 +5,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useToast } from "@/providers/ToastProvider";
 import InputField from "@/components/Form/InputField";
 import { useSession } from "next-auth/react";
-import { LoadingButton } from "@mui/lab";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 const SocialMediaForm = () => {
   const { data } = useSession();

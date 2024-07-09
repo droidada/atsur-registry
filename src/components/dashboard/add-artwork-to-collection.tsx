@@ -1,6 +1,6 @@
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { CheckBox } from "@mui/icons-material";
-import { LoadingButton } from "@mui/lab";
+import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Button,
   Checkbox,

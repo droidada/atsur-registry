@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
-import { LoadingButton } from "@mui/lab";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 interface Props {
   title: string;

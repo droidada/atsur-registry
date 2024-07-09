@@ -14,7 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Image from "next/image";
 import { useToast } from "@/providers/ToastProvider";
-import { LoadingButton } from "@mui/lab";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 interface Props {
   setSelectedSeries: React.Dispatch<React.SetStateAction<any>>;

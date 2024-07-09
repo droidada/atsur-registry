@@ -1,4 +1,4 @@
-import { LoadingButton } from "@mui/lab";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { Button, Stack } from "@mui/material";
 import React from "react";
 

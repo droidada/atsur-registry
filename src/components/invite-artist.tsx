@@ -20,7 +20,7 @@ import { Person4, Delete } from "@mui/icons-material";
 import { IArtist } from "@/types/models";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useToast } from "@/providers/ToastProvider";
-import { LoadingButton } from "@mui/lab";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 interface Props {
   prompt?: string;

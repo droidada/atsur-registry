@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { array, coerce, object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { LoadingButton } from "@mui/lab";
+import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Typography,
   Grid,

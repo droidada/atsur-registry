@@ -1,4 +1,4 @@
-import { LoadingButton } from "@mui/lab";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
 import React from "react";
 
