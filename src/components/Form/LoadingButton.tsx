@@ -15,6 +15,8 @@ interface Props {
   title?: string;
   type?: "button" | "submit" | "reset" | undefined;
   name?: string;
+  sx?: any;
+  fullWidth?: any;
 }
 
 const LoadingButton: React.FC<Props> = ({
