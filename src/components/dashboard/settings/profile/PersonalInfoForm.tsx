@@ -5,9 +5,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useToast } from "@/providers/ToastProvider";
 import InputField from "@/components/Form/InputField";
 import { useSession } from "next-auth/react";
-import { LoadingButton } from "@mui/lab";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useMutation } from "@tanstack/react-query";
+import LoadingButton from "@/components/Form/LoadingButton";
 
 interface Props {
   setIsEdit: React.Dispatch<React.SetStateAction<boolean>>;

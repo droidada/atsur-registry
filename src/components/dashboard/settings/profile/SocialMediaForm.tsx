@@ -5,7 +5,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useToast } from "@/providers/ToastProvider";
 import InputField from "@/components/Form/InputField";
 import { useSession } from "next-auth/react";
-import { LoadingButton } from "@mui/lab";
+import LoadingButton from "@/components/Form/LoadingButton";
 
 const SocialMediaForm = () => {
   const { data } = useSession();
@@ -19,7 +19,7 @@ const SocialMediaForm = () => {
   type SignUpInput = TypeOf<typeof signUpSchema>;
   const {
     register,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors, isSubmitSuccessful, isSubmitting },
     reset,
     control,
     handleSubmit,
@@ -67,6 +67,7 @@ const SocialMediaForm = () => {
       />
 
       <LoadingButton
+        loading={isSubmitting}
         type="submit"
         className="col-span-2 font-[400] bg-primary text-white"
       >
