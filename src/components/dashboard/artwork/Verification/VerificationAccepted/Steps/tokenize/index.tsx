@@ -19,6 +19,7 @@ import { useToast } from "@/providers/ToastProvider";
 import { useMutation } from "@tanstack/react-query";
 import { useReactToPrint } from "react-to-print";
 import LoadingButton from "@/components/Form/LoadingButton";
+import Link from "next/link";
 
 interface Props {
   artPiece: any;
@@ -41,6 +42,8 @@ const TokenizeCertificate: React.FC<Props> = ({
     ),
     walletAddress: string(),
   });
+
+  console.log(artPiece?.artPiece?.custodian?.profile?.wallet);
 
   type TokenInput = TypeOf<typeof tokenSchema>;
 
@@ -141,9 +144,20 @@ const TokenizeCertificate: React.FC<Props> = ({
     // },
   });
 
+  const handleCopyToClipboard = () => {
+    try {
+      navigator.clipboard.writeText(
+        artPiece?.artPiece?.custodian?.profile?.wallet?.address,
+      );
+      toast.success("Copied to clipboard");
+    } catch (error) {
+      toast.error("Failed to copy to clipboard");
+    }
+  };
+
   return (
-    <div className="flex gap-4 lg:flex-row flex-col">
-      <div className="lg:w-4/5 w-full">
+    <div className="flex gap-4  flex-col">
+      <div className=" w-full">
         <ArtPieceCertificate
           artistName={`${artPiece?.artPiece?.custodian?.profile?.firstName} ${artPiece?.artPiece?.custodian?.profile?.lastName}`}
           title={artPiece?.artPiece?.title}
@@ -165,7 +179,7 @@ const TokenizeCertificate: React.FC<Props> = ({
         qrImage={qrImage}
       />
 
-      <div className="flex flex-col  gap-4 lg:w-1/2 w-full">
+      <div className="flex flex-col  gap-5 w-full">
         <div className="flex flex-col gap-2">
           <label
             htmlFor="blockchainNetwork"
@@ -186,28 +200,56 @@ const TokenizeCertificate: React.FC<Props> = ({
             {/* <option value="polygon">Polygon</option>
             <option value="celo">Celo</option> */}
           </select>
+          <Link href="#" className="block text-[#18BAFF] text-[8px]">
+            Learn More about your selected blockchain
+          </Link>
           {errors.blockchainNetwork?.message && (
             <span className="text-red-500  text-xs">
               {errors.blockchainNetwork?.message}
             </span>
           )}
         </div>
+        <div>
+          <label
+            htmlFor="walletAddress"
+            className="text-[16px] leading-[17px] font-normal"
+          >
+            Wallet Address
+          </label>
+          <div className=" h-[42px] flex items-center justify-between px-3">
+            <span>
+              {artPiece?.artPiece?.custodian?.profile?.wallet?.address
+                .slice(0, 4)
+                ?.padEnd(
+                  artPiece?.artPiece?.custodian?.profile?.wallet?.address
+                    ?.length - 4,
+                  "*",
+                )}
+            </span>
+            <Button
+              onClick={handleCopyToClipboard}
+              className="bg-secondary-white rounded-[58px] font-[300] text-xs"
+            >
+              Copy
+            </Button>
+          </div>
+        </div>
         <InputField
-          label="Wallet Address"
-          id="walletAddress"
-          type="number"
-          placeholder="445 **** ****"
-          name="walletAddress"
+          label="Price (fixed)"
+          hasInfo
+          info="Price is fixed"
+          id="price"
+          type="price"
+          placeholder="22,2200"
+          name="price"
           className="w-full"
-          labelClassName="text-[16px] leading-[17px] font-thin"
-          inputClassName="bg-secondary-white"
+          labelClassName="text-[16px] leading-[17px] font-normal "
+          inputClassName="bg-transparent"
           tabIndex={2}
           fullWidth
           aria-required="true"
-          error={!!errors["walletAddress"]}
-          helperText={
-            errors["walletAddress"] ? errors["walletAddress"].message : ""
-          }
+          error={!!errors["price"]}
+          helperText={errors["price"] ? errors["price"].message : ""}
           control={control}
         />
 
