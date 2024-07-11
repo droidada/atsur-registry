@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useController, Control } from "react-hook-form";
 import { GoInfo } from "react-icons/go";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
+import CustomTooltip from "../CustomTooltip";
 
 interface Props {
   control: Control<any>;
@@ -34,6 +35,10 @@ interface Props {
   numericFormat?: NumericFormatProps;
   hasInfo?: boolean;
   info?: string;
+  tooltipProps?: {
+    children?: React.ReactNode;
+    place?: "top" | "bottom";
+  };
 }
 
 const InputField: React.FC<Props> = ({
@@ -65,6 +70,7 @@ const InputField: React.FC<Props> = ({
   numericFormat,
   hasInfo,
   info,
+  tooltipProps,
   ...props
 }) => {
   const {
@@ -100,17 +106,24 @@ const InputField: React.FC<Props> = ({
     </InputAdornment>
   );
 
-  console.log(type);
   return (
     <div className={`flex flex-col text-base gap-2  items-start  ${className}`}>
-      <label htmlFor={label} className={` font-semibold ${labelClassName}`}>
+      <label
+        htmlFor={label}
+        className={` ${
+          !labelClassName?.includes("font") ? "font-semibold" : ""
+        } flex gap-2 items-center ${labelClassName}`}
+      >
         {label} {isRequired ? "*" : ""}{" "}
         {hasInfo && (
-          <Tooltip title={info}>
-            <IconButton className="w-fit h-fit">
+          <>
+            <a data-tooltip-id={id}>
               <GoInfo />
-            </IconButton>
-          </Tooltip>
+            </a>
+            <CustomTooltip id={id} content={info}>
+              {tooltipProps?.children}
+            </CustomTooltip>
+          </>
         )}
       </label>
       {type === "price" ? (

@@ -8,6 +8,7 @@ import { LoadingContextProvider } from "@/providers/loading.context";
 import { PasswordContextProvider } from "@/providers/password.context";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { DefaultSeo } from "next-seo";
+import "react-tooltip/dist/react-tooltip.css";
 import SEO from "../../next-seo.config";
 
 import "@/styles/globals.css";

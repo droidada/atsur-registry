@@ -12,6 +12,7 @@ import InputField from "@/components/Form/InputField";
 import { MenuItem, Stack } from "@mui/material";
 import SelectField from "@/components/Form/SelectField";
 import SwitchInput from "@/components/Form/SwitchInput";
+import Image from "next/image";
 
 interface Props {
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
@@ -165,8 +166,20 @@ const IllustrationForm: React.FC<Props> = ({
         />
         <div className="flex gap-4 items-start">
           <InputField
+            tooltipProps={{
+              children: (
+                <div className="bg-white">
+                  <Image
+                    src="/artsur-logo.png"
+                    alt="Logo"
+                    width={100}
+                    height={100}
+                  />
+                </div>
+              ),
+            }}
             hasInfo
-            info="Subject matter of the artpiece"
+            // info="Subject matter of the artpiece"
             label="Subject Matter"
             id="subjectMatter"
             placeholder=""

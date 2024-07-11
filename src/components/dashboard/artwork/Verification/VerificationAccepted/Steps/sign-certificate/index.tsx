@@ -47,7 +47,7 @@ const SignCertificate: React.FC<Props> = ({
   const toast = useToast();
 
   const { mutate, isLoading } = useMutation({
-    mutationFn: async (data) =>
+    mutationFn: async (data: { draftCOA: any; signature: any; qrCode: any }) =>
       axiosAuth.post(`/art-piece/draft-coa/${artPiece?.artPiece?._id}`, data),
     onSuccess: (data) => {
       setActiveIndex((prev) => prev + 1);
@@ -75,32 +75,58 @@ const SignCertificate: React.FC<Props> = ({
 
           html.classList.remove("hidden");
 
-          // const { default: Html2Pdf } = await import("js-html2pdf");
           const rect = html.getBoundingClientRect();
 
-          // const option = {
-          //   margin: 0,
-          //   filename: `Certificate - ${artPiece?.artPiece?.title}.pdf`,
-          //   jsPDF: {
-          //     unit: "px",
-          //     format: "A6",
-          //     orientation: "portrait",
-          //   },
-          //   html2canvas: {
-          //     removeContainer: true,
-          //     dpi: 192,
-          //     letterRendering: true,
-          //     scale: 2,
-          //   },
-          // };
-          //@ts-ignore
           const html2pdf = (await import("html2pdf.js")).default;
-
-          const pdf = html2pdf(html, {
+          const option = {
             image: { type: "jpeg", quality: 1 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: "mm", format: "a5", orientation: "landscape" },
+            html2canvas: { scale: 3 },
+            jsPDF: {
+              unit: "mm",
+              format: "a5",
+              orientation: "landscape",
+              floatPrecision: "smart",
+            },
             pagebreak: { mode: ["css", "legacy"] },
+          };
+
+          const pdf = html2pdf().from(html).set(option).toPdf();
+
+          // Output the PDF as a data URI string
+          pdf.output("datauristring").then((dataUri) => {
+            // Convert data URI to Blob
+            const byteString = atob(dataUri.split(",")[1]);
+            const mimeString = dataUri
+              .split(",")[0]
+              .split(":")[1]
+              .split(";")[0];
+            const ab = new ArrayBuffer(byteString.length);
+            const ia = new Uint8Array(ab);
+            for (let i = 0; i < byteString.length; i++) {
+              ia[i] = byteString.charCodeAt(i);
+            }
+            const pdfBlob = new Blob([ab], { type: mimeString });
+
+            // Use the Blob (e.g., upload to server, display, etc.)
+            console.log(pdfBlob);
+
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+              if (e.target.result) {
+                console.log(e.target.result);
+                mutate({
+                  draftCOA: e.target?.result,
+                  signature: signatureImage,
+                  qrCode: qrImage,
+                });
+              }
+            };
+            reader.readAsDataURL(pdfBlob);
+
+            // // Example: Create a URL for the Blob and open it in a new tab
+            // const url = URL.createObjectURL(pdfBlob);
+            // console.log(url);
           });
 
           // const exporter = new Html2Pdf(html, option);
