@@ -3,8 +3,8 @@ import React from "react";
 
 interface Props {
   artPiece: any;
-  signatureImage: any;
-  qrImage: any;
+  signatureImage?: any;
+  qrImage?: any;
   tokenized?: boolean;
 }
 

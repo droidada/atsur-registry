@@ -209,5 +209,4 @@ export const walletDashboardSideMenu = [
     icon: "/images/dashboard-icons/setting.png",
     link: "/dashboard/wallet/setting",
   },
-
 ];

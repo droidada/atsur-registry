@@ -13,17 +13,7 @@ const VericationConfirmPreview: React.FC<Props> = ({
 }) => {
   return (
     <Stack spacing={2}>
-      <ArtPieceCertificate
-        artistName={`${artPiece?.artPiece?.custodian?.profile?.firstName} ${artPiece?.artPiece?.custodian?.profile?.lastName}`}
-        title={artPiece?.artPiece?.title}
-        type={artPiece?.artPiece?.artType}
-        yearOfCreation={new Date(artPiece?.artPiece?.createdAt)
-          .getFullYear()
-          .toString()}
-        medium={artPiece?.artPiece?.medium}
-        image={artPiece?.artPiece?.assets[0]?.url}
-        size={`${artPiece?.artPiece?.width} x ${artPiece?.artPiece?.height} CM`}
-      />
+      <ArtPieceCertificate artPiece={artPiece?.artPiece} />
       <p className="leading-[20px] text-[17px] font-[300]">
         Congratulations. Your artwork has been{" "}
         <span className="font-[500]">Verified</span>.

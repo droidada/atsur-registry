@@ -1,8 +1,8 @@
 import WalletPages from "@/HOC/WalletPages";
 import React from "react";
 
-const index = () => {
-  return <div>index</div>;
+const WalletDashboard = () => {
+  return <div>WalletDashboard</div>;
 };
 
-export default WalletPages(index);
+export default WalletPages(WalletDashboard);

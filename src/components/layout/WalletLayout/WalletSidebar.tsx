@@ -37,10 +37,10 @@ const WalletSideBar: React.FC<Props> = ({ hideSidebar, isMobile, isAdmin }) => {
 
       <Stack direction={"column"} className="gap-14 px-8 pb-10">
         <div className="mt-10 flex gap-2 justify-center">
-          <Avatar src={session.user?.avatar} />
+          <Avatar src={session?.user?.avatar} />
           <div>
             <h4 className="text-[24px] font-bold">
-              {session.user.firstName} {session.user.lastName}{" "}
+              {session?.user.firstName} {session?.user?.lastName}{" "}
             </h4>
           </div>
         </div>
