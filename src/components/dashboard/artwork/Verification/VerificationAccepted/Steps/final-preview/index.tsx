@@ -90,17 +90,9 @@ const FinalPreview: React.FC<Props> = ({
     <Stack>
       {/* <div className=" flex flex-col items-center  certificate" ref={ref}> */}
       <ArtPieceCertificate
-        artistName={`${artPiece?.artPiece?.custodian?.profile?.firstName} ${artPiece?.artPiece?.custodian?.profile?.lastName}`}
-        title={artPiece?.artPiece?.title}
-        type={artPiece?.artPiece?.artType}
-        yearOfCreation={new Date(artPiece?.artPiece?.createdAt)
-          .getFullYear()
-          .toString()}
-        medium={artPiece?.artPiece?.medium}
-        image={artPiece?.artPiece?.assets[0]?.url}
-        size={`${artPiece?.artPiece?.width} x ${artPiece?.artPiece?.height} CM`}
+        artPiece={artPiece?.artPiece}
         signatureImage={signatureImage || artPiece?.artPiece?.signature}
-        qrCodeImage={qrImage || artPiece?.artPiece?.qrCode}
+        qrImage={qrImage || artPiece?.artPiece?.qrCode}
       />
       {/* </div> */}
       <Stack

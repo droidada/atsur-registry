@@ -61,17 +61,9 @@ const OrderRFID = ({ artPiece }) => {
       <Stack className="" direction={["column"]} spacing={4}>
         <div>
           <ArtPieceCertificate
-            artistName={`${artPiece?.custodian?.profile?.firstName} ${artPiece?.custodian?.profile?.lastName}`}
-            title={artPiece?.title}
-            type={artPiece?.artType}
-            yearOfCreation={new Date(artPiece?.createdAt)
-              .getFullYear()
-              .toString()}
-            medium={artPiece?.medium}
-            image={artPiece?.assets[0]?.url}
-            size={`${artPiece?.width} x ${artPiece?.height} CM`}
+            artPiece={artPiece}
             signatureImage={artPiece?.signature}
-            // qrCodeImage={qrImage}
+            qrImage={artPiece?.qrImage as string}
           />
         </div>
         <Stack spacing={2}>

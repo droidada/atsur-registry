@@ -74,27 +74,30 @@ const SignCertificate: React.FC<Props> = ({
           const html = document.querySelector(".certificate");
 
           html.classList.remove("hidden");
-
           const rect = html.getBoundingClientRect();
+
+          // Calculate dimensions in mm (assuming 96 DPI)
+          const mmWidth = (rect.width * 25.4) / 96;
+          const mmHeight = (rect.height * 25.4) / 96;
+
+          console.log(mmWidth, mmHeight);
 
           const html2pdf = (await import("html2pdf.js")).default;
           const option = {
             image: { type: "jpeg", quality: 1 },
-            html2canvas: { scale: 3 },
+            html2canvas: { scale: 4, removeContainer: true },
             jsPDF: {
               unit: "mm",
-              format: "a5",
+              format: [mmWidth, mmHeight],
               orientation: "landscape",
               floatPrecision: "smart",
             },
-            pagebreak: { mode: ["css", "legacy"] },
+            pagebreak: { after: [".footer"], avoid: ["image"] },
           };
 
           const pdf = html2pdf().from(html).set(option).toPdf();
 
-          // Output the PDF as a data URI string
           pdf.output("datauristring").then((dataUri) => {
-            // Convert data URI to Blob
             const byteString = atob(dataUri.split(",")[1]);
             const mimeString = dataUri
               .split(",")[0]
@@ -114,7 +117,12 @@ const SignCertificate: React.FC<Props> = ({
 
             reader.onload = function (e) {
               if (e.target.result) {
-                console.log(e.target.result);
+                // const url = URL.createObjectURL(pdfBlob);
+                // const link = document.createElement("a");
+                // link.href = url;
+
+                // console.log(url);
+
                 mutate({
                   draftCOA: e.target?.result,
                   signature: signatureImage,
@@ -123,74 +131,32 @@ const SignCertificate: React.FC<Props> = ({
               }
             };
             reader.readAsDataURL(pdfBlob);
-
-            // // Example: Create a URL for the Blob and open it in a new tab
-            // const url = URL.createObjectURL(pdfBlob);
-            // console.log(url);
           });
-
-          // const exporter = new Html2Pdf(html, option);
-
-          // const pdf = await exporter.getPdf(false);
-
-          // const pdfBlob = pdf.output("blob");
-
-          // const formData = new FormData();
-          // // console.log(pd)
-          // formData.append("draftCOA", pdfBlob);
-          // formData.append("signature", signatureImage);
-
-          // const reader = new FileReader();
-          // reader.onload = function (e) {
-          //   if (e.target.result) {
-          //     const url = URL.createObjectURL(pdfBlob);
-          //     const link = document.createElement("a");
-          //     link.href = url;
-
-          //     console.log(url);
-          //     //@ts-ignore
-          //     // mutate({
-          //     //   draftCOA: e.target?.result,
-          //     //   signature: signatureImage,
-          //     //   qrCode: qrImage,
-          //     // });
-          //   }
-          // };
-          // reader.readAsDataURL(pdfBlob);
         }
       } catch (error) {
         console.log(error);
       }
     },
-    // onAfterPrint: () => {
-    //   setOpenPublishDialog(false);
-    // },
   });
 
   return (
     <Stack spacing={2}>
-      <ArtPieceCertificate
-        qrCodeImage={qrImage}
-        signatureImage={signatureImage}
-        artistName={`${artPiece?.artPiece?.custodian?.profile?.firstName} ${artPiece?.artPiece?.custodian?.profile?.lastName}`}
-        title={artPiece?.artPiece?.title}
-        type={artPiece?.artPiece?.artType}
-        yearOfCreation={new Date(artPiece?.artPiece?.createdAt)
-          .getFullYear()
-          .toString()}
-        medium={artPiece?.artPiece?.medium}
-        image={artPiece?.artPiece?.assets[0]?.url}
-        size={`${artPiece?.artPiece?.width} x ${artPiece?.artPiece?.height} CM`}
-      />
+      <div className="">
+        <ArtPieceCertificate
+          artPiece={artPiece?.artPiece}
+          signatureImage={signatureImage}
+          qrImage={qrImage}
+        />
+      </div>
 
       <PdfCertificate
         ref={certificateRef}
-        artPiece={artPiece}
+        artPiece={artPiece?.artPiece}
         signatureImage={signatureImage}
         qrImage={qrImage}
       />
 
-      <Stack direction={"row"} spacing={2}>
+      <Stack direction={"row"} className="my-4" spacing={2}>
         <Button
           onClick={() => {
             setOpenSignatureDialog(true);

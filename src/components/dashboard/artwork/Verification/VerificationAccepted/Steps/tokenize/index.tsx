@@ -81,6 +81,7 @@ const TokenizeCertificate: React.FC<Props> = ({
     content: () => certificateRef.current,
     documentTitle: `Certificate - ${artPiece?.artPiece?.title}.pdf`,
     copyStyles: true,
+
     print: async (printIframe: HTMLIFrameElement) => {
       try {
         const document = printIframe.contentDocument;
@@ -89,59 +90,68 @@ const TokenizeCertificate: React.FC<Props> = ({
           const html = document.querySelector(".certificate");
 
           html.classList.remove("hidden");
-
-          // html.classList.add("pt-4");
-          // html.classList.add("pl-6");
-
-          const { default: Html2Pdf } = await import("js-html2pdf");
           const rect = html.getBoundingClientRect();
 
+          // Calculate dimensions in mm (assuming 96 DPI)
+          const mmWidth = (rect.width * 25.4) / 96;
+          const mmHeight = (rect.height * 25.4) / 96;
+
+          console.log(mmWidth, mmHeight);
+
+          const html2pdf = (await import("html2pdf.js")).default;
           const option = {
-            margin: 0,
-            filename: `Certificate - ${artPiece?.artPiece?.title}.pdf`,
+            image: { type: "jpeg", quality: 1 },
+            html2canvas: { scale: 4, removeContainer: true },
             jsPDF: {
-              unit: "px",
-              format: [772, 750],
-              orientation: "portrait",
+              unit: "mm",
+              format: [mmWidth, mmHeight],
+              orientation: "landscape",
+              floatPrecision: "smart",
             },
-            html2canvas: {
-              height: rect.height,
-              backgroundColor: null,
-              removeContainer: true,
-              windowHeight: 550,
-              dpi: 192,
-              letterRendering: true,
-              scale: 2,
-            },
+            pagebreak: { after: [".footer"], avoid: ["image"] },
           };
 
-          const exporter = new Html2Pdf(html, option);
+          const pdf = html2pdf().from(html).set(option).toPdf();
 
-          const pdf = await exporter.getPdf(false);
+          pdf.output("datauristring").then((dataUri) => {
+            const byteString = atob(dataUri.split(",")[1]);
+            const mimeString = dataUri
+              .split(",")[0]
+              .split(":")[1]
+              .split(";")[0];
+            const ab = new ArrayBuffer(byteString.length);
+            const ia = new Uint8Array(ab);
+            for (let i = 0; i < byteString.length; i++) {
+              ia[i] = byteString.charCodeAt(i);
+            }
+            const pdfBlob = new Blob([ab], { type: mimeString });
 
-          const pdfBlob = pdf.output("blob");
-          const formData = new FormData();
-          formData.append("draftCOA", pdfBlob);
+            // Use the Blob (e.g., upload to server, display, etc.)
+            console.log(pdfBlob);
 
-          const reader = new FileReader();
-          reader.onload = function (e) {
-            // @ts-ignore
+            const reader = new FileReader();
 
-            mutate({
-              draftCOA: e.target?.result,
-            });
-          };
-          reader.readAsDataURL(pdfBlob);
-
-          // mutate(formData);
+            reader.onload = function (e) {
+              if (e.target.result) {
+                // const url = URL.createObjectURL(pdfBlob);
+                // const link = document.createElement("a");
+                // link.href = url;
+                // console.log(url);
+                //  TODO Handle the tokenization
+                //  mutate({
+                //    draftCOA: e.target?.result,
+                //    signature: signatureImage,
+                //    qrCode: qrImage,
+                //  });
+              }
+            };
+            reader.readAsDataURL(pdfBlob);
+          });
         }
       } catch (error) {
         console.log(error);
       }
     },
-    // onAfterPrint: () => {
-    //   setOpenPublishDialog(false);
-    // },
   });
 
   const handleCopyToClipboard = () => {
@@ -156,30 +166,22 @@ const TokenizeCertificate: React.FC<Props> = ({
   };
 
   return (
-    <div className="flex gap-4  flex-col">
-      <div className=" w-full">
+    <div className="flex gap-6 flex-col  ">
+      <div className=" overflow-x-auto ">
         <ArtPieceCertificate
-          artistName={`${artPiece?.artPiece?.custodian?.profile?.firstName} ${artPiece?.artPiece?.custodian?.profile?.lastName}`}
-          title={artPiece?.artPiece?.title}
-          type={artPiece?.artPiece?.artType}
-          yearOfCreation={new Date(artPiece?.artPiece?.createdAt)
-            .getFullYear()
-            .toString()}
-          medium={artPiece?.artPiece?.medium}
-          image={artPiece?.artPiece?.assets[0]?.url}
-          size={`${artPiece?.artPiece?.width} x ${artPiece?.artPiece?.height} CM`}
+          artPiece={artPiece?.artPiece}
           signatureImage={signatureImage || artPiece?.artPiece?.signature}
-          qrCodeImage={qrImage || artPiece?.artPiece?.qrCode}
+          qrImage={qrImage || artPiece?.artPiece?.qrCode}
         />
       </div>
       <PdfCertificate
         ref={certificateRef}
-        artPiece={artPiece}
-        signatureImage={signatureImage}
-        qrImage={qrImage}
+        artPiece={artPiece?.artPiece}
+        signatureImage={signatureImage || artPiece?.artPiece?.signature}
+        qrImage={qrImage || artPiece?.artPiece?.qrCode}
       />
 
-      <div className="flex flex-col  gap-5 w-full">
+      <div className="flex flex-col  gap-5  ">
         <div className="flex flex-col gap-2">
           <label
             htmlFor="blockchainNetwork"

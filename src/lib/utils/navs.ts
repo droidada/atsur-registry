@@ -182,3 +182,32 @@ export const adminDashboardSidebarMenu = [
     ],
   },
 ];
+
+export const walletDashboardSideMenu = [
+  {
+    title: "Dashboard",
+    icon: "/images/dashboard-icons/artwork-icon.png",
+    link: "/dashboard/wallet",
+  },
+  {
+    title: "My Wallet",
+    icon: "/images/dashboard-icons/collection-icon.png",
+    link: "/dashboard/wallet/my-wallet",
+  },
+  {
+    title: "Transaction",
+    icon: "/images/dashboard-icons/organization-icon.png",
+    link: "/dashboard/wallet/transaction",
+  },
+  {
+    title: "Crypto",
+    icon: "/images/dashboard-icons/wishlist.png",
+    link: "/dashboard/dashboard/crypto",
+  },
+  {
+    title: "Settings",
+    icon: "/images/dashboard-icons/setting.png",
+    link: "/dashboard/wallet/setting",
+  },
+
+];
