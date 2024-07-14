@@ -12,6 +12,9 @@ const WalletLayout: React.FC<WalletLayoutProps> = ({ children }) => {
       <WalletHeader />
       <div className="flex">
         <WalletSideBar />
+        <main className="lg:py-[42px] flex-1  px-4  py-5 ">
+          <div className="page-container ">{children}</div>
+        </main>
       </div>
     </div>
   );
