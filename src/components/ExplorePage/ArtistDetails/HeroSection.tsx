@@ -11,7 +11,7 @@ const HeroSection: React.FC<Props> = ({ backgroundImg, avatar, name }) => {
   return (
     <div className="relative">
       <Image
-        src={backgroundImg}
+        src={backgroundImg || "/background-placeholder.jpeg"}
         width={1196}
         alt="cover"
         height={224}

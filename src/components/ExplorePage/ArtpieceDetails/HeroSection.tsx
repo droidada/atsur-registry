@@ -25,7 +25,7 @@ const HeroSection: React.FC<Props> = ({ artpiece }) => {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  const checkUser = artpiece.custodian?.profile?.id == session.user?._id;
+  const checkUser = artpiece.custodian?.profile?.id == session?.user?._id;
 
   useEffect(() => {
     setAssets(artpiece?.assets);
