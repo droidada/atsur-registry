@@ -19,7 +19,7 @@ const Projects: React.FC<Props> = ({ artistId }) => {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
-  const { status } = useSession();
+  const { status, data: session } = useSession();
   const axiosAuth = useAxiosAuth();
 
   const {
@@ -29,12 +29,12 @@ const Projects: React.FC<Props> = ({ artistId }) => {
   } = useQuery({
     queryKey: ["projects", artistId, currentPage],
     queryFn: () =>
-      status == "authenticated"
-        ? axiosAuth.get(`/art-piece/list?page=${currentPage}`)
+      session?.user?._id == artistId
+        ? axiosAuth.get(`/art-piece/creator?page=${currentPage}`)
         : axios.get(`/public/artist/artpiece/${artistId}?page=${currentPage}`),
   });
 
-  console.log(projectsData?.data?.meta);
+  console.log(projectsData?.data);
 
   if (projectsLoading) {
     return (
