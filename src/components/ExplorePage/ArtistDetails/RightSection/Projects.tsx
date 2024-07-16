@@ -4,7 +4,10 @@ import dynamic from "next/dynamic";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import LoadingArtpieceCard from "@/components/LoadingArtpieceCard";
 import SimpleArtpieceCard from "@/components/SimpleArtpieceCard";
-import { Button } from "@mui/material";
+import { Button, Pagination } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 interface Props {
   artistId: string;
@@ -16,35 +19,24 @@ const Projects: React.FC<Props> = ({ artistId }) => {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
+  const { status } = useSession();
+  const axiosAuth = useAxiosAuth();
 
-  const fetchProjects = async () => {
-    try {
-      setLoading(true);
-      const { data: res } = await axios.get(
-        `/public/artist/artpiece/${artistId}?page=${currentPage}`,
-      );
+  const {
+    data: projectsData,
+    isLoading: projectsLoading,
+    error: projectsError,
+  } = useQuery({
+    queryKey: ["projects", artistId, currentPage],
+    queryFn: () =>
+      status == "authenticated"
+        ? axiosAuth.get(`/art-piece/list?page=${currentPage}`)
+        : axios.get(`/public/artist/artpiece/${artistId}?page=${currentPage}`),
+  });
 
-      console.log(res?.data);
-      setProjects(res?.data.artpieces);
-      setTotalPages(res?.data.totalPages);
-    } catch (error) {
-      setError(
-        error?.response?.data?.message ||
-          error?.message ||
-          "Something went wrong",
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
+  console.log(projectsData?.data?.meta);
 
-  useEffect(() => {
-    fetchProjects();
-  }, [currentPage]);
-
-  console.log(projects);
-
-  if (loading) {
+  if (projectsLoading) {
     return (
       <div className="grid grid-cols-auto-fit gap-4">
         {[...Array(6)].map((_, index) => (
@@ -54,10 +46,23 @@ const Projects: React.FC<Props> = ({ artistId }) => {
     );
   }
 
+  if (projectsData?.data?.artPieces?.length == 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-5">
+        <Image
+          src={"/images/empty-wallet.svg"}
+          width={150}
+          height={150}
+          alt="empty"
+        />
+        <p className="italic font-[300] text-center">No projects found</p>
+      </div>
+    );
+  }
   return (
     <div>
       <div className="grid grid-cols-auto-fit gap-4 ">
-        {projects?.map((project) => (
+        {projectsData?.data?.artPieces?.map((project) => (
           <SimpleArtpieceCard
             isBlack
             isSmall
@@ -76,11 +81,17 @@ const Projects: React.FC<Props> = ({ artistId }) => {
         ))}
       </div>
       <div className="flex justify-center">
-        {currentPage === totalPages && (
-          <Button className="my-[48px] max-w-[214px] mx-auto h-[60px] bg-primary text-white text-[19px] leading-[16px]">
-            Load More
-          </Button>
-        )}
+        <div className="flex justify-center mt-6">
+          <Pagination
+            count={projectsData?.data?.meta?.totalPages}
+            page={currentPage}
+            onChange={(e, value) => {
+              setCurrentPage(value);
+              // refetch();
+              window.scrollTo(0, 0);
+            }}
+          />
+        </div>
       </div>
     </div>
   );

@@ -19,7 +19,7 @@ interface Props {
 }
 const ArtistDetailsPage: React.FC<Props> = ({ artist }) => {
   const { data: session } = useSession();
-  console.log(artist);
+
   const checkUser = session?.user?._id === artist?._id;
   const router = useRouter();
 
