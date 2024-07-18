@@ -50,9 +50,9 @@ const SimpleArtpieceCard: React.FC<Props> = ({
           variant="h4"
           className={`font-[300] ${
             isSmall
-              ? "text-xl lg:text-[24px] lg:leading-[16px]"
+              ? "text-xl lg:text-[24px] "
               : "text-xl md:text-2xl lg:text-3xl"
-          } lg:leading-4`}
+          } `}
         >
           {title}
         </Typography>

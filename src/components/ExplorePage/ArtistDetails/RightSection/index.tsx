@@ -19,6 +19,10 @@ const Favourites = dynamic(() => import("./Favourites"), {
 });
 const Board = dynamic(() => import("./Board"));
 
+const Series = dynamic(() => import("./Series"), {
+  ssr: false,
+});
+
 interface Props {
   artist: IArtistDetails;
 }
@@ -35,10 +39,10 @@ const RightSection: React.FC<Props> = ({ artist }) => {
       label: "Pieces",
       icon: <BsFillFolderFill size={15} />,
     },
-    // {
-    //   label: "My Board",
-    //   icon: <GiPaintBrush className="rotate-90" size={15} />,
-    // },
+    {
+      label: "Series",
+      icon: <GiPaintBrush className="rotate-90" size={15} />,
+    },
     {
       label: "Favorites",
       icon: <FaHeart size={15} />,
@@ -51,13 +55,13 @@ const RightSection: React.FC<Props> = ({ artist }) => {
   return (
     <section className="mt-10 flex-1">
       <div className="">
-        <div className="flex justify-between items-center ">
+        <div className="flex justify-between items-center overflow-x-auto ">
           {tabs.map((tab, index) => (
             <div
               onClick={() => setCurrentTab(index)}
               className={`flex gap-4  justify-center ${
                 currentTab == index ? "bg-secondary text-primary" : ""
-              } items-center font-[600] p-2 px-4 w-full cursor-pointer text-[19px]  h-fit rounded-[21px] `}
+              } items-center font-[600] p-2 px-4 w-fit flex-shrink-0 cursor-pointer text-[19px]  h-fit rounded-[21px] `}
               key={tab.label}
             >
               {tab.icon}
@@ -65,31 +69,13 @@ const RightSection: React.FC<Props> = ({ artist }) => {
             </div>
           ))}
         </div>
-        {/* <Tabs
-          TabIndicatorProps={{ style: { display: "none" } }}
-          onChange={handleChange}
-          variant="fullWidth"
-          component={"div"}
-          value={value}
-        >
-          {tabs.map((tab, index) => (
-            <Tab
-              {...tab}
-              className={`font-[600] py-0 text-[19px] min-w-fit w-fit min-h-[49px] h-fit rounded-[21px] ${
-                value == index ? "bg-secondary" : ""
-              }`}
-              key={index}
-              iconPosition={"start"}
-            />
-          ))}
-        </Tabs> */}
 
         <div className="mt-10">
           {
             [
               <Details artist={artist} key={"details"} />,
               <Projects artistId={artist?._id} key={"projects"} />,
-              // <Board key={"board"} />,
+              <Series artistId={artist?._id} key={"series"} />,
               <Favourites artistId={artist?._id} key={"favorites"} />,
             ][currentTab]
           }
