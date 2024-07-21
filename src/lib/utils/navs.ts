@@ -108,9 +108,9 @@ export const dashboardSidebarMenu = [
         link: "/dashboard/activities",
       },
       {
-        title: "Security",
+        title: "Wallet",
         icon: "/images/dashboard-icons/security-icon.png",
-        link: "/dashboard/settings/security",
+        link: "/dashboard/wallet",
       },
       {
         title: "Settings",
