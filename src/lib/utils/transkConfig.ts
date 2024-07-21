@@ -10,13 +10,13 @@ export const defaultTransakConfig: TransakConfig = {
   defaultNetwork: "Celo",
   walletAddress: "0xF6F193B066039DE07df05bb31Afe36524C15fd5F",
   disableWalletAddressForm: true,
-  exchangeScreenTitle: "Make Payment",
+  exchangeScreenTitle: "Deposit",
   themeColor: "",
   // .....
   // For the full list of customisation options check the link below
 };
 
-const transak = new Transak(defaultTransakConfig);
+const transak = new Transak({...defaultTransakConfig});
 
 // transak.init();
 
