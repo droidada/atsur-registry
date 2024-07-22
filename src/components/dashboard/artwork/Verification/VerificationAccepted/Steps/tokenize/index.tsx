@@ -254,22 +254,22 @@ const TokenizeCertificate: React.FC<Props> = ({
         />
 
         <div className="flex mt-[31px] gap-4">
-          <LoadingButton
-            loading={isLoading}
+          <Button
+            // loading={isLoading}
             onClick={() => setActiveIndex((prev) => prev + 1)}
             variant="contained"
             className="bg-primary max-w-[146px] h-[46px] w-full"
           >
             Skip
-          </LoadingButton>
-          <Button
+          </Button>
+          <LoadingButton
             onClick={handlePublish}
             loading={isLoading}
             variant="contained"
             className="bg-primary-green text-primary max-w-[146px] h-[46px] w-full"
           >
             Tokenize
-          </Button>
+          </LoadingButton>
         </div>
       </div>
     </div>

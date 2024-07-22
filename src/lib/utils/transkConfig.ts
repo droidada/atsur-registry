@@ -16,19 +16,17 @@ export const defaultTransakConfig: TransakConfig = {
   // For the full list of customisation options check the link below
 };
 
-const transak = new Transak({...defaultTransakConfig});
+const transak = new Transak({ ...defaultTransakConfig });
 
 // transak.init();
 
 // To get all the events
-Transak.on("*", (data) =>
-{
+Transak.on("*", (data) => {
   console.log(data);
 });
 
 // This will trigger when the user closed the widget
-Transak.on(Transak.EVENTS.TRANSAK_WIDGET_CLOSE, () =>
-{
+Transak.on(Transak.EVENTS.TRANSAK_WIDGET_CLOSE, () => {
   console.log("Transak SDK closed!");
 });
 
@@ -37,8 +35,7 @@ Transak.on(Transak.EVENTS.TRANSAK_WIDGET_CLOSE, () =>
  * This doesn't guarantee that payment has completed in all scenarios
  * If you want to close/navigate away, use the TRANSAK_ORDER_SUCCESSFUL event
  */
-Transak.on(Transak.EVENTS.TRANSAK_ORDER_CREATED, (orderData) =>
-{
+Transak.on(Transak.EVENTS.TRANSAK_ORDER_CREATED, (orderData) => {
   console.log(orderData);
 });
 
@@ -46,8 +43,7 @@ Transak.on(Transak.EVENTS.TRANSAK_ORDER_CREATED, (orderData) =>
  * This will trigger when the user marks payment is made
  * You can close/navigate away at this event
  */
-Transak.on(Transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, (orderData) =>
-{
+Transak.on(Transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, (orderData) => {
   console.log(orderData);
   transak.close();
 });
