@@ -16,7 +16,7 @@ export const defaultTransakConfig: TransakConfig = {
   // For the full list of customisation options check the link below
 };
 
-const transak = new Transak({...defaultTransakConfig});
+const transak = new Transak({ ...defaultTransakConfig });
 
 // transak.init();
 

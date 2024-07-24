@@ -43,7 +43,7 @@ const TokenizeCertificate: React.FC<Props> = ({
     walletAddress: string(),
   });
 
-  console.log(artPiece?.artPiece?.custodian?.profile?.wallet);
+  console.log(artPiece?.artPiece?._id);
 
   type TokenInput = TypeOf<typeof tokenSchema>;
 
@@ -63,8 +63,11 @@ const TokenizeCertificate: React.FC<Props> = ({
   const toast = useToast();
 
   const { mutate, isLoading } = useMutation({
-    mutationFn: async (data) =>
-      axiosAuth.post(`/art-piece/draft-coa/${artPiece?.artPiece?._id}`, data),
+    mutationFn: async (data: any) =>
+      axiosAuth.post(
+        `/art-piece/tokenize-coa/${artPiece?.artPiece?._id}`,
+        data,
+      ),
     onSuccess: (data) => {
       setActiveIndex((prev) => prev + 1);
       // TODO refetch artpiecedata
@@ -96,8 +99,6 @@ const TokenizeCertificate: React.FC<Props> = ({
           const mmWidth = (rect.width * 25.4) / 96;
           const mmHeight = (rect.height * 25.4) / 96;
 
-          console.log(mmWidth, mmHeight);
-
           const html2pdf = (await import("html2pdf.js")).default;
           const option = {
             image: { type: "jpeg", quality: 1 },
@@ -126,9 +127,6 @@ const TokenizeCertificate: React.FC<Props> = ({
             }
             const pdfBlob = new Blob([ab], { type: mimeString });
 
-            // Use the Blob (e.g., upload to server, display, etc.)
-            console.log(pdfBlob);
-
             const reader = new FileReader();
 
             reader.onload = function (e) {
@@ -136,13 +134,12 @@ const TokenizeCertificate: React.FC<Props> = ({
                 // const url = URL.createObjectURL(pdfBlob);
                 // const link = document.createElement("a");
                 // link.href = url;
+
                 // console.log(url);
-                //  TODO Handle the tokenization
-                //  mutate({
-                //    draftCOA: e.target?.result,
-                //    signature: signatureImage,
-                //    qrCode: qrImage,
-                //  });
+
+                mutate({
+                  draftCOA: e.target?.result,
+                });
               }
             };
             reader.readAsDataURL(pdfBlob);
@@ -179,6 +176,7 @@ const TokenizeCertificate: React.FC<Props> = ({
         artPiece={artPiece?.artPiece}
         signatureImage={signatureImage || artPiece?.artPiece?.signature}
         qrImage={qrImage || artPiece?.artPiece?.qrCode}
+        tokenized={true}
       />
 
       <div className="flex flex-col  gap-5  ">
@@ -256,20 +254,22 @@ const TokenizeCertificate: React.FC<Props> = ({
         />
 
         <div className="flex mt-[31px] gap-4">
-          <LoadingButton
-            loading={isLoading}
+          <Button
+            // loading={isLoading}
             onClick={() => setActiveIndex((prev) => prev + 1)}
             variant="contained"
             className="bg-primary max-w-[146px] h-[46px] w-full"
           >
             Skip
-          </LoadingButton>
-          <Button
+          </Button>
+          <LoadingButton
+            onClick={handlePublish}
+            loading={isLoading}
             variant="contained"
             className="bg-primary-green text-primary max-w-[146px] h-[46px] w-full"
           >
-            Token
-          </Button>
+            Tokenize
+          </LoadingButton>
         </div>
       </div>
     </div>

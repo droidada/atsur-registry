@@ -1,4 +1,6 @@
+import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { Button, Stack } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import React, { useState } from "react";
 
@@ -7,13 +9,21 @@ interface Props {
 }
 const WalletActivitiesSection: React.FC<Props> = ({ activities }) => {
   const [currentTab, setCurrentTab] = useState(0);
+  const axiosAuth = useAxiosAuth();
+
+  const { data, isLoading } = useQuery({
+    queryFn: () => axiosAuth.get("/transaction"),
+  });
+
+  console.log(data);
+
   return (
     <Stack spacing={4}>
       <Stack
         direction={["column", "row"]}
         justifyContent={["center", "space-between"]}
       >
-        <h2 className="text-2xl font-bold">Wallet Activities</h2>
+        <h2 className="text-2xl font-bold">Transactions</h2>
         <div className="flex gap-4">
           {["Inflow", "Outflow"].map((tab, index) => (
             <Button
@@ -31,7 +41,7 @@ const WalletActivitiesSection: React.FC<Props> = ({ activities }) => {
       </Stack>
 
       <Stack spacing={2}>
-        {activities.length == 0 ? (
+        {data?.data?.transactions?.length == 0 ? (
           <div className="flex flex-col items-center justify-center py-5">
             <Image
               src={"/images/empty-wallet.svg"}
@@ -44,7 +54,11 @@ const WalletActivitiesSection: React.FC<Props> = ({ activities }) => {
             </p>
           </div>
         ) : (
-          <></>
+          <div className="flex flex-col gap-3">
+            {data?.data?.transactions?.map((transaction) => (
+              <div key={transaction._id} className="bg-[#F3F3F3] p-4"></div>
+            ))}
+          </div>
         )}
       </Stack>
     </Stack>

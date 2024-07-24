@@ -12,11 +12,10 @@ interface Props {
 
 const PdfCertificate = forwardRef(
   ({ artPiece, signatureImage, qrImage, tokenized }: Props, ref: any) => {
+    console.log(qrImage);
+    console.log(signatureImage);
     return (
-      <div
-        ref={ref}
-        className="min-w-[700px]  h-fit w-full hidden  certificate"
-      >
+      <div ref={ref} className="w-full  h-fit hidden  certificate">
         <div className="bg-[#FFFCF2]  w-full  flex flex-col  justify-between h-full border-x-[1px] ">
           <div className="w-full border-t-[1px] flex-1  border-primary font-brawler flex flex-col ">
             <div className="flex flex-row justify-between gap-4 px-8 pt-8">
@@ -64,15 +63,14 @@ const PdfCertificate = forwardRef(
               </div>
             </div>
             <div className="flex flex-row justify-between items-center px-8 pt-2 ">
-              <div className="flex flex-col ">
-                <div className=" relative">
+              <div className="flex  flex-col ">
+                <div className="w-[154px] h-[150px] relative">
                   {qrImage && (
                     <Image
                       src={qrImage}
-                      width={154}
-                      height={130}
+                      fill
                       alt=""
-                      className="object-cover"
+                      className="object-cover flex-shrink-0"
                     />
                   )}
                 </div>
@@ -105,7 +103,7 @@ const PdfCertificate = forwardRef(
                       fill
                       src={signatureImage}
                       alt=""
-                      className="object-cover  w-full h-full  "
+                      className="object-contain absolute left-0 bottom-0  w-full h-full  "
                     />
                   )}
                 </div>

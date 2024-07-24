@@ -67,7 +67,7 @@ const FinalPreview: React.FC<Props> = ({
     link.click();
   };
 
-  console.log(data);
+  console.log(data?.data?.artPiece?.lazyMintedVoucher);
 
   const { mutate, isLoading } = useMutation({
     mutationFn: () =>
@@ -84,8 +84,6 @@ const FinalPreview: React.FC<Props> = ({
     },
   });
 
-  console.log(artPiece?.artPiece);
-
   return (
     <Stack>
       {/* <div className=" flex flex-col items-center  certificate" ref={ref}> */}
@@ -93,6 +91,10 @@ const FinalPreview: React.FC<Props> = ({
         artPiece={artPiece?.artPiece}
         signatureImage={signatureImage || artPiece?.artPiece?.signature}
         qrImage={qrImage || artPiece?.artPiece?.qrCode}
+        tokenized={
+          artPiece?.artPiece?.lazyMintedVoucher ||
+          data?.data?.artPiece?.lazyMintedVoucher
+        }
       />
       {/* </div> */}
       <Stack

@@ -5,10 +5,12 @@ import axios from "@/lib/axios";
 import { useToast } from "@/providers/ToastProvider";
 import { Button, Card, Stack } from "@mui/material";
 import { getToken } from "next-auth/jwt";
-import React from "react";
+import React, { useEffect } from "react";
 import { FaEthereum } from "react-icons/fa";
 import { MdOutlineChevronRight } from "react-icons/md";
 import { NumericFormat } from "react-number-format";
+import { Transak } from "@transak/transak-sdk";
+import { defaultTransakConfig } from "@/lib/utils/transkConfig";
 
 export const getServerSideProps = async ({ req, params }) => {
   try {
@@ -37,6 +39,10 @@ export const getServerSideProps = async ({ req, params }) => {
 const WalletDashboard = ({ wallet }) => {
   console.log(wallet);
   const toast = useToast();
+  const transak = new Transak({
+    ...defaultTransakConfig,
+    walletAddress: wallet?.address,
+  });
 
   const handleCopyToClipboard = () => {
     try {
@@ -46,6 +52,28 @@ const WalletDashboard = ({ wallet }) => {
       toast.error("Failed to copy to clipboard");
     }
   };
+
+  const handleDeposit = () => {
+    transak.init();
+    Transak.on(Transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, (orderData) => {
+      console.log(orderData);
+      toast.success("Deposit successful!");
+    });
+    Transak.on(Transak.EVENTS.TRANSAK_ORDER_FAILED, (errorData) => {
+      console.error(errorData);
+      toast.error("Deposit failed. Please try again.");
+    });
+  };
+
+  useEffect(() => {
+    // Clean up event listeners when the component unmounts
+    return () => {
+      transak.close();
+      // Transak.off(transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL);
+      // transak.off(transak.EVENTS.TRANSAK_ORDER_FAILED);
+    };
+  }, []);
+
   return (
     <Stack spacing={4}>
       <Stack
@@ -66,7 +94,7 @@ const WalletDashboard = ({ wallet }) => {
         <div className="grid gap-3">
           <h2 className="font-semibold text-2xl">Wallet Balance</h2>
           <NumericFormat
-            value={324654}
+            value={0}
             decimalScale={2}
             displayType={"text"}
             thousandSeparator={true}
@@ -97,10 +125,16 @@ const WalletDashboard = ({ wallet }) => {
             </div>
           </div>
           <div className="flex gap-4">
-            <Button className="bg-secondary-white text-[19px] font-[300] ">
+            <Button
+              disabled
+              className="bg-secondary-white disabled:opacity-50 text-[19px] font-[300] "
+            >
               Withdraw
             </Button>
-            <Button className="bg-secondary-white text-[19px] font-[300] ">
+            <Button
+              onClick={handleDeposit}
+              className="bg-secondary-white text-[19px] font-[300] "
+            >
               Deposit
             </Button>
           </div>

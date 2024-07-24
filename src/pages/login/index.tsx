@@ -148,9 +148,10 @@ function Login({ invitationData }) {
                   alt="google"
                 />
               }
+              type="button"
               className="rounded-[100px] border-secondary"
               variant={"outlined"}
-              onClick={() => signIn("google")}
+              // onClick={() => signIn("google")}
             >
               Sign in with Google
             </Button>
