@@ -19,9 +19,12 @@ export const getServerSideProps = async ({ req, query }) => {
 
     if (!token) return;
 
-    const res = await axios.get(`/smile-verification/status?type=kyc`, {
-      headers: { authorization: `Bearer ${token?.accessToken}` },
-    });
+    const res = await axios.get(
+      `/smile-verification/status?type=kyb&organizationId=${query.orgId}`,
+      {
+        headers: { authorization: `Bearer ${token?.accessToken}` },
+      },
+    );
 
     return { props: { status: res.data?.data } };
   } catch (error) {
@@ -32,17 +35,12 @@ const Status = ({ status }) => {
   const router = useRouter();
   const axiosAuth = useAxiosAuth();
   const [loading, setLoading] = useState(false);
+  const orgId = router.query.orgId;
+
+  console.log(status);
 
   const handleReenroll = async () => {
-    try {
-      setLoading(true);
-      const { data } = await axiosAuth.post("/smile-verification/re-enrol");
-      router.replace("/dashboard/settings/security/kyc-verification");
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
+    router.replace("/dashboard/settings/security/kyb-verification/" + orgId);
   };
 
   return (
@@ -51,9 +49,9 @@ const Status = ({ status }) => {
       <h1 className="text-3xl font-semibold">KYC Verification Status</h1>
       <Image
         src={
-          status?.verificationStatus == "accepted"
+          status?.status == "accepted"
             ? "/images/verification-success.png"
-            : status?.verificationStatus === "pending"
+            : status?.status === "pending"
             ? "/images/verification-pending.png"
             : "/images/verification-rejected.png"
         }
@@ -62,17 +60,17 @@ const Status = ({ status }) => {
         alt="verification status"
       />
       <h2 className="font-[500] text-2xl text-center">
-        {status?.verificationStatus === "accepted"
+        {status?.status === "accepted"
           ? "Great! Your credentials have been successfully verified"
-          : status?.verificationStatus === "pending"
+          : status?.status === "pending"
           ? "Great! Your credentials are being processed for verification"
           : "Sorry! Your verification has been rejected"}
       </h2>
       <p className="text-center text-xs max-w-[594px] w-full">
-        {status?.verificationStatus === "accepted"
-          ? "We are pleased to inform you that your Know Your Customer (KYC) verification has been successfully completed. You can now continue using our system without any interruptions."
-          : status?.verificationStatus === "pending"
-          ? `We wanted to inform you that your Know Your Customer (KYC) verification is currently pending as our team is in the process of reviewing your submitted credentials.
+        {status?.status === "accepted"
+          ? "We are pleased to inform you that your Organization verification has been successfully completed. You can now continue using our system without any interruptions."
+          : status?.status === "pending"
+          ? `We wanted to inform you that your Organization verification is currently pending as our team is in the process of reviewing your submitted credentials.
 Please rest assured that we are working diligently to complete the verification as soon as possible`
           : status?.resultText}
       </p>
@@ -84,7 +82,7 @@ Please rest assured that we are working diligently to complete the verification 
         >
           Explore Artworks
         </Button>
-        {status?.verificationStatus !== "accepted" && (
+        {status?.status !== "accepted" && (
           <LoadingButton
             loading={loading}
             variant="outlined"
@@ -100,10 +98,10 @@ Please rest assured that we are working diligently to complete the verification 
           Status: <h4 className=" font-bold">{status?.verificationStatus}</h4>
         </div>
         <div>
-          {status.verificationStatus === "rejected" ? "Reason" : "Message"}:{" "}
+          {status.status=== "rejected" ? "Reason" : "Message"}:{" "}
           <h4 className=" font-bold">{status?.resultText}</h4>
         </div>
-        {status.verificationStatus !== "verified" && (
+        {status.status!== "verified" && (
           <LoadingButton
             loading={loading}
             className="style-1"

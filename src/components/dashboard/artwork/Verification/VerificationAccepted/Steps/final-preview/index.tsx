@@ -87,19 +87,21 @@ const FinalPreview: React.FC<Props> = ({
   return (
     <Stack>
       {/* <div className=" flex flex-col items-center  certificate" ref={ref}> */}
-      <ArtPieceCertificate
-        artPiece={artPiece?.artPiece}
-        signatureImage={signatureImage || artPiece?.artPiece?.signature}
-        qrImage={qrImage || artPiece?.artPiece?.qrCode}
-        tokenized={
-          artPiece?.artPiece?.lazyMintedVoucher ||
-          data?.data?.artPiece?.lazyMintedVoucher
-        }
-      />
+      <div className="max-w-[900px] w-full">
+        <ArtPieceCertificate
+          artPiece={artPiece?.artPiece}
+          signatureImage={signatureImage || artPiece?.artPiece?.signature}
+          qrImage={qrImage || artPiece?.artPiece?.qrCode}
+          tokenized={
+            artPiece?.artPiece?.lazyMintedVoucher ||
+            data?.data?.artPiece?.lazyMintedVoucher
+          }
+        />
+      </div>
       {/* </div> */}
       <Stack
         spacing={2}
-        className="mt-4"
+        className="mt-8"
         direction={{ xs: "column", sm: "row" }}
       >
         <LoadingButton

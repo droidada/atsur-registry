@@ -36,6 +36,7 @@ import Image from "next/image";
 import moment from "moment";
 import { SlLink } from "react-icons/sl";
 import {
+  MdDelete,
   MdLocationPin,
   MdMailOutline,
   MdOutlineLocalPhone,
@@ -78,6 +79,12 @@ function Organization({ organizations }) {
   const [listedUsers, setListedUsers] = useState<IArtist[]>([]);
   const axiosAuth = useAxiosAuth();
   const router = useRouter();
+  const id = router.query.id;
+
+  console.log(organizations);
+
+  console.log(router.query.id);
+
   const toast = useToast();
   const { data: session } = useSession();
   const [currentTab, setCurrentTab] = useState(0);
@@ -109,20 +116,42 @@ function Organization({ organizations }) {
           <div className="flex gap-2 items-start">
             <div
               className={`flex gap-2 items-center  ${
-                verificationStatus === true
+                organizations?.kybVerification?.status === "verified"
                   ? "text-[#18BAFF] font-[600]"
+                  : organizations?.kybVerification?.status === "rejected"
+                  ? "text-[#FF0000]"
                   : "text-secondary"
               }`}
             >
               <FaCircle />{" "}
-              <span>
-                {verificationStatus === true ? "Verified" : "Unverified"}
+              <span className="capitalize">
+                {organizations?.kybVerification?.status === "verified"
+                  ? "Verified"
+                  : organizations?.kybVerification?.status}
               </span>
             </div>
           </div>
-          {!verificationStatus && (
-            <Button variant="contained" className="bg-primary text-white">
-              Start KYC Verification
+          {organizations?.kybVerification?.status !== "verified" && (
+            <Button
+              onClick={() =>
+                ["pending", "rejected"].includes(
+                  organizations?.kybVerification?.status,
+                )
+                  ? router.push(
+                      "/dashboard/settings/security/kyb-verification/" +
+                        id +
+                        "/status",
+                    )
+                  : router.push(
+                      "/dashboard/settings/security/kyb-verification/" + id,
+                    )
+              }
+              variant="contained"
+              className="bg-primary text-white"
+            >
+              {organizations?.kybVerification?.status === "rejected"
+                ? "View Verification Status"
+                : "Start KYB Verification"}
             </Button>
           )}
         </div>
@@ -175,7 +204,7 @@ function Organization({ organizations }) {
                   variant="contained"
                   className="bg-[#FF0000] text-[12px] h-[39.71px]"
                 >
-                  Delete Organization
+                  <MdDelete size={24} />
                 </Button>
               </div>
             )}

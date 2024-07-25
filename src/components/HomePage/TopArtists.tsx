@@ -7,6 +7,7 @@ interface Props {
   artists: IPageArtist[];
 }
 const TopArtists: React.FC<Props> = ({ artists }) => {
+  console.log(artists);
   return (
     <Stack
       component={"section"}
@@ -25,8 +26,8 @@ const TopArtists: React.FC<Props> = ({ artists }) => {
       >
         {artists.map((artist, index) => (
           <Link
-            href={`/explore/artist/${artist?._id}`}
-            key={artist?._id}
+            href={`/explore/artist/${artist?.id}`}
+            key={artist?.id}
             className="relative cursor-pointer hover:scale-95 duration-700 flex flex-col gap-2 items-center"
           >
             <Avatar

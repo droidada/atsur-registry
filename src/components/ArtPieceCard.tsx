@@ -27,7 +27,7 @@ const ArtPieceCard: React.FC<Props> = ({
         alt={title}
         width={281}
         height={273}
-        className="object-cover h-[281px]"
+        className="object-cover h-[281px] w-full "
       />
       <Stack
         direction={"column"}
