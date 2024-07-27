@@ -11,6 +11,9 @@ export default interface IArtistDetails {
   username: string;
   website: string;
   avatar?: string; // Optional field as it might not always be present
+  isFollowing?: boolean;
+  follower?: number;
+  following?: number;
 }
 
 interface SocialLinks {

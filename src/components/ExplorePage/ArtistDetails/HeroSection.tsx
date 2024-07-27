@@ -17,11 +17,6 @@ const HeroSection: React.FC<Props> = ({ backgroundImg, avatar, name }) => {
         height={224}
         className="w-full h-[224px] bg-primary object-cover"
       />
-      <Avatar
-        className=" w-[150px] h-[150px]  md:w-[204px] md:h-[204px] absolute left-[5%] -bottom-[15%] lg:-bottom-[50%]"
-        src={avatar}
-        alt={name}
-      />
     </div>
   );
 };

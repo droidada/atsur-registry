@@ -7,22 +7,17 @@ interface Props {
 const NoData: React.FC<Props> = ({ text }) => {
   return (
     <div className="h-[250px] grid place-items-center">
-      <div className="flex gap-2">
+      <div className="flex flex-col items-center gap-2">
         <Image
-          src="/images/no-data.png"
-          width={119}
-          height={130}
-          className="object-contain"
-          alt=""
+          src={"/images/empty-wallet.svg"}
+          width={150}
+          height={150}
+          alt="empty"
         />
-        <div className="flex flex-col gap-2">
-          <h3 className="lg:leading-[66px] font-[700] text-2xl lg:text-[66px]">
-            OOPS!!!
-          </h3>
-          <p className="font-[500] text-lg lg:text-[22px] leading-[16px]">
-            {text}
-          </p>
-        </div>
+
+        <p className="font-[500] text-lg lg:text-[22px] leading-[16px]">
+          {text}
+        </p>
       </div>
     </div>
   );

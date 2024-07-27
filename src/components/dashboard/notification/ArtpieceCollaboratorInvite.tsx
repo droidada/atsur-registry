@@ -11,33 +11,17 @@ import React from "react";
 interface Props {
   notification: INotification;
   refetch: any;
+  mutate: any;
 }
 const ArtpieceCollaboratorInvite: React.FC<Props> = ({
   notification,
   refetch,
+  mutate,
 }) => {
   const { data: session } = useSession();
   const router = useRouter();
   const axiosAuth = useAxiosAuth();
   const toast = useToast();
-
-  const { mutate, isLoading } = useMutation({
-    mutationFn: () =>
-      notification?.read
-        ? axiosAuth.put(`/notifications/unread/${notification?._id}`)
-        : axiosAuth.put(`/notifications/read/${notification?._id}`),
-    onError: (error: any) => {
-      toast.error(
-        error?.response?.data?.message ||
-          error?.message ||
-          "Something went wrong",
-      );
-    },
-    onSuccess: () => {
-      toast.success("Notification marked as read");
-      refetch();
-    },
-  });
 
   const handleClick = async () => {
     if (
@@ -94,7 +78,7 @@ const ArtpieceCollaboratorInvite: React.FC<Props> = ({
       <LoadingButton
         onClick={(e) => {
           e.stopPropagation();
-          //   mutate();
+          mutate();
         }}
         loading={false}
         className="bg-secondary w-fit rounded-full text-xs font-[300] text-primary"
