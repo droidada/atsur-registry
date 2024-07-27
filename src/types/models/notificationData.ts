@@ -27,6 +27,7 @@ interface INotification {
     | "art-piece-artist-invite"
     | "art-piece-org-invite"
     | "art-piece-collaborator-invite"
-    | "collection-created";
+    | "collection-created"
+    | "new-following";
   _id: string;
 }

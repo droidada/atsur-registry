@@ -1,13 +1,11 @@
-export interface IPageArtist
-{
+export interface IPageArtist {
   id: string;
   firstName: string;
   lastName: string;
   avatar?: string;
 }
 
-export interface IRating
-{
+export interface IRating {
   1: number;
   2: number;
   3: number;
@@ -15,15 +13,13 @@ export interface IRating
   5: number;
 }
 
-export interface IArtAsset
-{
+export interface IArtAsset {
   url: string;
   dateTaken: string;
   _id: string;
 }
 
-export interface IArtPiece
-{
+export interface IArtPiece {
   _id: string;
   id: string;
   title: string;
@@ -33,27 +29,23 @@ export interface IArtPiece
   assets: IArtAsset;
 }
 
-export interface ICategory
-{
+export interface ICategory {
   _id: string;
   id: string;
   artPieces: IArtPiece[];
 }
 
-export interface IArtType
-{
+export interface IArtType {
   _id: string;
   artPieces: IArtPiece[];
 }
 
-export interface IArtCollection
-{
+export interface IArtCollection {
   categories: ICategory[];
   type: IArtType[];
 }
 
-interface IHomepageData
-{
+interface IHomepageData {
   artists: IPageArtist[];
   galleries: any[];
   curations: any[];

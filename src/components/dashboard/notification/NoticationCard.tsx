@@ -9,43 +9,32 @@ import { useRouter } from "next/router";
 import React from "react";
 import ArtpieceCollaboratorInvite from "./ArtpieceCollaboratorInvite";
 import OrgInvite from "./OrgInvite";
+import NewFollowerNotification from "./NewFollowerNotification";
 
 interface Props {
-  notification: {
-    createdAt: string;
-    invitation?: {
-      invitee: {
-        firstName: string;
-        lastName: string;
-        email: string;
-      };
-      token: string;
-      _id: string;
-    };
-    read: boolean;
-    message?: string;
-    sender?: {
-      firstName: string;
-      lastName: string;
-      email: string;
-      avatar: string;
-      id: string;
-    };
-    type:
-      | "user-invite"
-      | "sign-up"
-      | "org-created"
-      | "org-invite"
-      | "art-piece-created"
-      | "art-piece-artist-invite"
-      | "art-piece-org-invite"
-      | "art-piece-collaborator-invite"
-      | "collection-created";
-    _id: string;
-  };
+  notification: INotification;
   refetch: any;
 }
 const NoticationCard: React.FC<Props> = ({ notification, refetch }) => {
+  const axiosAuth = useAxiosAuth();
+  const toast = useToast();
+  const { mutate, isLoading } = useMutation({
+    mutationFn: (notification: INotification) =>
+      notification?.read
+        ? axiosAuth.put(`/notifications/unread/${notification?._id}`)
+        : axiosAuth.put(`/notifications/read/${notification?._id}`),
+    onError: (error: any) => {
+      toast.error(
+        error?.response?.data?.message ||
+          error?.message ||
+          "Something went wrong",
+      );
+    },
+    onSuccess: () => {
+      toast.success("Notification marked as read");
+      refetch();
+    },
+  });
   console.log(notification);
   switch (notification.type) {
     case "org-invite":
@@ -55,6 +44,16 @@ const NoticationCard: React.FC<Props> = ({ notification, refetch }) => {
         <ArtpieceCollaboratorInvite
           refetch={refetch}
           notification={notification}
+          mutate={() => mutate(notification)}
+        />
+      );
+    case "new-following":
+      return (
+        <NewFollowerNotification
+          refetch={refetch}
+          notification={notification}
+          mutate={() => mutate(notification)}
+          isLoading={isLoading}
         />
       );
     default:

@@ -24,7 +24,7 @@ const Series: React.FC<Props> = ({ artistId }) => {
     );
   }
 
-  console.log(data?.data?.series.length);
+  console.log(data?.data?.series[0]?.image);
 
   if (data?.data?.series?.length == 0) {
     return (
@@ -40,7 +40,27 @@ const Series: React.FC<Props> = ({ artistId }) => {
     );
   }
 
-  return <div>Series</div>;
+  return (
+    <div className="grid grid-cols-auto-fit gap-4">
+      {data?.data?.series?.map((serie) => (
+        <div
+          key={serie?._id}
+          className="flex max-w-[250px] items-center gap-2 flex-col"
+        >
+          <div className="w-full p-2 border-[1px] h-[279px]">
+            <Image
+              width={224.66}
+              height={279}
+              className="w-full h-full object-cover"
+              src={serie?.image}
+              alt={serie?.title}
+            />
+          </div>
+          <p>{serie?.title}</p>
+        </div>
+      ))}
+    </div>
+  );
 };
 
 export default Series;

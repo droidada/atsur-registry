@@ -1,7 +1,14 @@
 import IArtistDetails from "@/types/models/artistDetails";
 import React from "react";
 import HeroSection from "./HeroSection";
-import { Button, Divider, IconButton, Rating, Stack } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  Divider,
+  IconButton,
+  Rating,
+  Stack,
+} from "@mui/material";
 import { IoMdLink } from "react-icons/io";
 import Link from "next/link";
 import { IoShareOutline } from "react-icons/io5";
@@ -13,15 +20,47 @@ import { IoLogoFacebook } from "react-icons/io5";
 import RightSection from "./RightSection";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useMutation } from "@tanstack/react-query";
+import useAxiosAuth from "@/hooks/useAxiosAuth";
+import { useToast } from "@/providers/ToastProvider";
+import LoadingButton from "@/components/Form/LoadingButton";
 
 interface Props {
   artist: IArtistDetails;
 }
 const ArtistDetailsPage: React.FC<Props> = ({ artist }) => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   const checkUser = session?.user?._id === artist?._id;
   const router = useRouter();
+  const axiosAuth = useAxiosAuth();
+  const toast = useToast();
+
+  const { data, mutate, isLoading } = useMutation({
+    // @ts-ignore
+    mutationFn: () => {
+      if (status === "unauthenticated") {
+        toast("You need to login before you can follow a user");
+        return router.push(`/login?callbackUrl=${router.asPath}`);
+      } else {
+        return artist?.isFollowing
+          ? axiosAuth.post(`/user/unfollow/${artist?._id}`)
+          : axiosAuth.post(`/user/follow/${artist?._id}`);
+      }
+    },
+    onSuccess: (data) => {
+      console.log(data);
+      toast.success(
+        artist?.isFollowing
+          ? "You have unfollowed this user"
+          : "You are now following this user",
+      );
+      router.replace(router.asPath);
+    },
+    onError: (error: any) => {
+      console.log(error?.response?.data);
+    },
+  });
 
   return (
     <>
@@ -30,23 +69,31 @@ const ArtistDetailsPage: React.FC<Props> = ({ artist }) => {
         avatar={artist?.avatar}
         name={`${artist?.firstName} ${artist?.lastName}`}
       />
-      <Stack
-        className="gap-"
-        spacing={7}
-        direction={{ xs: "column", md: "row" }}
-      >
+      <div className="flex-col flex md:flex-row gap-12 justify-between ">
         <Stack
-          spacing={4}
           direction={"column"}
           alignItems={"center"}
-          className="mt-[15%] lg:mt-[10%]"
+          className="flex-shrink-0 w-[30%]"
         >
-          <Stack direction={"column"} alignItems={"center"}>
-            <h1 className=" text-2xl md:text-4xl lg:text-[50px] lg:leading-[70px]">
+          <Avatar
+            className=" w-[150px] h-[150px]  md:w-[204px] md:h-[204px] bottom-20 "
+            src={artist?.avatar}
+            alt={`${artist?.firstName} ${artist?.lastName}`}
+          />
+          <Stack
+            direction={"column"}
+            className="bottom-10 relative"
+            alignItems={"center"}
+            spacing={1}
+          >
+            <h1 className=" text-2xl md:text-4xl lg:text-[50px]  ">
               {artist?.firstName} {artist.lastName}
             </h1>
-            <div className="flex gap-3 items-center">
-              <span className="text-lg font-[600]">Nigeria, 50 followers</span>
+            <div className="flex items-center">
+              <span className="text-lg font-[600]">
+                Nigeria, {artist?.follower} follower
+                {artist?.follower > 1 ? "s" : ""}
+              </span>
               {/* <Rating
                 size="small"
                 readOnly
@@ -68,9 +115,15 @@ const ArtistDetailsPage: React.FC<Props> = ({ artist }) => {
 
           <div className="flex flex-col gap-4">
             <Stack direction={"row"} spacing={1}>
-              <Button className="bg-primary rounded-[37px] text-white text-[20px] leading-[16px] px-4 h-[44px] font-[600px]">
-                Follow
-              </Button>
+              {session?.user?._id !== artist?._id && (
+                <LoadingButton
+                  loading={isLoading}
+                  onClick={() => mutate()}
+                  className="bg-primary rounded-[37px] text-white text-[20px]  px-4 h-[44px] font-[600px]"
+                >
+                  {artist?.isFollowing ? "Unfollow" : "Follow"}
+                </LoadingButton>
+              )}
               <IconButton className="bg-secondary w-[43px] h-[43px]">
                 <IoShareOutline />
               </IconButton>
@@ -106,7 +159,7 @@ const ArtistDetailsPage: React.FC<Props> = ({ artist }) => {
         </Stack>
 
         <RightSection artist={artist} />
-      </Stack>
+      </div>
     </>
   );
 };
