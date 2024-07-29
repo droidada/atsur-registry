@@ -22,7 +22,7 @@ const FormContainer: React.FC<Props> = ({
 }) => {
   return (
     <Stack spacing={4}>
-      <h2 className="text-[17px] leading-[17px] font-semibold">{title}</h2>
+      {/* <h2 className="text-[17px] leading-[17px] font-semibold">{title}</h2> */}
       <form className="w-full flex flex-col " onSubmit={onSubmit}>
         {children}
         <div className="flex justify-between mt-12 items-center">

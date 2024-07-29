@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import DateInput from "@/components/Form/DateInput";
 import SwitchInput from "@/components/Form/SwitchInput";
-import SeletectOrganization from "@/components/dashboard/SeleteOrganization";
+import SelectOrganization from "@/components/dashboard/SeleteOrganization";
 import { Dropzone, FileMosaic } from "@dropzone-ui/react";
 import { FaFile } from "react-icons/fa";
 import InputField from "@/components/Form/InputField";
@@ -160,7 +160,7 @@ const CollectorInformation: React.FC<Props> = ({
           <DateInput
             labelClassName="text-sm font-[400]  leading-[16px]"
             id="date"
-            label="Date of Purchase"
+            label="Date of Acquisition"
             name="date"
             className="flex-1"
             control={control}
@@ -177,7 +177,7 @@ const CollectorInformation: React.FC<Props> = ({
             helperText={errors["isCirca"] ? errors["isCirca"].message : ""}
           />
         </div>
-        {/* <SeletectOrganization
+        {/* <SelectOrganization
           // isUserOrg
           labelClassName="text-sm font-[400]  leading-[16px"
           label=" Organization"
@@ -186,10 +186,10 @@ const CollectorInformation: React.FC<Props> = ({
           setSelectedOrg={setSelectedOrganization}
         /> */}
         <SelectField
-          labelClassName={"text-sm font-[400]  leading-[16px]"}
+          labelClassName={"text-sm font-[300] leading-[20px]"}
           label="Acquisition Type"
           name="acquisitionType"
-          selectClassName="bg-secondary capitalize"
+          selectClassName="bg-secondary"
           control={control}
           fullWidth
           helperText={
@@ -198,21 +198,21 @@ const CollectorInformation: React.FC<Props> = ({
           error={!!errors["acquisitionType"]}
         >
           {[
-            "direct",
-            "broker",
-            "auction",
-            "donation",
-            "inheritance",
-            "gift",
-            "salvage",
-            "other",
+            {name: "direct", value: "Directly from the artist"},
+            {name: "broker", value: "From a gallery or representative of the artist"},
+            {name: "auction", value: "From an auction"},
+            {name: "donation", value: "It was donated"},
+            {name: "inheritance", value: "You inherited the art piece"},
+            {name: "gift", value: "It was gifted to the institution"},
+            {name: "salvage", value: "It was salvaged and restored from being discarded"},
+            {name: "other", value: "Another option not listed above"},
           ].map((item) => (
             <MenuItem
-              key={item}
-              value={item}
+              key={item.name}
+              value={item.value}
               className="text-xm capitalize bg-secondary"
             >
-              {item}
+              {item.value}
             </MenuItem>
           ))}
         </SelectField>
@@ -276,7 +276,7 @@ const CollectorInformation: React.FC<Props> = ({
         </SelectField>
 
         {methodOfPurchase === "organization" && (
-          <SeletectOrganization
+          <SelectOrganization
             isUserOrg
             className="col-span-2"
             label="Organization"

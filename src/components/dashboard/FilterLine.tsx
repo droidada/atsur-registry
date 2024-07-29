@@ -23,9 +23,9 @@ const FilterLine: React.FC<Props> = ({ title, setView, view }) => {
         {title}
       </h2>
       <Stack direction="row" spacing={2} alignContent="center">
-        <CustomMenu Icon={BsShare} title="Share">
+        {/* <CustomMenu Icon={BsShare} title="Share">
           <MenuItem>Share on Facebook</MenuItem>
-        </CustomMenu>
+        </CustomMenu> */}
         <CustomMenu Icon={HiOutlineMenu} title="Filter">
           <MenuItem>Artpiece</MenuItem>
           <MenuItem>Artifact</MenuItem>

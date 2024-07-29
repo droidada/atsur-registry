@@ -10,7 +10,7 @@ import SwitchInput from "@/components/Form/SwitchInput";
 import { MenuItem } from "@mui/material";
 import SelectField from "@/components/Form/SelectField";
 import { useToast } from "@/providers/ToastProvider";
-import SeletectOrganization from "@/components/dashboard/SeleteOrganization";
+import SelectOrganization from "@/components/dashboard/SeleteOrganization";
 import InputField from "@/components/Form/InputField";
 import VerificationFileDroper from "../VerificationFileDroper";
 import { useMutation } from "@tanstack/react-query";
@@ -181,7 +181,6 @@ const InstitutionInformation = ({
   };
 
   const boughtFromOrganization = watch("boughtFromOrganization");
-  const methodOfPurchase = watch("methodOfPurchase");
 
   console.log(myOrganization);
 
@@ -194,19 +193,21 @@ const InstitutionInformation = ({
       publishIsLoading={currentSubmitType === "publish" && isLoading}
     >
       <div className="grid md:grid-cols-2 gap-4">
-        {/* <SeletectOrganization
-          isUserOrg
-          labelClassName="text-sm font-[400]  leading-[16px"
-          label="Your Organization"
-          className="col-span-2 mb-4"
-          selectedOrg={myOrganization}
-          setSelectedOrg={setMyOrganization}
-        /> */}
+
         <div className="flex gap-2 col-span-2 items-center">
+          <SelectOrganization
+              isUserOrg
+              className="col-span-2 "
+              label="Tell us more about your Organization"
+              selectedOrg={myOrganization}
+              setSelectedOrg={setMyOrganization}
+            />
+          </div>
+          <div className="flex gap-2 col-span-2 items-center">
           <DateInput
             labelClassName="text-sm font-[400]  leading-[16px]"
             id="date"
-            label="Date of Purchase"
+            label="Date of Acquisition"
             name="date"
             className="flex-1"
             control={control}
@@ -215,7 +216,7 @@ const InstitutionInformation = ({
             maxDate={new Date().toDateString()}
           />
           <SwitchInput
-            label="Is Circa"
+            label="Is Circa?"
             name="isCirca"
             labelClassName="text-sm font-[400]  leading-[16px]"
             control={control}
@@ -236,21 +237,21 @@ const InstitutionInformation = ({
           error={!!errors["acquisitionType"]}
         >
           {[
-            "direct",
-            "broker",
-            "auction",
-            "donation",
-            "inheritance",
-            "gift",
-            "salvage",
-            "other",
+            {name: "direct", value: "directly from the artist"},
+            {name: "broker", value: "from a gallery or representative of the artist"},
+            {name: "auction", value: "from an auction"},
+            {name: "donation", value: "it was donated"},
+            {name: "inheritance", value: "you inherited the artwork"},
+            {name: "gift", value: "it was gifted to the institution"},
+            {name: "salvage", value: "it was salvaged and restored from being discarded"},
+            {name: "other", value: "another option not listed above"},
           ].map((item) => (
             <MenuItem
-              key={item}
-              value={item}
+              key={item.name}
+              value={item.value}
               className="text-xm capitalize bg-secondary"
             >
-              {item}
+              {item.value}
             </MenuItem>
           ))}
         </SelectField>
@@ -287,7 +288,7 @@ const InstitutionInformation = ({
           ))}
         </SelectField>
         <SwitchInput
-          label="Bought from Organization?"
+          label="Did you acquire from an organization?"
           className="w-fit"
           name="boughtFromOrganization"
           labelClassName="text-sm font-[400]  leading-[16px]"
@@ -300,9 +301,9 @@ const InstitutionInformation = ({
           }
         />
         {boughtFromOrganization === true && (
-          <SeletectOrganization
+          <SelectOrganization
             className=""
-            label="Organization"
+            label="Please add the organization"
             selectedOrg={selectedOrganization}
             setSelectedOrg={setSelectedOrganization}
           />
@@ -310,48 +311,14 @@ const InstitutionInformation = ({
       </div>
       <InviteUsers
         labelClassName="text-sm font-[400] leading-[16px"
-        label="Artist"
+        label="Who is the Artist?"
+        placeholder="Type to search for the artist"
         className="mt-4 col-span-2 "
         selectedUsers={artist}
         setSelectedUsers={setArtist}
       />
-      <SelectField
-        labelClassName={"text-sm font-[400]   leading-[16px]"}
-        className="col-span-2 my-4"
-        label="Method of Purchase"
-        name="methodOfPurchase"
-        selectClassName="bg-secondary  capitalize"
-        control={control}
-        fullWidth
-        helperText={
-          errors["methodOfPurchase"] ? errors["methodOfPurchase"].message : ""
-        }
-        error={!!errors["methodOfPurchase"]}
-      >
-        <MenuItem value="" disabled selected>
-          How did you purchase the artpiece?
-        </MenuItem>
-        {["organization", "individual"].map((item) => (
-          <MenuItem
-            key={item}
-            value={item}
-            className=" capitalize bg-secondary"
-          >
-            As an {item}
-          </MenuItem>
-        ))}
-      </SelectField>
 
-      {methodOfPurchase === "organization" && (
-        <SeletectOrganization
-          isUserOrg
-          className="col-span-2 "
-          label="My Organization"
-          selectedOrg={myOrganization}
-          setSelectedOrg={setMyOrganization}
-        />
-      )}
-      <div className="col-span-2 mt-8 flex gap-4 justify-between">
+      <div className="col-span-2 mt-8 gap-4 justify-between">
         <VerificationFileDroper
           label="Acquisition Document"
           fileName={file.filename}
@@ -365,9 +332,7 @@ const InstitutionInformation = ({
           name="acquisitionDocumentCaption"
           tabIndex={2}
           labelClassName="font-[400]"
-          inputClassName="bg-secondary-white w-full h-[141px] "
-          multiline
-          rows={3}
+          inputClassName="bg-secondary-white w-full "
           aria-required={true}
           fullWidth
           error={!!errors["acquisitionDocumentCaption"]}

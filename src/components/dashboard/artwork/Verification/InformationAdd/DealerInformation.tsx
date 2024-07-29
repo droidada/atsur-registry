@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import FormContainer from "./formContainer";
 import { Stack } from "@mui/material";
-import SeletectOrganization from "@/components/dashboard/SeleteOrganization";
+import SelectOrganization from "@/components/dashboard/SeleteOrganization";
 import CommisionSplit from "@/components/dashboard/CommisionSplit";
 import VerificationFileDroper from "../VerificationFileDroper";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
@@ -160,7 +160,7 @@ const DealerInformation = ({ setActiveIndex, defaultValues, artPieceId }) => {
       publishIsLoading={currentSubmitType === "publish" && isLoading}
     >
       <Stack spacing={4}>
-        <SeletectOrganization
+        <SelectOrganization
           // isUserOrg
           labelClassName="text-sm font-[400]  leading-[16px"
           label=" Organization"

@@ -78,6 +78,17 @@ export const dashboardSidebarMenu = [
         link: "/dashboard/collections",
       },
       {
+        title: "Deals",
+        icon: "/images/dashboard-icons/deal-icon.png",
+        link: "/dashboard/Deals",
+      },
+
+    ],
+  },
+  {
+    title: "Interactions",
+    menus: [
+      {
         title: "Organizations",
         icon: "/images/dashboard-icons/organization-icon.png",
         link: "/dashboard/organizations",
@@ -86,16 +97,6 @@ export const dashboardSidebarMenu = [
         title: "Wishlist",
         icon: "/images/dashboard-icons/wishlist.png",
         link: "/dashboard/Wishlist",
-      },
-    ],
-  },
-  {
-    title: "Engagement",
-    menus: [
-      {
-        title: "Deals",
-        icon: "/images/dashboard-icons/deal-icon.png",
-        link: "/dashboard/Deals",
       },
     ],
   },
