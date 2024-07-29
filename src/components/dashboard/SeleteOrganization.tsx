@@ -39,7 +39,7 @@ const SelectOrganization: React.FC<Props> = ({
   sx,
   label,
   labelClassName,
-  placeholder= "Type to search for organization"
+  placeholder = "Type to search for organization",
 }) => {
   const axiosFetch = useAxiosAuth();
   const [inviteOrg, setInviteOrg] = useState(false);
@@ -89,7 +89,7 @@ const SelectOrganization: React.FC<Props> = ({
             inputProps={{
               ...params.inputProps,
               className: "bg-white focus:border-none focus:outline-none",
-              placeholder: placeholder
+              placeholder: placeholder,
             }}
             InputProps={{
               ...params.InputProps,

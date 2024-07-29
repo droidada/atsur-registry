@@ -207,7 +207,6 @@ function ArtPiece({ artPiece }) {
           <h1 className=" text-3xl md:text-4xl lg:text-6xl font-[400]">
             {artPiece?.title}
           </h1>
-
         </Stack>
       </Stack>
       <Stack spacing={4} className="flex-1 w-full">

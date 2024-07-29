@@ -11,14 +11,29 @@ interface Props {
 }
 
 const informationToAdd = [
-  { title: "Artist", value: "artist", image: "/images/artist.png", text: "I am the artist and creator of the piece" },
-  { title: "Broker", value: "broker", image: "/images/dealer.png", text: "I am the gallery or broker representing the artist to sell" },
-  { title: "Collector", value: "collector", image: "/images/collector.png", text: "I purchased this piece from the artist or representative" },
+  {
+    title: "Artist",
+    value: "artist",
+    image: "/images/artist.png",
+    text: "I am the artist and creator of the piece",
+  },
+  {
+    title: "Broker",
+    value: "broker",
+    image: "/images/dealer.png",
+    text: "I am the gallery or broker representing the artist to sell",
+  },
+  {
+    title: "Collector",
+    value: "collector",
+    image: "/images/collector.png",
+    text: "I purchased this piece from the artist or representative",
+  },
   {
     title: "Institution",
     value: "institution",
     image: "/images/institution.png",
-    text: "I am an institution holding the piece on behalf of the artist or representative"
+    text: "I am an institution holding the piece on behalf of the artist or representative",
   },
 ];
 
@@ -61,7 +76,9 @@ const ArtVerificationAquisition: React.FC<Props> = ({
         ))}
       </div>
       <h2 className="text-[25px] w-fi leading-[17px] font-[300] center">
-        {`${informationToAdd.find(x => x.value === selectedInformationAdd).text}`}
+        {`${
+          informationToAdd.find((x) => x.value === selectedInformationAdd).text
+        }`}
       </h2>
       <div className="w-full flex justify-center mt-8 mx-auto">
         <Button

@@ -193,17 +193,16 @@ const InstitutionInformation = ({
       publishIsLoading={currentSubmitType === "publish" && isLoading}
     >
       <div className="grid md:grid-cols-2 gap-4">
-
         <div className="flex gap-2 col-span-2 items-center">
           <SelectOrganization
-              isUserOrg
-              className="col-span-2 "
-              label="Tell us more about your Organization"
-              selectedOrg={myOrganization}
-              setSelectedOrg={setMyOrganization}
-            />
-          </div>
-          <div className="flex gap-2 col-span-2 items-center">
+            isUserOrg
+            className="col-span-2 "
+            label="Tell us more about your Organization"
+            selectedOrg={myOrganization}
+            setSelectedOrg={setMyOrganization}
+          />
+        </div>
+        <div className="flex gap-2 col-span-2 items-center">
           <DateInput
             labelClassName="text-sm font-[400]  leading-[16px]"
             id="date"
@@ -237,14 +236,20 @@ const InstitutionInformation = ({
           error={!!errors["acquisitionType"]}
         >
           {[
-            {name: "direct", value: "directly from the artist"},
-            {name: "broker", value: "from a gallery or representative of the artist"},
-            {name: "auction", value: "from an auction"},
-            {name: "donation", value: "it was donated"},
-            {name: "inheritance", value: "you inherited the artwork"},
-            {name: "gift", value: "it was gifted to the institution"},
-            {name: "salvage", value: "it was salvaged and restored from being discarded"},
-            {name: "other", value: "another option not listed above"},
+            { name: "direct", value: "directly from the artist" },
+            {
+              name: "broker",
+              value: "from a gallery or representative of the artist",
+            },
+            { name: "auction", value: "from an auction" },
+            { name: "donation", value: "it was donated" },
+            { name: "inheritance", value: "you inherited the artwork" },
+            { name: "gift", value: "it was gifted to the institution" },
+            {
+              name: "salvage",
+              value: "it was salvaged and restored from being discarded",
+            },
+            { name: "other", value: "another option not listed above" },
           ].map((item) => (
             <MenuItem
               key={item.name}

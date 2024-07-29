@@ -198,14 +198,20 @@ const CollectorInformation: React.FC<Props> = ({
           error={!!errors["acquisitionType"]}
         >
           {[
-            {name: "direct", value: "Directly from the artist"},
-            {name: "broker", value: "From a gallery or representative of the artist"},
-            {name: "auction", value: "From an auction"},
-            {name: "donation", value: "It was donated"},
-            {name: "inheritance", value: "You inherited the art piece"},
-            {name: "gift", value: "It was gifted to the institution"},
-            {name: "salvage", value: "It was salvaged and restored from being discarded"},
-            {name: "other", value: "Another option not listed above"},
+            { name: "direct", value: "Directly from the artist" },
+            {
+              name: "broker",
+              value: "From a gallery or representative of the artist",
+            },
+            { name: "auction", value: "From an auction" },
+            { name: "donation", value: "It was donated" },
+            { name: "inheritance", value: "You inherited the art piece" },
+            { name: "gift", value: "It was gifted to the institution" },
+            {
+              name: "salvage",
+              value: "It was salvaged and restored from being discarded",
+            },
+            { name: "other", value: "Another option not listed above" },
           ].map((item) => (
             <MenuItem
               key={item.name}

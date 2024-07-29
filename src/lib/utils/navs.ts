@@ -82,7 +82,6 @@ export const dashboardSidebarMenu = [
         icon: "/images/dashboard-icons/deal-icon.png",
         link: "/dashboard/Deals",
       },
-
     ],
   },
   {
