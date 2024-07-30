@@ -20,9 +20,11 @@ function Dashboard() {
       description: "",
       medium: "",
       subjectMatter: "",
-      height: 0,
-      width: 0,
-      depth: 0,
+      dimensions: {
+        height: 0,
+        width: 0,
+        depth: 0,
+      },
       rarity: "",
       type: "",
       price: {
@@ -51,7 +53,7 @@ function Dashboard() {
         Create Artwork
       </h1>
       <Stack direction={"row"} className="overflow-x-auto " spacing={2}>
-        {["illustration", "Assets", "Pricing", "Preview"].map((item, index) => (
+        {["Metadata", "Assets", "Pricing", "Preview"].map((item, index) => (
           <div
             key={`active-bar-${item}`}
             className="flex-shrink-0 lg:flex-shrink flex flex-col max-w-[312px] w-full gap-2"

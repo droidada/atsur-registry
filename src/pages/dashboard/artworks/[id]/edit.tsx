@@ -72,7 +72,7 @@ function EditArtpiece({ artPiece }) {
         Edit Artwork
       </h1>
       <Stack direction={"row"} className="overflow-x-auto " spacing={2}>
-        {["illustration", "Assets", "Price", "Preview"].map((item, index) => (
+        {["Metadata", "Assets", "Price", "Preview"].map((item, index) => (
           <div
             key={`active-bar-${item}`}
             className="flex-shrink-0 lg:flex-shrink flex flex-col max-w-[312px] w-full gap-2"
