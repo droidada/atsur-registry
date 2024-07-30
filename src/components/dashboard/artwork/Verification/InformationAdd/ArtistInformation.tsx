@@ -72,7 +72,7 @@ const ArtistInformation: React.FC<Props> = ({
     onSuccess: (data) => {
       if (currentSubmitType === "save") {
         toast.success("Data saved successfully");
-        if (sellerType == "broker") {
+        if (sellerType === "broker") {
           setActiveIndex((prevIndex) => prevIndex + 1);
         } else {
           router.replace(router.asPath);
@@ -81,7 +81,7 @@ const ArtistInformation: React.FC<Props> = ({
         // setActiveIndex((prevIndex) => prevIndex + 1);
       } else {
         toast.success("Data published successfully");
-        if (sellerType == "broker") {
+        if (sellerType === "broker") {
           setActiveIndex((prevIndex) => prevIndex + 1);
         } else {
           router.replace(router.asPath);
@@ -144,7 +144,6 @@ const ArtistInformation: React.FC<Props> = ({
     const formData = new FormData();
     formData.append("save", JSON.stringify(save));
     formData.append("story", data.story);
-    formData.append("videoCaption", data.videoCaption);
     formData.append("isSeries", data.isSeries == "yes" ? "true" : "false");
     formData.append("planToSell", data.planToSell === "yes" ? "true" : "false");
     data.planToSell === "yes" && formData.append("sellerType", data.sellerType);
@@ -155,6 +154,9 @@ const ArtistInformation: React.FC<Props> = ({
       );
     attachments?.video?.file &&
       formData.append("video", attachments?.video?.file);
+
+    attachments?.video?.file &&
+      formData.append("videoCaption", data.videoCaption);
 
     data.isSeries == "yes" && formData.append("series", selectedSeries);
 
@@ -230,7 +232,7 @@ const ArtistInformation: React.FC<Props> = ({
           {planToSell === "yes" && (
             <SelectField
               labelClassName={"text-sm font-[400]  "}
-              label="Sell As"
+              label="How?"
               id="sellerType"
               name="sellerType"
               selectClassName="bg-secondary capitalize"
@@ -252,9 +254,11 @@ const ArtistInformation: React.FC<Props> = ({
                       handleRemoveDealerStep();
                     }
                   }}
-                  className="text-xm capitalize bg-secondary"
+                  className="text-xm bg-secondary"
                 >
-                  {item === "individual" ? "An individual" : "A broker"}
+                  {item === "individual"
+                    ? "As an individual"
+                    : "Through a broker"}
                 </MenuItem>
               ))}
             </SelectField>

@@ -47,7 +47,8 @@ const PdfCertificate = forwardRef(
                   </h4>
                   <h4>
                     <span className="text-golden">SIZE: </span>{" "}
-                    {artPiece?.width} x {artPiece?.height} Inches
+                    {artPiece?.dimensions?.width} x{" "}
+                    {artPiece?.dimensions?.height} Inches
                   </h4>
                 </div>
               </div>

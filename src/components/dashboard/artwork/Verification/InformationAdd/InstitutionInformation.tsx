@@ -158,8 +158,8 @@ const InstitutionInformation = ({
       "boughtFromOrganization",
       JSON.stringify(values.boughtFromOrganization),
     );
-    formData.append("acquisitioPurpose", values.acquisitionPurpose);
-    formData.append("aquisitionType", values.acquisitionType);
+    formData.append("acquisitionPurpose", values.acquisitionPurpose);
+    formData.append("acquisitionType", values.acquisitionType);
     selectedOrganization &&
       formData.append(
         "organization",

@@ -114,20 +114,20 @@ const DealerInformation = ({ setActiveIndex, defaultValues, artPieceId }) => {
 
     if (checkMainArtistRole.length > 1) {
       toast.error(
-        "Only one main artist role is allowed, for commision split broker",
+        "Only one main artist role is allowed, for commission split broker",
       );
       return;
     }
 
     if (checkMainArtistRole.length === 0) {
-      toast.error("Main artist is required for commision split broker");
+      toast.error("Main artist is required for commission split broker");
       return;
     }
 
     setCurrentSubmitType(buttonClicked);
 
     if (!agreementDocument?.file && !defaultValues?.agreementAttachment) {
-      toast.error("Agrement document is required");
+      toast.error("Agreement document is required");
       return;
     }
     if (Object.keys(errorTree).length > 0) {

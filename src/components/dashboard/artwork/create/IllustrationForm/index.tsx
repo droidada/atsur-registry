@@ -113,9 +113,9 @@ const IllustrationForm: React.FC<Props> = ({
   useEffect(() => {
     setValue("title", formData?.illustration?.title);
     setValue("description", formData?.illustration?.description);
-    setValue("height", String(formData?.illustration?.height));
-    setValue("width", String(formData?.illustration?.width));
-    setValue("depth", String(formData?.illustration?.depth));
+    setValue("height", String(formData?.illustration?.dimensions?.height));
+    setValue("width", String(formData?.illustration?.dimensions?.width));
+    setValue("depth", String(formData?.illustration?.dimensions?.depth ?? 0));
     setValue("rarity", formData?.illustration?.rarity);
     setValue("medium", formData?.illustration?.medium);
     setValue("subjectMatter", formData?.illustration?.subjectMatter);
