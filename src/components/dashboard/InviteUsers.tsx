@@ -32,6 +32,7 @@ interface Props {
   isMultiple?: boolean;
   isBrokerInvite?: boolean;
   removeUser?: (email: string) => void;
+  placeholder?: string;
 }
 
 const InviteUsers: React.FC<Props> = ({
@@ -43,6 +44,7 @@ const InviteUsers: React.FC<Props> = ({
   isMultiple,
   isBrokerInvite,
   removeUser,
+  placeholder = "Type to search",
 }) => {
   const axiosFetch = useAxiosAuth();
   const toast = useToast();
@@ -109,6 +111,7 @@ const InviteUsers: React.FC<Props> = ({
             inputProps={{
               ...params.inputProps,
               className: "bg-white focus:border-none focus:outline-none",
+              placeholder: placeholder,
             }}
             InputProps={{
               ...params.InputProps,

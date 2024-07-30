@@ -1,12 +1,4 @@
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import Image from "@/components/common/image";
-import { Menu } from "@headlessui/react";
-import DashboardLayoutWithSidebar, {
-  DashboardPages,
-} from "@/open9/layout/DashboardLayoutWithSidebar";
-import AutoSlider1 from "@/open9/slider/AutoSlider1";
-import AutoSlider2 from "@/open9/slider/AutoSlider2";
+import { useState } from "react";
 import ProtectedPage from "@/HOC/Protected";
 
 function Activities() {

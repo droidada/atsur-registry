@@ -17,10 +17,6 @@ export const options: any = {
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
     }),
-    LinkedInProvider({
-      clientId: process.env.LINKEDIN_ID,
-      clientSecret: process.env.LINKEDIN_SECRET,
-    }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {

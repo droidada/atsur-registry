@@ -11,13 +11,29 @@ interface Props {
 }
 
 const informationToAdd = [
-  { title: "Artist", value: "artist", image: "/images/artist.png" },
-  { title: "Broker", value: "broker", image: "/images/dealer.png" },
-  { title: "Collector", value: "collector", image: "/images/collector.png" },
+  {
+    title: "Artist",
+    value: "artist",
+    image: "/images/artist.png",
+    text: "I am the artist and creator of the piece",
+  },
+  {
+    title: "Broker",
+    value: "broker",
+    image: "/images/dealer.png",
+    text: "I am the gallery or broker representing the artist to sell",
+  },
+  {
+    title: "Collector",
+    value: "collector",
+    image: "/images/collector.png",
+    text: "I purchased this piece from the artist or representative",
+  },
   {
     title: "Institution",
     value: "institution",
     image: "/images/institution.png",
+    text: "I am an institution holding the piece on behalf of the artist or representative",
   },
 ];
 
@@ -27,9 +43,9 @@ const ArtVerificationAquisition: React.FC<Props> = ({
   selectedInformationAdd,
 }) => {
   return (
-    <Stack className="mt-8" spacing={4}>
-      <h2 className="text-[15px] w-fi leading-[17px] font-[300]">
-        How do you come about this piece?
+    <Stack className="mt-8 items-center" spacing={4}>
+      <h2 className="text-[20px] w-fi leading-[17px] font-[600] center">
+        How did you come to be a custodian of this piece?
       </h2>
       <div className="flex gap-4 md:items-start justify-between items-center lg:flex-nowrap flex-wrap">
         {informationToAdd?.map((item, index) => (
@@ -59,6 +75,11 @@ const ArtVerificationAquisition: React.FC<Props> = ({
           </div>
         ))}
       </div>
+      <h2 className="text-[25px] w-fi leading-[17px] font-[300] center">
+        {`${
+          informationToAdd.find((x) => x.value === selectedInformationAdd).text
+        }`}
+      </h2>
       <div className="w-full flex justify-center mt-8 mx-auto">
         <Button
           disabled={!selectedInformationAdd}

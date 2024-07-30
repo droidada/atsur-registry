@@ -64,7 +64,9 @@ function MainVerification({ artPiece }: Props) {
                   activeIndex === index ? "font-bold" : ""
                 }`}
               >
-                {item === "information" ? selectedInformationAdd : item}
+                {item === "information"
+                  ? `${selectedInformationAdd} Information`
+                  : item}
               </span>
               <span
                 className={`h-[7px] w-full rounded-[23px]  ${

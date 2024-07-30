@@ -28,9 +28,10 @@ interface Props {
   sx?: React.CSSProperties;
   label?: string;
   labelClassName?: string;
+  placeholder?: string;
 }
 
-const SeletectOrganization: React.FC<Props> = ({
+const SelectOrganization: React.FC<Props> = ({
   selectedOrg,
   setSelectedOrg,
   isUserOrg,
@@ -38,6 +39,7 @@ const SeletectOrganization: React.FC<Props> = ({
   sx,
   label,
   labelClassName,
+  placeholder = "Type to search for organization",
 }) => {
   const axiosFetch = useAxiosAuth();
   const [inviteOrg, setInviteOrg] = useState(false);
@@ -87,6 +89,7 @@ const SeletectOrganization: React.FC<Props> = ({
             inputProps={{
               ...params.inputProps,
               className: "bg-white focus:border-none focus:outline-none",
+              placeholder: placeholder,
             }}
             InputProps={{
               ...params.InputProps,
@@ -112,7 +115,7 @@ const SeletectOrganization: React.FC<Props> = ({
               onClick={() => setInviteOrg(true)}
               className="bg-primary text-xs font-[400] text-white"
             >
-              Invite Organization
+              Invite The Organization
             </Button>
           </div>
         }
@@ -127,7 +130,7 @@ const SeletectOrganization: React.FC<Props> = ({
   );
 };
 
-export default SeletectOrganization;
+export default SelectOrganization;
 
 interface AddOrganizationProps {
   open: boolean;

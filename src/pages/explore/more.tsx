@@ -1,19 +1,6 @@
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useState } from "react";
 import axios from "@/lib/axios";
-import BidModal from "@/open9/elements/BidModal";
-import Layout from "@/open9/layout/Layout";
-import Image from "next/image";
-import { FaUser } from "react-icons/fa";
-import {
-  Button,
-  Card,
-  Pagination,
-  Skeleton,
-  Stack,
-  Switch,
-  Typography,
-} from "@mui/material";
+import { Button, Pagination } from "@mui/material";
 import ExploreLeft from "@/components/common/ExploreLeft";
 import ArtPieceCard from "@/components/common/ArtPieceCard";
 import ArtPieceLoading from "@/components/common/ArtPieceLoading";

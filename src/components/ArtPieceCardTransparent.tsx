@@ -43,7 +43,7 @@ const ArtPieceCardTransparent: React.FC<Props> = ({
         </h3>
         <div>
           <p className="text-sm tracking-[1%]">
-            Created by <span className="font-[600]">{creator?.name}</span>
+            Added by <span className="font-[600]">{creator?.name}</span>
           </p>
           <div className="flex gap-4 items-center">
             <div className="flex gap-2 items-center">
