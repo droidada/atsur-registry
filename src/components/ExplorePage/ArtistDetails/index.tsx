@@ -6,6 +6,12 @@ import {
   Button,
   Divider,
   IconButton,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+  MenuList,
+  Paper,
   Rating,
   Stack,
 } from "@mui/material";
@@ -24,6 +30,7 @@ import { useMutation } from "@tanstack/react-query";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useToast } from "@/providers/ToastProvider";
 import LoadingButton from "@/components/Form/LoadingButton";
+import { TbMessage } from "react-icons/tb";
 
 interface Props {
   artist: IArtistDetails;
@@ -61,6 +68,60 @@ const ArtistDetailsPage: React.FC<Props> = ({ artist }) => {
       console.log(error?.response?.data);
     },
   });
+
+  function MoreOptionButton() {
+    const { mutate } = useMutation({
+      mutationFn: () =>
+        axiosAuth.post(`/conversation/start-conversation/`, {
+          participantId: artist?._id,
+        }),
+      onSuccess: (data) => {
+        console.log(data);
+        router.push(`/dashboard/messages/${data?.data?.conversation?._id}`);
+      },
+    });
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+      setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
+
+    return (
+      <>
+        <IconButton
+          id="basic-button"
+          aria-controls={"basic-menu"}
+          aria-haspopup="true"
+          aria-expanded={"true"}
+          onClick={handleClick}
+          className="bg-secondary w-[43px] h-[43px]"
+        >
+          <CgMoreAlt />
+        </IconButton>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          <MenuList>
+            <MenuItem onClick={() => mutate()}>
+              <ListItemIcon>
+                <TbMessage />
+              </ListItemIcon>
+              <ListItemText>Send Message</ListItemText>
+            </MenuItem>
+          </MenuList>
+        </Menu>
+      </>
+    );
+  }
 
   return (
     <>
@@ -127,9 +188,7 @@ const ArtistDetailsPage: React.FC<Props> = ({ artist }) => {
               <IconButton className="bg-secondary w-[43px] h-[43px]">
                 <IoShareOutline />
               </IconButton>
-              <IconButton className="bg-secondary w-[43px] h-[43px]">
-                <CgMoreAlt />
-              </IconButton>
+              <MoreOptionButton />
             </Stack>
             <span className="w-full h-[1px] bg-secondary" />
           </div>

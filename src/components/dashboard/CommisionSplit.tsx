@@ -133,8 +133,7 @@ const CommissionSplit: React.FC<Props> = ({
     setRoleInputs((prev) => ({ ...prev, [user.email]: customRole }));
   };
 
-  console.log(percentages);
-
+  console.log(selectedUsers);
   return (
     <div>
       <label className="font-semibold text-[17px] leading-[17px] mb-7">
@@ -151,7 +150,7 @@ const CommissionSplit: React.FC<Props> = ({
         removeUser={removeUser}
       />
       <div className="flex flex-col mt-8 gap-2">
-        {selectedUsers.map((user) => (
+        {selectedUsers?.map((user) => (
           <div key={user.email}>
             <div className="flex  gap-4 w-full items-center">
               <label

@@ -61,10 +61,13 @@ const InviteUsers: React.FC<Props> = ({
     () => axiosFetch.get(`/user/search?q=${debouncedQuery}`),
 
     {
+      refetchOnWindowFocus: false,
       // enabled: debouncedQuery.length > 0,
       // staleTime: 1000 * 60 * 60 * 24,
     },
   );
+
+  console.log(selectedUsers);
 
   return (
     <div className={`flex w-full flex-col text-base gap-2 ${className}`}>
@@ -84,7 +87,7 @@ const InviteUsers: React.FC<Props> = ({
         // }}
         value={selectedUsers}
         onChange={(event, value) => {
-          if (selectedUsers?.length > value.length) {
+          if (selectedUsers?.length > value?.length) {
             const removedUser = selectedUsers.find(
               (user: any) => !value.includes(user),
             );
@@ -92,6 +95,7 @@ const InviteUsers: React.FC<Props> = ({
               removeUser(removedUser.email);
             }
           }
+          console.log(value);
           setSelectedUsers(value);
         }}
         options={users?.data?.users || []}
@@ -160,9 +164,6 @@ const CreateNewUser: React.FC<CreateNewUserProps> = ({
     firstName: string().nonempty("Artist first name is required"),
     lastName: string().nonempty("Artist last name is required"),
     email: string().email().nonempty("Artist email is required"),
-    role: isBrokerInvite
-      ? string({ required_error: "Artist Role is required" })
-      : string().optional(),
   });
 
   const toast = useToast();
@@ -180,10 +181,16 @@ const CreateNewUser: React.FC<CreateNewUserProps> = ({
   });
 
   const onSubmit: SubmitHandler<Metadata> = async (data) => {
-    setSelectedUsers((prev) => ({
-      ...prev,
-      ...data,
-    }));
+    // setSelectedUsers((prev) => ({
+    //   ...prev,
+    //   ...data,
+    // }));
+
+    setSelectedUsers((prev) => {
+      console.log(prev);
+
+      return Array.isArray(prev) ? [...prev, data] : { ...prev, ...data };
+    });
     reset();
     onClose();
   };

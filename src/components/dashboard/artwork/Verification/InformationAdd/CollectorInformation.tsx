@@ -51,6 +51,8 @@ const CollectorInformation: React.FC<Props> = ({
     _id?: string;
   }>();
 
+  console.log(artist);
+
   const metadataSchema = object({
     date: string().nonempty("Date is required"),
     acquisitionType: string().nonempty("Acquisition type is required"),
@@ -137,7 +139,10 @@ const CollectorInformation: React.FC<Props> = ({
       values.acquisitionDocumentCaption || "",
     );
     formData.append("aquisitionType", values.acquisitionType);
-    formData.append("organization", selectedOrganization?._id || "");
+    formData.append(
+      "organization",
+      JSON.stringify(selectedOrganization || null) || "",
+    );
     // @ts-ignore
     values.isCirca && formData.append("isCirca", values.isCirca);
 
@@ -177,14 +182,7 @@ const CollectorInformation: React.FC<Props> = ({
             helperText={errors["isCirca"] ? errors["isCirca"].message : ""}
           />
         </div>
-        {/* <SeletectOrganization
-          // isUserOrg
-          labelClassName="text-sm font-[400]  leading-[16px"
-          label=" Organization"
-          className="col-span-2 my-3"
-          selectedOrg={selectedOrganization}
-          setSelectedOrg={setSelectedOrganization}
-        /> */}
+
         <SelectField
           labelClassName={"text-sm font-[400]  leading-[16px]"}
           label="Acquisition Type"
@@ -285,13 +283,19 @@ const CollectorInformation: React.FC<Props> = ({
           />
         )}
 
-        <InviteUsers
-          labelClassName="text-sm font-[400] leading-[16px"
-          label="Artist"
-          className="mt-4 col-span-2 "
-          selectedUsers={artist}
-          setSelectedUsers={setArtist}
-        />
+        <div className="mt-4 col-span-2 ">
+          <InviteUsers
+            labelClassName="text-sm font-[400] leading-[16px"
+            label="Artist"
+            selectedUsers={artist}
+            setSelectedUsers={setArtist}
+          />
+          {artist && (
+            <span>
+              {artist?.firstName} {artist?.lastName}
+            </span>
+          )}
+        </div>
         <div className="col-span-2 mt-4 flex gap-4 justify-between">
           <FileDropZone
             file={file}

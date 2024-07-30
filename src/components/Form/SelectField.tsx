@@ -3,6 +3,7 @@ import React from "react";
 import { useController, Control } from "react-hook-form";
 
 import { GoInfo } from "react-icons/go";
+import CustomTooltip from "../CustomTooltip";
 
 interface Props {
   control: Control<any>;
@@ -25,6 +26,10 @@ interface Props {
   className?: string;
   hasInfo?: boolean;
   info?: string;
+  tooltipProps?: {
+    children?: React.ReactNode;
+    place?: "top" | "bottom";
+  };
 }
 
 const SelectField: React.FC<Props> = ({
@@ -48,6 +53,7 @@ const SelectField: React.FC<Props> = ({
   className,
   hasInfo,
   info,
+  tooltipProps,
   ...props
 }) => {
   const {
@@ -69,11 +75,14 @@ const SelectField: React.FC<Props> = ({
         >
           {label} {isRequired ? "*" : ""}{" "}
           {hasInfo && (
-            <Tooltip title={info}>
-              <IconButton className="w-fit h-fit">
+            <>
+              <a data-tooltip-id={id}>
                 <GoInfo />
-              </IconButton>
-            </Tooltip>
+              </a>
+              <CustomTooltip id={id} content={info}>
+                {tooltipProps?.children}
+              </CustomTooltip>
+            </>
           )}
         </label>
       )}
