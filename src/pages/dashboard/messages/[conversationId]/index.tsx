@@ -102,6 +102,7 @@ const MessageContent = () => {
             id=""
             placeholder="Type a message"
           />
+          {/* @ts-ignore */}
           <IconButton type="submit ">
             <TbSend />
           </IconButton>
