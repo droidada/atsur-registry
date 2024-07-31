@@ -12,9 +12,11 @@ export interface ICreateArtworkIllustration {
   description: string;
   medium: string;
   subjectMatter: string;
-  height: number;
-  width: number;
-  depth: number;
+  dimensions: {
+    height: number;
+    width: number;
+    depth: number;
+  };
   rarity: string;
   type: string;
   withFrame?: boolean;

@@ -76,8 +76,8 @@ const SelectedSeries: React.FC<Props> = ({
         loadingText={<CircularProgress color="inherit" size={20} />}
         value={selectedSeries}
         onChange={(event, value) => {
-          console.log(value);
-          setSelectedSeries(value);
+          console.log("selected seried here ", value);
+          setSelectedSeries(value?._id);
         }}
         options={series?.data?.data || []}
         getOptionLabel={(option) => {
@@ -92,6 +92,7 @@ const SelectedSeries: React.FC<Props> = ({
             inputProps={{
               ...params.inputProps,
               className: "bg-white focus:border-none focus:outline-none",
+              placeholder: "Search for the series",
             }}
             InputProps={{
               ...params.InputProps,
@@ -100,12 +101,14 @@ const SelectedSeries: React.FC<Props> = ({
         )}
         noOptionsText={
           <div>
-            <p className="text-xs text-gray-400">No Series Found</p>
+            <p className="text-xs text-gray-400">
+              You have no artwork series yet
+            </p>
             <Button
               onClick={() => setOpenCreateDialog(true)}
               className="bg-primary text-xs font-[400] text-white"
             >
-              Create a new series
+              Create a new one
             </Button>
           </div>
         }
@@ -180,7 +183,7 @@ const CreateNewSeries: React.FC<CreateNewSeriesProps> = ({
     formData.append("title", data.title);
     formData.append("description", data.description);
     //  @ts-ignore
-    formData.append("image", file.url);
+    file?.url && formData.append("image", file?.url);
     // @ts-ignore
     mutate(formData);
   };

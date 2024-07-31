@@ -182,22 +182,22 @@ const CreateArtworkPreview: React.FC<Props> = ({
           <div className="flex flex-col gap-2">
             <h4 className="font-semibold text-[15px] leading-[16px]">Height</h4>
             <p className="text-[17px] leading-[16px] font-[300]">
-              {formData?.illustration?.height} inches
+              {formData?.illustration?.dimensions?.height} inches
             </p>
           </div>
           <div className="flex flex-col gap-2">
             <h4 className="font-semibold text-[15px] leading-[16px]">Width</h4>
             <p className="text-[17px] leading-[16px] font-[300]">
-              {formData?.illustration?.width} inches
+              {formData?.illustration?.dimensions?.width} inches
             </p>
           </div>
-          {formData?.illustration?.depth && (
+          {formData?.illustration?.dimensions?.depth && (
             <div className="flex flex-col gap-2">
               <h4 className="font-semibold text-[15px] leading-[16px]">
                 Depth
               </h4>
               <p className="text-[17px] leading-[16px] font-[300]">
-                {formData?.illustration?.depth} inches
+                {formData?.illustration?.dimensions?.depth} inches
               </p>
             </div>
           )}

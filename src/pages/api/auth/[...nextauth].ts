@@ -55,13 +55,6 @@ export const options: any = {
   },
   callbacks: {
     async jwt({ token, user, account, trigger, session }) {
-      console.log(" inside callback???.....");
-      console.log(" inside callback..... token ", token);
-      console.log(" inside callback..... user ", user);
-      console.log(" inside callback..... account ", account);
-      console.log(" inside callback..... trigger ", trigger);
-      console.log(" inside callback..... session ", session);
-
       if (account?.provider === "google") {
         try {
           console.log("inside google provider");

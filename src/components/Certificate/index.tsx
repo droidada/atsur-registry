@@ -23,7 +23,7 @@ const ArtPieceCertificate: React.FC<Props> = ({
             <h1 className="font-bodrum-sans-18 text-[30px] w-fit leading-tight font-[800] pb-2 ">
               CERTIFICATE OF <br /> AUTHENTICITY
             </h1>
-            <div className="flex flex-col font-bold border-t-[1px] w-fit pr-4 pt-2 border-[#CAAA62] tracking-[0.1em] text-sm uppercase font-brawler mt-4">
+            <div className="flex flex-col font-bold border-t-[1px] w-fit pr-4 pt-3 border-[#CAAA62] tracking-[0.1em] text-sm uppercase font-brawler mt-4">
               <h4>
                 <span className="text-golden">TITLE OF ARTWORK: </span>{" "}
                 {artPiece?.title}
@@ -44,9 +44,16 @@ const ArtPieceCertificate: React.FC<Props> = ({
                 <span className="text-golden">MEDIUM: </span> {artPiece?.medium}
               </h4>
               <h4>
-                <span className="text-golden">SIZE: </span> {artPiece?.width} x{" "}
-                {artPiece?.height} Inches
+                <span className="text-golden">SIZE: </span>{" "}
+                {artPiece?.dimensions?.width} x {artPiece?.dimensions?.height}{" "}
+                Inches
               </h4>
+            </div>
+            <div className="flex flex-col items-center text-center mt-10 ml-10 font-brawler">
+              <p style={{ fontSize: "1.1rem" }}>
+                This is to certify that the artwork is for the artist and is an
+                original one of a kind painting belonging to the artist{" "}
+              </p>
             </div>
           </div>
           <div className="flex-none w-[223.4px] h-[323.94px] bg-gold-gradient p-[5px]">
@@ -90,7 +97,7 @@ const ArtPieceCertificate: React.FC<Props> = ({
           </div>
           <div className="flex flex-col items-center w-[150.66px] mt-0">
             <h4 className="text-sm">Signed By</h4>
-            <div className="h-[50px]  w-full relative">
+            <div className="h-[60px]  w-full relative">
               {signatureImage && (
                 <Image
                   fill
@@ -106,7 +113,7 @@ const ArtPieceCertificate: React.FC<Props> = ({
             </p>
           </div>
           {/* <div className="flex items-center justify-center mt-0"> */}
-          <div className="w-[106px] h-[122px] relative">
+          <div className="w-[166px] h-[122px] relative">
             <img
               src="/atsur-badge.png"
               alt="atsur"

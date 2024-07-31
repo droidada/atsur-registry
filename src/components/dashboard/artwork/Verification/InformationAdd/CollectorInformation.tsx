@@ -130,13 +130,13 @@ const CollectorInformation: React.FC<Props> = ({
     formData.append("date", values.date);
     // acquisitionDocument &&
     //   formData.append("acquisitionDocument", acquisitionDocument);
-    formData.append("acquisitioPurpose", values.acquisitionPurpose);
+    formData.append("acquisitionPurpose", values.acquisitionPurpose);
     formData.append("methodOfPurchase", methodOfPurchase);
     formData.append(
       "acquisitionDocumentCaption",
       values.acquisitionDocumentCaption || "",
     );
-    formData.append("aquisitionType", values.acquisitionType);
+    formData.append("acquisitionType", values.acquisitionType);
     selectedOrganization &&
       formData.append(
         "organization",
