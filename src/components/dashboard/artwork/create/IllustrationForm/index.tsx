@@ -164,7 +164,7 @@ const IllustrationForm: React.FC<Props> = ({
           }
           control={control}
         />
-        <div className="flex gap-4 items-start">
+        <div className="flex gap-4  items-start">
           <InputField
             tooltipProps={{
               children: (

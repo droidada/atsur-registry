@@ -1,14 +1,14 @@
 import LoadingButton from "@/components/Form/LoadingButton";
+import { SignatureDialog } from "@/components/dashboard/artwork/Verification/VerificationAccepted/Steps/sign-certificate";
 import { useToast } from "@/providers/ToastProvider";
 import { InviteTypeProps } from "@/types/models/invitationType";
 import { Avatar } from "@mui/material";
-import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
-const CollaboratorInvite: React.FC<InviteTypeProps> = ({
+const ArpieceArtistInvite: React.FC<InviteTypeProps> = ({
   userIsRegistered,
   token,
   invitationData,
@@ -17,14 +17,9 @@ const CollaboratorInvite: React.FC<InviteTypeProps> = ({
   handleReject,
   acceptLoading,
   rejectLoading,
+  kycVerificationStatus,
 }) => {
   const router = useRouter();
-  const { data: session } = useSession();
-
-  const commission =
-    invitationData?.artPiece?.verification?.custodian?.broker?.collaborators?.find(
-      (collaborator) => collaborator?.userInfo?.email === session?.user?.email,
-    );
   const toast = useToast();
 
   const [openSignature, setOpenSignature] = useState(false);
@@ -44,7 +39,7 @@ const CollaboratorInvite: React.FC<InviteTypeProps> = ({
 
     handleAccept();
   };
-  console.log(commission);
+
   return (
     <div className="flex flex-col gap-4 divide-y-[1px] divide-primary ">
       <div className="flex justify-between flex-wrap pb-4 gap-5">
@@ -62,7 +57,7 @@ const CollaboratorInvite: React.FC<InviteTypeProps> = ({
                 {invitationData?.invitation?.inviter?.lastName} has invited you
               </h2>
               <p className="">
-                You have been invited to be a collaborator of
+                You have been invited as the Artist of
                 <span className="font-[600]">
                   {" "}
                   {invitationData?.artPiece?.title}
@@ -91,20 +86,6 @@ const CollaboratorInvite: React.FC<InviteTypeProps> = ({
           <p className="max-w-[512px] text-xs w-full">
             {invitationData?.artPiece?.description}
           </p>
-        </div>
-        <div className="flex flex-col gap-4">
-          <label className="font-[300] text-lg " htmlFor="">
-            Commission
-          </label>
-          <div className="max-w-[1194px] w-full h-[57px] bg-secondary-white relative">
-            <div
-              style={{ width: `${commission?.percentageNumerator}%` }}
-              className="bg-secondary h-full"
-            ></div>
-            <div className="h-full absolute right-0 top-0 text-lg flex items-center px-2 ">
-              {commission?.percentageNumerator}%
-            </div>
-          </div>
         </div>
         <div className="flex flex-col gap-4">
           <div
@@ -180,8 +161,13 @@ const CollaboratorInvite: React.FC<InviteTypeProps> = ({
           )}
         </div>
       </div>
+      <SignatureDialog
+        open={openSignature}
+        handleClose={() => setOpenSignature(false)}
+        setSignatureImage={setSignatureImage}
+      />
     </div>
   );
 };
 
-export default CollaboratorInvite;
+export default ArpieceArtistInvite;
