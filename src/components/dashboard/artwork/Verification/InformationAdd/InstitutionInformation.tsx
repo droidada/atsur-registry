@@ -61,7 +61,7 @@ const InstitutionInformation = ({
     isCirca: boolean().optional().default(false),
     boughtFromOrganization: boolean().optional().default(false),
     acquisitionDocumentCaption: string().optional(),
-    methodOfPurchase: string().nonempty("Method purchase is required"),
+    // methodOfPurchase: string().nonempty("Method purchase is required"),
   });
 
   type MetadataInput = TypeOf<typeof metadataSchema>;
@@ -131,7 +131,7 @@ const InstitutionInformation = ({
         filename: defaultValues?.attachment?.split("/").pop(),
         fileUrl: defaultValues?.attachment,
       });
-      setValue("methodOfPurchase", defaultValues?.methodOfPurchase);
+      // setValue("methodOfPurchase", defaultValues?.methodOfPurchase);
 
       setMyOrganization(defaultValues?.myOrganization);
       setSelectedOrganization(defaultValues?.organization?.orgInfo);
@@ -171,7 +171,10 @@ const InstitutionInformation = ({
         "acquisitionDocumentCaption",
         values.acquisitionDocumentCaption,
       );
-    formData.append("method", values.methodOfPurchase);
+    formData.append(
+      "method",
+      values.boughtFromOrganization ? "organization" : "individual",
+    );
     formData.append("artist", JSON.stringify(artist));
     formData.append("custodianOrganization", myOrganization._id || "");
 
@@ -182,7 +185,7 @@ const InstitutionInformation = ({
 
   const boughtFromOrganization = watch("boughtFromOrganization");
 
-  console.log(myOrganization);
+  console.log(errors);
 
   return (
     <FormContainer
@@ -326,7 +329,6 @@ const InstitutionInformation = ({
       <div className="col-span-2 mt-8 gap-4 justify-between">
         <VerificationFileDroper
           label="Acquisition Document"
-
           fileName={file.filename}
           defaultFile={defaultFile}
           handleUpload={handleUpload}

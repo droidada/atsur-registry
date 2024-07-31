@@ -1,10 +1,12 @@
 import LoadingButton from "@/components/Form/LoadingButton";
+import { useToast } from "@/providers/ToastProvider";
 import { InviteTypeProps } from "@/types/models/invitationType";
 import { Avatar } from "@mui/material";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 
 const CollaboratorInvite: React.FC<InviteTypeProps> = ({
   userIsRegistered,
@@ -23,6 +25,25 @@ const CollaboratorInvite: React.FC<InviteTypeProps> = ({
     invitationData?.artPiece?.verification?.custodian?.broker?.collaborators?.find(
       (collaborator) => collaborator?.userInfo?.email === session?.user?.email,
     );
+  const toast = useToast();
+
+  const [openSignature, setOpenSignature] = useState(false);
+  const [signatureImage, setSignatureImage] = useState("");
+  const [acceptTermsAndCondition, setAcceptTermsAndCondition] = useState(false);
+  const [termAndConditionError, setTermsAndConditionError] = useState(false);
+
+  const handleAcceptArtpiece = () => {
+    if (!acceptTermsAndCondition) {
+      setTermsAndConditionError(true);
+      return;
+    }
+    if (!signatureImage) {
+      toast.error("Please sign your signature");
+      return;
+    }
+
+    handleAccept();
+  };
   console.log(commission);
   return (
     <div className="flex flex-col gap-4 divide-y-[1px] divide-primary ">
@@ -85,12 +106,46 @@ const CollaboratorInvite: React.FC<InviteTypeProps> = ({
             </div>
           </div>
         </div>
+        <div className="flex flex-col gap-4">
+          <div
+            onClick={() => setOpenSignature(true)}
+            className="max-w-[250px]  w-full h-[100px] grid place-items-center relative"
+          >
+            {signatureImage && <Image fill src={signatureImage} alt="" />}
+            <div
+              className={`bg-black/50 text-sm absolute backdrop-blur-sm w-full h-full flex justify-center items-center hover:bg-black/20 cursor-pointer text-center`}
+            >
+              <span>Click to sign your signature</span>
+            </div>
+          </div>
+          <div>
+            <div className="flex gap-2 items-center">
+              <input
+                onChange={(e) => setAcceptTermsAndCondition(e.target.checked)}
+                onBlur={(e) => setTermsAndConditionError(false)}
+                checked={acceptTermsAndCondition}
+                type="checkbox"
+                id="confirm"
+                className="focus:ring-0"
+              />
+              <label className="text-sm" htmlFor="confirm">
+                By signing this, I agree with the{" "}
+                <Link href={"#"} className="underline">
+                  Terms and Conditions
+                </Link>
+              </label>
+            </div>
+            {termAndConditionError && (
+              <p className="text-red-500 text-xs">This field is required</p>
+            )}
+          </div>
+        </div>
         <div className=" ">
           {isAuthenticated ? (
             <div className="flex gap-4">
               <LoadingButton
                 loading={acceptLoading}
-                onClick={handleAccept}
+                onClick={handleAcceptArtpiece}
                 variant="contained"
                 className=" text-[15px] leading-[16px] font-[600] h-[46px] px-4 bg-primary "
               >
