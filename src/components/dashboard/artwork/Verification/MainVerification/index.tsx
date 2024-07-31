@@ -26,25 +26,33 @@ function MainVerification({ artPiece }: Props) {
   };
 
   useEffect(() => {
-    if (artPiece?.acquisition) {
-      setSelectedInformationAdd("collector");
-    } else if (artPiece?.custodian?.broker) {
-      setSelectedInformationAdd("broker");
-    } else if (artPiece?.institution) {
-      setSelectedInformationAdd("institution");
-    } else {
-      setSelectedInformationAdd("artist");
-    }
+    // if (artPiece?.custodian?.role === "collector") {
+    //   setSelectedInformationAdd("collector");
+    // } else if (artPiece?.custodian?.role === "broker") {
+    //   setSelectedInformationAdd("broker");
+    // } else if (artPiece?.custodian?.role === "institution") {
+    //   setSelectedInformationAdd("institution");
+    // } else {
+    //   setSelectedInformationAdd("artist");
+    // }
+
+    setSelectedInformationAdd(artPiece?.custodian?.role || "artist");
     if (
-      artPiece?.acquisition ||
-      artPiece?.custodian ||
-      artPiece?.institution ||
-      artPiece?.dealer
+      artPiece?.custodian?.collector ||
+      artPiece?.custodian?.broker ||
+      artPiece?.custodian?.institution ||
+      artPiece?.custodian?.artist
     ) {
-      setActiveIndex(2);
+      setActiveIndex(1);
     } else {
       setActiveIndex(0);
     }
+
+    if(artPiece?.custodian?.artist && artPiece?.custodian?.artist?.sellerType === 'broker'){
+      setSteps(["acquisition", "information", "Broker Information", "Preview"]);
+     // setActiveIndex(steps.length - 1);
+    }
+
   }, [artPiece]);
 
   return (
@@ -98,7 +106,6 @@ function MainVerification({ artPiece }: Props) {
                 artpieceId={artpieceId as string}
                 handleAddDealerStep={handleAddDealerStep}
                 handleRemoveDealerStep={handleRemoveDealerStep}
-                // setSelectedInformationAdd={setSelectedInformationAdd}
               />,
               <ArtVerificationPreview
                 key={2}
