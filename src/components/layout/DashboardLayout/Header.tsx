@@ -21,9 +21,10 @@ import { dashboardContext } from "@/providers/DashboardContext.context";
 import { BsFillCreditCard2BackFill } from "react-icons/bs";
 import { signOut } from "next-auth/react";
 import { FaUser } from "react-icons/fa";
-import { MdLogout } from "react-icons/md";
+import { MdLogout, MdOutlineMessage } from "react-icons/md";
 import { useRouter } from "next/router";
 import ProfileButton from "./ProfileButton";
+import MessagesModal from "./MessagesModal";
 
 interface Props {
   setHideSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -33,6 +34,8 @@ const Header: React.FC<Props> = ({ setHideSidebar }) => {
   const { data } = useSession();
   const router = useRouter();
   const pathname = router.pathname;
+  const [openMesagesModal, setOpenMesageModal] = useState(false);
+
   const [openMobile, setOpenMobile] = useState(false);
   const { credits, notifications } = useContext(dashboardContext);
   const [hoveredMenu, setHoveredMenu] = useState(null);
@@ -127,6 +130,18 @@ const Header: React.FC<Props> = ({ setHideSidebar }) => {
               {credits?.length}
             </span>
           </div> */}
+          <IconButton
+            aria-label="messages"
+            onClick={() => setOpenMesageModal(true)}
+            className="w-[24px] h-[24px] relative hover:scale-95 cursor-pointer rounded-full bg-primary text-secondary grid place-items-center"
+          >
+            <MdOutlineMessage size={10} />
+            {/* {notifications?.length > 0 && (
+              <div className="bg-[#FFC700] grid place-items-center absolute -left-1 text-primary w-[10px] h-[10px] -top-1   text-[10px] rounded-full">
+
+              </div>
+            )} */}
+          </IconButton>
           <Link
             href="/dashboard/notifications
             "
@@ -143,6 +158,11 @@ const Header: React.FC<Props> = ({ setHideSidebar }) => {
           <ProfileButton user={data?.user} />
         </Stack>
       </Stack>
+
+      <MessagesModal
+        open={openMesagesModal}
+        onClose={() => setOpenMesageModal(false)}
+      />
 
       <SwipeableDrawer
         anchor="left"

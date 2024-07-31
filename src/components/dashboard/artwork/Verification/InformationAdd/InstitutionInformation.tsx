@@ -61,7 +61,7 @@ const InstitutionInformation = ({
     isCirca: boolean().optional().default(false),
     boughtFromOrganization: boolean().optional().default(false),
     acquisitionDocumentCaption: string().optional(),
-    methodOfPurchase: string().nonempty("Method purchase is required"),
+    // methodOfPurchase: string().nonempty("Method purchase is required"),
   });
 
   type MetadataInput = TypeOf<typeof metadataSchema>;
@@ -131,7 +131,7 @@ const InstitutionInformation = ({
         filename: defaultValues?.attachment?.split("/").pop(),
         fileUrl: defaultValues?.attachment,
       });
-      setValue("methodOfPurchase", defaultValues?.methodOfPurchase);
+      // setValue("methodOfPurchase", defaultValues?.methodOfPurchase);
 
       setMyOrganization(defaultValues?.myOrganization);
       setSelectedOrganization(defaultValues?.organization?.orgInfo);
@@ -155,7 +155,7 @@ const InstitutionInformation = ({
     formData.append("save", JSON.stringify(save));
     formData.append("date", values.date);
     formData.append(
-      "boughtFromOrganization",
+      "acquiredFromOrganization",
       JSON.stringify(values.boughtFromOrganization),
     );
     formData.append("acquisitionPurpose", values.acquisitionPurpose);
@@ -171,9 +171,12 @@ const InstitutionInformation = ({
         "acquisitionDocumentCaption",
         values.acquisitionDocumentCaption,
       );
-    formData.append("methodOfPurchase", values.methodOfPurchase);
+    formData.append(
+      "method",
+      values.boughtFromOrganization ? "organization" : "individual",
+    );
     formData.append("artist", JSON.stringify(artist));
-    formData.append("myOrganization", myOrganization._id || "");
+    formData.append("custodianOrganization", myOrganization._id || "");
 
     formData.append("acquisitionDocument", file.fileUrl);
 
@@ -182,7 +185,7 @@ const InstitutionInformation = ({
 
   const boughtFromOrganization = watch("boughtFromOrganization");
 
-  console.log(myOrganization);
+  console.log(errors);
 
   return (
     <FormContainer
@@ -193,7 +196,7 @@ const InstitutionInformation = ({
       publishIsLoading={currentSubmitType === "publish" && isLoading}
     >
       <div className="grid md:grid-cols-2 gap-4">
-        <div className="flex gap-2 col-span-2 items-center">
+        <div className="flex gap-2 col-span-2 mb-4 items-center">
           <SelectOrganization
             isUserOrg
             className="col-span-2 "
@@ -253,7 +256,7 @@ const InstitutionInformation = ({
           ].map((item) => (
             <MenuItem
               key={item.name}
-              value={item.value}
+              value={item.name}
               className="text-xm capitalize bg-secondary"
             >
               {item.value}
