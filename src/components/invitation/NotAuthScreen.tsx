@@ -6,6 +6,7 @@ import LoadingButton from "../Form/LoadingButton";
 import MemberOrgInvite from "./invitationType/MemberOrgInvite";
 import CollaboratorInvite from "./invitationType/CollaboratorInvite";
 import OrgInvite from "./invitationType/OrgInvite";
+import ArpieceArtistInvite from "./invitationType/ArpieceArtistInvite";
 interface Props {
   userIsRegistered: boolean;
   type: string;
@@ -45,6 +46,15 @@ const NotAuthScreen = ({
     case "org":
       return (
         <OrgInvite
+          isAuthenticated={false}
+          userIsRegistered={userIsRegistered}
+          token={token}
+          invitationData={invitationData}
+        />
+      );
+    case "art-piece-artist":
+      return (
+        <ArpieceArtistInvite
           isAuthenticated={false}
           userIsRegistered={userIsRegistered}
           token={token}

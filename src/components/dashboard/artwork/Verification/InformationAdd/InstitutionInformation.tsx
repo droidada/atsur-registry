@@ -155,7 +155,7 @@ const InstitutionInformation = ({
     formData.append("save", JSON.stringify(save));
     formData.append("date", values.date);
     formData.append(
-      "boughtFromOrganization",
+      "acquiredFromOrganization",
       JSON.stringify(values.boughtFromOrganization),
     );
     formData.append("acquisitioPurpose", values.acquisitionPurpose);
@@ -171,9 +171,9 @@ const InstitutionInformation = ({
         "acquisitionDocumentCaption",
         values.acquisitionDocumentCaption,
       );
-    formData.append("methodOfPurchase", values.methodOfPurchase);
+    formData.append("method", values.methodOfPurchase);
     formData.append("artist", JSON.stringify(artist));
-    formData.append("myOrganization", myOrganization._id || "");
+    formData.append("custodianOrganization", myOrganization._id || "");
 
     formData.append("acquisitionDocument", file.fileUrl);
 
@@ -193,7 +193,7 @@ const InstitutionInformation = ({
       publishIsLoading={currentSubmitType === "publish" && isLoading}
     >
       <div className="grid md:grid-cols-2 gap-4">
-        <div className="flex gap-2 col-span-2 items-center">
+        <div className="flex gap-2 col-span-2 mb-4 items-center">
           <SelectOrganization
             isUserOrg
             className="col-span-2 "
@@ -253,7 +253,7 @@ const InstitutionInformation = ({
           ].map((item) => (
             <MenuItem
               key={item.name}
-              value={item.value}
+              value={item.name}
               className="text-xm capitalize bg-secondary"
             >
               {item.value}
@@ -326,6 +326,7 @@ const InstitutionInformation = ({
       <div className="col-span-2 mt-8 gap-4 justify-between">
         <VerificationFileDroper
           label="Acquisition Document"
+
           fileName={file.filename}
           defaultFile={defaultFile}
           handleUpload={handleUpload}

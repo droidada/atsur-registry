@@ -1,20 +1,11 @@
 import LoadingButton from "@/components/Form/LoadingButton";
+import { InviteTypeProps } from "@/types/models/invitationType";
 import { Avatar } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 
-interface Props {
-  userIsRegistered?: boolean;
-  token: string;
-  invitationData: any;
-  isAuthenticated: boolean;
-  handleAccept?: () => void;
-  handleReject?: () => void;
-  acceptLoading?: boolean;
-  rejectLoading?: boolean;
-}
-const MemberOrgInvite: React.FC<Props> = ({
+const MemberOrgInvite: React.FC<InviteTypeProps> = ({
   userIsRegistered,
 
   token,

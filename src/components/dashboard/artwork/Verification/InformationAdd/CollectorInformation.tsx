@@ -137,12 +137,21 @@ const CollectorInformation: React.FC<Props> = ({
       values.acquisitionDocumentCaption || "",
     );
     formData.append("aquisitionType", values.acquisitionType);
-    formData.append("organization", selectedOrganization?._id || "");
+    selectedOrganization &&
+      formData.append(
+        "organization",
+        JSON.stringify({
+          name: selectedOrganization?.name,
+          email: selectedOrganization?.email,
+          address: selectedOrganization?.address,
+          _id: selectedOrganization?._id,
+        }) || "",
+      );
     // @ts-ignore
     values.isCirca && formData.append("isCirca", values.isCirca);
 
     file && formData.append("acquisitionDocument", file);
-    formData.append("artist", JSON.stringify(artist) || "");
+    artist && formData.append("artist", JSON.stringify(artist) || "");
 
     mutate(formData);
   };
@@ -215,7 +224,7 @@ const CollectorInformation: React.FC<Props> = ({
           ].map((item) => (
             <MenuItem
               key={item.name}
-              value={item.value}
+              value={item.name}
               className="text-xm capitalize bg-secondary"
             >
               {item.value}

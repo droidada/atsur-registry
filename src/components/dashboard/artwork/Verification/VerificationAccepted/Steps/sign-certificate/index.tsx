@@ -196,7 +196,7 @@ interface SignatureDialogProps {
   handleClose: () => void;
   setSignatureImage: React.Dispatch<React.SetStateAction<any>>;
 }
-const SignatureDialog: React.FC<SignatureDialogProps> = ({
+export const SignatureDialog: React.FC<SignatureDialogProps> = ({
   open,
   handleClose,
   setSignatureImage,
