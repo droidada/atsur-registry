@@ -120,6 +120,7 @@ function MainVerification({ artPiece }: Props) {
                 artPiece={artPiece}
                 setSelectedInformationAdd={setSelectedInformationAdd}
                 selectedInformationAdd={selectedInformationAdd}
+                isArtistBroker={isArtistBroker}
                 setIsArtistBroker={setIsArtistBroker}
                 artpieceId={artpieceId as string}
                 handleAddDealerStep={handleAddDealerStep}

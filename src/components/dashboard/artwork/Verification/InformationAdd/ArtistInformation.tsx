@@ -193,7 +193,6 @@ const ArtistInformation: React.FC<Props> = ({
   return (
     <FormContainer
       setActiveIndex={setActiveIndex}
-      title="Artist Information"
       onSubmit={handleSubmit(onSubmit)}
       saveIsLoading={currentSubmitType === "save" && isLoading}
       publishIsLoading={currentSubmitType === "publish" && isLoading}
