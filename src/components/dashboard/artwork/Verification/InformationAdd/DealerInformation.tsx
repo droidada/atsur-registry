@@ -17,9 +17,14 @@ interface Props {
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
   defaultValues: any;
   artPieceId: string;
-  title?: string;
+  isArtistBroker: boolean;
 }
-const DealerInformation = ({ setActiveIndex, defaultValues, artPieceId, title = "Broker Information" }) => {
+const DealerInformation = ({
+  setActiveIndex,
+  defaultValues,
+  artPieceId,
+  isArtistBroker,
+}) => {
   const toast = useToast();
   const axiosAuth = useAxiosAuth();
   const router = useRouter();
@@ -155,7 +160,6 @@ const DealerInformation = ({ setActiveIndex, defaultValues, artPieceId, title = 
   return (
     <FormContainer
       setActiveIndex={setActiveIndex}
-      title={ title ?? "Broker Information"}
       onSubmit={handleSubmit(onSubmitHandler)}
       saveIsLoading={currentSubmitType === "save" && isLoading}
       publishIsLoading={currentSubmitType === "publish" && isLoading}

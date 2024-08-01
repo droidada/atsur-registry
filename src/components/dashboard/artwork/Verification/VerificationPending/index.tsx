@@ -123,8 +123,7 @@ const VerificationPending: React.FC<Props> = ({ artPiece }) => {
     const kybStatus =
       artPiece.custodian?.broker?.organization?.kybVerification?.status ||
       artPiece?.custodian?.institution?.organization?.status ||
-      artPiece?.custodian?.collector?.organization?.kybVerification
-        ?.status;
+      artPiece?.custodian?.collector?.organization?.kybVerification?.status;
     if (kycStatus !== "verified") {
       setCurrentStep(0);
     } else if (kycStatus === "verified" && kybStatus !== "verified") {

@@ -72,7 +72,6 @@ const ArtistInformation: React.FC<Props> = ({
       toast.error(error.response.data.message || error.message);
     },
     onSuccess: (data) => {
-
       if (currentSubmitType === "save" || currentSubmitType === "next") {
         toast.success("Data saved successfully");
         if (sellerType === "broker") {
@@ -142,7 +141,8 @@ const ArtistInformation: React.FC<Props> = ({
   const onSubmit: SubmitHandler<MetadataInput> = (data, event) => {
     //@ts-ignore
     const buttonClicked = event.nativeEvent.submitter.name;
-    const save = buttonClicked === "save" || data.sellerType === "broker" ? true : false;
+    const save =
+      buttonClicked === "save" || data.sellerType === "broker" ? true : false;
 
     setCurrentSubmitType(data.sellerType === "broker" ? "next" : buttonClicked);
 
@@ -179,10 +179,16 @@ const ArtistInformation: React.FC<Props> = ({
       setValue("sellerType", defaultValues?.artist?.sellerType);
       setSelectedSeries(defaultValues?.artist?.series);
     }
-    if(sellerType === "broker"){
+    if (sellerType === "broker") {
       setIsArtistBroker(true);
     }
-  }, [defaultValues, setValue, sellerType, setSelectedSeries, setIsArtistBroker]);
+  }, [
+    defaultValues,
+    setValue,
+    sellerType,
+    setSelectedSeries,
+    setIsArtistBroker,
+  ]);
 
   return (
     <FormContainer
