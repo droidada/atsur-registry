@@ -18,6 +18,7 @@ interface Props {
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
   defaultValues: any;
   artpieceId: string;
+  setIsArtistBroker: (arg: boolean) => void;
   handleAddDealerStep: () => void;
   handleRemoveDealerStep: () => void;
 }
@@ -25,6 +26,7 @@ const ArtistInformation: React.FC<Props> = ({
   setActiveIndex,
   defaultValues,
   artpieceId,
+  setIsArtistBroker,
   handleAddDealerStep,
   handleRemoveDealerStep,
 }) => {
@@ -34,7 +36,7 @@ const ArtistInformation: React.FC<Props> = ({
 
   const [selectedSeries, setSelectedSeries] = useState<any>();
   const [currentSubmitType, setCurrentSubmitType] = React.useState<
-    "save" | "publish"
+    "save" | "next" | "publish"
   >(null);
 
   const metadataSchema = object({
@@ -70,10 +72,12 @@ const ArtistInformation: React.FC<Props> = ({
       toast.error(error.response.data.message || error.message);
     },
     onSuccess: (data) => {
-      if (currentSubmitType === "save") {
+
+      if (currentSubmitType === "save" || currentSubmitType === "next") {
         toast.success("Data saved successfully");
         if (sellerType === "broker") {
           setActiveIndex((prevIndex) => prevIndex + 1);
+          setIsArtistBroker(true);
         } else {
           router.replace(router.asPath);
         }
@@ -83,6 +87,7 @@ const ArtistInformation: React.FC<Props> = ({
         toast.success("Data published successfully");
         if (sellerType === "broker") {
           setActiveIndex((prevIndex) => prevIndex + 1);
+          setIsArtistBroker(true);
         } else {
           router.replace(router.asPath);
         }
@@ -137,9 +142,9 @@ const ArtistInformation: React.FC<Props> = ({
   const onSubmit: SubmitHandler<MetadataInput> = (data, event) => {
     //@ts-ignore
     const buttonClicked = event.nativeEvent.submitter.name;
-    const save = buttonClicked === "save" ? true : false;
+    const save = buttonClicked === "save" || data.sellerType === "broker" ? true : false;
 
-    setCurrentSubmitType(buttonClicked);
+    setCurrentSubmitType(data.sellerType === "broker" ? "next" : buttonClicked);
 
     const formData = new FormData();
     formData.append("save", JSON.stringify(save));
@@ -165,7 +170,7 @@ const ArtistInformation: React.FC<Props> = ({
   };
 
   useEffect(() => {
-    console.log(defaultValues);
+    console.log("defaultValues here is ", defaultValues);
     if (defaultValues?.artist) {
       setValue("story", defaultValues?.artist?.storyTelling);
       setValue("videoCaption", defaultValues?.artist?.videoCaption);
@@ -174,7 +179,10 @@ const ArtistInformation: React.FC<Props> = ({
       setValue("sellerType", defaultValues?.artist?.sellerType);
       setSelectedSeries(defaultValues?.artist?.series);
     }
-  }, [defaultValues]);
+    if(sellerType === "broker"){
+      setIsArtistBroker(true);
+    }
+  }, [defaultValues, setValue, sellerType, setSelectedSeries, setIsArtistBroker]);
 
   return (
     <FormContainer

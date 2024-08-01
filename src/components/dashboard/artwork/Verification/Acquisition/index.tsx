@@ -1,6 +1,6 @@
 import { Button, Stack } from "@mui/material";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 
 interface Props {
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
@@ -8,6 +8,8 @@ interface Props {
     React.SetStateAction<"artist" | "broker" | "collector" | "institution">
   >;
   selectedInformationAdd: "artist" | "broker" | "collector" | "institution";
+  isArtistBroker: boolean;
+  setIsArtistBroker: (arg: boolean) => void;
 }
 
 const informationToAdd = [
@@ -40,8 +42,15 @@ const informationToAdd = [
 const ArtVerificationAquisition: React.FC<Props> = ({
   setActiveIndex,
   setSelectedInformationAdd,
+  isArtistBroker,
+  setIsArtistBroker,
   selectedInformationAdd,
 }) => {
+
+  useEffect(()=>{
+    if(isArtistBroker) setSelectedInformationAdd('artist');
+  },[isArtistBroker, setSelectedInformationAdd])
+
   return (
     <Stack className="mt-8 items-center" spacing={4}>
       <h2 className="text-[20px] w-fi leading-[17px] font-[600] center">
@@ -60,6 +69,9 @@ const ArtVerificationAquisition: React.FC<Props> = ({
               onClick={() => {
                 // @ts-ignore
                 setSelectedInformationAdd(item.value);
+                if(item.value !== "artist") {
+                  setIsArtistBroker(false);
+                }
               }}
               className={`w-full max-w-[201px] h-[190px]  relative bg-secondary `}
             >
