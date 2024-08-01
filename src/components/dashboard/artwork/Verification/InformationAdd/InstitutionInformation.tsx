@@ -176,7 +176,7 @@ const InstitutionInformation = ({
       values.boughtFromOrganization ? "organization" : "individual",
     );
     formData.append("artist", JSON.stringify(artist));
-    formData.append("custodianOrganization", myOrganization._id || "");
+    formData.append("organization", myOrganization._id || "");
 
     formData.append("acquisitionDocument", file.fileUrl);
 

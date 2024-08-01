@@ -111,8 +111,8 @@ const VerificationPending: React.FC<Props> = ({ artPiece }) => {
   function getOrganizationId() {
     return (
       artPiece.custodian?.broker?.organization?._id ||
-      artPiece?.custodian?.institution?.custodianOrganization?._id ||
-      artPiece?.custodian.collector?.custodianOrganization?._id
+      artPiece?.custodian?.institution?.organization?._id ||
+      artPiece?.custodian.collector?.organization?._id
     );
   }
 
@@ -122,8 +122,8 @@ const VerificationPending: React.FC<Props> = ({ artPiece }) => {
         ?.verificationStatus;
     const kybStatus =
       artPiece.custodian?.broker?.organization?.kybVerification?.status ||
-      artPiece?.custodian?.institution?.custodianOrganization?.status ||
-      artPiece?.custodian?.collector?.custodianOrganization?.kybVerification
+      artPiece?.custodian?.institution?.organization?.status ||
+      artPiece?.custodian?.collector?.organization?.kybVerification
         ?.status;
     if (kycStatus !== "verified") {
       setCurrentStep(0);
