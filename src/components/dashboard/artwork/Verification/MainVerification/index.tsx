@@ -27,11 +27,11 @@ function MainVerification({ artPiece }: Props) {
   };
 
   useEffect(() => {
-    console.log("is this artist broker ", isArtistBroker)
-    if( !isArtistBroker){
+    console.log("is this artist broker ", isArtistBroker);
+    if (!isArtistBroker) {
       handleRemoveDealerStep();
     }
-  },[isArtistBroker])
+  }, [isArtistBroker]);
 
   useEffect(() => {
     // if (artPiece?.custodian?.role === "collector") {
@@ -56,11 +56,13 @@ function MainVerification({ artPiece }: Props) {
       setActiveIndex(0);
     }
 
-    if(artPiece?.custodian?.artist && artPiece?.custodian?.artist?.sellerType === 'broker'){
+    if (
+      artPiece?.custodian?.artist &&
+      artPiece?.custodian?.artist?.sellerType === "broker"
+    ) {
       setSteps(["acquisition", "information", "Broker Information", "Preview"]);
-     // setActiveIndex(steps.length - 1);
+      // setActiveIndex(steps.length - 1);
     }
-
   }, [artPiece]);
 
   return (
@@ -81,7 +83,9 @@ function MainVerification({ artPiece }: Props) {
                 }`}
               >
                 {item === "information"
-                  ? `${isArtistBroker ? 'artist' : selectedInformationAdd} Information`
+                  ? `${
+                      isArtistBroker ? "artist" : selectedInformationAdd
+                    } Information`
                   : item}
               </span>
               <span
@@ -111,6 +115,7 @@ function MainVerification({ artPiece }: Props) {
               <ArtVerificationInformation
                 key={1}
                 position={1}
+                isArtistBroker={isArtistBroker}
                 activeIndex={activeIndex}
                 setActiveIndex={setActiveIndex}
                 artPiece={artPiece}
@@ -121,20 +126,22 @@ function MainVerification({ artPiece }: Props) {
                 handleAddDealerStep={handleAddDealerStep}
                 handleRemoveDealerStep={handleRemoveDealerStep}
               />,
-              isArtistBroker &&
-              <ArtVerificationInformation
-                key={2}
-                position={2}
-                activeIndex={activeIndex}
-                setActiveIndex={setActiveIndex}
-                artPiece={artPiece}
-                setSelectedInformationAdd={setSelectedInformationAdd}
-                selectedInformationAdd={selectedInformationAdd}
-                setIsArtistBroker={setIsArtistBroker}
-                artpieceId={artpieceId as string}
-                handleAddDealerStep={handleAddDealerStep}
-                handleRemoveDealerStep={handleRemoveDealerStep}
-              />,
+              isArtistBroker && (
+                <ArtVerificationInformation
+                  key={2}
+                  position={2}
+                  activeIndex={activeIndex}
+                  isArtistBroker={isArtistBroker}
+                  setActiveIndex={setActiveIndex}
+                  artPiece={artPiece}
+                  setSelectedInformationAdd={setSelectedInformationAdd}
+                  selectedInformationAdd={selectedInformationAdd}
+                  setIsArtistBroker={setIsArtistBroker}
+                  artpieceId={artpieceId as string}
+                  handleAddDealerStep={handleAddDealerStep}
+                  handleRemoveDealerStep={handleRemoveDealerStep}
+                />
+              ),
               <ArtVerificationPreview
                 key={3}
                 setActiveIndex={setActiveIndex}

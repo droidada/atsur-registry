@@ -18,11 +18,20 @@ interface Props {
   defaultValues: any;
   artPieceId: string;
   title?: string;
+  isArtistBroker: boolean;
 }
-const DealerInformation = ({ setActiveIndex, defaultValues, artPieceId, title = "Broker Information" }) => {
+const DealerInformation = ({
+  setActiveIndex,
+  defaultValues,
+  artPieceId,
+  title = "Broker Information",
+  isArtistBroker,
+}) => {
   const toast = useToast();
   const axiosAuth = useAxiosAuth();
   const router = useRouter();
+
+  console.log(isArtistBroker);
 
   const [selectedOrganization, setSelectedOrganization] = useState<any>(null);
   const [percentages, setPercentages] = useState<
@@ -140,6 +149,8 @@ const DealerInformation = ({ setActiveIndex, defaultValues, artPieceId, title = 
       return;
     }
 
+    console.log("This is the organization", selectedOrganization);
+
     const formData = new FormData();
     !defaultValues?.agreementAttachment &&
       formData.append("agreement", agreementDocument?.file);
@@ -148,6 +159,7 @@ const DealerInformation = ({ setActiveIndex, defaultValues, artPieceId, title = 
     formData.append("notes", values.notes);
     selectedOrganization &&
       formData.append("organization", selectedOrganization._id);
+    formData.append("isArtistBroker", isArtistBroker ? true : false);
     // @ts-ignore
     mutate(formData);
   };
@@ -155,14 +167,14 @@ const DealerInformation = ({ setActiveIndex, defaultValues, artPieceId, title = 
   return (
     <FormContainer
       setActiveIndex={setActiveIndex}
-      title={ title ?? "Broker Information"}
+      title={title ?? "Broker Information"}
       onSubmit={handleSubmit(onSubmitHandler)}
       saveIsLoading={currentSubmitType === "save" && isLoading}
       publishIsLoading={currentSubmitType === "publish" && isLoading}
     >
       <Stack spacing={4}>
         <SelectOrganization
-          // isUserOrg
+          isUserOrg
           labelClassName="text-sm font-[400]  leading-[16px"
           label=" Organization"
           selectedOrg={selectedOrganization}

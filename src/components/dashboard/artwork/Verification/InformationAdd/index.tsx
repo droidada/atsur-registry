@@ -13,9 +13,12 @@ interface Props {
   artPiece: any;
   artpieceId: string;
   setIsArtistBroker: (arg: boolean) => void;
-  setSelectedInformationAdd: (arg:"artist" | "broker" | "collector" | "institution") => void;
+  setSelectedInformationAdd: (
+    arg: "artist" | "broker" | "collector" | "institution",
+  ) => void;
   handleAddDealerStep: () => void;
   handleRemoveDealerStep: () => void;
+  isArtistBroker: boolean;
 }
 const ArtVerificationInformation: React.FC<Props> = ({
   setActiveIndex,
@@ -28,16 +31,19 @@ const ArtVerificationInformation: React.FC<Props> = ({
   setIsArtistBroker,
   handleAddDealerStep,
   handleRemoveDealerStep,
+  isArtistBroker,
 }) => {
   console.log(artPiece);
 
-  useEffect(()=> {
-    console.log("key here is ", position)
-    if(activeIndex === 2 && position === 2) {
+  useEffect(() => {
+    console.log("key here is ", position);
+    if (activeIndex === 2 && position === 2) {
       setIsArtistBroker(true);
-      setSelectedInformationAdd('broker');
+      setSelectedInformationAdd("broker");
     }
-  },[activeIndex, position, setIsArtistBroker])
+  }, [activeIndex, position, setIsArtistBroker]);
+
+  console.log(artPiece);
 
   switch (selectedInformationAdd) {
     case "artist":
@@ -54,6 +60,7 @@ const ArtVerificationInformation: React.FC<Props> = ({
     case "broker":
       return (
         <DealerInformation
+          isArtistBroker={isArtistBroker}
           artPieceId={artpieceId}
           setActiveIndex={setActiveIndex}
           defaultValues={artPiece?.custodian?.broker}
