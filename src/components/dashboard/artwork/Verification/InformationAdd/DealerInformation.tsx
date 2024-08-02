@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import FormContainer from "./formContainer";
 import { Stack } from "@mui/material";
 import SelectOrganization from "@/components/dashboard/SeleteOrganization";
-import CommisionSplit from "@/components/dashboard/CommisionSplit";
+import CommissionSplit from "@/components/dashboard/CommisionSplit";
 import VerificationFileDroper from "../VerificationFileDroper";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useToast } from "@/providers/ToastProvider";
@@ -90,7 +90,7 @@ const DealerInformation = ({
 
   const { mutate, isLoading } = useMutation({
     mutationFn: (data) =>
-      axiosAuth.post(`/verify-artpiece/dealer/${artPieceId}`, data),
+      axiosAuth.post(`/verify-artpiece/${isArtistBroker ? 'artist-broker' : 'dealer'}/${artPieceId}`, data),
     onError: (error: any) => {
       toast.error(
         error?.response?.data?.message ||
@@ -152,7 +152,7 @@ const DealerInformation = ({
     formData.append("save", JSON.stringify(save));
     formData.append("notes", values.notes);
     selectedOrganization &&
-      formData.append("organization", selectedOrganization._id);
+      formData.append("organization", selectedOrganization);
     // @ts-ignore
     mutate(formData);
   };
@@ -168,11 +168,11 @@ const DealerInformation = ({
         <SelectOrganization
           // isUserOrg
           labelClassName="text-sm font-[400]  leading-[16px"
-          label=" Organization"
+          label="Organization"
           selectedOrg={selectedOrganization}
           setSelectedOrg={setSelectedOrganization}
         />
-        <CommisionSplit
+        <CommissionSplit
           setErrorTree={setErrorTree}
           selectedUsers={selectedUsers}
           setSelectedUsers={setSelectedUsers}

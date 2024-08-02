@@ -32,7 +32,7 @@ const ArtVerificationInformation: React.FC<Props> = ({
   handleAddDealerStep,
   handleRemoveDealerStep,
 }) => {
-  console.log("artPiece:",artPiece);
+  console.log("artPiece:", artPiece);
 
   useEffect(() => {
     if (activeIndex === 2 && position === 2) {

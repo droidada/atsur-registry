@@ -144,7 +144,7 @@ const ArtistInformation: React.FC<Props> = ({
     const save =
       buttonClicked === "save" || data.sellerType === "broker" ? true : false;
 
-    setCurrentSubmitType(data.sellerType === "broker" ? "next" : buttonClicked);
+    setCurrentSubmitType(buttonClicked);
 
     const formData = new FormData();
     formData.append("save", JSON.stringify(save));
