@@ -146,7 +146,7 @@ const ArtistInformation: React.FC<Props> = ({
     const save =
       buttonClicked === "save" || data.sellerType === "broker" ? true : false;
 
-    setCurrentSubmitType(data.sellerType === "broker" ? "next" : buttonClicked);
+    setCurrentSubmitType(buttonClicked);
 
     const formData = new FormData();
     formData.append("save", JSON.stringify(save));
@@ -195,7 +195,6 @@ const ArtistInformation: React.FC<Props> = ({
   return (
     <FormContainer
       setActiveIndex={setActiveIndex}
-      title="Artist Information"
       onSubmit={handleSubmit(onSubmit)}
       saveIsLoading={currentSubmitType === "save" && isLoading}
       publishIsLoading={currentSubmitType === "publish" && isLoading}

@@ -190,7 +190,6 @@ const InstitutionInformation = ({
   return (
     <FormContainer
       setActiveIndex={setActiveIndex}
-      title="Institution Information"
       onSubmit={handleSubmit(onSubmit)}
       saveIsLoading={currentSubmitType === "save" && isLoading}
       publishIsLoading={currentSubmitType === "publish" && isLoading}

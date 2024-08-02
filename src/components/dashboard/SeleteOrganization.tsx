@@ -77,7 +77,9 @@ const SelectOrganization: React.FC<Props> = ({
           className: " bg-white focus:border-none focus:outline-none",
         }}
         value={selectedOrg}
-        onChange={(event, value) => setSelectedOrg(value)}
+        onChange={(event, value) => {
+          setSelectedOrg(value);
+        }}
         options={data?.data?.data || data?.data || []}
         getOptionLabel={(option) => option?.name || ""}
         loading={isLoading}

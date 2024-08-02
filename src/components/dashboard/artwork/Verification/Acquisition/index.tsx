@@ -46,10 +46,9 @@ const ArtVerificationAquisition: React.FC<Props> = ({
   setIsArtistBroker,
   selectedInformationAdd,
 }) => {
-
-  useEffect(()=>{
-    if(isArtistBroker) setSelectedInformationAdd('artist');
-  },[isArtistBroker, setSelectedInformationAdd])
+  useEffect(() => {
+    if (isArtistBroker) setSelectedInformationAdd("artist");
+  }, [isArtistBroker, setSelectedInformationAdd]);
 
   return (
     <Stack className="mt-8 items-center" spacing={4}>
@@ -69,7 +68,7 @@ const ArtVerificationAquisition: React.FC<Props> = ({
               onClick={() => {
                 // @ts-ignore
                 setSelectedInformationAdd(item.value);
-                if(item.value !== "artist") {
+                if (item.value !== "artist") {
                   setIsArtistBroker(false);
                 }
               }}

@@ -29,8 +29,11 @@ function MainVerification({ artPiece }: Props) {
   useEffect(() => {
     console.log("is this artist broker ", isArtistBroker);
     if (!isArtistBroker) {
+    console.log("is this artist broker ", isArtistBroker);
+    if (!isArtistBroker) {
       handleRemoveDealerStep();
     }
+  }, [isArtistBroker]);
   }, [isArtistBroker]);
 
   useEffect(() => {
@@ -60,7 +63,12 @@ function MainVerification({ artPiece }: Props) {
       artPiece?.custodian?.artist &&
       artPiece?.custodian?.artist?.sellerType === "broker"
     ) {
+    if (
+      artPiece?.custodian?.artist &&
+      artPiece?.custodian?.artist?.sellerType === "broker"
+    ) {
       setSteps(["acquisition", "information", "Broker Information", "Preview"]);
+      // setActiveIndex(steps.length - 1);
       // setActiveIndex(steps.length - 1);
     }
   }, [artPiece]);
@@ -83,6 +91,9 @@ function MainVerification({ artPiece }: Props) {
                 }`}
               >
                 {item === "information"
+                  ? `${
+                      isArtistBroker ? "artist" : selectedInformationAdd
+                    } Information`
                   ? `${
                       isArtistBroker ? "artist" : selectedInformationAdd
                     } Information`
@@ -121,6 +132,7 @@ function MainVerification({ artPiece }: Props) {
                 artPiece={artPiece}
                 setSelectedInformationAdd={setSelectedInformationAdd}
                 selectedInformationAdd={selectedInformationAdd}
+                isArtistBroker={isArtistBroker}
                 setIsArtistBroker={setIsArtistBroker}
                 artpieceId={artpieceId as string}
                 handleAddDealerStep={handleAddDealerStep}
@@ -143,7 +155,7 @@ function MainVerification({ artPiece }: Props) {
                 />
               ),
               <ArtVerificationPreview
-                key={3}
+                key={isArtistBroker ? 3 : 2}
                 setActiveIndex={setActiveIndex}
                 defaultValues={{}}
                 selectedInformationAdd={selectedInformationAdd}

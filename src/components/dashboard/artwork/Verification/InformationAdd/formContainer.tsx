@@ -6,7 +6,6 @@ interface Props {
   saveIsLoading?: boolean;
   publishIsLoading?: boolean;
   onSubmit: React.FormEventHandler<HTMLFormElement>;
-  title: string;
   children?: React.ReactNode;
   buttonTitle?: string;
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
@@ -14,7 +13,6 @@ interface Props {
 const FormContainer: React.FC<Props> = ({
   saveIsLoading,
   onSubmit,
-  title,
   children,
   buttonTitle,
   setActiveIndex,

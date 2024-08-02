@@ -1,4 +1,3 @@
-import { Stack } from "@mui/material";
 import React, { useEffect } from "react";
 import ArtistInformation from "./ArtistInformation";
 import DealerInformation from "./DealerInformation";
@@ -12,7 +11,9 @@ interface Props {
   position?: number;
   artPiece: any;
   artpieceId: string;
+  isArtistBroker: boolean;
   setIsArtistBroker: (arg: boolean) => void;
+
   setSelectedInformationAdd: (
     arg: "artist" | "broker" | "collector" | "institution",
   ) => void;
@@ -27,13 +28,13 @@ const ArtVerificationInformation: React.FC<Props> = ({
   selectedInformationAdd,
   artPiece,
   artpieceId,
+  isArtistBroker,
   setSelectedInformationAdd,
   setIsArtistBroker,
   handleAddDealerStep,
   handleRemoveDealerStep,
-  isArtistBroker,
 }) => {
-  console.log(artPiece);
+  console.log("artPiece:", artPiece);
 
   useEffect(() => {
     console.log("key here is ", position);

@@ -159,7 +159,6 @@ const CollectorInformation: React.FC<Props> = ({
   return (
     <FormContainer
       setActiveIndex={setActiveIndex}
-      title="Collector Information"
       onSubmit={handleSubmit(onSubmit)}
       saveIsLoading={currentSubmitType === "save" && isLoading}
       publishIsLoading={currentSubmitType === "publish" && isLoading}
