@@ -5,8 +5,9 @@ import NotAuthScreen from "@/components/invitation/NotAuthScreen";
 import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
 import { getToken } from "next-auth/jwt";
-import axios from "@/lib/axios";
+import axios, { axiosAuth } from "@/lib/axios";
 import UnprotectedPage from "@/HOC/Unprotected";
+import { useQuery } from "@tanstack/react-query";
 
 export const getServerSideProps = async ({ req, query, params }) => {
   try {
@@ -14,11 +15,9 @@ export const getServerSideProps = async ({ req, query, params }) => {
 
     const res = await axios.post(`/invite/fetch`, { token: verificationToken });
 
-    console.log(res.data);
-
     return { props: { invitationData: res.data?.data } };
   } catch (error) {
-    console.log(error?.response.data?.message || error?.message);
+    console.log(error?.response?.data?.message || error?.message);
     throw new Error(error);
   }
 };
@@ -31,6 +30,18 @@ const Invitation = ({ invitationData }) => {
     status === "authenticated" &&
     invitationData?.invitee?.email === data?.user.email;
   const router = useRouter();
+
+  const { data: verification, error } = useQuery({
+    queryFn: () =>
+      axios.get(
+        "/verify-artpiece/" +
+          invitationData?.invitation?.object?.artPiece?.verification,
+      ),
+    refetchOnWindowFocus: false,
+    queryKey: ["verification"],
+  });
+
+  console.log(verification, error);
 
   console.log(invitationData?.invitation?.type);
   useEffect(() => {
@@ -59,6 +70,7 @@ const Invitation = ({ invitationData }) => {
           type={invitationData?.invitation?.type}
           invitee={invitationData?.invitation?.invitee}
           invitationData={invitationData}
+          verificationData={verification?.data?.data}
         />
       ) : (
         <NotAuthScreen
@@ -67,6 +79,7 @@ const Invitation = ({ invitationData }) => {
           inviter={invitationData?.invitation?.inviter}
           userIsRegistered={invitationData?.userIsRegistered}
           invitationData={invitationData}
+          verificationData={verification?.data?.data}
         />
       )}
     </>

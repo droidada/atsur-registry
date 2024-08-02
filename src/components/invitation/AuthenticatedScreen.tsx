@@ -24,11 +24,16 @@ import SignatureCanvas from "react-signature-canvas";
 
 interface Props {
   type: string;
-
+  verificationData?: any;
   invitee: any;
   invitationData: any;
 }
-const AuthenticatedScreen = ({ type, invitee, invitationData }: Props) => {
+const AuthenticatedScreen = ({
+  type,
+  invitee,
+  invitationData,
+  verificationData,
+}: Props) => {
   const [open, setOpen] = useState(false);
   const [acceptLoading, setAcceptLoading] = useState(false);
   const [rejectLoading, setRejectLoading] = useState(false);
@@ -52,16 +57,17 @@ const AuthenticatedScreen = ({ type, invitee, invitationData }: Props) => {
       setAcceptLoading(true);
 
       // If the user has not done their KYC don't allow them to verify
-      if (
-        currentUser?.data?.kycVerification?.verificationStatus !== "verified"
-      ) {
-        return toast.error(
-          "You need to do your KYC verification before you can accept this",
-        );
+
+      if (type === "art-piece-artist") {
+        if (
+          currentUser?.data?.kycVerification?.verificationStatus !== "verified"
+        ) {
+          return toast.error(
+            "You need to do your KYC verification before you can accept this",
+          );
+        }
       }
-      if (["art-piece-artist", "art-piece-collaborator"].includes(type)) {
-        return setOpen(true);
-      }
+
       if (type !== "org") {
         const { data } = await axiosFetch.post("/invite/accept", {
           token,
@@ -86,6 +92,8 @@ const AuthenticatedScreen = ({ type, invitee, invitationData }: Props) => {
       setAcceptLoading(false);
     }
   };
+
+  console.log(verificationData);
 
   const handleReject = async () => {
     try {
@@ -125,6 +133,7 @@ const AuthenticatedScreen = ({ type, invitee, invitationData }: Props) => {
           kycVerificationStatus={
             currentUser?.data?.kycVerification?.verificationStatus
           }
+          verificationData={verificationData}
         />
       );
     case "member-org":

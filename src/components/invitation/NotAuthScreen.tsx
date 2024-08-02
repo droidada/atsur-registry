@@ -13,6 +13,7 @@ interface Props {
   inviter: { firstName: string; lastName: string };
   token: string;
   invitationData: any;
+  verificationData?: any;
 }
 const NotAuthScreen = ({
   userIsRegistered,
@@ -20,6 +21,7 @@ const NotAuthScreen = ({
   inviter,
   token,
   invitationData,
+  verificationData,
 }: Props) => {
   const router = useRouter();
   console.log(invitationData);
@@ -32,6 +34,7 @@ const NotAuthScreen = ({
           userIsRegistered={userIsRegistered}
           token={token}
           invitationData={invitationData}
+          verificationData={verificationData}
         />
       );
     case "member-org":

@@ -19,7 +19,6 @@ interface Props {
   ) => void;
   handleAddDealerStep: () => void;
   handleRemoveDealerStep: () => void;
-  isArtistBroker: boolean;
 }
 const ArtVerificationInformation: React.FC<Props> = ({
   setActiveIndex,

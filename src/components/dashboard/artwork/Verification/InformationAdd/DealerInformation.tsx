@@ -164,7 +164,10 @@ const DealerInformation = ({
     formData.append("notes", values.notes);
     selectedOrganization &&
       formData.append("organization", selectedOrganization._id);
-    formData.append("isArtistBroker", isArtistBroker ? true : false);
+    formData.append(
+      "isArtistBroker",
+      JSON.stringify(isArtistBroker ? true : false),
+    );
     // @ts-ignore
     mutate(formData);
   };
@@ -172,7 +175,7 @@ const DealerInformation = ({
   return (
     <FormContainer
       setActiveIndex={setActiveIndex}
-      title={title ?? "Broker Information"}
+      // title={title ?? "Broker Information"}
       onSubmit={handleSubmit(onSubmitHandler)}
       saveIsLoading={currentSubmitType === "save" && isLoading}
       publishIsLoading={currentSubmitType === "publish" && isLoading}

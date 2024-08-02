@@ -1,4 +1,5 @@
 import LoadingButton from "@/components/Form/LoadingButton";
+import { SignatureDialog } from "@/components/dashboard/artwork/Verification/VerificationAccepted/Steps/sign-certificate";
 import { useToast } from "@/providers/ToastProvider";
 import { InviteTypeProps } from "@/types/models/invitationType";
 import { Avatar } from "@mui/material";
@@ -17,14 +18,26 @@ const CollaboratorInvite: React.FC<InviteTypeProps> = ({
   handleReject,
   acceptLoading,
   rejectLoading,
+  verificationData,
+  kycVerificationStatus,
 }) => {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
-  const commission =
-    invitationData?.artPiece?.verification?.custodian?.broker?.collaborators?.find(
-      (collaborator) => collaborator?.userInfo?.email === session?.user?.email,
-    );
+  console.log(verificationData);
+
+  const collaborators =
+    verificationData?.custodian?.artist?.brokerInfo?.collaborators ||
+    verificationData?.custodian?.broker?.collaborators;
+
+  console.log(collaborators);
+
+  const currentUser = collaborators?.find(
+    (collaborator) => collaborator?.userInfo?.email === session?.user?.email,
+  );
+
+  console.log(currentUser);
+
   const toast = useToast();
 
   const [openSignature, setOpenSignature] = useState(false);
@@ -33,18 +46,29 @@ const CollaboratorInvite: React.FC<InviteTypeProps> = ({
   const [termAndConditionError, setTermsAndConditionError] = useState(false);
 
   const handleAcceptArtpiece = () => {
-    if (!acceptTermsAndCondition) {
-      setTermsAndConditionError(true);
-      return;
+    if (currentUser?.userInfo?.role === "main artist") {
+      if (!acceptTermsAndCondition) {
+        setTermsAndConditionError(true);
+        return;
+      }
+      if (!signatureImage) {
+        toast.error("Please sign your signature");
+        return;
+      }
     }
-    if (!signatureImage) {
-      toast.error("Please sign your signature");
-      return;
+
+    if (
+      currentUser?.userInfo?.role === "main artist" &&
+      kycVerificationStatus !== "verified"
+    ) {
+      return toast.error(
+        "You need to do your KYC verification before you can accept this",
+      );
     }
 
     handleAccept();
   };
-  console.log(commission);
+
   return (
     <div className="flex flex-col gap-4 divide-y-[1px] divide-primary ">
       <div className="flex justify-between flex-wrap pb-4 gap-5">
@@ -65,7 +89,7 @@ const CollaboratorInvite: React.FC<InviteTypeProps> = ({
                 You have been invited to be a collaborator of
                 <span className="font-[600]">
                   {" "}
-                  {invitationData?.artPiece?.title}
+                  {invitationData?.invitation?.object?.artPiece?.title}
                 </span>{" "}
                 Artpiece
               </p>
@@ -75,111 +99,131 @@ const CollaboratorInvite: React.FC<InviteTypeProps> = ({
         <div className="w-[240px] h-[300px] bg-secondary-white relative">
           <Image
             src={
-              invitationData?.artPiece?.assets &&
-              invitationData?.artPiece?.assets[0]?.url
+              invitationData?.invitation?.object?.artPiece?.assets &&
+              invitationData?.invitation?.object?.artPiece?.assets[0]?.url
             }
             fill
-            alt={invitationData?.artPiece?.title}
+            alt={invitationData?.invitation?.object?.artPiece?.title}
             className="object-cover"
           />
         </div>
       </div>
-      <div className="py-5 flex flex-col flex-wrap justify-between gap-5">
-        <div className="flex-col flex justify-between gap-4">
-          <h3 className="font-[600] text-[25px] ">Description</h3>
+      <div className="py-5 flex flex-col flex-wrap  items-center gap-5">
+        <div className="flex flex-col flex-wrap items-center max-w-[550px] gap-7 w-full ">
+          <div className="flex-col flex justify-between gap-4">
+            <h3 className="font-[600] text-[25px] text-center ">Description</h3>
 
-          <p className="max-w-[512px] text-xs w-full">
-            {invitationData?.artPiece?.description}
-          </p>
-        </div>
-        <div className="flex flex-col gap-4">
-          <label className="font-[300] text-lg " htmlFor="">
-            Commission
-          </label>
-          <div className="max-w-[1194px] w-full h-[57px] bg-secondary-white relative">
-            <div
-              style={{ width: `${commission?.percentageNumerator}%` }}
-              className="bg-secondary h-full"
-            ></div>
-            <div className="h-full absolute right-0 top-0 text-lg flex items-center px-2 ">
-              {commission?.percentageNumerator}%
-            </div>
+            <p className="max-w-[512px] text-center text-xs w-full">
+              {invitationData?.invitation?.object?.artPiece?.description}
+            </p>
           </div>
-        </div>
-        <div className="flex flex-col gap-4">
-          <div
-            onClick={() => setOpenSignature(true)}
-            className="max-w-[250px]  w-full h-[100px] grid place-items-center relative"
-          >
-            {signatureImage && <Image fill src={signatureImage} alt="" />}
-            <div
-              className={`bg-black/50 text-sm absolute backdrop-blur-sm w-full h-full flex justify-center items-center hover:bg-black/20 cursor-pointer text-center`}
-            >
-              <span>Click to sign your signature</span>
+          {status === "authenticated" && (
+            <div className="w-full flex-col flex px-4 gap-7">
+              {" "}
+              <div className="flex flex-col items-center gap-4">
+                <label className="font-[300] text-lg " htmlFor="">
+                  Commission
+                </label>
+                <div className=" w-full max-w-[512px]  h-[57px] bg-secondary-white relative">
+                  <div
+                    style={{ width: `${currentUser?.percentageNumerator}%` }}
+                    className="bg-secondary h-full"
+                  ></div>
+                  <div className="h-full absolute right-0 top-0 text-lg flex items-center px-2 ">
+                    {currentUser?.percentageNumerator}%
+                  </div>
+                </div>
+              </div>
+              {currentUser?.userInfo?.role === "main artist" && (
+                <div className="flex flex-col items-center gap-4">
+                  <div
+                    onClick={() => setOpenSignature(true)}
+                    className="max-w-[250px]  w-full h-[120px] grid place-items-center relative"
+                  >
+                    {signatureImage && (
+                      <Image fill src={signatureImage} alt="" />
+                    )}
+                    <div
+                      className={`bg-black/50 text-sm absolute backdrop-blur-sm w-full h-full flex justify-center items-center hover:bg-black/20 cursor-pointer text-center`}
+                    >
+                      <span>Click to sign your signature</span>
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex gap-2 items-center">
+                      <input
+                        onChange={(e) =>
+                          setAcceptTermsAndCondition(e.target.checked)
+                        }
+                        onBlur={(e) => setTermsAndConditionError(false)}
+                        checked={acceptTermsAndCondition}
+                        type="checkbox"
+                        id="confirm"
+                        className="focus:ring-0"
+                      />
+                      <label className="text-sm" htmlFor="confirm">
+                        By signing this, I agree with the{" "}
+                        <Link href={"#"} className="underline">
+                          Terms and Conditions
+                        </Link>
+                      </label>
+                    </div>
+                    {termAndConditionError && (
+                      <p className="text-red-500 text-xs">
+                        This field is required
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
-          <div>
-            <div className="flex gap-2 items-center">
-              <input
-                onChange={(e) => setAcceptTermsAndCondition(e.target.checked)}
-                onBlur={(e) => setTermsAndConditionError(false)}
-                checked={acceptTermsAndCondition}
-                type="checkbox"
-                id="confirm"
-                className="focus:ring-0"
-              />
-              <label className="text-sm" htmlFor="confirm">
-                By signing this, I agree with the{" "}
-                <Link href={"#"} className="underline">
-                  Terms and Conditions
-                </Link>
-              </label>
-            </div>
-            {termAndConditionError && (
-              <p className="text-red-500 text-xs">This field is required</p>
+          )}
+          <div className=" ">
+            {isAuthenticated ? (
+              <div className="flex gap-4">
+                <LoadingButton
+                  loading={acceptLoading}
+                  onClick={handleAcceptArtpiece}
+                  variant="contained"
+                  className=" text-[15px] leading-[16px] font-[600] h-[46px] px-4 bg-primary "
+                >
+                  Accept
+                </LoadingButton>
+                <LoadingButton
+                  onClick={handleReject}
+                  loading={rejectLoading}
+                  variant="outlined"
+                  className=" text-[15px] leading-[16px] font-[600] h-[46px] px-4  "
+                >
+                  Reject
+                </LoadingButton>
+              </div>
+            ) : (
+              <LoadingButton
+                variant="contained"
+                className=" text-[15px] leading-[16px] font-[600] h-[46px] px-4 bg-primary "
+                loading={false}
+                onClick={() => {
+                  if (userIsRegistered) {
+                    router.push(`/login?token=${token}`);
+                  } else {
+                    router.push(`/signup?token=${token}`);
+                  }
+                }}
+              >
+                {!userIsRegistered
+                  ? "Register to take action"
+                  : "Login to take action"}
+              </LoadingButton>
             )}
           </div>
         </div>
-        <div className=" ">
-          {isAuthenticated ? (
-            <div className="flex gap-4">
-              <LoadingButton
-                loading={acceptLoading}
-                onClick={handleAcceptArtpiece}
-                variant="contained"
-                className=" text-[15px] leading-[16px] font-[600] h-[46px] px-4 bg-primary "
-              >
-                Accept
-              </LoadingButton>
-              <LoadingButton
-                onClick={handleReject}
-                loading={rejectLoading}
-                variant="outlined"
-                className=" text-[15px] leading-[16px] font-[600] h-[46px] px-4  "
-              >
-                Reject
-              </LoadingButton>
-            </div>
-          ) : (
-            <LoadingButton
-              variant="contained"
-              className=" text-[15px] leading-[16px] font-[600] h-[46px] px-4 bg-primary "
-              loading={false}
-              onClick={() => {
-                if (userIsRegistered) {
-                  router.push(`/login?token=${token}`);
-                } else {
-                  router.push(`/signup?token=${token}`);
-                }
-              }}
-            >
-              {!userIsRegistered
-                ? "Register to take action"
-                : "Login to take action"}
-            </LoadingButton>
-          )}
-        </div>
       </div>
+      <SignatureDialog
+        open={openSignature}
+        handleClose={() => setOpenSignature(false)}
+        setSignatureImage={setSignatureImage}
+      />
     </div>
   );
 };

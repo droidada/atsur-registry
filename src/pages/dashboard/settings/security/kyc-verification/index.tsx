@@ -21,11 +21,11 @@ export const getServerSideProps = async ({ req, query }) => {
 
     if (!token) return;
 
-    const res = await axios.get(`/smile-verification/status`, {
+    const res = await axios.get(`/smile-verification/status?type=kyc`, {
       headers: { authorization: `Bearer ${token?.accessToken}` },
     });
 
-    if (res.data && res.data?.kyc.redo !== true) {
+    if (res.data && res.data?.data?.verificationStatus.redo !== true) {
       return {
         redirect: {
           destination: "/dashboard/settings/security/kyc-verification/status",
@@ -36,6 +36,7 @@ export const getServerSideProps = async ({ req, query }) => {
 
     return { props: { status: res.data?.kyc } };
   } catch (error) {
+    console.log(error);
     throw new Error(error);
   }
 };
