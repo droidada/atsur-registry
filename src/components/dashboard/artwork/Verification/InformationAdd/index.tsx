@@ -13,6 +13,7 @@ interface Props {
   artpieceId: string;
   isArtistBroker: boolean;
   setIsArtistBroker: (arg: boolean) => void;
+
   setSelectedInformationAdd: (
     arg: "artist" | "broker" | "collector" | "institution",
   ) => void;
@@ -35,11 +36,14 @@ const ArtVerificationInformation: React.FC<Props> = ({
   console.log("artPiece:", artPiece);
 
   useEffect(() => {
+    console.log("key here is ", position);
     if (activeIndex === 2 && position === 2) {
       setIsArtistBroker(true);
       setSelectedInformationAdd("broker");
     }
-  }, [activeIndex, position, setIsArtistBroker, setSelectedInformationAdd]);
+  }, [activeIndex, position, setIsArtistBroker]);
+
+  console.log(artPiece);
 
   switch (selectedInformationAdd) {
     case "artist":
@@ -56,8 +60,8 @@ const ArtVerificationInformation: React.FC<Props> = ({
     case "broker":
       return (
         <DealerInformation
-          artPieceId={artpieceId}
           isArtistBroker={isArtistBroker}
+          artPieceId={artpieceId}
           setActiveIndex={setActiveIndex}
           defaultValues={artPiece?.custodian?.broker}
         />

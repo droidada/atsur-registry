@@ -65,6 +65,8 @@ const ArtistInformation: React.FC<Props> = ({
   const isSeries = watch("isSeries");
   const sellerType = watch("sellerType");
 
+  console.log(errors);
+
   const { mutate, isLoading } = useMutation({
     mutationFn: (data) =>
       axiosAuth.post(`/verify-artpiece/artist/${artpieceId}`, data),

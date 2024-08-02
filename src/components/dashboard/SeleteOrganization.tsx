@@ -61,7 +61,7 @@ const SelectOrganization: React.FC<Props> = ({
     },
   );
 
-  console.log(data?.data);
+  console.log(selectedOrg);
 
   return (
     <div className={`flex w-full flex-col text-base gap-2 ${className}`}>

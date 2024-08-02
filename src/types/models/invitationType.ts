@@ -1,4 +1,5 @@
-export interface InviteTypeProps {
+export interface InviteTypeProps
+{
   userIsRegistered?: boolean;
   token: string;
   invitationData: any;
@@ -8,4 +9,5 @@ export interface InviteTypeProps {
   acceptLoading?: boolean;
   rejectLoading?: boolean;
   kycVerificationStatus?: "verified" | "rejected" | "not-verified" | "pending";
+  verificationData?: any;
 }
