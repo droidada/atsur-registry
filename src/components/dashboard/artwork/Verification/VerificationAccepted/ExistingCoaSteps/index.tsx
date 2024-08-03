@@ -8,8 +8,14 @@ import FinalPreview from "./final-preview";
 
 interface Props {
   artPiece: any;
+  activeIndex: number;
+  setActiveIndex: (args: number) => void;
 }
-const NewCoa_Steps: React.FC<Props> = ({ artPiece }) => {
+const NewCoa_Steps: React.FC<Props> = ({
+  artPiece,
+  activeIndex,
+  setActiveIndex,
+}) => {
   const [steps, setSteps] = useState([
     "preview",
     "generate qr code",
@@ -17,21 +23,11 @@ const NewCoa_Steps: React.FC<Props> = ({ artPiece }) => {
     "tokenize",
     "final preview",
   ]);
-  const [activeIndex, setActiveIndex] = useState(0);
   const [signatureImage, setSignatureImage] = useState<string>("");
   const [qrImage, setQrImage] = useState("");
-
   const [coaImg, setCoaImg] = useState(null);
 
   console.log(artPiece?.artPiece);
-
-  useEffect(() => {
-    if (artPiece?.artPiece?.signedCOA) {
-      setActiveIndex(4);
-    } else if (artPiece?.artPiece?.draftCOA) {
-      setActiveIndex(3);
-    }
-  }, [artPiece?.artPiece]);
 
   return (
     <Stack spacing={4}>

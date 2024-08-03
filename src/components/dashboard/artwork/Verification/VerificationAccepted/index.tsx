@@ -95,6 +95,15 @@ const types = [
 const VerificationAccepted: React.FC<Props> = ({ artPiece }) => {
   const [coaType, setCoaType] = useState<"new" | "existing">("new");
   const [proceed, setProceed] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    if (artPiece?.artPiece?.signedCOA) {
+      setActiveIndex(4);
+    } else if (artPiece?.artPiece?.draftCOA) {
+      setActiveIndex(3);
+    }
+  }, [artPiece?.artPiece]);
 
   return (
     <>
@@ -152,9 +161,19 @@ const VerificationAccepted: React.FC<Props> = ({ artPiece }) => {
           </div>
         </Stack>
       )}
-      {proceed && coaType === "new" && <NewCoaSteps artPiece={artPiece} />}
+      {proceed && coaType === "new" && (
+        <NewCoaSteps
+          activeIndex={activeIndex}
+          setActiveIndex={setActiveIndex}
+          artPiece={artPiece}
+        />
+      )}
       {proceed && coaType === "existing" && (
-        <ExistingCoaSteps artPiece={artPiece} />
+        <ExistingCoaSteps
+          activeIndex={activeIndex}
+          setActiveIndex={setActiveIndex}
+          artPiece={artPiece}
+        />
       )}
     </>
   );

@@ -22,6 +22,7 @@ import { compile } from "@onedoc/react-print";
 import axios from "axios";
 import Image from "next/image";
 import ExistingCertificate from "@/components/Certificate/existing-certificate";
+import { artRoles } from "@/types/index";
 
 interface Props {
   artPiece: any;
@@ -32,10 +33,6 @@ interface Props {
   setSignatureImage?: React.Dispatch<React.SetStateAction<any>>;
   qrImage?: string;
 }
-
-// const ff = new FileforgeClient({
-//   apiKey: process.env.NEXT_PUBLIC_FILEFORGE_API_KEY,
-// });
 
 const SignCertificate: React.FC<Props> = ({
   artPiece,
@@ -51,6 +48,11 @@ const SignCertificate: React.FC<Props> = ({
   const certificateRef = useRef<HTMLDivElement>(null);
   const axiosAuth = useAxiosAuth();
   const toast = useToast();
+  const cannotSign =
+    artPiece?.artPiece?.verification?.custodian?.role !== artRoles.ARTIST ||
+    !artPiece?.artPiece.signature
+      ? false
+      : true;
 
   const { mutate, isLoading } = useMutation({
     mutationFn: async (data: {
@@ -155,35 +157,18 @@ const SignCertificate: React.FC<Props> = ({
 
   return (
     <Stack spacing={2}>
-      {/* <div style={{ backgroundImage: `url(${coaImg?.url})` }}>
-        <div
-          className=" w-full flex flex-col min-w-[585px] max-w-[1005px] justify-between h-fit mb-5 border-x-[1px]"
-          style={{
-            minWidth: "805px",
-            minHeight: "500px",
-            maxWidth: "1005px",
-            maxHeight: "600px",
-          }}
-        ></div>
-        <div className=" bg-slate-300 flex flex-col items-center w-[150.66px] mt-0 z-10">
-          <h4 className="text-sm">Signed By</h4>
-          <div className="h-[60px]  w-full relative">
-            {signatureImage && (
-              <Image
-                fill
-                src={signatureImage}
-                alt=""
-                className="object-cover  w-full h-full  "
-              />
-            )}
-          </div>
-          <p className="text-center pt-2 px-4 text-sm border-t-[1px] font-[700] uppercase border-golden">
-            {artPiece?.custodian?.profile?.firstName}{" "}
-            {artPiece?.custodian?.profile?.lastName}
+      {cannotSign && ( //TODO: fix up UI
+        <div>
+          <p>
+            Sorry you cannot proceed as the artist{" "}
+            {`${artPiece?.artPiece?.artist?.firstName} ${artPiece?.artPiece?.artist?.lastName}`}
+            , is yet to accept your invitation to authenticate their artwork.
+          </p>
+          <p>
+            Would you like to remind them? <button>Resend Invite</button>
           </p>
         </div>
-      </div> */}
-
+      )}
       <div className=" overflow-x-auto ">
         <ExistingCertificate
           coaImg={coaImg}
@@ -193,22 +178,26 @@ const SignCertificate: React.FC<Props> = ({
         />
       </div>
       <Stack direction={"row"} className="my-4" spacing={2}>
-        <Button
-          onClick={() => {
-            setOpenSignatureDialog(true);
-          }}
-          className="w-full max-w-[246px] h-[46px] text-xs font-[600] bg-primary-green"
-          startIcon={<FaSignature />}
-        >
-          Sign Certificate
-        </Button>
+        {!cannotSign && (
+          <Button
+            onClick={() => {
+              setOpenSignatureDialog(true);
+            }}
+            className="w-full max-w-[246px] h-[46px] text-xs font-[600] bg-primary-green"
+            startIcon={<FaSignature />}
+          >
+            Sign Certificate
+          </Button>
+        )}
 
         <LoadingButton
           loading={isLoading}
           onClick={handlePublish}
-          disabled={!signatureImage}
+          disabled={!signatureImage || !artPiece?.artPiece?.signature}
           className={`w-full max-w-[246px] h-[46px] text-xs font-[600] ${
-            !signatureImage ? "bg-gray-400" : "bg-primary"
+            !signatureImage || !artPiece?.artPiece?.signature
+              ? "bg-gray-400"
+              : "bg-primary"
           } text-white`}
           startIcon={<IoMdSave />}
         >
@@ -216,11 +205,13 @@ const SignCertificate: React.FC<Props> = ({
         </LoadingButton>
       </Stack>
 
-      <SignatureDialog
-        open={openSignatureDialog}
-        handleClose={() => setOpenSignatureDialog(false)}
-        setSignatureImage={setSignatureImage}
-      />
+      {!cannotSign && (
+        <SignatureDialog
+          open={openSignatureDialog}
+          handleClose={() => setOpenSignatureDialog(false)}
+          setSignatureImage={setSignatureImage}
+        />
+      )}
     </Stack>
   );
 };
