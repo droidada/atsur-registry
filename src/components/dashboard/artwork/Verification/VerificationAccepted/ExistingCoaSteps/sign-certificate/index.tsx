@@ -21,6 +21,7 @@ import { Onedoc } from "@onedoc/client";
 import { compile } from "@onedoc/react-print";
 import axios from "axios";
 import Image from "next/image";
+import ExistingCertificate from "@/components/Certificate/existing-certificate";
 
 interface Props {
   artPiece: any;
@@ -52,8 +53,15 @@ const SignCertificate: React.FC<Props> = ({
   const toast = useToast();
 
   const { mutate, isLoading } = useMutation({
-    mutationFn: async (data: { draftCOA: any; signature: any; qrCode: any }) =>
-      axiosAuth.post(`/art-piece/draft-coa/${artPiece?.artPiece?._id}`, data),
+    mutationFn: async (data: {
+      existingCOA: any;
+      draftCOA: any;
+      signature: any;
+      qrCode: any;
+    }) =>
+      axiosAuth.post(`/art-piece/draft-coa/${artPiece?.artPiece?._id}`, {
+        ...data,
+      }),
     onSuccess: (data) => {
       setActiveIndex((prev) => prev + 1);
       // TODO refetch artpiecedata
@@ -129,6 +137,7 @@ const SignCertificate: React.FC<Props> = ({
                 // console.log(url);
 
                 mutate({
+                  existingCOA: coaImg.url,
                   draftCOA: e.target?.result,
                   signature: signatureImage,
                   qrCode: qrImage,
@@ -146,16 +155,7 @@ const SignCertificate: React.FC<Props> = ({
 
   return (
     <Stack spacing={2}>
-      <div style={{ backgroundImage: `url(${coaImg?.url})` }}>
-        {/* <div className=" z-0">
-            <Image
-              src={coaImg?.url}
-              alt=""
-              height={600}
-              width={8005}
-              className="object-cover"
-            />
-          </div> */}
+      {/* <div style={{ backgroundImage: `url(${coaImg?.url})` }}>
         <div
           className=" w-full flex flex-col min-w-[585px] max-w-[1005px] justify-between h-fit mb-5 border-x-[1px]"
           style={{
@@ -182,15 +182,16 @@ const SignCertificate: React.FC<Props> = ({
             {artPiece?.custodian?.profile?.lastName}
           </p>
         </div>
+      </div> */}
+
+      <div className=" overflow-x-auto ">
+        <ExistingCertificate
+          coaImg={coaImg}
+          artPiece={artPiece?.artPiece}
+          signatureImage={signatureImage || artPiece?.artPiece?.signature}
+          qrImage={qrImage || artPiece?.artPiece?.qrCode}
+        />
       </div>
-
-      <PdfCertificate
-        ref={certificateRef}
-        artPiece={artPiece?.artPiece}
-        signatureImage={signatureImage}
-        qrImage={qrImage}
-      />
-
       <Stack direction={"row"} className="my-4" spacing={2}>
         <Button
           onClick={() => {

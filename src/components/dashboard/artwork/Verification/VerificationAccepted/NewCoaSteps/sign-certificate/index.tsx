@@ -20,6 +20,7 @@ import { useReactToPrint } from "react-to-print";
 import { Onedoc } from "@onedoc/client";
 import { compile } from "@onedoc/react-print";
 import axios from "axios";
+import { getCertificateText } from "../..";
 
 interface Props {
   artPiece: any;
@@ -48,7 +49,9 @@ const SignCertificate: React.FC<Props> = ({
 
   const { mutate, isLoading } = useMutation({
     mutationFn: async (data: { draftCOA: any; signature: any; qrCode: any }) =>
-      axiosAuth.post(`/art-piece/draft-coa/${artPiece?.artPiece?._id}`, data),
+      axiosAuth.post(`/art-piece/draft-coa/${artPiece?.artPiece?._id}`, {
+        ...data,
+      }),
     onSuccess: (data) => {
       setActiveIndex((prev) => prev + 1);
       // TODO refetch artpiecedata

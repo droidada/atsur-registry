@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import { getCertificateText } from "../dashboard/artwork/Verification/VerificationAccepted";
 
 interface Props {
   artPiece: any;
@@ -50,10 +51,7 @@ const ArtPieceCertificate: React.FC<Props> = ({
               </h4>
             </div>
             <div className="flex flex-col items-center text-center mt-10 ml-10 font-brawler">
-              <p style={{ fontSize: "1.1rem" }}>
-                This is to certify that the artwork is for the artist and is an
-                original one of a kind painting belonging to the artist{" "}
-              </p>
+              {getCertificateText({ artPiece })}
             </div>
           </div>
           <div className="flex-none w-[270.4px] h-[350.94px] bg-gold-gradient p-[5px]">

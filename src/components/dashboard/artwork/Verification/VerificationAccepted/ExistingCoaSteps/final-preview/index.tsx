@@ -20,6 +20,7 @@ import { useToast } from "@/providers/ToastProvider";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import LoadingButton from "@/components/Form/LoadingButton";
 import { useRouter } from "next/router";
+import { getCertificateText } from "../..";
 
 interface Props {
   artPiece: any;
@@ -89,6 +90,7 @@ const FinalPreview: React.FC<Props> = ({
       {/* <div className=" flex flex-col items-center  certificate" ref={ref}> */}
       <div className="max-w-[900px] w-full">
         <ArtPieceCertificate
+          text={getCertificateText({ artPiece })}
           artPiece={artPiece?.artPiece}
           signatureImage={signatureImage || artPiece?.artPiece?.signature}
           qrImage={qrImage || artPiece?.artPiece?.qrCode}

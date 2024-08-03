@@ -99,6 +99,7 @@ const NewCoa_Steps: React.FC<Props> = ({ artPiece }) => {
           <TokenizeCertificate
             setActiveIndex={setActiveIndex}
             artPiece={artPiece}
+            coaImg={coaImg}
             qrImage={qrImage}
             signatureImage={signatureImage}
             key={`verification-step-${4}`}

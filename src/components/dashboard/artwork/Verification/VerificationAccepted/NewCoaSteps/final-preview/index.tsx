@@ -20,6 +20,7 @@ import { useToast } from "@/providers/ToastProvider";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import LoadingButton from "@/components/Form/LoadingButton";
 import { useRouter } from "next/router";
+import { getCertificateText } from "../..";
 
 interface Props {
   artPiece: any;

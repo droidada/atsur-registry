@@ -20,6 +20,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useReactToPrint } from "react-to-print";
 import LoadingButton from "@/components/Form/LoadingButton";
 import Link from "next/link";
+import { getCertificateText } from "../..";
 
 interface Props {
   artPiece: any;

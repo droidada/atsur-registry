@@ -2,6 +2,7 @@ import ArtPieceCertificate from "@/components/Certificate";
 import { Button, Stack } from "@mui/material";
 import React from "react";
 import { BiQrScan } from "react-icons/bi";
+import { getCertificateText } from "../..";
 
 interface Props {
   artPiece: any;

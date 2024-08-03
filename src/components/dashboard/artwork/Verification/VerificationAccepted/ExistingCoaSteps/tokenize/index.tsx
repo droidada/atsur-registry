@@ -20,16 +20,19 @@ import { useMutation } from "@tanstack/react-query";
 import { useReactToPrint } from "react-to-print";
 import LoadingButton from "@/components/Form/LoadingButton";
 import Link from "next/link";
+import ExistingCertificate from "@/components/Certificate/existing-certificate";
 
 interface Props {
   artPiece: any;
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
+  coaImg: any;
   qrImage?: string;
   signatureImage: string;
 }
 const TokenizeCertificate: React.FC<Props> = ({
   artPiece,
   setActiveIndex,
+  coaImg,
   signatureImage,
   qrImage,
 }) => {
@@ -165,7 +168,8 @@ const TokenizeCertificate: React.FC<Props> = ({
   return (
     <div className="flex gap-6 flex-col  ">
       <div className=" overflow-x-auto ">
-        <ArtPieceCertificate
+        <ExistingCertificate
+          coaImg={coaImg}
           artPiece={artPiece?.artPiece}
           signatureImage={signatureImage || artPiece?.artPiece?.signature}
           qrImage={qrImage || artPiece?.artPiece?.qrCode}

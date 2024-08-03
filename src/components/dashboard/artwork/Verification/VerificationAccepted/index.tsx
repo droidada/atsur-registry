@@ -1,10 +1,77 @@
-import ArtPieceCertificate from "@/components/Certificate";
-import verification from "@/pages/dashboard/artworks/[id]/verification";
 import { Button, Stack } from "@mui/material";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import NewCoaSteps from "./NewCoaSteps";
 import ExistingCoaSteps from "./ExistingCoaSteps";
+import { artRoles, rarityTypes } from "@/types/index";
+
+export const getCertificateText = ({ artPiece }) => {
+  console.log("getting text for artpiece here ", artPiece.verification);
+  const role = artPiece?.verification?.custodian.role;
+  const rarity =
+    artPiece?.rarity === rarityTypes.UNIQUE
+      ? "one of a kind"
+      : artPiece.rarity === rarityTypes.LIMITED_EDITION
+      ? "limited edition"
+      : artPiece.rarity === rarityTypes.OPEN_EDITION
+      ? "open edition"
+      : "";
+  const custodianName = artPiece?.verification?.custodian[
+    artPiece?.verification?.custodian.role
+  ].organization?._id
+    ? artPiece?.verification?.custodian?.organization?.name
+    : `${artPiece.custodian?.firstName} ${artPiece.custodian?.lastName}`;
+
+  console.log(
+    `getCertificateText ----- role: ${role}   rarity: ${rarity}    custodianName: ${custodianName}`,
+  );
+
+  switch (role) {
+    case artRoles.ARTIST: {
+      return (
+        <>
+          <p style={{ fontSize: "1.1rem" }}>
+            this certificate certifies that this an original {`${rarity}`} piece
+            certified by the artist.{" "}
+          </p>
+        </>
+      );
+    }
+    case artRoles.COLLECTOR: {
+      return (
+        <>
+          <p style={{ fontSize: "1.1rem" }}>
+            this certificate certifies that <h2>{`${custodianName}`}</h2> is the
+            owner of this an original {`${rarity}`} art piece.{" "}
+          </p>
+        </>
+      );
+    }
+    case artRoles.INSTITUTION: {
+      return (
+        <>
+          <p style={{ fontSize: "1.1rem" }}>
+            this certificate certifies that <h2>{`${custodianName}`}</h2> is the{" "}
+            <b>authorized custodian</b> of this an original {`${rarity}`} art
+            piece as certified by the artist.
+          </p>
+        </>
+      );
+    }
+    case artRoles.BROKER: {
+      return (
+        <>
+          <p style={{ fontSize: "1.1rem" }}>
+            this certificate certifies that <h2>{`${custodianName}`}</h2> is the{" "}
+            <b>authorized broker</b> for this original {`${rarity}`} art piece
+            as certified by the artist.{" "}
+          </p>
+        </>
+      );
+    }
+  }
+  return <></>;
+};
 
 interface Props {
   artPiece: any;

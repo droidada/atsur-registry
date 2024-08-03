@@ -1,6 +1,7 @@
 import ProtectedPage from "@/HOC/Protected";
 import ArtPieceCertificate from "@/components/Certificate";
 import InputField from "@/components/Form/InputField";
+import { getCertificateText } from "@/components/dashboard/artwork/Verification/VerificationAccepted";
 import axios from "@/lib/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Stack } from "@mui/material";
