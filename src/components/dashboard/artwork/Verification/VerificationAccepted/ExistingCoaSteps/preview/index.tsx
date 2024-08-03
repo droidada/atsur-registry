@@ -17,11 +17,10 @@ const VericationConfirmPreview: React.FC<Props> = ({
   setCoaImg,
   setActiveIndex,
 }) => {
-
   const handleUploadClick = (files) => {
     const fileDoc = files[0];
     const reader = new FileReader();
-    console.log("fileDoc is ", fileDoc)
+    console.log("fileDoc is ", fileDoc);
     reader.readAsDataURL(fileDoc.file);
     reader.onload = () => {
       setCoaImg({
@@ -34,22 +33,22 @@ const VericationConfirmPreview: React.FC<Props> = ({
   return (
     <Stack spacing={2}>
       <VerificationFileDroper
-            maxSize={10 * 1024 * 1024}
-            maxFiles={1}
-            desc="Drag or choose your file to upload PNG, JPEG, or WEBP, (Max 10MB)"
-            handleUpload={handleUploadClick}
-            className="w-full h-full"
-            buttonClassName="bg-[#CECDCD]"
-            previewHeightClassName="h-[500px]"
-            dropzoneClassName="w-full relative h-[662px] bg-secondary"
-            accept="image/*, application/pdf"
-            previewImage={coaImg?.url}
-            fileName={coaImg?.filename}
-            isImage={true}
-          />
+        maxSize={10 * 1024 * 1024}
+        maxFiles={1}
+        desc="Drag or choose your file to upload PNG, JPEG, or WEBP, (Max 10MB)"
+        handleUpload={handleUploadClick}
+        className="w-full h-full"
+        buttonClassName="bg-[#CECDCD]"
+        previewHeightClassName="h-[500px]"
+        dropzoneClassName="w-full relative h-[662px] bg-secondary"
+        accept="image/*, application/pdf"
+        previewImage={coaImg?.url}
+        fileName={coaImg?.filename}
+        isImage={true}
+      />
 
       <p className="leading-[20px] text-[17px] font-[300]">
-        Please make sure you upload a clear image of your {" "}
+        Please make sure you upload a clear image of your{" "}
         <span className="font-[500]">Certificate of Authenticity</span>.
       </p>
 

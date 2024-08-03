@@ -33,7 +33,6 @@ function MainVerification({ artPiece }: Props) {
   }, [isArtistBroker]);
 
   useEffect(() => {
-
     setSelectedInformationAdd(artPiece?.custodian?.role || "artist");
     if (
       artPiece?.custodian?.collector ||

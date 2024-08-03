@@ -71,7 +71,9 @@ const VerificationFileDroper: React.FC<Props> = ({
               className="w-full h-full object-cover"
               alt=""
             />
-            <div className={`flex flex-col items-center justify-center relative gap-4 ${previewHeightClassName}`}>
+            <div
+              className={`flex flex-col items-center justify-center relative gap-4 ${previewHeightClassName}`}
+            >
               {desc ||
                 `Drag or choose your file to upload PNG, JPEG, GIF, WEBP, or
                     MP4 (Max 10MB)`}

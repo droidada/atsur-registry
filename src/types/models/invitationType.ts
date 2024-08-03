@@ -1,5 +1,4 @@
-export interface InviteTypeProps
-{
+export interface InviteTypeProps {
   userIsRegistered?: boolean;
   token: string;
   invitationData: any;

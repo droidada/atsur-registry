@@ -43,7 +43,7 @@ const SignCertificate: React.FC<Props> = ({
   setSignatureImage,
   qrImage,
   coaImg,
-  setCoaImg
+  setCoaImg,
 }) => {
   // const [signatureImage, setSignatureImage] = useState<any>();
   const [openSignatureDialog, setOpenSignatureDialog] = useState(false);
@@ -146,8 +146,8 @@ const SignCertificate: React.FC<Props> = ({
 
   return (
     <Stack spacing={2}>
-       <div style={{backgroundImage: `url(${coaImg?.url})`}}>
-          {/* <div className=" z-0">
+      <div style={{ backgroundImage: `url(${coaImg?.url})` }}>
+        {/* <div className=" z-0">
             <Image
               src={coaImg?.url}
               alt=""
@@ -156,26 +156,33 @@ const SignCertificate: React.FC<Props> = ({
               className="object-cover"
             />
           </div> */}
-          <div className=" w-full flex flex-col min-w-[585px] max-w-[1005px] justify-between h-fit mb-5 border-x-[1px]" 
-          style={{ minWidth:'805px', minHeight: '500px',  maxWidth:'1005px', maxHeight: '600px'}}></div>
-          <div className=" bg-slate-300 flex flex-col items-center w-[150.66px] mt-0 z-10">
-            <h4 className="text-sm">Signed By</h4>
-            <div className="h-[60px]  w-full relative">
-              {signatureImage && (
-                <Image
-                  fill
-                  src={signatureImage}
-                  alt=""
-                  className="object-cover  w-full h-full  "
-                />
-              )}
-            </div>
-            <p className="text-center pt-2 px-4 text-sm border-t-[1px] font-[700] uppercase border-golden">
-              {artPiece?.custodian?.profile?.firstName}{" "}
-              {artPiece?.custodian?.profile?.lastName}
-            </p>
+        <div
+          className=" w-full flex flex-col min-w-[585px] max-w-[1005px] justify-between h-fit mb-5 border-x-[1px]"
+          style={{
+            minWidth: "805px",
+            minHeight: "500px",
+            maxWidth: "1005px",
+            maxHeight: "600px",
+          }}
+        ></div>
+        <div className=" bg-slate-300 flex flex-col items-center w-[150.66px] mt-0 z-10">
+          <h4 className="text-sm">Signed By</h4>
+          <div className="h-[60px]  w-full relative">
+            {signatureImage && (
+              <Image
+                fill
+                src={signatureImage}
+                alt=""
+                className="object-cover  w-full h-full  "
+              />
+            )}
           </div>
+          <p className="text-center pt-2 px-4 text-sm border-t-[1px] font-[700] uppercase border-golden">
+            {artPiece?.custodian?.profile?.firstName}{" "}
+            {artPiece?.custodian?.profile?.lastName}
+          </p>
         </div>
+      </div>
 
       <PdfCertificate
         ref={certificateRef}

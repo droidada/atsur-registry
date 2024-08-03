@@ -26,70 +26,69 @@ const types = [
 ];
 
 const VerificationAccepted: React.FC<Props> = ({ artPiece }) => {
-
-  const [coaType, setCoaType] =  useState<"new" | "existing">("new");
-  const [proceed, setProceed] =  useState(false);
+  const [coaType, setCoaType] = useState<"new" | "existing">("new");
+  const [proceed, setProceed] = useState(false);
 
   return (
     <>
-    { !proceed &&
-      <Stack className="mt-8 items-center" spacing={4}>
-        <br />
-        <h2 className="text-[75px] w-fi leading-[57px] font-[600] center">
-          Congratulations!!
-        </h2>
-        <h2 className="text-[35px] w-fi leading-[57px] font-[400] center">
-          Your artwork has been Verified!
-        </h2>
-        <h3 className="text-[20px] w-fi leading-[14px] font-[200] center">
-          How did you want to proceed with the <span className="font-[500]">Certificate Of Authenticity</span>?
-        </h3>
-        <div className="flex gap-4 md:items-start justify-between items-center lg:flex-nowrap flex-wrap">
-          {types?.map((item, index) => (
-            <div
-              className={`flex flex-col items-center gap-2 hover:border-2 duration-500 ease-in-out hover:border-primary hover:p-2 cursor-pointer ${
-                item.value === coaType &&
-                "border-2 p-2 border-primary"
-              }`}
-              key={`selectedCoaType-${index}`}
-            >
+      {!proceed && (
+        <Stack className="mt-8 items-center" spacing={4}>
+          <br />
+          <h2 className="text-[75px] w-fi leading-[57px] font-[600] center">
+            Congratulations!!
+          </h2>
+          <h2 className="text-[35px] w-fi leading-[57px] font-[400] center">
+            Your artwork has been Verified!
+          </h2>
+          <h3 className="text-[20px] w-fi leading-[14px] font-[200] center">
+            How did you want to proceed with the{" "}
+            <span className="font-[500]">Certificate Of Authenticity</span>?
+          </h3>
+          <div className="flex gap-4 md:items-start justify-between items-center lg:flex-nowrap flex-wrap">
+            {types?.map((item, index) => (
               <div
-                onClick={() => {
-                  // @ts-ignore
-                  setCoaType(item.value);
-                }}
-                className={`w-full max-w-[201px] h-[190px]  relative bg-secondary `}
+                className={`flex flex-col items-center gap-2 hover:border-2 duration-500 ease-in-out hover:border-primary hover:p-2 cursor-pointer ${
+                  item.value === coaType && "border-2 p-2 border-primary"
+                }`}
+                key={`selectedCoaType-${index}`}
               >
-                <Image
-                  width={201}
-                  height={190}
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-full object-cover"
-                />
+                <div
+                  onClick={() => {
+                    // @ts-ignore
+                    setCoaType(item.value);
+                  }}
+                  className={`w-full max-w-[201px] h-[190px]  relative bg-secondary `}
+                >
+                  <Image
+                    width={201}
+                    height={190}
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <p>{item?.title}</p>
               </div>
-              <p>{item?.title}</p>
-            </div>
-          ))}
-        </div>
-        <h2 className="text-[25px] w-fi leading-[17px] font-[300] center">
-          {`${
-            types.find((x) => x.value === coaType)?.text
-          }`}
-        </h2>
-        <div className="w-full flex justify-center mt-8 mx-auto">
-          <Button
-            disabled={!coaType}
-            onClick={() => setProceed(true)}
-            className="h-[46px] max-w-[339px] w-full bg-primary text-white text-sm leading-[16px]"
-          >
-            Next
-          </Button>
-        </div>
-      </Stack>
-    }
-    {proceed && coaType === 'new' && <NewCoaSteps artPiece={artPiece} />}
-    {proceed && coaType === 'existing' && <ExistingCoaSteps artPiece={artPiece} />}
+            ))}
+          </div>
+          <h2 className="text-[25px] w-fi leading-[17px] font-[300] center">
+            {`${types.find((x) => x.value === coaType)?.text}`}
+          </h2>
+          <div className="w-full flex justify-center mt-8 mx-auto">
+            <Button
+              disabled={!coaType}
+              onClick={() => setProceed(true)}
+              className="h-[46px] max-w-[339px] w-full bg-primary text-white text-sm leading-[16px]"
+            >
+              Next
+            </Button>
+          </div>
+        </Stack>
+      )}
+      {proceed && coaType === "new" && <NewCoaSteps artPiece={artPiece} />}
+      {proceed && coaType === "existing" && (
+        <ExistingCoaSteps artPiece={artPiece} />
+      )}
     </>
   );
 };
