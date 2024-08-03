@@ -9,7 +9,7 @@ import FinalPreview from "./final-preview";
 interface Props {
   artPiece: any;
 }
-const VerificationConfirmSteps: React.FC<Props> = ({ artPiece }) => {
+const NewCoa_Steps: React.FC<Props> = ({ artPiece }) => {
   const [steps, setSteps] = useState([
     "preview",
     "generate qr code",
@@ -20,6 +20,8 @@ const VerificationConfirmSteps: React.FC<Props> = ({ artPiece }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [signatureImage, setSignatureImage] = useState<string>("");
   const [qrImage, setQrImage] = useState("");
+
+  const [coaImg, setCoaImg] = useState(null);
 
   console.log(artPiece?.artPiece);
 
@@ -74,6 +76,8 @@ const VerificationConfirmSteps: React.FC<Props> = ({ artPiece }) => {
             setActiveIndex={setActiveIndex}
             artPiece={artPiece}
             key={`verification-step-${1}`}
+            coaImg={coaImg}
+            setCoaImg={setCoaImg}
           />,
           <GenerateQRCode
             setActiveIndex={setActiveIndex}
@@ -87,6 +91,8 @@ const VerificationConfirmSteps: React.FC<Props> = ({ artPiece }) => {
             artPiece={artPiece}
             qrImage={qrImage}
             key={`verification-step-${3}`}
+            coaImg={coaImg}
+            setCoaImg={setCoaImg}
             signatureImage={signatureImage}
             setSignatureImage={setSignatureImage}
           />,
@@ -110,4 +116,4 @@ const VerificationConfirmSteps: React.FC<Props> = ({ artPiece }) => {
   );
 };
 
-export default VerificationConfirmSteps;
+export default NewCoa_Steps;

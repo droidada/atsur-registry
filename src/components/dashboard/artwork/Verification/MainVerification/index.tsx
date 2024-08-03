@@ -34,15 +34,6 @@ function MainVerification({ artPiece }: Props) {
   }, [isArtistBroker]);
 
   useEffect(() => {
-    // if (artPiece?.custodian?.role === "collector") {
-    //   setSelectedInformationAdd("collector");
-    // } else if (artPiece?.custodian?.role === "broker") {
-    //   setSelectedInformationAdd("broker");
-    // } else if (artPiece?.custodian?.role === "institution") {
-    //   setSelectedInformationAdd("institution");
-    // } else {
-    //   setSelectedInformationAdd("artist");
-    // }
 
     setSelectedInformationAdd(artPiece?.custodian?.role || "artist");
     if (
@@ -61,7 +52,6 @@ function MainVerification({ artPiece }: Props) {
       artPiece?.custodian?.artist?.sellerType === "broker"
     ) {
       setSteps(["acquisition", "information", "Broker Information", "Preview"]);
-      // setActiveIndex(steps.length - 1);
     }
   }, [artPiece]);
 
