@@ -68,8 +68,8 @@ const PriceSection: React.FC<Props> = ({ plans }) => {
         ))}
       </div>
 
-      <div className="mt-12">
-        <div className="flex gap-4  justify-between lg:flex-nowrap flex-wrap  lg:items-stretch items-center">
+      <div className="mt-12 w-full px-4">
+        <div className="flex gap-4  justify-center w-full  lg:flex-nowrap flex-wrap  lg:items-stretch items-center">
           {plans?.map((plan) => (
             <PricingCard
               key={plan._id}
@@ -83,69 +83,6 @@ const PriceSection: React.FC<Props> = ({ plans }) => {
           ))}
         </div>
       </div>
-      {/* <div className="mt-12 flex flex-col gap-2 items-center">
-        <h1 className="text-3xl md:text-5xl font-[600]  text-center">
-          Individual Plans
-        </h1>
-        <section className="flex gap-4  justify-between lg:flex-nowrap flex-wrap  lg:items-stretch items-center">
-          {filteredPlans?.individualPlans?.map((plan) => (
-            <PricingCard
-              key={plan._id}
-              planId={plan._id}
-              title={plan.type}
-              features={plan.features}
-              prices={plan.prices}
-              interval={currentInterval}
-            />
-          ))}
-        </section>
-      </div>
-      <div className="mt-12 flex flex-col gap-2 items-center">
-        <h1 className="text-3xl md:text-5xl font-[600]  text-center">
-          Business Plans
-        </h1>
-        <section className="flex gap-4  justify-between lg:flex-nowrap flex-wrap  lg:items-stretch items-center">
-          {filteredPlans?.businessPlans?.map((plan) => (
-            <PricingCard
-              key={plan._id}
-              planId={plan._id}
-              title={plan.type}
-              features={plan.features}
-              prices={plan.prices}
-              interval={currentInterval}
-            />
-          ))}
-        </section>
-      </div> */}
-
-      <section className="mt-12 flex flex-col gap-2 items-center">
-        <h2 className="lg:text-[30px] font-[600] md:text-2xl text-xl lg:leading-[65px] tracking-[50%]">
-          ALL SERVICES
-        </h2>
-        <div className="flex flex-col lg:flex-row bg-secondary p-4 md:p-8 lg:divide-x-[1px] lg:divide-primary text-primary">
-          {allPriceService.map((services, index) => (
-            <div
-              className="flex flex-col gap-2 w-full lg:w-1/2 px-4 md:px-8 py-10"
-              key={`services-${index}`}
-            >
-              {services.map((service) => (
-                <div
-                  key={`service-${service.title}`}
-                  className="flex items-baseline gap-3"
-                >
-                  <BsLightbulbFill className="flex-shrink-0" />
-                  <div className="flex flex-col text-lg md:text-[20px] md:leading-[34px]">
-                    <Link href={service.link} className="font-bold">
-                      {service.title}
-                    </Link>
-                    <p>{service.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      </section>
     </section>
   );
 };
