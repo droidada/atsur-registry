@@ -1,5 +1,3 @@
-import ArtPieceCertificate from "@/components/Certificate";
-import PdfCertificate from "@/components/Certificate/PdfCertificate";
 import LoadingButton from "@/components/Form/LoadingButton";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useToast } from "@/providers/ToastProvider";
@@ -17,17 +15,13 @@ import { FaSignature } from "react-icons/fa";
 import { IoMdSave } from "react-icons/io";
 import SignatureCanvas from "react-signature-canvas";
 import { useReactToPrint } from "react-to-print";
-import { Onedoc } from "@onedoc/client";
-import { compile } from "@onedoc/react-print";
-import axios from "axios";
-import Image from "next/image";
 import ExistingCertificate from "@/components/Certificate/existing-certificate";
 import { artRoles } from "@/types/index";
+import ExistingPdfCertificate from "@/components/Certificate/existing-pdf-certificate";
 
 interface Props {
   artPiece: any;
   coaImg: any;
-  setCoaImg: (args: any) => void;
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
   signatureImage?: any;
   setSignatureImage?: React.Dispatch<React.SetStateAction<any>>;
@@ -41,7 +35,6 @@ const SignCertificate: React.FC<Props> = ({
   setSignatureImage,
   qrImage,
   coaImg,
-  setCoaImg,
 }) => {
   // const [signatureImage, setSignatureImage] = useState<any>();
   const [openSignatureDialog, setOpenSignatureDialog] = useState(false);
@@ -54,6 +47,7 @@ const SignCertificate: React.FC<Props> = ({
       ? false
       : true;
 
+  console.log("artPiece?.artPiece.signature ", !signatureImage && !artPiece?.artPiece?.signature)
   const { mutate, isLoading } = useMutation({
     mutationFn: async (data: {
       existingCOA: any;
@@ -61,9 +55,7 @@ const SignCertificate: React.FC<Props> = ({
       signature: any;
       qrCode: any;
     }) =>
-      axiosAuth.post(`/art-piece/draft-coa/${artPiece?.artPiece?._id}`, {
-        ...data,
-      }),
+      axiosAuth.post(`/art-piece/draft-coa/${artPiece?.artPiece?._id}`, data),
     onSuccess: (data) => {
       setActiveIndex((prev) => prev + 1);
       // TODO refetch artpiecedata
@@ -139,7 +131,7 @@ const SignCertificate: React.FC<Props> = ({
                 // console.log(url);
 
                 mutate({
-                  existingCOA: coaImg.url,
+                  existingCOA: coaImg?.url,
                   draftCOA: e.target?.result,
                   signature: signatureImage,
                   qrCode: qrImage,
@@ -170,7 +162,8 @@ const SignCertificate: React.FC<Props> = ({
         </div>
       )}
       <div className=" overflow-x-auto ">
-        <ExistingCertificate
+        <ExistingPdfCertificate
+          ref={certificateRef}
           coaImg={coaImg}
           artPiece={artPiece?.artPiece}
           signatureImage={signatureImage || artPiece?.artPiece?.signature}
@@ -193,9 +186,9 @@ const SignCertificate: React.FC<Props> = ({
         <LoadingButton
           loading={isLoading}
           onClick={handlePublish}
-          disabled={!signatureImage || !artPiece?.artPiece?.signature}
+          disabled={!signatureImage && !artPiece?.artPiece?.signature}
           className={`w-full max-w-[246px] h-[46px] text-xs font-[600] ${
-            !signatureImage || !artPiece?.artPiece?.signature
+            !signatureImage && !artPiece?.artPiece?.signature
               ? "bg-gray-400"
               : "bg-primary"
           } text-white`}

@@ -3,14 +3,7 @@ import { Button, MenuItem, Stack } from "@mui/material";
 import React, { useRef, useState } from "react";
 import { object, string, TypeOf, boolean, ZodVoidDef, array } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import { PDFViewer } from "@react-pdf/renderer";
-import {
-  useForm,
-  SubmitHandler,
-  Control,
-  FieldErrors,
-  useFieldArray,
-} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import InputField from "@/components/Form/InputField";
 import PdfCertificate from "@/components/Certificate/PdfCertificate";
 import SelectField from "@/components/Form/SelectField";

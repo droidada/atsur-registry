@@ -21,6 +21,7 @@ import { useReactToPrint } from "react-to-print";
 import LoadingButton from "@/components/Form/LoadingButton";
 import Link from "next/link";
 import ExistingCertificate from "@/components/Certificate/existing-certificate";
+import ExistingPdfCertificate from "@/components/Certificate/existing-pdf-certificate";
 
 interface Props {
   artPiece: any;
@@ -175,13 +176,6 @@ const TokenizeCertificate: React.FC<Props> = ({
           qrImage={qrImage || artPiece?.artPiece?.qrCode}
         />
       </div>
-      <PdfCertificate
-        ref={certificateRef}
-        artPiece={artPiece?.artPiece}
-        signatureImage={signatureImage || artPiece?.artPiece?.signature}
-        qrImage={qrImage || artPiece?.artPiece?.qrCode}
-        tokenized={true}
-      />
 
       <div className="flex flex-col  gap-5  ">
         <div className="flex flex-col gap-2">

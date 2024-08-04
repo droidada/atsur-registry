@@ -1,5 +1,4 @@
 import useAxiosAuth from "@/hooks/useAxiosAuth";
-import { DialogProps } from "@headlessui/react";
 import { Avatar, Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";

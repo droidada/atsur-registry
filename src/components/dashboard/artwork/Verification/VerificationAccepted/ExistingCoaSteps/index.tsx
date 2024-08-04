@@ -88,7 +88,6 @@ const NewCoa_Steps: React.FC<Props> = ({
             qrImage={qrImage}
             key={`verification-step-${3}`}
             coaImg={coaImg}
-            setCoaImg={setCoaImg}
             signatureImage={signatureImage}
             setSignatureImage={setSignatureImage}
           />,
@@ -104,6 +103,7 @@ const NewCoa_Steps: React.FC<Props> = ({
             setActiveIndex={setActiveIndex}
             artPiece={artPiece}
             qrImage={qrImage}
+            coaImg={coaImg}
             signatureImage={signatureImage}
             key={`verification-step-${4}`}
           />,

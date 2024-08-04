@@ -193,9 +193,9 @@ const SignCertificate: React.FC<Props> = ({
         <LoadingButton
           loading={isLoading}
           onClick={handlePublish}
-          disabled={!signatureImage || !artPiece?.artPiece?.signature}
+          disabled={!signatureImage && !artPiece?.artPiece?.signature}
           className={`w-full max-w-[246px] h-[46px] text-xs font-[600] ${
-            !signatureImage || !artPiece?.artPiece?.signature
+            !signatureImage && !artPiece?.artPiece?.signature
               ? "bg-gray-400"
               : "bg-primary"
           } text-white`}

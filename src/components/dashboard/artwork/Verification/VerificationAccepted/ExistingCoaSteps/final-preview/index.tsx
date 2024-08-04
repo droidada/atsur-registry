@@ -21,10 +21,12 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import LoadingButton from "@/components/Form/LoadingButton";
 import { useRouter } from "next/router";
 import { getCertificateText } from "../..";
+import ExistingCertificate from "@/components/Certificate/existing-certificate";
 
 interface Props {
   artPiece: any;
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
+  coaImg: any;
   qrImage?: string;
   signatureImage: string;
   tokenize?: boolean;
@@ -32,6 +34,7 @@ interface Props {
 const FinalPreview: React.FC<Props> = ({
   artPiece,
   setActiveIndex,
+  coaImg,
   qrImage,
   signatureImage,
   tokenize,
@@ -89,7 +92,8 @@ const FinalPreview: React.FC<Props> = ({
     <Stack>
       {/* <div className=" flex flex-col items-center  certificate" ref={ref}> */}
       <div className="max-w-[900px] w-full">
-        <ArtPieceCertificate
+        <ExistingCertificate
+          coaImg={coaImg}
           artPiece={artPiece?.artPiece}
           signatureImage={signatureImage || artPiece?.artPiece?.signature}
           qrImage={qrImage || artPiece?.artPiece?.qrCode}

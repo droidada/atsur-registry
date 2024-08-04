@@ -1,21 +1,23 @@
 import Image from "next/image";
-import React from "react";
+import React, { forwardRef } from "react";
 
 interface Props {
   artPiece: any;
-  coaImg: any;
+  coaImg?: any;
   signatureImage?: any;
   qrImage?: any;
   tokenized?: boolean;
 }
 
-const ExistingCertificate = ({ artPiece, coaImg, signatureImage, qrImage, tokenized}: Props) => {
-  console.log("token and ..... artPiece", artPiece);
+const ExistingPdfCertificate = forwardRef(
+  ({ artPiece, coaImg, signatureImage, qrImage, tokenized}: Props, ref: any) => {
+  console.log(artPiece);
   return (
     <>
       <div
+        ref={ref}
         style={{
-          backgroundImage: `url(${coaImg?.url || artPiece?.artPiece?.existingCOA})`,
+          backgroundImage: `url(${coaImg?.url || artPiece?.existingCOA})`,
         }}
         className="min-w-[685px] max-w-[1005px] certificate"
       >
@@ -76,7 +78,7 @@ const ExistingCertificate = ({ artPiece, coaImg, signatureImage, qrImage, tokeni
       </div>
     </>
   );
-};
+},);
 
-ExistingCertificate.displayName = "ExistingCertificate";
-export default ExistingCertificate;
+ExistingPdfCertificate.displayName = "ExistingPdfCertificate";
+export default ExistingPdfCertificate;
