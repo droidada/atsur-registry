@@ -1,26 +1,25 @@
-import useAxiosAuth from "@/hooks/useAxiosAuth";
-import { useToast } from "@/providers/ToastProvider";
-import { LoadingButton } from "@mui/lab";
+import React, { useState } from "react";
+import { useRouter } from "next/router";
 import {
   Button,
-  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
   FormControlLabel,
+  Checkbox,
 } from "@mui/material";
-import { set } from "date-fns";
+import { LoadingButton } from "@mui/lab";
 import Image from "next/image";
-import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
+import SignatureCanvas from "react-signature-canvas";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosAuth from "@/hooks/useAxiosAuth";
+import { useToast } from "@/providers/ToastProvider";
 import MemberOrgInvite from "./invitationType/MemberOrgInvite";
 import CollaboratorInvite from "./invitationType/CollaboratorInvite";
 import OrgInvite from "./invitationType/OrgInvite";
 import ArpieceArtistInvite from "./invitationType/ArpieceArtistInvite";
-import { useQuery } from "@tanstack/react-query";
-import SignatureCanvas from "react-signature-canvas";
 
 interface Props {
   type: string;
@@ -28,6 +27,7 @@ interface Props {
   invitee: any;
   invitationData: any;
 }
+
 const AuthenticatedScreen = ({
   type,
   invitee,
@@ -37,55 +37,48 @@ const AuthenticatedScreen = ({
   const [open, setOpen] = useState(false);
   const [acceptLoading, setAcceptLoading] = useState(false);
   const [rejectLoading, setRejectLoading] = useState(false);
+  const [signatureImage, setSignatureImage] = useState("");
+
   const axiosFetch = useAxiosAuth();
   const router = useRouter();
   const { token } = router.query;
+  const toast = useToast();
 
   const { data: currentUser } = useQuery({
+    queryKey: ["currentUser"],
     queryFn: () => axiosFetch.get("user/me"),
     refetchOnWindowFocus: false,
   });
 
-  console.log(currentUser?.data);
-
-  console.log(type);
-
-  const toast = useToast();
-
   const handleAccept = async () => {
+    setAcceptLoading(true);
+
     try {
-      setAcceptLoading(true);
-
-      // If the user has not done their KYC don't allow them to verify
-
-      if (type === "art-piece-artist") {
-        if (
-          currentUser?.data?.kycVerification?.verificationStatus !== "verified"
-        ) {
-          return toast.error(
-            "You need to do your KYC verification before you can accept this",
-          );
-        }
+      if (
+        type === "art-piece-artist" &&
+        currentUser?.data?.kycVerification?.verificationStatus !== "verified"
+      ) {
+        toast.error(
+          "You need to do your KYC verification before you can accept this",
+        );
+        return;
       }
 
-      if (type !== "org") {
-        const { data } = await axiosFetch.post("/invite/accept", {
-          token,
-          userResponse: "accepted",
-        });
-        toast.success("Successfully accepted the invitation!");
-        router.replace("/dashboard");
-      } else {
-        if (invitee?.org) {
-          const { data } = await axiosFetch.post("/invite/accept", {
-            token,
-            userResponse: "accepted",
-          });
-          toast.success("Successfully accepted the invitation!");
-          router.replace(`/dashboard/organizations/${invitee?.org}`);
-        }
-        router.replace(`/dashboard/organizations?create=true&token=${token}`);
-      }
+      const inviteUrl =
+        type === "org" && invitationData?.invitation?.object?.org
+          ? `/dashboard/organizations/${invitationData.invitation.object.org._id}`
+          : "/dashboard";
+
+      const formData = new FormData();
+      formData.append("token", token as string);
+      formData.append("userResponse", "accepted");
+
+      formData.append("signature", signatureImage);
+
+      const { data } = await axiosFetch.post("/invite/accept", formData);
+
+      toast.success("Successfully accepted the invitation!");
+      router.replace(inviteUrl);
     } catch (error) {
       toast.error("Error accepting the invitation!");
     } finally {
@@ -93,131 +86,59 @@ const AuthenticatedScreen = ({
     }
   };
 
-  console.log(verificationData);
-
   const handleReject = async () => {
+    setRejectLoading(true);
+
     try {
-      setRejectLoading(true);
       if (
         currentUser?.data?.kycVerification?.verificationStatus !== "verified"
       ) {
-        return toast.error(
+        toast.error(
           "You need to do your KYC verification before you can reject this",
         );
+        return;
       }
+
       const { data } = await axiosFetch.post("/invite/accept", {
         token,
         userResponse: "rejected",
       });
+
       toast.success("Successfully rejected the invitation!");
-      // router.push("/dashboard");
     } catch (error) {
-      toast.error("Error accepting the invitation!");
-      console.log(error);
+      toast.error("Error rejecting the invitation!");
     } finally {
       setRejectLoading(false);
     }
   };
 
+  const commonProps = {
+    isAuthenticated: true,
+    handleAccept,
+    handleReject,
+    acceptLoading,
+    rejectLoading,
+    token: token as string,
+    invitationData,
+    kycVerificationStatus:
+      currentUser?.data?.kycVerification?.verificationStatus,
+    signatureImage,
+    setSignatureImage,
+    verificationData,
+  };
+
   switch (type) {
     case "art-piece-collaborator":
-      return (
-        <CollaboratorInvite
-          isAuthenticated={true}
-          handleAccept={handleAccept}
-          handleReject={handleReject}
-          acceptLoading={acceptLoading}
-          rejectLoading={rejectLoading}
-          token={token as string}
-          invitationData={invitationData}
-          kycVerificationStatus={
-            currentUser?.data?.kycVerification?.verificationStatus
-          }
-          verificationData={verificationData}
-        />
-      );
+      return <CollaboratorInvite {...commonProps} />;
     case "member-org":
-      return (
-        <MemberOrgInvite
-          isAuthenticated={true}
-          handleAccept={handleAccept}
-          handleReject={handleReject}
-          acceptLoading={acceptLoading}
-          rejectLoading={rejectLoading}
-          token={token as string}
-          invitationData={invitationData}
-          kycVerificationStatus={
-            currentUser?.data?.kycVerification?.verificationStatus
-          }
-        />
-      );
+      return <MemberOrgInvite {...commonProps} />;
     case "org":
-      return (
-        <OrgInvite
-          isAuthenticated={true}
-          handleAccept={handleAccept}
-          handleReject={handleReject}
-          acceptLoading={acceptLoading}
-          rejectLoading={rejectLoading}
-          token={token as string}
-          invitationData={invitationData}
-        />
-      );
+      return <OrgInvite {...commonProps} />;
     case "art-piece-artist":
-      return (
-        <ArpieceArtistInvite
-          isAuthenticated={true}
-          handleAccept={handleAccept}
-          handleReject={handleReject}
-          acceptLoading={acceptLoading}
-          rejectLoading={rejectLoading}
-          token={token as string}
-          invitationData={invitationData}
-          kycVerificationStatus={
-            currentUser?.data?.kycVerification?.verificationStatus
-          }
-        />
-      );
+      return <ArpieceArtistInvite {...commonProps} />;
     default:
-      return <></>;
+      return null;
   }
 };
 
 export default AuthenticatedScreen;
-
-// interface ModalProps {
-//   open: boolean;
-//   onClose: () => void;
-//   handleAccept: () => void;
-// }
-
-// const ArtistModal: React.FC<ModalProps> = ({ open, onClose, handleAccept }) => {
-//   const canvasRef = useRef<any>(null);
-
-//   const clearSignature = () => {
-//     canvasRef.current.clear();
-//   };
-
-//   // const saveSignature = () => {
-//   //   const signatureImage = canvasRef.current.toDataURL();
-//   //   setSignatureImage(signatureImage);
-//   //   handleClose();
-//   // };
-//   return (
-//     <Dialog open={open} onClose={onClose}>
-//       <DialogTitle>Invitation Acceptance</DialogTitle>
-//       <DialogContent dividers>
-//         <SignatureCanvas
-//           penColor="black"
-//           ref={canvasRef}
-//           canvasProps={{ className: "w-full h-[80px] bg-white" }}
-//         />
-//         <FormControlLabel
-//           control={<Checkbox defaultChecked />}
-//           labelPlacement="end"
-//           label="Label"
-//         />
-//       </DialogContent>
-//     </Dialog>
-//   );
-// };

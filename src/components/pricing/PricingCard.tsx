@@ -76,7 +76,7 @@ const PricingCard: React.FC<PricingCardProps> = ({
   ];
 
   return (
-    <div className="max-w-[448.19px] w-full border-[1px] border-primary flex flex-col">
+    <div className="max-w-[448.19px]  w-full border-[1px] border-primary flex flex-col">
       <div className="bg-white flex flex-col items-center gap-8 px-8 py-10">
         <p className="uppercase text-[15px] leading-[18px] tracking-[40%] text-center text-primary font-[600]">
           {isFree ? "Free Service" : title}
