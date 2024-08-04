@@ -1,86 +1,79 @@
 import React, { useEffect } from "react";
 import { useSession } from "next-auth/react";
-import AuthenticatedScreen from "@/components/invitation/AuthenticatedScreen";
-import NotAuthScreen from "@/components/invitation/NotAuthScreen";
 import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
-import { getToken } from "next-auth/jwt";
-import axios, { axiosAuth } from "@/lib/axios";
-import UnprotectedPage from "@/HOC/Unprotected";
+import axios from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
+import AuthenticatedScreen from "@/components/invitation/AuthenticatedScreen";
+import NotAuthScreen from "@/components/invitation/NotAuthScreen";
+import UnprotectedPage from "@/HOC/Unprotected";
 
 export const getServerSideProps = async ({ req, query, params }) => {
   try {
     const { token: verificationToken } = params;
-
-    const res = await axios.post(`/invite/fetch`, { token: verificationToken });
-
+    const res = await axios.get(`/invite/fetch/${verificationToken}`);
     return { props: { invitationData: res.data?.data } };
   } catch (error) {
-    console.log(error?.response?.data?.message || error?.message);
+    console.error(error?.response?.data?.message || error?.message);
     throw new Error(error);
   }
 };
 
 const Invitation = ({ invitationData }) => {
-  console.log(invitationData);
-  const { status, data } = useSession();
-
-  const check =
-    status === "authenticated" &&
-    invitationData?.invitee?.email === data?.user.email;
+  const { status, data: sessionData } = useSession();
   const router = useRouter();
 
+  const isAuthenticated = status === "authenticated";
+  const isInvitee =
+    invitationData?.invitation.invitee?.email === sessionData?.user?.email;
+
   const { data: verification, error } = useQuery({
+    queryKey: ["verification"],
     queryFn: () =>
       axios.get(
-        "/verify-artpiece/" +
-          invitationData?.invitation?.object?.artPiece?.verification,
+        `/verify-artpiece/${invitationData?.invitation?.object?.artPiece?.verification}`,
       ),
     refetchOnWindowFocus: false,
-    queryKey: ["verification"],
   });
 
-  console.log(verification, error);
-
-  console.log(invitationData?.invitation?.type);
   useEffect(() => {
-    if (status === "authenticated") {
-      if (invitationData?.invitation?.type === "org") {
-        if (
-          invitationData?.invitation?.invitee?.org?.creator?.email !==
-            data?.user?.email &&
-          invitationData?.invitation?.invitee?.email !== data?.user?.email
-        ) {
-          console.log(invitationData?.invitee?.org?.creator?.email);
+    if (isAuthenticated) {
+      const { type, invitee } = invitationData?.invitation;
+
+      if (type === "org") {
+        const isOrgCreator =
+          invitee?.org?.creator?.email === sessionData?.user?.email;
+        if (!isOrgCreator && !isInvitee) {
           signOut();
         }
-      } else {
-        if (invitationData?.invitation?.invitee?.email !== data?.user?.email) {
-          signOut();
-        }
+      } else if (!isInvitee) {
+        signOut();
       }
     }
-  }, [status, invitationData, data]);
+  }, [isAuthenticated, invitationData, sessionData]);
+
+  const authScreenProps = {
+    type: invitationData?.invitation?.type,
+    invitee: invitationData?.invitation?.invitee,
+    invitationData,
+    verificationData: verification?.data?.data,
+  };
+
+  const notAuthScreenProps = {
+    token: invitationData?.invitation?.token,
+    type: invitationData?.invitation?.type,
+    inviter: invitationData?.invitation?.inviter,
+    userIsRegistered: invitationData?.userIsRegistered,
+    invitationData,
+    verificationData: verification?.data?.data,
+  };
 
   return (
     <>
-      {status == "authenticated" ? (
-        <AuthenticatedScreen
-          type={invitationData?.invitation?.type}
-          invitee={invitationData?.invitation?.invitee}
-          invitationData={invitationData}
-          verificationData={verification?.data?.data}
-        />
+      {isAuthenticated ? (
+        <AuthenticatedScreen {...authScreenProps} />
       ) : (
-        <NotAuthScreen
-          token={invitationData?.invitation?.token}
-          type={invitationData?.invitation?.type}
-          inviter={invitationData?.invitation?.inviter}
-          userIsRegistered={invitationData?.userIsRegistered}
-          invitationData={invitationData}
-          verificationData={verification?.data?.data}
-        />
+        <NotAuthScreen {...notAuthScreenProps} />
       )}
     </>
   );

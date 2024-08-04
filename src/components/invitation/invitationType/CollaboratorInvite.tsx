@@ -9,7 +9,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
-const CollaboratorInvite: React.FC<InviteTypeProps> = ({
+interface Props extends InviteTypeProps {
+  signatureImage?: string;
+  setSignatureImage?: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const CollaboratorInvite: React.FC<Props> = ({
   userIsRegistered,
   token,
   invitationData,
@@ -20,6 +25,8 @@ const CollaboratorInvite: React.FC<InviteTypeProps> = ({
   rejectLoading,
   verificationData,
   kycVerificationStatus,
+  signatureImage,
+  setSignatureImage,
 }) => {
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -27,10 +34,11 @@ const CollaboratorInvite: React.FC<InviteTypeProps> = ({
   console.log(verificationData);
 
   const collaborators =
-    verificationData?.custodian?.artist?.brokerInfo?.collaborators ||
-    verificationData?.custodian?.broker?.collaborators;
+    verificationData?.custodian?.artist?.brokerInfo?.collaborators.length > 0
+      ? verificationData?.custodian?.artist?.brokerInfo?.collaborators
+      : verificationData?.custodian?.broker?.collaborators;
 
-  console.log(collaborators);
+  console.log(signatureImage);
 
   const currentUser = collaborators?.find(
     (collaborator) => collaborator?.userInfo?.email === session?.user?.email,
@@ -41,7 +49,7 @@ const CollaboratorInvite: React.FC<InviteTypeProps> = ({
   const toast = useToast();
 
   const [openSignature, setOpenSignature] = useState(false);
-  const [signatureImage, setSignatureImage] = useState("");
+  // const [signatureImage, setSignatureImage] = useState("");
   const [acceptTermsAndCondition, setAcceptTermsAndCondition] = useState(false);
   const [termAndConditionError, setTermsAndConditionError] = useState(false);
 
@@ -57,23 +65,25 @@ const CollaboratorInvite: React.FC<InviteTypeProps> = ({
       }
     }
 
-    if (
-      currentUser?.userInfo?.role === "main artist" &&
-      kycVerificationStatus !== "verified"
-    ) {
-      return toast.error(
-        "You need to do your KYC verification before you can accept this",
-      );
-    }
+    // if (
+    //   currentUser?.userInfo?.role === "main artist" &&
+    //   kycVerificationStatus !== "verified"
+    // ) {
+    //   return toast.error(
+    //     "You need to do your KYC verification before you can accept this",
+    //   );
+    // }
 
     handleAccept();
   };
 
   return (
     <div className="flex flex-col gap-4 divide-y-[1px] divide-primary ">
-      <div className="flex justify-between flex-wrap pb-4 gap-5">
+      <div className="flex md:justify-between justify-center flex-wrap items-center pb-4 gap-5">
         <div className="flex flex-col gap-6">
-          <h1 className="font-[600] text-[50px] leading-[60px]">Invitations</h1>
+          <h1 className="font-[600] text-[50px] text-center md:text-left leading-[60px]">
+            Invitations
+          </h1>
           <div className="md:px-3 flex gap-4">
             <Avatar
               className="w-[50px] h-[50px] md:w-[100px] md:h-[100px] lg:w-[154px] lg:h-[154px] "
