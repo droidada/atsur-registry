@@ -88,7 +88,8 @@ const ArtVerificationAquisition: React.FC<Props> = ({
       </div>
       <h2 className="text-[25px] w-fi leading-[17px] font-[300] center">
         {`${
-          informationToAdd.find((x) => x.value === selectedInformationAdd).text
+          informationToAdd.find((x) => x.value === selectedInformationAdd)
+            ?.text || informationToAdd[0].text
         }`}
       </h2>
       <div className="w-full flex justify-center mt-8 mx-auto">

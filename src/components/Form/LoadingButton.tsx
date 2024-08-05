@@ -44,7 +44,7 @@ const LoadingButton: React.FC<Props> = ({
         loading && "flex cursor-not-allowed items-center justify-center"
       }`}
       onClick={onClick}
-      disabled={disabled}
+      disabled={loading || disabled}
     >
       {loading ? (
         <AiOutlineLoading3Quarters className="animate-spin" />
