@@ -7,8 +7,15 @@ export const statusTypes = {
 };
 
 export const artRoles = {
-  DEALER: "dealer",
+  BROKER: "broker",
   COLLECTOR: "collector",
   ARTIST: "artist",
-  CUSTODIAN: "custodian",
+  INSTITUTION: "institution",
+};
+
+export const rarityTypes = {
+  UNIQUE: "unique",
+  LIMITED_EDITION: "limited-edition",
+  OPEN_EDITION: "open-edition",
+  UNKNOWN: "unknown",
 };

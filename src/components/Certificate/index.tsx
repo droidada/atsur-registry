@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import { getCertificateText } from "../dashboard/artwork/Verification/VerificationAccepted";
 
 interface Props {
   artPiece: any;
@@ -16,7 +17,7 @@ const ArtPieceCertificate: React.FC<Props> = ({
 }) => {
   console.log(artPiece);
   return (
-    <div className="bg-[#FFFCF2] w-full  flex flex-col min-w-[585px] justify-between h-fit mb-5 border-x-[1px] ">
+    <div className="bg-[#FFFCF2] w-full  flex flex-col min-w-[585px] max-w-[1005px] justify-between h-fit mb-5 border-x-[1px] ">
       <div className="w-full border-t-[1px] flex-1  border-primary font-brawler flex flex-col ">
         <div className="flex flex-row justify-between gap-4 px-8 pt-8">
           <div className="w-[70%]">
@@ -50,13 +51,10 @@ const ArtPieceCertificate: React.FC<Props> = ({
               </h4>
             </div>
             <div className="flex flex-col items-center text-center mt-10 ml-10 font-brawler">
-              <p style={{ fontSize: "1.1rem" }}>
-                This is to certify that the artwork is for the artist and is an
-                original one of a kind painting belonging to the artist{" "}
-              </p>
+              {getCertificateText({ artPiece })}
             </div>
           </div>
-          <div className="flex-none w-[223.4px] h-[323.94px] bg-gold-gradient p-[5px]">
+          <div className="flex-none w-[270.4px] h-[350.94px] bg-gold-gradient p-[5px]">
             <div className="w-full h-full relative bg-[#D9D9D9]">
               <Image
                 src={artPiece?.assets[0]?.url}
@@ -124,10 +122,10 @@ const ArtPieceCertificate: React.FC<Props> = ({
         </div>
         {/* {!tokenized && <div className="h-5 w-full relative "></div>} */}
       </div>
-      <div className="w-full h-[36.75px]   relative ">
+      <div className="w-full h-[45px] z-0 overflow-hidden relative ">
         <Image
           src={"/border-.svg"}
-          height={36.75}
+          height={45}
           width={700}
           alt="border-bottom"
           className="object-contain  w-full "

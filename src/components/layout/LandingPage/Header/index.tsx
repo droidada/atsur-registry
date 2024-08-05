@@ -65,10 +65,11 @@ const LandindingPageHeader = () => {
               <Image src={logo} width={66} height={58.98} alt="Atsur" />
             </Link>
             <div className="hidden md:flex items-center gap-8 ">
-              {landingPageNavMenu.map((item) =>
+              {landingPageNavMenu.map((item, idx) =>
                 item.menus ? (
                   <div
-                    key={item.title}
+                    key={idx}
+                    // key={item.title}
                     className="relative"
                     onMouseEnter={() => handleMouseEnter(item.title)}
                     onMouseLeave={handleMouseLeave}
@@ -82,9 +83,10 @@ const LandindingPageHeader = () => {
                     </span>
                     {hoveredMenu === item.title && (
                       <div className="absolute left-0 top-full mt-2 w-48 bg-white shadow-lg z-20">
-                        {item.menus.map((subItem) => (
+                        {item.menus.map((subItem, idx) => (
                           <Link
-                            key={subItem.title}
+                            key={idx}
+                            //key={subItem.title}
                             href={subItem.link}
                             className="block px-4 py-2 text-[16px] hover:bg-gray-200"
                           >
@@ -100,7 +102,8 @@ const LandindingPageHeader = () => {
                       isCurrentPath(item.link) ? "font-[600]" : "font-[400]"
                     }`}
                     href={item.link}
-                    key={item.title}
+                    key={idx}
+                    // key={item.title}
                   >
                     {item.title}
                   </Link>
@@ -191,10 +194,11 @@ const MobileMenuContent = () => {
 
       <div className=" lg:hidden block mt-4 bg-secondary p-2">
         <List>
-          {landingPageNavMenu.map((item) => (
+          {landingPageNavMenu.map((item, idx) => (
             <ListItem
               className="my-2"
-              key={`mobile-menu-${item.title}`}
+              key={idx}
+              //key={`mobile-menu-${item.title}`}
               disablePadding
             >
               <Link className="text-sm hover:underline" href={item.link}>
@@ -208,9 +212,10 @@ const MobileMenuContent = () => {
       <div className="  mt-4 bg-secondary p-2">
         <h3 className="text-lg font-semibold">Join the community</h3>
         <Stack direction={"row"} className="mt-4" spacing={1}>
-          {socialIcons.map((item) => (
+          {socialIcons.map((item, idx) => (
             <Link
-              key={`mobile-menu-social-${item.title}`}
+              key={idx}
+              //key={`mobile-menu-social-${item.title}`}
               className="text-sm h-5 w-5 rounded-full grid place-items-center bg-primary text-secondary hover:outline"
               href={item.link}
             >

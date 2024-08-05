@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import ArtVerificationAcquisition from "../Acquisition";
 import ArtVerificationInformation from "../InformationAdd";
 import ArtVerificationPreview from "../Preview";
+import { artRoles } from "@/types/index";
 
 interface Props {
   artPiece: any;
@@ -33,23 +34,23 @@ function MainVerification({ artPiece }: Props) {
   }, [isArtistBroker]);
 
   useEffect(() => {
-    setSelectedInformationAdd(artPiece?.custodian?.role || "artist");
+    setSelectedInformationAdd(artPiece?.custodian?.role);
+    // if (
+    //   artPiece?.custodian?.collector ||
+    //   artPiece?.custodian?.broker ||
+    //   artPiece?.custodian?.institution ||
+    //   artPiece?.custodian?.artist
+    // ) {
+    //   setActiveIndex(1);
+    // } else {
+    //   setActiveIndex(0);
+    // }
+    console.log("mainverification artpiece here ", artPiece?.custodian);
     if (
-      artPiece?.custodian?.collector ||
-      artPiece?.custodian?.broker ||
-      artPiece?.custodian?.institution ||
-      artPiece?.custodian?.artist
-    ) {
-      setActiveIndex(1);
-    } else {
-      setActiveIndex(0);
-    }
-
-    if (
-      artPiece?.custodian?.artist &&
+      artPiece?.custodian?.role === artRoles.ARTIST &&
       artPiece?.custodian?.artist?.sellerType === "broker"
     ) {
-      handleAddDealerStep();
+      //  handleAddDealerStep();
     }
   }, [artPiece]);
 

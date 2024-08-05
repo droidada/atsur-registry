@@ -1,5 +1,5 @@
 import LoadingButton from "@/components/Form/LoadingButton";
-import { SignatureDialog } from "@/components/dashboard/artwork/Verification/VerificationAccepted/Steps/sign-certificate";
+import { SignatureDialog } from "@/components/dashboard/artwork/Verification/VerificationAccepted/NewCoaSteps/sign-certificate";
 import { useToast } from "@/providers/ToastProvider";
 import { InviteTypeProps } from "@/types/models/invitationType";
 import { Avatar } from "@mui/material";

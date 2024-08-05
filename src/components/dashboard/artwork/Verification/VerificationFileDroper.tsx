@@ -15,6 +15,7 @@ interface Props {
   maxFiles?: number;
   labelClassName?: string;
   dropzoneClassName?: string;
+  previewHeightClassName?: string;
   uploadInfo?: string;
   isImage?: boolean;
   previewImage?: string;
@@ -32,6 +33,7 @@ const VerificationFileDroper: React.FC<Props> = ({
   className,
   labelClassName,
   dropzoneClassName,
+  previewHeightClassName,
   previewImage,
   isImage,
   buttonClassName,
@@ -69,7 +71,9 @@ const VerificationFileDroper: React.FC<Props> = ({
               className="w-full h-full object-cover"
               alt=""
             />
-            <div className="flex flex-col items-center justify-center relative gap-4">
+            <div
+              className={`flex flex-col items-center justify-center relative gap-4 ${previewHeightClassName}`}
+            >
               {desc ||
                 `Drag or choose your file to upload PNG, JPEG, GIF, WEBP, or
                     MP4 (Max 10MB)`}

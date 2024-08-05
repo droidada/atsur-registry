@@ -181,8 +181,9 @@ const ArtistInformation: React.FC<Props> = ({
       setValue("sellerType", defaultValues?.artist?.sellerType);
       setSelectedSeries(defaultValues?.artist?.series);
     }
-    if (sellerType === "broker") {
+    if (defaultValues?.artist?.sellerType === "broker") {
       setIsArtistBroker(true);
+      handleAddDealerStep();
     }
   }, [
     defaultValues,
@@ -190,6 +191,7 @@ const ArtistInformation: React.FC<Props> = ({
     sellerType,
     setSelectedSeries,
     setIsArtistBroker,
+    handleAddDealerStep,
   ]);
 
   return (

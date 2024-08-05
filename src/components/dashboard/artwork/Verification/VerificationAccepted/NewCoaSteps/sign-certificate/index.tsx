@@ -20,6 +20,8 @@ import { useReactToPrint } from "react-to-print";
 import { Onedoc } from "@onedoc/client";
 import { compile } from "@onedoc/react-print";
 import axios from "axios";
+import { getCertificateText } from "../..";
+import { artRoles } from "@/types/index";
 
 interface Props {
   artPiece: any;
@@ -45,10 +47,17 @@ const SignCertificate: React.FC<Props> = ({
   const certificateRef = useRef<HTMLDivElement>(null);
   const axiosAuth = useAxiosAuth();
   const toast = useToast();
+  const cannotSign =
+    artPiece?.artPiece?.verification?.custodian?.role !== artRoles.ARTIST ||
+    !artPiece?.artPiece.signature
+      ? false
+      : true;
 
   const { mutate, isLoading } = useMutation({
     mutationFn: async (data: { draftCOA: any; signature: any; qrCode: any }) =>
-      axiosAuth.post(`/art-piece/draft-coa/${artPiece?.artPiece?._id}`, data),
+      axiosAuth.post(`/art-piece/draft-coa/${artPiece?.artPiece?._id}`, {
+        ...data,
+      }),
     onSuccess: (data) => {
       setActiveIndex((prev) => prev + 1);
       // TODO refetch artpiecedata
@@ -141,6 +150,18 @@ const SignCertificate: React.FC<Props> = ({
 
   return (
     <Stack spacing={2}>
+      {cannotSign && ( //TODO: fix up UI
+        <div>
+          <p>
+            Sorry you cannot proceed as the artist{" "}
+            {`${artPiece?.artPiece?.artist?.firstName} ${artPiece?.artPiece?.artist?.lastName}`}
+            , is yet to accept your invitation to authenticate their artwork.
+          </p>
+          <p>
+            Would you like to remind them? <button>Resend Invite</button>
+          </p>
+        </div>
+      )}
       <div className="">
         <ArtPieceCertificate
           artPiece={artPiece?.artPiece}
@@ -157,22 +178,26 @@ const SignCertificate: React.FC<Props> = ({
       />
 
       <Stack direction={"row"} className="my-4" spacing={2}>
-        <Button
-          onClick={() => {
-            setOpenSignatureDialog(true);
-          }}
-          className="w-full max-w-[246px] h-[46px] text-xs font-[600] bg-primary-green"
-          startIcon={<FaSignature />}
-        >
-          Sign Certificate
-        </Button>
+        {!cannotSign && (
+          <Button
+            onClick={() => {
+              setOpenSignatureDialog(true);
+            }}
+            className="w-full max-w-[246px] h-[46px] text-xs font-[600] bg-primary-green"
+            startIcon={<FaSignature />}
+          >
+            Sign Certificate
+          </Button>
+        )}
 
         <LoadingButton
           loading={isLoading}
           onClick={handlePublish}
-          disabled={!signatureImage}
+          disabled={!signatureImage && !artPiece?.artPiece?.signature}
           className={`w-full max-w-[246px] h-[46px] text-xs font-[600] ${
-            !signatureImage ? "bg-gray-400" : "bg-primary"
+            !signatureImage && !artPiece?.artPiece?.signature
+              ? "bg-gray-400"
+              : "bg-primary"
           } text-white`}
           startIcon={<IoMdSave />}
         >
@@ -180,11 +205,13 @@ const SignCertificate: React.FC<Props> = ({
         </LoadingButton>
       </Stack>
 
-      <SignatureDialog
-        open={openSignatureDialog}
-        handleClose={() => setOpenSignatureDialog(false)}
-        setSignatureImage={setSignatureImage}
-      />
+      {!cannotSign && (
+        <SignatureDialog
+          open={openSignatureDialog}
+          handleClose={() => setOpenSignatureDialog(false)}
+          setSignatureImage={setSignatureImage}
+        />
+      )}
     </Stack>
   );
 };

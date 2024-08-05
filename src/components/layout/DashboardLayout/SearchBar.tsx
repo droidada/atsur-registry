@@ -6,10 +6,12 @@ const SearchBar = () => {
   return (
     <form className="h-[50px] p-[9px] flex gap-2 w-full mx-auto border-primary border-[1px] divide-x-2">
       <div className="flex items-center gap-3">
-        <select className="w-[113px] md:w-fit border-none focus:outline-none outline-none text-[17px] leading-[16px font-[400]">
+        <select
+          className="w-[113px] md:w-fit border-none focus:outline-none outline-none text-[17px] leading-[16px font-[400]"
+          defaultValue={"artwork"}
+        >
           <option
             className="text-[17px] leading-[16px] font-[400]"
-            selected
             defaultChecked
             value="artwork"
           >

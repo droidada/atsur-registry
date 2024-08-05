@@ -8,8 +8,14 @@ import FinalPreview from "./final-preview";
 
 interface Props {
   artPiece: any;
+  activeIndex: number;
+  setActiveIndex: (args: number) => void;
 }
-const VerificationConfirmSteps: React.FC<Props> = ({ artPiece }) => {
+const NewCoa_Steps: React.FC<Props> = ({
+  artPiece,
+  activeIndex,
+  setActiveIndex,
+}) => {
   const [steps, setSteps] = useState([
     "preview",
     "generate qr code",
@@ -17,19 +23,9 @@ const VerificationConfirmSteps: React.FC<Props> = ({ artPiece }) => {
     "tokenize",
     "final preview",
   ]);
-  const [activeIndex, setActiveIndex] = useState(0);
   const [signatureImage, setSignatureImage] = useState<string>("");
   const [qrImage, setQrImage] = useState("");
-
-  console.log(artPiece?.artPiece);
-
-  useEffect(() => {
-    if (artPiece?.artPiece?.signedCOA) {
-      setActiveIndex(4);
-    } else if (artPiece?.artPiece?.draftCOA) {
-      setActiveIndex(3);
-    }
-  }, [artPiece?.artPiece]);
+  const [coaImg, setCoaImg] = useState(null);
 
   return (
     <Stack spacing={4}>
@@ -74,6 +70,8 @@ const VerificationConfirmSteps: React.FC<Props> = ({ artPiece }) => {
             setActiveIndex={setActiveIndex}
             artPiece={artPiece}
             key={`verification-step-${1}`}
+            coaImg={coaImg}
+            setCoaImg={setCoaImg}
           />,
           <GenerateQRCode
             setActiveIndex={setActiveIndex}
@@ -87,12 +85,14 @@ const VerificationConfirmSteps: React.FC<Props> = ({ artPiece }) => {
             artPiece={artPiece}
             qrImage={qrImage}
             key={`verification-step-${3}`}
+            coaImg={coaImg}
             signatureImage={signatureImage}
             setSignatureImage={setSignatureImage}
           />,
           <TokenizeCertificate
             setActiveIndex={setActiveIndex}
             artPiece={artPiece}
+            coaImg={coaImg}
             qrImage={qrImage}
             signatureImage={signatureImage}
             key={`verification-step-${4}`}
@@ -101,6 +101,7 @@ const VerificationConfirmSteps: React.FC<Props> = ({ artPiece }) => {
             setActiveIndex={setActiveIndex}
             artPiece={artPiece}
             qrImage={qrImage}
+            coaImg={coaImg}
             signatureImage={signatureImage}
             key={`verification-step-${4}`}
           />,
@@ -110,4 +111,4 @@ const VerificationConfirmSteps: React.FC<Props> = ({ artPiece }) => {
   );
 };
 
-export default VerificationConfirmSteps;
+export default NewCoa_Steps;
