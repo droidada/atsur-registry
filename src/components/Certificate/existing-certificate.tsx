@@ -15,7 +15,7 @@ const ExistingCertificate = ({ artPiece, coaImg, signatureImage, qrImage, tokeni
     <>
       <div
         style={{
-          backgroundImage: `url(${coaImg?.url || artPiece?.artPiece?.existingCOA})`,
+          backgroundImage: `url(${coaImg?.url || artPiece?.existingCOA})`,
         }}
         className="min-w-[685px] max-w-[1005px] certificate"
       >

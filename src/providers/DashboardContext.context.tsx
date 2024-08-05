@@ -35,8 +35,8 @@ const DashboardContextProvider = ({ children }: Props) => {
     queryKey: ["credits"],
     queryFn: async () => {
       const { data: response } = await axiosAuth.get("/user/credits");
-      console.log(response.data?.credits);
-      return response.data?.credits;
+      console.log(response?.data?.credits);
+      return response?.data?.credits;
     },
     refetchOnWindowFocus: false,
   });

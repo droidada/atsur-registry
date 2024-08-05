@@ -93,22 +93,21 @@ const types = [
 ];
 
 const VerificationAccepted: React.FC<Props> = ({ artPiece }) => {
-  const [coaType, setCoaType] = useState<"new" | "existing">("new");
-  const [proceed, setProceed] = useState(false);
+  const [coaType, setCoaType] = useState<"new" | "existing">(artPiece?.artPiece?.existingCOA ? "existing" : "new");
+  const [proceed, setProceed] = useState(artPiece?.artPiece?.existingCOA || artPiece?.artPiece?.signedCOA || artPiece?.artPiece?.draftCOA);
   const [activeIndex, setActiveIndex] = useState(0);
-  console.log("SOME STUFFFFFF ", artPiece)
 
   useEffect(() => {
-    if (artPiece?.artPiece?.existingCOA) {
-      setCoaType("existing");
-      setProceed(true);
-    }
+    // if(artPiece?.artPiece?.existingCOA || artPiece?.artPiece?.signedCOA || artPiece?.artPiece?.draftCOA){
+    //   setProceed(true);
+    // }
+    // if (artPiece?.artPiece?.existingCOA) {
+    //   setCoaType("existing");
+    // }
     if (artPiece?.artPiece?.signedCOA) {
       setActiveIndex(4);
-      setProceed(true);
     } else if (artPiece?.artPiece?.draftCOA) {
       setActiveIndex(3);
-      setProceed(true);
     }
   }, [artPiece?.artPiece]);
 

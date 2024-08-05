@@ -91,7 +91,7 @@ const InviteUsers: React.FC<Props> = ({
         onChange={(event, value) => {
           if (selectedUsers?.length > value?.length) {
             const removedUser = selectedUsers.find(
-              (user: any) => !value.includes(user),
+              (user: any) => !value?.includes(user),
             );
             if (removedUser && removeUser) {
               removeUser(removedUser.email);

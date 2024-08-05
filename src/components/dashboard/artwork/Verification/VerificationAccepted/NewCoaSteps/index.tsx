@@ -26,8 +26,6 @@ const NewCoa_Steps: React.FC<Props> = ({
   const [signatureImage, setSignatureImage] = useState<string>("");
   const [qrImage, setQrImage] = useState("");
 
-  console.log(artPiece?.artPiece);
-
   return (
     <Stack spacing={4}>
       <h2 className="font-semibold capitalize text-xl md:text-2xl lg:text-[30px] lg:leading-[40px]">

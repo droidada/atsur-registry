@@ -68,8 +68,6 @@ const FinalPreview: React.FC<Props> = ({
     link.click();
   };
 
-  console.log(data?.data?.artPiece?.lazyMintedVoucher);
-
   const { mutate, isLoading } = useMutation({
     mutationFn: () =>
       axiosAuth.post(`/art-piece/sign-coa/${artPiece?.artPiece?._id}`),

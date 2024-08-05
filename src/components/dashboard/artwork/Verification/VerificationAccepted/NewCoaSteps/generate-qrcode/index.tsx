@@ -31,7 +31,7 @@ const GenerateQRCode: React.FC<Props> = ({
   qrImage,
   setQrImage,
 }) => {
-  console.log(artPiece?.artPiece);
+
   const [url, setUrl] = useState("");
   const [pattern, setPattern] = useState<"squares" | "dots" | "fluid">("fluid");
   const [logo, setLogo] = useState("/default-logo.png"); // Path to default logo

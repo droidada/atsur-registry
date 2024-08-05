@@ -108,6 +108,7 @@ const CollectorInformation: React.FC<Props> = ({
         router.replace(router.asPath);
       } else {
         toast.success("Data published successfully");
+        setActiveIndex((prevIndex) => prevIndex + 1);
         router.replace(router.asPath);
       }
     },
