@@ -8,7 +8,8 @@ const SearchBar = () => {
       <div className="flex items-center gap-3">
         <select
           className="w-[113px] md:w-fit border-none focus:outline-none outline-none text-[17px] leading-[16px font-[400]"
-          defaultValue={"artwork"}>
+          defaultValue={"artwork"}
+        >
           <option
             className="text-[17px] leading-[16px] font-[400]"
             defaultChecked

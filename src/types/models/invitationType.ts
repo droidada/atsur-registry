@@ -9,5 +9,4 @@ export interface InviteTypeProps {
   rejectLoading?: boolean;
   kycVerificationStatus?: "verified" | "rejected" | "not-verified" | "pending";
   verificationData?: any;
-
 }

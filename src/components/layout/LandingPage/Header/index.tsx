@@ -83,7 +83,7 @@ const LandindingPageHeader = () => {
                     </span>
                     {hoveredMenu === item.title && (
                       <div className="absolute left-0 top-full mt-2 w-48 bg-white shadow-lg z-20">
-                        {item.menus.map((subItem,idx) => (
+                        {item.menus.map((subItem, idx) => (
                           <Link
                             key={idx}
                             //key={subItem.title}
@@ -103,7 +103,7 @@ const LandindingPageHeader = () => {
                     }`}
                     href={item.link}
                     key={idx}
-                   // key={item.title}
+                    // key={item.title}
                   >
                     {item.title}
                   </Link>
@@ -194,7 +194,7 @@ const MobileMenuContent = () => {
 
       <div className=" lg:hidden block mt-4 bg-secondary p-2">
         <List>
-          {landingPageNavMenu.map((item,idx) => (
+          {landingPageNavMenu.map((item, idx) => (
             <ListItem
               className="my-2"
               key={idx}
@@ -212,7 +212,7 @@ const MobileMenuContent = () => {
       <div className="  mt-4 bg-secondary p-2">
         <h3 className="text-lg font-semibold">Join the community</h3>
         <Stack direction={"row"} className="mt-4" spacing={1}>
-          {socialIcons.map((item,idx) => (
+          {socialIcons.map((item, idx) => (
             <Link
               key={idx}
               //key={`mobile-menu-social-${item.title}`}

@@ -93,8 +93,14 @@ const types = [
 ];
 
 const VerificationAccepted: React.FC<Props> = ({ artPiece }) => {
-  const [coaType, setCoaType] = useState<"new" | "existing">(artPiece?.artPiece?.existingCOA ? "existing" : "new");
-  const [proceed, setProceed] = useState(artPiece?.artPiece?.existingCOA || artPiece?.artPiece?.signedCOA || artPiece?.artPiece?.draftCOA);
+  const [coaType, setCoaType] = useState<"new" | "existing">(
+    artPiece?.artPiece?.existingCOA ? "existing" : "new",
+  );
+  const [proceed, setProceed] = useState(
+    artPiece?.artPiece?.existingCOA ||
+      artPiece?.artPiece?.signedCOA ||
+      artPiece?.artPiece?.draftCOA,
+  );
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {

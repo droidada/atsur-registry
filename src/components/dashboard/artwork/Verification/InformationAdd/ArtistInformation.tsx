@@ -191,7 +191,7 @@ const ArtistInformation: React.FC<Props> = ({
     sellerType,
     setSelectedSeries,
     setIsArtistBroker,
-    handleAddDealerStep
+    handleAddDealerStep,
   ]);
 
   return (

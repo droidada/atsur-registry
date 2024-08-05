@@ -50,7 +50,7 @@ function MainVerification({ artPiece }: Props) {
       artPiece?.custodian?.role === artRoles.ARTIST &&
       artPiece?.custodian?.artist?.sellerType === "broker"
     ) {
-    //  handleAddDealerStep();
+      //  handleAddDealerStep();
     }
   }, [artPiece]);
 

@@ -9,7 +9,13 @@ interface Props {
   tokenized?: boolean;
 }
 
-const ExistingCertificate = ({ artPiece, coaImg, signatureImage, qrImage, tokenized}: Props) => {
+const ExistingCertificate = ({
+  artPiece,
+  coaImg,
+  signatureImage,
+  qrImage,
+  tokenized,
+}: Props) => {
   console.log("token and ..... artPiece", artPiece);
   return (
     <>

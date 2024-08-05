@@ -47,7 +47,10 @@ const SignCertificate: React.FC<Props> = ({
       ? false
       : true;
 
-  console.log("artPiece?.artPiece.signature ", !signatureImage && !artPiece?.artPiece?.signature)
+  console.log(
+    "artPiece?.artPiece.signature ",
+    !signatureImage && !artPiece?.artPiece?.signature,
+  );
   const { mutate, isLoading } = useMutation({
     mutationFn: async (data: {
       existingCOA: any;
