@@ -113,12 +113,14 @@ const SelectOrganization: React.FC<Props> = ({
         noOptionsText={
           <div>
             <p className="text-xs text-gray-400">No Organization Found</p>
-            <Button
-              onClick={() => setInviteOrg(true)}
-              className="bg-primary text-xs font-[400] text-white"
-            >
-              Invite The Organization
-            </Button>
+            {!isUserOrg && (
+              <Button
+                onClick={() => setInviteOrg(true)}
+                className="bg-primary text-xs font-[400] text-white"
+              >
+                Invite The Organization
+              </Button>
+            )}
           </div>
         }
       />

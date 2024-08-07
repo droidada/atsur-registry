@@ -18,7 +18,7 @@ interface Step {
 
 const VerificationPending: React.FC<Props> = ({ artPiece }) => {
   const router = useRouter();
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(0);
 
   console.log(artPiece);
 
@@ -96,29 +96,29 @@ const VerificationPending: React.FC<Props> = ({ artPiece }) => {
     },
   ];
 
-  // useEffect(() => {
-  //   const kycStatus =
-  //     artPiece?.custodian?.profile?.kycVerification?.verificationStatus;
-  //   const kybStatus =
-  //     artPiece.custodian?.broker?.organization?.kybVerification?.status ||
-  //     artPiece?.custodian?.institution?.organization?.status ||
-  //     artPiece?.custodian?.collector?.organization?.kybVerification?.status;
+  useEffect(() => {
+    const kycStatus =
+      artPiece?.custodian?.profile?.kycVerification?.verificationStatus;
+    const kybStatus =
+      artPiece.custodian?.broker?.organization?.kybVerification?.status ||
+      artPiece?.custodian?.institution?.organization?.status ||
+      artPiece?.custodian?.collector?.organization?.kybVerification?.status;
 
-  //   if (kycStatus !== "verified") {
-  //     setCurrentStep(0);
-  //   } else if (verificationType && collaborators.length > 0) {
-  //     const allCollaboratorsAccepted = collaborators.every(
-  //       (collab) => collab.invitation?.accepted === true,
-  //     );
-  //     if (!allCollaboratorsAccepted) {
-  //       setCurrentStep(1);
-  //     } else {
-  //       setCurrentStep(2);
-  //     }
-  //   } else if (verificationType && kybStatus === "verified") {
-  //     setCurrentStep(3);
-  //   }
-  // }, [artPiece, verificationType, collaborators]);
+    if (kycStatus !== "verified") {
+      setCurrentStep(0);
+    } else if (verificationType && collaborators.length > 0) {
+      const allCollaboratorsAccepted = collaborators.every(
+        (collab) => collab.invitation?.accepted === true,
+      );
+      if (!allCollaboratorsAccepted) {
+        setCurrentStep(1);
+      } else {
+        setCurrentStep(2);
+      }
+    } else if (verificationType && kybStatus === "verified") {
+      setCurrentStep(3);
+    }
+  }, [artPiece, verificationType, collaborators]);
 
   const getStepStyle = (index: number) => {
     if (index === currentStep)

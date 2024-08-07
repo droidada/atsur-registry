@@ -18,6 +18,7 @@ function Dashboard() {
     illustration: {
       title: "",
       description: "",
+      forSale: false,
       medium: "",
       subjectMatter: "",
       dimensions: {
@@ -29,7 +30,7 @@ function Dashboard() {
       type: "",
       price: {
         amount: 0,
-        currency: "",
+        // currency: "",
         type: "",
       },
       creationDate: {

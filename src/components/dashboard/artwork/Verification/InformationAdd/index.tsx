@@ -35,15 +35,20 @@ const ArtVerificationInformation: React.FC<Props> = ({
 }) => {
   console.log("artPiece:", artPiece);
 
+  console.log(selectedInformationAdd);
+
+  console.log(activeIndex, position);
+
   useEffect(() => {
     console.log("key here is ", position);
     if (activeIndex === 2 && position === 2) {
+      console.log("it got here");
       setIsArtistBroker(true);
       setSelectedInformationAdd("broker");
     }
   }, [activeIndex, position, setIsArtistBroker]);
 
-  console.log(artPiece);
+  console.log(artPiece?.custodian?.artist);
 
   switch (selectedInformationAdd) {
     case "artist":
@@ -63,7 +68,11 @@ const ArtVerificationInformation: React.FC<Props> = ({
           isArtistBroker={isArtistBroker}
           artPieceId={artpieceId}
           setActiveIndex={setActiveIndex}
-          defaultValues={artPiece?.custodian?.broker}
+          defaultValues={
+            isArtistBroker
+              ? artPiece?.custodian?.artist?.brokerInfo
+              : artPiece?.custodian?.broker
+          }
         />
       );
     case "collector":
@@ -71,7 +80,7 @@ const ArtVerificationInformation: React.FC<Props> = ({
         <CollectorInformation
           artpieceId={artpieceId}
           setActiveIndex={setActiveIndex}
-          defaultValues={artPiece?.acquisition}
+          defaultValues={artPiece?.custodian.collector}
         />
       );
     case "institution":
@@ -79,7 +88,7 @@ const ArtVerificationInformation: React.FC<Props> = ({
         <InstitutionInformation
           artpieceId={artpieceId}
           setActiveIndex={setActiveIndex}
-          defaultValues={artPiece?.institution}
+          defaultValues={artPiece?.custodian?.institution}
         />
       );
     default:
