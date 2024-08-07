@@ -145,8 +145,6 @@ const DealerInformation = ({
 
     setCurrentSubmitType(buttonClicked);
 
-    console.log(defaultValues);
-
     console.log(defaultValues?.agreementAttachment);
 
     if (!agreementDocument?.file && !defaultValues?.agreementAttachment) {

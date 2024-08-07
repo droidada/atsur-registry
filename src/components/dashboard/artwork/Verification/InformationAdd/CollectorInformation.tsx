@@ -51,6 +51,8 @@ const CollectorInformation: React.FC<Props> = ({
     _id?: string;
   }>();
 
+  console.log(artist);
+
   const metadataSchema = object({
     date: string().nonempty("Date is required"),
     acquisitionType: string().nonempty("Acquisition type is required"),
@@ -76,17 +78,24 @@ const CollectorInformation: React.FC<Props> = ({
 
   useEffect(() => {
     if (defaultValues) {
-      setValue("date", defaultValues?.date);
-      setValue("acquisitionType", defaultValues?.type);
-      setValue("acquisitionPurpose", defaultValues?.purpose);
-      setValue("methodOfPurchase", defaultValues?.methodOfPurchase);
-      setValue("acquisitionDocumentCaption", defaultValues?.attachmentCaption);
-      setValue("isCirca", defaultValues?.isCirca);
+      console.log(defaultValues);
+      setValue("date", defaultValues?.acquisition.date);
+      setValue("acquisitionType", defaultValues?.acquisition.type);
+      setValue("acquisitionPurpose", defaultValues?.acquisition.purpose);
+      setValue("methodOfPurchase", defaultValues?.acquisition.method);
+      setValue(
+        "acquisitionDocumentCaption",
+        defaultValues?.acquisition.attachmentCaption,
+      );
+
+      setValue("isCirca", defaultValues?.acquisition?.isCirca);
       setDefaultFile({
-        filename: defaultValues?.attachment?.split("/").pop(),
-        fileUrl: defaultValues?.attachment,
+        filename: defaultValues?.acquisition?.attachment?.split("/").pop(),
+        fileUrl: defaultValues?.acquisition?.attachment,
       });
-      setSelectedOrganization(defaultValues?.organization?.orgInfo);
+      setSelectedOrganization(defaultValues?.organization);
+      console.log(defaultValues?.artist?.artistInfo);
+      setArtist(defaultValues?.artist?.artistInfo);
     }
   }, [defaultValues]);
 
@@ -105,10 +114,11 @@ const CollectorInformation: React.FC<Props> = ({
     onSuccess: () => {
       if (currentSubmitType === "save") {
         toast.success("Data saved successfully");
+
         router.replace(router.asPath);
+        // setActiveIndex((prevIndex) => prevIndex + 1);
       } else {
         toast.success("Data published successfully");
-        // setActiveIndex((prevIndex) => prevIndex + 1);
         router.replace(router.asPath);
       }
     },

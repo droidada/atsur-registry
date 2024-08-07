@@ -80,7 +80,7 @@ const ArtVerificationInformation: React.FC<Props> = ({
         <CollectorInformation
           artpieceId={artpieceId}
           setActiveIndex={setActiveIndex}
-          defaultValues={artPiece?.acquisition}
+          defaultValues={artPiece?.custodian.collector}
         />
       );
     case "institution":
@@ -88,7 +88,7 @@ const ArtVerificationInformation: React.FC<Props> = ({
         <InstitutionInformation
           artpieceId={artpieceId}
           setActiveIndex={setActiveIndex}
-          defaultValues={artPiece?.institution}
+          defaultValues={artPiece?.custodian?.institution}
         />
       );
     default:
