@@ -93,13 +93,13 @@ const PricingForm: React.FC<Props> = ({
           date: data.creationDate,
         },
         price: {
+          currency: "USD",
           amount: data.price ? Number(data.price) : 0,
           type: data.type || "",
         },
         forSale: data.forSale || false,
       },
     });
-
     setActiveIndex((prev) => prev + 1);
   };
 
@@ -137,7 +137,9 @@ const PricingForm: React.FC<Props> = ({
                       }}
                     />
                   )}
-                  onChange={(_, newValue) => field.onChange(newValue)}
+                  onChange={(_, newValue) =>
+                    field.onChange(newValue)
+                  }
                 />
               )}
             />
