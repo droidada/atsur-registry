@@ -73,11 +73,14 @@ const PricingForm: React.FC<Props> = ({
   );
 
   useEffect(() => {
-    setValue("creationDate", formData?.illustration?.creationDate?.date);
+    setValue(
+      "creationDate",
+      formData?.illustration?.creationDate?.date || null,
+    );
     setValue("price", formData?.illustration?.price?.amount?.toString() || "");
     setValue("type", formData?.illustration?.price?.type || "");
     setValue("forSale", formData?.illustration?.forSale || false);
-  }, [formData]);
+  }, [formData, setValue]);
 
   const forSale = watch("forSale");
 
@@ -92,8 +95,9 @@ const PricingForm: React.FC<Props> = ({
           // @ts-ignore
           date: data.creationDate,
         },
+
         price: {
-          amount: data.price ? Number(data.price) : 0,
+          amount: Number(data.price) || 0,
           type: data.type || "",
         },
         forSale: data.forSale || false,
@@ -128,7 +132,7 @@ const PricingForm: React.FC<Props> = ({
                     <TextField
                       {...params}
                       error={!!errors.creationDate}
-                      helperText={errors.creationDate?.message as string}
+                      helperText={errors.creationDate?.message}
                       fullWidth
                       sx={{
                         "& fieldset": {
@@ -138,6 +142,7 @@ const PricingForm: React.FC<Props> = ({
                     />
                   )}
                   onChange={(_, newValue) => field.onChange(newValue)}
+                  value={field.value}
                 />
               )}
             />
@@ -145,7 +150,7 @@ const PricingForm: React.FC<Props> = ({
 
           <SwitchInput
             label="Is the artwork for sale?"
-            id="forSale"
+            // id="forSale"
             name="forSale"
             control={control}
             error={!!errors["forSale"]}
