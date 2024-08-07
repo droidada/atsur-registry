@@ -121,6 +121,7 @@ const InstitutionInformation = ({
 
   useEffect(() => {
     if (defaultValues) {
+      console.log(defaultValues);
       setValue("date", defaultValues?.date);
       setValue("acquisitionType", defaultValues?.type);
       setValue("acquisitionPurpose", defaultValues?.purpose);
@@ -151,6 +152,8 @@ const InstitutionInformation = ({
       return;
     }
 
+    console.log(selectedOrganization);
+
     const formData = new FormData();
     formData.append("save", JSON.stringify(save));
     formData.append("date", values.date);
@@ -161,11 +164,11 @@ const InstitutionInformation = ({
     formData.append("acquisitionPurpose", values.acquisitionPurpose);
     formData.append("acquisitionType", values.acquisitionType);
     selectedOrganization &&
-      formData.append(
-        "organization",
-        JSON.stringify(selectedOrganization) || "",
-      );
-    formData.append("isCirca", JSON.stringify(values.isCirca));
+      // formData.append(
+      //   "acquiredFromOrganization",
+      //   JSON.stringify(selectedOrganization) || "",
+      // );
+      formData.append("isCirca", JSON.stringify(values.isCirca));
     values.acquisitionDocumentCaption &&
       formData.append(
         "acquisitionDocumentCaption",
@@ -184,8 +187,6 @@ const InstitutionInformation = ({
   };
 
   const boughtFromOrganization = watch("boughtFromOrganization");
-
-  console.log(errors);
 
   return (
     <FormContainer
