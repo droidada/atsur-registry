@@ -1,6 +1,6 @@
 import { Stack } from "@mui/material";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import ArtVerificationAcquisition from "../Acquisition";
 import ArtVerificationInformation from "../InformationAdd";
 import ArtVerificationPreview from "../Preview";
@@ -19,40 +19,43 @@ function MainVerification({ artPiece }: Props) {
   >("artist");
   const { id: artpieceId } = useRouter().query;
 
-  const handleAddDealerStep = () => {
-    setSteps(["acquisition", "information", "Broker Information", "Preview"]);
+  const getInitialActiveIndex = (role: string) => {
+    if (role) {
+      return 1;
+    } else {
+      return 0;
+    }
   };
 
-  const handleRemoveDealerStep = () => {
+  const handleAddDealerStep = useCallback(() => {
+    setSteps(["acquisition", "information", "Broker Information", "Preview"]);
+  }, []);
+
+  const handleRemoveDealerStep = useCallback(() => {
     setSteps(["acquisition", "information", "Preview"]);
-  };
+  }, []);
+
+  const isArtistBrokerType = useMemo(
+    () =>
+      artPiece?.custodian?.role === artRoles.ARTIST &&
+      artPiece?.custodian?.artist?.sellerType === "broker",
+    [artPiece?.custodian?.role, artPiece?.custodian?.artist?.sellerType],
+  );
 
   useEffect(() => {
     if (!isArtistBroker) {
       handleRemoveDealerStep();
     }
-  }, [isArtistBroker]);
+  }, [isArtistBroker, handleRemoveDealerStep]);
 
   useEffect(() => {
     setSelectedInformationAdd(artPiece?.custodian?.role);
-    // if (
-    //   artPiece?.custodian?.collector ||
-    //   artPiece?.custodian?.broker ||
-    //   artPiece?.custodian?.institution ||
-    //   artPiece?.custodian?.artist
-    // ) {
-    //   setActiveIndex(1);
-    // } else {
-    //   setActiveIndex(0);
-    // }
-    console.log("mainverification artpiece here ", artPiece?.custodian);
-    if (
-      artPiece?.custodian?.role === artRoles.ARTIST &&
-      artPiece?.custodian?.artist?.sellerType === "broker"
-    ) {
-      //  handleAddDealerStep();
+    setActiveIndex(getInitialActiveIndex(artPiece?.custodian?.role));
+
+    if (isArtistBrokerType) {
+      // handleAddDealerStep();
     }
-  }, [artPiece]);
+  }, [isArtistBrokerType]);
 
   return (
     <Stack spacing={4}>

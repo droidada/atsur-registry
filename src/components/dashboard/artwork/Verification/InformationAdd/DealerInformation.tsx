@@ -34,6 +34,7 @@ const DealerInformation = ({
   console.log(isArtistBroker);
 
   const [selectedOrganization, setSelectedOrganization] = useState<any>(null);
+  console.log(selectedOrganization);
   const [percentages, setPercentages] = useState<
     {
       userInfo: {
@@ -72,6 +73,7 @@ const DealerInformation = ({
   });
 
   useEffect(() => {
+    console.log(defaultValues);
     if (defaultValues) {
       setValue("notes", defaultValues?.notes);
       setSelectedOrganization(defaultValues?.organization);
@@ -111,7 +113,7 @@ const DealerInformation = ({
       if (currentSubmitType === "save") {
         toast.success("Data saved successfully");
         router.replace(router.asPath);
-        // setActiveIndex((prevIndex) => prevIndex + 1);
+        setActiveIndex((prevIndex) => prevIndex + 1);
       } else {
         toast.success("Data published successfully");
         router.replace(router.asPath);
@@ -134,12 +136,18 @@ const DealerInformation = ({
       return;
     }
 
+    // if(Object.keys(selectedOrganization))
+
     if (checkMainArtistRole.length === 0) {
       toast.error("Main artist is required for commission split broker");
       return;
     }
 
     setCurrentSubmitType(buttonClicked);
+
+    console.log(defaultValues);
+
+    console.log(defaultValues?.agreementAttachment);
 
     if (!agreementDocument?.file && !defaultValues?.agreementAttachment) {
       toast.error("Agreement document is required");
@@ -154,6 +162,9 @@ const DealerInformation = ({
       return;
     }
 
+    if (!selectedOrganization._id) {
+      return toast.error("Please select an organization");
+    }
     console.log("This is the organization", selectedOrganization);
 
     const formData = new FormData();
