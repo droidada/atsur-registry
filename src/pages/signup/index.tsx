@@ -9,7 +9,7 @@ import {
 import Link from "next/link";
 import Image from "@/components/common/image";
 import { useState, useEffect } from "react";
-import { object, string, TypeOf } from "zod";
+import { object, string, boolean, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/router";
@@ -19,7 +19,6 @@ import { useToast } from "@/providers/ToastProvider";
 
 import InputField from "@/components/Form/InputField";
 import SelectField from "@/components/Form/SelectField";
-import { count } from "console";
 import AuthLayout from "@/components/layout/AuthLayout";
 import { FaLinkedin } from "react-icons/fa";
 import LoadingButton from "@/components/Form/LoadingButton";
@@ -79,6 +78,9 @@ function SignUp({ invitationData, countries }) {
       .min(8, "Password must be more than 8 characters")
       .max(32, "Password must be less than 32 characters"),
     confirmPassword: string().nonempty("Confirm password is required"),
+    agree: boolean().refine((value) => value === true, {
+      message: "You must agree to the terms and conditions",
+    }),
   }).refine(
     (values) => {
       return values.password === values.confirmPassword;
@@ -88,6 +90,9 @@ function SignUp({ invitationData, countries }) {
       path: ["confirmPassword"],
     },
   );
+
+  console.log(countries);
+
   const [invitee, setInvitee] = useState(invitationData?.invitation?.invitee);
   const [loading, setLoading] = useState(false);
 
@@ -140,6 +145,10 @@ function SignUp({ invitationData, countries }) {
       setLoading(true);
       setError(false);
       setSuccess(false);
+
+      const country = countries?.find(
+        (country) => country.name === values.country,
+      );
       const resp = await axios.post(`${pubAPI}/auth/register`, {
         email: values.email,
         firstName: values.firstName,
@@ -148,6 +157,7 @@ function SignUp({ invitationData, countries }) {
         confirmPassword: values.confirmPassword,
         username: values.email,
         inviteToken: token,
+        country,
       });
       console.log(resp.data);
       //success message
@@ -191,10 +201,6 @@ function SignUp({ invitationData, countries }) {
             />
             <span> Sign in with Google</span>
           </button>
-          {/* <button onClick={()=> signIn('linkedin')} className="rounded-[100px] text-[15px] flex justify-center items-center md:w-1/2 w-full gap-2  h-[43px] flex-shrink-0 font-[300] leading-[17px] border-[1px] border-secondary">
-            <FaLinkedin className="text-blue-700" size={20} />
-            <span>Sign in with Linkedin</span>
-          </button> */}
         </div>
         <p className="text-center my-4 text-[15px] leading-[16px] flex gap-2 items-center">
           <span className="h-[1px] bg-secondary w-full " />
@@ -285,7 +291,7 @@ function SignUp({ invitationData, countries }) {
           label="Confirm Password"
           type="password"
           id="confirmPassword"
-          placeholder="Confirm password"
+          placeholder="Min. 8 character"
           name="confirmPassword"
           tabIndex={2}
           aria-required="true"
@@ -296,53 +302,115 @@ function SignUp({ invitationData, countries }) {
           }
           control={control}
         />
-
         <SelectField
-          control={control}
-          name="country"
           // @ts-ignore
+          hasBorder
           sx={{
             "& fieldset": { borderRadius: "100px", borderColor: "black" },
             borderColor: "black",
           }}
           label="Country"
+          name="country"
+          tabIndex={2}
+          aria-required="true"
           fullWidth
+          control={control}
         >
-          <MenuItem selected value={""} disabled>
-            Select a country
-          </MenuItem>
-
-          {countries.map((country) => (
-            <MenuItem key={country.code} value={country.code}>
-              {country.name}
+          {countries?.map((country, index) => (
+            <MenuItem value={country?.name} key={index}>
+              {country?.name}
             </MenuItem>
           ))}
         </SelectField>
 
-        <div className="flex  text-xs leading-[17px] items-center">
-          <Checkbox id="agree" />
-          <label htmlFor="agree">
-            I agree with the{" "}
-            <Link href={"/"} className="underline">
-              Terms and conditions
-            </Link>
-          </label>
-        </div>
-        <div className="flex flex-col gap-3 text-base">
-          <LoadingButton
-            type="submit"
-            loading={loading}
-            className="bg-primary text-secondary h-[46px] hover:bg-gray-800"
-          >
-            Sign Up
-          </LoadingButton>
-          <p className="text-center text-xs ">
-            Already have an account?{" "}
-            <Link className="text-[#FF0000]" href="/login">
-              Sign in
-            </Link>
+        <FormControlLabel
+          control={
+            <Checkbox
+              required
+              size="small"
+              id="agree"
+              tabIndex={2}
+              aria-required="true"
+              {...register("agree")}
+              color="primary"
+            />
+          }
+          sx={{
+            display: "flex",
+            alignItems: "flex-start",
+            margin: 0,
+            gap: 0.5,
+            "& .MuiCheckbox-root": {
+              padding: 0,
+            },
+            "& .MuiTypography-root": {
+              fontSize: 12,
+            },
+          }}
+          label={
+            <p className="flex gap-1  text-[14px] leading-[19px] md:text-[12px]">
+              I agree to the
+              <Link
+                href="/terms-of-service"
+                target="_blank"
+                className="underline text-blue-600"
+              >
+                Terms and Conditions
+              </Link>
+              and
+              <Link
+                href="/privacy-policy"
+                target="_blank"
+                className="underline text-blue-600"
+              >
+                Privacy Policy
+              </Link>
+            </p>
+          }
+        />
+        {errors["agree"] && (
+          <p className="text-red-600 text-[12px]">{errors["agree"].message}</p>
+        )}
+
+        <LoadingButton
+          type="submit"
+          loading={loading}
+          fullWidth
+          variant="contained"
+          // disableElevation
+          sx={{
+            borderRadius: "100px",
+            color: "white",
+            fontSize: "14px",
+            lineHeight: "18px",
+            textTransform: "none",
+            height: "45px",
+            fontWeight: 300,
+            backgroundColor: "#1C1D36",
+            "&:hover": {
+              backgroundColor: "#1C1D36",
+              color: "white",
+            },
+          }}
+        >
+          Create an account
+        </LoadingButton>
+        {error && (
+          <p className="text-red-500 text-center text-[12px]">
+            Something went wrong. Please try again.
           </p>
-        </div>
+        )}
+        {success && (
+          <p className="text-green-500 text-center text-[12px]">
+            Account created successfully. Redirecting to login...
+          </p>
+        )}
+        <p className="text-center text-[14px] md:text-[12px] leading-[19px] md:leading-[18px] mt-4">
+          Already have an account?{" "}
+          <Link href="/login" className="underline">
+            Sign In
+          </Link>
+        </p>
       </form>
     </AuthLayout>
   );

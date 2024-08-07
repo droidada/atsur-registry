@@ -53,7 +53,7 @@ const PaymentVerificationPage = ({ paymentDetails }) => {
           </h3> */}
           <p className="text-center ">
             {paymentDetails?.paymentStatus == "success"
-              ? "Congratulation your payment was successfull"
+              ? "Congratulation your payment was successful"
               : "Sorry your payment has failed"}
           </p>
           {paymentDetails?.paymentStatus == "success" ? (

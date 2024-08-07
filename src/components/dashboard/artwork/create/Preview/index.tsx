@@ -147,26 +147,28 @@ const CreateArtworkPreview: React.FC<Props> = ({
         <div className="grid gap-4 md:grid-cols-4">
           <div className="flex flex-col gap-2">
             <h4 className="font-semibold text-[15px] leading-[16px]">
-              Is Circa
+              For Sale
             </h4>
             <p className="text-[17px] leading-[16px] font-[300]">
-              {formData?.illustration?.creationDate.isCirca ? "Yes" : "No"}
+              {formData?.illustration?.forSale ? "Yes" : "No"}
             </p>
           </div>
           <div className="flex flex-col gap-2">
             <h4 className="font-semibold text-[15px] leading-[16px]">Price</h4>
             <p className="text-[17px] leading-[16px] font-[300]">
-              {formData?.illustration?.price?.amount}
+              {formData?.illustration?.price?.amount || 0}
             </p>
           </div>
-          <div className="flex flex-col gap-2">
-            <h4 className="font-semibold text-[15px] leading-[16px]">
-              Price Type
-            </h4>
-            <p className="text-[17px] leading-[16px] font-[300]">
-              {formData?.illustration?.price?.type}
-            </p>
-          </div>
+          {formData?.illustration?.price?.type && (
+            <div className="flex flex-col gap-2">
+              <h4 className="font-semibold text-[15px] leading-[16px]">
+                Price Type
+              </h4>
+              <p className="text-[17px] leading-[16px] font-[300]">
+                {formData?.illustration?.price?.type}
+              </p>
+            </div>
+          )}
         </div>
 
         <div className="flex flex-col gap-2">

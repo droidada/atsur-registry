@@ -51,7 +51,18 @@ const PricingForm: React.FC<Props> = ({
     watch,
     formState: { errors },
     register,
-  } = useForm({ resolver: zodResolver(PricingSchema) });
+    getValues,
+  } = useForm({
+    resolver: zodResolver(PricingSchema),
+    defaultValues: {
+      creationDate: formData?.illustration?.creationDate?.date || null,
+      price: formData?.illustration?.price?.amount?.toString() || "",
+      type: formData?.illustration?.price?.type || "",
+      forSale: formData?.illustration?.forSale || false,
+    },
+  });
+
+  console.log(getValues(), errors);
 
   type PricingData = TypeOf<typeof PricingSchema>;
 
@@ -63,32 +74,29 @@ const PricingForm: React.FC<Props> = ({
 
   useEffect(() => {
     setValue("creationDate", formData?.illustration?.creationDate?.date);
-    setValue("price", formData?.illustration?.price?.amount);
-    setValue("type", formData?.illustration?.price?.type);
-    setValue("isCirca", formData?.illustration?.creationDate?.isCirca);
+    setValue("price", formData?.illustration?.price?.amount?.toString() || "");
+    setValue("type", formData?.illustration?.price?.type || "");
+    setValue("forSale", formData?.illustration?.forSale || false);
   }, [formData]);
 
   const forSale = watch("forSale");
 
   const onSubmit: SubmitHandler<PricingData> = (data) => {
+    console.log(data);
     setFormData({
       ...formData,
       illustration: {
         ...formData.illustration,
-        // @ts-ignore
         creationDate: {
-          // @ts-ignore
           ...formData.illustration.creationDate,
-          //@ts-ignore
+          // @ts-ignore
           date: data.creationDate,
         },
         price: {
-          // @ts-ignore
-          ...formData.illustration.price,
-          amount: Number(data.price),
-          type: data?.type,
+          amount: data.price ? Number(data.price) : 0,
+          type: data.type || "",
         },
-        forSale: data.forSale,
+        forSale: data.forSale || false,
       },
     });
 
@@ -98,6 +106,7 @@ const PricingForm: React.FC<Props> = ({
   return (
     <CreateArtWorkFormContainer
       handleGoBack={() => setActiveIndex((prev) => prev - 1)}
+      // @ts-ignore
       onSubmit={handleSubmit(onSubmit)}
     >
       <Stack spacing={4}>
@@ -118,14 +127,12 @@ const PricingForm: React.FC<Props> = ({
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      // label="Creation Date"
                       error={!!errors.creationDate}
                       helperText={errors.creationDate?.message as string}
                       fullWidth
                       sx={{
                         "& fieldset": {
                           border: "none",
-                          // backgroundColor: "#D9D9D9",
                         },
                       }}
                     />
@@ -142,7 +149,6 @@ const PricingForm: React.FC<Props> = ({
             name="forSale"
             control={control}
             error={!!errors["forSale"]}
-            // @ts-ignore
             helperText={errors["forSale"] ? errors["forSale"].message : ""}
           />
         </div>
@@ -153,15 +159,14 @@ const PricingForm: React.FC<Props> = ({
               id="price"
               placeholder=""
               name="price"
-              type="price"
+              type="text"
               hasInfo
               info="The price of the artwork"
-              //   inputClassName="bg-secondary-white"
               tabIndex={2}
               aria-required="true"
               fullWidth
+              defaultValue="0"
               error={!!errors["price"]}
-              // @ts-ignore
               helperText={errors["price"] ? errors["price"].message : ""}
               control={control}
             />

@@ -35,8 +35,6 @@ const ArpieceArtistInvite: React.FC<Props> = ({
   const [termAndConditionError, setTermsAndConditionError] = useState(false);
   const { status } = useSession();
 
-  console.log(invitationData);
-
   const handleAcceptArtpiece = () => {
     if (!acceptTermsAndCondition) {
       setTermsAndConditionError(true);

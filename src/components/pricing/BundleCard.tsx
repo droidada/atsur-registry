@@ -1,7 +1,13 @@
 import { BundleDetailType, BundleType } from "@/types/models/bundle";
-import React from "react";
+import React, { useState } from "react";
 import numeral from "numeral";
-import { Button } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 import LoadingButton from "../Form/LoadingButton";
 import { HiMiniCheckCircle } from "react-icons/hi2";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
@@ -19,15 +25,14 @@ const BundleCard: React.FC<Props> = ({ bundle }) => {
   const toast = useToast();
   const { status } = useSession();
   const router = useRouter();
+  const [open, setOpen] = useState(false);
 
   console.log(bundle);
 
   const { mutate, isLoading } = useMutation({
     //   @ts-ignore
-    mutationFn: () =>
-      status === "authenticated"
-        ? axiosAuth.post(`/bundles/buy/${bundle._id}`)
-        : router.push("/login?callbackUrl=/pricing"),
+    mutationFn: () => axiosAuth.post(`/bundles/buy/${bundle._id}`),
+
     onSuccess: (data) => {
       console.log(data);
 
@@ -67,7 +72,9 @@ const BundleCard: React.FC<Props> = ({ bundle }) => {
 
         <LoadingButton
           loading={isLoading}
-          onClick={() => mutate()}
+          onClick={() =>
+            status === "authenticated" ? mutate() : setOpen(true)
+          }
           className={`text-sm font-[400] h-[36px] w-[150.49px] px-3 bg-[#00FF94] text-primary`}
         >
           Get Started
@@ -87,8 +94,33 @@ const BundleCard: React.FC<Props> = ({ bundle }) => {
           </div>
         ))}
       </div>
+      <ModalBundle open={open} onClose={() => setOpen(false)} />
     </div>
   );
 };
 
 export default BundleCard;
+
+interface BundleModalProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+const ModalBundle: React.FC<BundleModalProps> = ({ open, onClose }) => {
+  const router = useRouter();
+  return (
+    <Dialog open={open} onClose={onClose} maxWidth="sm">
+      <DialogTitle></DialogTitle>
+      <DialogContent dividers>You need to login to continue</DialogContent>
+      <DialogActions>
+        <Button onClick={onClose} variant="outlined">
+          {" "}
+          Close
+        </Button>
+        <Button variant="contained" onClick={() => router.push("/login")}>
+          Login
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
