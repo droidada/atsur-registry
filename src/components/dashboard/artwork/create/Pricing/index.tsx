@@ -97,13 +97,13 @@ const PricingForm: React.FC<Props> = ({
         },
 
         price: {
-          amount: Number(data.price) || 0,
+          currency: "USD",
+          amount: data.price ? Number(data.price) : 0,
           type: data.type || "",
         },
         forSale: data.forSale || false,
       },
     });
-
     setActiveIndex((prev) => prev + 1);
   };
 

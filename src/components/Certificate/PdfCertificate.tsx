@@ -2,6 +2,7 @@ import React, { forwardRef } from "react";
 import ArtPieceCertificate from ".";
 import Image from "next/image";
 import { Tailwind } from "@fileforge/react-print";
+import { getCertificateText } from "../dashboard/artwork/Verification/VerificationAccepted";
 
 interface Props {
   artPiece: any;
@@ -50,6 +51,9 @@ const PdfCertificate = forwardRef(
                     {artPiece?.dimensions?.width} x{" "}
                     {artPiece?.dimensions?.height} Inches
                   </h4>
+                </div>
+                <div className="flex flex-col items-center text-center mt-10 ml-10 font-brawler">
+                  {getCertificateText({ artPiece })}
                 </div>
               </div>
               <div className="flex-none w-[223.4px] h-[323.94px] bg-gold-gradient p-[5px]">

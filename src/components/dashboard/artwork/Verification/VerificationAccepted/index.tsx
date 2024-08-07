@@ -31,7 +31,7 @@ export const getCertificateText = ({ artPiece }) => {
       return (
         <>
           <p style={{ fontSize: "1.1rem" }}>
-            this certificate certifies that this an original {`${rarity}`} piece
+            This certificate certifies that this an original {`${rarity}`} piece
             certified by the artist.{" "}
           </p>
         </>
@@ -41,7 +41,7 @@ export const getCertificateText = ({ artPiece }) => {
       return (
         <>
           <p style={{ fontSize: "1.1rem" }}>
-            this certificate certifies that <h2>{`${custodianName}`}</h2> is the
+            This certificate certifies that <h2>{`${custodianName}`}</h2> is the
             owner of this an original {`${rarity}`} art piece.{" "}
           </p>
         </>
@@ -51,7 +51,7 @@ export const getCertificateText = ({ artPiece }) => {
       return (
         <>
           <p style={{ fontSize: "1.1rem" }}>
-            this certificate certifies that <h2>{`${custodianName}`}</h2> is the{" "}
+            This certificate certifies that <h2>{`${custodianName}`}</h2> is the{" "}
             <b>authorized custodian</b> of this an original {`${rarity}`} art
             piece as certified by the artist.
           </p>
@@ -62,7 +62,7 @@ export const getCertificateText = ({ artPiece }) => {
       return (
         <>
           <p style={{ fontSize: "1.1rem" }}>
-            this certificate certifies that <h2>{`${custodianName}`}</h2> is the{" "}
+            This certificate certifies that <h2>{`${custodianName}`}</h2> is the{" "}
             <b>authorized broker</b> for this original {`${rarity}`} art piece
             as certified by the artist.{" "}
           </p>
