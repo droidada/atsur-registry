@@ -39,7 +39,7 @@ const VerificationFileDroper: React.FC<Props> = ({
   buttonClassName,
 }) => {
   return (
-    <div className={`w-2/3 flex flex-col gap-4 ${className}`}>
+    <div className={`w-full flex flex-col gap-4 ${className}`}>
       <label
         className={`text-sm   leading-[16px] ${labelClassName}`}
         htmlFor=""

@@ -16,7 +16,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { TypeOf, object, string } from "zod";
 import InputField from "../Form/InputField";
@@ -48,11 +48,13 @@ const InviteUsers: React.FC<Props> = ({
 }) => {
   const axiosFetch = useAxiosAuth();
   const toast = useToast();
-
+  const [inputValue, setInputValue] = useState("");
   const [query, setQuery] = useState("");
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
 
   const debouncedQuery = useDebounce(query, 500);
+
+  console.log(selectedUsers);
 
   const {
     data: users,
@@ -69,7 +71,23 @@ const InviteUsers: React.FC<Props> = ({
     },
   );
 
-  console.log(selectedUsers);
+  useEffect(() => {
+    if (selectedUsers) {
+      if (isMultiple) {
+        setInputValue(
+          `${selectedUsers[0]?.firstName} ${selectedUsers[0]?.lastName}`,
+        );
+      } else {
+        setInputValue(
+          selectedUsers
+            ? `${selectedUsers?.firstName} ${selectedUsers?.lastName}`
+            : "",
+        );
+      }
+    }
+  }, [selectedUsers, isMultiple]);
+
+  console.log(inputValue);
 
   return (
     <div className={`flex w-full flex-col text-base gap-2 ${className}`}>
@@ -104,25 +122,18 @@ const InviteUsers: React.FC<Props> = ({
         getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
         loading={isLoading}
         loadingText={<CircularProgress color="inherit" size={20} />}
-        onInputChange={(event, value) => setQuery(value)}
+        onInputChange={(event, value) => {
+          setQuery(value);
+          setInputValue(value);
+        }}
         renderInput={(params) => (
           <TextField
             {...params}
+            value={inputValue}
             inputProps={{
               ...params.inputProps,
               className: "bg-white focus:border-none focus:outline-none",
               placeholder: placeholder,
-            }}
-            InputProps={{
-              ...params.InputProps,
-              // endAdornment: (
-              //   <React.Fragment>
-              //     {isloading ? (
-              //       <CircularProgress color="inherit" size={20} />
-              //     ) : null}
-              //     {params.InputProps.endAdornment}
-              //   </React.Fragment>
-              // ),
             }}
           />
         )}

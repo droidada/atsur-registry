@@ -122,10 +122,13 @@ const InstitutionInformation = ({
   useEffect(() => {
     if (defaultValues) {
       console.log(defaultValues);
-      setValue("date", defaultValues?.date);
-      setValue("acquisitionType", defaultValues?.type);
-      setValue("acquisitionPurpose", defaultValues?.purpose);
-      setValue("boughtFromOrganization", defaultValues?.boughtFromOrganization);
+      setValue("date", defaultValues?.acquisition?.date);
+      setValue("acquisitionType", defaultValues?.acquisition?.type);
+      setValue("acquisitionPurpose", defaultValues?.acquisition?.purpose);
+      setValue(
+        "boughtFromOrganization",
+        defaultValues?.acquisition.method === "organization" ? true : false,
+      );
       setValue("acquisitionDocumentCaption", defaultValues?.attachmentCaption);
       setValue("isCirca", defaultValues?.isCirca);
       setDefaultFile({
@@ -134,11 +137,18 @@ const InstitutionInformation = ({
       });
       // setValue("methodOfPurchase", defaultValues?.methodOfPurchase);
 
-      setMyOrganization(defaultValues?.myOrganization);
-      setSelectedOrganization(defaultValues?.organization?.orgInfo);
-      setArtist(defaultValues?.artist);
+      setMyOrganization(defaultValues?.organization);
+      console.log(
+        defaultValues?.acquisition?.acquiredFromOrganization?.orgInfo,
+      );
+      setSelectedOrganization(
+        defaultValues?.acquisition?.acquiredFromOrganization?.orgInfo,
+      );
+      setArtist(defaultValues?.artist?.artistInfo);
     }
   }, [defaultValues]);
+
+  console.log(selectedOrganization);
 
   const onSubmit: SubmitHandler<MetadataInput> = async (values, event) => {
     //@ts-ignore
@@ -152,14 +162,12 @@ const InstitutionInformation = ({
       return;
     }
 
-    console.log(selectedOrganization);
-
     const formData = new FormData();
     formData.append("save", JSON.stringify(save));
     formData.append("date", values.date);
     formData.append(
       "acquiredFromOrganization",
-      JSON.stringify(values.boughtFromOrganization),
+      JSON.stringify(selectedOrganization),
     );
     formData.append("acquisitionPurpose", values.acquisitionPurpose);
     formData.append("acquisitionType", values.acquisitionType);
@@ -187,6 +195,8 @@ const InstitutionInformation = ({
   };
 
   const boughtFromOrganization = watch("boughtFromOrganization");
+
+  console.log(myOrganization);
 
   return (
     <FormContainer

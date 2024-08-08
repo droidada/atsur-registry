@@ -12,7 +12,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { object, string, number, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -44,8 +44,17 @@ const SelectOrganization: React.FC<Props> = ({
   const axiosFetch = useAxiosAuth();
   const [inviteOrg, setInviteOrg] = useState(false);
   const [query, setQuery] = useState("");
+  const [inputValue, setInputValue] = useState("");
 
   const debouncedQuery = useDebounce(query, 500);
+
+  useEffect(() => {
+    if (selectedOrg) {
+      setInputValue(selectedOrg);
+    }
+  }, [selectedOrg]);
+
+  console.log(selectedOrg);
 
   const { data, isLoading, isError } = useQuery(
     ["organization", debouncedQuery],
@@ -72,7 +81,7 @@ const SelectOrganization: React.FC<Props> = ({
       )}
 
       <Autocomplete
-        className="h-[40px] bg-white focus:border-none focus:outline-none"
+        className="h-[40px] bg-white focus:border-none p-0 focus:outline-none"
         ListboxProps={{
           className: " bg-white focus:border-none focus:outline-none",
         }}
@@ -84,29 +93,18 @@ const SelectOrganization: React.FC<Props> = ({
         getOptionLabel={(option) => option?.name || ""}
         loading={isLoading}
         loadingText={<CircularProgress color="inherit" size={20} />}
-        onInputChange={(event, value) => setQuery(value)}
+        onInputChange={(event, value) => {
+          setInputValue(value);
+          setQuery(value);
+        }}
         renderInput={(params) => (
           <TextField
             {...params}
+            value={inputValue}
             inputProps={{
               ...params.inputProps,
               className: "bg-white focus:border-none focus:outline-none",
               placeholder: placeholder,
-            }}
-            InputProps={{
-              ...params.InputProps,
-              // endAdornment: (
-              //   <>
-              //     {isLoading ? (
-              //       <CircularProgress
-              //         color="inherit"
-              //         size={20}
-              //         style={{ marginLeft: 10 }}
-              //       />
-              //     ) : null}
-              //     {params.InputProps.endAdornment}
-              //   </>
-              // ),
             }}
           />
         )}
