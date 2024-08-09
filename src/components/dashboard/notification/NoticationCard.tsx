@@ -10,6 +10,9 @@ import React from "react";
 import ArtpieceCollaboratorInvite from "./ArtpieceCollaboratorInvite";
 import OrgInvite from "./OrgInvite";
 import NewFollowerNotification from "./NewFollowerNotification";
+import { notificationTypes } from "@/types/models/InvitationTypes";
+import { INotification } from "@/types/models/notificationData";
+import ArtpieceArtistInvite from "./ArtpieceArtistInvite";
 
 interface Props {
   notification: INotification;
@@ -37,9 +40,9 @@ const NoticationCard: React.FC<Props> = ({ notification, refetch }) => {
   });
   console.log(notification);
   switch (notification.type) {
-    case "org-invite":
+    case notificationTypes.ORG_INVITE:
       return <OrgInvite refetch={refetch} notification={notification} />;
-    case "art-piece-collaborator-invite":
+    case notificationTypes.ART_PIECE_COLLABORATOR_INVITE:
       return (
         <ArtpieceCollaboratorInvite
           refetch={refetch}
@@ -47,7 +50,7 @@ const NoticationCard: React.FC<Props> = ({ notification, refetch }) => {
           mutate={() => mutate(notification)}
         />
       );
-    case "new-following":
+    case notificationTypes.NEW_FOLLOWING:
       return (
         <NewFollowerNotification
           refetch={refetch}
@@ -56,6 +59,13 @@ const NoticationCard: React.FC<Props> = ({ notification, refetch }) => {
           isLoading={isLoading}
         />
       );
+    case notificationTypes.ART_PIECE_ORG_INVITE:
+      return <></>;
+    case notificationTypes.ART_PIECE_ARTIST_INVITE:
+      return (
+        <ArtpieceArtistInvite refetch={refetch} notification={notification} />
+      );
+
     default:
       return <div></div>;
   }

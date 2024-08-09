@@ -9,12 +9,13 @@ interface Props {
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 const VericationConfirmPreview: React.FC<Props> = ({
-  artPiece,
+  artPiece: verification,
   setActiveIndex,
 }) => {
+  console.log(verification);
   return (
     <Stack spacing={2}>
-      <ArtPieceCertificate artPiece={artPiece?.artPiece} />
+      <ArtPieceCertificate verification={verification} />
       <p className="leading-[20px] text-[17px] font-[300]">
         Congratulations. Your artwork has been{" "}
         <span className="font-[500]">Verified</span>.

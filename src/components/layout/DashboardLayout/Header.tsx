@@ -55,6 +55,8 @@ const Header: React.FC<Props> = ({ setHideSidebar }) => {
     }, 200);
   };
 
+  console.log(notifications.find((notification) => notification.read));
+
   return (
     <div className="sticky z-[1000] border-b-[1px]  bg-white top-0 px-4  flex flex-col justify-center h-[86px]">
       <Stack
@@ -149,7 +151,8 @@ const Header: React.FC<Props> = ({ setHideSidebar }) => {
             className="w-[24px] h-[24px] relative hover:scale-95 cursor-pointer rounded-full bg-primary text-secondary grid place-items-center"
           >
             <IoIosNotifications size={10} />
-            {notifications?.length > 0 && (
+            {notifications.filter((notification) => notification.read).length >
+              0 && (
               <div className="bg-[#FFC700] grid place-items-center absolute -left-1 text-primary w-[10px] h-[10px] -top-1   text-[10px] rounded-full">
                 {/* {notifications?.length} */}
               </div>

@@ -196,8 +196,6 @@ const InstitutionInformation = ({
 
   const boughtFromOrganization = watch("boughtFromOrganization");
 
-  console.log(myOrganization);
-
   return (
     <FormContainer
       setActiveIndex={setActiveIndex}

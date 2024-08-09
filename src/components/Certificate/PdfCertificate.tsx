@@ -5,16 +5,20 @@ import { Tailwind } from "@fileforge/react-print";
 import { getCertificateText } from "../dashboard/artwork/Verification/VerificationAccepted";
 
 interface Props {
-  artPiece: any;
+  verification: any;
   signatureImage: any;
   qrImage: any;
   tokenized?: boolean;
 }
 
 const PdfCertificate = forwardRef(
-  ({ artPiece, signatureImage, qrImage, tokenized }: Props, ref: any) => {
-    console.log(qrImage);
-    console.log(signatureImage);
+  ({ verification, signatureImage, qrImage, tokenized }: Props, ref: any) => {
+    console.log(verification?.artPiece);
+
+    const role = verification.custodian.role;
+
+    console.log(role);
+
     return (
       <div ref={ref} className="w-full  h-fit hidden  certificate">
         <div className="bg-[#FFFCF2]  w-full  flex flex-col  justify-between h-full border-x-[1px] ">
@@ -27,39 +31,41 @@ const PdfCertificate = forwardRef(
                 <div className="flex flex-col font-bold border-t-[1px] w-fit pr-4 pt-2 border-[#CAAA62] tracking-[0.1em] text-sm uppercase font-brawler mt-4">
                   <h4>
                     <span className="text-golden">TITLE OF ARTWORK: </span>{" "}
-                    {artPiece?.title}
+                    {verification?.artPiece?.title}
                   </h4>
                   <h4>
                     <span className="text-golden">ARTIST NAME: </span>{" "}
-                    {artPiece?.custodian?.profile?.firstName}{" "}
-                    {artPiece?.custodian?.profile?.lastName}
+                    {verification[role]?.artist?.artistInfo.firstName}{" "}
+                    {verification[role]?.artist?.artistInfo.lastName}
                   </h4>
                   <h4>
                     <span className="text-golden">YEAR OF CREATION: </span>{" "}
-                    {new Date(artPiece?.createdAt).getFullYear().toString()}
+                    {new Date(verification?.artPiece?.creationDate?.date)
+                      .getFullYear()
+                      .toString()}
                   </h4>
                   <h4>
                     <span className="text-golden">TYPE: </span>{" "}
-                    {artPiece?.artType}
+                    {verification?.artPiece?.artType}
                   </h4>
                   <h4>
                     <span className="text-golden">MEDIUM: </span>{" "}
-                    {artPiece?.medium}
+                    {verification?.artPiece?.medium}
                   </h4>
                   <h4>
                     <span className="text-golden">SIZE: </span>{" "}
-                    {artPiece?.dimensions?.width} x{" "}
-                    {artPiece?.dimensions?.height} Inches
+                    {verification?.artPiece?.dimensions?.width} x{" "}
+                    {verification?.artPiece?.dimensions?.height} Inches
                   </h4>
                 </div>
                 <div className="flex flex-col items-center text-center mt-10 ml-10 font-brawler">
-                  {getCertificateText({ artPiece })}
+                  {getCertificateText({ artPiece: { ...verification } })}
                 </div>
               </div>
               <div className="flex-none w-[223.4px] h-[323.94px] bg-gold-gradient p-[5px]">
                 <div className="w-full h-full relative bg-[#D9D9D9]">
                   <Image
-                    src={artPiece?.assets[0]?.url}
+                    src={verification?.artPiece?.assets[0]?.url}
                     fill
                     alt=""
                     className="object-cover"
@@ -113,8 +119,14 @@ const PdfCertificate = forwardRef(
                   )}
                 </div>
                 <p className="text-center pt-2 px-4 flex gap-2 text-sm border-t-[1px] font-[700] uppercase border-golden">
-                  <span> {artPiece?.custodian?.profile?.firstName}</span>
-                  <span> {artPiece?.custodian?.profile?.lastName}</span>
+                  <span>
+                    {" "}
+                    {verification?.artPiece?.custodian?.profile?.firstName}
+                  </span>
+                  <span>
+                    {" "}
+                    {verification?.artPiece?.custodian?.profile?.lastName}
+                  </span>
                 </p>
               </div>
               {/* <div className="flex items-center justify-center mt-0"> */}

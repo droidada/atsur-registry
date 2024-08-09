@@ -25,7 +25,8 @@ const Invitation = ({ invitationData }) => {
 
   const isAuthenticated = status === "authenticated";
   const isInvitee =
-    invitationData?.invitation.invitee?.email === sessionData?.user?.email;
+    invitationData?.invitation.invitee?.user?.email ===
+    sessionData?.user?.email;
 
   const { data: verification, error } = useQuery({
     queryKey: ["verification"],

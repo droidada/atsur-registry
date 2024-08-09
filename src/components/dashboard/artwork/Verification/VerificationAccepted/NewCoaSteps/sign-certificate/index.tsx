@@ -52,6 +52,7 @@ const SignCertificate: React.FC<Props> = ({
     !artPiece?.artPiece.signature
       ? false
       : true;
+  const [loading, setLoading] = useState(false);
 
   const { mutate, isLoading } = useMutation({
     mutationFn: async (data: { draftCOA: any; signature: any; qrCode: any }) =>
@@ -77,6 +78,7 @@ const SignCertificate: React.FC<Props> = ({
 
     print: async (printIframe: HTMLIFrameElement) => {
       try {
+        setLoading(true);
         const document = printIframe.contentDocument;
 
         if (document) {
@@ -88,8 +90,6 @@ const SignCertificate: React.FC<Props> = ({
           // Calculate dimensions in mm (assuming 96 DPI)
           const mmWidth = (rect.width * 25.4) / 96;
           const mmHeight = (rect.height * 25.4) / 96;
-
-          console.log(mmWidth, mmHeight);
 
           const html2pdf = (await import("html2pdf.js")).default;
           const option = {
@@ -144,6 +144,8 @@ const SignCertificate: React.FC<Props> = ({
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     },
   });
@@ -164,7 +166,7 @@ const SignCertificate: React.FC<Props> = ({
       )}
       <div className="">
         <ArtPieceCertificate
-          artPiece={artPiece?.artPiece}
+          verification={artPiece}
           signatureImage={signatureImage}
           qrImage={qrImage}
         />
@@ -172,7 +174,7 @@ const SignCertificate: React.FC<Props> = ({
 
       <PdfCertificate
         ref={certificateRef}
-        artPiece={artPiece?.artPiece}
+        verification={artPiece}
         signatureImage={signatureImage}
         qrImage={qrImage}
       />

@@ -45,7 +45,7 @@ const Notification = () => {
     },
   });
 
-  console.log(data?.data?.meta);
+  console.log(data?.data);
 
   return (
     <Stack justifyContent={"space-between"} spacing={"35px"}>

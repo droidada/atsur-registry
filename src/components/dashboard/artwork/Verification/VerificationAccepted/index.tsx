@@ -6,10 +6,11 @@ import ExistingCoaSteps from "./ExistingCoaSteps";
 import { artRoles, rarityTypes } from "@/types/index";
 
 export const getCertificateText = ({ artPiece }) => {
+  console.log(artPiece);
   console.log("getting text for artpiece here ", artPiece.verification);
-  const role = artPiece?.verification?.custodian.role;
+  const role = artPiece?.custodian.role;
   const rarity =
-    artPiece?.rarity === rarityTypes.UNIQUE
+    artPiece?.artPiece?.rarity === rarityTypes.UNIQUE
       ? "one of a kind"
       : artPiece.rarity === rarityTypes.LIMITED_EDITION
       ? "limited edition"
@@ -20,7 +21,7 @@ export const getCertificateText = ({ artPiece }) => {
     artPiece?.verification?.custodian.role
   ].organization?._id
     ? artPiece?.verification?.custodian?.organization?.name
-    : `${artPiece.custodian?.firstName} ${artPiece.custodian?.lastName}`;
+    : `${artPiece?.artPiece?.custodian?.profile?.firstName} ${artPiece?.artPiece?.custodian?.profile?.lastName}`;
 
   console.log(
     `getCertificateText ----- role: ${role}   rarity: ${rarity}    custodianName: ${custodianName}`,
@@ -93,6 +94,7 @@ const types = [
 ];
 
 const VerificationAccepted: React.FC<Props> = ({ artPiece }) => {
+  console.log(artPiece);
   const [coaType, setCoaType] = useState<"new" | "existing">(
     artPiece?.artPiece?.existingCOA ? "existing" : "new",
   );
