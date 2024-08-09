@@ -87,7 +87,7 @@ const InviteUsers: React.FC<Props> = ({
     }
   }, [selectedUsers, isMultiple]);
 
-  console.log(inputValue);
+
 
   return (
     <div className={`flex w-full flex-col text-base gap-2 ${className}`}>

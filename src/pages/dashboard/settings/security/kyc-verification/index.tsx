@@ -25,7 +25,9 @@ export const getServerSideProps = async ({ req, query }) => {
       headers: { authorization: `Bearer ${token?.accessToken}` },
     });
 
-    if (res.data && res.data?.data?.verificationStatus.redo !== true) {
+    console.log(res.data?.data);
+
+    if (res.data && res.data?.data?.verificationStatus !== "not-verified") {
       return {
         redirect: {
           destination: "/dashboard/settings/security/kyc-verification/status",
@@ -34,7 +36,7 @@ export const getServerSideProps = async ({ req, query }) => {
       };
     }
 
-    return { props: { status: res.data?.kyc } };
+    return { props: { status: res.data?.data } };
   } catch (error) {
     console.log(error);
     throw new Error(error);
