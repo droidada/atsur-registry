@@ -23,7 +23,8 @@ export const options: any = {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials, req)
+      {
         const payload = {
           email: credentials.email,
           password: credentials.password,
@@ -54,7 +55,13 @@ export const options: any = {
     maxAge: 24 * 60 * 60, // 24 Hours
   },
   callbacks: {
-    async jwt({ token, user, account, trigger, session }) {
+    async jwt({ token, user, account, trigger, session })
+    {
+
+      if (trigger === "update") {
+        return { ...token, ...session.user };
+      }
+
       if (account?.provider === "google") {
         try {
           console.log("inside google provider");
@@ -79,6 +86,7 @@ export const options: any = {
           token.phone = res.data?.user?.phone;
           token.accessToken = res.data?.user?.accessToken;
           token.roles = res.data?.user?.roles;
+          token.emailVerified = res.data?.user.emailVerified;
         } catch (error) {
           console.log("google request error here ---- ");
         }
@@ -108,6 +116,7 @@ export const options: any = {
           token.phone = res.data?.user?.phone;
           token.accessToken = res.data?.user?.accessToken;
           token.roles = res.data?.user?.roles;
+          token.emailVerified = res.data?.user.emailVerified;
         } catch (error) {
           console.log("google request error here ---- ");
         }
@@ -131,7 +140,8 @@ export const options: any = {
       return token;
     },
 
-    async session({ session, token }) {
+    async session({ session, token })
+    {
       // console.log(" inside session callback..... token ", token)
       // console.log(" inside session callback..... session ", session)
       if (token) {
@@ -147,6 +157,7 @@ export const options: any = {
           bio: token?.bio,
           username: token?.username,
           phone: token?.phone,
+          emailVerified: token?.emailVerified
         };
       }
 

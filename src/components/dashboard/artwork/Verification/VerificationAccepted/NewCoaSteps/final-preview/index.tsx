@@ -88,7 +88,7 @@ const FinalPreview: React.FC<Props> = ({
       {/* <div className=" flex flex-col items-center  certificate" ref={ref}> */}
       <div className="max-w-[900px] w-full">
         <ArtPieceCertificate
-          verification={artPiece?.artPiece}
+          verification={artPiece}
           signatureImage={signatureImage || artPiece?.artPiece?.signature}
           qrImage={qrImage || artPiece?.artPiece?.qrCode}
           tokenized={

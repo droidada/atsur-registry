@@ -12,7 +12,6 @@ const VericationConfirmPreview: React.FC<Props> = ({
   artPiece: verification,
   setActiveIndex,
 }) => {
-  console.log(verification);
   return (
     <Stack spacing={2}>
       <ArtPieceCertificate verification={verification} />
