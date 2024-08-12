@@ -62,7 +62,7 @@ const OrderRFID = ({ artPiece }) => {
       <Stack className="" direction={["column"]} spacing={4}>
         <div>
           <ArtPieceCertificate
-            artPiece={artPiece}
+            verification={artPiece}
             signatureImage={artPiece?.signature}
             qrImage={artPiece?.qrImage as string}
           />

@@ -1,5 +1,4 @@
-export interface INotification
-{
+export interface INotification {
   createdAt: string;
   invitation?: {
     invitee: {
@@ -20,22 +19,20 @@ export interface INotification
     id: string;
   };
   type:
-  | "user-invite"
-  | "sign-up"
-  | "org-created"
-  | "org-invite"
-  | "art-piece-created"
-  | "art-piece-artist-invite"
-  | "art-piece-org-invite"
-  | "art-piece-collaborator-invite"
-  | "collection-created"
-  | "new-following";
+    | "user-invite"
+    | "sign-up"
+    | "org-created"
+    | "org-invite"
+    | "art-piece-created"
+    | "art-piece-artist-invite"
+    | "art-piece-org-invite"
+    | "art-piece-collaborator-invite"
+    | "collection-created"
+    | "new-following";
   _id: string;
 }
 
-
-export interface NotificationCardProps
-{
+export interface NotificationCardProps {
   notification: INotification;
   refetch: any;
   mutate?: any;
