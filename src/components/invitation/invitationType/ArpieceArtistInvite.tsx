@@ -48,6 +48,8 @@ const ArpieceArtistInvite: React.FC<Props> = ({
     handleAccept();
   };
 
+  console.log(invitationData);
+
   return (
     <div className="flex flex-col gap-4 divide-y-[1px] divide-primary ">
       <div className="flex justify-between flex-wrap pb-4 gap-5">
@@ -68,7 +70,7 @@ const ArpieceArtistInvite: React.FC<Props> = ({
                 You have been invited as the Artist of
                 <span className="font-[600]">
                   {" "}
-                  {invitationData?.artPiece?.title}
+                  {invitationData?.invitation?.object?.artPiece?.title}
                 </span>{" "}
                 Artpiece
               </p>
@@ -78,11 +80,11 @@ const ArpieceArtistInvite: React.FC<Props> = ({
         <div className="w-[240px] h-[300px] bg-secondary-white relative">
           <Image
             src={
-              invitationData?.artPiece?.assets &&
-              invitationData?.artPiece?.assets[0]?.url
+              invitationData?.invitation?.object?.artPiece?.assets &&
+              invitationData?.invitation?.object?.artPiece?.assets[0]?.url
             }
             fill
-            alt={invitationData?.artPiece?.title}
+            alt={invitationData?.invitation?.object?.artPiece?.title}
             className="object-cover"
           />
         </div>
@@ -93,7 +95,7 @@ const ArpieceArtistInvite: React.FC<Props> = ({
             <h3 className="font-[600] text-[25px] ">Description</h3>
 
             <p className="max-w-[512px] text-xs w-full">
-              {invitationData?.artPiece?.description}
+              {invitationData?.invitation?.object?.artPiece?.description}
             </p>
           </div>
           {status === "authenticated" && (

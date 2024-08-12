@@ -31,6 +31,7 @@ export const getServerSideProps = async ({ req, query }) => {
 };
 
 function Verification({ artPiece }) {
+  console.log(artPiece);
   return (
     <>
       {artPiece?.status === "not-started" ? (

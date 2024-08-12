@@ -16,13 +16,17 @@ const NewCoa_Steps: React.FC<Props> = ({
   activeIndex,
   setActiveIndex,
 }) => {
-  const [steps, setSteps] = useState([
-    "preview",
-    "generate qr code",
-    "sign COA",
-    "tokenize",
-    "final preview",
-  ]);
+  const [steps, setSteps] = useState(
+    artPiece?.artPiece?.signature
+      ? ["preview", "generate qr code", "tokenize", "final preview"]
+      : [
+          "preview",
+          "generate qr code",
+          "sign COA",
+          "tokenize",
+          "final preview",
+        ],
+  );
   const [signatureImage, setSignatureImage] = useState<string>("");
   const [qrImage, setQrImage] = useState("");
 

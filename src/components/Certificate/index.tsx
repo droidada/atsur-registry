@@ -3,19 +3,23 @@ import React from "react";
 import { getCertificateText } from "../dashboard/artwork/Verification/VerificationAccepted";
 
 interface Props {
-  artPiece: any;
+  verification: any;
   signatureImage?: any;
   qrImage?: any;
   tokenized?: boolean;
 }
 
 const ArtPieceCertificate: React.FC<Props> = ({
-  artPiece,
+  verification,
   signatureImage,
   qrImage,
   tokenized,
 }) => {
-  console.log(artPiece);
+  console.log(verification?.artPiece);
+  const role = verification.custodian.role;
+
+  console.log(verification?.custodian[role]?.artist?.artistInfo.firstName);
+
   return (
     <div className="bg-[#FFFCF2] w-full  flex flex-col min-w-[585px] max-w-[1005px] justify-between h-fit mb-5 border-x-[1px] ">
       <div className="w-full border-t-[1px] flex-1  border-primary font-brawler flex flex-col ">
@@ -27,37 +31,41 @@ const ArtPieceCertificate: React.FC<Props> = ({
             <div className="flex flex-col font-bold border-t-[1px] w-fit pr-4 pt-3 border-[#CAAA62] tracking-[0.1em] text-sm uppercase font-brawler mt-4">
               <h4>
                 <span className="text-golden">TITLE OF ARTWORK: </span>{" "}
-                {artPiece?.title}
+                {verification?.artPiece?.title}
               </h4>
               <h4>
                 <span className="text-golden">ARTIST NAME: </span>{" "}
-                {artPiece?.custodian?.profile?.firstName}{" "}
-                {artPiece?.custodian?.profile?.lastName}
+                {verification?.custodian[role]?.artist?.artistInfo.firstName}{" "}
+                {verification?.custodian[role]?.artist?.artistInfo.lastName}
               </h4>
               <h4>
                 <span className="text-golden">YEAR OF CREATION: </span>{" "}
-                {new Date(artPiece?.createdAt).getFullYear().toString()}
+                {new Date(verification?.artPiece?.creationDate?.date)
+                  .getFullYear()
+                  .toString()}
               </h4>
               <h4>
-                <span className="text-golden">TYPE: </span> {artPiece?.artType}
+                <span className="text-golden">TYPE: </span>{" "}
+                {verification?.artPiece?.artType}
               </h4>
               <h4>
-                <span className="text-golden">MEDIUM: </span> {artPiece?.medium}
+                <span className="text-golden">MEDIUM: </span>{" "}
+                {verification?.artPiece?.medium}
               </h4>
               <h4>
                 <span className="text-golden">SIZE: </span>{" "}
-                {artPiece?.dimensions?.width} x {artPiece?.dimensions?.height}{" "}
-                Inches
+                {verification?.artPiece?.dimensions?.width} x{" "}
+                {verification?.artPiece?.dimensions?.height} Inches
               </h4>
             </div>
             <div className="flex flex-col items-center text-center mt-10 ml-10 font-brawler">
-              {getCertificateText({ artPiece })}
+              {getCertificateText({ artPiece: { ...verification } })}
             </div>
           </div>
           <div className="flex-none w-[270.4px] h-[350.94px] bg-gold-gradient p-[5px]">
             <div className="w-full h-full relative bg-[#D9D9D9]">
               <Image
-                src={artPiece?.assets[0]?.url}
+                src={verification?.artPiece?.assets[0]?.url}
                 fill
                 alt=""
                 className="object-cover"
@@ -106,8 +114,8 @@ const ArtPieceCertificate: React.FC<Props> = ({
               )}
             </div>
             <p className="text-center pt-2 px-4 text-sm border-t-[1px] font-[700] uppercase border-golden">
-              {artPiece?.custodian?.profile?.firstName}{" "}
-              {artPiece?.custodian?.profile?.lastName}
+              {verification?.artPiece?.custodian?.profile?.firstName}{" "}
+              {verification?.artPiece?.custodian?.profile?.lastName}
             </p>
           </div>
           {/* <div className="flex items-center justify-center mt-0"> */}

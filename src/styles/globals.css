@@ -519,3 +519,16 @@ header {
 #react-qrcode-logo > img {
   object-fit: cover;
 }
+
+#nprogress .bar {
+  background: #000 !important;
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px #000, 0 0 5px #000 !important;
+}
+
+#nprogress .spinner-icon {
+  border-top-color: #000;
+  border-left-color: #000;
+}

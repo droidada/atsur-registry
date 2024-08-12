@@ -1,6 +1,7 @@
 import LoadingButton from "@/components/Form/LoadingButton";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useToast } from "@/providers/ToastProvider";
+import { INotification } from "@/types/models/notificationData";
 import { Avatar, Button, Stack } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import moment from "moment";

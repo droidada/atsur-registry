@@ -160,14 +160,14 @@ const TokenizeCertificate: React.FC<Props> = ({
     <div className="flex gap-6 flex-col  ">
       <div className=" overflow-x-auto ">
         <ArtPieceCertificate
-          artPiece={artPiece?.artPiece}
+          verification={artPiece}
           signatureImage={signatureImage || artPiece?.artPiece?.signature}
           qrImage={qrImage || artPiece?.artPiece?.qrCode}
         />
       </div>
       <PdfCertificate
         ref={certificateRef}
-        artPiece={artPiece?.artPiece}
+        verification={artPiece}
         signatureImage={signatureImage || artPiece?.artPiece?.signature}
         qrImage={qrImage || artPiece?.artPiece?.qrCode}
         tokenized={true}
