@@ -165,7 +165,9 @@ function SignUp({ invitationData, countries }) {
       //redirect to login page
 
       setSuccess(true);
-      invitee ? router.push(`/login?token=${token}`) : router.push("/login");
+      invitee
+        ? router.push(`/login?token=${token}`)
+        : router.push(`/confirm-email?email=${values.email}&type=new`);
     } catch (error) {
       console.error(error.message);
       toast.error(

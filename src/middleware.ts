@@ -2,7 +2,17 @@ import { withAuth } from "next-auth/middleware";
 import { NextRequest, NextResponse } from "next/server";
 
 export default withAuth(
-  function middleware(req: any) {
+  function middleware(req: any)
+  {
+    console.log("This is the token", req.nextauth.token);
+
+    if (!req.nextauth.token?.emailVerified) {
+      const confirmEmailURL = new URL(
+        `/confirm-email?email=${req.nextauth.token?.email}`,
+        req.nextUrl.origin
+      );
+      return NextResponse.redirect(confirmEmailURL.toString());
+    }
     if (
       req.nextUrl.pathname.startsWith("/admin") &&
       !req.nextauth.token?.roles.includes("admin")
@@ -39,5 +49,5 @@ export default withAuth(
 
 export const config = {
   //   matcher: ["/admin/:path*", "/user/:path*"],
-  matcher: ["/admin/:path*", "/dashboard/:path*"],
+  matcher: [ "/admin/:path*", "/dashboard/:path*" ],
 };

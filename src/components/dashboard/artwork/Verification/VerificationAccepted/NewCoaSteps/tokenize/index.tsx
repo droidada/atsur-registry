@@ -37,7 +37,7 @@ const TokenizeCertificate: React.FC<Props> = ({
     walletAddress: string(),
   });
 
-  console.log(artPiece?.artPiece?._id);
+  console.log(artPiece?.custodian?.role);
 
   type TokenInput = TypeOf<typeof tokenSchema>;
 
@@ -55,6 +55,7 @@ const TokenizeCertificate: React.FC<Props> = ({
   const certificateRef = useRef<HTMLDivElement>(null);
   const axiosAuth = useAxiosAuth();
   const toast = useToast();
+  const role = artPiece?.custodian.role;
 
   const { mutate, isLoading } = useMutation({
     mutationFn: async (data: any) =>
@@ -65,6 +66,22 @@ const TokenizeCertificate: React.FC<Props> = ({
     onSuccess: (data) => {
       setActiveIndex((prev) => prev + 1);
       // TODO refetch artpiecedata
+    },
+    onError: (error: any) => {
+      console.log(error);
+      toast.error(
+        error.response.data.message || error.message || "Something went wrong",
+      );
+    },
+  });
+
+  const { mutate: mutateDraftCOA, isLoading: isLoadingDraftCOA } = useMutation({
+    mutationFn: async (data: { draftCOA: any; qrCode: any }) =>
+      axiosAuth.post(`/art-piece/draft-coa/${artPiece?.artPiece?._id}`, {
+        ...data,
+      }),
+    onSuccess: (data) => {
+      setActiveIndex((prev) => prev + 1);
     },
     onError: (error: any) => {
       console.log(error);
@@ -125,15 +142,17 @@ const TokenizeCertificate: React.FC<Props> = ({
 
             reader.onload = function (e) {
               if (e.target.result) {
-                // const url = URL.createObjectURL(pdfBlob);
-                // const link = document.createElement("a");
-                // link.href = url;
-
-                // console.log(url);
-
-                mutate({
-                  draftCOA: e.target?.result,
-                });
+                if (role === "artist") {
+                  mutate({
+                    draftCOA: e.target?.result,
+                  });
+                } else {
+                  mutateDraftCOA({
+                    draftCOA: e.target?.result,
+                    // signature: signatureImage,
+                    qrCode: qrImage,
+                  });
+                }
               }
             };
             reader.readAsDataURL(pdfBlob);
@@ -248,14 +267,14 @@ const TokenizeCertificate: React.FC<Props> = ({
         />
 
         <div className="flex mt-[31px] gap-4">
-          <Button
-            // loading={isLoading}
-            onClick={() => setActiveIndex((prev) => prev + 1)}
+          <LoadingButton
+            loading={isLoadingDraftCOA}
+            onClick={handlePublish}
             variant="contained"
             className="bg-primary max-w-[146px] h-[46px] w-full"
           >
             Skip
-          </Button>
+          </LoadingButton>
           <LoadingButton
             onClick={handlePublish}
             loading={isLoading}

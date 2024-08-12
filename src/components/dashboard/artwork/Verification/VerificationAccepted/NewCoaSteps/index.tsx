@@ -11,24 +11,71 @@ interface Props {
   activeIndex: number;
   setActiveIndex: (args: number) => void;
 }
+
 const NewCoa_Steps: React.FC<Props> = ({
   artPiece,
   activeIndex,
   setActiveIndex,
 }) => {
-  const [steps, setSteps] = useState(
-    artPiece?.artPiece?.signature
-      ? ["preview", "generate qr code", "tokenize", "final preview"]
-      : [
-          "preview",
-          "generate qr code",
-          "sign COA",
-          "tokenize",
-          "final preview",
-        ],
-  );
+  const role = artPiece?.custodian.role;
+  const [steps, setSteps] = useState<string[]>([]);
   const [signatureImage, setSignatureImage] = useState<string>("");
   const [qrImage, setQrImage] = useState("");
+
+  useEffect(() => {
+    if (role === "artist") {
+      setSteps([
+        "preview",
+        "generate qr code",
+        "sign COA",
+        "tokenize",
+        "final preview",
+      ]);
+    } else {
+      setSteps(["preview", "generate qr code", "tokenize", "final preview"]);
+      // Adjust activeIndex if it's out of bounds for non-artist role
+      if (activeIndex >= 2) {
+        setActiveIndex(activeIndex - 1);
+      }
+    }
+  }, [role, setActiveIndex]);
+
+  const renderStep = () => {
+    const commonProps = {
+      setActiveIndex,
+      artPiece,
+      qrImage,
+      signatureImage,
+    };
+
+    switch (activeIndex) {
+      case 0:
+        return <VericationConfirmPreview {...commonProps} />;
+      case 1:
+        return <GenerateQRCode {...commonProps} setQrImage={setQrImage} />;
+      case 2:
+        if (role === "artist") {
+          return (
+            <SignCertificate
+              {...commonProps}
+              setSignatureImage={setSignatureImage}
+            />
+          );
+        } else {
+          return <TokenizeCertificate {...commonProps} />;
+        }
+      case 3:
+        if (role === "artist") {
+          return <TokenizeCertificate {...commonProps} />;
+        } else {
+          return <FinalPreview {...commonProps} />;
+        }
+      case 4:
+        return <FinalPreview {...commonProps} />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <Stack spacing={4}>
@@ -39,72 +86,28 @@ const NewCoa_Steps: React.FC<Props> = ({
         {steps.map((item, index) => (
           <div
             key={`active-bar-${item}`}
-            className="flex-shrink-0  flex flex-col max-w-[152px] w-full gap-2"
+            className="flex-shrink-0 flex flex-col max-w-[152px] w-full gap-2"
           >
             <span
-              className={` capitalize text-[15px] leading-[17px] ${
+              className={`capitalize text-[15px] leading-[17px] ${
                 activeIndex === index ? "font-bold" : ""
               }`}
             >
               {item}
             </span>
             <span
-              className={`h-[7px] w-full rounded-[23px]
-               ${
-                 activeIndex >= index
-                   ? activeIndex === index
-                     ? "bg-primary-green"
-                     : "bg-primary"
-                   : "bg-secondary"
-                 // ? activeIndex == 2 && index == 2
-                 //   ? "bg-[#00FF94]"
-                 //   : "bg-primary"
-                 // : "bg-secondary"
-               }
-
-              `}
+              className={`h-[7px] w-full rounded-[23px] ${
+                activeIndex >= index
+                  ? activeIndex === index
+                    ? "bg-primary-green"
+                    : "bg-primary"
+                  : "bg-secondary"
+              }`}
             />
           </div>
         ))}
       </div>
-      {
-        [
-          <VericationConfirmPreview
-            setActiveIndex={setActiveIndex}
-            artPiece={artPiece}
-            key={`verification-step-${1}`}
-          />,
-          <GenerateQRCode
-            setActiveIndex={setActiveIndex}
-            artPiece={artPiece}
-            key={`verification-step-${2}`}
-            qrImage={qrImage}
-            setQrImage={setQrImage}
-          />,
-          <SignCertificate
-            setActiveIndex={setActiveIndex}
-            artPiece={artPiece}
-            qrImage={qrImage}
-            key={`verification-step-${3}`}
-            signatureImage={signatureImage}
-            setSignatureImage={setSignatureImage}
-          />,
-          <TokenizeCertificate
-            setActiveIndex={setActiveIndex}
-            artPiece={artPiece}
-            qrImage={qrImage}
-            signatureImage={signatureImage}
-            key={`verification-step-${4}`}
-          />,
-          <FinalPreview
-            setActiveIndex={setActiveIndex}
-            artPiece={artPiece}
-            qrImage={qrImage}
-            signatureImage={signatureImage}
-            key={`verification-step-${4}`}
-          />,
-        ][activeIndex]
-      }
+      {renderStep()}
     </Stack>
   );
 };

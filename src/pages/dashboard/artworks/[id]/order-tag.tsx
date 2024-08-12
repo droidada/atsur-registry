@@ -19,13 +19,13 @@ export const getServerSideProps = async ({ req, query }) => {
       req,
       secret: process.env.NEXTAUTH_SECRET,
     });
-    const res = await axios.get(`/art-piece/${id}`, {
+    const res = await axios.get(`/verify-artpiece/saved/${id}`, {
       headers: { authorization: `Bearer ${token?.accessToken}` },
     });
 
     console.log(res.data);
 
-    return { props: { artPiece: res.data?.artPiece } };
+    return { props: { verification: res.data?.data } };
   } catch (error) {
     console.error("error here looks like ", error);
     if (error?.response?.status === 404) {
@@ -37,7 +37,7 @@ export const getServerSideProps = async ({ req, query }) => {
   }
 };
 
-const OrderRFID = ({ artPiece }) => {
+const OrderRFID = ({ verification }) => {
   const orderSchema = object({
     address: string(),
   });
@@ -62,9 +62,9 @@ const OrderRFID = ({ artPiece }) => {
       <Stack className="" direction={["column"]} spacing={4}>
         <div>
           <ArtPieceCertificate
-            artPiece={artPiece}
-            signatureImage={artPiece?.signature}
-            qrImage={artPiece?.qrImage as string}
+            verification={verification}
+            signatureImage={verification?.artPiece?.signature}
+            qrImage={verification?.artPiece?.qrImage as string}
           />
         </div>
         <Stack spacing={2}>
