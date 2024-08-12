@@ -51,7 +51,7 @@ function MainVerification({ artPiece }: Props) {
   }, [isArtistBroker, handleRemoveDealerStep]);
 
   useEffect(() => {
-    setSelectedInformationAdd(artPiece?.custodian?.role);
+    artPiece?.custodian?.role ?? setSelectedInformationAdd(artPiece?.custodian?.role);
     setActiveIndex(getInitialActiveIndex(artPiece?.custodian?.role));
 
     if (isArtistBrokerType) {
