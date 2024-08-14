@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { BiQrScan } from "react-icons/bi";
 import { BlobProvider, PDFViewer, pdf } from "@react-pdf/renderer";
 import VerificationFileDroper from "../../../VerificationFileDroper";
+import { useToast } from "@/providers/ToastProvider";
 
 interface Props {
   artPiece: any;
@@ -17,10 +18,12 @@ const VericationConfirmPreview: React.FC<Props> = ({
   setCoaImg,
   setActiveIndex,
 }) => {
+  const toast = useToast();
+
   const handleUploadClick = (files) => {
     const fileDoc = files[0];
     const reader = new FileReader();
-    console.log("fileDoc is ", fileDoc);
+
     reader.readAsDataURL(fileDoc.file);
     reader.onload = () => {
       setCoaImg({
@@ -28,6 +31,13 @@ const VericationConfirmPreview: React.FC<Props> = ({
         filename: fileDoc.name,
       });
     };
+  };
+
+  const handleNext = () => {
+    if (!coaImg) {
+      return toast.error("Please upload your existing certificate");
+    }
+    setActiveIndex((prev) => prev + 1);
   };
 
   return (
@@ -41,7 +51,7 @@ const VericationConfirmPreview: React.FC<Props> = ({
         buttonClassName="bg-[#CECDCD]"
         previewHeightClassName="h-[500px]"
         dropzoneClassName="w-full relative h-[662px] bg-secondary"
-        accept="image/*, application/pdf"
+        accept="image/*"
         previewImage={coaImg?.url}
         fileName={coaImg?.filename}
         isImage={true}
@@ -53,9 +63,7 @@ const VericationConfirmPreview: React.FC<Props> = ({
       </p>
 
       <Button
-        onClick={() => {
-          setActiveIndex((prev) => prev + 1);
-        }}
+        onClick={handleNext}
         className="w-full max-w-[246px] h-[46px] text-xs font-[600] bg-primary-green"
       >
         Proceed

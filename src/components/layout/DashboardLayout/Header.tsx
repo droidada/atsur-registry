@@ -162,10 +162,10 @@ const Header: React.FC<Props> = ({ setHideSidebar }) => {
         </Stack>
       </Stack>
 
-      <MessagesModal
+      {/* <MessagesModal
         open={openMesagesModal}
         onClose={() => setOpenMesageModal(false)}
-      />
+      /> */}
 
       <SwipeableDrawer
         anchor="left"

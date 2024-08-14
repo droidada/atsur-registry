@@ -14,6 +14,7 @@ import { useReactToPrint } from "react-to-print";
 import LoadingButton from "@/components/Form/LoadingButton";
 import Link from "next/link";
 import { getCertificateText } from "../..";
+import NotEnoughCredits from "../../NotEnoughCredits";
 
 interface Props {
   artPiece: any;
@@ -56,6 +57,9 @@ const TokenizeCertificate: React.FC<Props> = ({
   const axiosAuth = useAxiosAuth();
   const toast = useToast();
   const role = artPiece?.custodian.role;
+  const [openNotEnoughDialog, setOpenNotEnoughDialog] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [type, setType] = useState("");
 
   const { mutate, isLoading } = useMutation({
     mutationFn: async (data: any) =>
@@ -68,10 +72,15 @@ const TokenizeCertificate: React.FC<Props> = ({
       // TODO refetch artpiecedata
     },
     onError: (error: any) => {
-      console.log(error);
-      toast.error(
-        error.response.data.message || error.message || "Something went wrong",
-      );
+      if (error?.response?.data?.message === "You don't have enough credits") {
+        setOpenNotEnoughDialog(true);
+      } else {
+        toast.error(
+          error.response.data.message ||
+            error.message ||
+            "Something went wrong",
+        );
+      }
     },
   });
 
@@ -84,10 +93,15 @@ const TokenizeCertificate: React.FC<Props> = ({
       setActiveIndex((prev) => prev + 1);
     },
     onError: (error: any) => {
-      console.log(error);
-      toast.error(
-        error.response.data.message || error.message || "Something went wrong",
-      );
+      if (error?.response?.data?.message === "You don't have enough credits") {
+        setOpenNotEnoughDialog(true);
+      } else {
+        toast.error(
+          error.response.data.message ||
+            error.message ||
+            "Something went wrong",
+        );
+      }
     },
   });
 
@@ -95,7 +109,7 @@ const TokenizeCertificate: React.FC<Props> = ({
     content: () => certificateRef.current,
     documentTitle: `Certificate - ${artPiece?.artPiece?.title}.pdf`,
     copyStyles: true,
-
+    onBeforePrint: () => setLoading(true),
     print: async (printIframe: HTMLIFrameElement) => {
       try {
         const document = printIframe.contentDocument;
@@ -143,10 +157,12 @@ const TokenizeCertificate: React.FC<Props> = ({
             reader.onload = function (e) {
               if (e.target.result) {
                 if (role === "artist") {
+                  setType("tokenize");
                   mutate({
                     draftCOA: e.target?.result,
                   });
                 } else {
+                  setType("sign");
                   mutateDraftCOA({
                     draftCOA: e.target?.result,
                     // signature: signatureImage,
@@ -160,8 +176,11 @@ const TokenizeCertificate: React.FC<Props> = ({
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     },
+    // onAfterPrint: () => setLoading(true),
   });
 
   const handleCopyToClipboard = () => {
@@ -268,7 +287,7 @@ const TokenizeCertificate: React.FC<Props> = ({
 
         <div className="flex mt-[31px] gap-4">
           <LoadingButton
-            loading={isLoadingDraftCOA}
+            loading={type === "sign" && (isLoadingDraftCOA || loading)}
             onClick={handlePublish}
             variant="contained"
             className="bg-primary max-w-[146px] h-[46px] w-full"
@@ -277,7 +296,7 @@ const TokenizeCertificate: React.FC<Props> = ({
           </LoadingButton>
           <LoadingButton
             onClick={handlePublish}
-            loading={isLoading}
+            loading={type === "tokenize" && (loading || isLoading)}
             variant="contained"
             className="bg-primary-green text-primary max-w-[146px] h-[46px] w-full"
           >
@@ -285,6 +304,11 @@ const TokenizeCertificate: React.FC<Props> = ({
           </LoadingButton>
         </div>
       </div>
+
+      <NotEnoughCredits
+        open={openNotEnoughDialog}
+        onClose={() => setOpenNotEnoughDialog(false)}
+      />
     </div>
   );
 };

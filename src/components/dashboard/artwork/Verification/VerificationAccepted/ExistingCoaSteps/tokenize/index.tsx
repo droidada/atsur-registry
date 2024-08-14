@@ -3,14 +3,7 @@ import { Button, MenuItem, Stack } from "@mui/material";
 import React, { useRef, useState } from "react";
 import { object, string, TypeOf, boolean, ZodVoidDef, array } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import { PDFViewer } from "@react-pdf/renderer";
-import {
-  useForm,
-  SubmitHandler,
-  Control,
-  FieldErrors,
-  useFieldArray,
-} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import InputField from "@/components/Form/InputField";
 import PdfCertificate from "@/components/Certificate/PdfCertificate";
 import SelectField from "@/components/Form/SelectField";
@@ -20,7 +13,8 @@ import { useMutation } from "@tanstack/react-query";
 import { useReactToPrint } from "react-to-print";
 import LoadingButton from "@/components/Form/LoadingButton";
 import Link from "next/link";
-import ExistingCertificate from "@/components/Certificate/existing-certificate";
+import { getCertificateText } from "../..";
+import NotEnoughCredits from "../../NotEnoughCredits";
 import ExistingPdfCertificate from "@/components/Certificate/existing-pdf-certificate";
 
 interface Props {
@@ -47,7 +41,7 @@ const TokenizeCertificate: React.FC<Props> = ({
     walletAddress: string(),
   });
 
-  console.log(artPiece?.artPiece?._id);
+  console.log(artPiece?.custodian?.role);
 
   type TokenInput = TypeOf<typeof tokenSchema>;
 
@@ -65,6 +59,10 @@ const TokenizeCertificate: React.FC<Props> = ({
   const certificateRef = useRef<HTMLDivElement>(null);
   const axiosAuth = useAxiosAuth();
   const toast = useToast();
+  const role = artPiece?.custodian.role;
+  const [openNotEnoughDialog, setOpenNotEnoughDialog] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [type, setType] = useState("");
 
   const { mutate, isLoading } = useMutation({
     mutationFn: async (data: any) =>
@@ -77,10 +75,36 @@ const TokenizeCertificate: React.FC<Props> = ({
       // TODO refetch artpiecedata
     },
     onError: (error: any) => {
-      console.log(error);
-      toast.error(
-        error.response.data.message || error.message || "Something went wrong",
-      );
+      if (error?.response?.data?.message === "You don't have enough credits") {
+        setOpenNotEnoughDialog(true);
+      } else {
+        toast.error(
+          error.response.data.message ||
+            error.message ||
+            "Something went wrong",
+        );
+      }
+    },
+  });
+
+  const { mutate: mutateDraftCOA, isLoading: isLoadingDraftCOA } = useMutation({
+    mutationFn: async (data: { draftCOA: any; qrCode: any }) =>
+      axiosAuth.post(`/art-piece/draft-coa/${artPiece?.artPiece?._id}`, {
+        ...data,
+      }),
+    onSuccess: (data) => {
+      setActiveIndex((prev) => prev + 1);
+    },
+    onError: (error: any) => {
+      if (error?.response?.data?.message === "You don't have enough credits") {
+        setOpenNotEnoughDialog(true);
+      } else {
+        toast.error(
+          error.response.data.message ||
+            error.message ||
+            "Something went wrong",
+        );
+      }
     },
   });
 
@@ -88,7 +112,7 @@ const TokenizeCertificate: React.FC<Props> = ({
     content: () => certificateRef.current,
     documentTitle: `Certificate - ${artPiece?.artPiece?.title}.pdf`,
     copyStyles: true,
-
+    onBeforePrint: () => setLoading(true),
     print: async (printIframe: HTMLIFrameElement) => {
       try {
         const document = printIframe.contentDocument;
@@ -135,15 +159,19 @@ const TokenizeCertificate: React.FC<Props> = ({
 
             reader.onload = function (e) {
               if (e.target.result) {
-                // const url = URL.createObjectURL(pdfBlob);
-                // const link = document.createElement("a");
-                // link.href = url;
-
-                // console.log(url);
-
-                mutate({
-                  draftCOA: e.target?.result,
-                });
+                if (role === "artist") {
+                  setType("tokenize");
+                  mutate({
+                    draftCOA: e.target?.result,
+                  });
+                } else {
+                  setType("sign");
+                  mutateDraftCOA({
+                    draftCOA: e.target?.result,
+                    // signature: signatureImage,
+                    qrCode: qrImage,
+                  });
+                }
               }
             };
             reader.readAsDataURL(pdfBlob);
@@ -151,8 +179,11 @@ const TokenizeCertificate: React.FC<Props> = ({
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     },
+    // onAfterPrint: () => setLoading(true),
   });
 
   const handleCopyToClipboard = () => {
@@ -169,13 +200,21 @@ const TokenizeCertificate: React.FC<Props> = ({
   return (
     <div className="flex gap-6 flex-col  ">
       <div className=" overflow-x-auto ">
-        <ExistingCertificate
+        <ExistingPdfCertificate
           coaImg={coaImg}
           artPiece={artPiece?.artPiece}
           signatureImage={signatureImage || artPiece?.artPiece?.signature}
           qrImage={qrImage || artPiece?.artPiece?.qrCode}
         />
       </div>
+      <ExistingPdfCertificate
+        ref={certificateRef}
+        coaImg={coaImg}
+        artPiece={artPiece?.artPiece}
+        signatureImage={signatureImage || artPiece?.artPiece?.signature}
+        qrImage={qrImage || artPiece?.artPiece?.qrCode}
+        className="hidden"
+      />
 
       <div className="flex flex-col  gap-5  ">
         <div className="flex flex-col gap-2">
@@ -252,17 +291,17 @@ const TokenizeCertificate: React.FC<Props> = ({
         />
 
         <div className="flex mt-[31px] gap-4">
-          <Button
-            // loading={isLoading}
-            onClick={() => setActiveIndex((prev) => prev + 1)}
+          <LoadingButton
+            loading={type === "sign" && (isLoadingDraftCOA || loading)}
+            onClick={handlePublish}
             variant="contained"
             className="bg-primary max-w-[146px] h-[46px] w-full"
           >
             Skip
-          </Button>
+          </LoadingButton>
           <LoadingButton
             onClick={handlePublish}
-            loading={isLoading}
+            loading={type === "tokenize" && (loading || isLoading)}
             variant="contained"
             className="bg-primary-green text-primary max-w-[146px] h-[46px] w-full"
           >
@@ -270,6 +309,11 @@ const TokenizeCertificate: React.FC<Props> = ({
           </LoadingButton>
         </div>
       </div>
+
+      <NotEnoughCredits
+        open={openNotEnoughDialog}
+        onClose={() => setOpenNotEnoughDialog(false)}
+      />
     </div>
   );
 };

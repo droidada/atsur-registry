@@ -3,6 +3,7 @@ export type BundleType = {
   createdAt: string;
   externalId: string;
   details: BundleDetailType[];
+  name: string;
 };
 
 export type BundleDetailType = {

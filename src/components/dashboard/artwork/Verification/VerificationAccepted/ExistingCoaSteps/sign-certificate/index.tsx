@@ -1,3 +1,5 @@
+import ArtPieceCertificate from "@/components/Certificate";
+import PdfCertificate from "@/components/Certificate/PdfCertificate";
 import LoadingButton from "@/components/Form/LoadingButton";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useToast } from "@/providers/ToastProvider";
@@ -15,18 +17,26 @@ import { FaSignature } from "react-icons/fa";
 import { IoMdSave } from "react-icons/io";
 import SignatureCanvas from "react-signature-canvas";
 import { useReactToPrint } from "react-to-print";
-import ExistingCertificate from "@/components/Certificate/existing-certificate";
+
+import axios from "axios";
+import { getCertificateText } from "../..";
 import { artRoles } from "@/types/index";
+import NotEnoughCredits from "../../NotEnoughCredits";
+import { SignatureDialog } from "../../NewCoaSteps/sign-certificate";
 import ExistingPdfCertificate from "@/components/Certificate/existing-pdf-certificate";
 
 interface Props {
   artPiece: any;
-  coaImg: any;
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
   signatureImage?: any;
   setSignatureImage?: React.Dispatch<React.SetStateAction<any>>;
   qrImage?: string;
+  coaImg: any;
 }
+
+// const ff = new FileforgeClient({
+//   apiKey: process.env.NEXT_PUBLIC_FILEFORGE_API_KEY,
+// });
 
 const SignCertificate: React.FC<Props> = ({
   artPiece,
@@ -46,28 +56,33 @@ const SignCertificate: React.FC<Props> = ({
     !artPiece?.artPiece.signature
       ? false
       : true;
+  const [loading, setLoading] = useState(false);
+  const [openNotEnoughDialog, setOpenNotEnoughDialog] = useState(false);
 
-  console.log(
-    "artPiece?.artPiece.signature ",
-    !signatureImage && !artPiece?.artPiece?.signature,
-  );
   const { mutate, isLoading } = useMutation({
     mutationFn: async (data: {
-      existingCOA: any;
       draftCOA: any;
       signature: any;
       qrCode: any;
+      existingCOA: any;
     }) =>
-      axiosAuth.post(`/art-piece/draft-coa/${artPiece?.artPiece?._id}`, data),
+      axiosAuth.post(`/art-piece/draft-coa/${artPiece?.artPiece?._id}`, {
+        ...data,
+      }),
     onSuccess: (data) => {
       setActiveIndex((prev) => prev + 1);
       // TODO refetch artpiecedata
     },
     onError: (error: any) => {
-      console.log(error);
-      toast.error(
-        error.response.data.message || error.message || "Something went wrong",
-      );
+      if (error?.response?.data?.message === "You don't have enough credits") {
+        setOpenNotEnoughDialog(true);
+      } else {
+        toast.error(
+          error.response.data.message ||
+            error.message ||
+            "Something went wrong",
+        );
+      }
     },
   });
 
@@ -78,6 +93,7 @@ const SignCertificate: React.FC<Props> = ({
 
     print: async (printIframe: HTMLIFrameElement) => {
       try {
+        setLoading(true);
         const document = printIframe.contentDocument;
 
         if (document) {
@@ -89,8 +105,6 @@ const SignCertificate: React.FC<Props> = ({
           // Calculate dimensions in mm (assuming 96 DPI)
           const mmWidth = (rect.width * 25.4) / 96;
           const mmHeight = (rect.height * 25.4) / 96;
-
-          console.log(mmWidth, mmHeight);
 
           const html2pdf = (await import("html2pdf.js")).default;
           const option = {
@@ -134,10 +148,10 @@ const SignCertificate: React.FC<Props> = ({
                 // console.log(url);
 
                 mutate({
-                  existingCOA: coaImg?.url,
                   draftCOA: e.target?.result,
                   signature: signatureImage,
                   qrCode: qrImage,
+                  existingCOA: coaImg?.url,
                 });
               }
             };
@@ -146,6 +160,8 @@ const SignCertificate: React.FC<Props> = ({
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     },
   });
@@ -164,15 +180,27 @@ const SignCertificate: React.FC<Props> = ({
           </p>
         </div>
       )}
-      <div className=" overflow-x-auto ">
+      <div className="">
         <ExistingPdfCertificate
-          ref={certificateRef}
           coaImg={coaImg}
           artPiece={artPiece?.artPiece}
           signatureImage={signatureImage || artPiece?.artPiece?.signature}
           qrImage={qrImage || artPiece?.artPiece?.qrCode}
         />
       </div>
+
+      <ExistingPdfCertificate
+        ref={certificateRef}
+        coaImg={coaImg}
+        artPiece={artPiece?.artPiece}
+        signatureImage={signatureImage || artPiece?.artPiece?.signature}
+        qrImage={qrImage || artPiece?.artPiece?.qrCode}
+        className="hidden"
+      />
+      <NotEnoughCredits
+        open={openNotEnoughDialog}
+        onClose={() => setOpenNotEnoughDialog(false)}
+      />
       <Stack direction={"row"} className="my-4" spacing={2}>
         {!cannotSign && (
           <Button
@@ -187,7 +215,7 @@ const SignCertificate: React.FC<Props> = ({
         )}
 
         <LoadingButton
-          loading={isLoading}
+          loading={loading || isLoading}
           onClick={handlePublish}
           disabled={!signatureImage && !artPiece?.artPiece?.signature}
           className={`w-full max-w-[246px] h-[46px] text-xs font-[600] ${
@@ -213,60 +241,3 @@ const SignCertificate: React.FC<Props> = ({
 };
 
 export default SignCertificate;
-
-interface SignatureDialogProps {
-  open: boolean;
-  handleClose: () => void;
-  setSignatureImage: React.Dispatch<React.SetStateAction<any>>;
-}
-export const SignatureDialog: React.FC<SignatureDialogProps> = ({
-  open,
-  handleClose,
-  setSignatureImage,
-}) => {
-  const canvasRef = useRef<any>(null);
-
-  const clearSignature = () => {
-    canvasRef.current.clear();
-  };
-
-  const saveSignature = () => {
-    const signatureImage = canvasRef.current.toDataURL();
-    setSignatureImage(signatureImage);
-    handleClose();
-  };
-
-  return (
-    <Dialog fullWidth maxWidth="sm" open={open} onClose={handleClose}>
-      <DialogTitle>Draw Your Signature</DialogTitle>
-      <DialogContent dividers>
-        <SignatureCanvas
-          penColor="black"
-          ref={canvasRef}
-          canvasProps={{ className: "w-full h-[60px] bg-white" }}
-        />
-      </DialogContent>
-      <DialogActions className="flex justify-between">
-        <Button variant="outlined" color="primary" onClick={handleClose}>
-          Cancel
-        </Button>
-        <Stack direction={"row"} spacing={2}>
-          <Button
-            variant="contained"
-            className="bg-primary"
-            onClick={clearSignature}
-          >
-            Clear
-          </Button>
-          <Button
-            variant="contained"
-            className="bg-primary-green text-primary"
-            onClick={saveSignature}
-          >
-            Save
-          </Button>
-        </Stack>
-      </DialogActions>
-    </Dialog>
-  );
-};
