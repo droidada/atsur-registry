@@ -1,4 +1,5 @@
 import LoadingButton from "@/components/Form/LoadingButton";
+import { INotification } from "@/types/models/notificationData";
 import { Stack } from "@mui/material";
 import moment from "moment";
 import React from "react";

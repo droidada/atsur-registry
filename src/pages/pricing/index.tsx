@@ -37,7 +37,7 @@ const PricingPage = ({ plans, bundles }) => {
     >
       {/* <div className="absolute top-0 left-0 w-full z-[-1]  h-[40vh] bg-secondary" /> */}
 
-      <PriceSection plans={plans} />
+      {/* <PriceSection plans={plans} /> */}
 
       <Bundles bundles={bundles} />
 

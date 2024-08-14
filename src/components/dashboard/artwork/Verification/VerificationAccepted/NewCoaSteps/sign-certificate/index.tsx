@@ -17,11 +17,11 @@ import { FaSignature } from "react-icons/fa";
 import { IoMdSave } from "react-icons/io";
 import SignatureCanvas from "react-signature-canvas";
 import { useReactToPrint } from "react-to-print";
-import { Onedoc } from "@onedoc/client";
-import { compile } from "@onedoc/react-print";
+
 import axios from "axios";
 import { getCertificateText } from "../..";
 import { artRoles } from "@/types/index";
+import NotEnoughCredits from "../../NotEnoughCredits";
 
 interface Props {
   artPiece: any;
@@ -53,6 +53,7 @@ const SignCertificate: React.FC<Props> = ({
       ? false
       : true;
   const [loading, setLoading] = useState(false);
+  const [openNotEnoughDialog, setOpenNotEnoughDialog] = useState(false);
 
   const { mutate, isLoading } = useMutation({
     mutationFn: async (data: { draftCOA: any; signature: any; qrCode: any }) =>
@@ -64,10 +65,15 @@ const SignCertificate: React.FC<Props> = ({
       // TODO refetch artpiecedata
     },
     onError: (error: any) => {
-      console.log(error);
-      toast.error(
-        error.response.data.message || error.message || "Something went wrong",
-      );
+      if (error?.response?.data?.message === "You don't have enough credits") {
+        setOpenNotEnoughDialog(true);
+      } else {
+        toast.error(
+          error.response.data.message ||
+            error.message ||
+            "Something went wrong",
+        );
+      }
     },
   });
 
@@ -178,7 +184,10 @@ const SignCertificate: React.FC<Props> = ({
         signatureImage={signatureImage}
         qrImage={qrImage}
       />
-
+      <NotEnoughCredits
+        open={openNotEnoughDialog}
+        onClose={() => setOpenNotEnoughDialog(false)}
+      />
       <Stack direction={"row"} className="my-4" spacing={2}>
         {!cannotSign && (
           <Button
@@ -193,7 +202,7 @@ const SignCertificate: React.FC<Props> = ({
         )}
 
         <LoadingButton
-          loading={isLoading}
+          loading={loading}
           onClick={handlePublish}
           disabled={!signatureImage && !artPiece?.artPiece?.signature}
           className={`w-full max-w-[246px] h-[46px] text-xs font-[600] ${

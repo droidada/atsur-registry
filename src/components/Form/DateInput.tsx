@@ -69,8 +69,12 @@ const DateInput: React.FC<DateInputProps> = ({
               renderInput={(params) => (
                 <TextField
                   {...params}
+                  inputProps={{
+                    className: `focus:outline-0 border-none focus:border-0
+                  focus:border-none focus:outline-none focus:ring-0 hover:outline-none bg-red-500 ${inputClassName}`,
+                  }}
                   className={`focus:outline-0 border-none focus:border-0
-                  focus:border-none focus:outline-none focus:ring-0 hover:outline-none ${inputClassName}`}
+                  focus:border-none focus:outline-none focus:ring-0 hover:outline-none `}
                   fullWidth={fullWidth}
                   id={id}
                   error={error || Boolean(fieldError)}
