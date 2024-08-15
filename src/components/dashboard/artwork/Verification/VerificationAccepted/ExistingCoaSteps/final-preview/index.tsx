@@ -92,7 +92,7 @@ const FinalPreview: React.FC<Props> = ({
       {/* <div className=" flex flex-col items-center  certificate" ref={ref}> */}
       <div className="max-w-[900px] w-full">
         <ExistingPdfCertificate
-          coaImg={coaImg}
+          coaImg={coaImg?.url || artPiece?.artPiece?.existingCOA}
           artPiece={artPiece?.artPiece}
           signatureImage={signatureImage || artPiece?.artPiece?.signature}
           qrImage={qrImage || artPiece?.artPiece?.qrCode}

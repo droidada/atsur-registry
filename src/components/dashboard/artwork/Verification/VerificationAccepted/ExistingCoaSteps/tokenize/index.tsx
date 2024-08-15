@@ -197,11 +197,14 @@ const TokenizeCertificate: React.FC<Props> = ({
     }
   };
 
+  console.log(artPiece?.artPiece?.existingCOA);
+  console.log(coaImg);
+
   return (
     <div className="flex gap-6 flex-col  ">
       <div className=" overflow-x-auto ">
         <ExistingPdfCertificate
-          coaImg={coaImg}
+          coaImg={coaImg?.url || artPiece?.artPiece?.existingCOA}
           artPiece={artPiece?.artPiece}
           signatureImage={signatureImage || artPiece?.artPiece?.signature}
           qrImage={qrImage || artPiece?.artPiece?.qrCode}
@@ -209,7 +212,7 @@ const TokenizeCertificate: React.FC<Props> = ({
       </div>
       <ExistingPdfCertificate
         ref={certificateRef}
-        coaImg={coaImg}
+        coaImg={coaImg?.url || artPiece?.artPiece?.existingCOA}
         artPiece={artPiece?.artPiece}
         signatureImage={signatureImage || artPiece?.artPiece?.signature}
         qrImage={qrImage || artPiece?.artPiece?.qrCode}

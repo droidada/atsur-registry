@@ -24,12 +24,15 @@ interface Props {
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
   qrImage: string;
   setQrImage: React.Dispatch<React.SetStateAction<string>>;
+  coaType: "new" | "existing";
+  coaImg: any;
 }
 const GenerateQRCode: React.FC<Props> = ({
   artPiece,
   setActiveIndex,
   qrImage,
   setQrImage,
+  coaType,
 }) => {
   const [url, setUrl] = useState("");
   const [pattern, setPattern] = useState<"squares" | "dots" | "fluid">("fluid");

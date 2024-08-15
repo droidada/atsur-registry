@@ -3,16 +3,30 @@ import { Button, Stack } from "@mui/material";
 import React from "react";
 import { BiQrScan } from "react-icons/bi";
 import { getCertificateText } from "../..";
+import ExistingVericationConfirmPreview from "../../ExistingCoaSteps/preview";
 
 interface Props {
   artPiece: any;
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
+  coaType: "new" | "existing";
+  coaImg: any;
+  setCoaImg: (args: any) => void;
 }
 const VericationConfirmPreview: React.FC<Props> = ({
   artPiece: verification,
   setActiveIndex,
+  coaImg,
+  coaType,
+  setCoaImg,
 }) => {
-  return (
+  return coaType === "existing" ? (
+    <ExistingVericationConfirmPreview
+      setActiveIndex={setActiveIndex}
+      coaImg={coaImg}
+      setCoaImg={setCoaImg}
+      artPiece={verification}
+    />
+  ) : (
     <Stack spacing={2}>
       <ArtPieceCertificate verification={verification} />
       <p className="leading-[20px] text-[17px] font-[300]">

@@ -21,6 +21,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import LoadingButton from "@/components/Form/LoadingButton";
 import { useRouter } from "next/router";
 import { getCertificateText } from "../..";
+import ExistingPdfCertificate from "@/components/Certificate/existing-pdf-certificate";
 
 interface Props {
   artPiece: any;
@@ -28,6 +29,8 @@ interface Props {
   qrImage?: string;
   signatureImage: string;
   tokenize?: boolean;
+  coaType: "new" | "existing";
+  coaImg: any;
 }
 const FinalPreview: React.FC<Props> = ({
   artPiece,
@@ -35,6 +38,8 @@ const FinalPreview: React.FC<Props> = ({
   qrImage,
   signatureImage,
   tokenize,
+  coaImg,
+  coaType,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -83,19 +88,34 @@ const FinalPreview: React.FC<Props> = ({
     },
   });
 
+  console.log(artPiece?.artPiece?.qrCode);
+
   return (
     <Stack>
       {/* <div className=" flex flex-col items-center  certificate" ref={ref}> */}
       <div className="max-w-[900px] w-full">
-        <ArtPieceCertificate
-          verification={artPiece}
-          signatureImage={signatureImage || artPiece?.artPiece?.signature}
-          qrImage={qrImage || artPiece?.artPiece?.qrCode}
-          tokenized={
-            artPiece?.artPiece?.lazyMintedVoucher ||
-            data?.data?.artPiece?.lazyMintedVoucher
-          }
-        />
+        {coaType == "new" ? (
+          <ArtPieceCertificate
+            verification={artPiece}
+            signatureImage={signatureImage || artPiece?.artPiece?.signature}
+            qrImage={qrImage || artPiece?.artPiece?.qrCode}
+            tokenized={
+              artPiece?.artPiece?.lazyMintedVoucher ||
+              data?.data?.artPiece?.lazyMintedVoucher
+            }
+          />
+        ) : (
+          <ExistingPdfCertificate
+            coaImg={coaImg?.url || artPiece?.artPiece?.existingCOA}
+            artPiece={artPiece?.artPiece}
+            signatureImage={signatureImage || artPiece?.artPiece?.signature}
+            qrImage={qrImage || artPiece?.artPiece?.qrCode}
+            tokenized={
+              artPiece?.artPiece?.lazyMintedVoucher ||
+              data?.data?.artPiece?.lazyMintedVoucher
+            }
+          />
+        )}
       </div>
       {/* </div> */}
       <Stack

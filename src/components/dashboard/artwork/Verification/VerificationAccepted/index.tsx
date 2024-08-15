@@ -6,8 +6,6 @@ import ExistingCoaSteps from "./ExistingCoaSteps";
 import { artRoles, rarityTypes } from "@/types/index";
 
 export const getCertificateText = ({ artPiece }) => {
-  console.log(artPiece);
-  console.log("getting text for artpiece here ", artPiece.verification);
   const role = artPiece?.custodian.role;
   const rarity =
     artPiece?.artPiece?.rarity === rarityTypes.UNIQUE
@@ -175,20 +173,21 @@ const VerificationAccepted: React.FC<Props> = ({ artPiece }) => {
           </div>
         </Stack>
       )}
-      {proceed && coaType === "new" && (
+      {proceed && (
         <NewCoaSteps
           activeIndex={activeIndex}
           setActiveIndex={setActiveIndex}
           artPiece={artPiece}
+          coaType={coaType}
         />
       )}
-      {proceed && coaType === "existing" && (
+      {/* {proceed && coaType === "existing" && (
         <ExistingCoaSteps
           activeIndex={activeIndex}
           setActiveIndex={setActiveIndex}
           artPiece={artPiece}
         />
-      )}
+      )} */}
     </>
   );
 };
