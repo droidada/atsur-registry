@@ -16,21 +16,15 @@ const ExistingPdfCertificate = forwardRef(
     { artPiece, coaImg, signatureImage, qrImage, tokenized, className }: Props,
     ref: any,
   ) => {
-    const [crop, setCrop] = useState({ aspect: 16 / 9 });
     return (
       <>
         <div
           ref={ref}
-          // style={{
-          //   backgroundImage: `url(${coaImg?.url || artPiece?.existingCOA})`,
-          //   backgroundRepeat: "no-repeat",
-          //   backgroundSize: "cover",
-          // }}
           className={`min-w-[685px] max-w-[1005px] relative certificate ${className}`}
         >
           <Image
             alt=""
-            src={coaImg?.url}
+            src={coaImg || coaImg}
             fill
             className="w-full z-0 h-full object-cover"
           />
@@ -40,7 +34,7 @@ const ExistingPdfCertificate = forwardRef(
               style={{
                 minWidth: "685px",
                 minHeight: "200px",
-                maxWidth: "1005px",
+                maxWidth: "750px",
                 maxHeight: "250px",
               }}
             ></div>
@@ -95,7 +89,7 @@ const ExistingPdfCertificate = forwardRef(
                       </>
                     )}
                   </div>
-                  <p className="text-center mt-2 p-[2px]   text-xs italic relative ">
+                  <p className="text-center mt-2  w-[100px]   text-xs italic relative ">
                     Verified by Atsur Technologies (
                     {moment().format("DD/MM/YYYY")})
                   </p>

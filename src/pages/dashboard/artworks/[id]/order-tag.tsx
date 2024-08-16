@@ -15,6 +15,9 @@ import { TypeOf, object, string } from "zod";
 import LoadingButton from "@/components/Form/LoadingButton";
 import { useRouter } from "next/router";
 import { Button } from "@mui/material";
+import ExistingPdfCertificate from "@/components/Certificate/existing-pdf-certificate";
+import AddressModal from "@/components/dashboard/artwork/AddressModal";
+import { ShippingAddressType } from "@/types/models/shipingAdress";
 
 const ArtPieceCertificate = dynamic(() => import("@/components/Certificate"), {
   ssr: false,
@@ -66,6 +69,11 @@ const OrderRFID = ({ verification, order, defaultAddress }) => {
   const toast = useToast();
   const router = useRouter();
 
+  const [address, setAddress] = useState<ShippingAddressType | null>(
+    defaultAddress,
+  );
+  console.log(defaultAddress);
+
   const [openAddressModal, setOpenAddressModal] = useState(false);
 
   const orderSchema = object({
@@ -81,6 +89,7 @@ const OrderRFID = ({ verification, order, defaultAddress }) => {
         ...values,
         availableDate: values.date,
         artPieceId: verification?.artPiece?._id,
+        addressId: address?._id,
       }),
     onSuccess: () => {
       toast.success("Order Created");
@@ -112,17 +121,30 @@ const OrderRFID = ({ verification, order, defaultAddress }) => {
     mutate(values);
   };
 
+  useEffect(() => {
+    setValue("address", address?.address);
+  }, [address]);
+
   return (
     <div className="flex flex-col gap-4">
       <h2 className="text-[30px] font-[600]">
         Order Certificate Of Authenticity
       </h2>
       <div className="flex lg:flex-row flex-col gap-4">
-        <ArtPieceCertificate
-          verification={verification}
-          signatureImage={verification?.artPiece?.signature}
-          qrImage={verification?.artPiece?.qrImage as string}
-        />
+        {verification?.artPiece?.existingCOA ? (
+          <ExistingPdfCertificate
+            coaImg={verification?.artPiece?.existingCOA}
+            artPiece={verification?.artPiece}
+            signatureImage={verification?.artPiece?.signature}
+            qrImage={verification?.artPiece?.qrCode as string}
+          />
+        ) : (
+          <ArtPieceCertificate
+            verification={verification}
+            signatureImage={verification?.artPiece?.signature}
+            qrImage={verification?.artPiece?.qrCode as string}
+          />
+        )}
 
         <div className="max-w-[558px]   md:pl-4 w-full">
           {order ? (
@@ -144,6 +166,7 @@ const OrderRFID = ({ verification, order, defaultAddress }) => {
               >
                 <div>
                   <InputField
+                    disabled
                     control={control}
                     label="Shipping Address"
                     className="bg-transparent"
@@ -156,7 +179,12 @@ const OrderRFID = ({ verification, order, defaultAddress }) => {
                       errors["address"] ? errors["address"].message : ""
                     }
                   />
-                  <Button className="italic text-xs">Add new address</Button>
+                  <Button
+                    onClick={() => setOpenAddressModal(true)}
+                    className="italic text-xs"
+                  >
+                    Add new address
+                  </Button>
                 </div>
                 <InputField
                   control={control}
@@ -188,6 +216,12 @@ const OrderRFID = ({ verification, order, defaultAddress }) => {
           )}
         </div>
       </div>
+
+      <AddressModal
+        setAddress={setAddress}
+        open={openAddressModal}
+        onClose={() => setOpenAddressModal(false)}
+      />
     </div>
   );
 };

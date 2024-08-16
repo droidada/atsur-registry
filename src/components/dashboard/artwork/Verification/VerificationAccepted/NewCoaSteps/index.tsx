@@ -10,17 +10,20 @@ interface Props {
   artPiece: any;
   activeIndex: number;
   setActiveIndex: (args: number) => void;
+  coaType: "new" | "existing";
 }
 
 const NewCoa_Steps: React.FC<Props> = ({
   artPiece,
   activeIndex,
   setActiveIndex,
+  coaType,
 }) => {
   const role = artPiece?.custodian.role;
   const [steps, setSteps] = useState<string[]>([]);
   const [signatureImage, setSignatureImage] = useState<string>("");
   const [qrImage, setQrImage] = useState("");
+  const [coaImg, setCoaImg] = useState(null);
 
   useEffect(() => {
     if (role === "artist") {
@@ -46,11 +49,15 @@ const NewCoa_Steps: React.FC<Props> = ({
       artPiece,
       qrImage,
       signatureImage,
+      coaType,
+      coaImg,
     };
 
     switch (activeIndex) {
       case 0:
-        return <VericationConfirmPreview {...commonProps} />;
+        return (
+          <VericationConfirmPreview {...commonProps} setCoaImg={setCoaImg} />
+        );
       case 1:
         return <GenerateQRCode {...commonProps} setQrImage={setQrImage} />;
       case 2:

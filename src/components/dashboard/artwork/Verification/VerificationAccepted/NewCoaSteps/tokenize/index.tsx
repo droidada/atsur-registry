@@ -15,18 +15,23 @@ import LoadingButton from "@/components/Form/LoadingButton";
 import Link from "next/link";
 import { getCertificateText } from "../..";
 import NotEnoughCredits from "../../NotEnoughCredits";
+import ExistingPdfCertificate from "@/components/Certificate/existing-pdf-certificate";
 
 interface Props {
   artPiece: any;
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
   qrImage?: string;
   signatureImage: string;
+  coaType: "new" | "existing";
+  coaImg: any;
 }
 const TokenizeCertificate: React.FC<Props> = ({
   artPiece,
   setActiveIndex,
   signatureImage,
   qrImage,
+  coaType,
+  coaImg,
 }) => {
   const tokenSchema = object({
     blockchainNetwork: string().refine(
@@ -37,8 +42,6 @@ const TokenizeCertificate: React.FC<Props> = ({
     ),
     walletAddress: string(),
   });
-
-  console.log(artPiece?.custodian?.role);
 
   type TokenInput = TypeOf<typeof tokenSchema>;
 
@@ -58,8 +61,8 @@ const TokenizeCertificate: React.FC<Props> = ({
   const toast = useToast();
   const role = artPiece?.custodian.role;
   const [openNotEnoughDialog, setOpenNotEnoughDialog] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [type, setType] = useState("");
+  const [isloadingSkip, setIsLoadingSkip] = useState(false);
+  const [isLoadingTokenize, setIsLoadingTokenize] = useState(false);
 
   const { mutate, isLoading } = useMutation({
     mutationFn: async (data: any) =>
@@ -82,10 +85,16 @@ const TokenizeCertificate: React.FC<Props> = ({
         );
       }
     },
+    onSettled: () => setIsLoadingTokenize(false),
   });
 
   const { mutate: mutateDraftCOA, isLoading: isLoadingDraftCOA } = useMutation({
-    mutationFn: async (data: { draftCOA: any; qrCode: any }) =>
+    mutationFn: async (data: {
+      draftCOA: any;
+      qrCode: any;
+      signature: any;
+      existingCOA: any;
+    }) =>
       axiosAuth.post(`/art-piece/draft-coa/${artPiece?.artPiece?._id}`, {
         ...data,
       }),
@@ -103,13 +112,14 @@ const TokenizeCertificate: React.FC<Props> = ({
         );
       }
     },
+    onSettled: () => setIsLoadingSkip(false),
   });
 
-  const handlePublish = useReactToPrint({
+  const handleTokenize = useReactToPrint({
     content: () => certificateRef.current,
     documentTitle: `Certificate - ${artPiece?.artPiece?.title}.pdf`,
     copyStyles: true,
-    onBeforePrint: () => setLoading(true),
+    onBeforePrint: () => setIsLoadingTokenize(true),
     print: async (printIframe: HTMLIFrameElement) => {
       try {
         const document = printIframe.contentDocument;
@@ -123,6 +133,8 @@ const TokenizeCertificate: React.FC<Props> = ({
           // Calculate dimensions in mm (assuming 96 DPI)
           const mmWidth = (rect.width * 25.4) / 96;
           const mmHeight = (rect.height * 25.4) / 96;
+
+          // return;
 
           const html2pdf = (await import("html2pdf.js")).default;
           const option = {
@@ -156,19 +168,9 @@ const TokenizeCertificate: React.FC<Props> = ({
 
             reader.onload = function (e) {
               if (e.target.result) {
-                if (role === "artist") {
-                  setType("tokenize");
-                  mutate({
-                    draftCOA: e.target?.result,
-                  });
-                } else {
-                  setType("sign");
-                  mutateDraftCOA({
-                    draftCOA: e.target?.result,
-                    // signature: signatureImage,
-                    qrCode: qrImage,
-                  });
-                }
+                mutate({
+                  draftCOA: e.target?.result,
+                });
               }
             };
             reader.readAsDataURL(pdfBlob);
@@ -176,8 +178,77 @@ const TokenizeCertificate: React.FC<Props> = ({
         }
       } catch (error) {
         console.log(error);
-      } finally {
-        setLoading(false);
+      }
+    },
+    // onAfterPrint: () => setLoading(true),
+  });
+
+  const handleSkip = useReactToPrint({
+    content: () => certificateRef.current,
+    documentTitle: `Certificate - ${artPiece?.artPiece?.title}.pdf`,
+    copyStyles: true,
+    onBeforePrint: () => setIsLoadingSkip(true),
+    print: async (printIframe: HTMLIFrameElement) => {
+      try {
+        const document = printIframe.contentDocument;
+
+        if (document) {
+          const html = document.querySelector(".certificate");
+
+          html.classList.remove("hidden");
+          const rect = html.getBoundingClientRect();
+
+          // Calculate dimensions in mm (assuming 96 DPI)
+          const mmWidth = (rect.width * 25.4) / 96;
+          const mmHeight = (rect.height * 25.4) / 96;
+
+          // return;
+
+          const html2pdf = (await import("html2pdf.js")).default;
+          const option = {
+            image: { type: "jpeg", quality: 1 },
+            html2canvas: { scale: 4, removeContainer: true },
+            jsPDF: {
+              unit: "mm",
+              format: [mmWidth, mmHeight],
+              orientation: "landscape",
+              floatPrecision: "smart",
+            },
+            pagebreak: { after: [".footer"], avoid: ["image"] },
+          };
+
+          const pdf = html2pdf().from(html).set(option).toPdf();
+
+          pdf.output("datauristring").then((dataUri) => {
+            const byteString = atob(dataUri.split(",")[1]);
+            const mimeString = dataUri
+              .split(",")[0]
+              .split(":")[1]
+              .split(";")[0];
+            const ab = new ArrayBuffer(byteString.length);
+            const ia = new Uint8Array(ab);
+            for (let i = 0; i < byteString.length; i++) {
+              ia[i] = byteString.charCodeAt(i);
+            }
+            const pdfBlob = new Blob([ab], { type: mimeString });
+
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+              if (e.target.result) {
+                mutateDraftCOA({
+                  draftCOA: e.target?.result,
+                  signature: signatureImage,
+                  qrCode: qrImage,
+                  existingCOA: coaImg?.url,
+                });
+              }
+            };
+            reader.readAsDataURL(pdfBlob);
+          });
+        }
+      } catch (error) {
+        console.log(error);
       }
     },
     // onAfterPrint: () => setLoading(true),
@@ -196,7 +267,41 @@ const TokenizeCertificate: React.FC<Props> = ({
 
   return (
     <div className="flex gap-6 flex-col  ">
-      <div className=" overflow-x-auto ">
+      {coaType === "new" ? (
+        <div className="">
+          <ArtPieceCertificate
+            verification={artPiece}
+            signatureImage={signatureImage}
+            qrImage={qrImage}
+          />
+          <PdfCertificate
+            ref={certificateRef}
+            verification={artPiece}
+            signatureImage={signatureImage}
+            qrImage={qrImage}
+            tokenized={true}
+          />
+        </div>
+      ) : (
+        <div className="">
+          <ExistingPdfCertificate
+            coaImg={coaImg?.url}
+            artPiece={artPiece?.artPiece}
+            signatureImage={signatureImage || artPiece?.artPiece?.signature}
+            qrImage={qrImage || artPiece?.artPiece?.qrCode}
+          />
+          <ExistingPdfCertificate
+            ref={certificateRef}
+            coaImg={coaImg?.url}
+            artPiece={artPiece?.artPiece}
+            signatureImage={signatureImage || artPiece?.artPiece?.signature}
+            qrImage={qrImage || artPiece?.artPiece?.qrCode}
+            className="hidden"
+            tokenized={true}
+          />
+        </div>
+      )}
+      {/* <div className=" overflow-x-auto ">
         <ArtPieceCertificate
           verification={artPiece}
           signatureImage={signatureImage || artPiece?.artPiece?.signature}
@@ -209,7 +314,7 @@ const TokenizeCertificate: React.FC<Props> = ({
         signatureImage={signatureImage || artPiece?.artPiece?.signature}
         qrImage={qrImage || artPiece?.artPiece?.qrCode}
         tokenized={true}
-      />
+      /> */}
 
       <div className="flex flex-col  gap-5  ">
         <div className="flex flex-col gap-2">
@@ -287,16 +392,22 @@ const TokenizeCertificate: React.FC<Props> = ({
 
         <div className="flex mt-[31px] gap-4">
           <LoadingButton
-            loading={type === "sign" && (isLoadingDraftCOA || loading)}
-            onClick={handlePublish}
+            loading={isloadingSkip}
+            onClick={() => {
+              if (role !== "artist") {
+                handleSkip();
+              } else {
+                setActiveIndex((prev) => prev + 1);
+              }
+            }}
             variant="contained"
             className="bg-primary max-w-[146px] h-[46px] w-full"
           >
             Skip
           </LoadingButton>
           <LoadingButton
-            onClick={handlePublish}
-            loading={type === "tokenize" && (loading || isLoading)}
+            onClick={handleTokenize}
+            loading={isLoadingTokenize}
             variant="contained"
             className="bg-primary-green text-primary max-w-[146px] h-[46px] w-full"
           >

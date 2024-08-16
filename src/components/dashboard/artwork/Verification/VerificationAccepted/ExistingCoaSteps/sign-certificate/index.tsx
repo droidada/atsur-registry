@@ -182,7 +182,7 @@ const SignCertificate: React.FC<Props> = ({
       )}
       <div className="">
         <ExistingPdfCertificate
-          coaImg={coaImg}
+          coaImg={coaImg?.url}
           artPiece={artPiece?.artPiece}
           signatureImage={signatureImage || artPiece?.artPiece?.signature}
           qrImage={qrImage || artPiece?.artPiece?.qrCode}
@@ -191,7 +191,7 @@ const SignCertificate: React.FC<Props> = ({
 
       <ExistingPdfCertificate
         ref={certificateRef}
-        coaImg={coaImg}
+        coaImg={coaImg?.url}
         artPiece={artPiece?.artPiece}
         signatureImage={signatureImage || artPiece?.artPiece?.signature}
         qrImage={qrImage || artPiece?.artPiece?.qrCode}

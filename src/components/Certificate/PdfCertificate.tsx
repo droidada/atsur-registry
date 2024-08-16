@@ -9,6 +9,7 @@ interface Props {
   signatureImage: any;
   qrImage: any;
   tokenized?: boolean;
+  className?: string;
 }
 
 const PdfCertificate = forwardRef(
@@ -20,7 +21,7 @@ const PdfCertificate = forwardRef(
     console.log(role);
 
     return (
-      <div ref={ref} className="w-full  h-fit hidden  certificate">
+      <div ref={ref} className="w-[750px]  h-fit hidden  certificate">
         <div className="bg-[#FFFCF2]  w-full  flex flex-col  justify-between h-full border-x-[1px] ">
           <div className="w-full border-t-[1px] flex-1  border-primary font-brawler flex flex-col ">
             <div className="flex flex-row justify-between gap-4 px-8 pt-8">

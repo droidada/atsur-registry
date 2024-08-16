@@ -22,6 +22,7 @@ import axios from "axios";
 import { getCertificateText } from "../..";
 import { artRoles } from "@/types/index";
 import NotEnoughCredits from "../../NotEnoughCredits";
+import ExistingPdfCertificate from "@/components/Certificate/existing-pdf-certificate";
 
 interface Props {
   artPiece: any;
@@ -29,6 +30,8 @@ interface Props {
   signatureImage?: any;
   setSignatureImage?: React.Dispatch<React.SetStateAction<any>>;
   qrImage?: string;
+  coaType: "new" | "existing";
+  coaImg: any;
 }
 
 // const ff = new FileforgeClient({
@@ -41,6 +44,8 @@ const SignCertificate: React.FC<Props> = ({
   signatureImage,
   setSignatureImage,
   qrImage,
+  coaType,
+  coaImg,
 }) => {
   // const [signatureImage, setSignatureImage] = useState<any>();
   const [openSignatureDialog, setOpenSignatureDialog] = useState(false);
@@ -56,7 +61,12 @@ const SignCertificate: React.FC<Props> = ({
   const [openNotEnoughDialog, setOpenNotEnoughDialog] = useState(false);
 
   const { mutate, isLoading } = useMutation({
-    mutationFn: async (data: { draftCOA: any; signature: any; qrCode: any }) =>
+    mutationFn: async (data: {
+      draftCOA: any;
+      signature: any;
+      qrCode: any;
+      existingCOA: any;
+    }) =>
       axiosAuth.post(`/art-piece/draft-coa/${artPiece?.artPiece?._id}`, {
         ...data,
       }),
@@ -142,6 +152,7 @@ const SignCertificate: React.FC<Props> = ({
                   draftCOA: e.target?.result,
                   signature: signatureImage,
                   qrCode: qrImage,
+                  existingCOA: coaImg?.url || null,
                 });
               }
             };
@@ -170,20 +181,39 @@ const SignCertificate: React.FC<Props> = ({
           </p>
         </div>
       )}
-      <div className="">
-        <ArtPieceCertificate
-          verification={artPiece}
-          signatureImage={signatureImage}
-          qrImage={qrImage}
-        />
-      </div>
+      {coaType === "new" ? (
+        <div className="">
+          <ArtPieceCertificate
+            verification={artPiece}
+            signatureImage={signatureImage}
+            qrImage={qrImage}
+          />
+          <PdfCertificate
+            ref={certificateRef}
+            verification={artPiece}
+            signatureImage={signatureImage}
+            qrImage={qrImage}
+          />
+        </div>
+      ) : (
+        <div className="">
+          <ExistingPdfCertificate
+            coaImg={coaImg?.url}
+            artPiece={artPiece?.artPiece}
+            signatureImage={signatureImage || artPiece?.artPiece?.signature}
+            qrImage={qrImage || artPiece?.artPiece?.qrCode}
+          />
+          <ExistingPdfCertificate
+            ref={certificateRef}
+            coaImg={coaImg?.url}
+            artPiece={artPiece?.artPiece}
+            signatureImage={signatureImage || artPiece?.artPiece?.signature}
+            qrImage={qrImage || artPiece?.artPiece?.qrCode}
+            className="hidden"
+          />
+        </div>
+      )}
 
-      <PdfCertificate
-        ref={certificateRef}
-        verification={artPiece}
-        signatureImage={signatureImage}
-        qrImage={qrImage}
-      />
       <NotEnoughCredits
         open={openNotEnoughDialog}
         onClose={() => setOpenNotEnoughDialog(false)}
