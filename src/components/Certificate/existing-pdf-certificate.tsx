@@ -74,17 +74,10 @@ const ExistingPdfCertificate = forwardRef(
                       <>
                         <Image
                           className="flex-1"
-                          src={"/block-chain-text.svg"}
+                          src={"/block-chain-registered.png"}
                           width={56.57}
                           height={27.37}
                           alt="block-chain-text"
-                        />
-                        <Image
-                          className="object-cover flex-shrink-0 w-[40.72px]"
-                          src={"/block-chain.svg"}
-                          alt="block-chain-logo"
-                          width={23.72}
-                          height={27.37}
                         />
                       </>
                     )}

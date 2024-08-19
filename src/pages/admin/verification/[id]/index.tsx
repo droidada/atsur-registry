@@ -10,6 +10,12 @@ import {
   DialogContent,
   Paper,
   MenuItem,
+  TableContainer,
+  Table,
+  TableRow,
+  TableCell,
+  TableHead,
+  TableBody,
 } from "@mui/material";
 import { object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,6 +34,7 @@ import SelectField from "@/components/Form/SelectField";
 // import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next/router";
 import LoadingButton from "@/components/Form/LoadingButton";
+import BrokerTable from "@/components/admin/verification/verificationTables/brokerTable";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -36,11 +43,13 @@ export const getServerSideProps = async ({ req, query }) => {
       req,
       secret: process.env.NEXTAUTH_SECRET,
     });
-    const res = await axios.get(`/art-piece/verify/${id}`, {
+    const res = await axios.get(`/verify-artpiece/saved/${id}`, {
       headers: { authorization: `Bearer ${token?.accessToken}` },
     });
 
-    return { props: { artPiece: res.data.artPiece } };
+    console.log(res?.data);
+
+    return { props: { artPiece: res.data.data } };
   } catch (error) {
     console.error("error here looks like ", error);
     if (error?.response?.status === 404) {
@@ -55,85 +64,184 @@ const VerificationId = ({ artPiece }) => {
   const [fileUrl, setFileUrl] = useState<string>(null);
   const [openAttachmentPreview, setOpenAttachmentPreview] = useState(false);
   const [openVerificaitonDialog, setOpenVerificaitonDialog] = useState(false);
+  const [currentImage, setCurrentImage] = useState(0);
+  const axiosAuth = useAxiosAuth();
+  const toast = useToast();
+
+  const kycStatus =
+    artPiece?.artPiece?.custodian?.profile?.kycVerification?.verificationStatus;
+  const kybStatus =
+    artPiece.custodian?.broker?.organization?.kybVerification?.status ||
+    artPiece?.custodian?.institution?.organization?.status ||
+    artPiece?.custodian?.collector?.organization?.kybVerification?.status;
+
+  console.log(artPiece);
+
+  const collaborators = artPiece?.custodian?.broker?.collaborators
+    ? artPiece?.custodian?.broker?.collaborators
+    : [] || artPiece?.custodian.artist?.brokerInfo?.collaborators
+    ? artPiece?.custodian.artist?.brokerInfo?.collaborators
+    : [];
+  const organization =
+    artPiece?.custodian.artist.brokerInfor?.organization ||
+    artPiece?.custodian?.broker.organization ||
+    artPiece?.custodian?.collector.organization ||
+    artPiece?.custodian?.institution.organization;
+
+  const role = artPiece.custodian.role;
+  const user = artPiece?.artPiece?.custodian.profile;
+
+  const { mutate, isLoading } = useMutation({
+    mutationFn: (id) => axiosAuth.post(`/invite/resend/${id}`),
+    onSuccess: () => {
+      toast.success("Invitation Resent");
+    },
+    onError: (error: any) => {
+      toast.error(
+        error.response.data.message || error.message || "Something went wrong",
+      );
+    },
+  });
 
   return (
     <AdminDashboardLayout>
       <Stack spacing={4}>
-        <h1 className="text-3xl font-bold">{artPiece?.artPiece?.title}</h1>
-        <div className="flex flex-col text-sm gap-4">
-          <h2 className="text-xl font-bold"> Aquisition </h2>
-          <div className="grid max-w-[450px] w-full grid-cols-2 gap-2">
-            <span className="font-[500]">Organizaton Name</span>
-            <span>{artPiece?.acquisition?.organization?.orgInfo?.name}</span>
-            <span className="font-[500]">Type</span>
-            <span>{artPiece?.acquisition?.type}</span>
-            <span className="font-[500]">Purpose</span>
-            <span>{artPiece?.acquisition?.purpose}</span>
-            <span className="font-[500]">Date of Purchase</span>
-            <span>
-              {moment(artPiece?.acquisition?.date).format("DD-MM-YYYY")}
-            </span>
-            <span className="font-[500]">Method of Purchase</span>
-            <span>{artPiece?.acquisition?.methodOfPurchase}</span>
-            <span>Attachment</span>
-            <span
-              onClick={() => {
-                setOpenAttachmentPreview(true);
-                setFileUrl(artPiece?.acquisition?.attachment);
-              }}
-              className="border-2 p-2 cursor-pointer rounded-md"
-            >
-              {artPiece?.acquisition?.attachment?.split("/").pop()}
-            </span>
-          </div>
-        </div>
-        <div className="flex flex-col text-sm gap-4">
-          <h2 className="text-xl font-bold">Custodian </h2>
-          <div className="max-w-[450px] w-full">
-            <h4 className="text-sm font-bold ">Collaborators</h4>
-            <div className="flex flex-col gap-3">
-              {artPiece?.custodian?.broker?.collaborators?.map(
-                (collaborator) => (
-                  <div
+        <Stack
+          spacing={4}
+          direction={["column", "row"]}
+          justifyContent="space-between"
+        >
+          <h1 className="text-3xl   font-bold">{artPiece?.artPiece?.title}</h1>
+
+          <Button
+            className="bg-primary w-fit px-4 text-white font-[400]"
+            onClick={() => setOpenVerificaitonDialog(true)}
+          >
+            Change Status
+          </Button>
+        </Stack>
+
+        {user && (
+          <TableContainer component={Paper}>
+            <h4 className="font-semibold p-3 text-xl">User Info</h4>
+            <Table sx={{ minWidth: 650 }}>
+              <TableHead>
+                <TableRow>
+                  {["Name", "KYC Verification Status"].map((col) => (
+                    <TableCell
+                      key={`table-head-${col}`}
+                      className="bg-primary text-white text-md font-[600]"
+                    >
+                      {col}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow className="bg-white text-black cursor-pointer border-[1px] border-primary">
+                  <TableCell>
+                    {user?.firstName} {user?.lastName}
+                  </TableCell>
+
+                  <TableCell>
+                    {user?.kycVerification?.verificationStatus}
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
+
+        {organization && (
+          <TableContainer component={Paper}>
+            <h4 className="font-semibold p-3 text-xl">Organization</h4>
+            <Table sx={{ minWidth: 650 }}>
+              <TableHead>
+                <TableRow>
+                  {["Name", "Email", "Address", "KYB Verification Status"].map(
+                    (col) => (
+                      <TableCell
+                        key={`table-head-${col}`}
+                        className="bg-primary text-white text-md font-[600]"
+                      >
+                        {col}
+                      </TableCell>
+                    ),
+                  )}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow className="bg-white text-black cursor-pointer border-[1px] border-primary">
+                  <TableCell>{organization?.name}</TableCell>
+
+                  <TableCell>{organization?.email} %</TableCell>
+                  <TableCell>{organization?.address}</TableCell>
+                  <TableCell>{organization?.kybVerification?.status}</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
+
+        {collaborators?.length > 0 && (
+          <TableContainer component={Paper}>
+            <h4 className="font-semibold p-3 text-xl">Collaborators</h4>
+            <Table sx={{ minWidth: 650 }}>
+              <TableHead>
+                <TableRow>
+                  {["Name", "Percentage", "Invitation Accepted", "Action"].map(
+                    (col) => (
+                      <TableCell
+                        key={`table-head-${col}`}
+                        className="bg-primary text-white text-md font-[600]"
+                      >
+                        {col}
+                      </TableCell>
+                    ),
+                  )}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {collaborators?.map((collaborator) => (
+                  <TableRow
                     key={collaborator?._id}
-                    className="grid  grid-cols-2 gap-2"
+                    className="bg-white text-black cursor-pointer border-[1px] border-primary"
                   >
-                    <span>Collaborator Name</span>
-                    <span>
+                    <TableCell>
                       {collaborator?.userInfo?.firstName}{" "}
                       {collaborator?.userInfo?.lastName}
-                    </span>
-                    <span>Collaborator Percentage</span>
-                    <span>{collaborator?.percentageNumerator} %</span>
-                    <span>Invitation Accepted</span>
-                    <span>
-                      {collaborator?.invitationAccepted ? "Yes" : "No"}
-                    </span>
-                  </div>
-                ),
-              )}
-            </div>
-          </div>
-        </div>
+                    </TableCell>
+
+                    <TableCell>{collaborator?.percentageNumerator} %</TableCell>
+                    <TableCell>
+                      {collaborator?.invitation?.status === "accepted"
+                        ? "Yes"
+                        : "No"}
+                    </TableCell>
+                    <TableCell>
+                      <LoadingButton
+                        loading={isLoading}
+                        onClick={() => mutate(collaborator?.invitation?._id)}
+                        className="bg-primary text-white text-sm font-[400]"
+                      >
+                        Resend Invite
+                      </LoadingButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
 
         <div className="flex flex-col text-sm gap-4">
-          <h2 className="text-xl font-bold"> Verification Status </h2>
-          <div className="max-w-[450px] w-full flex flex-col gap-3">
-            <span>Status {artPiece?.status}</span>
-            <Button
-              className="bg-primary w-fit px-4 text-white font-[400]"
-              onClick={() => setOpenVerificaitonDialog(true)}
-            >
-              Change Status
-            </Button>
-
-            {artPiece?.status !== "verified" &&
-              artPiece?.status !== "pending" && (
-                <div className=" text-sm">
-                  <span className="font-[500]">Reason</span>
-                  <p className="text-xs">{artPiece?.rejectionReason}</p>
-                </div>
-              )}
+          <h2 className="text-2xl font-bold capitalize"> More Details </h2>
+          <div className=" w-full flex flex-col gap-3">
+            {role === "broker" ? (
+              <BrokerTable broker={artPiece?.custodian[role]} />
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </Stack>
