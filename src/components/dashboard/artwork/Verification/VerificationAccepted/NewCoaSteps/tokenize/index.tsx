@@ -296,7 +296,7 @@ const TokenizeCertificate: React.FC<Props> = ({
             artPiece={artPiece?.artPiece}
             signatureImage={signatureImage || artPiece?.artPiece?.signature}
             qrImage={qrImage || artPiece?.artPiece?.qrCode}
-            className="hidden"
+            className="hidden w-[]"
             tokenized={true}
           />
         </div>

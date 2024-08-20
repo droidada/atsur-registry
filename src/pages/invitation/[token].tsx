@@ -23,6 +23,8 @@ const Invitation = ({ invitationData }) => {
   const { status, data: sessionData } = useSession();
   const router = useRouter();
 
+  console.log(invitationData);
+
   const isAuthenticated = status === "authenticated";
   const isInvitee =
     invitationData?.invitation.invitee?.user?.email ===

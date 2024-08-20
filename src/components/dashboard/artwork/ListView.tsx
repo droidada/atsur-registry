@@ -20,7 +20,7 @@ interface Props {
   baseUrl: string;
   isFetching: boolean;
   isError: boolean;
-  meta: {
+  meta?: {
     currentPage: number;
     limit: number;
     totalDoc: number;
@@ -42,7 +42,7 @@ const ListView: React.FC<Props> = ({
     return <TableLoading isBlackHeader />;
   }
 
-  if (artworks.length === 0) {
+  if (artworks?.length === 0) {
     return <NoData text="We have nothing in your artworks" />;
   }
 

@@ -98,7 +98,8 @@ const VerificationPending: React.FC<Props> = ({ artPiece }) => {
 
   useEffect(() => {
     const kycStatus =
-      artPiece?.custodian?.profile?.kycVerification?.verificationStatus;
+      artPiece?.artPiece?.custodian?.profile?.kycVerification
+        ?.verificationStatus;
     const kybStatus =
       artPiece.custodian?.broker?.organization?.kybVerification?.status ||
       artPiece?.custodian?.institution?.organization?.status ||
