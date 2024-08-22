@@ -11,6 +11,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import Link from "next/link";
 import React, { useState } from "react";
 
 interface Props {
@@ -19,6 +20,8 @@ interface Props {
 const ArtitstTable: React.FC<Props> = ({ artist }) => {
   const [text, setText] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
+
+  console.log(artist.storyTelling);
 
   return (
     <TableContainer>
@@ -55,7 +58,13 @@ const ArtitstTable: React.FC<Props> = ({ artist }) => {
             </TableCell>
             <TableCell>{artist?.planToSell ? "Yes" : "No"}</TableCell>
             <TableCell>
-              <span>{artist?.creationVideo?.split("/").pop()}</span>
+              <Link
+                className="p-2 bg-secondary"
+                href={artist?.creationVideo?.url}
+                download
+              >
+                {artist?.creationVideo?.url?.split("/").pop()}
+              </Link>
             </TableCell>
             <TableCell>{artist?.notes}</TableCell>
             <TableCell>

@@ -11,7 +11,12 @@ import React from "react";
 import { AiOutlineSwap } from "react-icons/ai";
 
 interface Props {
-  type: "publications" | "exhibitions" | "appraisals" | "locations";
+  type:
+    | "publications"
+    | "exhibitions"
+    | "appraisals"
+    | "locations"
+    | "competitions";
   columns: string[];
   children: React.ReactNode;
 }
@@ -29,7 +34,7 @@ const DetailColumn: React.FC<Props> = ({ type, columns, children }) => {
       </div>
       <div className="max-w-[1196px] w-full overflow-x-auto py-4 px-8 border-[1px] border-primary">
         <TableContainer>
-          <Table stickyHeader>
+          <Table sx={{ minWidth: 550 }} stickyHeader>
             <TableHead>
               <TableRow className="bg-transparent border-b-[0.5px] border-primary">
                 {columns.map((column) => (

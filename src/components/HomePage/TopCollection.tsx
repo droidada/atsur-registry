@@ -40,16 +40,19 @@ const TopCollection: React.FC<Props> = ({ artpieces }) => {
         <Stack
           direction={{ xs: "column", md: "row" }}
           alignItems={{ xs: "center", md: "stretch" }}
+          justifyContent={"center"}
           spacing={2}
           className="relative"
         >
           {artpieces?.slice(0, 4)?.map((artpiece) => (
-            <SimpleArtpieceCard
-              url={`/explore/art-piece/${artpiece._id}`}
-              key={artpiece?._id}
-              image={artpiece?.assets?.url}
-              title={artpiece?.title}
-            />
+            <div key={artpiece?._id} className="max-w-[450px] w-full">
+              <SimpleArtpieceCard
+                url={`/explore/art-piece/${artpiece._id}`}
+                key={artpiece?._id}
+                image={artpiece?.assets?.url}
+                title={artpiece?.title}
+              />
+            </div>
           ))}
         </Stack>
       </div>

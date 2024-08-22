@@ -239,7 +239,7 @@ function ArtPiece({ artPiece }) {
           </div>
           <div className="flex flex-wrap-reverse items-stretch gap-4">
             <Accordion
-              className=" bg-secondary-white px-4 divide-secondary w-full  divide-y-[1px]"
+              className=" bg-secondary-white px-4 divide-secondary w-full  overflow-x-auto divide-y-[1px]"
               defaultExpanded={true}
             >
               <AccordionSummary

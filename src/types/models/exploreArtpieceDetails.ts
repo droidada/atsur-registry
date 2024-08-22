@@ -24,15 +24,18 @@ interface IArtPieceDetails {
   medium: string;
   subjectMatter: string;
   artType: string;
-  height: number;
-  width: number;
-  depth: number;
+  dimensions: {
+    height: number;
+    width: number;
+    depth: number;
+  };
   weight: number;
   artists: any[];
   published: boolean;
   publicViewAll: boolean;
   approvedViewers: any[];
   exhibitions: any[];
+  competitions: any[];
   locations: any[];
   publications: any[];
   appraisals: any[];

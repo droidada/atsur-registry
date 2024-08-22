@@ -30,10 +30,12 @@ const Featured: React.FC<Props> = ({ featured }) => {
       <Stack
         direction={{ xs: "column", md: "row" }}
         alignItems={{ xs: "center", md: "stretch" }}
+        justifyContent={"center"}
         spacing={2}
       >
         {featured?.slice(0, 4)?.map((item) => (
           <ArtPieceCard
+            className="max-w-[450px]"
             url={`/explore/art-piece/${item._id}`}
             key={item?._id}
             title={item?.title}

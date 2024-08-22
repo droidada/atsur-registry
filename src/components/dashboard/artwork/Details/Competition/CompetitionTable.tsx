@@ -118,10 +118,10 @@ const CompetitionTable: React.FC<Props> = ({
 
   return (
     <TableContainer className="mb-4" component={Paper}>
-      <Table sx={{ minWidth: 925 }}>
+      <Table sx={{ minWidth: 550 }}>
         <TableHead>
           <TableRow>
-            {["Name", "Type", "Showing Type", "Creation Date", ""].map(
+            {["Name", "Description", "Showing Type", "Creation Date", ""].map(
               (col) => (
                 <TableCell
                   key={`table-head-${col}`}
@@ -143,7 +143,7 @@ const CompetitionTable: React.FC<Props> = ({
                 {competition?.name}
               </TableCell>
               <TableCell className="py-2 text-base font-[300] ml-2  border-b-[1px] border-primary">
-                {competition?.type}
+                {competition?.description}
               </TableCell>
               <TableCell className="py-2 text-base font-[300] ml-2  border-b-[1px] border-primary">
                 {competition?.showingType}

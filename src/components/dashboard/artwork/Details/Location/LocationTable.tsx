@@ -118,7 +118,7 @@ const LocationTable: React.FC<Props> = ({
 
   return (
     <TableContainer className="mb-4" component={Paper}>
-      <Table sx={{ minWidth: 925 }}>
+      <Table sx={{ minWidth: 550 }}>
         <TableHead>
           <TableRow>
             {["Name", "Address", "Start Date", "End Date", ""].map((col) => (
