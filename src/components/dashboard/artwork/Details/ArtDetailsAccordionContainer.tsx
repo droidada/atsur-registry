@@ -28,7 +28,7 @@ const ArtDetailsAccordionContainer: React.FC<Props> = ({
       >
         {title}
       </AccordionSummary>
-      <AccordionDetails className="text-sm py-4">
+      <AccordionDetails className="text-sm py-4 overflow-x-auto">
         {children}
         <Button
           onClick={onClick}

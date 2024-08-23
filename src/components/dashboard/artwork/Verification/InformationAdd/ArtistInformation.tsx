@@ -44,7 +44,15 @@ const ArtistInformation: React.FC<Props> = ({
     videoCaption: string().optional(),
     isSeries: string().nonempty(),
     planToSell: string().nonempty("Please select an option"),
-    sellerType: string().nonempty("Please select seller type"),
+    sellerType: string().optional(),
+  }).superRefine((data, ctx) => {
+    if (data.planToSell.toLocaleLowerCase() === "yes" && !data.sellerType) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Seller type is required when planning to sell",
+        path: ["sellerType"],
+      });
+    }
   });
 
   type MetadataInput = TypeOf<typeof metadataSchema>;
@@ -64,6 +72,8 @@ const ArtistInformation: React.FC<Props> = ({
   const planToSell = watch("planToSell");
   const isSeries = watch("isSeries");
   const sellerType = watch("sellerType");
+
+  console.log(sellerType);
 
   console.log(errors);
 

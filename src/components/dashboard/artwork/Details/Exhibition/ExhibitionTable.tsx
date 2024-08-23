@@ -118,7 +118,7 @@ const ExhibitionTable: React.FC<Props> = ({
 
   return (
     <TableContainer className="mb-4" component={Paper}>
-      <Table sx={{ minWidth: 925 }}>
+      <Table sx={{ minWidth: 550 }}>
         <TableHead>
           <TableRow>
             {["Name", "Type", "Showing Type", "Creation Date", ""].map(

@@ -119,7 +119,7 @@ const AppraisalTable: React.FC<Props> = ({
 
   return (
     <TableContainer className="mb-4" component={Paper}>
-      <Table sx={{ minWidth: 925 }}>
+      <Table sx={{ minWidth: 550 }}>
         <TableHead>
           <TableRow>
             {["Appraiser Name", "Value", "Currency", "Creation Date", ""].map(

@@ -64,7 +64,7 @@ const ArtPieceAppraisal: React.FC<Props> = ({ appraisals, artpieceId }) => {
     onSuccess: () => {
       setOpen(false);
       toast.success(
-        `Exhibition ${currentAppraisal ? "updated" : "added"} successfully.`,
+        `Appraisal ${currentAppraisal ? "updated" : "added"} successfully.`,
       );
       reset();
       setAppraisalImg(null);

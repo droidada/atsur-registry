@@ -12,6 +12,7 @@ interface Props {
   };
   rating: number;
   url: string;
+  className?: string;
 }
 const ArtPieceCard: React.FC<Props> = ({
   image,
@@ -19,9 +20,10 @@ const ArtPieceCard: React.FC<Props> = ({
   creator,
   rating,
   url,
+  className,
 }) => {
   return (
-    <Link href={url} className="bg-primary w-full  ">
+    <Link href={url} className={`bg-primary w-full ${className} `}>
       <Image
         src={image || "/placeholder.png"}
         alt={title}

@@ -143,19 +143,21 @@ const HeroSection: React.FC<Props> = ({ artpiece }) => {
               <span className="font-[400]">{artpiece.medium}</span>
               <span className="font-[600]  ">Rarity</span>
               <span className="font-[400]">{artpiece.rarity}</span>
-              {artpiece.depth > 0 && (
+              {artpiece?.dimensions?.depth > 0 && (
                 <>
                   <span className="font-[600]">Depth</span>
-                  <span className="font-[400]">{artpiece.depth}</span>
+                  <span className="font-[400]">
+                    {artpiece?.dimensions?.depth}
+                  </span>
                 </>
               )}
               <span className="font-[600]  ">Height</span>
               <span className="font-[400]">
-                {artpiece.height} &quot; inches
+                {artpiece.dimensions?.height} &quot; inches
               </span>
               <span className="font-[600]  ">Width</span>
               <span className="font-[400]">
-                {artpiece.width} &quot; inches{" "}
+                {artpiece?.dimensions?.width} &quot; inches{" "}
               </span>
               {artpiece.weight > 0 && (
                 <>

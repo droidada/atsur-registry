@@ -35,6 +35,9 @@ import SelectField from "@/components/Form/SelectField";
 import { useRouter } from "next/router";
 import LoadingButton from "@/components/Form/LoadingButton";
 import BrokerTable from "@/components/admin/verification/verificationTables/brokerTable";
+import CollectorTable from "@/components/admin/verification/verificationTables/CollectorTable";
+import InstitutionTable from "@/components/admin/verification/verificationTables/InstitutionTable";
+import ArtitstTable from "@/components/admin/verification/verificationTables/ArtitstTable";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -90,6 +93,15 @@ const VerificationId = ({ artPiece }) => {
 
   const role = artPiece.custodian.role;
   const user = artPiece?.artPiece?.custodian.profile;
+
+  const artist =
+    Object.values(artPiece?.custodian?.collector?.artist.artistInfo).length > 0
+      ? artPiece?.custodian?.collector?.artist
+      : null ||
+        Object.values(artPiece?.custodian?.institution?.artist.artistInfo)
+          .length > 0
+      ? artPiece?.custodian?.institution?.artist
+      : null;
 
   const { mutate, isLoading } = useMutation({
     mutationFn: (id) => axiosAuth.post(`/invite/resend/${id}`),
@@ -234,13 +246,58 @@ const VerificationId = ({ artPiece }) => {
           </TableContainer>
         )}
 
+        {artist && (
+          <TableContainer component={Paper}>
+            <h4 className="font-semibold p-3 text-xl">Artist</h4>
+            <Table sx={{ minWidth: 650 }}>
+              <TableHead>
+                <TableRow>
+                  {["Name", "Invitation Accepted", "Action"].map((col) => (
+                    <TableCell
+                      key={`table-head-${col}`}
+                      className="bg-primary text-white text-md font-[600]"
+                    >
+                      {col}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow className="bg-white text-black cursor-pointer border-[1px] border-primary">
+                  <TableCell>
+                    {artist?.artistInfo?.firstName}{" "}
+                    {artist?.artistInfo?.lastName}
+                  </TableCell>
+
+                  <TableCell>
+                    {artist?.invitation?.status === "accepted" ? "Yes" : "No"}
+                  </TableCell>
+                  <TableCell>
+                    <LoadingButton
+                      loading={isLoading}
+                      onClick={() => mutate(artist?.invitation?._id)}
+                      className="bg-primary text-white text-sm font-[400]"
+                    >
+                      Resend Invite
+                    </LoadingButton>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
+
         <div className="flex flex-col text-sm gap-4">
           <h2 className="text-2xl font-bold capitalize"> More Details </h2>
           <div className=" w-full flex flex-col gap-3">
             {role === "broker" ? (
               <BrokerTable broker={artPiece?.custodian[role]} />
+            ) : role === "artist" ? (
+              <ArtitstTable artist={artPiece?.custodian[role]} />
+            ) : role === "collector" ? (
+              <CollectorTable data={artPiece?.custodian[role]} />
             ) : (
-              <></>
+              <InstitutionTable data={artPiece?.custodian[role]} />
             )}
           </div>
         </div>

@@ -1,6 +1,7 @@
 import PricingLayout from "@/components/layout/PricingLayout";
 import { Button } from "@mui/material";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import {
   BsArrowRightCircleFill,
@@ -114,6 +115,7 @@ const team = [
 ];
 const Homepage = () => {
   const [currentView, setCurrentView] = useState(0);
+  const router = useRouter();
 
   return (
     <PricingLayout
@@ -153,12 +155,14 @@ const Homepage = () => {
             />
             <div className="relative flex gap-10">
               <Button
+                onClick={() => router.push("/explore")}
                 variant="contained"
                 className="bg-primary text-[15px] font-[400] w-[140.21px] h-[43.43px]  text-white"
               >
                 Explore
               </Button>
               <Button
+                onClick={() => router.push("/dashboard/artworks/create")}
                 variant="contained"
                 className="bg-[#DEDEDE]  text-[15px] font-[400] w-[140.21px] h-[43.43px]  text-primary"
               >
