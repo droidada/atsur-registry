@@ -133,7 +133,6 @@ function Login({ invitationData }) {
   return (
     <AuthLayout title="Login" paragraph="Please enter your details">
       <Stack direction={"column"} spacing={4} className=" w-full">
-        {}
         <form
           onSubmit={handleSubmit(onSubmitHandler)}
           className=" flex flex-col gap-4 w-full"
@@ -151,18 +150,10 @@ function Login({ invitationData }) {
               type="button"
               className="rounded-[100px] border-secondary"
               variant={"outlined"}
-              // onClick={() => signIn("google")}
+              onClick={() => signIn("google")}
             >
               Sign in with Google
             </Button>
-            {/* <Button
-              startIcon={<FaLinkedin className="text-blue-700" size={20} />}
-              className="rounded-[100px] border-secondary"
-              variant={"outlined"}
-              onClick={()=> signIn('linkedin')}
-            >
-              Sign in with Linkedin
-            </Button> */}
           </div>
           <p className="text-center text-[15px] leading-[16px] flex gap-2 items-center">
             <span className="h-[1px] bg-secondary w-full " />

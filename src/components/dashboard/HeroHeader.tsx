@@ -33,7 +33,7 @@ const HeroHeader: React.FC<Props> = ({
         </h3>
         {/* <h1 className=" text-2xl md:text-[50px] md:leading-[70px]"> */}
         {/* @ts-ignore */}
-        {data?.user?.firstName} {data?.user?.lastName[0]}.{/* </h1> */}
+        {data?.user?.firstName} {data?.user?.lastName}.{/* </h1> */}
         <Stack
           direction="row"
           justifyContent={"end"}

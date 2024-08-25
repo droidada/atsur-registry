@@ -5,16 +5,16 @@ export default withAuth(
   function middleware(req: any) {
     console.log("This is the token", req.nextauth.token);
 
-    if (!req.nextauth.token?.emailVerified) {
-      const confirmEmailURL = new URL(
-        `/confirm-email?email=${req.nextauth.token?.email}`,
-        req.nextUrl.origin,
-      );
-      return NextResponse.redirect(confirmEmailURL.toString());
-    }
+    // if (!req.nextauth.token?.emailVerified) {
+    //   const confirmEmailURL = new URL(
+    //     `/confirm-email?email=${req.nextauth.token?.email}`,
+    //     req.nextUrl.origin,
+    //   );
+    //   return NextResponse.redirect(confirmEmailURL.toString());
+    // }
     if (
       req.nextUrl.pathname.startsWith("/admin") &&
-      !req.nextauth.token?.roles.includes("admin")
+      !req.nextauth.token?.roles?.includes("admin")
     ) {
       const absoluteURL = new URL(
         "/login?message=Not Authorized",
@@ -23,8 +23,8 @@ export default withAuth(
       return NextResponse.redirect(absoluteURL.toString());
     } else if (
       req.nextUrl.pathname.startsWith("/dashboard") &&
-      !req.nextauth.token?.roles.includes("admin") &&
-      !req.nextauth.token?.roles.includes("user")
+      !req.nextauth.token?.roles?.includes("admin") &&
+      !req.nextauth.token?.roles?.includes("user")
     ) {
       const absoluteURL = new URL(
         "/login?message=Not Authorized",
