@@ -48,7 +48,7 @@ const ListView: React.FC<Props> = ({
 
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 925 }}>
+      <Table sx={{ minWidth: 550 }}>
         <TableHead>
           <TableRow>
             {["Artwork", "Type", "Date", "Attachment"].map((col) => (

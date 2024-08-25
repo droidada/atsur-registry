@@ -16,6 +16,9 @@ import {
   TableCell,
   TableHead,
   TableBody,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@mui/material";
 import { object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -38,6 +41,8 @@ import BrokerTable from "@/components/admin/verification/verificationTables/brok
 import CollectorTable from "@/components/admin/verification/verificationTables/CollectorTable";
 import InstitutionTable from "@/components/admin/verification/verificationTables/InstitutionTable";
 import ArtitstTable from "@/components/admin/verification/verificationTables/ArtitstTable";
+import { MdOutlineExpandMore } from "react-icons/md";
+import Link from "next/link";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -71,14 +76,10 @@ const VerificationId = ({ artPiece }) => {
   const axiosAuth = useAxiosAuth();
   const toast = useToast();
 
-  const kycStatus =
-    artPiece?.artPiece?.custodian?.profile?.kycVerification?.verificationStatus;
-  const kybStatus =
-    artPiece.custodian?.broker?.organization?.kybVerification?.status ||
-    artPiece?.custodian?.institution?.organization?.status ||
-    artPiece?.custodian?.collector?.organization?.kybVerification?.status;
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  console.log(artPiece);
+  const role = artPiece.custodian.role;
+  const user = artPiece?.artPiece?.custodian.profile;
 
   const collaborators = artPiece?.custodian?.broker?.collaborators
     ? artPiece?.custodian?.broker?.collaborators
@@ -90,9 +91,6 @@ const VerificationId = ({ artPiece }) => {
     artPiece?.custodian?.broker.organization ||
     artPiece?.custodian?.collector.organization ||
     artPiece?.custodian?.institution.organization;
-
-  const role = artPiece.custodian.role;
-  const user = artPiece?.artPiece?.custodian.profile;
 
   const artist =
     Object.values(artPiece?.custodian?.collector?.artist.artistInfo).length > 0
@@ -115,34 +113,193 @@ const VerificationId = ({ artPiece }) => {
     },
   });
 
+  console.log(artPiece);
+
   return (
     <AdminDashboardLayout>
-      <Stack spacing={4}>
-        <Stack
-          spacing={4}
-          direction={["column", "row"]}
-          justifyContent="space-between"
-        >
-          <h1 className="text-3xl   font-bold">{artPiece?.artPiece?.title}</h1>
+      <Stack direction={["column", "row"]} gap={[4, 8]}>
+        <div className="">
+          <Image
+            src={artPiece?.artPiece?.assets[0]?.url}
+            width={500}
+            height={500}
+            alt=""
+          />
+        </div>
+        <div>
+          <div className="flex justify-between items-center gap-6">
+            <div className="flex gap-3 items-center">
+              <span className="capitalize ">{role}</span>
+            </div>
 
-          <Button
-            className="bg-primary w-fit px-4 text-white font-[400]"
-            onClick={() => setOpenVerificaitonDialog(true)}
-          >
-            Change Status
-          </Button>
-        </Stack>
+            <Button
+              onClick={() => setOpenVerificaitonDialog(true)}
+              className="bg-primary w-fit px-4 text-white font-[400]"
+            >
+              Change Status{" "}
+            </Button>
+          </div>
+          <h1 className="text-2xl md:text-6xl py-3">
+            {artPiece?.artPiece?.title}{" "}
+          </h1>
+          <div className="flex gap-2 items-center">
+            <Button className="bg-primary w-fit px-4 text-white font-[400]">
+              View Artwork{" "}
+            </Button>
+          </div>
+          <div>
+            <Accordion className="bg-white mt-4" defaultExpanded={false}>
+              <AccordionSummary
+                className="bg-primary px-2 text-[20px] font-[600] leading-[16px] py-2 text-white "
+                expandIcon={<MdOutlineExpandMore />}
+                aria-controls="panel3-content"
+                id="panel3-header"
+              >
+                Custodian Details
+              </AccordionSummary>
+              <AccordionDetails className="grid grid-cols-2 capitalize gap-x-10 gap-y-4 justify-between text-sm">
+                <span className="font-[600]  ">Name</span>
+                <span className="font-[400]">
+                  {user.firstName} {user?.lastName}
+                </span>
+                <span className="font-[600]  ">KYC Verification Status</span>
+                <span className="font-[400]">
+                  {user?.kycVerification?.verificationStatus?.replace("-", " ")}
+                </span>
+                <span className="font-[600]  ">Role</span>
+                <span className="font-[400]">{role}</span>
+                <Link
+                  href={`/explore/artist/${user?.id}`}
+                  target={"_blank"}
+                  className="col-span-2 text-center bg-primary text-white p-2"
+                >
+                  See More
+                </Link>
+              </AccordionDetails>
+            </Accordion>
 
-        {user && (
+            {/* Organization */}
+            {organization && (
+              <Accordion className="bg-white mt-4" defaultExpanded={false}>
+                <AccordionSummary
+                  className="bg-primary px-2 text-[20px] font-[600] leading-[16px] py-2 text-white "
+                  expandIcon={<MdOutlineExpandMore />}
+                  aria-controls="panel3-content"
+                  id="panel3-header"
+                >
+                  Organization Details
+                </AccordionSummary>
+                <AccordionDetails className="grid grid-cols-2 capitalize gap-x-10 gap-y-4 justify-between text-sm">
+                  <span className="font-[600]  ">Name</span>
+                  <span className="font-[400]">{organization?.name}</span>
+                  <span className="font-[600]  ">KYB Verification Status</span>
+                  <span className="font-[400]">
+                    {organization?.kybVerification?.status?.replace("-", " ")}
+                  </span>
+                  <span className="font-[600]  ">Email</span>
+                  <span className="font-[400] lowercase">
+                    {organization?.email}
+                  </span>
+                  <span className="font-[600]  ">Address</span>
+                  <span className="font-[400]">{organization?.address}</span>
+                  <Link
+                    href={`/explore/artist/${user?.id}`}
+                    target={"_blank"}
+                    className="col-span-2 text-center bg-primary text-white p-2"
+                  >
+                    View Organization
+                  </Link>
+                </AccordionDetails>
+              </Accordion>
+            )}
+
+            {/* Artist */}
+            {artist && (
+              <Accordion className="bg-white mt-4" defaultExpanded={false}>
+                <AccordionSummary
+                  className="bg-primary px-2 text-[20px] font-[600] leading-[16px] py-2 text-white "
+                  expandIcon={<MdOutlineExpandMore />}
+                  aria-controls="panel3-content"
+                  id="panel3-header"
+                >
+                  Artist Details
+                </AccordionSummary>
+                <AccordionDetails className="grid grid-cols-2 capitalize gap-x-10 gap-y-4 justify-between text-sm">
+                  <span className="font-[600]  ">Name</span>
+                  <span className="font-[400]">
+                    {artist?.artistInfo?.firstName}{" "}
+                    {artist?.artistInfo?.lastName}
+                  </span>
+                  <span className="font-[600]  ">Email</span>
+                  <span className="font-[400] lowercase">
+                    {artist?.artistInfo?.email}
+                  </span>
+                  <span className="font-[600]  ">Invitation Status</span>
+                  <span className="font-[400]">
+                    {artist?.invitation?.status === "accepted"
+                      ? "Accepted"
+                      : artist?.invitation?.status === "sent"
+                      ? "Pending"
+                      : "Rejected"}
+                  </span>
+                  {artist?.invitation?.status !== "accepted" && (
+                    <LoadingButton
+                      loading={isLoading}
+                      onClick={() => mutate(artist?.invitation?._id)}
+                      className="col-span-2 text-center bg-primary text-white p-2"
+                    >
+                      Resend Invite
+                    </LoadingButton>
+                  )}
+                </AccordionDetails>
+              </Accordion>
+            )}
+
+            {/* Verification Details */}
+            <Accordion className="bg-white mt-4" defaultExpanded={false}>
+              <AccordionSummary
+                className="bg-primary px-2 text-[20px] font-[600] leading-[16px] py-2 text-white "
+                expandIcon={<MdOutlineExpandMore />}
+                aria-controls="panel3-content"
+                id="panel3-header"
+              >
+                Verification Details
+              </AccordionSummary>
+              <AccordionDetails className="grid grid-cols-2 capitalize gap-x-10 gap-y-4 justify-between text-sm">
+                {role == "artist" ? (
+                  <ArtitstTable artist={artPiece.custodian[role]} />
+                ) : role == "broker" ? (
+                  <BrokerTable broker={artPiece.custodian[role]} />
+                ) : role == "institution" ? (
+                  <InstitutionTable data={artPiece.custodian[role]} />
+                ) : role == "collector" ? (
+                  <CollectorTable data={artPiece.custodian[role]} />
+                ) : (
+                  <></>
+                )}
+              </AccordionDetails>
+            </Accordion>
+          </div>
+        </div>
+      </Stack>
+      {collaborators?.length > 0 && (
+        <Stack py={4} spacing={4}>
+          <h2 className="text-3xl font-bold">Collaborators</h2>
           <TableContainer component={Paper}>
-            <h4 className="font-semibold p-3 text-xl">User Info</h4>
-            <Table sx={{ minWidth: 650 }}>
+            <Table sx={{ minWidth: 550 }}>
               <TableHead>
                 <TableRow>
-                  {["Name", "KYC Verification Status"].map((col) => (
+                  {[
+                    "Name",
+                    "Email",
+                    "Role",
+                    "Invitation Status",
+                    "Percentage",
+                    "Action",
+                  ].map((col) => (
                     <TableCell
-                      key={`table-head-${col}`}
                       className="bg-primary text-white text-md font-[600]"
+                      key={col}
                     >
                       {col}
                     </TableCell>
@@ -150,93 +307,31 @@ const VerificationId = ({ artPiece }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow className="bg-white text-black cursor-pointer border-[1px] border-primary">
-                  <TableCell>
-                    {user?.firstName} {user?.lastName}
-                  </TableCell>
-
-                  <TableCell>
-                    {user?.kycVerification?.verificationStatus}
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-        )}
-
-        {organization && (
-          <TableContainer component={Paper}>
-            <h4 className="font-semibold p-3 text-xl">Organization</h4>
-            <Table sx={{ minWidth: 650 }}>
-              <TableHead>
-                <TableRow>
-                  {["Name", "Email", "Address", "KYB Verification Status"].map(
-                    (col) => (
-                      <TableCell
-                        key={`table-head-${col}`}
-                        className="bg-primary text-white text-md font-[600]"
-                      >
-                        {col}
-                      </TableCell>
-                    ),
-                  )}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow className="bg-white text-black cursor-pointer border-[1px] border-primary">
-                  <TableCell>{organization?.name}</TableCell>
-
-                  <TableCell>{organization?.email} %</TableCell>
-                  <TableCell>{organization?.address}</TableCell>
-                  <TableCell>{organization?.kybVerification?.status}</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-        )}
-
-        {collaborators?.length > 0 && (
-          <TableContainer component={Paper}>
-            <h4 className="font-semibold p-3 text-xl">Collaborators</h4>
-            <Table sx={{ minWidth: 650 }}>
-              <TableHead>
-                <TableRow>
-                  {["Name", "Percentage", "Invitation Accepted", "Action"].map(
-                    (col) => (
-                      <TableCell
-                        key={`table-head-${col}`}
-                        className="bg-primary text-white text-md font-[600]"
-                      >
-                        {col}
-                      </TableCell>
-                    ),
-                  )}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {collaborators?.map((collaborator) => (
-                  <TableRow
-                    key={collaborator?._id}
-                    className="bg-white text-black cursor-pointer border-[1px] border-primary"
-                  >
+                {collaborators?.map((item) => (
+                  <TableRow key={item?._id}>
                     <TableCell>
-                      {collaborator?.userInfo?.firstName}{" "}
-                      {collaborator?.userInfo?.lastName}
+                      {item?.userInfo?.firstName} {item?.userInfo?.lastName}
+                    </TableCell>
+                    <TableCell>{item?.userInfo?.email}</TableCell>
+                    <TableCell className="capitalize">
+                      {item?.userInfo?.role}
                     </TableCell>
 
-                    <TableCell>{collaborator?.percentageNumerator} %</TableCell>
                     <TableCell>
-                      {collaborator?.invitation?.status === "accepted"
-                        ? "Yes"
-                        : "No"}
+                      {item?.invitation?.status != "accepted"
+                        ? "Accepted"
+                        : item?.invitation?.status != "sent"
+                        ? "Pending"
+                        : "Rejected"}
                     </TableCell>
+                    <TableCell>{item?.percentageNumerator}%</TableCell>
                     <TableCell>
                       <LoadingButton
                         loading={isLoading}
-                        onClick={() => mutate(collaborator?.invitation?._id)}
-                        className="bg-primary text-white text-sm font-[400]"
+                        onClick={() => mutate(item?.invitation?._id)}
+                        className="bg-primary text-white"
                       >
-                        Resend Invite
+                        Resend
                       </LoadingButton>
                     </TableCell>
                   </TableRow>
@@ -244,70 +339,10 @@ const VerificationId = ({ artPiece }) => {
               </TableBody>
             </Table>
           </TableContainer>
-        )}
+        </Stack>
+      )}
 
-        {artist && (
-          <TableContainer component={Paper}>
-            <h4 className="font-semibold p-3 text-xl">Artist</h4>
-            <Table sx={{ minWidth: 650 }}>
-              <TableHead>
-                <TableRow>
-                  {["Name", "Invitation Accepted", "Action"].map((col) => (
-                    <TableCell
-                      key={`table-head-${col}`}
-                      className="bg-primary text-white text-md font-[600]"
-                    >
-                      {col}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow className="bg-white text-black cursor-pointer border-[1px] border-primary">
-                  <TableCell>
-                    {artist?.artistInfo?.firstName}{" "}
-                    {artist?.artistInfo?.lastName}
-                  </TableCell>
-
-                  <TableCell>
-                    {artist?.invitation?.status === "accepted" ? "Yes" : "No"}
-                  </TableCell>
-                  <TableCell>
-                    <LoadingButton
-                      loading={isLoading}
-                      onClick={() => mutate(artist?.invitation?._id)}
-                      className="bg-primary text-white text-sm font-[400]"
-                    >
-                      Resend Invite
-                    </LoadingButton>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-        )}
-
-        <div className="flex flex-col text-sm gap-4">
-          <h2 className="text-2xl font-bold capitalize"> More Details </h2>
-          <div className=" w-full flex flex-col gap-3">
-            {role === "broker" ? (
-              <BrokerTable broker={artPiece?.custodian[role]} />
-            ) : role === "artist" ? (
-              <ArtitstTable artist={artPiece?.custodian[role]} />
-            ) : role === "collector" ? (
-              <CollectorTable data={artPiece?.custodian[role]} />
-            ) : (
-              <InstitutionTable data={artPiece?.custodian[role]} />
-            )}
-          </div>
-        </div>
-      </Stack>
-
-      <AttachmentPreviewer
-        open={openAttachmentPreview}
-        fileUrl={fileUrl}
-        onClose={() => setOpenAttachmentPreview(false)}
-      />
+      {}
 
       <VerificationDialog
         artPiece={artPiece}
