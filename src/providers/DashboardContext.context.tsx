@@ -26,12 +26,7 @@ const DashboardContextProvider = ({ children }: Props) => {
 
   const axiosAuth = useAxiosAuth();
 
-  const {
-    data: getCredits,
-    isLoading: isLoadingCredits,
-    error: errorCredits,
-    isFetched: isFetchedCredits,
-  } = useQuery({
+  const { data: getCredits } = useQuery({
     queryKey: ["credits"],
     queryFn: async () => {
       const { data: response } = await axiosAuth.get("/user/credits");
@@ -41,22 +36,18 @@ const DashboardContextProvider = ({ children }: Props) => {
     refetchOnWindowFocus: false,
   });
 
-  const {
-    data: getNotifications,
-    isLoading: isLoadingNotifications,
-    error: errorNotifications,
-    isFetched: isFetchedNotifications,
-  } = useQuery({
-    queryFn: async () => {
-      const { data: response } = await axiosAuth.get("/notifications/unread");
-      // console.log("This is the response", response.data);
-      return response.data?.notifications;
-    },
-    queryKey: ["notifications"],
-    refetchOnWindowFocus: false,
-    refetchInterval: 30000, // refetch after 30s
-    refetchIntervalInBackground: true,
-  });
+  const { data: getNotifications, isFetched: isFetchedNotifications } =
+    useQuery({
+      queryFn: async () => {
+        const { data: response } = await axiosAuth.get("/notifications/unread");
+        // console.log("This is the response", response.data);
+        return response.data?.notifications;
+      },
+      queryKey: ["notifications"],
+      refetchOnWindowFocus: false,
+      refetchInterval: 30000, // refetch after 30s
+      refetchIntervalInBackground: true,
+    });
 
   useEffect(() => {
     if (getCredits) {

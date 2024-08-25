@@ -12,7 +12,6 @@ import TokenSection from "@/components/dashboard/wallet/dashboard/tokenSection";
 import { useToast } from "@/providers/ToastProvider";
 import { Button, Card, Stack } from "@mui/material";
 
-
 export const getServerSideProps = async ({ req, params }) => {
   try {
     const token: any = await getToken({

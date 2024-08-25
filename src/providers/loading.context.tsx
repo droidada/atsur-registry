@@ -8,7 +8,6 @@ import React, {
   useState,
   useCallback,
 } from "react";
-import { notFound } from "next/navigation";
 import Loader from "@/components/common/Loader";
 import { useRouter } from "next/router";
 
