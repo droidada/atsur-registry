@@ -212,76 +212,74 @@ const VerificationId = ({ artPiece }) => {
                 </AccordionDetails>
               </Accordion>
             )}
-
-            {/* Artist */}
-            {artist && (
-              <Accordion className="bg-white mt-4" defaultExpanded={false}>
-                <AccordionSummary
-                  className="bg-primary px-2 text-[20px] font-[600] leading-[16px] py-2 text-white "
-                  expandIcon={<MdOutlineExpandMore />}
-                  aria-controls="panel3-content"
-                  id="panel3-header"
-                >
-                  Artist Details
-                </AccordionSummary>
-                <AccordionDetails className="grid grid-cols-2 capitalize gap-x-10 gap-y-4 justify-between text-sm">
-                  <span className="font-[600]  ">Name</span>
-                  <span className="font-[400]">
-                    {artist?.artistInfo?.firstName}{" "}
-                    {artist?.artistInfo?.lastName}
-                  </span>
-                  <span className="font-[600]  ">Email</span>
-                  <span className="font-[400] lowercase">
-                    {artist?.artistInfo?.email}
-                  </span>
-                  <span className="font-[600]  ">Invitation Status</span>
-                  <span className="font-[400]">
-                    {artist?.invitation?.status === "accepted"
-                      ? "Accepted"
-                      : artist?.invitation?.status === "sent"
-                      ? "Pending"
-                      : "Rejected"}
-                  </span>
-                  {artist?.invitation?.status !== "accepted" && (
-                    <LoadingButton
-                      loading={isLoading}
-                      onClick={() => mutate(artist?.invitation?._id)}
-                      className="col-span-2 text-center bg-primary text-white p-2"
-                    >
-                      Resend Invite
-                    </LoadingButton>
-                  )}
-                </AccordionDetails>
-              </Accordion>
-            )}
-
-            {/* Verification Details */}
-            <Accordion className="bg-white mt-4" defaultExpanded={false}>
-              <AccordionSummary
-                className="bg-primary px-2 text-[20px] font-[600] leading-[16px] py-2 text-white "
-                expandIcon={<MdOutlineExpandMore />}
-                aria-controls="panel3-content"
-                id="panel3-header"
-              >
-                Verification Details
-              </AccordionSummary>
-              <AccordionDetails className="grid grid-cols-2 capitalize gap-x-10 gap-y-4 justify-between text-sm">
-                {role == "artist" ? (
-                  <ArtitstTable artist={artPiece.custodian[role]} />
-                ) : role == "broker" ? (
-                  <BrokerTable broker={artPiece.custodian[role]} />
-                ) : role == "institution" ? (
-                  <InstitutionTable data={artPiece.custodian[role]} />
-                ) : role == "collector" ? (
-                  <CollectorTable data={artPiece.custodian[role]} />
-                ) : (
-                  <></>
-                )}
-              </AccordionDetails>
-            </Accordion>
           </div>
         </div>
       </Stack>
+      {/* Artist */}
+      {artist && (
+        <Accordion className="bg-white mt-4" defaultExpanded={false}>
+          <AccordionSummary
+            className="bg-primary px-2 text-[20px] font-[600] leading-[16px] py-2 text-white "
+            expandIcon={<MdOutlineExpandMore />}
+            aria-controls="panel3-content"
+            id="panel3-header"
+          >
+            Artist Details
+          </AccordionSummary>
+          <AccordionDetails className="grid grid-cols-2 capitalize gap-x-10 gap-y-4 justify-between text-sm">
+            <span className="font-[600]  ">Name</span>
+            <span className="font-[400]">
+              {artist?.artistInfo?.firstName} {artist?.artistInfo?.lastName}
+            </span>
+            <span className="font-[600]  ">Email</span>
+            <span className="font-[400] lowercase">
+              {artist?.artistInfo?.email}
+            </span>
+            <span className="font-[600]  ">Invitation Status</span>
+            <span className="font-[400]">
+              {artist?.invitation?.status === "accepted"
+                ? "Accepted"
+                : artist?.invitation?.status === "sent"
+                ? "Pending"
+                : "Rejected"}
+            </span>
+            {artist?.invitation?.status !== "accepted" && (
+              <LoadingButton
+                loading={isLoading}
+                onClick={() => mutate(artist?.invitation?._id)}
+                className="col-span-2 text-center bg-primary text-white p-2"
+              >
+                Resend Invite
+              </LoadingButton>
+            )}
+          </AccordionDetails>
+        </Accordion>
+      )}
+
+      {/* Verification Details */}
+      <Accordion className="bg-white mt-4" defaultExpanded={false}>
+        <AccordionSummary
+          className="bg-primary px-2 text-[20px] font-[600] leading-[16px] py-2 text-white "
+          expandIcon={<MdOutlineExpandMore />}
+          aria-controls="panel3-content"
+          id="panel3-header"
+        >
+          Verification Details
+        </AccordionSummary>
+        <AccordionDetails className="grid grid-cols-2 capitalize gap-x-10 gap-y-4 justify-between text-sm">
+          {role == "artist" ? (
+            <ArtitstTable artist={artPiece.custodian[role]} />
+          ) : role == "broker" ? (
+            <BrokerTable broker={artPiece.custodian[role]} />
+          ) : role == "institution" ? (
+            <InstitutionTable data={artPiece.custodian[role]} />
+          ) : role == "collector" ? (
+            <CollectorTable data={artPiece.custodian[role]} />
+          ) : (
+            <></>
+          )}
+        </AccordionDetails>
+      </Accordion>
       {collaborators?.length > 0 && (
         <Stack py={4} spacing={4}>
           <h2 className="text-3xl font-bold">Collaborators</h2>

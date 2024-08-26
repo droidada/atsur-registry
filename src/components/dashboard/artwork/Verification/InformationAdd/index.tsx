@@ -40,9 +40,7 @@ const ArtVerificationInformation: React.FC<Props> = ({
   console.log(activeIndex, position);
 
   useEffect(() => {
-    console.log("key here is ", position);
     if (activeIndex === 2 && position === 2) {
-      console.log("it got here");
       setIsArtistBroker(true);
       setSelectedInformationAdd("broker");
     }

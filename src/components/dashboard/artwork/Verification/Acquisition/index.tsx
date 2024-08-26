@@ -58,7 +58,7 @@ const ArtVerificationAquisition: React.FC<Props> = ({
       <div className="flex gap-4 md:items-start justify-between items-center lg:flex-nowrap flex-wrap">
         {informationToAdd?.map((item, index) => (
           <div
-            className={`flex flex-col items-center gap-2 hover:border-2 duration-500 ease-in-out hover:border-primary hover:p-2 cursor-pointer ${
+            className={`flex flex-col items-center gap-2  duration-500 ease-in-out  cursor-pointer ${
               item.value === selectedInformationAdd &&
               "border-2 p-2 border-primary"
             }`}
@@ -72,7 +72,7 @@ const ArtVerificationAquisition: React.FC<Props> = ({
                   setIsArtistBroker(false);
                 }
               }}
-              className={`w-full max-w-[201px] h-[190px]  relative bg-secondary `}
+              className={`w-full max-w-[201px] h-[190px] group  relative bg-secondary `}
             >
               <Image
                 width={201}
@@ -82,7 +82,7 @@ const ArtVerificationAquisition: React.FC<Props> = ({
                 className="w-full h-full object-cover"
               />
             </div>
-            <p>{item?.title}</p>
+            <p className="group-hover:font-bold">{item?.title}</p>
           </div>
         ))}
       </div>
