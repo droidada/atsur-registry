@@ -73,7 +73,7 @@ const services = [
     title: "Due Diligence",
     image: "/images/homepage/diligence.png",
     color: "#fff",
-    link:"/"
+    link: "/",
   },
   {
     title: "Cataloging and Asset Management",
@@ -156,14 +156,14 @@ const Homepage = () => {
             />
             <div className="relative flex gap-10">
               <Button
-              onClick={()=>router.push("/explore")}
+                onClick={() => router.push("/explore")}
                 variant="contained"
                 className="bg-primary text-[15px] font-[400] w-[140.21px] h-[43.43px]  text-white"
               >
                 Explore
               </Button>
               <Button
-                onClick={()=>router.push("/dashboard/artworks/create")}
+                onClick={() => router.push("/dashboard/artworks/create")}
                 variant="contained"
                 className="bg-[#DEDEDE]  text-[15px] font-[400] w-[140.21px] h-[43.43px]  text-primary"
               >

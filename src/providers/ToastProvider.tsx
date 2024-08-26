@@ -1,6 +1,7 @@
 // ToastProvider.js
 import React, { createContext, useContext } from "react";
-import { Toaster, toast } from "react-hot-toast";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { IoClose } from "react-icons/io5";
 
 const ToastContext = createContext(null);
@@ -17,48 +18,28 @@ export const ToastProvider = ({ children }) => {
   return (
     <ToastContext.Provider value={toast}>
       {children}
-      <Toaster
+      <ToastContainer
         position="top-center"
-        // reverseOrder={false}
-        gutter={0}
-        containerClassName=""
-        containerStyle={{ width: "100%" }}
-        toastOptions={{
-          duration: Infinity,
-          className: "text-sm",
-          // style: {
-          //   border: "1px solid #A4442B",
-          //   padding: "16px",
-          //   color: "#A4442B",
-          //   borderRadius: 0,
-          //   width: "100%",
-          // },
+        autoClose={5000} // Adjusted duration for auto-dismissal
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        toastStyle={{
+          border: "none",
+          color: "#A4442B",
+          borderRadius: "8px",
         }}
-      >
-        {(toast) => <CustomToast t={toast} key={toast.id} />}
-      </Toaster>
+        closeButton={
+          <button aria-label="Close Toast" className="ml-4  text-red-500">
+            <IoClose />
+          </button>
+        }
+      />
     </ToastContext.Provider>
   );
 };
-
-const CustomToast = ({ t }) => (
-  <div
-    className={`${
-      t.visible ? "animate-sleek-in" : "animate-sleek-out"
-    } max-w-md w-full bg-white ${
-      t.type === "success"
-        ? "text-green-500"
-        : t.type === "error"
-        ? "text-red-500"
-        : "text-blue-500"
-    } shadow-md rounded-lg pointer-events-auto p-4 flex items-center text-sm justify-between `}
-  >
-    <span>{t.message}</span>
-    <button
-      onClick={() => toast.dismiss()}
-      className="ml-4 text-lg  text-red-500"
-    >
-      <IoClose />
-    </button>
-  </div>
-);
