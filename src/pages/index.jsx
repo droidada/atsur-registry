@@ -73,6 +73,7 @@ const services = [
     title: "Due Diligence",
     image: "/images/homepage/diligence.png",
     color: "#fff",
+    link: "/",
   },
   {
     title: "Cataloging and Asset Management",

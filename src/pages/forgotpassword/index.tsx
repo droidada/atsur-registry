@@ -12,7 +12,7 @@ import UnprotectedPage from "@/HOC/Unprotected";
 import AuthLayout from "@/components/layout/AuthLayout";
 import LoadingButton from "@/components/Form/LoadingButton";
 import { useMutation } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import { useToast } from "@/providers/ToastProvider";
 
 const pubAPI = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
@@ -35,6 +35,7 @@ function ForgotPassword() {
 
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const toast = useToast();
 
   const [error, setError] = useState(false);
   const { logIn, user, error: forgotPasswordError } = useAuthContext();

@@ -21,65 +21,45 @@ const ArtitstTable: React.FC<Props> = ({ artist }) => {
   const [text, setText] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
 
-  console.log(artist.storyTelling);
+  console.log(artist);
 
   return (
-    <TableContainer>
-      <Table sx={{ minWidth: 650 }}>
-        <TableHead>
-          <TableRow>
-            {[
-              "Story Behind Art Piece",
-              "Plan To Sell",
-              "Video",
-              "Notes",
-              "Agreement Document",
-            ].map((col) => (
-              <TableCell
-                key={`table-head-${col}`}
-                className="bg-primary text-white text-md font-[600]"
-              >
-                {col}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          <TableRow>
-            <TableCell>
-              <span
-                onClick={() => {
-                  setText(artist?.storyTelling);
-                  setOpenDialog(true);
-                }}
-              >
-                {artist?.storyTelling?.split(" ").splice(0, 5).join(" ")}
+    <>
+      <span className="font-[600]  ">Artwork Story</span>
+      <span className="font-[400]">{artist?.storyTelling}</span>
+      <span className="font-[600]  ">Plan to Sell</span>
+      <span className="font-[400]">{artist?.planToSell ? "Yes" : "No"}</span>
+      <span className="font-[600]  ">Video</span>
+      <span className="font-[400]">
+        <Link
+          href={artist?.creationVideo?.url}
+          download={true}
+          className="p-2 bg-secondary"
+        >
+          View Video
+        </Link>
+      </span>
+      {artist?.attachments?.map(
+        (item, index) =>
+          item && (
+            <>
+              <span className="font-[600]  ">
+                Agreement Document {index + 1}
               </span>
-            </TableCell>
-            <TableCell>{artist?.planToSell ? "Yes" : "No"}</TableCell>
-            <TableCell>
-              <Link
-                className="p-2 bg-secondary"
-                href={artist?.creationVideo?.url}
-                download
-              >
-                {artist?.creationVideo?.url?.split("/").pop()}
-              </Link>
-            </TableCell>
-            <TableCell>{artist?.notes}</TableCell>
-            <TableCell>
-              <span>{artist?.agreementDocument?.split("/").pop()}</span>
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
-        <DialogContentText>{text}</DialogContentText>
-        <DialogActions>
-          <Button onClick={() => setOpenDialog(false)}>Close</Button>
-        </DialogActions>
-      </Dialog>
-    </TableContainer>
+              <span className="font-[400]">
+                <Link
+                  href={item?.url}
+                  target="_blank"
+                  download={true}
+                  className="p-2 bg-secondary"
+                >
+                  View Document
+                </Link>
+              </span>
+            </>
+          ),
+      )}
+    </>
   );
 };
 

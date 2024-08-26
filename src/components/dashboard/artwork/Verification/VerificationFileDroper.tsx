@@ -1,7 +1,9 @@
 import { Dropzone, ExtFile } from "@dropzone-ui/react";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { FaFile } from "react-icons/fa";
+import ReactCrop, { Crop } from "react-image-crop";
+import "react-image-crop/dist/ReactCrop.css";
 
 interface Props {
   handleUpload: (files: ExtFile[]) => void;
@@ -38,6 +40,34 @@ const VerificationFileDroper: React.FC<Props> = ({
   isImage,
   buttonClassName,
 }) => {
+  const [crop, setCrop] = useState<Crop>();
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+
+  const getCroppedImg = (imageSrc: any, crop: Crop) => {
+    const canvas = document.createElement("canvas");
+    const scaleX = imageSrc.naturalWidth / imageSrc.width;
+    const scaleY = imageSrc.naturalHeight / imageSrc.height;
+    canvas.width = crop.width;
+    canvas.height = crop.height;
+    const ctx = canvas.getContext("2d");
+    ctx?.drawImage(
+      imageSrc,
+      crop.x * scaleX,
+      crop.y * scaleY,
+      crop.width * scaleX,
+      crop.height * scaleY,
+      0,
+      0,
+      crop.width,
+      crop.height,
+    );
+    return new Promise<Blob>((resolve) => {
+      canvas.toBlob((blob) => {
+        if (blob) resolve(blob as Blob);
+      }, "image/jpeg");
+    });
+  };
+
   return (
     <div className={`w-full flex flex-col gap-4 ${className}`}>
       <label
@@ -59,18 +89,31 @@ const VerificationFileDroper: React.FC<Props> = ({
         accept={accept || "image/*, video/*, application/pdf"}
         className={`p-4 h-full border-none  rounded-none ${
           !dropzoneClassName?.includes("bg") ? "bg-secondary-white" : ""
-        } gap-4 text-xs leading-[16px] relat flex flex-col items-center justify-center ${dropzoneClassName}`}
+        } gap-4 text-xs leading-[16px] relative flex flex-col items-center justify-center ${dropzoneClassName}`}
         maxFiles={maxFiles || 1}
         onChange={handleUpload}
       >
-        {isImage && previewImage ? (
-          <>
-            <Image
-              src={previewImage as string}
-              fill
-              className="w-full h-full object-cover"
-              alt=""
-            />
+        {isImage && (imageSrc || previewImage) ? (
+          <div className="relative  w-full ">
+            <ReactCrop
+              className=" w-full h-full"
+              crop={crop}
+              onChange={(c) => setCrop(c)}
+            >
+              <img
+                src={imageSrc || previewImage}
+                alt=""
+                style={{
+                  maxWidth: "100%",
+                  // width: "100%",
+                  maxHeight: "300px",
+                  margin: "auto",
+                  // position: "absolute",
+                  // top: 0,
+                  // left: 0,
+                }}
+              />
+            </ReactCrop>
             <div
               className={`flex flex-col items-center justify-center relative gap-4 ${previewHeightClassName}`}
             >
@@ -85,7 +128,7 @@ const VerificationFileDroper: React.FC<Props> = ({
                 Browse File
               </label>
             </div>
-          </>
+          </div>
         ) : (
           <div className="flex flex-col items-center justify-center gap-4">
             {fileName || defaultFile?.filename ? (
@@ -109,6 +152,9 @@ const VerificationFileDroper: React.FC<Props> = ({
         )}
         {/* <FileMosaic file={file} className="w-full h-full" /> */}
       </Dropzone>
+      {/* { isImage && imageSrc && (
+        <button onC></button>
+      )} */}
     </div>
   );
 };

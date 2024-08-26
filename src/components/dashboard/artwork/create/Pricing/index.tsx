@@ -175,6 +175,34 @@ const PricingForm: React.FC<Props> = ({
               helperText={errors["price"] ? errors["price"].message : ""}
               control={control}
             />
+            <SelectField
+              label="Currency"
+              name="currency"
+              // @ts-ignore
+              sx={{
+                "& fieldset": {
+                  background: "#DCDCDC",
+                  border: "none",
+                  color: "black",
+                },
+
+                // borderColor: "black",
+              }}
+              control={control}
+              fullWidth
+              helperText={errors["medium"] ? errors["medium"].message : ""}
+              error={!!errors["medium"]}
+            >
+              {["Dollar", "Pounds", "Euro", "Naira"].map((medium) => (
+                <MenuItem
+                  key={medium}
+                  value={medium}
+                  className="text-xm capitalize"
+                >
+                  {medium}
+                </MenuItem>
+              ))}
+            </SelectField>
             <div className="flex gap-4 items-center">
               {["fixed", "minimum-price"].map((item) => (
                 <div key={item} className="flex gap-2 items-center">

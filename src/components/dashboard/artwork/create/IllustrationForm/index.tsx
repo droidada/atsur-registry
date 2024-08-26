@@ -166,20 +166,20 @@ const IllustrationForm: React.FC<Props> = ({
         />
         <div className="flex gap-4  items-start">
           <InputField
-            tooltipProps={{
-              children: (
-                <div className="bg-white">
-                  <Image
-                    src="/artsur-logo.png"
-                    alt="Logo"
-                    width={100}
-                    height={100}
-                  />
-                </div>
-              ),
-            }}
+            // tooltipProps={{
+            //   children: (
+            //     <div className="bg-white">
+            //       <Image
+            //         src="/artsur-logo.png"
+            //         alt="Logo"
+            //         width={100}
+            //         height={100}
+            //       />
+            //     </div>
+            //   ),
+            // }}
             hasInfo
-            // info="Subject matter of the artpiece"
+            info="Subject matter of the artpiece"
             label="Subject Matter"
             id="subjectMatter"
             placeholder=""
@@ -230,7 +230,7 @@ const IllustrationForm: React.FC<Props> = ({
         <div className="flex gap-4 items-center">
           <InputField
             hasInfo
-            info="Height of the artwork. Must be in inches"
+            info="1 inches = 2.54cm. 1 inches = 25.4mm"
             label="Height [in inches]"
             id="height"
             type="number"
@@ -247,7 +247,7 @@ const IllustrationForm: React.FC<Props> = ({
           />
           <InputField
             hasInfo
-            info="Width of the artwork. Must be in inches"
+            info="1 inches = 2.54cm. 1 inches = 25.4mm"
             label="Width [in inches]"
             id="width"
             type="number"
@@ -265,7 +265,7 @@ const IllustrationForm: React.FC<Props> = ({
           <InputField
             label="Depth [in inches]"
             hasInfo
-            info="Depth of the artwork. Must be in inches"
+            info="1 inches = 2.54cm. 1 inches = 25.4mm"
             id="depth"
             type="number"
             placeholder=""
