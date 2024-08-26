@@ -16,7 +16,6 @@ interface Props {
   isError: boolean;
 }
 import moment from "moment";
-import Image from "next/image";
 import NoData from "../NoData";
 import TableLoading from "../loadingComponents/TableLoading";
 import { useRouter } from "next/router";
@@ -33,7 +32,7 @@ const OrganizationListView: React.FC<Props> = ({
     return <TableLoading isBlackHeader />;
   }
 
-  if (organizations.length === 0) {
+  if (organizations?.length === 0) {
     return <NoData text="We have nothing in your organizations" />;
   }
 
@@ -55,7 +54,7 @@ const OrganizationListView: React.FC<Props> = ({
           </TableRow>
         </TableHead>
         <TableBody className="bg-white text-black border-[1px] border-primary ">
-          {organizations.map((organization) => (
+          {organizations?.map((organization) => (
             <TableRow
               onClick={() => router.push(`/${baseUrl}/${organization?._id}`)}
               className="bg-white text-black cursor-pointer   px-3 hover:bg-secondary"

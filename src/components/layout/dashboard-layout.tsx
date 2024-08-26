@@ -18,7 +18,7 @@ const DashboardLayout = ({ children }) => {
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-6">
             <div className="flex flex-col gap-4 py-10 mt-20">
               <Divider />
-              <Link href="/wallet/${user.wallets[0].address---}">
+              <Link href={``}>
                 <p style={{ padding: 5 }}>Wallet</p>
               </Link>
               <Divider />

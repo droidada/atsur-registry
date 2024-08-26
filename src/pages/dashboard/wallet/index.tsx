@@ -1,16 +1,16 @@
-import WalletPages from "@/HOC/WalletPages";
-import WalletActivitiesSection from "@/components/dashboard/wallet/dashboard/activities";
-import TokenSection from "@/components/dashboard/wallet/dashboard/tokenSection";
-import axios from "@/lib/axios";
-import { useToast } from "@/providers/ToastProvider";
-import { Button, Card, Stack } from "@mui/material";
-import { getToken } from "next-auth/jwt";
 import React, { useEffect } from "react";
+import { getToken } from "next-auth/jwt";
 import { FaEthereum } from "react-icons/fa";
 import { MdOutlineChevronRight } from "react-icons/md";
 import { NumericFormat } from "react-number-format";
+import axios from "@/lib/axios";
 import { Transak } from "@transak/transak-sdk";
 import { defaultTransakConfig } from "@/lib/utils/transkConfig";
+import WalletPages from "@/HOC/WalletPages";
+import WalletActivitiesSection from "@/components/dashboard/wallet/dashboard/activities";
+import TokenSection from "@/components/dashboard/wallet/dashboard/tokenSection";
+import { useToast } from "@/providers/ToastProvider";
+import { Button, Card, Stack } from "@mui/material";
 
 export const getServerSideProps = async ({ req, params }) => {
   try {

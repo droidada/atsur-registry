@@ -77,11 +77,11 @@ export const dashboardSidebarMenu = [
         icon: "/images/dashboard-icons/collection-icon.png",
         link: "/dashboard/collections",
       },
-      {
-        title: "Deals",
-        icon: "/images/dashboard-icons/deal-icon.png",
-        link: "/dashboard/Deals",
-      },
+      // {
+      //   title: "Deals",
+      //   icon: "/images/dashboard-icons/deal-icon.png",
+      //   link: "/dashboard/Deals",
+      // },
     ],
   },
   {
@@ -92,11 +92,11 @@ export const dashboardSidebarMenu = [
         icon: "/images/dashboard-icons/organization-icon.png",
         link: "/dashboard/organizations",
       },
-      {
-        title: "Wishlist",
-        icon: "/images/dashboard-icons/wishlist.png",
-        link: "/dashboard/Wishlist",
-      },
+      // {
+      //   title: "Wishlist",
+      //   icon: "/images/dashboard-icons/wishlist.png",
+      //   link: "/dashboard/Wishlist",
+      // },
     ],
   },
   {
