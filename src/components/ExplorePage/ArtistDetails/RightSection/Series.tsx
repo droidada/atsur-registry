@@ -10,6 +10,7 @@ interface Props {
 const Series: React.FC<Props> = ({ artistId }) => {
   const { data, isLoading } = useQuery({
     queryFn: () => axios.get(`/public/series/${artistId}`),
+    refetchOnWindowFocus: false,
   });
 
   console.log(data);

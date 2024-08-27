@@ -48,8 +48,13 @@ function Collections() {
     data: collections,
     isFetching,
     isError,
-  } = useQuery(["collections"], () =>
-    axiosFetch.get("/collection/user").then((res) => res.data.collections),
+  } = useQuery(
+    ["collections"],
+    () =>
+      axiosFetch.get("/collection/user").then((res) => res.data.collections),
+    {
+      refetchOnWindowFocus: false,
+    },
   );
 
   console.log(collections);

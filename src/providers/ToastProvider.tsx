@@ -30,15 +30,26 @@ export const ToastProvider = ({ children }) => {
         pauseOnHover
         theme="light"
         toastStyle={{
-          border: "none",
-          color: "#A4442B",
-          borderRadius: "8px",
+          border: "1px solid #e0e0e0",
+          backgroundColor: "#fff",
+          color: "#333",
+          boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+          borderRadius: "12px",
+          fontWeight: "500",
+          padding: "16px",
+          width: "400px",
+          minHeight: "auto",
         }}
+        bodyClassName="text-sm leading-relaxed"
         closeButton={
-          <button aria-label="Close Toast" className="ml-4  text-red-500">
+          <button
+            aria-label="Close Toast"
+            className="ml-4 text-gray-500 hover:text-gray-800"
+          >
             <IoClose />
           </button>
         }
+        icon={<span className="text-xl text-black">ℹ️</span>} // Custom icon example
       />
     </ToastContext.Provider>
   );

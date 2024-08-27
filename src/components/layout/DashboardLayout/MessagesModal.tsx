@@ -21,7 +21,7 @@ const MessagesModal: React.FC<Props> = ({ open, onClose }) => {
   } = useQuery({
     queryFn: () => axiosAuth.get("/conversation/user-conversations"),
     queryKey: ["/conversation/user-conversations"],
-    // refetchOnWindowFocus: false,
+    refetchOnWindowFocus: false,
   });
 
   console.log(messages?.data);

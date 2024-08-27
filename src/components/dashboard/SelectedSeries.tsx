@@ -53,6 +53,7 @@ const SelectedSeries: React.FC<Props> = ({
     () => axiosFetch.get(`/art-series?q=${debouncedQuery}`),
 
     {
+      refetchOnWindowFocus: false,
       // enabled: debouncedQuery.length > 0,
       // staleTime: 1000 * 60 * 60 * 24,
     },

@@ -45,8 +45,6 @@ const DashboardContextProvider = ({ children }: Props) => {
       },
       queryKey: ["notifications"],
       refetchOnWindowFocus: false,
-      refetchInterval: 30000, // refetch after 30s
-      refetchIntervalInBackground: true,
     });
 
   useEffect(() => {

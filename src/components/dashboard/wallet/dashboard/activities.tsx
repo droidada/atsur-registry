@@ -13,6 +13,7 @@ const WalletActivitiesSection: React.FC<Props> = ({ activities }) => {
 
   const { data, isLoading } = useQuery({
     queryFn: () => axiosAuth.get("/transaction"),
+    refetchOnWindowFocus: false,
   });
 
   console.log(data);

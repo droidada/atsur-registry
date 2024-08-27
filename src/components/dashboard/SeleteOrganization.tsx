@@ -65,6 +65,7 @@ const SelectOrganization: React.FC<Props> = ({
             .then((res) => res.data)
         : axiosFetch.get(`/org/list?q=${debouncedQuery}`),
     {
+      refetchOnWindowFocus: false,
       // enabled: debouncedQuery.length > 0,
       // staleTime: 1000 * 60 * 60 * 24,
     },

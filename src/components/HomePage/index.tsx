@@ -15,7 +15,7 @@ const HomePage: React.FC<Props> = ({ pageData }) => {
     <div className="page-container py-12">
       <HeroSection />
       <CategorySection categories={pageData.allPieces[0].categories} />
-      <TopArtists artists={pageData.artists} />
+      {pageData.artists && <TopArtists artists={pageData.artists} />}
       <Featured featured={pageData.artPieces} />
       <TopCollection artpieces={pageData.artPieces} />
       <JoinUs />
