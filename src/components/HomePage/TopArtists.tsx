@@ -21,7 +21,6 @@ const TopArtists: React.FC<Props> = ({ artists }) => {
       <Stack
         direction={{ xs: "column", md: "row" }}
         alignItems={{ xs: "center", md: "stretch" }}
-        justifyContent={"space-between"}
         spacing={2}
       >
         {artists.map((artist, index) => (

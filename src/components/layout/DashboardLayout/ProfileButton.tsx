@@ -33,7 +33,7 @@ const ProfileButton: React.FC<ProfileButtonProps> = ({ user }) => {
         <Avatar className="w-[25px] h-[25px] " src={user?.avatar} />
         <span className="text-[19px] md:block hidden leading-[16px] capitalize font-[600]">
           {/* @ts-ignore */}
-          {user?.firstName} {user?.lastName}.
+          {user?.firstName} {user?.lastName ? user?.lastName[0] : ""}.
         </span>
       </Button>
       <Menu

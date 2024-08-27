@@ -10,6 +10,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { DefaultSeo } from "next-seo";
 import "react-tooltip/dist/react-tooltip.css";
 import SEO from "../../next-seo.config";
+import { useState, useEffect } from "react";
 
 import "@/styles/globals.css";
 
@@ -19,6 +20,7 @@ import { ProtectedLayout } from "@/components/protected-layout";
 import Router from "next/router";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
+import LoadingScreen from "../components/layout/LoadingScreen";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -40,6 +42,23 @@ export default function NextWeb3App({
   Component,
   pageProps: { session, ...pageProps },
 }: CustomAppProps) {
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const handleStart = () => setLoading(true);
+    const handleComplete = () => setLoading(false);
+
+    Router.events.on("routeChangeStart", handleStart);
+    Router.events.on("routeChangeComplete", handleComplete);
+    Router.events.on("routeChangeError", handleComplete);
+
+    return () => {
+      Router.events.off("routeChangeStart", handleStart);
+      Router.events.off("routeChangeComplete", handleComplete);
+      Router.events.off("routeChangeError", handleComplete);
+    };
+  }, []);
+
   return (
     <PasswordContextProvider>
       <SessionProvider session={session}>
@@ -50,6 +69,7 @@ export default function NextWeb3App({
               <ThemeProvider>
                 <ToastProvider>
                   <DefaultSeo {...SEO} />
+                  <LoadingScreen loading={loading} />
                   {Component.requireAuth ? (
                     <ProtectedLayout>
                       {/* <AddClassBody /> */}

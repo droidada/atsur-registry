@@ -54,6 +54,7 @@ const FinalPreview: React.FC<Props> = ({
   } = useQuery({
     queryKey: ["art-piece", artPiece?.artPiece?._id],
     queryFn: () => axiosAuth.get(`/art-piece/${artPiece?.artPiece?._id}`),
+    refetchOnWindowFocus: false,
   });
 
   const [viewPdf, setViewPdf] = useState(false);

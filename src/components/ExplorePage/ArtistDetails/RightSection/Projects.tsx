@@ -32,6 +32,7 @@ const Projects: React.FC<Props> = ({ artistId }) => {
       session?.user?._id == artistId
         ? axiosAuth.get(`/art-piece/creator?page=${currentPage}`)
         : axios.get(`/public/artist/artpiece/${artistId}?page=${currentPage}`),
+    refetchOnWindowFocus: false,
   });
 
   console.log(projectsData?.data);
