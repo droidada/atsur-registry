@@ -7,7 +7,12 @@ import HeroImage3 from "../../../public/images/hero-join/3.png";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-const HeroSection = () => {
+
+interface Props {
+  heroImages: string[];
+}
+
+const HeroSection: React.FC<Props> = ({ heroImages }) => {
   const router = useRouter();
   const { status } = useSession();
   return (
@@ -59,9 +64,15 @@ const HeroSection = () => {
         </Stack>
       </Stack>
       <div className=" relative hidden  md:flex">
-        <Image src={HeroImage1} width={314} height={450} alt="" className=" " />
         <Image
-          src={HeroImage2}
+          src={(heroImages?.length > 0 && heroImages[0]) || HeroImage1}
+          width={314}
+          height={450}
+          alt=""
+          className=" "
+        />
+        <Image
+          src={(heroImages?.length > 1 && heroImages[1]) || HeroImage2}
           width={239}
           height={313}
           alt=""

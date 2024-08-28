@@ -122,27 +122,12 @@ const Header: React.FC<Props> = ({ setHideSidebar }) => {
         </div>
 
         <Stack direction="row" alignItems="center" spacing={1}>
-          {/* <span className="w-[24px] h-[24px] rounded-full bg-primary"></span>
-          <div className="w-[24px] h-[24px] relative rounded-full bg-primary text-secondary md:grid   hidden place-items-center">
-            <BsFillCreditCard2BackFill size={10} />
-            <span
-              style={{ aspectRatio: "1/1" }}
-              className="absolute rounded-full w-fit  p-[2px] grid place-items-center bg-primary-green text-primary -top-1 -right-1 text-[10px] "
-            >
-              {credits?.length}
-            </span>
-          </div> */}
           <IconButton
             aria-label="messages"
             onClick={() => setOpenMesageModal(true)}
             className="w-[24px] h-[24px] relative hover:scale-95 cursor-pointer rounded-full bg-primary text-secondary grid place-items-center"
           >
             <MdOutlineMessage size={10} />
-            {/* {notifications?.length > 0 && (
-              <div className="bg-[#FFC700] grid place-items-center absolute -left-1 text-primary w-[10px] h-[10px] -top-1   text-[10px] rounded-full">
-
-              </div>
-            )} */}
           </IconButton>
           <Link
             href="/dashboard/notifications
@@ -161,11 +146,6 @@ const Header: React.FC<Props> = ({ setHideSidebar }) => {
           <ProfileButton user={data?.user} />
         </Stack>
       </Stack>
-
-      {/* <MessagesModal
-        open={openMesagesModal}
-        onClose={() => setOpenMesageModal(false)}
-      /> */}
 
       <SwipeableDrawer
         anchor="left"

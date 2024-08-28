@@ -74,12 +74,16 @@ const SideBar: React.FC<Props> = ({ hideSidebar, isMobile, isAdmin }) => {
                       className="text-[17px] cursor-pointer leading-[16px] flex gap-3 items-center "
                       key={`button-${menu.title}`}
                     >
-                      <Image
-                        src={menu?.icon}
-                        alt={menu?.title}
-                        width={18}
-                        height={18}
-                      />
+                      {typeof menu.icon === "string" ? (
+                        <Image
+                          src={menu?.icon}
+                          alt={menu?.title}
+                          width={18}
+                          height={18}
+                        />
+                      ) : (
+                        <menu.icon size={18} />
+                      )}
                       <span>{menu?.title}</span>
                     </h4>
                   ) : (
@@ -92,12 +96,16 @@ const SideBar: React.FC<Props> = ({ hideSidebar, isMobile, isAdmin }) => {
                           : "font-[300]"
                       }`}
                     >
-                      <Image
-                        src={menu?.icon}
-                        alt={menu?.title}
-                        width={18}
-                        height={18}
-                      />
+                      {typeof menu.icon === "string" ? (
+                        <Image
+                          src={menu?.icon}
+                          alt={menu?.title}
+                          width={18}
+                          height={18}
+                        />
+                      ) : (
+                        <menu.icon size={18} />
+                      )}
                       {menu?.title}
                     </Link>
                   ),
