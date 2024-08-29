@@ -43,7 +43,6 @@ const AttachmentPreviewer: React.FC<Props> = ({ open, onClose, fileUrl }) => {
   const fetFileType = () => {
     const type = getFileType(fileUrl);
 
-
     setFileType(type);
   };
 

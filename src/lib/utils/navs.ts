@@ -3,7 +3,6 @@ import { CiImageOn } from "react-icons/ci";
 import { FiUsers } from "react-icons/fi";
 import { TbCategory } from "react-icons/tb";
 
-
 export const landingPageNavMenu = [
   {
     title: "Home",

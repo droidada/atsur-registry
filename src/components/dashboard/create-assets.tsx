@@ -38,7 +38,6 @@ export default function CreateAssets({ nextPage = (x) => {} }) {
       const result = await axiosAuth.post("/art-piece/add-assets", formData);
       //setPreviewImg(result.data.imageName)
 
-
       setLoading(false);
       nextPage(13);
       //  router.replace("/dashboard");

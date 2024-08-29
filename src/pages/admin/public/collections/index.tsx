@@ -175,7 +175,6 @@ const AddCollectionDialog: React.FC<Props> = ({
     });
 
     handleClose();
-
   };
 
   return (

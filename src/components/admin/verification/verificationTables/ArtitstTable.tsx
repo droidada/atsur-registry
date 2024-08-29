@@ -21,8 +21,6 @@ const ArtitstTable: React.FC<Props> = ({ artist }) => {
   const [text, setText] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
 
-
-
   return (
     <>
       <span className="font-[600]  ">Artwork Story</span>

@@ -95,8 +95,6 @@ const ExploreLeft: React.FC<Props> = ({ setQuery }) => {
   };
 
   const handlePriceRangeChange = (range: string) => {
-
-
     if (priceRange === range) {
       setPriceRange(null);
       setQuery((prev) => ({

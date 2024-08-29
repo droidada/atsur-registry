@@ -14,7 +14,6 @@ interface Props {
   data: any;
 }
 const InstitutionTable: React.FC<Props> = ({ data }) => {
-
   return (
     <>
       <span className="font-[600]  ">Type</span>

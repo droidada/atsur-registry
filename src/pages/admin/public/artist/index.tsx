@@ -157,8 +157,6 @@ const TopArtistModal: React.FC<Props> = ({
     enabled: Boolean(debouncedQuery),
   });
 
-
-
   const handleSubmit = () => {
     setTopArtist((prev) => {
       const data = prev;

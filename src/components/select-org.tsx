@@ -95,7 +95,6 @@ export default function SelectOrg({
 
         setInviteOrg(false);
       } else {
-
       }
     } catch (error) {}
   };
@@ -106,11 +105,9 @@ export default function SelectOrg({
       const { data: result } = isUserOrg
         ? await axiosFetch.get(`/org/user-orgs?q=${query}`)
         : await axiosFetch.get(`/org/list?q=${query}`);
-     
 
       setOrganizations(result.data);
     } catch (error) {
-      
     } finally {
       setLoading(false);
     }
@@ -119,11 +116,8 @@ export default function SelectOrg({
   const debounceFetch = debounce(fetchOrgs, 1000);
 
   const handleOrgChange = (e) => {
-  
     debounceFetch(e.target.value);
   };
-
-
 
   return (
     <div className="">
@@ -137,7 +131,6 @@ export default function SelectOrg({
             fullWidth
             options={organizations}
             onChange={(event, value) => {
-            
               setSelectedOrg({
                 _id: value?._id,
                 name: value?.name,

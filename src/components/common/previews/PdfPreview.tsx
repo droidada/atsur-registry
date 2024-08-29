@@ -5,7 +5,6 @@ interface Props {
   className?: string;
 }
 const PdfPreview: React.FC<Props> = ({ file }) => {
-
   return (
     <div className={`max-w-[450px] w-full h-[250px]`}>
       <Document className={"w-full h-full overflow-y-auto"} file={file}>

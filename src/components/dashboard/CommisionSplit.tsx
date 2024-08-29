@@ -106,7 +106,6 @@ const CommissionSplit: React.FC<Props> = ({
   };
 
   const handleRoleChange = (user: UserInfo, isMainArtist: boolean) => {
-
     if (isMainArtist) {
       setSelectedUsers((prev) =>
         prev.map((item) =>
@@ -123,7 +122,6 @@ const CommissionSplit: React.FC<Props> = ({
     }
   };
 
-
   const handleCustomRoleChange = (user: UserInfo, customRole: string) => {
     setSelectedUsers((prev) =>
       prev.map((item) =>
@@ -132,7 +130,6 @@ const CommissionSplit: React.FC<Props> = ({
     );
     setRoleInputs((prev) => ({ ...prev, [user.email]: customRole }));
   };
-
 
   return (
     <div>

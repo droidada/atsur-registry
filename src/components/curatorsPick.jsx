@@ -50,7 +50,6 @@ import Link from "next/link";
 //   },
 // ];
 const CuratorsPick = ({ artist_id, title, length, data }) => {
-
   const artist_data = data?.directus_users_id;
   return (
     <div>

@@ -62,7 +62,6 @@ const InviteArtist = ({
   const toast = useToast();
   const [selectingUserLoading, setSelectingUserLoading] = useState(false);
 
-
   type InviteArtistInput = TypeOf<typeof inviteArtistSchema>;
   const {
     register,
@@ -161,7 +160,6 @@ const InviteArtist = ({
           <Autocomplete
             multiple
             onChange={(event: any, newValue: any) => {
-             
               handleSelectUser(newValue);
               // setListedArtists([...new Set([...listedArtists, ...newValue])]);
             }}

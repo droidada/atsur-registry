@@ -21,7 +21,6 @@ export const ProtectedLayout = ({ children }: Props): JSX.Element => {
     // if the user is not authorized, redirect to the login page
     // with a return url to the current page
     if (unAuthorized) {
-
       router.push({
         pathname: "/login",
         query: { returnUrl: router.asPath },
