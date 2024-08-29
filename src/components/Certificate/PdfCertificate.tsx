@@ -14,11 +14,11 @@ interface Props {
 
 const PdfCertificate = forwardRef(
   ({ verification, signatureImage, qrImage, tokenized }: Props, ref: any) => {
-    console.log(verification?.artPiece);
+
 
     const role = verification.custodian.role;
 
-    console.log(role);
+
 
     return (
       <div ref={ref} className="w-[750px]  h-fit hidden  certificate">

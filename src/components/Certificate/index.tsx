@@ -15,10 +15,10 @@ const ArtPieceCertificate: React.FC<Props> = ({
   qrImage,
   tokenized,
 }) => {
-  console.log(verification?.artPiece);
+
   const role = verification.custodian.role;
 
-  console.log(verification?.custodian[role]?.artist?.artistInfo.firstName);
+
 
   return (
     <div className="bg-[#FFFCF2] w-full  flex flex-col min-w-[585px] max-w-[1005px] justify-between h-fit mb-5 border-x-[1px] ">

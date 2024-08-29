@@ -1,5 +1,6 @@
 import { BsFillCollectionFill } from "react-icons/bs";
 import { CiImageOn } from "react-icons/ci";
+import { FiUsers } from "react-icons/fi";
 import { TbCategory } from "react-icons/tb";
 
 
@@ -163,6 +164,11 @@ export const adminDashboardSidebarMenu = [
         title: "Top Collection",
         icon: BsFillCollectionFill,
         link: "/admin/public/collections",
+      },
+      {
+        title: "Top Artist",
+        icon: FiUsers,
+        link: "/admin/public/artist",
       },
       {
         title: "Top Categories",

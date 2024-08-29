@@ -73,7 +73,7 @@ const AddArtworkMeta = ({
   const onSubmitHandler: SubmitHandler<ArtworkMetaInput> = async (values) => {
     setLoading(true);
     try {
-      console.log(values);
+
       //   const res = await axiosAuth.patch("user/me", { ...values });
       //   console.log(res?.data);
       setActiveStep(1);
@@ -84,7 +84,7 @@ const AddArtworkMeta = ({
     }
     setLoading(false);
   };
-  console.log("huston do we have a user?? ", user);
+
 
   return (
     <Box

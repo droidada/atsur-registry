@@ -68,7 +68,7 @@ export default function SelectSeries({
 
       const { data } = await axiosFetch.post("/art-series/", formData);
 
-      console.log(data);
+ ;
       setImageUrl(null);
       setFormInfo({
         title: "",
@@ -76,7 +76,7 @@ export default function SelectSeries({
       });
       setInviteOrg(false);
     } catch (error) {
-      console.log(error);
+
       if (axiosCheck.isAxiosError(error)) {
         toast.error(error.response.data.message);
       } else {
@@ -94,7 +94,7 @@ export default function SelectSeries({
 
       setSeries(result.data);
     } catch (error) {
-      console.log(error);
+
     } finally {
       setLoading(false);
     }

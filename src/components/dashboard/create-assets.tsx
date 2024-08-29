@@ -28,7 +28,7 @@ export default function CreateAssets({ nextPage = (x) => {} }) {
       }
 
       setLoading(true);
-      console.log(values);
+
       const formData = new FormData();
       formData.append("artworkId", "65c1841f4294d10812426b3d");
       formData.append("fileLeft", leftImg);
@@ -37,7 +37,7 @@ export default function CreateAssets({ nextPage = (x) => {} }) {
 
       const result = await axiosAuth.post("/art-piece/add-assets", formData);
       //setPreviewImg(result.data.imageName)
-      console.log("result here is ", result.data);
+
 
       setLoading(false);
       nextPage(13);

@@ -106,7 +106,7 @@ const CommissionSplit: React.FC<Props> = ({
   };
 
   const handleRoleChange = (user: UserInfo, isMainArtist: boolean) => {
-    console.log(isMainArtist);
+
     if (isMainArtist) {
       setSelectedUsers((prev) =>
         prev.map((item) =>
@@ -123,7 +123,7 @@ const CommissionSplit: React.FC<Props> = ({
     }
   };
 
-  console.log(roleInputs);
+
   const handleCustomRoleChange = (user: UserInfo, customRole: string) => {
     setSelectedUsers((prev) =>
       prev.map((item) =>
@@ -133,7 +133,7 @@ const CommissionSplit: React.FC<Props> = ({
     setRoleInputs((prev) => ({ ...prev, [user.email]: customRole }));
   };
 
-  console.log(selectedUsers);
+
   return (
     <div>
       <label className="font-semibold text-[17px] leading-[17px] mb-7">

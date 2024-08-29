@@ -10,7 +10,7 @@ interface Props {
 const LandingPageLayout: React.FC<Props> = ({ children }) => {
   const router = useRouter();
   const pathname = router.pathname;
-  console.log(pathname);
+
   return (
     <div className="relative">
       <LandingPageHeader />

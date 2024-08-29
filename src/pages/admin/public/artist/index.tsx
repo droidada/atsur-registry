@@ -5,18 +5,17 @@ import useDebounce from "@/hooks/useDebounce";
 import axios from "@/lib/axios";
 import { useToast } from "@/providers/ToastProvider";
 import {
+  Avatar,
   Button,
   CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  Pagination,
   TextField,
 } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getToken } from "next-auth/jwt";
-import Image from "next/image";
 import React, { useState } from "react";
 
 export const getServerSideProps = async ({ req, query }) => {
@@ -26,13 +25,11 @@ export const getServerSideProps = async ({ req, query }) => {
       req,
       secret: process.env.NEXTAUTH_SECRET,
     });
-    const res = await axios.get(`/public/top-collections`, {
+    const res = await axios.get(`/public/top-artists`, {
       headers: { authorization: `Bearer ${token?.accessToken}` },
     });
 
-    console.log(res?.data);
-
-    return { props: { topCollections: res.data.topCollections } };
+    return { props: { topArtists: res?.data?.topArtist } };
   } catch (error) {
     console.error("error here looks like ", error);
     if (error?.response?.status === 404) {
@@ -43,23 +40,25 @@ export const getServerSideProps = async ({ req, query }) => {
     throw new Error(error);
   }
 };
-const PublicCollection = ({ topCollections }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+
+const PublicArtist = ({ topArtists }) => {
+  const [artists, setArtists] = useState<
+    {
+      firstName: string;
+      lastName: string;
+      id: string;
+      avatar: string;
+    }[]
+  >(topArtists || []);
   const [openModal, setOpenModal] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const toast = useToast();
   const axiosAuth = useAxiosAuth();
-  const [collections, setCollections] = useState<
-    {
-      title: string;
-      image: string;
-      _id: string;
-    }[]
-  >(topCollections || []);
 
   const { mutate, isLoading } = useMutation({
     mutationFn: (data) =>
-      axiosAuth.post("/public/top-collections", {
-        collections: data,
+      axiosAuth.post("/public/top-artists", {
+        artists: data,
       }),
     onError: (error: any) => {
       toast.error(
@@ -74,54 +73,53 @@ const PublicCollection = ({ topCollections }) => {
   });
 
   const handleSubmit = () => {
-    if (collections.every((item) => !item._id)) {
+    if (artists.every((item) => !item.id)) {
       toast.error("Please add all collections");
       return;
     }
     // @ts-ignore
-    mutate(collections.map((item) => item._id));
+    mutate(artists.map((item) => item.id));
   };
 
   return (
     <AdminDashboardLayout>
-      <h1 className="text-2xl font-bold">Top Collections</h1>
+      <h1 className="text-2xl font-bold">Top Artist</h1>
 
-      <form className="grid mt-4 lg:grid-cols-2  gap-2">
-        {[...Array(4)].map((item, index) => (
-          <div
-            onClick={() => {
-              setCurrentIndex(index);
-              setOpenModal(true);
-            }}
-            key={`top-collection-${index}`}
-            className="border-2 hover:shadow-md p-2 flex items-center flex-col cursor-pointer rounded-md max-w-[250px] w-full  "
-          >
-            {collections[index]?.image && (
-              <Image
-                src={collections[index]?.image || ""}
-                alt=""
-                width={200}
-                height={200}
+      <form className=" mt-4 ">
+        <div className="grid  md:grid-cols-2  lg:grid-cols-4 gap-4">
+          {[...Array(10)].map((item, index) => (
+            <div
+              onClick={() => {
+                setOpenModal(true);
+                setCurrentIndex(index);
+              }}
+              key={`artist-collection-${index}`}
+              className="flex shadow-md p-2 cursor-pointer rounded-md gap-2  items-center flex-col"
+            >
+              <Avatar
+                src={artists[index]?.avatar}
+                className="w-20 h-20  hover:shadow-md  "
               />
-            )}
-            <p className="text-sm font-semibold mt-2">
-              {collections[index]?.title}
-            </p>
-          </div>
-        ))}
+              <p className="text-sm font-semibold">
+                {artists[index]?.firstName} {artists[index]?.lastName}
+              </p>
+            </div>
+          ))}
+        </div>
 
-        <div className="col-span-2 w-full mt-4  flex justify-end">
+        <div className="flex justify-end mt-4">
           <LoadingButton
             loading={isLoading}
             onClick={handleSubmit}
             className=" bg-primary text-white"
           >
-            Submit
+            Update
           </LoadingButton>
         </div>
       </form>
-      <AddCollectionDialog
-        setCollections={setCollections}
+
+      <TopArtistModal
+        setTopArtist={setArtists}
         index={currentIndex}
         open={openModal}
         handleClose={() => setOpenModal(false)}
@@ -130,71 +128,62 @@ const PublicCollection = ({ topCollections }) => {
   );
 };
 
-export default PublicCollection;
+export default PublicArtist;
 
 interface Props {
   open: boolean;
   handleClose: () => void;
-  setCollections: React.Dispatch<
-    React.SetStateAction<
-      {
-        title: string;
-        image: string;
-      }[]
-    >
-  >;
+  setTopArtist: React.Dispatch<React.SetStateAction<any[]>>;
   index: number;
 }
-const AddCollectionDialog: React.FC<Props> = ({
+
+const TopArtistModal: React.FC<Props> = ({
   open,
   handleClose,
-  setCollections,
+  setTopArtist,
   index,
 }) => {
   const toast = useToast();
   const axiosAuth = useAxiosAuth();
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounce(query, 500);
-  const [selectedCollection, setSelectedCollection] = useState<any>(null);
+  const [selectedArtist, setSelectedArtist] = useState<any>(null);
 
-  const { data: collection, isLoading } = useQuery({
-    queryKey: ["top-collections"],
+  const { data: artists, isLoading } = useQuery({
+    queryKey: ["top-artist"],
     queryFn: async () =>
-      axiosAuth.get(
-        `/collection/list?title[$regex]=${debouncedQuery}&title[$options]=i`,
-      ),
+      axiosAuth.get(`/user/list?search=${debouncedQuery}&limit=10&page=1`),
 
     enabled: Boolean(debouncedQuery),
   });
 
+
+
   const handleSubmit = () => {
-    setCollections((prev) => {
+    setTopArtist((prev) => {
       const data = prev;
-      data[index] = selectedCollection;
+      data[index] = selectedArtist;
       return data;
     });
 
     handleClose();
-
   };
 
   return (
     <Dialog
-      fullWidth
-      maxWidth="sm"
       PaperProps={{
         className: "bg-white py-8 max-w-[550px] w-full px-6",
       }}
       open={open}
       onClose={handleClose}
     >
-      <DialogTitle>Add Collection</DialogTitle>
+      <DialogTitle>Add Artist</DialogTitle>
       <DialogContent dividers>
         <TextField
           className="w-full"
           fullWidth
           variant="outlined"
-          placeholder="Search collections..."
+          placeholder="Search Artist..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
@@ -204,20 +193,20 @@ const AddCollectionDialog: React.FC<Props> = ({
               <CircularProgress color="inherit" size={20} />
             </>
           ) : (
-            <div className="grid md:grid-cols-2  gap-2">
-              {collection?.data?.data?.map((item) => (
+            <div className="grid md:grid-cols-4  gap-2">
+              {artists?.data?.users?.map((item) => (
                 <div
                   key={item._id}
                   onClick={() => {
-                    setSelectedCollection(item);
+                    setSelectedArtist(item);
                   }}
-                  className={`w-[200px] h-[250px] ${
-                    item?._id == selectedCollection?._id ? "shadow-lg" : ""
-                  } hover:shadow-md p-2 rounded-md border-2 cursor-pointer`}
+                  className={`${
+                    item?.id == selectedArtist?.id ? "shadow-lg" : ""
+                  } hover:shadow-md p-2 rounded-md flex flex-col  items-center cursor-pointer`}
                 >
-                  <Image width={200} height={200} src={item?.image} alt="" />
+                  <Avatar className="w-20 h-20" src={item?.avatar} />
                   <h6 className="text-center text-sm mt-2 font-semibold ">
-                    {item?.title}
+                    {item?.firstName} {item?.lastName}
                   </h6>
                 </div>
               ))}
