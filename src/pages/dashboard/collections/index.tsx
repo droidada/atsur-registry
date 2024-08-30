@@ -13,6 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import CollectionGridView from "@/components/dashboard/collection/CollectionGridView";
 import CollectionListView from "@/components/dashboard/collection/CollectionListView";
+import CreateCollectionModal from "@/components/dashboard/collection/CreateCollectionModal";
 
 // export const getServerSideProps = async ({ req, query }) => {
 //   try {
@@ -44,6 +45,8 @@ import CollectionListView from "@/components/dashboard/collection/CollectionList
 function Collections() {
   const [view, setView] = useState<"list" | "grid">("grid");
   const axiosFetch = useAxiosAuth();
+  const [openCreateModal, setOpenCreateModal] = useState(false);
+
   const {
     data: collections,
     isFetching,
@@ -57,14 +60,12 @@ function Collections() {
     },
   );
 
-  console.log(collections);
-
   return (
     <Stack spacing={2}>
       <SearchBar />
       <HeroHeader
         type="artworks"
-        handleCreate={() => {}}
+        handleCreate={() => setOpenCreateModal(true)}
         handleExplore={() => {}}
       />
       <FilterLine view={view} setView={setView} title="My Collections" />
@@ -85,6 +86,11 @@ function Collections() {
           />
         )}
       </div>
+
+      <CreateCollectionModal
+        open={openCreateModal}
+        handleClose={() => setOpenCreateModal(false)}
+      />
     </Stack>
   );
 }

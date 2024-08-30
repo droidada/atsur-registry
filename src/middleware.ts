@@ -3,8 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 export default withAuth(
   function middleware(req: any) {
-    console.log("This is the token", req.nextauth.token);
-
     // if (!req.nextauth.token?.emailVerified) {
     //   const confirmEmailURL = new URL(
     //     `/confirm-email?email=${req.nextauth.token?.email}`,

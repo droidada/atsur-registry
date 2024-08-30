@@ -88,7 +88,6 @@ const CommisionSplit = ({
     const value = parseFloat(e.target.value);
     // Get the the current user data from the users array
     const userData: any = users.find((userI) => {
-      console.log(userI, user);
       return userI.email === user.email;
     });
     // add the percentage value to the object
