@@ -38,19 +38,19 @@ export function AuthContextProvider({ children }: any) {
   useEffect(() => {
     fetchUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [axiosAuth]);
 
   const fetchUser = useCallback(async (): Promise<void> => {
     try {
       setLoading(true);
-      const res = await axiosAuth.get("user/me");
-      const data = res.data;
+      const res = await axiosAuth?.get("user/me");
+      const data = res?.data;
       setUser(data);
       setLoading(false);
     } catch (error) {
-      console.error(error);
+      if (error) console.error(error);
     }
-  }, [axiosAuth]);
+  }, []);
 
   const updateUserProfile = useCallback(
     async (info: any): Promise<void> => {
