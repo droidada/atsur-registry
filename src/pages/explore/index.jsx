@@ -16,8 +16,6 @@ export const getServerSideProps = async ({ req, query }) => {
       headers: { authorization: `Bearer ${token?.accessToken}` },
     });
 
-    console.log(res?.data);
-
     return { props: { heroImages: res.data.heroImages } };
   } catch (error) {
     console.error("error here looks like ", error);
@@ -30,39 +28,7 @@ export const getServerSideProps = async ({ req, query }) => {
   }
 };
 function Home({ heroImages }) {
-  const [data, setData] = useState();
-  const [artPieces, setArtPieces] = useState();
-  const { load, loading } = useLoadingContext();
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await load(axios.get(`/public/home`));
-
-        setData(res?.data);
-        if (res?.data) {
-          const pieces = res?.data?.data?.allPieces[0]?.type?.filter(
-            (item) => item._id === "art-piece",
-          );
-          setArtPieces(pieces);
-        }
-      } catch (error) {
-        console.error(error);
-        // throw new Error(error);
-      }
-    }
-    fetchData();
-  }, []);
-
-  return (
-    data &&
-    artPieces && (
-      <HomePage
-        heroImages={heroImages}
-        pageData={{ ...data?.data, artPieces: artPieces[0]?.artPieces }}
-      />
-    )
-  );
+  return <HomePage heroImages={heroImages} />;
 }
 
 export default UnprotectedPage(Home);

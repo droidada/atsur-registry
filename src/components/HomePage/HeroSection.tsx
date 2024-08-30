@@ -19,10 +19,10 @@ const HeroSection: React.FC<Props> = ({ heroImages }) => {
     <Stack
       component={"section"}
       direction={{ xs: "column", md: "row" }}
-      justifyContent="space-between"
       alignItems="start"
-      className="pb-10"
-      spacing={4}
+      justifyContent="center"
+      className="pb-10 page-container"
+      spacing={8}
     >
       <Stack className="" spacing={2} direction={"column"}>
         <Typography
@@ -46,7 +46,7 @@ const HeroSection: React.FC<Props> = ({ heroImages }) => {
           <Button
             onClick={() => router.push("/explore/more")}
             endIcon={<MdOutlineArrowOutward />}
-            className="h-[29px] bg-primary text-white font-[400] hover:scale-95 duration-700 text-[15px] leading-[16px]"
+            className="h-[36px] bg-primary text-white font-[400] hover:scale-95 duration-700 text-[15px] leading-[16px]"
           >
             Explore
           </Button>
@@ -57,7 +57,7 @@ const HeroSection: React.FC<Props> = ({ heroImages }) => {
                 : router.push("/signup")
             }
             endIcon={<MdOutlineArrowOutward />}
-            className="h-[29px] bg-secondary text-primary font-[400] hover:scale-95 duration-700 text-[15px] leading-[16px]"
+            className="h-[36px] bg-secondary text-primary font-[400] hover:scale-95 duration-700 text-[15px] leading-[16px]"
           >
             {status === "authenticated" ? "Dashboard" : "Get Started"}
           </Button>
