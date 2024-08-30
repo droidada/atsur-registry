@@ -62,8 +62,6 @@ const InviteArtist = ({
   const toast = useToast();
   const [selectingUserLoading, setSelectingUserLoading] = useState(false);
 
-  console.log(options);
-
   type InviteArtistInput = TypeOf<typeof inviteArtistSchema>;
   const {
     register,
@@ -98,12 +96,12 @@ const InviteArtist = ({
     try {
       event.preventDefault();
       setLoading(true);
-      console.log("search value is ", event.target.value);
+
       const res = await axiosAuth.post(`user/search`, {
         search: event.target.value,
       });
       const data = res.data.users;
-      console.log("we have options here ", data);
+
       justOne
         ? setOptions(data && data?.length > 0 ? [data[data.length - 1]] : [])
         : setOptions(data && data?.length > 0 ? data : []);
@@ -162,7 +160,6 @@ const InviteArtist = ({
           <Autocomplete
             multiple
             onChange={(event: any, newValue: any) => {
-              console.log("this is new value", newValue);
               handleSelectUser(newValue);
               // setListedArtists([...new Set([...listedArtists, ...newValue])]);
             }}

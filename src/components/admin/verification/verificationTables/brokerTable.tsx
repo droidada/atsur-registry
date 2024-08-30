@@ -25,7 +25,6 @@ const BrokerTable: React.FC<Props> = ({ broker }) => {
     link.remove();
   };
 
-  console.log(broker);
   return (
     <>
       <span className="font-[600]  ">Broker Type</span>

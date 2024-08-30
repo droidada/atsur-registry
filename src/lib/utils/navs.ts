@@ -1,3 +1,8 @@
+import { BsFillCollectionFill } from "react-icons/bs";
+import { CiImageOn } from "react-icons/ci";
+import { FiUsers } from "react-icons/fi";
+import { TbCategory } from "react-icons/tb";
+
 export const landingPageNavMenu = [
   {
     title: "Home",
@@ -143,6 +148,31 @@ export const adminDashboardSidebarMenu = [
         title: "Ready for verification",
         icon: "/images/dashboard-icons/security-icon.png",
         link: "/admin/verification",
+      },
+    ],
+  },
+  {
+    title: "Public",
+    menus: [
+      {
+        title: "Hero Images",
+        icon: CiImageOn,
+        link: "/admin/public/hero-image",
+      },
+      {
+        title: "Top Collection",
+        icon: BsFillCollectionFill,
+        link: "/admin/public/collections",
+      },
+      {
+        title: "Top Artist",
+        icon: FiUsers,
+        link: "/admin/public/artist",
+      },
+      {
+        title: "Top Categories",
+        icon: TbCategory,
+        link: "/admin/public/category",
       },
     ],
   },

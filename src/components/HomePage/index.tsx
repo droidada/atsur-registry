@@ -9,11 +9,12 @@ import TopCollection from "./TopCollection";
 
 interface Props {
   pageData: IHomepageData;
+  heroImages: string[];
 }
-const HomePage: React.FC<Props> = ({ pageData }) => {
+const HomePage: React.FC<Props> = ({ pageData, heroImages }) => {
   return (
     <div className="page-container py-12">
-      <HeroSection />
+      <HeroSection heroImages={heroImages} />
       <CategorySection categories={pageData.allPieces[0].categories} />
       {pageData.artists && <TopArtists artists={pageData.artists} />}
       <Featured featured={pageData.artPieces} />

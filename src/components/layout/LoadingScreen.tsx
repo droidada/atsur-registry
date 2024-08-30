@@ -19,7 +19,7 @@ const LoadingScreen: React.FC<{ loading: boolean }> = ({ loading }) => {
         loading ? "translate-x-0" : "-translate-x-full"
       }`}
     >
-      <Image width={600} height={600} alt="loader" src={"/loader-gif.gif"} />
+      <Image width={200} height={200} alt="loader" src={"/loader-gif.gif"} />
     </div>
   );
 };

@@ -2,6 +2,7 @@ import React from "react";
 import CollectionLoadingCard from "../loadingComponents/collectionLoadingCard";
 import CategoryCard from "@/components/CategoryCard";
 import NoData from "../NoData";
+import CollectionCard from "@/components/CollectionCard";
 
 interface Props {
   collections: any[];
@@ -30,13 +31,15 @@ const CollectionGridView: React.FC<Props> = ({
     return <NoData text="We have nothing in your collections" />;
   }
 
+  console.log(collections);
+
   return (
     <div className="grid grid-cols-auto-fit gap-4">
       {collections.map((collection) => (
-        <CategoryCard
+        <CollectionCard
+          collection={collection}
           key={collection._id}
           url={`${baseUrl}/collections/${collection._id}`}
-          category={collection}
         />
       ))}
     </div>

@@ -16,7 +16,6 @@ const ExistingCertificate = ({
   qrImage,
   tokenized,
 }: Props) => {
-  console.log("token and ..... artPiece", artPiece);
   return (
     <>
       <div
