@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getToken, onMessage } from "firebase/messaging";
 
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import ProtectedPage from "@/HOC/Protected";
@@ -8,15 +9,44 @@ import { Stack } from "@mui/material";
 import FilterLine from "@/components/dashboard/FilterLine";
 import GridView from "@/components/dashboard/artwork/GridView";
 import ListView from "@/components/dashboard/artwork/ListView";
+import Message from "@/components/push-message";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
+import { messaging } from "@/lib/firebase";
+import { useToast } from "@/providers/ToastProvider";
 
 function Artworks() {
   const router = useRouter();
   const axiosAuth = useAxiosAuth();
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [meta, setMeta] = useState({});
+  const toast = useToast();
+
+  async function requestPermission() {
+    //requesting permission using Notification API
+    const permission = await Notification.requestPermission();
+
+    if (permission === "granted") {
+      const token = await getToken(messaging, {
+        vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY,
+      });
+
+      //We can send token to server
+      console.log("Token generated : ", token);
+    } else if (permission === "denied") {
+      //notifications are blocked
+      alert("You denied for the notification");
+    }
+  }
+
+  useEffect(() => {
+    requestPermission();
+  }, []);
+
+  onMessage(messaging, (payload) => {
+    console.log("incoming msg");
+    toast(<Message notification={payload.notification} />);
+  });
 
   const [view, setView] = useState<"list" | "grid">("grid");
   const {

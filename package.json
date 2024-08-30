@@ -52,6 +52,7 @@
     "disqus-react": "^1.1.5",
     "dotenv": "^16.0.3",
     "ethers": "5.0.5",
+    "firebase": "^10.13.0",
     "html-pdf-node": "^1.0.8",
     "html2pdf.js": "^0.10.2",
     "i": "^0.3.7",
