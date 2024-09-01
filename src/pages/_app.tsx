@@ -11,6 +11,8 @@ import { DefaultSeo } from "next-seo";
 import "react-tooltip/dist/react-tooltip.css";
 import SEO from "../../next-seo.config";
 import { useState, useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 import "@/styles/globals.css";
 
@@ -43,6 +45,16 @@ export default function NextWeb3App({
   pageProps: { session, ...pageProps },
 }: CustomAppProps) {
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1200,
+      easing: "ease-in-out",
+      once: true,
+      delay: 100,
+      offset: 200,
+    });
+  }, []);
 
   useEffect(() => {
     const handleStart = () => setLoading(true);
