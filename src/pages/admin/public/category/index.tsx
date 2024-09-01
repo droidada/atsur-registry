@@ -64,7 +64,7 @@ const PublicCategory = ({ topCategories }) => {
   const toast = useToast();
 
   const { mutate, isLoading } = useMutation({
-    mutationFn: (data) =>
+    mutationFn: (data: any) =>
       axiosAuth.post("/public/top-categories", {
         categories: data,
       }),
@@ -117,6 +117,7 @@ const PublicCategory = ({ topCategories }) => {
                   <Image
                     width={200}
                     height={200}
+                    // @ts-ignore
                     src={item?.assets[0]?.url}
                     alt=""
                     key={item._id}
@@ -156,14 +157,16 @@ interface Props {
   open: boolean;
   handleClose: () => void;
   setCategories: React.Dispatch<
-    React.SetStateAction<{
-      title: string;
-      art_pieces: {
-        assets: string[];
+    React.SetStateAction<
+      {
         title: string;
-        _id: string;
-      }[];
-    }>
+        artworks: {
+          assets: string[];
+          title: string;
+          _id: string;
+        }[];
+      }[]
+    >
   >;
   index: number;
 }
