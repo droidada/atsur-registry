@@ -12,8 +12,8 @@ export default function Document() {
         href="https://fonts.bunny.net/css?family=roboto:300,300i,400,400i,500,500i,700,700i,900,900i"
         rel="stylesheet"
       />
-      <GoogleAnalytics />
       <body>
+        <GoogleAnalytics />
         <Main />
         <NextScript />
       </body>

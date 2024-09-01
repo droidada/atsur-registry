@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-
+import { useState } from "react";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import ProtectedPage from "@/HOC/Protected";
 import SearchBar from "@/components/layout/DashboardLayout/SearchBar";
@@ -10,14 +9,15 @@ import GridView from "@/components/dashboard/artwork/GridView";
 import ListView from "@/components/dashboard/artwork/ListView";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
+import useFCM from "@/hooks/useFCM";
 
 function Artworks() {
   const router = useRouter();
   const axiosAuth = useAxiosAuth();
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [meta, setMeta] = useState({});
-
+  const { messages, fcmToken } = useFCM();
+  console.log("we have fcm token here ", fcmToken);
   const [view, setView] = useState<"list" | "grid">("grid");
   const {
     isFetching,
