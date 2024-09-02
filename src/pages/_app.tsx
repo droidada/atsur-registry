@@ -72,7 +72,6 @@ export default function NextWeb3App({
   }, []);
 
   return (
-    <PasswordContextProvider>
       <SessionProvider session={session}>
         <QueryClientProvider client={queryClient}>
           {/* @ts-ignore */}
@@ -100,6 +99,5 @@ export default function NextWeb3App({
           </LoadingContextProvider>
         </QueryClientProvider>
       </SessionProvider>
-    </PasswordContextProvider>
   );
 }
