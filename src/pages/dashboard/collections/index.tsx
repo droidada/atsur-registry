@@ -62,7 +62,7 @@ function Collections() {
 
   return (
     <Stack spacing={2}>
-      <SearchBar />
+      {/* <SearchBar /> */}
       <HeroHeader
         type="artworks"
         handleCreate={() => setOpenCreateModal(true)}

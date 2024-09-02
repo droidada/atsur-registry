@@ -55,7 +55,7 @@ function Organizations({ invitationData }) {
 
   return (
     <Stack spacing={2}>
-      <SearchBar />
+      {/* <SearchBar /> */}
       <HeroHeader
         type="organizations"
         handleCreate={() => setOpenCreateDialog(true)}

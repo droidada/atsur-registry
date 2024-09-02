@@ -36,7 +36,7 @@ function Artworks() {
 
   return (
     <Stack spacing={2}>
-      <SearchBar />
+      {/* <SearchBar /> */}
       <HeroHeader
         type="artworks"
         handleCreate={() => router.push("/dashboard/artworks/create")}

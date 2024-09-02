@@ -1,5 +1,7 @@
+/* eslint-disable @next/next/inline-script-id */
 import GoogleAnalytics from "@/components/common/GoogleAnalytics";
 import { Head, Html, Main, NextScript } from "next/document";
+import Script from "next/script";
 
 export default function Document() {
   return (
@@ -13,7 +15,17 @@ export default function Document() {
         rel="stylesheet"
       />
       <body>
-        <GoogleAnalytics />
+        {/* <GoogleAnalytics /> */}
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-3QE7TBP184"></Script>
+        <Script>
+          {`          
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-3QE7TBP184');
+          `}
+        </Script>
         <Main />
         <NextScript />
       </body>
