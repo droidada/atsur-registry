@@ -2,6 +2,9 @@
 import { type FirebaseOptions, initializeApp, getApp, getApps } from "firebase/app";
 import { getMessaging } from "firebase/messaging";
 
+
+console.log("MESSAGE SENDER", process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID);
+
 // Your web app's Firebase configuration
 const firebaseConfig: FirebaseOptions = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY as string,
