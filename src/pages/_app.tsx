@@ -82,6 +82,7 @@ export default function NextWeb3App({
                 <ToastProvider>
                   <DefaultSeo {...SEO} />
                   <LoadingScreen loading={loading} />
+                  {/* <PageTransition> */}
                   {Component.requireAuth ? (
                     <ProtectedLayout>
                       {/* <AddClassBody /> */}
@@ -90,6 +91,7 @@ export default function NextWeb3App({
                   ) : (
                     <Component {...pageProps} />
                   )}
+                  {/* </PageTransition> */}
                   {/* <ReactQueryDevtools initialIsOpen={false} /> */}
                   <Analytics />
                 </ToastProvider>
