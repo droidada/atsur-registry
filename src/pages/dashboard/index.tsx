@@ -28,7 +28,6 @@ function Artworks() {
     ["artworks", currentPage, limit],
     () =>
       axiosAuth.get(`/art-piece/creator?page=${currentPage}&limit=${limit}`),
-
     {
       refetchOnWindowFocus: false,
     },
