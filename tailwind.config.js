@@ -50,6 +50,16 @@ module.exports = {
           "100%": { opacity: "0", transform: "translateY(-10px)" },
         },
       },
+      transitionProperty: {
+        "opacity-transform": "opacity, transform",
+      },
+      transitionDuration: {
+        500: "500ms",
+      },
+      transform: {
+        "translate-x-full": "translateX(100%)",
+        "translate-x-0": "translateX(0)",
+      },
       colors: {
         primary: "#000000",
         secondary: "#D9D9D9",
