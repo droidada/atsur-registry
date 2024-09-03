@@ -17,6 +17,7 @@ import VerificationFileDroper from "../artwork/Verification/VerificationFileDrop
 import SelectField from "@/components/Form/SelectField";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/providers/ToastProvider";
+import { useRouter } from "next/router";
 
 interface Props {
   open: boolean;
@@ -31,11 +32,13 @@ const CreateCollectionModal: React.FC<Props> = ({ open, handleClose }) => {
     description: string(),
   });
   const [previewImg, setPreviewImg] = useState(null);
+  const router = useRouter();
 
-  const { data, mutate } = useMutation({
+  const { data, mutate, isLoading } = useMutation({
     mutationFn: (data: any) => axiosAuth.post(`/collection/add`, data),
     onSuccess: () => {
       toast.success("Collection created successfully");
+      router.push(router.asPath);
       handleClose();
     },
     onError: (error: any) => {
@@ -154,7 +157,7 @@ const CreateCollectionModal: React.FC<Props> = ({ open, handleClose }) => {
           Cancel
         </Button>
         <LoadingButton
-          loading={isSubmitting}
+          loading={isLoading}
           type="submit"
           variant="contained"
           className="bg-primary text-white"

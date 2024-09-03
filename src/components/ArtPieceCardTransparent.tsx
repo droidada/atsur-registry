@@ -16,6 +16,7 @@ interface Props {
   medium: string;
   url: string;
   createdAt: string;
+  containerClassName?: string;
 }
 const ArtPieceCardTransparent: React.FC<Props> = ({
   image,
@@ -24,11 +25,12 @@ const ArtPieceCardTransparent: React.FC<Props> = ({
   medium,
   url,
   createdAt,
+  containerClassName,
 }) => {
   return (
     <Link
       href={url}
-      className="bg-white flex flex-col max-w-[281px]  w-full text-primary "
+      className={`bg-white flex flex-col   w-full text-primary ${containerClassName}`}
     >
       <Image
         src={image || "/placeholder.png"}

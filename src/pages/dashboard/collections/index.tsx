@@ -62,13 +62,18 @@ function Collections() {
 
   return (
     <Stack spacing={2}>
-      <SearchBar />
+      {/* <SearchBar /> */}
       <HeroHeader
-        type="artworks"
+        type="collections"
         handleCreate={() => setOpenCreateModal(true)}
         handleExplore={() => {}}
       />
-      <FilterLine view={view} setView={setView} title="My Collections" />
+      <FilterLine
+        handleCreate={() => setOpenCreateModal(true)}
+        view={view}
+        setView={setView}
+        title="My Collections"
+      />
       <div className="mt-4">
         {view == "grid" ? (
           <CollectionGridView

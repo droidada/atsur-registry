@@ -1,6 +1,12 @@
 import { useState } from "react";
 import axios from "@/lib/axios";
-import { Button, Pagination } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Pagination,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import ExploreLeft from "@/components/common/ExploreLeft";
 import ArtPieceCard from "@/components/common/ArtPieceCard";
 import ArtPieceLoading from "@/components/common/ArtPieceLoading";
@@ -13,6 +19,8 @@ import { QueryClient, useQuery } from "@tanstack/react-query";
 import ExploreArtPieceCard, {
   ExploreArtPieceCardLoading,
 } from "@/components/ExploreArtPieceCard";
+import NoData from "@/components/dashboard/NoData";
+import useDebounce from "@/hooks/useDebounce";
 
 function Explore() {
   const [filters, setFilters] = useState<{
@@ -22,6 +30,7 @@ function Explore() {
       min: number;
       max: number;
     };
+    creationDecade: string[];
   }>({
     medium: [],
     rarity: [],
@@ -29,51 +38,47 @@ function Explore() {
       min: 0,
       max: 0,
     },
+    creationDecade: [],
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [rating, setRating] = useState(0);
   const [currentQuickView, setCurrentQuickView] = useState("all");
   const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("newest");
+  const debounce = useDebounce(search, 500);
 
-  console.log(search);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const {
     data: artpieces,
     isFetching,
     refetch,
   } = useQuery(
-    ["artpiece", currentPage, filters, rating],
+    ["artpiece", currentPage, filters, rating, debounce, sort],
     () =>
       axios.get(
         `/public/explore?page=${currentPage}&filter=${JSON.stringify(
           filters,
-        )}&rating=${rating}&search=${search}`,
+        )}&rating=${rating}&search=${debounce}&sort=${sort}`,
       ),
     { keepPreviousData: true, refetchOnWindowFocus: false },
   );
 
+  const handlePaginationChange = (e, value) => {
+    setCurrentPage(value);
+    refetch();
+    window.scrollTo(0, 0);
+  };
+
   return (
     <>
-      {/* <div className="flex items-center relative border-b-[1px]  ">
-        <div className="page-container flex  items-center gap-5 pb-6">
-          {["all", "trending", "collectibles", "art", "photography"].map(
-            (item, index) => (
-              <p
-                onClick={() => setCurrentQuickView(item)}
-                key={`quick-view-${index}`}
-                className={`text-[15px] capitalize relative cursor-pointer duration-700 leading-[15px] text-center ${
-                  item === currentQuickView ? "font-bold" : "font-[300]"
-                }`}
-              >
-                {item}
-                {item === currentQuickView && (
-                  <span className="w-full z-10 h-[2px] bg-primary absolute -bottom-[180%] left-0"></span>
-                )}
-              </p>
-            ),
-          )}
-        </div>
-      </div> */}
       <div className="flex md:flex-row flex-col gap-12">
         <FilterComponent
           rating={rating}
@@ -83,25 +88,13 @@ function Explore() {
         />
         <div className="flex-1 page-container flex flex-col gap-5 ">
           <div className="flex items-center justify-end gap-4">
-            <form
-              className="flex-1"
-              onSubmit={(e) => {
-                e.preventDefault();
-                // @ts-ignore
-                const query = e.target.search.value;
-                console.log("This is the query", query);
-                //
-
-                setSearch(query);
-                refetch();
-                setCurrentPage(1);
-                // e.target.search.value = "";
-              }}
-            >
+            <div className="flex-1">
               <div className="flex items-center overflow-hidden divide-x-[1px] divide-primary border-[1px] border-primary rounded-[47px] h-[34px]  gap-2">
                 <input
                   name="search"
                   type="search"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
                   className="flex-1 h-full outline-none focus:ring-0 px-3 border-none ring-none bg-transparent"
                   placeholder="Search"
                 />
@@ -109,7 +102,7 @@ function Explore() {
                   <IoIosSearch />
                 </button>
               </div>
-            </form>
+            </div>
             <div className="hidden md:flex gap-2 h-[34px] border-primary border-[1px] rounded-[47px] px-2">
               <Button
                 startIcon={<IoGrid />}
@@ -131,49 +124,86 @@ function Explore() {
               <Button
                 className="text-xs font-[300] leading-[15px]"
                 startIcon={<BiMenuAltLeft />}
+                onClick={handleClick}
               >
-                High to Low
+                Sort
               </Button>
+              <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+                <MenuItem
+                  onClick={() => {
+                    setSort("price:desc");
+                    handleClose();
+                  }}
+                >
+                  High to Low
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    setSort("price:asc");
+                    handleClose();
+                  }}
+                >
+                  Low to High
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    setSort("newest");
+                    handleClose();
+                  }}
+                >
+                  Newest
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    setSort("oldest");
+                    handleClose();
+                  }}
+                >
+                  Oldest
+                </MenuItem>
+              </Menu>
             </div>
           </div>
 
-          <div className="grid grid-cols-auto-fit items-stretch gap-4">
+          <div className="grid grid-cols-auto-fit items-stretch gap-2">
             {isFetching ? (
-              Array(10)
-                .fill(null)
-                .map((item, index) => (
-                  <ExploreArtPieceCardLoading key={index} />
-                ))
-            ) : artpieces?.data?.artpieces?.length === 0 ? (
-              <div className="w-full col-span-full"> No Data Found</div>
+              <div
+                className="flex justify-center items-center h-[250px]"
+                data-aos="zoom-in" // Smooth zoom-in for loader
+              >
+                <CircularProgress color="inherit" size={30} />
+              </div>
+            ) : artpieces?.data?.artPieces?.length === 0 ? (
+              <NoData text="No Art Pieces Found" />
             ) : (
               artpieces?.data?.artPieces?.map((artpiece) => (
-                <ExploreArtPieceCard
-                  link={`/explore/art-piece/${artpiece?._id}`}
-                  rating={artpiece?.rating}
-                  creator={{
-                    name: `${artpiece?.custodian?.profile?.firstName} ${artpiece?.custodian?.profile?.lastName}`,
-                    image: artpiece?.custodian?.profile?.avatar,
-                  }}
-                  image={artpiece?.assets && artpiece?.assets[0]?.url}
-                  key={artpiece?.id}
-                  title={artpiece?.title}
-                />
+                <>
+                  <ExploreArtPieceCard
+                    containerClassName="max-w-[350px]"
+                    link={`/explore/art-piece/${artpiece?._id}`}
+                    rating={artpiece?.rating}
+                    creator={{
+                      name: `${artpiece?.custodian?.profile?.firstName} ${artpiece?.custodian?.profile?.lastName}`,
+                      image: artpiece?.custodian?.profile?.avatar,
+                    }}
+                    image={artpiece?.assets && artpiece?.assets[0]?.url}
+                    key={artpiece?.id}
+                    title={artpiece?.title}
+                  />
+                </>
               ))
             )}
           </div>
 
-          <div className="flex justify-center mt-12">
-            <Pagination
-              count={artpieces?.data?.meta?.totalPages}
-              page={currentPage}
-              onChange={(e, value) => {
-                setCurrentPage(value);
-                refetch();
-                window.scrollTo(0, 0);
-              }}
-            />
-          </div>
+          {artpieces?.data?.artPieces?.length > 0 && (
+            <div className="flex justify-center mt-12">
+              <Pagination
+                count={artpieces?.data?.meta?.totalPages}
+                page={currentPage}
+                onChange={(e, value) => handlePaginationChange(e, value)}
+              />
+            </div>
+          )}
         </div>
       </div>
     </>

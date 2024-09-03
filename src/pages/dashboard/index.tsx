@@ -36,13 +36,17 @@ function Artworks() {
 
   return (
     <Stack spacing={2}>
-      <SearchBar />
       <HeroHeader
         type="artworks"
         handleCreate={() => router.push("/dashboard/artworks/create")}
         handleExplore={() => router.push("/explore")}
       />
-      <FilterLine view={view} setView={setView} title="My Artworks" />
+      <FilterLine
+        handleCreate={() => router.push("/dashboard/artworks/create")}
+        view={view}
+        setView={setView}
+        title="My Artworks"
+      />
       <div className="mt-4">
         {view == "grid" ? (
           <GridView

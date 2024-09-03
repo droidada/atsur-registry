@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import SideBar from "./DashboardLayout/SideBar";
 import Footer from "./LandingPage/Footer";
 import Header from "./DashboardLayout/Header";
-import SearchBar from "./DashboardLayout/SearchBar";
 
 interface Props {
   children: React.ReactNode;

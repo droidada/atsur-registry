@@ -328,7 +328,6 @@ function SignUp({ invitationData, countries }) {
         <FormControlLabel
           control={
             <Checkbox
-              required
               size="small"
               id="agree"
               tabIndex={2}

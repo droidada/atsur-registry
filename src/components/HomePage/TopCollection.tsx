@@ -89,21 +89,26 @@ const TopCollection: React.FC<Props> = ({}) => {
                         alt={collection?.title}
                         width={400}
                         height={400}
-                        className="object-cover"
+                        className="object-cover w-full"
                       />
                       <div className="p-4 flex flex-col gap-4 flex-1 justify-center">
                         <h6 className="text-[24px] font-[300] text-center">
                           {collection?.title}
                         </h6>
-                        <AvatarGroup max={3}>
-                          {collection?.artworks?.map((item, index) => (
-                            <Avatar
-                              key={`${collection?.title}-${index}`}
-                              className="w-5 h-5"
-                              src={item?.assets[0]?.url}
-                            />
-                          ))}
-                        </AvatarGroup>
+                        {collection?.artworks?.length > 0 && (
+                          <div className="flex justify-center items-center gap-2">
+                            <span className="text-sm font-[300]">Artworks</span>
+                            <AvatarGroup max={3}>
+                              {collection?.artworks?.map((item, index) => (
+                                <Avatar
+                                  key={`${collection?.title}-${index}`}
+                                  className="w-5 h-5"
+                                  src={item?.assets[0]?.url}
+                                />
+                              ))}
+                            </AvatarGroup>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>

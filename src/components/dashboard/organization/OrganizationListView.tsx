@@ -38,7 +38,7 @@ const OrganizationListView: React.FC<Props> = ({
 
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 925 }}>
+      <Table sx={{ minWidth: 550 }}>
         <TableHead>
           <TableRow>
             {["Organization", "Location", "Members", "Date Created"].map(

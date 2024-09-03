@@ -1,5 +1,6 @@
 import AuthLayout from "@/components/layout/AuthLayout";
 import axios from "@/lib/axios";
+import { Button } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 
@@ -61,10 +62,9 @@ const VerifyEmail = ({ success, message }) => {
         ) : (
           <>
             {" "}
-            <h2 className="text-sm font-bold  mb-4">
-              Email Verification Failed
-            </h2>
+            <h2 className="text-sm font-bold  mb-4">Email Verification</h2>
             <p>{message}</p>
+            <Button className="bg-primary text-white w-full mt-2">Login</Button>
           </>
         )}
       </div>

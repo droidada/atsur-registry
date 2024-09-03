@@ -1,6 +1,7 @@
 import { Button, Menu, MenuItem, Stack } from "@mui/material";
 import React, { useState } from "react";
 import { BsShare } from "react-icons/bs";
+import { FaPlus } from "react-icons/fa";
 import { HiOutlineMenu } from "react-icons/hi";
 import { IconType } from "react-icons/lib";
 import { TbLayoutList } from "react-icons/tb";
@@ -9,8 +10,15 @@ interface Props {
   title: string;
   setView: React.Dispatch<React.SetStateAction<"list" | "grid">>;
   view: "list" | "grid";
+  handleCreate: () => void;
 }
-const FilterLine: React.FC<Props> = ({ title, setView, view }) => {
+
+const FilterLine: React.FC<Props> = ({
+  title,
+  setView,
+  view,
+  handleCreate,
+}) => {
   return (
     <Stack
       direction="row"
@@ -38,6 +46,15 @@ const FilterLine: React.FC<Props> = ({ title, setView, view }) => {
             Grid
           </MenuItem>
         </CustomMenu>
+        <Button
+          aria-haspopup="true"
+          onClick={handleCreate}
+          startIcon={<FaPlus />}
+          variant="text"
+          className="text-[14px] leading-[16px] text-primary"
+        >
+          New
+        </Button>
       </Stack>
     </Stack>
   );

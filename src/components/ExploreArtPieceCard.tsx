@@ -14,6 +14,7 @@ interface Props {
   };
   rating?: number;
   link: string;
+  containerClassName?: string;
 }
 const ExploreArtPieceCard: React.FC<Props> = ({
   image,
@@ -21,11 +22,12 @@ const ExploreArtPieceCard: React.FC<Props> = ({
   rating,
   title,
   link,
+  containerClassName,
 }) => {
   return (
     <Link
       href={link || "#"}
-      className="flex flex-col  self-stretch max-w-[300.16px] w-full"
+      className={`flex flex-col  self-stretch  w-full ${containerClassName}`}
     >
       <div className="w-full bg-secondary relative h-[251px]">
         <Image

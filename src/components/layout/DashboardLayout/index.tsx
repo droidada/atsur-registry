@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import SideBar from "./SideBar";
 import Footer from "../LandingPage/Footer";
 import Header from "./Header";
-import SearchBar from "./SearchBar";
+
 import DashboardContextProvider from "@/providers/DashboardContext.context";
 // import DashboardContextProvider from "@/providers/DashboardContext.context";
 
