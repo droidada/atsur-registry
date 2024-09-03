@@ -70,14 +70,33 @@ export const landingPageNavMenu = [
 
 export const dashboardSidebarMenu = [
   {
-    title: "ART",
+    title: "Art",
     menus: [
       {
         title: "Art Pieces",
         icon: "/images/dashboard-icons/artwork-icon.png",
         link: "/dashboard",
       },
-
+      {
+        title: "Series",
+        icon: "/images/dashboard-icons/collection-icon.png",
+        link: "/dashboard/series",
+      },
+      // {
+      //   title: "Wishlist",
+      //   icon: "/images/dashboard-icons/wishlist.png",
+      //   link: "/dashboard/Wishlist",
+      // },
+    ],
+  },
+  {
+    title: "Business",
+    menus: [
+      {
+        title: "Organizations",
+        icon: "/images/dashboard-icons/organization-icon.png",
+        link: "/dashboard/organizations",
+      },
       {
         title: "Collections",
         icon: "/images/dashboard-icons/collection-icon.png",
@@ -87,21 +106,6 @@ export const dashboardSidebarMenu = [
       //   title: "Deals",
       //   icon: "/images/dashboard-icons/deal-icon.png",
       //   link: "/dashboard/Deals",
-      // },
-    ],
-  },
-  {
-    title: "Interactions",
-    menus: [
-      {
-        title: "Organizations",
-        icon: "/images/dashboard-icons/organization-icon.png",
-        link: "/dashboard/organizations",
-      },
-      // {
-      //   title: "Wishlist",
-      //   icon: "/images/dashboard-icons/wishlist.png",
-      //   link: "/dashboard/Wishlist",
       // },
     ],
   },
