@@ -10,15 +10,19 @@ const useFCMToken = () => {
 
   useEffect(() => {
     const retrieveToken = async () => {
-      if (typeof window !== "undefined" && "serviceWorker" in navigator) {
-        if (permission === "granted") {
-          const isFCMSupported = await isSupported();
-          if (!isFCMSupported) return;
-          const fcmToken = await getToken(messaging(), {
-            vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY,
-          });
-          setFcmToken(fcmToken);
+      try {
+        if (typeof window !== "undefined" && "serviceWorker" in navigator) {
+          if (permission === "granted") {
+            const isFCMSupported = await isSupported();
+            if (!isFCMSupported) return;
+            const fcmToken = await getToken(messaging(), {
+              vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY,
+            });
+            setFcmToken(fcmToken);
+          }
         }
+      } catch (error) {
+        console.error(error);
       }
     };
     retrieveToken();
