@@ -8,7 +8,7 @@ import { FiPlus } from "react-icons/fi";
 interface Props {
   handleExplore: () => void;
   handleCreate: () => void;
-  type: "collections" | "artworks" | "organizations";
+  type: string;
   createTitle?: string;
 }
 const HeroHeader: React.FC<Props> = ({
@@ -27,13 +27,11 @@ const HeroHeader: React.FC<Props> = ({
         alt=""
         className="object-cover"
       /> */}
-      <div className="text-white relative">
-        <h3 className="uppercase text-[10px] tracking-[30%] leading-[16px]">
-          {type}
-        </h3>
+      <div className=" relative">
+        <h3 className="uppercase text-2xl font-bold ">{type}</h3>
         {/* <h1 className=" text-2xl md:text-[50px] md:leading-[70px]"> */}
         {/* @ts-ignore */}
-        {data?.user?.firstName} {data?.user?.lastName}.{/* </h1> */}
+
         <Stack
           direction="row"
           justifyContent={"end"}
@@ -52,7 +50,7 @@ const HeroHeader: React.FC<Props> = ({
             Explore
           </Button> */}
 
-          <Button
+          {/* <Button
             onClick={handleCreate}
             variant="contained"
             className="bg-primary text-[15px] leading-[16px] font-[400] h-[37px] w-[113px] px-2"
@@ -63,7 +61,7 @@ const HeroHeader: React.FC<Props> = ({
             }
           >
             {createTitle || "Create"}
-          </Button>
+          </Button> */}
         </Stack>
       </div>
     </div>

@@ -51,6 +51,7 @@ const GridView: React.FC<Props> = ({
       <div className="grid grid-cols-auto-fit gap-4">
         {artworks?.map((artpiece) => (
           <ArtPieceCardTransparent
+            containerClassName={`${artworks.length < 3 ? "max-w-[350px]" : ""}`}
             url={`${baseUrl}/${artpiece?._id}`}
             image={artpiece?.assets[0]?.url || "/placeholder.png"}
             title={artpiece?.title}

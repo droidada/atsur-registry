@@ -38,6 +38,9 @@ const OrganizationArtworks: React.FC<Props> = ({ organizationId }) => {
         ) : (
           artpieces?.data?.artpieces?.map((artpiece) => (
             <ExploreArtPieceCard
+              containerClassName={
+                artpieces?.data?.artpieces?.length == 1 ? "max-w-[350px]" : ""
+              }
               link={`/explore/art-piece/${artpiece?._id}`}
               rating={artpiece?.rating}
               creator={{

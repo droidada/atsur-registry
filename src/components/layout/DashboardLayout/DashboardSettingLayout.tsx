@@ -26,7 +26,7 @@ const navs = [
   },
   {
     title: "Notifications",
-    link: "/dashboard/settings/notifications",
+    link: "/dashboard/notifications",
   },
   {
     title: "Billing",
@@ -59,60 +59,29 @@ const DashboardSettingLayout: React.FC<Props> = ({ children }) => {
               </Link>
             ))}
           </div>
-          <Button
+          {/* <Button
             onClick={() => setOpenDeleteModal(true)}
             variant="text"
             className="px-0 lg:block hidden text-[#FF0000] font-[400] leading-[16px] text-[17px]"
           >
             Delete Account
-          </Button>
+          </Button> */}
         </div>
         <div className="flex-1 p-2 lg:p-5">{children}</div>
-        <Button
+        {/* <Button
           onClick={() => setOpenDeleteModal(true)}
           variant="text"
           className="px-0 lg:hidden block text-[#FF0000] font-[400] leading-[16px] text-[17px]"
         >
           Delete Account
-        </Button>
+        </Button> */}
       </div>
-      <DeleteModal
+      {/* <DeleteModal
         open={openDeleteModal}
         onClose={() => setOpenDeleteModal(false)}
-      />
+      /> */}
     </div>
   );
 };
 
 export default DashboardSettingLayout;
-
-interface DeleteModalProps {
-  open: boolean;
-  onClose: () => void;
-}
-const DeleteModal: React.FC<DeleteModalProps> = ({ open, onClose }) => {
-  const axiosAuth = useAxiosAuth();
-  // TODO complete the account deletion function
-  // const { mutate } = useMutation({
-  //   mutationFn: () => {},
-  //   onSuccess: () => {},
-  //   onError: () => {},
-  // });
-
-  return (
-    <Dialog open={open} onClose={onClose} maxWidth="sm">
-      <DialogTitle>Delete Account</DialogTitle>
-      <DialogContent dividers>
-        <p>Are you sure you want to delete your account?</p>
-      </DialogContent>
-      <DialogActions>
-        <Button variant="outlined" onClick={onClose}>
-          Cancel
-        </Button>
-        <Button variant="contained" onClick={onClose}>
-          Delete
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
-};

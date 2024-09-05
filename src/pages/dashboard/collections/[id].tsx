@@ -6,7 +6,6 @@ import { getToken } from "next-auth/jwt";
 import axios from "@/lib/axios";
 import axiosMain from "axios";
 
-import DeleteDialog from "@/components/dashboard/DeleteDialog";
 import AddArtworkToCollection from "@/components/dashboard/add-artwork-to-collection";
 import Image from "next/image";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
@@ -18,9 +17,16 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Stack,
 } from "@mui/material";
 
 import ProtectedPage from "@/HOC/Protected";
+import { MdDeleteOutline } from "react-icons/md";
+import NoData from "@/components/dashboard/NoData";
+import AddArtPieceModal from "@/components/dashboard/collection/AddArtPieceModal";
+import { useMutation } from "@tanstack/react-query";
+import { useToast } from "@/providers/ToastProvider";
+import LoadingButton from "@/components/Form/LoadingButton";
 
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -35,7 +41,7 @@ export const getServerSideProps = async ({ req, query }) => {
 
     console.log(res.data);
 
-    return { props: { collections: res.data.collection } };
+    return { props: { collection: res.data.collection } };
   } catch (error) {
     console.error("error here looks like ", error);
     if (error?.response?.status === 404) {
@@ -47,205 +53,188 @@ export const getServerSideProps = async ({ req, query }) => {
   }
 };
 
-function Collection({ collections }) {
+function Collection({ collection }) {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openAddArtWork, setOpenAddArtWork] = useState(false);
   const [currentArtwork, setCurrentArtwork] = useState<any>({});
   const [openRemoveArtwork, setOpenRemoveArtwork] = useState(false);
+  const [removingArtId, setRemovingArtId] = useState<string | null>(null); // Track the artwork being removed
   const axiosAuth = useAxiosAuth();
   const router = useRouter();
-
+  const [artworks, setArtworks] = useState<
+    {
+      title: string;
+      assets: { url: string }[];
+      custodian: {
+        profile: {
+          firstName: string;
+          lastName: string;
+          avatar: string;
+        };
+      };
+      _id: string;
+    }[]
+  >([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const toast = useToast();
 
-  const handleRemove = async () => {
-    try {
-      setLoading(true);
-      const res = await axiosAuth.post(
-        `/collection/remove-art-work/${collections._id}`,
-        {
-          artPieceId: currentArtwork._id,
-        },
+  const { mutate, isLoading } = useMutation({
+    mutationFn: (artPieceId: string) =>
+      axiosAuth.post(`/collection/remove-art-work/${collection._id}`, {
+        artPieceId,
+      }),
+    onMutate: (artPieceId: string) => {
+      setRemovingArtId(artPieceId); // Set the ID of the artwork being removed
+    },
+    onSuccess: () => {
+      setRemovingArtId(null); // Reset after success
+      router.push(router.asPath);
+    },
+    onError: (error: any) => {
+      setRemovingArtId(null); // Reset on error
+      toast.error(
+        error.response.data.message || error.message || "Something went wrong",
       );
-      router.replace(router.asPath);
-      setOpenRemoveArtwork(false);
-    } catch (error) {
-      setError(false);
-
-      if (axiosMain.isAxiosError(error)) {
-        setErrorMessage(error.response?.data?.message);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+  });
 
   return (
     <>
-      {/* <DashboardLayoutWithSidebar hideSidebar activePage={DashboardPages.ART}>
-        <>
-          <div className="row w-full px-4">
-            <div
-              style={{
-                backgroundImage: `url(${collections?.image}) `,
-                backgroundSize: "cover",
-                backgroundRepeat: "no-repeat",
-              }}
-              className="action__body w-full mb-40 rounded-xl"
+      <Stack spacing={4}>
+        <Stack direction={["column", "row"]} justifyContent={"space-between"}>
+          <h1 className="text-2xl font-bold">{collection?.title}</h1>
+          <div className="flex gap-2">
+            <Button className="bg-primary text-white">Edit</Button>
+            <Button
+              onClick={() => setOpenDeleteDialog(true)}
+              className="bg-[#a90202] text-white"
             >
-              <div className="tf-tsparticles">
-                <div id="tsparticles7" data-color="#161616" data-line="#000" />
-              </div>
-              <h2 className="drop-shadow-md text-white">
-                {collections?.title}
-              </h2>
-              <div className="flat-button gap-4 flex">
-                <Button
-                  sx={{ borderRadius: "12px" }}
-                  onClick={() => setOpenEdit(true)}
-                  className="tf-button style-1 h50 w190 mr-10 rounded-xl"
-                >
-                  Edit
-                  <i className="icon-arrow-up-right2" />
-                </Button>
-                <Button
-                  sx={{ borderRadius: "12px" }}
-                  onClick={() => setOpenDeleteDialog(true)}
-                  className="tf-button style-1 h50 w230 rounded-xl"
-                >
-                  Delete
-                  <i className="icon-arrow-up-right2" />
-                </Button>
-              </div>
-              <div className="bg-home7">
-                <AutoSlider1 />
-                <AutoSlider1 />
-                <AutoSlider2 />
-              </div>
-            </div>
-            <div className="row">
+              <MdDeleteOutline />
+            </Button>
+          </div>
+        </Stack>
+        <p className="text-sm">{collection?.description}</p>
 
-              <div className="col-12">
-                <div className="tf-section-2 product-detail">
-                  <h2 className="title">Description</h2>
-                  <p>{collections?.description}</p>
-                </div>
-              </div>
-            </div>
-
-
-            <div className="row">
-              <div className="col-12">
-                <div className="tf-section-2 flex justify-between items-center product-detail">
-                  <h2 className="title">Artworks</h2>
-                  <Button
-                    sx={{ borderRadius: "12px" }}
-                    onClick={() => setOpenAddArtWork(true)}
-                    className="tf-button style-1 rounded-xl h50 w190 mr-10"
-                  >
-                    Add Artwork
-                  </Button>
-                </div>
-                <div className="tf-section-2 ">
-                  <div className="w-full grid gap-3 md:grid-cols-2 lg:grid-cols-3 grid-cols-1 ">
-                    {collections?.artworks?.map((artwork) => (
-                      <div
-                        key={artwork._id}
-                        className="tf-card-box style-5 mb-0 relative max-w-[450px] overflow-hidden rounded-xl w-full h-[400px]"
-                      >
-                        <div>
-                          <Image
-                            fill
-                            src={
-                              artwork?.assets[0]?.url == "null"
-                                ? ""
-                                : artwork?.assets[0]?.url
-                            }
-                            alt={collections?.name}
-                            className="object-cover"
-                          />
-                        </div>
-
-                        <Button
-                          sx={{ borderRadius: "12px" }}
-                          onClick={() => {
-                            setOpenRemoveArtwork(true);
-                            setCurrentArtwork(artwork);
-                          }}
-                          className="wishlist-button left-4 drop-shadow-md"
-                        >
-                          Remove
-                          <i className="icon-minus" />
-                        </Button>
-                        <Link
-                          href={`/dashboard/artworks/${artwork._id}`}
-                          className="featured-countdown"
-                        >
-                          View Artwork
-                        </Link>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div className="flex flex-col gap-5">
+          <div className="w-full flex justify-between items-center font-bold border-b-2 border-primary mb-4 pb-2">
+            <h2> Artworks</h2>
+            <Button
+              onClick={() => setOpenAddArtWork(true)}
+              className="bg-primary text-white"
+            >
+              Add Artwork
+            </Button>
           </div>
 
-          <Dialog
-            open={openRemoveArtwork}
-            onClose={() => setOpenRemoveArtwork(false)}
-          >
-            <DialogTitle variant="h3">Remove Artwork</DialogTitle>
-            <DialogContent>
-              <p>
-                Are you sure you want to remove this artwork from the
-                collection?
-              </p>
-            </DialogContent>
-            <DialogActions>
-              <Button
-                sx={{ borderRadius: "12px" }}
-                className="tf-button style-1 "
-                onClick={() => setOpenRemoveArtwork(false)}
-              >
-                Cancel
-              </Button>
-              <LoadingButton
-                sx={{ borderRadius: "12px" }}
-                className="tf-button style-1 "
-                loading={loading}
-                onClick={handleRemove}
-              >
-                Remove
-              </LoadingButton>
-            </DialogActions>
-          </Dialog>
-        </>
-      </DashboardLayoutWithSidebar> */}
-
-      {/* <DeleteDialog
-        open={openDeleteDialog}
-        onClose={() => setOpenDeleteDialog(false)}
-        deleteUrl={`/collection/delete/${collections?._id}`}
-        redirectUrl={`/dashboard/collections`}
-        itemToDelete={{ itemType: "collection", itemId: "" }}
-      /> */}
-
-      {/* <EditCollection
-        open={openEdit}
-        handleClose={() => setOpenEdit(false)}
-        collection={collections}
-      /> */}
-
-      {/* <AddArtworkToCollection
-        open={openAddArtWork}
-        collection={collections}
-        handleClose={() => setOpenAddArtWork(false)}
-      /> */}
+          {collection?.artworks?.length > 0 ? (
+            <div className="grid grid-cols-auto-fit gap-4">
+              {collection?.artworks?.map((artwork) => (
+                <Link
+                  href={`/dashboard/artworks/${artwork._id}`}
+                  key={artwork._id}
+                  className="relative rounded-md border-2 p-2 w-full "
+                >
+                  <Image
+                    src={artwork?.assets[0]?.url}
+                    alt=""
+                    width={250}
+                    height={250}
+                    className="w-full rounded-md"
+                  />
+                  <p className="text-center font-semibold mt-2">
+                    {artwork?.title}
+                  </p>
+                  <LoadingButton
+                    onClick={() => mutate(artwork?._id)}
+                    loading={isLoading && removingArtId === artwork._id} // Only show loading for the current artwork
+                    className="bg-primary text-white w-full"
+                  >
+                    Remove Artwork
+                  </LoadingButton>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <NoData text="No artworks found" />
+          )}
+        </div>
+        <AddArtPieceModal
+          collection_id={collection?._id}
+          setArtworks={setCurrentArtwork}
+          open={openAddArtWork}
+          handleClose={() => setOpenAddArtWork(false)}
+        />
+        <DeleteDialog
+          open={openDeleteDialog}
+          handleClose={() => setOpenDeleteDialog(false)}
+          collection_id={collection?._id}
+        />
+      </Stack>
     </>
   );
 }
+
 Collection.requireAuth = true;
 export default ProtectedPage(Collection);
+
+interface DeleteDialogProps {
+  open: boolean;
+  handleClose: () => void;
+  collection_id: string;
+}
+const DeleteDialog: React.FC<DeleteDialogProps> = ({
+  open,
+  handleClose,
+  collection_id,
+}) => {
+  const axiosAuth = useAxiosAuth();
+  const toast = useToast();
+  const router = useRouter();
+
+  const { mutate, isLoading } = useMutation({
+    mutationFn: () => axiosAuth.delete(`/collection/${collection_id}`),
+    onSuccess: () => {
+      toast.success("Collection deleted successfully");
+      router.push("/dashboard/collections");
+    },
+    onError: (error: any) => {
+      toast.error(
+        error?.response?.data?.message ||
+          error?.message ||
+          "Something went wrong",
+      );
+    },
+  });
+
+  return (
+    <Dialog
+      fullWidth
+      maxWidth="sm"
+      PaperProps={{
+        className: "bg-white py-8 max-w-[550px] w-full px-6",
+      }}
+      open={open}
+      onClose={handleClose}
+    >
+      <DialogTitle>Delete Collection</DialogTitle>
+      <DialogContent dividers>
+        Are you sure you want to delete this collection?
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} variant="outlined">
+          Cancel
+        </Button>
+        <LoadingButton
+          loading={isLoading}
+          onClick={() => mutate()}
+          className="bg-primary text-white"
+        >
+          Delete
+        </LoadingButton>
+      </DialogActions>
+    </Dialog>
+  );
+};

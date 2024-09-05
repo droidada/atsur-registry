@@ -78,47 +78,49 @@ const Header: React.FC<Props> = ({ setHideSidebar }) => {
         </IconButton>
 
         <div className="hidden md:flex gap-4 lg:gap-6 items-center">
-          {landingPageNavMenu.map((item) =>
-            item.menus ? (
-              <div
-                key={item.title}
-                className="relative"
-                onMouseEnter={() => handleMouseEnter(item.title)}
-                onMouseLeave={handleMouseLeave}
-              >
-                <span
-                  className={`text-[17px] cursor-pointer leading-[16px] hover:font-bold duration-500 text-justified ${
+          {landingPageNavMenu
+            ?.filter((item) => item?.title !== "Home")
+            .map((item) =>
+              item.menus ? (
+                <div
+                  key={item.title}
+                  className="relative"
+                  onMouseEnter={() => handleMouseEnter(item.title)}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <span
+                    className={`text-[17px] cursor-pointer leading-[16px] hover:font-bold duration-500 text-justified ${
+                      isCurrentPath(item.link) ? "font-[600]" : "font-[400]"
+                    }`}
+                  >
+                    {item.title}
+                  </span>
+                  {hoveredMenu === item.title && (
+                    <div className="absolute left-0 top-full mt-2 w-48 bg-white shadow-lg z-20">
+                      {item.menus.map((subItem) => (
+                        <Link
+                          key={subItem.title}
+                          href={subItem.link}
+                          className="block px-4 py-2 text-[16px] hover:bg-gray-200"
+                        >
+                          {subItem.title}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  className={`text-[17px] leading-[16px] hover:font-bold duration-500 text-justified ${
                     isCurrentPath(item.link) ? "font-[600]" : "font-[400]"
                   }`}
+                  href={item.link}
+                  key={item.title}
                 >
                   {item.title}
-                </span>
-                {hoveredMenu === item.title && (
-                  <div className="absolute left-0 top-full mt-2 w-48 bg-white shadow-lg z-20">
-                    {item.menus.map((subItem) => (
-                      <Link
-                        key={subItem.title}
-                        href={subItem.link}
-                        className="block px-4 py-2 text-[16px] hover:bg-gray-200"
-                      >
-                        {subItem.title}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ) : (
-              <Link
-                className={`text-[17px] leading-[16px] hover:font-bold duration-500 text-justified ${
-                  isCurrentPath(item.link) ? "font-[600]" : "font-[400]"
-                }`}
-                href={item.link}
-                key={item.title}
-              >
-                {item.title}
-              </Link>
-            ),
-          )}
+                </Link>
+              ),
+            )}
         </div>
 
         <Stack direction="row" alignItems="center" spacing={1}>

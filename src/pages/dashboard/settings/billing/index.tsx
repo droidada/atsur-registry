@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import SettingsPages from "@/HOC/SettingPages";
 import {
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Stack,
   Table,
   TableBody,
@@ -55,6 +59,7 @@ const Billing = ({ paymentDetails, credits, invoice }) => {
     `${paymentDetails?.card_details?.exp_year}-${paymentDetails?.card_details?.exp_month}-01`,
   );
 
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const axiosAuth = useAxiosAuth();
   const toast = useToast();
   const router = useRouter();
@@ -95,8 +100,6 @@ const Billing = ({ paymentDetails, credits, invoice }) => {
       toast.error(errorMessage);
     },
   });
-
-  console.log(invoice);
 
   return (
     <Stack spacing={2} className="divide-y-[1px] divide-secondary ">
@@ -150,7 +153,7 @@ const Billing = ({ paymentDetails, credits, invoice }) => {
         </Stack>
         <Stack>
           <Stack
-            direction={{ xs: "column", md: "row" }}
+            direction={{ xs: "column" }}
             spacing={2}
             justifyContent={"space-between"}
             className="p-2 py-4"
@@ -209,7 +212,7 @@ const Billing = ({ paymentDetails, credits, invoice }) => {
                 variant="outlined"
                 className="rounded-[26px] px-2 h-[32px] text-xs leading-[16px] font-normal"
               >
-                {paymentDetails?.plan?.name}
+                {paymentDetails?.plan?.name || "Free"}
               </Button>
             </div>
             {paymentDetails?.card_details && (
@@ -328,8 +331,52 @@ const Billing = ({ paymentDetails, credits, invoice }) => {
           </Stack>
         )}
       </Stack>
+      <div className="flex justify-end">
+        <Button
+          onClick={() => setOpenDeleteModal(true)}
+          variant="text"
+          className="block text-[#FF0000] font-[400] text-sm"
+        >
+          Delete Account
+        </Button>
+      </div>
+      <DeleteModal
+        open={openDeleteModal}
+        onClose={() => setOpenDeleteModal(false)}
+      />
     </Stack>
   );
 };
 
 export default SettingsPages(Billing);
+
+interface DeleteModalProps {
+  open: boolean;
+  onClose: () => void;
+}
+const DeleteModal: React.FC<DeleteModalProps> = ({ open, onClose }) => {
+  const axiosAuth = useAxiosAuth();
+  // TODO complete the account deletion function
+  // const { mutate } = useMutation({
+  //   mutationFn: () => {},
+  //   onSuccess: () => {},
+  //   onError: () => {},
+  // });
+
+  return (
+    <Dialog open={open} onClose={onClose} maxWidth="sm">
+      <DialogTitle>Delete Account</DialogTitle>
+      <DialogContent dividers>
+        <p>Are you sure you want to delete your account?</p>
+      </DialogContent>
+      <DialogActions>
+        <Button variant="outlined" onClick={onClose}>
+          Cancel
+        </Button>
+        <Button variant="contained" onClick={onClose}>
+          Delete
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};

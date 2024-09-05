@@ -1,6 +1,13 @@
-import { Button, Stack } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Stack,
+} from "@mui/material";
 import Image from "next/image";
-import React from "react";
+import React, { use, useState } from "react";
 
 import { useRouter } from "next/router";
 import { FaRegPlusSquare } from "react-icons/fa";
@@ -20,6 +27,7 @@ interface Props {
 const SideBar: React.FC<Props> = ({ hideSidebar, isMobile, isAdmin }) => {
   const pathname = useRouter().pathname;
   const router = useRouter();
+  const [openLogoutModal, setOpenLogoutModal] = useState(false);
 
   return (
     <div
@@ -123,7 +131,7 @@ const SideBar: React.FC<Props> = ({ hideSidebar, isMobile, isAdmin }) => {
                 {item.menus?.map((menu) =>
                   menu?.isButton ? (
                     <h4
-                      onClick={() => signOut()}
+                      onClick={() => setOpenLogoutModal(true)}
                       className="text-[17px] cursor-pointer leading-[16px] flex gap-3 items-center "
                       key={`button-${menu.title}`}
                     >
@@ -175,8 +183,37 @@ const SideBar: React.FC<Props> = ({ hideSidebar, isMobile, isAdmin }) => {
         alt="mask"
         className="w-full h-[70px] object-cover"
       />
+
+      <LogoutModal
+        open={openLogoutModal}
+        onClose={() => setOpenLogoutModal(false)}
+      />
     </div>
   );
 };
 
 export default SideBar;
+
+interface LogoutModal {
+  open: boolean;
+  onClose: () => void;
+}
+
+const LogoutModal: React.FC<LogoutModal> = ({ open, onClose }) => {
+  return (
+    <Dialog open={open} onClose={onClose} maxWidth="sm">
+      <DialogContent dividers>
+        <DialogTitle>Are you sure you want to logout?</DialogTitle>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose} variant="outlined">
+          Cancel
+        </Button>
+
+        <Button onClick={() => signOut()} variant="contained" color="error">
+          Logout
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};

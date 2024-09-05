@@ -31,7 +31,7 @@ const InviteesTable: React.FC<InviteesTableProps> = ({
   const [openRemoveUserDialog, setOpenRemoveUserDialog] = useState(false);
   const [currentMember, setCurrentMember] = useState<any>(null);
 
-  if (invitees.length === 0) {
+  if (invitees?.length === 0) {
     return <NoData text="No member found" />;
   }
 
@@ -47,7 +47,7 @@ const InviteesTable: React.FC<InviteesTableProps> = ({
 
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 925 }}>
+      <Table sx={{ minWidth: 550 }}>
         <TableHead>
           <TableRow>
             {["Name", "Email", "Status", "Responded", "Actions"].map((col) => (

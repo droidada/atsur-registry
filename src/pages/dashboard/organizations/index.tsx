@@ -4,13 +4,14 @@ import ProtectedPage from "@/HOC/Protected";
 import SearchBar from "@/components/layout/DashboardLayout/SearchBar";
 import HeroHeader from "@/components/dashboard/HeroHeader";
 
-import { Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 
 import MyOrganization from "@/components/dashboard/organization/MyOrganization";
 import InvitedOrganization from "@/components/dashboard/organization/InvitedOrganization";
 import CreateOrganizationDialog from "@/components/dashboard/organization/CreateOrganizationDialog";
 import { useRouter } from "next/router";
 import axios from "@/lib/axios";
+import { FaPlus } from "react-icons/fa";
 
 export const getServerSideProps = async ({ req, query, params }) => {
   console.log(query);
@@ -55,27 +56,38 @@ function Organizations({ invitationData }) {
 
   return (
     <Stack spacing={2}>
-      <SearchBar />
+      {/* <SearchBar /> */}
       <HeroHeader
         type="organizations"
         handleCreate={() => setOpenCreateDialog(true)}
         handleExplore={() => {}}
       />
-      <div className="flex gap-4 border-b-[2px] mt-7 mb-4 w-full">
-        {["Added", "Invited"].map((item, index) => (
-          <div
-            key={item}
-            onClick={() => setCurrentTab(index)}
-            className="relative texxt-[19px] cursor-pointer  leading-[19px] pb-3"
-          >
-            {item}
-            {index === currentTab && (
-              <span
-                className={`absolute -bottom-1  left-0 w-full h-[5px] bg-primary`}
-              />
-            )}
-          </div>
-        ))}
+      <div className="flex items-center justify-between gap-5 border-b-[2px] mt-7 mb-4 w-full">
+        <div className="flex gap-4">
+          {["Added", "Invited"].map((item, index) => (
+            <div
+              key={item}
+              onClick={() => setCurrentTab(index)}
+              className="relative text-[19px] cursor-pointer  leading-[19px] pb-3"
+            >
+              {item}
+              {index === currentTab && (
+                <span
+                  className={`absolute -bottom-1  left-0 w-full h-[5px] bg-primary`}
+                />
+              )}
+            </div>
+          ))}
+        </div>
+        <Button
+          aria-haspopup="true"
+          onClick={() => setOpenCreateDialog(true)}
+          startIcon={<FaPlus />}
+          variant="text"
+          className="text-[14px] leading-[16px] text-primary"
+        >
+          New
+        </Button>
       </div>
       {/* <FilterLine view={view} setView={setView} title="My Organizations" /> */}
       <div className="mt-4">

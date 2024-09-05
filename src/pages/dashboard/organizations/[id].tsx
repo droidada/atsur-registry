@@ -111,7 +111,7 @@ function Organization({ organizations }) {
   return (
     <>
       <Stack spacing={4}>
-        <SearchBar />
+        {/* <SearchBar /> */}
         <div className="flex gap-4">
           <div className="flex gap-2 items-start">
             <div

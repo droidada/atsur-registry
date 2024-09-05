@@ -50,12 +50,12 @@ const MembersTable: React.FC<MembersTableProps> = ({
     mutationFn: () => axiosAuth.post(``),
   });
 
-  if (members.length === 0) {
+  if (members?.length === 0) {
     return <NoData text="No member found" />;
   }
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 925 }}>
+      <Table sx={{ minWidth: 550 }}>
         <TableHead>
           <TableRow>
             {cols.map((col) => (

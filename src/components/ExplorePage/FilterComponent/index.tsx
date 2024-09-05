@@ -9,6 +9,7 @@ interface Props {
       min: number;
       max: number;
     };
+    creationDecade: string[];
   };
   setFilter: Dispatch<any>;
   rating: number;
@@ -38,6 +39,8 @@ const mediums = [
   "wood",
   "photography",
 ];
+
+const creationDate = ["2020", "2010", "2000", "1990", "1980", "1970", "1960"];
 
 const rarity = ["unique", "limited-edition", "open-edition", "unknown"];
 
@@ -83,7 +86,17 @@ const FilterComponent: React.FC<Props> = ({
           Filter
         </Button>
         <Button
-          onClick={() => setCurrentActionType("sort")}
+          onClick={() =>
+            setFilter({
+              medium: [],
+              rarity: [],
+              priceRange: {
+                min: 0,
+                max: 0,
+              },
+              creationDecade: [],
+            })
+          }
           variant="text"
           className={`text-[18px] leading-[15px] ${
             currentActionType === "sort"
@@ -91,7 +104,7 @@ const FilterComponent: React.FC<Props> = ({
               : "font-[300] text-secondary"
           }`}
         >
-          Sort
+          Clear Filters
         </Button>
       </div>
 
@@ -126,6 +139,48 @@ const FilterComponent: React.FC<Props> = ({
                     setFilter({
                       ...filters,
                       medium: filters.medium.filter((f) => f !== item),
+                    });
+                  }
+                }}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-4 p-5">
+        <h3 className="font-[500] text-[15px] leading-[15px]">Creation Year</h3>
+        <div className="flex flex-col gap-2">
+          {creationDate.map((item) => (
+            <div
+              key={item}
+              className="grid grid-cols-2 gap-2 items-center capitalize"
+            >
+              <label
+                className="text-xs leading-[12px] font-[300]"
+                htmlFor={item}
+              >
+                {item}s
+              </label>
+              <input
+                id={item}
+                type="checkbox"
+                name={item}
+                value={item}
+                className="w-[12px] h-[12px]"
+                checked={filters?.creationDecade?.includes(item)}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setFilter({
+                      ...filters,
+                      creationDecade: [...filters.creationDecade, item],
+                    });
+                  } else {
+                    setFilter({
+                      ...filters,
+                      creationDecade: filters.creationDecade.filter(
+                        (f) => f !== item,
+                      ),
                     });
                   }
                 }}

@@ -72,32 +72,32 @@ export default function NextWeb3App({
   }, []);
 
   return (
-      <SessionProvider session={session}>
-        <QueryClientProvider client={queryClient}>
-          {/* @ts-ignore */}
-          <LoadingContextProvider>
-            <AuthContextProvider>
-              <ThemeProvider>
-                <ToastProvider>
-                  <DefaultSeo {...SEO} />
-                  <LoadingScreen loading={loading} />
-                  {/* <PageTransition> */}
-                  {Component.requireAuth ? (
-                    <ProtectedLayout>
-                      {/* <AddClassBody /> */}
-                      <Component {...pageProps} />
-                    </ProtectedLayout>
-                  ) : (
+    <SessionProvider session={session}>
+      <QueryClientProvider client={queryClient}>
+        {/* @ts-ignore */}
+        <LoadingContextProvider>
+          <AuthContextProvider>
+            <ThemeProvider>
+              <ToastProvider>
+                <DefaultSeo {...SEO} />
+                <LoadingScreen loading={loading} />
+                {/* <PageTransition> */}
+                {Component.requireAuth ? (
+                  <ProtectedLayout>
+                    {/* <AddClassBody /> */}
                     <Component {...pageProps} />
-                  )}
-                  {/* </PageTransition> */}
-                  {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-                  <Analytics />
-                </ToastProvider>
-              </ThemeProvider>
-            </AuthContextProvider>
-          </LoadingContextProvider>
-        </QueryClientProvider>
-      </SessionProvider>
+                  </ProtectedLayout>
+                ) : (
+                  <Component {...pageProps} />
+                )}
+                {/* </PageTransition> */}
+                {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+                <Analytics />
+              </ToastProvider>
+            </ThemeProvider>
+          </AuthContextProvider>
+        </LoadingContextProvider>
+      </QueryClientProvider>
+    </SessionProvider>
   );
 }

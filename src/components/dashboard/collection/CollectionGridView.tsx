@@ -27,19 +27,17 @@ const CollectionGridView: React.FC<Props> = ({
     );
   }
 
-  if (collections.length === 0) {
+  if (collections?.length === 0) {
     return <NoData text="We have nothing in your collections" />;
   }
 
-  console.log(collections);
-
   return (
     <div className="grid grid-cols-auto-fit gap-4">
-      {collections.map((collection) => (
+      {collections?.map((collection) => (
         <CollectionCard
           collection={collection}
           key={collection._id}
-          url={`${baseUrl}/collections/${collection._id}`}
+          url={`${baseUrl}/${collection._id}`}
         />
       ))}
     </div>
