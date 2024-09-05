@@ -18,6 +18,14 @@ export interface IMember {
 }
 
 export interface IUser {
+  kycVerification: {
+    verificationStatus: string;
+  };
+  country: {
+    name: string;
+    code: string;
+  };
+  phone: string;
   id: string;
   _id: string;
   email: string;
@@ -27,7 +35,10 @@ export interface IUser {
   description?: string;
   bio?: string;
   avatar?: string;
+  website?: string;
+
   backgroundImage?: string;
+  google?: string;
   role: string;
   token?: string;
   status?: string;

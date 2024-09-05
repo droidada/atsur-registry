@@ -4,7 +4,7 @@ import Image from "@/components/common/image";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { TypeOf, object, string } from "zod";
-import axios from "axios";
+
 import { useAuthContext } from "@/providers/auth.context";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useToast } from "@/providers/ToastProvider";
@@ -17,30 +17,15 @@ import { useSession } from "next-auth/react";
 import InputField from "@/components/Form/InputField";
 import PersonalInfoForm from "@/components/dashboard/settings/profile/PersonalInfoForm";
 import SocialMediaForm from "@/components/dashboard/settings/profile/SocialMediaForm";
+import { getToken } from "next-auth/jwt";
+import axios from "@/lib/axios";
 
 const pubAPI = process.env.NEXT_PUBLIC_API_ENDPOINT;
-function Settings() {
-  const { user, logIn, logOut, updateUserProfile } = useAuthContext();
-  const signUpSchema = object({
-    firstName: string().nonempty("First name is required"),
-    lastName: string().nonempty("Last name is required"),
-    bio: string(),
-    twitter: string(),
-    facebook: string(),
-    instagram: string(),
-    linkedIn: string(),
-    // email: string().nonempty("Email is required").email("Email is invalid"),
-  });
 
-  type SignUpInput = TypeOf<typeof signUpSchema>;
-  const {
-    register,
-    formState: { errors, isSubmitSuccessful },
-    reset,
-    handleSubmit,
-  } = useForm<SignUpInput>({
-    resolver: zodResolver(signUpSchema),
-  });
+function Settings() {
+  const { user } = useAuthContext();
+  console.log("user", user);
+
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [error, setError] = useState(false);
@@ -52,103 +37,6 @@ function Settings() {
   const axiosAuth = useAxiosAuth();
 
   const { data } = useSession();
-
-  useEffect(() => {
-    if (isSubmitSuccessful) {
-      reset();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSubmitSuccessful]);
-
-  useEffect(() => {
-    setError(false);
-    setSuccess(false);
-  }, []);
-
-  const onSubmitHandler: SubmitHandler<SignUpInput> = async (values) => {
-    try {
-      console.log(values);
-      setLoading(true);
-      setError(false);
-      setSuccess(false);
-      const resp = await axios.post(`${pubAPI}/auth/profile-update`, {
-        // firstName: values.firstName,
-        // lastName: values.lastName,
-        // bio: values.bio,
-        ...values,
-        socialLinks: {
-          linkedIn: values.linkedIn,
-          facebook: values.facebook,
-          instagram: values.instagram,
-          twitter: values.twitter,
-        },
-        email: user.email,
-      });
-      console.log(resp);
-      //success message
-      setLoading(false);
-      setSuccess(true);
-      toast.success("Profile updated successfully");
-      router.reload();
-    } catch (error) {
-      console.error(error.message);
-      setLoading(false);
-      setError(true);
-    }
-  };
-  const handleUploadClick = (event, setter) => {
-    var file = event.target.files[0];
-    const reader = new FileReader();
-    var url = reader.readAsDataURL(file);
-    reader.onloadend = function (e) {
-      setter(reader.result);
-    }.bind(this);
-    // console.log("url", url); // Would see a path?
-    // setPreviewImg(event.target.files[0]);
-  };
-  const updateAvatar = async () => {
-    try {
-      setLoading(true);
-      setError(false);
-      setSuccess(false);
-
-      // Conditional data construction based on preview values
-      let data: any = {};
-      if (previewBg && previewImg) {
-        // Both previewBg and previewImg are not null, include both
-        data = {
-          avatar: previewImg,
-          backgroundImage: previewBg,
-          email: user.email,
-        };
-      } else {
-        // One or both preview values are null, include only non-null values
-        if (previewImg) {
-          data.avatar = previewImg;
-        }
-        if (previewBg) {
-          data.backgroundImage = previewBg;
-        }
-        data.email = user.email;
-      }
-
-      const resp = await axios.post(`${pubAPI}/auth/profile-update`, data);
-      console.log(resp);
-
-      // Success handling
-      setLoading(false);
-      setSuccess(true);
-      router.reload();
-    } catch (error) {
-      console.error(error.message);
-      setLoading(false);
-      setError(true);
-    }
-  };
-
-  const avatarRef = useRef<any>();
-  const bgRef = useRef<any>();
-  const toast = useToast();
 
   // console.log(previewImg);
   return (
@@ -165,14 +53,14 @@ function Settings() {
         <div className="flex items-center gap-4">
           <Avatar
             //  @ts-ignore
-            src={data?.user?.avatar}
+            src={user?.avatar}
             //  @ts-ignore
-            alt={data?.user?.firstName}
+            alt={user?.firstName}
             className="w-[96px] h-[96px]"
           />
           <h3 className="font-[600] text-[19px] leading-[16px]">
             {/* @ts-ignore */}
-            {data?.user?.firstName} {data?.user?.lastName}
+            {user?.firstName} {user?.lastName}
           </h3>
         </div>
         <Button className="rounded-[22px] bg-secondary text-primary font-[400] text-xs">
@@ -196,23 +84,23 @@ function Settings() {
             <div className="flex-1 gap-4 grid grid-cols-2">
               <div className="flex flex-col font-[400] text-[12px] leading-[16px]">
                 <span className="">First Name</span>
-                <span className="font-[500]">{data?.user?.firstName}</span>
+                <span className="font-[500]">{user?.firstName}</span>
               </div>
               <div className="flex flex-col font-[400] text-[12px] leading-[16px]">
                 <span className="">Last Name</span>
-                <span className="font-[500]">{data?.user?.lastName}</span>
+                <span className="font-[500]">{user?.lastName}</span>
               </div>
               <div className="flex flex-col font-[400] text-[12px] leading-[16px]">
                 <span className="">Email</span>
-                <span className="font-[500]">{data?.user?.email}</span>
+                <span className="font-[500]">{user?.email}</span>
               </div>
               <div className="flex flex-col font-[400] text-[12px] leading-[16px]">
                 <span className="">Phone</span>
-                <span className="font-[500]">{data?.user?.phone}</span>
+                <span className="font-[500]">{user?.phone}</span>
               </div>
               <div className="flex flex-col col-span-2 font-[400] text-[12px] leading-[16px]">
                 <span className="">Bio</span>
-                <span className="font-[500]">{data?.user?.bio}</span>
+                <span className="font-[500]">{user?.bio}</span>
               </div>
             </div>
           )}
@@ -236,24 +124,32 @@ function Settings() {
           spacing={4}
         >
           {isEditSocialHandles ? (
-            <SocialMediaForm />
+            <SocialMediaForm socialLinks={user?.socialLinks} />
           ) : (
             <div className="flex-1 gap-4 grid grid-cols-2">
               <div className="flex flex-col font-[400] text-[12px] leading-[16px]">
                 <span className="">Facebook</span>
-                <span className="font-[500]">{data?.user?.facebook}</span>
+                <span className="font-[500]">
+                  {user?.socialLinks?.facebook || "Nill"}
+                </span>
               </div>
               <div className="flex flex-col font-[400] text-[12px] leading-[16px]">
                 <span className="">X</span>
-                <span className="font-[500]">{data?.user?.twitter}</span>
+                <span className="font-[500]">
+                  {user?.socialLinks?.twitter || "Nill"}
+                </span>
               </div>
               <div className="flex flex-col font-[400] text-[12px] leading-[16px]">
                 <span className="">Instagram</span>
-                <span className="font-[500]">{data?.user?.instagram}</span>
+                <span className="font-[500]">
+                  {user?.socialLinks?.instagram || "Nill"}
+                </span>
               </div>
               <div className="flex flex-col font-[400] text-[12px] leading-[16px]">
                 <span className="">Linkedin</span>
-                <span className="font-[500]">{data?.user?.linkedIn}</span>
+                <span className="font-[500]">
+                  {user?.socialLinks?.linkedIn || "Nill"}
+                </span>
               </div>
             </div>
           )}
@@ -278,20 +174,20 @@ function Settings() {
           <div className="flex-1 gap-4 grid grid-cols-2">
             <div className="flex flex-col font-[400] text-[12px] leading-[16px]">
               <span className="">Country</span>
-              <span className="font-[500]">{data?.user?.country}</span>
+              <span className="font-[500]">{user?.country?.name}</span>
             </div>
-            <div className="flex flex-col font-[400] text-[12px] leading-[16px]">
+            {/* <div className="flex flex-col font-[400] text-[12px] leading-[16px]">
               <span className="">City/State</span>
-              <span className="font-[500]">{data?.user?.city}</span>
-            </div>
-            <div className="flex flex-col font-[400] text-[12px] leading-[16px]">
+              <span className="font-[500]">{user?.city}</span>
+            </div> */}
+            {/* <div className="flex flex-col font-[400] text-[12px] leading-[16px]">
               <span className="">Home Address</span>
-              <span className="font-[500]">{data?.user?.address}</span>
+              <span className="font-[500]">{user?.address}</span>
             </div>
             <div className="flex flex-col font-[400] text-[12px] leading-[16px]">
               <span className="">Postal Code</span>
-              <span className="font-[500]">{data?.user?.postalCode}</span>
-            </div>
+              <span className="font-[500]">{user?.postalCode}</span>
+            </div> */}
           </div>
           <Button className="rounded-[22px] bg-secondary text-primary font-[400] text-xs">
             Edit

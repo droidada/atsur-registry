@@ -9,6 +9,7 @@ import {
   DialogTitle,
   Paper,
 } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { TypeOf, object, string } from "zod";
@@ -35,6 +36,8 @@ const ChangePasswordDialog: React.FC<Props> = ({ open, handleClose }) => {
     },
   );
 
+  const { mutate } = useMutation({});
+
   type ChangePasswordInput = TypeOf<typeof changePasswordSchema>;
 
   const {
@@ -46,6 +49,7 @@ const ChangePasswordDialog: React.FC<Props> = ({ open, handleClose }) => {
   } = useForm<ChangePasswordInput>({
     resolver: zodResolver(changePasswordSchema),
   });
+
   return (
     <Dialog
       maxWidth="md"

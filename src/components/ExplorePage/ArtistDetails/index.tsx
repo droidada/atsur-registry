@@ -147,7 +147,7 @@ const ArtistDetailsPage: React.FC<Props> = ({ artist }) => {
             alignItems={"center"}
             spacing={1}
           >
-            <h1 className=" text-2xl md:text-4xl lg:text-[50px]  ">
+            <h1 className=" text-2xl md:text-4xl text-center  ">
               {artist?.firstName} {artist.lastName}
             </h1>
             <div className="flex items-center">
