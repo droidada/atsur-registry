@@ -44,7 +44,7 @@ const PublicHeroImage = ({ heroImages }) => {
     mutationFn: (formData) => axiosAuth.post("/public/hero-images", formData),
     mutationKey: ["/public/hero-images"],
     onSuccess: () => {
-      toast.success("Hero images updated successfully");
+      // toast.success("Hero images updated successfully");
     },
     onError: (error: any) => {
       toast.error(

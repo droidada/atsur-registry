@@ -68,7 +68,7 @@ const AddArtPieceModal: React.FC<Props> = ({
       }),
     onSuccess: () => {
       router.push(router.asPath);
-      toast.success("Artwork added successfully");
+      // toast.success("Artwork added successfully");
       handleClose();
     },
     onError: (error: any) => {

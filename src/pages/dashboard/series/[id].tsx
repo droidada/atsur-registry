@@ -72,7 +72,7 @@ const SeriesDetails = ({ series }) => {
       }),
 
     onSuccess: () => {
-      toast.success("Artwork removed successfully");
+      // toast.success("Artwork removed successfully");
       setRemovingArtId(null);
       setOpenRemoveArtwork(false);
       router.push(router.asPath);
@@ -229,7 +229,7 @@ const DeleteDialog: React.FC<DeleteDialogProps> = ({
   const { mutate, isLoading } = useMutation({
     mutationFn: () => axiosAuth.delete(`/art-series/${series_id}`),
     onSuccess: () => {
-      toast.success("Series deleted successfully");
+      // toast.success("Series deleted successfully");
       router.push("/dashboard/series");
     },
     onError: (error: any) => {

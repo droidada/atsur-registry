@@ -57,7 +57,7 @@ const PersonalInfoForm: React.FC<Props> = ({ setIsEdit }) => {
       console.log(data?.data?.data);
       await update({ ...session, ...data?.data?.data });
       setIsEdit(false);
-      toast.success("Profile updated successfully");
+      // toast.success("Profile updated successfully");
     },
     onError: (error: any) => {
       console.log(error);

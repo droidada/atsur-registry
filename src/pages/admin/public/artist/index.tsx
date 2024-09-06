@@ -68,7 +68,7 @@ const PublicArtist = ({ topArtists }) => {
       );
     },
     onSuccess: () => {
-      toast.success("Collection added successfully");
+      // toast.success("Collection added successfully");
     },
   });
 

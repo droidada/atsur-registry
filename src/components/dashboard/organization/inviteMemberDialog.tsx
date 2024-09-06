@@ -40,7 +40,7 @@ const InviteMemberDialog: React.FC<Props> = ({
         lastName: selectedUser?.lastName,
       }),
     onSuccess: () => {
-      toast.success("An invitation has been sent to the member.");
+      // toast.success("An invitation has been sent to the member.");
       router.replace(router.asPath);
       handleClose();
     },

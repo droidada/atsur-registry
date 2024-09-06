@@ -60,7 +60,7 @@ const AppraisalTable: React.FC<Props> = ({
         }),
       onSuccess: () => {
         setOpenDelete(false);
-        toast.success("Appraisal deleted successfully.");
+        // toast.success("Appraisal deleted successfully.");
         router.replace(router.asPath);
       },
       onError: (error) => {

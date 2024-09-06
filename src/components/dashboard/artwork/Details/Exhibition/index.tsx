@@ -111,9 +111,9 @@ const ArtPieceExhibition: React.FC<Props> = ({ exhibitions, artPieceId }) => {
       reset();
       setOpen(false);
 
-      toast.success(
-        `Exhibition ${currentExhibition ? "updated" : "added"}  successfully.`,
-      );
+      // toast.success(
+      //   `Exhibition ${currentExhibition ? "updated" : "added"}  successfully.`,
+      // );
 
       router.replace(router.asPath);
     },

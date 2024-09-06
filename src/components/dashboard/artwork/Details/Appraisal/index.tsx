@@ -63,9 +63,9 @@ const ArtPieceAppraisal: React.FC<Props> = ({ appraisals, artpieceId }) => {
         : axiosAuth.post(`/appraisal/add`, data),
     onSuccess: () => {
       setOpen(false);
-      toast.success(
-        `Appraisal ${currentAppraisal ? "updated" : "added"} successfully.`,
-      );
+      // toast.success(
+      //   `Appraisal ${currentAppraisal ? "updated" : "added"} successfully.`,
+      // );
       reset();
       setAppraisalImg(null);
       router.replace(router.asPath);

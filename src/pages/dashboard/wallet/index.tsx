@@ -47,7 +47,7 @@ const WalletDashboard = ({ wallet }) => {
   const handleCopyToClipboard = () => {
     try {
       navigator.clipboard.writeText(wallet?.address);
-      toast.success("Copied to clipboard");
+      // toast.success("Copied to clipboard");
     } catch (error) {
       toast.error("Failed to copy to clipboard");
     }
@@ -57,7 +57,7 @@ const WalletDashboard = ({ wallet }) => {
     transak.init();
     Transak.on(Transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, (orderData) => {
       console.log(orderData);
-      toast.success("Deposit successful!");
+      // toast.success("Deposit successful!");
     });
     Transak.on(Transak.EVENTS.TRANSAK_ORDER_FAILED, (errorData) => {
       console.error(errorData);

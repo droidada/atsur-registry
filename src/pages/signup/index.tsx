@@ -119,7 +119,7 @@ function SignUp({ invitationData, countries }) {
 
   useEffect(() => {
     if (session) {
-      toast.success("You have successfully logged in!");
+      // toast.success("You have successfully logged in!");
       console.log("session info here =======>>", session);
       setTimeout(() => {
         router.push("/dashboard");
@@ -161,7 +161,7 @@ function SignUp({ invitationData, countries }) {
       });
       console.log(resp.data);
       //success message
-      toast.success("Account created successfully");
+      // toast.success("Account created successfully");
       //redirect to login page
 
       setSuccess(true);

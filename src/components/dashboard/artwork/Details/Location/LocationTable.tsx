@@ -59,7 +59,7 @@ const LocationTable: React.FC<Props> = ({
         }),
       onSuccess: () => {
         setOpenDelete(false);
-        toast.success("Location deleted successfully.");
+        // toast.success("Location deleted successfully.");
         router.replace(router.asPath);
       },
       onError: (error: any) => {

@@ -66,9 +66,9 @@ const ArtPieceLocation: React.FC<Props> = ({ locations, artpieceId }) => {
         : axiosAuth.post(`/location/add`, data),
     onSuccess: () => {
       setOpen(false);
-      toast.success(
-        `Location ${currentLocation ? "updated" : "added"} successfully.`,
-      );
+      // toast.success(
+      //   `Location ${currentLocation ? "updated" : "added"} successfully.`,
+      // );
       reset();
       router.replace(router.asPath);
     },

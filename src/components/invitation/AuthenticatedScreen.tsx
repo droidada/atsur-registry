@@ -77,7 +77,7 @@ const AuthenticatedScreen = ({
 
       const { data } = await axiosFetch.post("/invite/accept", formData);
 
-      toast.success("Successfully accepted the invitation!");
+      // toast.success("Successfully accepted the invitation!");
       router.replace(inviteUrl);
     } catch (error) {
       toast.error("Error accepting the invitation!");
@@ -104,7 +104,7 @@ const AuthenticatedScreen = ({
         userResponse: "rejected",
       });
 
-      toast.success("Successfully rejected the invitation!");
+      // toast.success("Successfully rejected the invitation!");
     } catch (error) {
       toast.error("Error rejecting the invitation!");
     } finally {

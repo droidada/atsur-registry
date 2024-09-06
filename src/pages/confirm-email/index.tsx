@@ -24,7 +24,7 @@ const ConfirmEmail = () => {
   const { mutate, isLoading } = useMutation({
     mutationFn: () => axios.post("/auth/resend-verification-email", { email }),
     onSuccess: () => {
-      toast.success(`A verification email has been sent to ${email}`);
+      // toast.success(`A verification email has been sent to ${email}`);
       router.push("/login");
     },
     onError: (error: any) => {

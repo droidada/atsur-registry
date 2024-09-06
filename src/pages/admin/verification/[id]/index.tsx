@@ -104,7 +104,7 @@ const VerificationId = ({ artPiece }) => {
   const { mutate, isLoading } = useMutation({
     mutationFn: (id) => axiosAuth.post(`/invite/resend/${id}`),
     onSuccess: () => {
-      toast.success("Invitation Resent");
+      // toast.success("Invitation Resent");
     },
     onError: (error: any) => {
       toast.error(

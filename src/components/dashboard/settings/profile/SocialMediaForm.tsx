@@ -56,7 +56,7 @@ const SocialMediaForm: React.FC<Props> = ({ socialLinks }) => {
         socialLinks,
       }),
     onSuccess: () => {
-      toast.success("Profile updated successfully");
+      // toast.success("Profile updated successfully");
       router.reload();
     },
     onError: (error: any) => {

@@ -50,7 +50,6 @@ export default function NextWeb3App({
     AOS.init({
       duration: 1200,
       easing: "ease-in-out",
-      once: true,
       delay: 100,
       offset: 200,
     });

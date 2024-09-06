@@ -37,7 +37,7 @@ const CreateCollectionModal: React.FC<Props> = ({ open, handleClose }) => {
   const { data, mutate, isLoading } = useMutation({
     mutationFn: (data: any) => axiosAuth.post(`/collection/add`, data),
     onSuccess: () => {
-      toast.success("Collection created successfully");
+      // toast.success("Collection created successfully");
       router.push(router.asPath);
       handleClose();
     },

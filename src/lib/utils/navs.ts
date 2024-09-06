@@ -4,14 +4,12 @@ import { FiUsers } from "react-icons/fi";
 import { MdOutlineFeaturedPlayList } from "react-icons/md";
 import { TbCategory } from "react-icons/tb";
 
+const HOME_WEBSITE = "https://www.atsur.art";
+
 export const landingPageNavMenu = [
   {
-    title: "Home",
-    link: "/",
-  },
-  {
     title: "Service",
-    link: "/service",
+    link: "/services",
     menus: [
       {
         title: "Archiving ",
@@ -49,22 +47,24 @@ export const landingPageNavMenu = [
     ],
   },
   {
+    title: "About Us",
+    link: `${HOME_WEBSITE}/about`,
+  },
+  {
     title: "Pricing",
     link: "/pricing",
   },
-
   {
-    title: "About",
-    link: "/about",
-  },
-
-  {
-    title: "Explore",
+    title: "Registry",
     link: "/explore",
   },
   {
+    title: "Blog",
+    link: `${HOME_WEBSITE}/blog`,
+  },
+  {
     title: "Contact",
-    link: "/contact",
+    link: `${HOME_WEBSITE}/contact`,
   },
 ];
 

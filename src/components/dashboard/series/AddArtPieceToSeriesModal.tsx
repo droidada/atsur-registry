@@ -53,7 +53,7 @@ const AddArtPieceToSeriesModal: React.FC<Props> = ({
       }),
     onSuccess: () => {
       router.reload();
-      toast.success("Artwork added successfully");
+      // toast.success("Artwork added successfully");
       handleClose();
     },
     onError: (error: any) => {

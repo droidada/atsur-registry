@@ -85,7 +85,7 @@ const ArtistInformation: React.FC<Props> = ({
     },
     onSuccess: (data) => {
       if (currentSubmitType === "save" || currentSubmitType === "next") {
-        toast.success("Data saved successfully");
+        // toast.success("Data saved successfully");
         if (sellerType === "broker") {
           setActiveIndex((prevIndex) => prevIndex + 1);
           setIsArtistBroker(true);
@@ -95,7 +95,7 @@ const ArtistInformation: React.FC<Props> = ({
 
         // setActiveIndex((prevIndex) => prevIndex + 1);
       } else {
-        toast.success("Data published successfully");
+        // toast.success("Data published successfully");
         if (sellerType === "broker") {
           setActiveIndex((prevIndex) => prevIndex + 1);
           setIsArtistBroker(true);

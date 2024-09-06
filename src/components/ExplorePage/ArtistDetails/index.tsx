@@ -57,11 +57,11 @@ const ArtistDetailsPage: React.FC<Props> = ({ artist }) => {
     },
     onSuccess: (data) => {
       console.log(data);
-      toast.success(
-        artist?.isFollowing
-          ? "You have unfollowed this user"
-          : "You are now following this user",
-      );
+      // toast.success(
+      //   artist?.isFollowing
+      //     ? "You have unfollowed this user"
+      //     : "You are now following this user",
+      // );
       router.replace(router.asPath);
     },
     onError: (error: any) => {
