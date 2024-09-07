@@ -2,7 +2,7 @@ import UnprotectedPage from "@/HOC/Unprotected";
 import PricingLayout from "@/components/layout/PricingLayout";
 import Bundles from "@/components/pricing/Bundles";
 import PriceSection from "@/components/pricing/PriceSection";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import { allPriceService } from "@/lib/utils/pricing";
 import Link from "next/link";
 import React from "react";

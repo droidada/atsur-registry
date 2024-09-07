@@ -10,7 +10,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/router";
 import { useAuthContext } from "../../providers/auth.context";
 import { useToast } from "@/providers/ToastProvider";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import UnprotectedPage from "@/HOC/Unprotected";
 import InputField from "@/components/Form/InputField";
 import AuthLayout from "@/components/layout/AuthLayout";

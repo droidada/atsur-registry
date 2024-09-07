@@ -6,7 +6,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 
 import { useRouter } from "next/router";
 import { useAuthContext } from "../../providers/auth.context";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import InputField from "@/components/Form/InputField";
 import UnprotectedPage from "@/HOC/Unprotected";
 import AuthLayout from "@/components/layout/AuthLayout";

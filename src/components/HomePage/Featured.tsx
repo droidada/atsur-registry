@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 import ArtPieceCard from "../ArtPieceCard";
 import { useQuery } from "@tanstack/react-query";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 
 interface Props {}
 

@@ -1,4 +1,4 @@
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import { IPageArtist } from "@/types/models/hompageData";
 import { Avatar, CircularProgress, Stack, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";

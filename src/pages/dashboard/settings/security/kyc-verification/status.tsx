@@ -1,4 +1,4 @@
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import { getToken } from "next-auth/jwt";
 import React, { useState } from "react";
 import dynamic from "next/dynamic";

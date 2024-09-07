@@ -1,5 +1,5 @@
 import { getToken } from "next-auth/jwt";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import ProtectedPage from "@/HOC/Protected";
 import MainVerification from "@/components/dashboard/artwork/Verification/MainVerification";
 import VerificationAccepted from "@/components/dashboard/artwork/Verification/VerificationAccepted";

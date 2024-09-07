@@ -9,7 +9,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import ReactPlayer from "react-player";
 import { Document, Page } from "react-pdf";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 
 export function getFileType(url: string) {
   const extension = url?.split(".").pop();

@@ -1,5 +1,5 @@
 import useAxiosAuth from "@/hooks/useAxiosAuth";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import "@smile_identity/smart-camera-web";
 import { getToken } from "next-auth/jwt";
 import { useSession } from "next-auth/react";

@@ -10,7 +10,7 @@ import MyOrganization from "@/components/dashboard/organization/MyOrganization";
 import InvitedOrganization from "@/components/dashboard/organization/InvitedOrganization";
 import CreateOrganizationDialog from "@/components/dashboard/organization/CreateOrganizationDialog";
 import { useRouter } from "next/router";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import { FaPlus } from "react-icons/fa";
 
 export const getServerSideProps = async ({ req, query, params }) => {

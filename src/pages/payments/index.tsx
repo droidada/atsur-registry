@@ -1,7 +1,7 @@
 import React from "react";
 import UnprotectedPage from "@/HOC/Unprotected";
 import { getToken } from "next-auth/jwt";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import { FaCheck } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { Button } from "@mui/material";

@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { IoCheckmarkSharp } from "react-icons/io5";
 import { HiMiniCheckCircle } from "react-icons/hi2";
 import { useMutation } from "@tanstack/react-query";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useToast } from "@/providers/ToastProvider";

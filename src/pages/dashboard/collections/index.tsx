@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { getToken } from "next-auth/jwt";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import CollectionCard from "@/components/common/CollectionCard";
 import ProtectedPage from "@/HOC/Protected";
 import { Stack } from "@mui/material";

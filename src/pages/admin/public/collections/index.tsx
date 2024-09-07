@@ -2,7 +2,7 @@ import LoadingButton from "@/components/Form/LoadingButton";
 import AdminDashboardLayout from "@/components/layout/AdminDashboardLayout";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import useDebounce from "@/hooks/useDebounce";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import { useToast } from "@/providers/ToastProvider";
 import {
   Button,

@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import InputField from "@/components/Form/InputField";
 
 import useAxiosAuth from "@/hooks/useAxiosAuth";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import { useToast } from "@/providers/ToastProvider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";

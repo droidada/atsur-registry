@@ -198,12 +198,12 @@ const Homepage = () => {
               <div className="relative w-full overflow-x-auto flex">
                 {whatwedo?.map((item, index) => (
                   <div
+                    key={index}
                     onClick={() => {
                       if (currentView !== index) {
                         setCurrentView(index);
                       }
                     }}
-                    key={`whatwedo-${index}`}
                     style={{
                       backgroundColor: item.color,
                     }}
@@ -352,11 +352,8 @@ const Homepage = () => {
             }}
             className="p-10 bg-primary justify-center mt-8 flex gap-4 flex-col md:flex-row   items-center"
           >
-            {team?.map((item) => (
-              <div
-                key={`---${item.name}`}
-                className="max-w-[348px] w-full bg-white"
-              >
+            {team?.map((item, idx) => (
+              <div key={`---${idx}`} className="max-w-[348px] w-full bg-white">
                 <Image src={item.image} alt="" height={254} width={348} />
                 <div className="flex flex-col items-center py-5   mt-4">
                   <h4 className="text-[24px] font-[500]">{item.name}</h4>

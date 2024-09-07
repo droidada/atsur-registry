@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import {
   Autocomplete,
   Box,

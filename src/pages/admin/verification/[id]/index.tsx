@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { getToken } from "next-auth/jwt";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import AdminDashboardLayout from "@/components/layout/AdminDashboardLayout";
 import {
   Stack,

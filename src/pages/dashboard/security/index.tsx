@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "@/components/common/image";
 import { getToken } from "next-auth/jwt";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import ProtectedPage from "@/HOC/Protected";
 
 export const getServerSideProps = async ({ req, query }) => {

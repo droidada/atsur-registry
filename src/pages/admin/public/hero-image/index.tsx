@@ -2,7 +2,7 @@ import LoadingButton from "@/components/Form/LoadingButton";
 import VerificationFileDroper from "@/components/dashboard/artwork/Verification/VerificationFileDroper";
 import AdminDashboardLayout from "@/components/layout/AdminDashboardLayout";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import { useToast } from "@/providers/ToastProvider";
 import { useMutation } from "@tanstack/react-query";
 import { getToken } from "next-auth/jwt";

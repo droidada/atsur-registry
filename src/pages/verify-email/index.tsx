@@ -1,5 +1,5 @@
 import AuthLayout from "@/components/layout/AuthLayout";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import { Button } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";

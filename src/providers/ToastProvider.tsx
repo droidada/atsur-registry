@@ -41,7 +41,7 @@ export const ToastProvider = ({ children }) => {
           minHeight: "auto",
         }}
         bodyClassName="text-sm leading-relaxed"
-        closeButton={
+        closebutton={
           <button
             aria-label="Close Toast"
             className="ml-4 text-gray-500 hover:text-gray-800"

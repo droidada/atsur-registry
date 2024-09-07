@@ -1,6 +1,6 @@
 import TrustedComponents from "@/components/ServicesPage/TrustedComponent";
 import PricingLayout from "@/components/layout/PricingLayout";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import { Button } from "@mui/material";
 import { getToken } from "next-auth/jwt";
 import Image from "next/image";

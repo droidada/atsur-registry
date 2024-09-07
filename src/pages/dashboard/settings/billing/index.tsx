@@ -17,7 +17,7 @@ import {
 import { RiVipCrownFill } from "react-icons/ri";
 import Link from "next/link";
 import { getToken } from "next-auth/jwt";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import moment from "moment";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { useMutation } from "@tanstack/react-query";

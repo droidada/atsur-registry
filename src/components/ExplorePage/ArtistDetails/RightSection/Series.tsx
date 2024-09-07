@@ -1,5 +1,5 @@
 import LoadingArtpieceCard from "@/components/LoadingArtpieceCard";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import React from "react";

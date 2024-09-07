@@ -42,15 +42,15 @@ export function AuthContextProvider({ children }: any) {
 
   const fetchUser = useCallback(async (): Promise<void> => {
     try {
+      if (!axiosAuth) return;
       setLoading(true);
       const res = await axiosAuth?.get("user/me");
-      const data = res?.data;
-      setUser(data);
+      if (res?.data) setUser(res?.data);
       setLoading(false);
     } catch (error) {
-      if (error) console.error(error);
+      console.error(error);
     }
-  }, []);
+  }, [axiosAuth]);
 
   const updateUserProfile = useCallback(
     async (info: any): Promise<void> => {

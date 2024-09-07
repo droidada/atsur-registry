@@ -12,7 +12,7 @@ import Image from "next/image";
 import { IArtPiece } from "@/types/models/hompageData";
 import SimpleArtpieceCard from "../SimpleArtpieceCard";
 import { useQuery } from "@tanstack/react-query";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 
 interface Props {}
 const TopCollection: React.FC<Props> = ({}) => {

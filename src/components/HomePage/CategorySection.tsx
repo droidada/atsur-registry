@@ -2,7 +2,7 @@ import { CircularProgress, Stack, Typography } from "@mui/material";
 import React from "react";
 import { ICategory } from "@/types/models/hompageData";
 import CategoryCard from "../CategoryCard";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
 interface Props {}

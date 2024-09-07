@@ -5,7 +5,7 @@ import IllustrationForm from "@/components/dashboard/artwork/create/Illustration
 import ICreateArtworkFormData from "@/types/models/createArtwork";
 import AssetsForm from "@/components/dashboard/artwork/create/AssetForm";
 import CreateArtworkPreview from "@/components/dashboard/artwork/create/Preview";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import { getToken } from "next-auth/jwt";
 import PricingForm from "@/components/dashboard/artwork/create/Pricing";
 

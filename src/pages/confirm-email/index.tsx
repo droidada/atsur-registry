@@ -1,6 +1,6 @@
 import LoadingButton from "@/components/Form/LoadingButton";
 import AuthLayout from "@/components/layout/AuthLayout";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import { useToast } from "@/providers/ToastProvider";
 
 import { Button, Stack } from "@mui/material";

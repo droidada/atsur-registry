@@ -3,7 +3,7 @@ import NoData from "@/components/dashboard/NoData";
 import AdminDashboardLayout from "@/components/layout/AdminDashboardLayout";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import useDebounce from "@/hooks/useDebounce";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import { artPieceMediums } from "@/lib/utils/mediums";
 import { useToast } from "@/providers/ToastProvider";
 

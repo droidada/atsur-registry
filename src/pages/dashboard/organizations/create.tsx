@@ -9,7 +9,7 @@ import { TextField } from "@mui/material";
 // import { LoadingButton } from "@mui/lab";
 import { useAuthContext } from "@/providers/auth.context";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import ProtectedPage from "@/HOC/Protected";
 
 export const getServerSideProps = async ({ req, query, params }) => {

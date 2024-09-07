@@ -1,14 +1,14 @@
 "use client";
-import { axiosAuth } from "../lib/axios";
-import { useSession, getSession } from "next-auth/react";
 import { useEffect } from "react";
+import { useSession, getSession } from "next-auth/react";
+import { axiosAuth } from "../lib/axios";
 import { useRefreshToken } from "./useRefreshToken";
 
 const useAxiosAuth = () => {
   const refreshToken = useRefreshToken();
 
   useEffect(() => {
-    const requestIntercept = axiosAuth.interceptors.request.use(
+    const requestIntercept = axiosAuth?.interceptors?.request.use(
       async (config) => {
         const session: any = await getSession();
 
@@ -25,7 +25,7 @@ const useAxiosAuth = () => {
       },
     );
 
-    const responseIntercept = axiosAuth.interceptors.response.use(
+    const responseIntercept = axiosAuth?.interceptors?.response.use(
       (response) => response,
       async (error) => {
         // console.log("response interceptor error here ", error);
@@ -42,8 +42,8 @@ const useAxiosAuth = () => {
     );
 
     return () => {
-      axiosAuth.interceptors.request.eject(requestIntercept);
-      axiosAuth.interceptors.response.eject(responseIntercept);
+      axiosAuth.interceptors.request.eject(requestIntercept || 0);
+      axiosAuth.interceptors.response.eject(responseIntercept || 0);
     };
   }, [refreshToken]);
 

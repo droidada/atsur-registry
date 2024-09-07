@@ -1,7 +1,7 @@
 import UnprotectedPage from "@/HOC/Unprotected";
 import React from "react";
 import { getToken } from "next-auth/jwt";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import ArtistDetailsPage from "@/components/ExplorePage/ArtistDetails";
 import { useSession } from "next-auth/react";
 

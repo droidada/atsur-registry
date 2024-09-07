@@ -3,7 +3,7 @@ import { getToken } from "next-auth/jwt";
 import { FaEthereum } from "react-icons/fa";
 import { MdOutlineChevronRight } from "react-icons/md";
 import { NumericFormat } from "react-number-format";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import { Transak } from "@transak/transak-sdk";
 import { defaultTransakConfig } from "@/lib/utils/transkConfig";
 import WalletPages from "@/HOC/WalletPages";

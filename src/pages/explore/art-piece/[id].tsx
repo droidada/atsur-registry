@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { getToken } from "next-auth/jwt";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import { ViewProps } from "@/pages/dashboard/artworks/[id]";
 import UnprotectedPage from "@/HOC/Unprotected";
 import ExploreArtpieceDetailsPage from "@/components/ExplorePage/ArtpieceDetails";

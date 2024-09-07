@@ -23,7 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 // import { LoadingButton } from "@mui/lab";
 
-// import axios from "@/lib/axios";
+// import { axiosAuth as axios } from "@/lib/axios";
 import axios from "axios";
 import ConfirmationDialog from "@/components/signup/confirmation-dialog";
 import LoadingButton from "@/components/Form/LoadingButton";

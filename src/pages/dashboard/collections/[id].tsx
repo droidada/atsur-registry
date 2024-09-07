@@ -3,7 +3,7 @@ import { Menu } from "@headlessui/react";
 import Link from "next/link";
 
 import { getToken } from "next-auth/jwt";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import axiosMain from "axios";
 
 import AddArtworkToCollection from "@/components/dashboard/add-artwork-to-collection";

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import {
   Autocomplete,
   FormControl,

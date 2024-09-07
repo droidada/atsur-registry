@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import {
   Button,
   CircularProgress,

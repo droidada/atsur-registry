@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 import AuthenticatedScreen from "@/components/invitation/AuthenticatedScreen";
 import NotAuthScreen from "@/components/invitation/NotAuthScreen";

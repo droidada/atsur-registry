@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import { useLoadingContext } from "@/providers/loading.context";
 import UnprotectedPage from "@/HOC/Unprotected";
 import HomePage from "@/components/HomePage";

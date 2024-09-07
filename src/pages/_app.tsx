@@ -23,6 +23,7 @@ import Router from "next/router";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import LoadingScreen from "../components/layout/LoadingScreen";
+import GoogleAnalytics from "@/components/common/GoogleAnalytics";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -93,6 +94,7 @@ export default function NextWeb3App({
                 {/* </PageTransition> */}
                 {/* <ReactQueryDevtools initialIsOpen={false} /> */}
                 <Analytics />
+                <GoogleAnalytics />
               </ToastProvider>
             </ThemeProvider>
           </AuthContextProvider>

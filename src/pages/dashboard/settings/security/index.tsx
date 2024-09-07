@@ -3,7 +3,7 @@ import SettingsPages from "@/HOC/SettingPages";
 import { Avatar, Button, Stack } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { getToken } from "next-auth/jwt";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import { useRouter } from "next/router";
 import { HiChevronRight } from "react-icons/hi";
 import { FcGoogle } from "react-icons/fc";

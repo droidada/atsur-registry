@@ -13,7 +13,7 @@ import { object, string, boolean, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/router";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import rawAxios from "axios";
 import { useToast } from "@/providers/ToastProvider";
 

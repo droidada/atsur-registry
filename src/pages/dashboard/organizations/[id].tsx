@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getToken } from "next-auth/jwt";
-import axios from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 import axiosMain from "axios";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { IArtist } from "@/types/models";
