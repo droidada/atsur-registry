@@ -76,7 +76,7 @@ const PublicFeaturedArtworks = ({ featuredArtworks }) => {
       );
     },
     onSuccess: () => {
-      toast.success("Collection added successfully");
+      // toast.success("Collection added successfully");
     },
   });
 

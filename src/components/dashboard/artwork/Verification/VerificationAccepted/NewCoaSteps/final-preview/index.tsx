@@ -80,7 +80,7 @@ const FinalPreview: React.FC<Props> = ({
     onSuccess: () => {
       refetch();
       setOpenPublishDialog(false);
-      toast.success("Certificate has been published successfully");
+      // toast.success("Certificate has been published successfully");
     },
     onError: (error: any) => {
       toast.error(

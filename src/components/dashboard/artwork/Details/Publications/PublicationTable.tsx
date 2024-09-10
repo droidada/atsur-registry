@@ -59,7 +59,7 @@ const PublicationTable: React.FC<Props> = ({
         }),
       onSuccess: () => {
         setOpenDelete(false);
-        toast.success("publication deleted successfully.");
+        // toast.success("publication deleted successfully.");
         router.replace(router.asPath);
       },
       onError: (error: any) => {

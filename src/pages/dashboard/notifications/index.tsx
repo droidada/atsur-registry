@@ -41,7 +41,7 @@ const Notification = () => {
       ),
     onSuccess: () => {
       refetch();
-      toast.success("Notifications marked as read");
+      // toast.success("Notifications marked as read");
     },
   });
 

@@ -57,7 +57,7 @@ function ForgotPassword() {
       axios.post(`/auth/forgot-password`, data),
     onSuccess: (data) => {
       console.log(data);
-      toast.success("Password reset link sent to your email");
+      // toast.success("Password reset link sent to your email");
     },
     onError: (error: any) => {
       toast.error(

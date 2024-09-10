@@ -54,7 +54,7 @@ function Login({ invitationData }) {
 
   useEffect(() => {
     if (session) {
-      toast.success("You have successfully logged in!");
+      // toast.success("You have successfully logged in!");
       console.log("session info here =======>>", session);
       setTimeout(() => {
         router.push("/dashboard");

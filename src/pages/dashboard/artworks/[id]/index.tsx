@@ -87,7 +87,7 @@ function ArtPiece({ artPiece }) {
     mutationFn: () => axiosFetch.delete(`/art-piece/${artPiece?._id}`),
     onSuccess: () => {
       router.replace("/dashboard");
-      toast.success("Art Piece deleted successfully");
+      // toast.success("Art Piece deleted successfully");
     },
     onError: (error: any) => {
       const errorMessage =

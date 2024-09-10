@@ -167,7 +167,7 @@ const CreateNewSeries: React.FC<CreateNewSeriesProps> = ({
       setSelectedSeries({
         ...data?.data,
       });
-      toast.success("Series created successfully");
+      // toast.success("Series created successfully");
       onClose();
       setFile(null);
       reset();

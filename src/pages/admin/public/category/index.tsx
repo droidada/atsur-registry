@@ -76,7 +76,7 @@ const PublicCategory = ({ topCategories }) => {
       );
     },
     onSuccess: () => {
-      toast.success("Collection added successfully");
+      // toast.success("Collection added successfully");
     },
   });
 

@@ -64,6 +64,8 @@ const LandindingPageHeader = () => {
             <Link href={"/"}>
               <Image src={logo} width={66} height={58.98} alt="Atsur" />
             </Link>
+          </Stack>
+          <Stack spacing={1} alignItems={"center"} direction={"row"}>
             <div className="hidden md:flex items-center gap-8 ">
               {landingPageNavMenu.map((item, idx) =>
                 item.menus ? (
@@ -74,13 +76,14 @@ const LandindingPageHeader = () => {
                     onMouseEnter={() => handleMouseEnter(item.title)}
                     onMouseLeave={handleMouseLeave}
                   >
-                    <span
+                    <Link
+                      href={item.link}
                       className={`text-[17px] leading-[16px] cursor-pointer hover:font-bold duration-500 text-justified ${
                         isCurrentPath(item.link) ? "font-[600]" : "font-[400]"
                       }`}
                     >
                       {item.title}
-                    </span>
+                    </Link>
                     {hoveredMenu === item.title && (
                       <div className="absolute left-0 top-full mt-2 w-48 bg-white shadow-lg z-20">
                         {item.menus.map((subItem, idx) => (
@@ -109,36 +112,34 @@ const LandindingPageHeader = () => {
                   </Link>
                 ),
               )}
-            </div>
-          </Stack>
-          <Stack spacing={1} alignItems={"center"} direction={"row"}>
-            {status == "authenticated" ? (
-              <>
+              {status == "authenticated" ? (
+                <>
+                  <Button
+                    onClick={() => router.push("/dashboard")}
+                    variant="contained"
+                    className="h-[29px] hover:scale-95 duration-500 bg-black text-white text-[15px] leading-[16px]"
+                  >
+                    Dashboard
+                  </Button>
+                  <ProfileButton user={session?.user} />
+                </>
+              ) : (
                 <Button
-                  onClick={() => router.push("/dashboard")}
+                  onClick={() => router.push("/login")}
                   variant="contained"
                   className="h-[29px] hover:scale-95 duration-500 bg-black text-white text-[15px] leading-[16px]"
                 >
-                  Dashboard
+                  Login
                 </Button>
-                <ProfileButton user={session?.user} />
-              </>
-            ) : (
+              )}
               <Button
-                onClick={() => router.push("/login")}
-                variant="contained"
-                className="h-[29px] hover:scale-95 duration-500 bg-black text-white text-[15px] leading-[16px]"
+                onClick={() => setOpen(true)}
+                variant="text"
+                className="rotate-[180] hover:bg-gray-400 duration-500 lg:hidden block text-black text-[15px] leading-[16px]"
               >
-                Login
+                <BiMenuAltRight size={24} />
               </Button>
-            )}
-            <Button
-              onClick={() => setOpen(true)}
-              variant="text"
-              className="rotate-[180] hover:bg-gray-400 duration-500 text-black text-[15px] leading-[16px]"
-            >
-              <BiMenuAltRight size={24} />
-            </Button>
+            </div>
           </Stack>
         </Stack>
         <SwipeableDrawer

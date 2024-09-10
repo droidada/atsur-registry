@@ -37,7 +37,7 @@ const OrgInvite: React.FC<Props> = ({ notification, refetch }) => {
       );
     },
     onSuccess: () => {
-      toast.success("Notification marked as read");
+      // toast.success("Notification marked as read");
       refetch();
     },
   });

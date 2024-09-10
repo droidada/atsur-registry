@@ -111,11 +111,11 @@ const ArtPieceCompetition: React.FC<Props> = ({ competitions, artPieceId }) => {
       reset();
       setOpen(false);
 
-      toast.success(
-        `competition ${
-          currentCompetition ? "updated" : "added"
-        }  successfully.`,
-      );
+      // toast.success(
+      //   `competition ${
+      //     currentCompetition ? "updated" : "added"
+      //   }  successfully.`,
+      // );
 
       router.replace(router.asPath);
     },

@@ -191,7 +191,7 @@ const TokenizeCertificate: React.FC<Props> = ({
       navigator.clipboard.writeText(
         artPiece?.artPiece?.custodian?.profile?.wallet?.address,
       );
-      toast.success("Copied to clipboard");
+      // toast.success("Copied to clipboard");
     } catch (error) {
       toast.error("Failed to copy to clipboard");
     }

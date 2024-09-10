@@ -44,8 +44,9 @@ export function AuthContextProvider({ children }: any) {
     try {
       setLoading(true);
       const res = await axiosAuth?.get("user/me");
+      console.log(res?.data);
       const data = res?.data;
-      setUser(data);
+      setUser(data?.user);
       setLoading(false);
     } catch (error) {
       if (error) console.error(error);

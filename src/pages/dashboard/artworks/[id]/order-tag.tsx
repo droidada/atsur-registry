@@ -92,7 +92,7 @@ const OrderRFID = ({ verification, order, defaultAddress }) => {
         addressId: address?._id,
       }),
     onSuccess: () => {
-      toast.success("Order Created");
+      // toast.success("Order Created");
       router.replace(router.asPath);
     },
     onError: (error: any) => {

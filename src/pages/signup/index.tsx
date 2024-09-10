@@ -119,7 +119,7 @@ function SignUp({ invitationData, countries }) {
 
   useEffect(() => {
     if (session) {
-      toast.success("You have successfully logged in!");
+      // toast.success("You have successfully logged in!");
       console.log("session info here =======>>", session);
       setTimeout(() => {
         router.push("/dashboard");
@@ -161,7 +161,7 @@ function SignUp({ invitationData, countries }) {
       });
       console.log(resp.data);
       //success message
-      toast.success("Account created successfully");
+      // toast.success("Account created successfully");
       //redirect to login page
 
       setSuccess(true);
@@ -192,8 +192,9 @@ function SignUp({ invitationData, countries }) {
       >
         <div className="flex md:flex-row flex-col gap-2 ">
           <button
+            type="button"
             onClick={() => signIn("google")}
-            className="rounded-[100px] text-[15px] flex justify-center items-center md:w-1/2 w-full gap-2   h-[43px] flex-shrink-0 font-[300] leading-[17px] border-[1px] border-secondary"
+            className="rounded-[100px] text-[15px] flex justify-center items-center  w-full gap-2   h-[43px] flex-shrink-0 font-[300] leading-[17px] border-[1px] border-secondary"
           >
             <Image
               src="/assets/images/google.png"

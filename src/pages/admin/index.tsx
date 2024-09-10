@@ -137,7 +137,7 @@ export default function UserList() {
   const { isLoading: suspendLoading, mutate: suspendUser } = useMutation({
     mutationFn: (id) => axiosFetch.post(`/user/suspend/${id}`),
     onSuccess: () => {
-      toast.success("User account is suspended");
+      // toast.success("User account is suspended");
     },
     onError: (error: any) => {
       toast.error(
@@ -151,7 +151,7 @@ export default function UserList() {
   const { isLoading: activateLoading, mutate: activateUser } = useMutation({
     mutationFn: (id) => axiosFetch.post(`/user/activate/${id}`),
     onSuccess: () => {
-      toast.success("User account is activated");
+      // toast.success("User account is activated");
     },
     onError: (error: any) => {
       toast.error(
@@ -165,7 +165,7 @@ export default function UserList() {
   const { mutate: makeAdmin } = useMutation({
     mutationFn: (id) => axiosFetch.post(`/user/make-admin/${id}`),
     onSuccess: async () => {
-      toast.success("User is now an admin");
+      // toast.success("User is now an admin");
       await refetch();
     },
     onError: (error: any) => {
@@ -180,7 +180,7 @@ export default function UserList() {
   const { mutate: removeAdmin } = useMutation({
     mutationFn: (id) => axiosFetch.post(`/user/remove-admin/${id}`),
     onSuccess: async () => {
-      toast.success("User is no longer an admin");
+      // toast.success("User is no longer an admin");
       await refetch();
     },
     onError: (error: any) => {

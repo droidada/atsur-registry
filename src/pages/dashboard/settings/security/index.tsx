@@ -11,35 +11,15 @@ import { BsChevronRight } from "react-icons/bs";
 import Image from "next/image";
 import { FaLinkedin } from "react-icons/fa";
 import ChangePasswordDialog from "@/components/dashboard/settings/security/ChangePasswordDialog";
+import { useAuthContext } from "@/providers/auth.context";
 
-export const getServerSideProps = async ({ req, query }) => {
-  try {
-    const id = query?.id;
-    const token: any = await getToken({
-      req,
-      secret: process.env.NEXTAUTH_SECRET,
-    });
-    const res = await axios.get(`/user/me`, {
-      headers: { authorization: `Bearer ${token?.accessToken}` },
-    });
-    console.log(res.data);
-
-    return { props: { user: res.data } };
-  } catch (error) {
-    console.error("error here looks like ", error);
-    if (error?.response?.status === 404) {
-      return {
-        notFound: true,
-      };
-    }
-    throw new Error(error);
-  }
-};
-
-const SecurityPage = ({ user }) => {
+const SecurityPage = ({}) => {
+  const { user } = useAuthContext();
   const { data } = useSession();
   const [openResetPasswordDialog, setOpenResetPasswordDialog] = useState(false);
   const router = useRouter();
+
+  console.log(user);
 
   return (
     <Stack spacing={2} className="divide-y-[1px] divide-secondary ">
@@ -80,28 +60,29 @@ const SecurityPage = ({ user }) => {
             </Button>
           </div>
         </div>
-        <div className="flex flex-col gap-2">
-          <label className="text-xs font-[400]" htmlFor="reset-password">
-            Linked Accounts
-          </label>
-          <div className="flex gap-4">
-            <div className=" p-4  flex gap-2 w-full border-[1px] border-primary">
-              <FcGoogle size={40} />
-              <div className="flex flex-1 divide-y-[1px] divide-primary flex-col gap-2">
-                <div className="flex flex-col">
-                  <span className="text-xs font-semibold">
-                    {data?.user?.email}
-                  </span>
-                  <span className="text-xs font-semibold">**********</span>
-                </div>
-                <div className="py-1">
-                  <Button className="h-[20px] text-xs w-fit px-0 bg-secondary rounded-full font-[400]">
-                    Edit
-                  </Button>
+        {user?.google && (
+          <div className="flex flex-col gap-2">
+            <label className="text-xs font-[400]" htmlFor="reset-password">
+              Linked Accounts
+            </label>
+            <div className="flex gap-4">
+              <div className=" p-4  flex gap-2 w-full border-[1px] border-primary">
+                <FcGoogle size={40} />
+                <div className="flex flex-1 divide-y-[1px] divide-primary flex-col gap-2">
+                  <div className="flex flex-col">
+                    <span className="text-xs font-semibold">
+                      {data?.user?.email}
+                    </span>
+                    <span className="text-xs font-semibold">**********</span>
+                  </div>
+                  <div className="py-1">
+                    <Button className="h-[20px] text-xs w-fit px-0 bg-secondary rounded-full font-[400]">
+                      Edit
+                    </Button>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className=" p-4 w-full border-[1px] flex gap-2 border-primary">
+              {/* <div className=" p-4 w-full border-[1px] flex gap-2 border-primary">
               <FaLinkedin className="text-blue-700" size={40} />
               <div className="flex flex-1 divide-y-[1px] divide-primary flex-col gap-2">
                 <div className="flex flex-col">
@@ -116,9 +97,10 @@ const SecurityPage = ({ user }) => {
                   </Button>
                 </div>
               </div>
+            </div> */}
             </div>
           </div>
-        </div>
+        )}
         <div className="flex flex-col gap-2">
           <label className="text-xs font-[400]" htmlFor="reset-password">
             KYC Verification Status

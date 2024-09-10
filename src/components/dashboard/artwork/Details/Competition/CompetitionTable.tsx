@@ -59,7 +59,7 @@ const CompetitionTable: React.FC<Props> = ({
         }),
       onSuccess: () => {
         setOpenDelete(false);
-        toast.success("competition added successfully.");
+        // toast.success("competition added successfully.");
         router.replace(router.asPath);
       },
       onError: (error: any) => {

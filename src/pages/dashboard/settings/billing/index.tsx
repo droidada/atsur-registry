@@ -75,8 +75,6 @@ const Billing = ({ paymentDetails, credits, invoice }) => {
     },
   });
 
-  console.log("This the payment details", paymentDetails);
-
   const { mutate, isLoading } = useMutation({
     mutationFn: () =>
       paymentDetails.status == "active"

@@ -59,7 +59,7 @@ const ExhibitionTable: React.FC<Props> = ({
         }),
       onSuccess: () => {
         setOpenDelete(false);
-        toast.success("Exhibition added successfully.");
+        // toast.success("Exhibition added successfully.");
         router.replace(router.asPath);
       },
       onError: (error: any) => {

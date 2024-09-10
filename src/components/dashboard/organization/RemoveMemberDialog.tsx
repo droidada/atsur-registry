@@ -36,7 +36,7 @@ const RemoveMemberDialog: React.FC<Props> = ({
         memberId,
       }),
     onSuccess: () => {
-      toast.success("Member removed successfully");
+      // toast.success("Member removed successfully");
       handleClose();
       router.replace(router.asPath);
     },

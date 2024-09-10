@@ -111,11 +111,11 @@ const DealerInformation = ({
     },
     onSuccess: () => {
       if (currentSubmitType === "save") {
-        toast.success("Data saved successfully");
+        // toast.success("Data saved successfully");
         router.replace(router.asPath);
         setActiveIndex((prevIndex) => prevIndex + 1);
       } else {
-        toast.success("Data published successfully");
+        // toast.success("Data published successfully");
         router.replace(router.asPath);
       }
     },

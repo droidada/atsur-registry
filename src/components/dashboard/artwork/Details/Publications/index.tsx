@@ -64,9 +64,9 @@ const ArtPiecePublications: React.FC<Props> = ({
         : axiosAuth.post(`/publication/add`, data),
     onSuccess: () => {
       setOpen(false);
-      toast.success(
-        `Publication ${currentPublication ? "updated" : "added"} successfully.`,
-      );
+      // toast.success(
+      //   `Publication ${currentPublication ? "updated" : "added"} successfully.`,
+      // );
       reset();
       router.replace(router.asPath);
     },

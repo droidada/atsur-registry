@@ -197,7 +197,7 @@ const DeleteDialog: React.FC<DeleteDialogProps> = ({
   const { mutate, isLoading } = useMutation({
     mutationFn: () => axiosAuth.delete(`/collection/${collection_id}`),
     onSuccess: () => {
-      toast.success("Collection deleted successfully");
+      // toast.success("Collection deleted successfully");
       router.push("/dashboard/collections");
     },
     onError: (error: any) => {
