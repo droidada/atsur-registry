@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Image from "@/components/common/image";
 
 import { getToken } from "next-auth/jwt";
-import axios, { axiosAuth } from "@/lib/axios";
+import { axiosAuth as axios } from "@/lib/axios";
 
 import {
   Avatar,
