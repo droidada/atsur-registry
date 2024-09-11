@@ -12,7 +12,7 @@ const LandingPageLayout: React.FC<Props> = ({ children }) => {
   const pathname = router.pathname;
 
   return (
-    <div className="relative">
+    <div className="relative overflow-x-hidden">
       <LandingPageHeader />
       <main>{children}</main>
       <LandingPageFooter />
