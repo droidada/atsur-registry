@@ -82,7 +82,10 @@ const VerificationId = ({ artPiece }) => {
   const user = artPiece?.artPiece?.custodian.profile;
 
   // TODO: please recheck and fix
-  const collaborators = artPiece?.custodian?.broker?.collaborators || artPiece?.custodian.artist?.brokerInfo?.collaborators || [];
+  const collaborators =
+    artPiece?.custodian?.broker?.collaborators ||
+    artPiece?.custodian.artist?.brokerInfo?.collaborators ||
+    [];
   const organization =
     artPiece?.custodian.artist.brokerInfor?.organization ||
     artPiece?.custodian?.broker.organization ||
