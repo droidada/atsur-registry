@@ -24,6 +24,8 @@ const nextConfig = {
     minimumCacheTTL: 60,
     domains: [
       "atsur-registry-artifacts-dev.s3.eu-north-1.amazonaws.com",
+      "registry-artifacts-prod.s3.eu-north-1.amazonaws.com",
+      "registry-artifacts-staging.s3.eu-north-1.amazonaws.com",
       "localhost",
       "admin.atsur.art",
       "registry.atsur.art",
