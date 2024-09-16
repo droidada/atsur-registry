@@ -92,8 +92,7 @@ const VerificationId = ({ artPiece }) => {
   const artist =
     Object.values(artPiece?.custodian?.collector?.artist.artistInfo).length > 0
       ? artPiece?.custodian?.collector?.artist
-      : null ||
-        Object.values(artPiece?.custodian?.institution?.artist.artistInfo)
+      : Object.values(artPiece?.custodian?.institution?.artist.artistInfo)
           .length > 0
       ? artPiece?.custodian?.institution?.artist
       : null;
