@@ -1,4 +1,6 @@
+import ComingSoonComponent from "@/components/ServicesPage/ComingSoonComponent";
 import TrustedComponents from "@/components/ServicesPage/TrustedComponent";
+import LandingPageLayout from "@/components/layout/LandingPage";
 import PricingLayout from "@/components/layout/PricingLayout";
 import axios from "@/lib/axios";
 import { Button } from "@mui/material";
@@ -32,34 +34,47 @@ export const getServerSideProps = async ({ req, query }) => {
 
 const AssetOwnership = ({ artPieces }) => {
   return (
-    <PricingLayout
-      HeroSection={
-        <div className="flex gap-4 flex-col md:flex-row  justify-center py-12 items-center">
-          <div className="flex md:text-left text-center max-w-[556px] w-full flex-col items-center md:items-start gap-4 ">
-            <h1 className="text-5xl lg:text-[80px]   ">
+    <LandingPageLayout>
+      <section className="bg-secondary">
+        <div className="flex gap-4 flex-col md:flex-row justify-center py-12 items-center">
+          <div
+            className="flex md:text-left text-center max-w-[556px] w-full flex-col items-center md:items-start gap-4"
+            data-aos="fade-right"
+          >
+            <h1 className="text-5xl lg:text-[80px]">
               Asset Ownership Protocol
             </h1>
 
             <Button
               variant="contained"
               className="text-white px-2 font-[400] mt-4 max-w-[146px] w-full h-[47px] bg-primary"
+              data-aos="fade-up"
             >
               Create
             </Button>
           </div>
-          <div className="relative overflow-x-hidden md:overflow-visible">
-            <Image
-              src="/images/assets-ownership/hero.png"
-              alt="Asset Tagging"
-              width={562.51}
-              height={592}
-              className="relative "
-            />
+          <div className="relative" data-aos="zoom-in">
+            <div className="w-[326px] h-[326px] flex justify-center items-center rounded-full bg-white">
+              <Image
+                src="/assets/images/services/asset-ownership/asset-ownership.svg"
+                alt="catalog"
+                width={219}
+                height={219}
+                className="relative"
+              />
+            </div>
+            <div className="absolute right-0 top-0 w-[26px] h-[26px] rounded-full bg-white"></div>
+            <div className="absolute right-[-20%] bottom-0 w-[79px] h-[79px] rounded-full bg-white"></div>
           </div>
         </div>
-      }
-    >
-      <div className="flex flex-col items-center gap-4 py-12 px-4 max-w-[1000px] w-full mx-auto">
+      </section>
+
+      <ComingSoonComponent />
+
+      <div
+        className="flex flex-col items-center gap-4 py-12 px-4 max-w-[1000px] w-full mx-auto"
+        data-aos="fade-up"
+      >
         <p className="text-center text-[32px]">
           The Atsur Asset Ownership Protocol is a custom blockchain protocol
           authorized to modify records of sales on a given token. The primary
@@ -69,8 +84,10 @@ const AssetOwnership = ({ artPieces }) => {
         </p>
       </div>
 
-      <TrustedComponents artworkData={artPieces} />
-    </PricingLayout>
+      <div data-aos="fade-up">
+        <TrustedComponents artworkData={artPieces} />
+      </div>
+    </LandingPageLayout>
   );
 };
 

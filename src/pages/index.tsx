@@ -15,17 +15,17 @@ const Homepage = () => {
 
   return (
     <LandingPageLayout>
-      <div className="flex flex-wrap max-w-[1100px] w-full mx-auto px-4 py-12 justify-between gap-20 items-center">
+      <div className="flex flex-wrap max-w-[1100px] w-full mx-auto px-4 py-12 justify-center md:justify-between gap-20 items-center">
         <div
           data-aos="fade-up"
           data-aos-duration="1200"
           data-aos-delay="100"
           className="flex flex-col gap-4"
         >
-          <h1 className="text-5xl font-bold max-w-[40%] w-full">
+          <h1 className=" text-3xl md:text-5xl font-bold max-w-[40%] w-full">
             Revolutionizing <br /> African Art:
           </h1>
-          <p className="uppercase font-[300] text-2xl">
+          <p className="uppercase font-[300] text-xl md:text-2xl">
             Authenticity, Accessibility, <br /> and Efficiency
           </p>
         </div>
@@ -43,7 +43,12 @@ const Homepage = () => {
             width={102}
             alt="Design"
           />
-          <Image src="" alt="Background Image" fill className="w-full" />
+          <Image
+            src="/assets/images/home/home-hero.jpg"
+            alt="Background Image"
+            fill
+            className="w-full"
+          />
         </div>
       </div>
 

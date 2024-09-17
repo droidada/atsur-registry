@@ -1,4 +1,6 @@
+import ComingSoonComponent from "@/components/ServicesPage/ComingSoonComponent";
 import TrustedComponents from "@/components/ServicesPage/TrustedComponent";
+import LandingPageLayout from "@/components/layout/LandingPage";
 import PricingLayout from "@/components/layout/PricingLayout";
 import axios from "@/lib/axios";
 import { Button } from "@mui/material";
@@ -31,14 +33,15 @@ export const getServerSideProps = async ({ req, query }) => {
 };
 const SalesSmartContract = ({ artPieces }) => {
   return (
-    <PricingLayout
-      HeroSection={
+    <LandingPageLayout>
+      <section className="bg-secondary">
         <div className="flex gap-4 flex-col md:flex-row  justify-center py-12 items-center">
-          <div className="flex md:text-left text-center max-w-[556px] w-full flex-col items-center md:items-start gap-4 ">
-            <h1 className="text-5xl lg:text-[80px]   ">
-              Sales Smart Contracts
-            </h1>
-            <p className="font-[300] text-[31px] leading-[35px] ">
+          <div
+            className="flex md:text-left text-center max-w-[556px] w-full flex-col items-center md:items-start gap-4 "
+            data-aos="fade-right"
+          >
+            <h1 className="text-5xl lg:text-[80px]">Sales Smart Contracts</h1>
+            <p className="font-[300] text-[31px] leading-[35px]">
               Digital agreements that automatically commission splits to all
               participating parties once an artwork is sold
             </p>
@@ -49,25 +52,34 @@ const SalesSmartContract = ({ artPieces }) => {
               Create
             </Button>
           </div>
-          <div className="relative overflow-x-hidden md:overflow-visible">
-            <Image
-              src="/images/smart/smart-hero.png"
-              alt="Asset Tagging"
-              width={562.51}
-              height={592}
-              className="relative "
-            />
+          <div className="relative" data-aos="zoom-in">
+            <div className="w-[326px] h-[326px] flex justify-center items-center rounded-full bg-white">
+              <Image
+                src="/assets/images/services/smart-contract/hero.svg"
+                alt="smart contract"
+                width={176}
+                height={176}
+                className="relative"
+              />
+            </div>
+            <div className="absolute right-0 top-0 w-[26px] h-[26px] rounded-full bg-white"></div>
+            <div className="absolute right-[-20%] bottom-0 w-[79px] h-[79px] rounded-full bg-white"></div>
           </div>
         </div>
-      }
-    >
+      </section>
+
+      <ComingSoonComponent />
+
       <section className="flex flex-col items-center px-4 gap-8 pb-12">
-        <div className="flex justify-center md:gap-24 flex-col md:flex-row items-center">
+        <div
+          className="flex justify-center md:gap-24 flex-col md:flex-row items-center"
+          data-aos="fade-left"
+        >
           <Image
-            src={"/images/Smart/automate.svg"}
-            width={386}
-            height={386}
-            alt="catalog"
+            src={"/assets/images/services/smart-contract/automate.svg"}
+            width={198}
+            height={198}
+            alt="automate"
           />
           <div className="flex flex-col gap-2 md:text-left text-center max-w-[451px] w-full">
             <h2 className="text-[24px] leading-[65px] tracking-[74%] font-bold">
@@ -80,9 +92,12 @@ const SalesSmartContract = ({ artPieces }) => {
             </p>
           </div>
         </div>
-        <div className="flex justify-center md:gap-24 flex-col-reverse md:flex-row items-center">
+        <div
+          className="flex justify-center md:gap-24 flex-col-reverse md:flex-row items-center"
+          data-aos="fade-right"
+        >
           <div className="flex flex-col gap-2 md:text-left text-center max-w-[451px] w-full">
-            <h2 className="text-[24px]  tracking-[74%] font-bold">
+            <h2 className="text-[24px] tracking-[74%] font-bold">
               TAMPER-PROOF SMART CONTRACTS
             </h2>
             <p className="text-[29px] leading-[37px] font-[300]">
@@ -91,51 +106,55 @@ const SalesSmartContract = ({ artPieces }) => {
             </p>
           </div>
           <Image
-            src={"/images/smart/tamper.png"}
-            width={386}
-            height={372}
-            alt="catalog"
+            src={"/assets/images/services/smart-contract/contract.svg"}
+            width={180}
+            height={180}
+            alt="contract"
           />
         </div>
-        <div className="flex justify-center md:gap-24 flex-col md:flex-row items-center">
+        <div
+          className="flex justify-center md:gap-24 flex-col md:flex-row items-center"
+          data-aos="fade-left"
+        >
           <Image
-            src={"/images/smart/collaborate.png"}
-            width={386}
-            height={386}
-            alt="catalog"
+            src={"/assets/images/services/smart-contract/collaborate.svg"}
+            width={198}
+            height={198}
+            alt="collaborate"
           />
           <div className="flex flex-col gap-2 md:text-left text-center max-w-[451px] w-full">
             <h2 className="text-[24px] leading-[65px] tracking-[74%] font-bold">
               COLLABORATE SAFELY
             </h2>
             <p className="text-[29px] leading-[37px] font-[300]">
-              Increase collaboration buy ensuring a trustworthy participation
-              for all parties taking away any obscurities or issues of trust
-              when  
+              Increase collaboration by ensuring trustworthy participation for
+              all parties, taking away any obscurities or issues of trust.
             </p>
           </div>
         </div>
-        <div className="flex justify-center md:gap-24 flex-col-reverse md:flex-row items-center">
+        <div
+          className="flex justify-center md:gap-24 flex-col-reverse md:flex-row items-center"
+          data-aos="fade-right"
+        >
           <div className="flex flex-col gap-2 md:text-left text-center max-w-[451px] w-full">
             <h2 className="text-[24px] leading-[65px] tracking-[74%] font-bold">
               ACCOUNTABILITY
             </h2>
             <p className="text-[29px] leading-[37px] font-[300]">
               Secure agreements for all involved parties ensuring transparency
-              and immutable records, reducing the risk of fraud and/or
-              disputes.  
+              and immutable records, reducing the risk of fraud and/or disputes.
             </p>
           </div>
           <Image
-            src={"/images/smart/accountability.png"}
-            width={386}
-            height={372}
-            alt="catalog"
+            src={"/assets/images/services/smart-contract/accountability.svg"}
+            width={198}
+            height={198}
+            alt="accountability"
           />
         </div>
       </section>
       <TrustedComponents artworkData={artPieces} />
-    </PricingLayout>
+    </LandingPageLayout>
   );
 };
 

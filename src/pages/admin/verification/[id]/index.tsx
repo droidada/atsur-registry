@@ -81,11 +81,11 @@ const VerificationId = ({ artPiece }) => {
   const role = artPiece.custodian.role;
   const user = artPiece?.artPiece?.custodian.profile;
 
-  const collaborators = artPiece?.custodian?.broker?.collaborators
-    ? artPiece?.custodian?.broker?.collaborators
-    : [] || artPiece?.custodian.artist?.brokerInfo?.collaborators
-    ? artPiece?.custodian.artist?.brokerInfo?.collaborators
-    : [];
+  // TODO: please recheck and fix
+  const collaborators =
+    artPiece?.custodian?.broker?.collaborators ||
+    artPiece?.custodian.artist?.brokerInfo?.collaborators ||
+    [];
   const organization =
     artPiece?.custodian.artist.brokerInfor?.organization ||
     artPiece?.custodian?.broker.organization ||
@@ -95,8 +95,7 @@ const VerificationId = ({ artPiece }) => {
   const artist =
     Object.values(artPiece?.custodian?.collector?.artist.artistInfo).length > 0
       ? artPiece?.custodian?.collector?.artist
-      : null ||
-        Object.values(artPiece?.custodian?.institution?.artist.artistInfo)
+      : Object.values(artPiece?.custodian?.institution?.artist.artistInfo)
           .length > 0
       ? artPiece?.custodian?.institution?.artist
       : null;

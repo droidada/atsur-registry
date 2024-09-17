@@ -13,7 +13,7 @@ const PricingLayout: React.FC<Props> = ({ children, HeroSection }) => {
     <Stack className="bg-white">
       {/* <div className="bg-secondary"> */}
       <LandindingPageHeader />
-      <div className="page-container">{HeroSection}</div>
+      <div>{HeroSection}</div>
       {/* </div> */}
       {children}
 

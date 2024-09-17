@@ -8,8 +8,8 @@ export enum SupportedChainId {
   BINANCE = 56,
   POLYGON = 137,
   AVALANCHE = 43114,
-  FANTOM = 250 || 4002,
-  CRONOS = 25 || 338,
+  FANTOM = 4002,
+  CRONOS = 338,
   MUMBAI = 80001,
   HARDHAT = 80007,
 }

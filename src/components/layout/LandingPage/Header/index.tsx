@@ -45,9 +45,11 @@ const LandindingPageHeader = () => {
     }, 200);
   };
 
+  const isServicesSubpage =
+    pathname.startsWith("/services/") && pathname !== "/services";
   const { status, data: session } = useSession();
   return (
-    <header className="">
+    <header className={isServicesSubpage ? "bg-secondary" : ""}>
       <div className="page-container ">
         <Stack
           direction="row"

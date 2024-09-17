@@ -1,4 +1,6 @@
+import ComingSoonComponent from "@/components/ServicesPage/ComingSoonComponent";
 import TrustedComponents from "@/components/ServicesPage/TrustedComponent";
+import LandingPageLayout from "@/components/layout/LandingPage";
 import PricingLayout from "@/components/layout/PricingLayout";
 import axios from "@/lib/axios";
 import { Button } from "@mui/material";
@@ -27,11 +29,14 @@ export const getServerSideProps = async ({ req, query }) => {
 };
 const Tokenization = ({ artPieces }) => {
   return (
-    <PricingLayout
-      HeroSection={
+    <LandingPageLayout>
+      <div className="bg-secondary">
         <div className="flex gap-4 flex-col md:flex-row  justify-center py-12 items-center">
-          <div className="flex md:text-left text-center max-w-[556px] w-full flex-col items-center md:items-start gap-4 ">
-            <h1 className="text-5xl lg:text-[80px] lg:leading-[65px]  ">
+          <div
+            className="flex md:text-left text-center max-w-[556px] w-full flex-col items-center md:items-start gap-4"
+            data-aos="fade-right"
+          >
+            <h1 className="text-5xl lg:text-[80px] lg:leading-[65px]">
               Tokenization
             </h1>
             <p className="font-[300] text-[31px] leading-[35px] max-w-[428px] w-full">
@@ -45,26 +50,32 @@ const Tokenization = ({ artPieces }) => {
               Create
             </Button>
           </div>
-          <div className="relative overflow-x-hidden md:overflow-visible">
-            <Image
-              src="/images/tokenize/token-hero.png"
-              alt="catalog"
-              width={562.51}
-              height={592}
-              className="relative "
-            />
+          <div className="relative" data-aos="zoom-in">
+            <div className="w-[326px] h-[326px] flex justify-center items-center rounded-full bg-white">
+              <Image
+                src="/assets/images/services/tokenization/hero.svg"
+                alt="catalog"
+                width={230}
+                height={230}
+                className="relative"
+              />
+            </div>
+            <div className="absolute right-0 top-0 w-[26px] h-[26px] rounded-full bg-white"></div>
+            <div className="absolute right-[-20%] bottom-0 w-[79px] h-[79px] rounded-full bg-white"></div>
           </div>
         </div>
-      }
-    >
-      <section className="py-10 ">
+      </div>
+
+      <section className="py-10" data-aos="fade-up">
         <div className="flex gap-4 justify-center border-b-[1px] border-primary pb-12 items-center max-w-[1000px]  mx-auto w-full">
-          <Image
-            src={"/images/catalog/define.png"}
-            width={153}
-            height={161}
-            alt=""
-          />
+          <div className="bg-secondary grid place-items-center w-[153px] h-[161px]">
+            <Image
+              src={"/assets/images/services/tokenization/define.svg"}
+              width={153}
+              height={161}
+              alt=""
+            />
+          </div>
           <p className="font-[300] text-[27px] max-w-[604px] w-full leading-[35px]">
             Create unique digital tokens that represent the ownership and
             authenticity of a specific piece of art.
@@ -72,12 +83,17 @@ const Tokenization = ({ artPieces }) => {
         </div>
       </section>
 
+      <ComingSoonComponent />
+
       <section className="flex flex-col items-center px-4 gap-8 pb-12">
-        <div className="flex justify-center md:gap-24 flex-col md:flex-row items-center">
+        <div
+          className="flex justify-center md:gap-24 flex-col md:flex-row items-center"
+          data-aos="fade-up"
+        >
           <Image
-            src={"/images/tokenize/proof.png"}
-            width={386}
-            height={386}
+            src={"/assets/images/services/tokenization/proof-reading.svg"}
+            width={198}
+            height={198}
             alt="catalog"
           />
           <div className="flex flex-col gap-2 md:text-left text-center max-w-[451px] w-full">
@@ -91,7 +107,11 @@ const Tokenization = ({ artPieces }) => {
             </p>
           </div>
         </div>
-        <div className="flex justify-center md:gap-24 flex-col-reverse md:flex-row items-center">
+
+        <div
+          className="flex justify-center md:gap-24 flex-col-reverse md:flex-row items-center"
+          data-aos="fade-up"
+        >
           <div className="flex flex-col gap-2 md:text-left text-center max-w-[451px] w-full">
             <h2 className="text-[24px] leading-[65px] tracking-[74%] font-bold">
               TRANSPARENCY
@@ -102,18 +122,22 @@ const Tokenization = ({ artPieces }) => {
             </p>
           </div>
           <Image
-            src={"/images/tokenize/transparency.png"}
-            width={386}
-            height={372}
-            alt="catalog"
+            src={"/assets/images/services/tokenization/transparency.svg"}
+            width={250}
+            height={250}
+            alt="transparency"
           />
         </div>
-        <div className="flex justify-center md:gap-24 flex-col md:flex-row items-center">
+
+        <div
+          className="flex justify-center md:gap-24 flex-col md:flex-row items-center"
+          data-aos="fade-up"
+        >
           <Image
-            src={"/images/tokenize/security.png"}
-            width={386}
-            height={386}
-            alt="catalog"
+            src={"/assets/images/services/tokenization/secure-shield.svg"}
+            width={198}
+            height={198}
+            alt="security"
           />
           <div className="flex flex-col gap-2 md:text-left text-center max-w-[451px] w-full">
             <h2 className="text-[24px] leading-[65px] tracking-[74%] font-bold">
@@ -126,7 +150,11 @@ const Tokenization = ({ artPieces }) => {
             </p>
           </div>
         </div>
-        <div className="flex justify-center md:gap-24 flex-col-reverse md:flex-row items-center">
+
+        <div
+          className="flex justify-center md:gap-24 flex-col-reverse md:flex-row items-center"
+          data-aos="fade-up"
+        >
           <div className="flex flex-col gap-2 md:text-left text-center max-w-[451px] w-full">
             <h2 className="text-[24px] leading-[65px] tracking-[74%] font-bold">
               IMMORTALITY
@@ -137,16 +165,16 @@ const Tokenization = ({ artPieces }) => {
             </p>
           </div>
           <Image
-            src={"/images/tokenize/immortality.png"}
-            width={386}
-            height={372}
+            src={"/assets/images/services/tokenization/immortal.svg"}
+            width={198}
+            height={198}
             alt="catalog"
           />
         </div>
       </section>
 
       <TrustedComponents artworkData={artPieces} />
-    </PricingLayout>
+    </LandingPageLayout>
   );
 };
 
