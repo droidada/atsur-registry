@@ -36,7 +36,7 @@ const ArtPieceCard: React.FC<Props> = ({
         spacing={2}
         className=" p-4 py-[28px]  text-secondary text-justify "
       >
-        <div className="flex justify-center">
+        {/* <div className="flex justify-center">
           <Rating
             size="small"
             name="read-only"
@@ -44,7 +44,7 @@ const ArtPieceCard: React.FC<Props> = ({
             value={rating}
             readOnly
           />
-        </div>
+        </div> */}
         <h4
           // variant="h4"
           className="font-[300] text-xl md:text-[30px] "
