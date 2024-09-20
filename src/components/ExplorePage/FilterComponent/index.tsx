@@ -98,7 +98,7 @@ const FilterComponent: React.FC<Props> = ({
             })
           }
           variant="text"
-          className={`text-[18px] leading-[15px] ${
+          className={`text-[18px] leading-[15px] bg-black ${
             currentActionType === "sort"
               ? "font-bold"
               : "font-[300] text-secondary"
@@ -106,6 +106,86 @@ const FilterComponent: React.FC<Props> = ({
         >
           Clear Filters
         </Button>
+      </div>
+
+      <div className="flex flex-col gap-4 p-5">
+        <h3 className="font-[500] text-[15px] leading-[15px]">Verified</h3>
+        <div className="flex gap-4">
+          <div className="flex gap-2 items-center">
+            <label htmlFor="yes" className="text-xs leading-[12px] font-[300]">
+              Yes
+            </label>
+            <input
+              id="yes"
+              name="verified"
+              className="ring-0 fouc:ring-0 outline-none"
+              onChange={() =>
+                setFilter({
+                  ...filters,
+                  verification: true,
+                })
+              }
+              type="radio"
+            />
+          </div>
+          <div className="flex gap-2 items-center">
+            <label htmlFor="no" className="text-xs leading-[12px] font-[300]">
+              No
+            </label>
+            <input
+              id="no"
+              className="ring-0 fouc:ring-0 outline-none"
+              name="verified"
+              onChange={() =>
+                setFilter({
+                  ...filters,
+                  verification: false,
+                })
+              }
+              type="radio"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-4 p-5">
+        <h3 className="font-[500] text-[15px] leading-[15px]">Rarity</h3>
+        <div className="flex flex-col gap-2">
+          {rarity.map((item) => (
+            <div
+              key={item}
+              className="grid grid-cols-2 gap-2 items-center capitalize"
+            >
+              <label
+                className="text-xs leading-[12px] font-[300]"
+                htmlFor={item}
+              >
+                {item.replace(/-/g, " ")}
+              </label>
+              <input
+                id={item}
+                type="checkbox"
+                name={item}
+                value={item}
+                className="w-[12px] h-[12px]"
+                checked={filters?.rarity?.includes(item)}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setFilter({
+                      ...filters,
+                      rarity: [...filters.rarity, item],
+                    });
+                  } else {
+                    setFilter({
+                      ...filters,
+                      rarity: filters.rarity.filter((f) => f !== item),
+                    });
+                  }
+                }}
+              />
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="flex flex-col gap-4 p-5">
@@ -230,87 +310,8 @@ const FilterComponent: React.FC<Props> = ({
       </div>
 
       <div className="flex flex-col gap-4 p-5">
-        <h3 className="font-[500] text-[15px] leading-[15px]">Rarity</h3>
-        <div className="flex flex-col gap-2">
-          {rarity.map((item) => (
-            <div
-              key={item}
-              className="grid grid-cols-2 gap-2 items-center capitalize"
-            >
-              <label
-                className="text-xs leading-[12px] font-[300]"
-                htmlFor={item}
-              >
-                {item.replace(/-/g, " ")}
-              </label>
-              <input
-                id={item}
-                type="checkbox"
-                name={item}
-                value={item}
-                className="w-[12px] h-[12px]"
-                checked={filters?.rarity?.includes(item)}
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    setFilter({
-                      ...filters,
-                      rarity: [...filters.rarity, item],
-                    });
-                  } else {
-                    setFilter({
-                      ...filters,
-                      rarity: filters.rarity.filter((f) => f !== item),
-                    });
-                  }
-                }}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="flex flex-col gap-4 p-5">
         <h3 className="font-[500] text-[15px] leading-[15px]">Rating</h3>
         <Rating value={rating} onChange={(_, value) => setRating(value)} />
-      </div>
-      <div className="flex flex-col gap-4 p-5">
-        <h3 className="font-[500] text-[15px] leading-[15px]">Verified</h3>
-        <div className="flex gap-4">
-          <div className="flex gap-2 items-center">
-            <label htmlFor="yes" className="text-xs leading-[12px] font-[300]">
-              Yes
-            </label>
-            <input
-              id="yes"
-              name="verified"
-              className="ring-0 fouc:ring-0 outline-none"
-              onChange={() =>
-                setFilter({
-                  ...filters,
-                  verification: true,
-                })
-              }
-              type="radio"
-            />
-          </div>
-          <div className="flex gap-2 items-center">
-            <label htmlFor="no" className="text-xs leading-[12px] font-[300]">
-              No
-            </label>
-            <input
-              id="no"
-              className="ring-0 fouc:ring-0 outline-none"
-              name="verified"
-              onChange={() =>
-                setFilter({
-                  ...filters,
-                  verification: false,
-                })
-              }
-              type="radio"
-            />
-          </div>
-        </div>
       </div>
     </aside>
   );

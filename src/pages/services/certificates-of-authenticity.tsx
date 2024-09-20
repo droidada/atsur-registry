@@ -5,6 +5,7 @@ import axios from "@/lib/axios";
 import { Button } from "@mui/material";
 import { getToken } from "next-auth/jwt";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 // export const getServerSideProps = async ({ req, query }) => {
@@ -42,12 +43,14 @@ const CertificatesOfAuthenticity = ({ artPieces }) => {
             <p className="font-[300] text-xl max-w-[428px] w-full">
               Defend your artwork against fraud
             </p>
-            <Button
-              variant="contained"
-              className="text-white px-2 font-[400] mt-4 max-w-[146px] w-full h-[47px] bg-primary"
-            >
-              Create
-            </Button>
+            <Link className="max-w-[146px] w-full" href="/signup">
+              <Button
+                variant="contained"
+                className="text-white px-2 font-[400] mt-4 max-w-[146px] w-full h-[47px] bg-primary"
+              >
+                Sign Up
+              </Button>
+            </Link>
           </div>
           <div className="relative" data-aos="zoom-in">
             <div className="w-[326px] h-[326px] flex justify-center items-center rounded-full bg-white">
@@ -118,12 +121,14 @@ const CertificatesOfAuthenticity = ({ artPieces }) => {
             <p className="max-w-[487px] leading-[63px] font-[300] w-full text-[67px] text-white">
               Digital signature
             </p>
-            <Button
-              variant="contained"
-              className="text-primary h-[47px] w-[150px] bg-white text-[16px] leading-[14px] font-[400] mt-4"
-            >
-              Create
-            </Button>
+            <Link className="max-w-[150px] w-full" href="/signup">
+              <Button
+                variant="contained"
+                className="text-primary h-[47px] w-[150px] bg-white text-[16px] leading-[14px] font-[400] mt-4"
+              >
+                Sign Up
+              </Button>
+            </Link>
           </div>
           <Image
             src={"/images/catalog/signature.png"}
@@ -171,12 +176,14 @@ const CertificatesOfAuthenticity = ({ artPieces }) => {
               <p className="text-[27px] leading-[35px] mt-5 font-[300]">
                 Choose between two unique types of certificates
               </p>
-              <Button
-                variant="contained"
-                className="text-[16px] bg-primary text-white leading-[14px] font-[400] h-[47px] w-[197px]"
-              >
-                Create
-              </Button>
+              <Link className="max-w-[197px] w-full" href="/signup">
+                <Button
+                  variant="contained"
+                  className="text-[16px] bg-primary text-white leading-[14px] font-[400] h-[47px] w-[197px]"
+                >
+                  Sign Up
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

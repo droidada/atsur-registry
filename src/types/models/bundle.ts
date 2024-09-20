@@ -4,6 +4,7 @@ export type BundleType = {
   externalId: string;
   details: BundleDetailType[];
   name: string;
+  unitPrice: number;
 };
 
 export type BundleDetailType = {

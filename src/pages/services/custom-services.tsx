@@ -6,6 +6,7 @@ import axios from "@/lib/axios";
 import { Button } from "@mui/material";
 import { getToken } from "next-auth/jwt";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 // export const getServerSideProps = async ({ req, query }) => {
@@ -44,13 +45,18 @@ const CustomServices = ({ artPieces }) => {
               Custom built archiving solutions platform including open APIs
               powered and managed by Atsur
             </p>
-            <Button
-              variant="contained"
-              className="text-white px-2 font-[400] mt-4 max-w-[146px] w-full h-[47px] bg-primary"
-              data-aos="fade-up"
+            <Link
+              className="max-w-[197px] w-full"
+              href="https://atsur.art/contact-us"
             >
-              Create
-            </Button>
+              <Button
+                variant="contained"
+                className="text-white px-2 font-[400] mt-4 max-w-[146px] w-full h-[47px] bg-primary"
+                data-aos="fade-up"
+              >
+                Contact Us
+              </Button>
+            </Link>
           </div>
           <div className="relative" data-aos="zoom-in">
             <div className="w-[326px] h-[326px] flex justify-center items-center rounded-full bg-white">

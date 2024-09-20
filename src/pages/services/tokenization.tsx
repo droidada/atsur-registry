@@ -6,6 +6,7 @@ import axios from "@/lib/axios";
 import { Button } from "@mui/material";
 import { getToken } from "next-auth/jwt";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 export const getServerSideProps = async ({ req, query }) => {
   try {
@@ -40,15 +41,17 @@ const Tokenization = ({ artPieces }) => {
               Tokenization
             </h1>
             <p className="font-[300] text-[31px] leading-[35px] max-w-[428px] w-full">
-              Mint NFTs (Non-Fungible Tokens) of Certificates of Authenticity
-              for artworks on Ethereum and Polygon networks,
+              Mint NFTs (Non-Fungible Tokens) for your artworks on different
+              blockchain networks
             </p>
-            <Button
-              variant="contained"
-              className="text-white px-2 font-[400] mt-4 max-w-[146px] w-full h-[47px] bg-primary"
-            >
-              Create
-            </Button>
+            <Link className="max-w-[146px] w-full" href="/signup">
+              <Button
+                variant="contained"
+                className="text-white px-2 font-[400] mt-4 max-w-[146px] w-full h-[47px] bg-primary"
+              >
+                Sign Up
+              </Button>
+            </Link>
           </div>
           <div className="relative" data-aos="zoom-in">
             <div className="w-[326px] h-[326px] flex justify-center items-center rounded-full bg-white">

@@ -8,7 +8,7 @@ const ComingSoonComponent = () => {
         Coming Soon
       </h2>
       <p className="text-xl text-center font-[300]" data-aos="fade-up">
-        Physically attach tags to your artworks
+        Physically attach RFID tags to your artworks
       </p>
       <div className="flex gap-2 w-full justify-center" data-aos="fade-up">
         <input
@@ -17,7 +17,7 @@ const ComingSoonComponent = () => {
           className="border m focus:border-none focus:outline-none"
         />
         <Button className="bg-primary text-white">
-          Notify me when page is active
+          Notify me when this feature is active
         </Button>
       </div>
     </section>

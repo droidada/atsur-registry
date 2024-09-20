@@ -6,6 +6,7 @@ import TrustedComponents from "@/components/ServicesPage/TrustedComponent";
 import axios from "@/lib/axios";
 import { getToken } from "next-auth/jwt";
 import ComingSoonComponent from "@/components/ServicesPage/ComingSoonComponent";
+import Link from "next/link";
 export const getServerSideProps = async ({ req, query }) => {
   try {
     const token: any = await getToken({
@@ -38,15 +39,17 @@ const Archiving = ({ artPieces }) => {
             data-aos-duration="1000"
           >
             <h1 className="text-5xl md:text-7xl">Archiving</h1>
-            <Button
-              variant="contained"
-              className="text-white px-2 font-[400] mt-4 max-w-[146px] w-full h-[47px] bg-primary"
-              data-aos="fade-up"
-              data-aos-delay="200"
-              data-aos-duration="1000"
-            >
-              Create
-            </Button>
+            <Link className="max-w-[146px] w-full" href="/signup">
+              <Button
+                variant="contained"
+                className="text-white px-2 font-[400] mt-4 max-w-[146px] w-full h-[47px] bg-primary"
+                data-aos="fade-up"
+                data-aos-delay="200"
+                data-aos-duration="1000"
+              >
+                Sign Up
+              </Button>
+            </Link>
           </div>
           <div
             className="relative"
@@ -132,15 +135,17 @@ const Archiving = ({ artPieces }) => {
             <p className="max-w-[487px] leading-[57px] font-[300] w-full text-4xl text-white">
               Custom shareable urls archived forever
             </p>
-            <Button
-              variant="contained"
-              className="text-primary h-[47px] w-[150px] bg-white text-[16px] leading-[14px] font-[400] mt-4"
-              data-aos="fade-up"
-              data-aos-delay="400"
-              data-aos-duration="1000"
-            >
-              Create
-            </Button>
+            <Link className="max-w-[150px] w-full" href="/signup">
+              <Button
+                variant="contained"
+                className="text-primary h-[47px] w-[150px] bg-white text-[16px] leading-[14px] font-[400] mt-4"
+                data-aos="fade-up"
+                data-aos-delay="400"
+                data-aos-duration="1000"
+              >
+                Sign Up
+              </Button>
+            </Link>
           </div>
           <Image
             src={"/images/archiving/share.png"}
