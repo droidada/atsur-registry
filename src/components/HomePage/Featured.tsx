@@ -47,7 +47,7 @@ const Featured: React.FC<Props> = () => {
               </Typography>
               <Link
                 className="text-[17px] leading-[16px] font-[400]"
-                href="/explore/more"
+                href="/explore"
                 data-aos="fade-left" // Fade-left animation for link
                 data-aos-delay="200" // Delay for staggered effect
               >

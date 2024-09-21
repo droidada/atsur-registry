@@ -54,7 +54,7 @@ const TopCollection: React.FC<Props> = ({}) => {
                 </Typography>
                 <Link
                   className="text-[17px] leading-[16px] font-[400] "
-                  href="/explore/more"
+                  href="/explore"
                 >
                   Discover More
                 </Link>

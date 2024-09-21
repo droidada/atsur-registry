@@ -49,6 +49,7 @@ export const options: any = {
       },
     }),
   ],
+  callbackUrl: `${process.env.NEXT_PUBLIC_DOMAIN_NAME}/api/auth`,
   session: {
     strategy: "jwt",
     maxAge: 24 * 60 * 60, // 24 Hours
