@@ -72,13 +72,13 @@ const Invitation = ({ invitationData }) => {
   };
 
   return (
-    <>
+    <div className="page-container py-10">
       {isAuthenticated ? (
         <AuthenticatedScreen {...authScreenProps} />
       ) : (
         <NotAuthScreen {...notAuthScreenProps} />
       )}
-    </>
+    </div>
   );
 };
 

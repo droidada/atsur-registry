@@ -1,15 +1,18 @@
 import GridView from "@/components/dashboard/artwork/GridView";
 import AdminDashboardLayout from "@/components/layout/AdminDashboardLayout";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
-import { Pagination, Stack } from "@mui/material";
+import { Button, Pagination, Stack } from "@mui/material";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { FaPlus } from "react-icons/fa";
 
 const AdminAllArtworks = () => {
   const queryClient = useQueryClient();
   const axiosFetch = useAxiosAuth();
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
+  const router = useRouter();
 
   const [filters, setFilters] = useState({});
 
@@ -45,11 +48,31 @@ const AdminAllArtworks = () => {
     },
   );
 
-  console.log(artworks?.data?.meta);
+  const handleCreate = () => {
+    router.push("/admin/artwork/create");
+  };
+
   return (
     <AdminDashboardLayout>
       <Stack spacing={4}>
-        <h1 className="text-3xl font-bold">Artworks</h1>
+        <Stack
+          justifyContent={"space-between"}
+          direction="row"
+          spacing={4}
+          alignItems={"center"}
+        >
+          <h1 className="text-3xl font-bold">Artworks</h1>
+
+          <Button
+            aria-haspopup="true"
+            onClick={handleCreate}
+            startIcon={<FaPlus />}
+            variant="text"
+            className="text-[14px] leading-[16px] text-primary"
+          >
+            New
+          </Button>
+        </Stack>
 
         <GridView
           artworks={artworks?.data?.artPieces}

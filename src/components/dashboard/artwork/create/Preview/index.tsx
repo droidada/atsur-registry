@@ -15,6 +15,7 @@ interface Props {
   formData: ICreateArtworkFormData;
   isUpdate?: boolean;
   artworkId?: string;
+  isAdminCreated?: boolean;
 }
 const CreateArtworkPreview: React.FC<Props> = ({
   setActiveIndex,
@@ -22,7 +23,9 @@ const CreateArtworkPreview: React.FC<Props> = ({
   formData,
   isUpdate,
   artworkId,
+  isAdminCreated,
 }) => {
+  console.log(isAdminCreated);
   const toast = useToast();
   const axiosFetch = useAxiosAuth();
   const router = useRouter();
@@ -30,6 +33,9 @@ const CreateArtworkPreview: React.FC<Props> = ({
     async (artworkData: ICreateArtworkFormData) => {
       try {
         const firstFormData = new FormData();
+        isAdminCreated &&
+          firstFormData.append("isAdminCreated", JSON.stringify(true));
+
         for (let data in artworkData.illustration) {
           if (typeof artworkData?.illustration[data] === "object") {
             for (let key in artworkData?.illustration[data]) {
@@ -70,6 +76,9 @@ const CreateArtworkPreview: React.FC<Props> = ({
             "fileMounted",
             artworkData?.assets?.secondaryView?.mountedView,
           );
+          console.log(isAdminCreated ? "hello" : "no");
+          isAdminCreated &&
+            formData.append("isAdminCreated", JSON.stringify(true));
           const { data: response2 } = isUpdate
             ? await axiosFetch.put(`art-piece/assets/${artworkId}`, formData)
             : await axiosFetch.post(`/art-piece/assets`, formData);
@@ -144,13 +153,41 @@ const CreateArtworkPreview: React.FC<Props> = ({
           </div>
         </div>
 
+        {formData?.illustration?.artistInvite?.email && (
+          <div className="grid gap-4 md:grid-cols-4">
+            <div className="flex flex-col gap-2">
+              <h4 className="font-semibold text-[15px] leading-[16px]">
+                First Name
+              </h4>
+              <p className="text-[17px] leading-[16px] font-[300]">
+                {formData?.illustration?.artistInvite?.firstName}
+              </p>
+            </div>
+            <div className="flex flex-col gap-2">
+              <h4 className="font-semibold text-[15px] leading-[16px]">
+                Last Name
+              </h4>
+              <p className="text-[17px] leading-[16px] font-[300]">
+                {formData?.illustration?.artistInvite?.lastName}
+              </p>
+            </div>
+            <div className="flex flex-col gap-2">
+              <h4 className="font-semibold text-[15px] leading-[16px]">
+                Email
+              </h4>
+              <p className="text-[17px] leading-[16px] font-[300]">
+                {formData?.illustration?.artistInvite?.email}
+              </p>
+            </div>
+          </div>
+        )}
         <div className="grid gap-4 md:grid-cols-4">
           <div className="flex flex-col gap-2">
             <h4 className="font-semibold text-[15px] leading-[16px]">
-              For Sale
+              Sales Type
             </h4>
             <p className="text-[17px] leading-[16px] font-[300]">
-              {formData?.illustration?.forSale ? "Yes" : "No"}
+              {formData?.illustration?.salesType.replace(/-/g, " ")}
             </p>
           </div>
           <div className="flex flex-col gap-2">

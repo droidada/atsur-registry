@@ -24,8 +24,8 @@ const NotAuthScreen = ({
   verificationData,
 }: Props) => {
   const router = useRouter();
-  console.log(invitationData);
-  console.log(type);
+  console.log(userIsRegistered);
+
   switch (type) {
     case "art-piece-collaborator":
       return (

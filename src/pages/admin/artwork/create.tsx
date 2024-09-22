@@ -7,8 +7,9 @@ import ICreateArtworkFormData from "@/types/models/createArtwork";
 import AssetsForm from "@/components/dashboard/artwork/create/AssetForm";
 import CreateArtworkPreview from "@/components/dashboard/artwork/create/Preview";
 import PricingForm from "@/components/dashboard/artwork/create/Pricing";
+import InviteAdminArtist from "@/components/dashboard/artwork/create/inviteAdminArtist";
 
-function CreateArtworks() {
+function Dashboard() {
   const [activeIndex, setActiveIndex] = useState(0);
   const handleOnClick = (index) => {
     setActiveIndex(index);
@@ -54,29 +55,31 @@ function CreateArtworks() {
         Create Artwork
       </h1>
       <Stack direction={"row"} className="overflow-x-auto " spacing={2}>
-        {["Metadata", "Assets", "Pricing", "Preview"].map((item, index) => (
-          <div
-            key={`active-bar-${item}`}
-            className="flex-shrink-0 lg:flex-shrink flex flex-col max-w-[312px] w-full gap-2"
-          >
-            <span
-              className={`text-[20px] capitalize leading-[20px] ${
-                activeIndex === index ? "font-bold" : ""
-              }`}
+        {["Metadata", "Assets", "Pricing", "Invite Artist", "Preview"].map(
+          (item, index) => (
+            <div
+              key={`active-bar-${item}`}
+              className="flex-shrink-0 lg:flex-shrink flex flex-col max-w-[312px] w-full gap-2"
             >
-              {item}
-            </span>
-            <span
-              className={`h-[7px] w-full rounded-[23px]  ${
-                activeIndex >= index
-                  ? activeIndex == 2 && index == 2
-                    ? "bg-[#00FF94]"
-                    : "bg-primary"
-                  : "bg-secondary"
-              }`}
-            />
-          </div>
-        ))}
+              <span
+                className={`text-[20px] capitalize leading-[20px] ${
+                  activeIndex === index ? "font-bold" : ""
+                }`}
+              >
+                {item}
+              </span>
+              <span
+                className={`h-[7px] w-full rounded-[23px]  ${
+                  activeIndex >= index
+                    ? activeIndex == 2 && index == 2
+                      ? "bg-[#00FF94]"
+                      : "bg-primary"
+                    : "bg-secondary"
+                }`}
+              />
+            </div>
+          ),
+        )}
       </Stack>
 
       <div>
@@ -101,7 +104,14 @@ function CreateArtworks() {
               setFormData={setFormData}
               formData={formData}
             />,
+            <InviteAdminArtist
+              key={2}
+              setActiveIndex={setActiveIndex}
+              setFormData={setFormData}
+              formData={formData}
+            />,
             <CreateArtworkPreview
+              isAdminCreated={true}
               key={2}
               setActiveIndex={setActiveIndex}
               setFormData={setFormData}
@@ -114,4 +124,4 @@ function CreateArtworks() {
   );
 }
 
-export default ProtectedPage(CreateArtworks);
+export default ProtectedPage(Dashboard);

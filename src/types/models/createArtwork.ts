@@ -1,10 +1,11 @@
-export interface ICreateArtworkIllustration {
+export interface ICreateArtworkIllustration
+{
   price: {
     amount: number;
     currency?: string;
     type: string;
   };
-  forSale: boolean;
+  salesType: string;
   creationDate: {
     date: string | number;
     isCirca: boolean;
@@ -13,6 +14,11 @@ export interface ICreateArtworkIllustration {
   description: string;
   medium: string;
   subjectMatter: string;
+  artistInvite?: {
+    firstName: string,
+    lastName: string,
+    email: string;
+  };
   dimensions: {
     height: number;
     width: number;
@@ -23,7 +29,8 @@ export interface ICreateArtworkIllustration {
   withFrame?: boolean;
 }
 
-export interface ICreateArtworkAssets {
+export interface ICreateArtworkAssets
+{
   primaryViewLandscape: any;
   secondaryView: {
     primaryViewPortrait: any;
@@ -32,7 +39,8 @@ export interface ICreateArtworkAssets {
   };
 }
 
-export default interface ICreateArtworkFormData {
+export default interface ICreateArtworkFormData
+{
   illustration: ICreateArtworkIllustration;
   assets: ICreateArtworkAssets;
 }

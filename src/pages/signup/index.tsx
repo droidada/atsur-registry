@@ -48,14 +48,13 @@ export const getServerSideProps = async ({ req, query, params }) => {
 
   if (token) {
     try {
-      const res = await axios.post(`/invite/fetch`, {
-        token,
-      });
+      const res = await axios.get(`/invite/fetch/${token}`);
 
       console.log(res.data);
 
       return { props: { invitationData: res.data?.data, countries } };
     } catch (error) {
+      console.log(error?.response?.data || error?.message);
       throw new Error(error);
     }
   } else {
@@ -93,7 +92,9 @@ function SignUp({ invitationData, countries }) {
 
   console.log(countries);
 
-  const [invitee, setInvitee] = useState(invitationData?.invitation?.invitee);
+  const [invitee, setInvitee] = useState(
+    invitationData?.invitation?.invitee?.user,
+  );
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();

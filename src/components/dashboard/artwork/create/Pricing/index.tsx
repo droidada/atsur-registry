@@ -10,7 +10,6 @@ import { Autocomplete, MenuItem, Stack, TextField } from "@mui/material";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import SwitchInput from "@/components/Form/SwitchInput";
 import SelectField from "@/components/Form/SelectField";
-import path from "path";
 
 interface Props {
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
@@ -26,16 +25,16 @@ const PricingForm: React.FC<Props> = ({
     creationDate: number(),
     price: string().optional(),
     type: string().optional(),
-    forSale: boolean().optional(),
+    salesType: string(),
   }).superRefine((data, ctx) => {
-    if (data.forSale && !data.price) {
+    if (data.salesType === "for-sale" && !data.price) {
       ctx.addIssue({
         path: ["price"],
         message: "Price is required for sale",
         code: "custom",
       });
     }
-    if (data.forSale && !data.type) {
+    if (data.salesType === "for-sale" && !data.type) {
       ctx.addIssue({
         path: ["type"],
         message: "Type is required for sale",
@@ -58,11 +57,9 @@ const PricingForm: React.FC<Props> = ({
       creationDate: formData?.illustration?.creationDate?.date || null,
       price: formData?.illustration?.price?.amount?.toString() || "",
       type: formData?.illustration?.price?.type || "",
-      forSale: formData?.illustration?.forSale || false,
+      salesType: formData?.illustration?.salesType || "",
     },
   });
-
-  console.log(getValues(), errors);
 
   type PricingData = TypeOf<typeof PricingSchema>;
 
@@ -79,10 +76,10 @@ const PricingForm: React.FC<Props> = ({
     );
     setValue("price", formData?.illustration?.price?.amount?.toString() || "");
     setValue("type", formData?.illustration?.price?.type || "");
-    setValue("forSale", formData?.illustration?.forSale || false);
+    setValue("salesType", formData?.illustration?.salesType || "");
   }, [formData, setValue]);
 
-  const forSale = watch("forSale");
+  const forSale = watch("salesType") === "for-sale";
 
   const onSubmit: SubmitHandler<PricingData> = (data) => {
     console.log(data);
@@ -101,7 +98,7 @@ const PricingForm: React.FC<Props> = ({
           amount: data.price ? Number(data.price) : 0,
           type: data.type || "",
         },
-        forSale: data.forSale || false,
+        salesType: data.salesType || "",
       },
     });
     setActiveIndex((prev) => prev + 1);
@@ -148,61 +145,94 @@ const PricingForm: React.FC<Props> = ({
             />
           </div>
 
-          <SwitchInput
+          <SelectField
+            label="Sales Type"
+            name="salesType"
+            // @ts-ignore
+            sx={{
+              "& fieldset": {
+                background: "#fff",
+                border: "none",
+                color: "black",
+              },
+
+              // borderColor: "black",
+            }}
+            control={control}
+            fullWidth
+            helperText={errors["salesType"] ? errors["salesType"].message : ""}
+            error={!!errors["salesType"]}
+          >
+            {["for-sale", "not-for-sale", "sold"].map((salesType) => (
+              <MenuItem
+                key={salesType}
+                value={salesType}
+                className="text-xm capitalize"
+              >
+                {salesType.replace(/-/g, " ")}
+              </MenuItem>
+            ))}
+          </SelectField>
+          {/* <SwitchInput
             label="Is the artwork for sale?"
             // id="forSale"
             name="forSale"
             control={control}
             error={!!errors["forSale"]}
             helperText={errors["forSale"] ? errors["forSale"].message : ""}
-          />
+          /> */}
         </div>
         {forSale && (
           <>
-            <InputField
-              label="Price"
-              id="price"
-              placeholder=""
-              name="price"
-              type="text"
-              hasInfo
-              info="The price of the artwork"
-              tabIndex={2}
-              aria-required="true"
-              fullWidth
-              defaultValue="0"
-              error={!!errors["price"]}
-              helperText={errors["price"] ? errors["price"].message : ""}
-              control={control}
-            />
-            <SelectField
-              label="Currency"
-              name="currency"
-              // @ts-ignore
-              sx={{
-                "& fieldset": {
-                  background: "#DCDCDC",
-                  border: "none",
-                  color: "black",
-                },
+            <div className="flex gap-4 items-start">
+              <InputField
+                label="Price"
+                id="price"
+                placeholder=""
+                name="price"
+                type="text"
+                hasInfo
+                info="The price of the artwork"
+                tabIndex={2}
+                aria-required="true"
+                className="w-[50%]"
+                fullWidth
+                defaultValue="0"
+                error={!!errors["price"]}
+                helperText={errors["price"] ? errors["price"].message : ""}
+                control={control}
+              />
+              <SelectField
+                className="w-[50%]"
+                label="Currency"
+                name="currency"
+                // @ts-ignore
+                sx={{
+                  "& fieldset": {
+                    background: "#fff",
+                    border: "none",
+                    color: "black",
+                  },
 
-                // borderColor: "black",
-              }}
-              control={control}
-              fullWidth
-              helperText={errors["medium"] ? errors["medium"].message : ""}
-              error={!!errors["medium"]}
-            >
-              {["Dollar", "Pounds", "Euro", "Naira"].map((medium) => (
-                <MenuItem
-                  key={medium}
-                  value={medium}
-                  className="text-xm capitalize"
-                >
-                  {medium}
-                </MenuItem>
-              ))}
-            </SelectField>
+                  // borderColor: "black",
+                }}
+                control={control}
+                cl
+                fullWidth
+                helperText={errors["medium"] ? errors["medium"].message : ""}
+                error={!!errors["medium"]}
+              >
+                {["Dollar", "Pounds", "Euro", "Naira"].map((medium) => (
+                  <MenuItem
+                    key={medium}
+                    value={medium}
+                    className="text-xm capitalize"
+                  >
+                    {medium}
+                  </MenuItem>
+                ))}
+              </SelectField>
+            </div>
             <div className="flex gap-4 items-center">
               {["fixed", "minimum-price"].map((item) => (
                 <div key={item} className="flex gap-2 items-center">
