@@ -36,19 +36,21 @@ const ArpieceArtistInvite: React.FC<Props> = ({
   const { status } = useSession();
 
   const handleAcceptArtpiece = () => {
-    if (!acceptTermsAndCondition) {
-      setTermsAndConditionError(true);
-      return;
-    }
-    if (!signatureImage) {
-      toast.error("Please sign your signature");
-      return;
+    if (!invitationData?.invitation?.object?.artPiece?.isAdminCreated) {
+      if (!acceptTermsAndCondition) {
+        setTermsAndConditionError(true);
+        return;
+      }
+      if (!signatureImage) {
+        toast.error("Please sign your signature");
+        return;
+      }
     }
 
     handleAccept();
   };
 
-  console.log(invitationData);
+  console.log(invitationData?.invitation?.object?.artPiece);
 
   return (
     <div className="flex flex-col gap-4 divide-y-[1px] divide-primary ">
@@ -63,8 +65,10 @@ const ArpieceArtistInvite: React.FC<Props> = ({
             />
             <div className="max-w-[414px] w-full flex flex-col gap-4">
               <h2 className="font-[500] text-lg  lg:text-2xl">
-                {invitationData?.invitation?.inviter?.firstName}{" "}
-                {invitationData?.invitation?.inviter?.lastName} has invited you
+                {invitationData?.invitation?.object?.artPiece?.isAdminCreated
+                  ? "Admin"
+                  : `${invitationData?.invitation?.inviter?.firstName} ${invitationData?.invitation?.inviter?.lastName}`}{" "}
+                has invited you
               </h2>
               <p className="">
                 You have been invited as the Artist of
@@ -72,7 +76,7 @@ const ArpieceArtistInvite: React.FC<Props> = ({
                   {" "}
                   {invitationData?.invitation?.object?.artPiece?.title}
                 </span>{" "}
-                Artpiece
+                Artwork
               </p>
             </div>
           </div>
@@ -98,44 +102,47 @@ const ArpieceArtistInvite: React.FC<Props> = ({
               {invitationData?.invitation?.object?.artPiece?.description}
             </p>
           </div>
-          {status === "authenticated" && (
-            <div className="flex flex-col items-center gap-4">
-              <div
-                onClick={() => setOpenSignature(true)}
-                className="max-w-[250px]  w-full h-[100px] grid place-items-center relative"
-              >
-                {signatureImage && <Image fill src={signatureImage} alt="" />}
+          {status === "authenticated" &&
+            !invitationData?.invitation?.object?.artPiece?.isAdminCreated && (
+              <div className="flex flex-col items-center gap-4">
                 <div
-                  className={`bg-black/50 text-sm absolute backdrop-blur-sm w-full h-full flex justify-center items-center hover:bg-black/20 cursor-pointer text-center`}
+                  onClick={() => setOpenSignature(true)}
+                  className="max-w-[250px]  w-full h-[100px] grid place-items-center relative"
                 >
-                  <span>Click to sign your signature</span>
+                  {signatureImage && <Image fill src={signatureImage} alt="" />}
+                  <div
+                    className={`bg-black/50 text-sm absolute backdrop-blur-sm w-full h-full flex justify-center items-center hover:bg-black/20 cursor-pointer text-center`}
+                  >
+                    <span>Click to sign your signature</span>
+                  </div>
+                </div>
+                <div>
+                  <div className="flex gap-2 items-center">
+                    <input
+                      onChange={(e) =>
+                        setAcceptTermsAndCondition(e.target.checked)
+                      }
+                      onBlur={(e) => setTermsAndConditionError(false)}
+                      checked={acceptTermsAndCondition}
+                      type="checkbox"
+                      id="confirm"
+                      className="focus:ring-0"
+                    />
+                    <label className="text-sm" htmlFor="confirm">
+                      By signing this, I agree with the{" "}
+                      <Link href={"#"} className="underline">
+                        Terms and Conditions
+                      </Link>
+                    </label>
+                  </div>
+                  {termAndConditionError && (
+                    <p className="text-red-500 text-xs">
+                      This field is required
+                    </p>
+                  )}
                 </div>
               </div>
-              <div>
-                <div className="flex gap-2 items-center">
-                  <input
-                    onChange={(e) =>
-                      setAcceptTermsAndCondition(e.target.checked)
-                    }
-                    onBlur={(e) => setTermsAndConditionError(false)}
-                    checked={acceptTermsAndCondition}
-                    type="checkbox"
-                    id="confirm"
-                    className="focus:ring-0"
-                  />
-                  <label className="text-sm" htmlFor="confirm">
-                    By signing this, I agree with the{" "}
-                    <Link href={"#"} className="underline">
-                      Terms and Conditions
-                    </Link>
-                  </label>
-                </div>
-                {termAndConditionError && (
-                  <p className="text-red-500 text-xs">This field is required</p>
-                )}
-              </div>
-            </div>
-          )}
+            )}
           <div className=" ">
             {isAuthenticated ? (
               <div className="flex gap-4">
@@ -162,10 +169,15 @@ const ArpieceArtistInvite: React.FC<Props> = ({
                 className=" text-[15px] leading-[16px] font-[600] h-[46px] px-4 bg-primary "
                 loading={false}
                 onClick={() => {
+                  const encodedCallbackUrl = encodeURIComponent(`/invitation/`);
                   if (userIsRegistered) {
-                    router.push(`/login?token=${token}`);
+                    router.push(
+                      `/login?callbackUrl=${encodedCallbackUrl}&token=${token}`,
+                    );
                   } else {
-                    router.push(`/signup?token=${token}`);
+                    router.push(
+                      `/signup?token=${token}&callbackUrl=${encodedCallbackUrl}`,
+                    );
                   }
                 }}
               >

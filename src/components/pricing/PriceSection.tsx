@@ -49,12 +49,18 @@ const PriceSection: React.FC<Props> = ({ plans }) => {
   }, [plans]);
 
   return (
-    <section className="mt-10 md:mt-5 py-10 sm:py-16 md:py-12 flex gap-4 flex-col items-center">
-      <div className=" flex overflow-x-auto bg-secondary    p-4 relative">
+    <section
+      className="mt-10 md:mt-5 py-10 sm:py-16 md:py-12 flex gap-4 flex-col items-center"
+      data-aos="fade-up"
+    >
+      <div
+        className="flex overflow-x-auto bg-secondary p-4 relative"
+        data-aos="zoom-in"
+      >
         {["monthly", "annually"].map((interval) => (
           <Button
             key={interval}
-            className={`max-w-[183px] px-4 w-fit  whitespace-nowrap flex-shrink-0 h-[47px] capitalize text-[16px] leading-[14px] font-[400]  ${
+            className={`max-w-[183px] px-4 w-fit whitespace-nowrap flex-shrink-0 h-[47px] capitalize text-[16px] leading-[14px] font-[400] ${
               interval == currentInterval
                 ? "bg-black text-white"
                 : "bg-transparent text-black"
@@ -62,6 +68,8 @@ const PriceSection: React.FC<Props> = ({ plans }) => {
             variant={currentInterval === interval ? "contained" : "text"}
             // @ts-ignore
             onClick={() => setCurrentInterval(interval)}
+            data-aos="fade-right"
+            data-aos-delay="100"
           >
             Pay {interval}
           </Button>
@@ -69,8 +77,11 @@ const PriceSection: React.FC<Props> = ({ plans }) => {
       </div>
 
       <div className="mt-12 w-full px-4">
-        <div className="flex gap-4  justify-center w-full  lg:flex-nowrap flex-wrap  lg:items-stretch items-center">
-          {plans?.map((plan) => (
+        <div
+          className="flex gap-4 justify-center w-full lg:flex-nowrap flex-wrap lg:items-stretch items-center"
+          data-aos="fade-up"
+        >
+          {plans?.map((plan, index) => (
             <PricingCard
               key={plan._id}
               title={plan.type}

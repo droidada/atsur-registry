@@ -4,7 +4,7 @@ export interface ICreateArtworkIllustration {
     currency?: string;
     type: string;
   };
-  forSale: boolean;
+  salesType: string;
   creationDate: {
     date: string | number;
     isCirca: boolean;
@@ -13,6 +13,11 @@ export interface ICreateArtworkIllustration {
   description: string;
   medium: string;
   subjectMatter: string;
+  artistInvite?: {
+    firstName: string;
+    lastName: string;
+    email: string;
+  };
   dimensions: {
     height: number;
     width: number;

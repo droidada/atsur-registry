@@ -14,6 +14,7 @@ import { FaRegPlusSquare } from "react-icons/fa";
 import {
   adminDashboardSidebarMenu,
   dashboardSidebarMenu,
+  walletDashboardSideMenu,
 } from "@/lib/utils/navs";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
@@ -23,8 +24,14 @@ interface Props {
   hideSidebar?: boolean;
   isMobile?: boolean;
   isAdmin?: boolean;
+  isWallet?: boolean;
 }
-const SideBar: React.FC<Props> = ({ hideSidebar, isMobile, isAdmin }) => {
+const SideBar: React.FC<Props> = ({
+  hideSidebar,
+  isMobile,
+  isAdmin,
+  isWallet,
+}) => {
   const pathname = useRouter().pathname;
   const router = useRouter();
   const [openLogoutModal, setOpenLogoutModal] = useState(false);
@@ -52,6 +59,8 @@ const SideBar: React.FC<Props> = ({ hideSidebar, isMobile, isAdmin }) => {
             <h3 className="text-[20px] font-[600] text-center">
               Admin Dashboard
             </h3>
+          ) : isWallet ? (
+            <h3 className="text-[20px] font-[600] text-center">Wallet</h3>
           ) : (
             <Button
               onClick={() => router.push("/dashboard/artworks/create")}
@@ -114,6 +123,53 @@ const SideBar: React.FC<Props> = ({ hideSidebar, isMobile, isAdmin }) => {
                       ) : (
                         <menu.icon size={18} />
                       )}
+                      {menu?.title}
+                    </Link>
+                  ),
+                )}
+              </div>
+            ))
+          : isWallet
+          ? walletDashboardSideMenu.map((item) => (
+              <div
+                key={`dashboard-menu-${item?.title}`}
+                className="flex flex-col  gap-6"
+              >
+                <h2 className="py-5 border-b-[1px] w-full font-[600] tracking-[50%] text-[17px] leading-[16px] text-justify">
+                  {item.title}
+                </h2>
+                {/* @ts-ignore */}
+                {item?.menus?.map((menu) =>
+                  menu?.isButton ? (
+                    <h4
+                      onClick={() => setOpenLogoutModal(true)}
+                      className="text-[17px] cursor-pointer leading-[16px] flex gap-3 items-center "
+                      key={`button-${menu.title}`}
+                    >
+                      <Image
+                        src={menu?.icon}
+                        alt={menu?.title}
+                        width={18}
+                        height={18}
+                      />
+                      <span>{menu?.title}</span>
+                    </h4>
+                  ) : (
+                    <Link
+                      key={`submenu-${menu.title}`}
+                      href={menu?.link}
+                      className={`text-[17px] leading-[16px] no-underline  flex gap-3 items-center ${
+                        pathname.includes(menu.title?.toLowerCase())
+                          ? "font-[600]"
+                          : "font-[300]"
+                      }`}
+                    >
+                      <Image
+                        src={menu?.icon}
+                        alt={menu?.title}
+                        width={18}
+                        height={18}
+                      />
                       {menu?.title}
                     </Link>
                   ),

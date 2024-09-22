@@ -23,11 +23,11 @@ export const getServerSideProps = async ({ req, params }) => {
       headers: { authorization: `Bearer ${token?.accessToken}` },
     });
 
-    console.log(res.data);
+    console.log(res.data?.user?.wallet);
 
     return {
       props: {
-        wallet: res?.data?.wallet,
+        wallet: res?.data?.user?.wallet,
       },
     };
   } catch (error) {
