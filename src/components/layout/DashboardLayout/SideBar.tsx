@@ -138,7 +138,8 @@ const SideBar: React.FC<Props> = ({
                 <h2 className="py-5 border-b-[1px] w-full font-[600] tracking-[50%] text-[17px] leading-[16px] text-justify">
                   {item.title}
                 </h2>
-                {item.menus?.map((menu) =>
+                {/* @ts-ignore */}
+                {item?.menus?.map((menu) =>
                   menu?.isButton ? (
                     <h4
                       onClick={() => setOpenLogoutModal(true)}
