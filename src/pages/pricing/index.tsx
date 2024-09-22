@@ -23,11 +23,14 @@ const PricingPage = ({ plans, bundles }) => {
   return (
     <PricingLayout
       HeroSection={
-        <section className="flex flex-col items-center  py-3 md:py-10 gap-4">
+        <section
+          className="flex flex-col items-center py-3 md:py-10 gap-4"
+          data-aos="fade-up"
+        >
           <h1 className="text-2xl md:text-4xl lg:text-[80px] lg:leading-[65px] text-center">
             Pricing
           </h1>
-          <p className="text-sm text-center max-w-[585px]">
+          <p className="text-sm text-center max-w-[585px]" data-aos="fade-in">
             Vorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu
             turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus
             nec fringilla accumsan, risus s
@@ -35,13 +38,13 @@ const PricingPage = ({ plans, bundles }) => {
         </section>
       }
     >
-      {/* <div className="absolute top-0 left-0 w-full z-[-1]  h-[40vh] bg-secondary" /> */}
+      {/* Bundles Section */}
+      <Bundles bundles={bundles} data-aos="fade-up" />
 
-      {/* <PriceSection plans={plans} /> */}
-
-      <Bundles bundles={bundles} />
-
-      <section className="mt-12 flex flex-col gap-2 items-center px-4">
+      <section
+        className="mt-12 flex flex-col gap-2 items-center px-4"
+        data-aos="fade-up"
+      >
         <h2 className="lg:text-[30px] font-[600] md:text-2xl text-xl lg:leading-[65px] tracking-[50%]">
           ALL SERVICES
         </h2>
@@ -50,11 +53,14 @@ const PricingPage = ({ plans, bundles }) => {
             <div
               className="flex flex-col gap-2 w-full lg:w-1/2 px-4 md:px-8 py-10"
               key={`services-${index}`}
+              data-aos="fade-up"
+              data-aos-delay={index * 100}
             >
               {services.map((service) => (
                 <div
                   key={`service-${service.title}`}
                   className="flex items-baseline gap-3"
+                  data-aos="fade-in"
                 >
                   <BsLightbulbFill className="flex-shrink-0" />
                   <div className="flex flex-col text-lg md:text-[20px] md:leading-[34px]">

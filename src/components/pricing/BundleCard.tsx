@@ -48,8 +48,14 @@ const BundleCard: React.FC<Props> = ({ bundle }) => {
     },
   });
   return (
-    <div className="max-w-[448.19px] w-full border-[1px] border-primary flex flex-col">
-      <div className="bg-white flex flex-col items-center gap-8 px-8 py-10">
+    <div
+      className="max-w-[448.19px] w-full border-[1px] border-primary flex flex-col"
+      data-aos="fade-up"
+    >
+      <div
+        className="bg-white flex flex-col items-center gap-8 px-8 py-10"
+        data-aos="zoom-in"
+      >
         <p className="uppercase text-[15px] leading-[18px] tracking-[40%] text-center text-primary font-[600]">
           {bundle.name}
         </p>
@@ -69,13 +75,19 @@ const BundleCard: React.FC<Props> = ({ bundle }) => {
             status === "authenticated" ? mutate() : setOpen(true)
           }
           className={`text-sm font-[400] h-[36px] w-[150.49px] px-3 bg-[#B54443] text-white`}
+          data-aos="fade-left"
         >
           Get Started
         </LoadingButton>
       </div>
       <div className="bg-primary flex-1 flex flex-col items-start gap-4 px-8 py-10">
-        {bundle.details?.map((detail) => (
-          <div key={detail._id} className="flex gap-2 items-center">
+        {bundle.details?.map((detail, index) => (
+          <div
+            key={detail._id}
+            className="flex gap-2 items-center"
+            data-aos="fade-up"
+            data-aos-delay={index * 100} // Adds delay to each detail's animation
+          >
             <HiMiniCheckCircle
               size={13}
               color="#B54443"
