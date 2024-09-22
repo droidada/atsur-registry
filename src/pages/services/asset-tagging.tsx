@@ -94,12 +94,19 @@ const AssetTagging = ({ artPieces }) => {
               Physically attach tags to your art pieces to allow tracking,
               identification, and management of the artwork.
             </p>
-            <Button
-              variant="contained"
-              className="text-white px-2 font-[400] mt-4 max-w-[146px] w-full h-[47px] bg-primary"
+            <div
+              className="flex gap-2 w-full justify-center"
+              data-aos="fade-up"
             >
-              Create
-            </Button>
+              <input
+                type="email"
+                placeholder="Your email here"
+                className="border m focus:border-none focus:outline-none"
+              />
+              <Button className="bg-primary text-white">
+                Get notified when this feature is active
+              </Button>
+            </div>
           </div>
           <div className="relative" data-aos="zoom-in">
             <div className="w-[326px] h-[326px] flex justify-center items-center rounded-full bg-white">

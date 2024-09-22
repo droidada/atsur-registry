@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import React from "react";
 import ArtPieceCard from "../ArtPieceCard";
+import Link from "next/link";
 
 interface Props {
   artworkData: any;
@@ -45,13 +46,15 @@ const TrustedComponents: React.FC<Props> = ({ artworkData }) => {
         <p className="text-[61px] leading-[73px] font-[300] text-center">
           Control who views your work and their access levels
         </p>
-        <Button
-          variant="contained"
-          className="max-w-[400px] w-full mt-4 h-[45px] bg-primary text-white"
-          data-aos="zoom-in"
-        >
-          Create
-        </Button>
+        <Link className="max-w-[400px] w-full" href="/signup">
+          <Button
+            variant="contained"
+            className="max-w-[400px] w-full mt-4 h-[45px] bg-primary text-white"
+            data-aos="zoom-in"
+          >
+            Sign Up
+          </Button>
+        </Link>
       </div>
     </section>
   );

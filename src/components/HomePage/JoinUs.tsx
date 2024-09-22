@@ -20,7 +20,7 @@ const JoinUs = () => {
         Join Africa&apos;s largest and most trusted Art and artifacts collection
       </h2>
       <Button
-        onClick={() => router.push("/explore/more")}
+        onClick={() => router.push("/explore")}
         variant="contained"
         endIcon={<MdOutlineArrowOutward />}
         className="bg-primary w-[159px] text-[17px] leading-[16px] font-[400] text-secondary"

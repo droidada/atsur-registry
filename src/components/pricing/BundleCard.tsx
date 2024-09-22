@@ -56,14 +56,7 @@ const BundleCard: React.FC<Props> = ({ bundle }) => {
 
         <div className="flex place-items-baseline">
           <h4 className="font-bold text-2xl lg:text-[40px] lg:leading-[45px]">
-            ₦
-            {numeral(
-              bundle.details.reduce(
-                (total, detail) =>
-                  total + detail.quantity * detail.item.unitPrice,
-                0,
-              ),
-            ).format("0,0")}
+            $ {numeral(bundle.unitPrice).format("0,0")}
           </h4>
           <span className="text-[11px] capitalize leading-[14px] tracking-[5%]">
             / Bundle
@@ -75,7 +68,7 @@ const BundleCard: React.FC<Props> = ({ bundle }) => {
           onClick={() =>
             status === "authenticated" ? mutate() : setOpen(true)
           }
-          className={`text-sm font-[400] h-[36px] w-[150.49px] px-3 bg-[#00FF94] text-primary`}
+          className={`text-sm font-[400] h-[36px] w-[150.49px] px-3 bg-[#B54443] text-white`}
         >
           Get Started
         </LoadingButton>
@@ -85,7 +78,7 @@ const BundleCard: React.FC<Props> = ({ bundle }) => {
           <div key={detail._id} className="flex gap-2 items-center">
             <HiMiniCheckCircle
               size={13}
-              color="#00FF94"
+              color="#B54443"
               className="flex-shrink-0"
             />
             <span className="text-white text-[14px] leading-[27px] tracking-[5%]">

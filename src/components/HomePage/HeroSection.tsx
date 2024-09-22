@@ -22,7 +22,7 @@ const HeroSection: React.FC<Props> = ({ heroImages }) => {
     e.preventDefault();
 
     if (query) {
-      router.push(`/explore/more?search=${query}`);
+      router.push(`/explore/?search=${query}`);
     }
   };
 
@@ -53,7 +53,7 @@ const HeroSection: React.FC<Props> = ({ heroImages }) => {
           onSubmit={handleSubmit}
           data-aos="fade-up"
           data-aos-delay="200"
-          className="max-w-[595px] items-center p-2  h-[50px] border border-primary flex gap-2"
+          className="max-w-[505px] items-center p-2  h-[50px] border border-primary flex gap-2"
         >
           <input
             onChange={(e) => setQuery(e.target.value)}
