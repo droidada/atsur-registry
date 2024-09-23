@@ -20,6 +20,7 @@ import MemberOrgInvite from "./invitationType/MemberOrgInvite";
 import CollaboratorInvite from "./invitationType/CollaboratorInvite";
 import OrgInvite from "./invitationType/OrgInvite";
 import ArpieceArtistInvite from "./invitationType/ArpieceArtistInvite";
+import InvalidToken from "./invitationType/InvalidToken";
 
 interface Props {
   type: string;
@@ -140,7 +141,7 @@ const AuthenticatedScreen = ({
     case "art-piece-artist":
       return <ArpieceArtistInvite {...commonProps} />;
     default:
-      return null;
+      return <InvalidToken />;
   }
 };
 

@@ -1,24 +1,8 @@
 import { useState } from "react";
 import axios from "@/lib/axios";
-import {
-  Button,
-  CircularProgress,
-  Pagination,
-  Menu,
-  MenuItem,
-  Stack,
-} from "@mui/material";
+import { Stack } from "@mui/material";
 
 import UnprotectedPage from "@/HOC/Unprotected";
-import FilterComponent from "@/components/ExplorePage/FilterComponent";
-import { IoGrid } from "react-icons/io5";
-import { IoIosSearch, IoMdMenu } from "react-icons/io";
-import { BiMenuAltLeft } from "react-icons/bi";
-import { useQuery } from "@tanstack/react-query";
-import ExploreArtPieceCard from "@/components/ExploreArtPieceCard";
-import NoData from "@/components/dashboard/NoData";
-import useDebounce from "@/hooks/useDebounce";
-import { useRouter } from "next/router";
 import ArtPieceTab from "@/components/ExplorePage/Tabs/ArtPieceTab";
 
 function Explore() {
