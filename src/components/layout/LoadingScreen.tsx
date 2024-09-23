@@ -15,11 +15,11 @@ const LoadingScreen: React.FC<{ loading: boolean }> = ({ loading }) => {
 
   return (
     <div
-      className={`       fixed inset-0 bg-[#efefef] z-[9999] flex items-center justify-center transition-transform duration-500 ${
+      className={`       fixed inset-0 bg-white z-[9999] flex items-center justify-center transition-transform duration-500 ${
         loading ? "translate-x-0" : "-translate-x-full"
       }`}
     >
-      <Image width={200} height={200} alt="loader" src={"/loader-gif.gif"} />
+      <Image width={200} height={200} alt="loader" src={"/gif-loader.gif"} />
     </div>
   );
 };

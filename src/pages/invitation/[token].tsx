@@ -15,7 +15,10 @@ export const getServerSideProps = async ({ req, query, params }) => {
     return { props: { invitationData: res.data?.data } };
   } catch (error) {
     console.error(error?.response?.data?.message || error?.message);
-    throw new Error(error);
+    // throw new Error(error);
+    return {
+      props: { invitationData: null },
+    };
   }
 };
 
@@ -50,6 +53,7 @@ const Invitation = ({ invitationData }) => {
           signOut();
         }
       } else if (!isInvitee) {
+        console.log("logout ");
         signOut();
       }
     }
@@ -72,12 +76,14 @@ const Invitation = ({ invitationData }) => {
   };
 
   return (
-    <div className="page-container py-10">
-      {isAuthenticated ? (
-        <AuthenticatedScreen {...authScreenProps} />
-      ) : (
-        <NotAuthScreen {...notAuthScreenProps} />
-      )}
+    <div className="page-container min-h-screen py-10">
+      <div className="max-w-[1200px] p-4 rounded w-full mx-auto shadow-md border">
+        {isAuthenticated ? (
+          <AuthenticatedScreen {...authScreenProps} />
+        ) : (
+          <NotAuthScreen {...notAuthScreenProps} />
+        )}
+      </div>
     </div>
   );
 };

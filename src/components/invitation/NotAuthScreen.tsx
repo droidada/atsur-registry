@@ -7,6 +7,7 @@ import MemberOrgInvite from "./invitationType/MemberOrgInvite";
 import CollaboratorInvite from "./invitationType/CollaboratorInvite";
 import OrgInvite from "./invitationType/OrgInvite";
 import ArpieceArtistInvite from "./invitationType/ArpieceArtistInvite";
+import InvalidToken from "./invitationType/InvalidToken";
 interface Props {
   userIsRegistered: boolean;
   type: string;
@@ -65,7 +66,7 @@ const NotAuthScreen = ({
         />
       );
     default:
-      return <>Hello</>;
+      return <InvalidToken />;
   }
 };
 

@@ -29,6 +29,10 @@ const BundleCard: React.FC<Props> = ({ bundle }) => {
 
   console.log(bundle);
 
+  const total = bundle.details?.reduce((total, item) => {
+    return (total += item.item.unitPrice * item.quantity);
+  }, 0);
+
   const { mutate, isLoading } = useMutation({
     //   @ts-ignore
     mutationFn: () => axiosAuth.post(`/bundles/buy/${bundle._id}`),
@@ -62,7 +66,7 @@ const BundleCard: React.FC<Props> = ({ bundle }) => {
 
         <div className="flex place-items-baseline">
           <h4 className="font-bold text-2xl lg:text-[40px] lg:leading-[45px]">
-            $ {numeral(bundle.unitPrice).format("0,0")}
+            $ {numeral(total).format("0,0")}
           </h4>
           <span className="text-[11px] capitalize leading-[14px] tracking-[5%]">
             / Bundle
