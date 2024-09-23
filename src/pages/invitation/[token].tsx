@@ -15,14 +15,16 @@ export const getServerSideProps = async ({ req, query, params }) => {
     return { props: { invitationData: res.data?.data } };
   } catch (error) {
     console.error(error?.response?.data?.message || error?.message);
-    // throw new Error(error);
     return {
-      props: { invitationData: null },
+      props: {
+        invitationData: null,
+        error: error?.response?.data?.message || error?.message,
+      },
     };
   }
 };
 
-const Invitation = ({ invitationData }) => {
+const Invitation = ({ invitationData, error }) => {
   const { status, data: sessionData } = useSession();
   const router = useRouter();
 
@@ -33,7 +35,7 @@ const Invitation = ({ invitationData }) => {
     invitationData?.invitation.invitee?.user?.email ===
     sessionData?.user?.email;
 
-  const { data: verification, error } = useQuery({
+  const { data: verification, error: verificationError } = useQuery({
     queryKey: ["verification"],
     queryFn: () =>
       axios.get(
@@ -42,10 +44,11 @@ const Invitation = ({ invitationData }) => {
     refetchOnWindowFocus: false,
   });
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      const { type, invitee } = invitationData?.invitation;
+  console.log(error);
 
+  useEffect(() => {
+    if (isAuthenticated && invitationData && invitationData.invitation) {
+      const { type, invitee } = invitationData.invitation;
       if (type === "org") {
         const isOrgCreator =
           invitee?.org?.creator?.email === sessionData?.user?.email;
@@ -58,6 +61,60 @@ const Invitation = ({ invitationData }) => {
       }
     }
   }, [isAuthenticated, invitationData, sessionData]);
+
+  if (error) {
+    return (
+      <div className="page-container min-h-screen py-10">
+        <div className="max-w-[1200px] p-4 rounded w-full mx-auto shadow-md border">
+          <div
+            className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4"
+            role="alert"
+          >
+            <p className="font-bold">Error</p>
+            <p>Invitation is invalid. It's probably expired.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!invitationData) {
+    return (
+      <div className="page-container min-h-screen py-10">
+        <div className="max-w-[1200px] p-4 rounded w-full mx-auto shadow-md border">
+          <div
+            className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4"
+            role="alert"
+          >
+            <p className="font-bold">Loading Error</p>
+            <p>
+              There was an error loading the invitation data. Please try again
+              later.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (verificationError) {
+    return (
+      <div className="page-container min-h-screen py-10">
+        <div className="max-w-[1200px] p-4 rounded w-full mx-auto shadow-md border">
+          <div
+            className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4"
+            role="alert"
+          >
+            <p className="font-bold">Verification Error</p>
+            <p>
+              There was an error verifying the invitation data. Please try again
+              later.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const authScreenProps = {
     type: invitationData?.invitation?.type,
