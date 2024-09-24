@@ -88,13 +88,15 @@ const Header: React.FC<Props> = ({ setHideSidebar }) => {
                   onMouseEnter={() => handleMouseEnter(item.title)}
                   onMouseLeave={handleMouseLeave}
                 >
-                  <span
+                  <Link
+                    href={item.link}
+                    key={item.title}
                     className={`text-[17px] cursor-pointer leading-[16px] hover:font-bold duration-500 text-justified ${
                       isCurrentPath(item.link) ? "font-[600]" : "font-[400]"
                     }`}
                   >
                     {item.title}
-                  </span>
+                  </Link>
                   {hoveredMenu === item.title && (
                     <div className="absolute left-0 top-full mt-2 w-48 bg-white shadow-lg z-20">
                       {item.menus.map((subItem) => (

@@ -4,7 +4,7 @@ import Link from "next/link";
 
 function Custom500() {
   return (
-    <div className="flex flex-col items-center justify-center pt-8 md:pt-12 h-full space-y-6">
+    <div className="flex min-h-screen  flex-col items-center justify-center py-8 md:py-12 h-full space-y-6">
       <div className="flex items-center text-6xl md:text-9xl font-extrabold text-gray-800">
         5<span className="text-primary">0</span>0
       </div>
