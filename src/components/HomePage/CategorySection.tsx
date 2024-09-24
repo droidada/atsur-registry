@@ -13,7 +13,7 @@ const CategorySection: React.FC<Props> = ({}) => {
     refetchOnWindowFocus: false,
   });
 
-  console.log(data?.data);
+  // console.log(' some data stuff ---',data?.data);
   return (
     <Stack
       component={"section"}
@@ -27,7 +27,7 @@ const CategorySection: React.FC<Props> = ({}) => {
         <div className="flex justify-center items-center h-[250px]">
           <CircularProgress color="primary" size={20} />
         </div>
-      ) : (
+      ) : (data?.data?.categories.length > 0 && data?.data?.categories[0].artworks > 0) ? (
         <>
           <Typography
             className="text-[17px] leading-[16px] font-[400]"
@@ -52,7 +52,7 @@ const CategorySection: React.FC<Props> = ({}) => {
             ))}
           </Stack>
         </>
-      )}
+      ): <></>}
     </Stack>
   );
 };

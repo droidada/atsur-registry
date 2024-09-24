@@ -28,7 +28,7 @@ const HeroHeader: React.FC<Props> = ({
         className="object-cover"
       /> */}
       <div className=" relative">
-        <h3 className="uppercase text-2xl font-bold ">{type}</h3>
+        {/* <h3 className="uppercase text-2xl font-bold ">{type}</h3> */}
         {/* <h1 className=" text-2xl md:text-[50px] md:leading-[70px]"> */}
         {/* @ts-ignore */}
 
