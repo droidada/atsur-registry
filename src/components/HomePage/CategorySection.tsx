@@ -27,7 +27,8 @@ const CategorySection: React.FC<Props> = ({}) => {
         <div className="flex justify-center items-center h-[250px]">
           <CircularProgress color="primary" size={20} />
         </div>
-      ) : (data?.data?.categories.length > 0 && data?.data?.categories[0].artworks > 0) ? (
+      ) : data?.data?.categories.length > 0 &&
+        data?.data?.categories[0].artworks > 0 ? (
         <>
           <Typography
             className="text-[17px] leading-[16px] font-[400]"
@@ -52,7 +53,9 @@ const CategorySection: React.FC<Props> = ({}) => {
             ))}
           </Stack>
         </>
-      ): <></>}
+      ) : (
+        <></>
+      )}
     </Stack>
   );
 };
