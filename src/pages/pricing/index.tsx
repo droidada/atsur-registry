@@ -31,9 +31,7 @@ const PricingPage = ({ plans, bundles }) => {
             Pricing
           </h1>
           <p className="text-sm text-center max-w-[585px]" data-aos="fade-in">
-            Vorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu
-            turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus
-            nec fringilla accumsan, risus s
+            Our due diligence serves are grouped into bundles. Grab one to secure your artworks today.
           </p>
         </section>
       }
