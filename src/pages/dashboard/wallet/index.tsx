@@ -6,12 +6,12 @@ import { NumericFormat } from "react-number-format";
 import axios from "@/lib/axios";
 import { Transak } from "@transak/transak-sdk";
 import { defaultTransakConfig } from "@/lib/utils/transkConfig";
-import WalletPages from "@/HOC/WalletPages";
+
 import WalletActivitiesSection from "@/components/dashboard/wallet/dashboard/activities";
 import TokenSection from "@/components/dashboard/wallet/dashboard/tokenSection";
 import { useToast } from "@/providers/ToastProvider";
 import { Button, Card, Stack } from "@mui/material";
-import { ProtectedLayout } from "@/components/protected-layout";
+
 import ProtectedPage from "@/HOC/Protected";
 import Link from "next/link";
 
