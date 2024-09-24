@@ -29,6 +29,10 @@ const BundleCard: React.FC<Props> = ({ bundle }) => {
 
   console.log(bundle);
 
+  const total = bundle.details?.reduce((total, item) => {
+    return (total += item.item.unitPrice * item.quantity);
+  }, 0);
+
   const { mutate, isLoading } = useMutation({
     //   @ts-ignore
     mutationFn: () => axiosAuth.post(`/bundles/buy/${bundle._id}`),
@@ -48,15 +52,21 @@ const BundleCard: React.FC<Props> = ({ bundle }) => {
     },
   });
   return (
-    <div className="max-w-[448.19px] w-full border-[1px] border-primary flex flex-col">
-      <div className="bg-white flex flex-col items-center gap-8 px-8 py-10">
+    <div
+      className="max-w-[448.19px] w-full border-[1px] border-primary flex flex-col"
+      data-aos="fade-up"
+    >
+      <div
+        className="bg-white flex flex-col items-center gap-8 px-8 py-10"
+        data-aos="zoom-in"
+      >
         <p className="uppercase text-[15px] leading-[18px] tracking-[40%] text-center text-primary font-[600]">
           {bundle.name}
         </p>
 
         <div className="flex place-items-baseline">
           <h4 className="font-bold text-2xl lg:text-[40px] lg:leading-[45px]">
-            $ {numeral(bundle.unitPrice).format("0,0")}
+            $ {numeral(total).format("0,0")}
           </h4>
           <span className="text-[11px] capitalize leading-[14px] tracking-[5%]">
             / Bundle
@@ -69,13 +79,19 @@ const BundleCard: React.FC<Props> = ({ bundle }) => {
             status === "authenticated" ? mutate() : setOpen(true)
           }
           className={`text-sm font-[400] h-[36px] w-[150.49px] px-3 bg-[#B54443] text-white`}
+          data-aos="fade-left"
         >
           Get Started
         </LoadingButton>
       </div>
       <div className="bg-primary flex-1 flex flex-col items-start gap-4 px-8 py-10">
-        {bundle.details?.map((detail) => (
-          <div key={detail._id} className="flex gap-2 items-center">
+        {bundle.details?.map((detail, index) => (
+          <div
+            key={detail._id}
+            className="flex gap-2 items-center"
+            data-aos="fade-up"
+            data-aos-delay={index * 100} // Adds delay to each detail's animation
+          >
             <HiMiniCheckCircle
               size={13}
               color="#B54443"

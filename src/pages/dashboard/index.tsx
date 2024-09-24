@@ -17,7 +17,7 @@ function Artworks() {
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const { messages, fcmToken } = useFCM();
-  console.log("we have fcm token here ", fcmToken);
+
   const [view, setView] = useState<"list" | "grid">("grid");
   const {
     isFetching,

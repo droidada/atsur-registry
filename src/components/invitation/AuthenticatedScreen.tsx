@@ -20,6 +20,7 @@ import MemberOrgInvite from "./invitationType/MemberOrgInvite";
 import CollaboratorInvite from "./invitationType/CollaboratorInvite";
 import OrgInvite from "./invitationType/OrgInvite";
 import ArpieceArtistInvite from "./invitationType/ArpieceArtistInvite";
+import InvalidToken from "./invitationType/InvalidToken";
 
 interface Props {
   type: string;
@@ -54,14 +55,16 @@ const AuthenticatedScreen = ({
     setAcceptLoading(true);
 
     try {
-      if (
-        type === "art-piece-artist" &&
-        currentUser?.data?.kycVerification?.verificationStatus !== "verified"
-      ) {
-        toast.error(
-          "You need to do your KYC verification before you can accept this",
-        );
-        return;
+      if (!invitationData?.invitation?.object?.artPiece?.isAdminCreated) {
+        if (
+          type === "art-piece-artist" &&
+          currentUser?.data?.kycVerification?.verificationStatus !== "verified"
+        ) {
+          toast.error(
+            "You need to do your KYC verification before you can accept this",
+          );
+          return;
+        }
       }
 
       const inviteUrl =
@@ -88,15 +91,16 @@ const AuthenticatedScreen = ({
 
   const handleReject = async () => {
     setRejectLoading(true);
-
     try {
-      if (
-        currentUser?.data?.kycVerification?.verificationStatus !== "verified"
-      ) {
-        toast.error(
-          "You need to do your KYC verification before you can reject this",
-        );
-        return;
+      if (!invitationData?.invitation?.object?.artPiece?.isAdminCreated) {
+        if (
+          currentUser?.data?.kycVerification?.verificationStatus !== "verified"
+        ) {
+          toast.error(
+            "You need to do your KYC verification before you can reject this",
+          );
+          return;
+        }
       }
 
       const { data } = await axiosFetch.post("/invite/accept", {
@@ -137,7 +141,7 @@ const AuthenticatedScreen = ({
     case "art-piece-artist":
       return <ArpieceArtistInvite {...commonProps} />;
     default:
-      return null;
+      return <InvalidToken />;
   }
 };
 

@@ -8,7 +8,7 @@ import AssetsForm from "@/components/dashboard/artwork/create/AssetForm";
 import CreateArtworkPreview from "@/components/dashboard/artwork/create/Preview";
 import PricingForm from "@/components/dashboard/artwork/create/Pricing";
 
-function Dashboard() {
+function CreateArtworks() {
   const [activeIndex, setActiveIndex] = useState(0);
   const handleOnClick = (index) => {
     setActiveIndex(index);
@@ -18,7 +18,7 @@ function Dashboard() {
     illustration: {
       title: "",
       description: "",
-      forSale: false,
+      salesType: "",
       medium: "",
       subjectMatter: "",
       dimensions: {
@@ -114,4 +114,4 @@ function Dashboard() {
   );
 }
 
-export default ProtectedPage(Dashboard);
+export default ProtectedPage(CreateArtworks);

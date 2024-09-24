@@ -24,9 +24,7 @@ export const getServerSideProps = async ({ req, query, params }) => {
   console.log(token);
   if (token) {
     try {
-      const res = await axios.post(`/invite/fetch`, {
-        token,
-      });
+      const res = await axios.get(`/invite/fetch/${token}`);
 
       console.log(res.data);
 
@@ -41,7 +39,9 @@ export const getServerSideProps = async ({ req, query, params }) => {
 };
 
 function Login({ invitationData }) {
-  const [invitee, setInvitee] = useState(invitationData?.invitation?.invitee);
+  const [invitee, setInvitee] = useState(
+    invitationData?.invitation?.invitee?.user,
+  );
   const loginSchema = object({
     email: string().nonempty("Email is required").email("Email is invalid"),
     password: string()
@@ -57,7 +57,11 @@ function Login({ invitationData }) {
       // toast.success("You have successfully logged in!");
       console.log("session info here =======>>", session);
       setTimeout(() => {
-        router.push("/dashboard");
+        if (invitee) {
+          router.push(`/invitation/${router.query.token}`);
+        } else {
+          router.push("/dashboard");
+        }
       }, 800);
     }
   }, [session]);
@@ -111,10 +115,11 @@ function Login({ invitationData }) {
       if (usr.ok) {
         const referrer = router.query.callbackUrl || "/dashboard";
 
+        console.log("This is the invitee", invitee);
+        console.log("This is the referrer", router.query.token);
         invitee
           ? router.replace(`/invitation/${router.query.token}`)
-          : // @ts-ignore
-            router.replace(referrer);
+          : router.replace(referrer as string);
       }
     } catch (error) {
       const message =

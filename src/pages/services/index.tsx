@@ -13,18 +13,14 @@ const Services = () => {
   return (
     <LandingPageLayout>
       <div
-        className="flex flex-wrap page-container py-12 justify-center gap-7 items-center"
+        className="flex flex-wrap page-container py-12 justify-center gap-10 items-center"
         data-aos="fade-up"
       >
-        <div
-          className="flex-1 max-w-[60%] w-full"
-          data-aos="fade-right"
-          data-aos-delay="200"
-        >
-          <Image src={""} width={400} height={300} alt="" />
+        <div className="  " data-aos="fade-right" data-aos-delay="200">
+          <Image src={"/service-page.jpg"} width={400} height={300} alt="" />
         </div>
         <h1
-          className="text-4xl font-[300] max-w-[40%] w-full"
+          className="text-4xl font-[300]  "
           data-aos="fade-left"
           data-aos-delay="300"
         >
