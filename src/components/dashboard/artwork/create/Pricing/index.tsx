@@ -67,7 +67,7 @@ const PricingForm: React.FC<Props> = ({
   const years = Array.from(
     { length: currentYear - 1960 + 1 },
     (_, index) => 1960 + index,
-  );
+  ).sort((a, b) => b - a);
 
   useEffect(() => {
     setValue(

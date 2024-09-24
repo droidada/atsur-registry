@@ -9,8 +9,10 @@ import NotAuthScreen from "@/components/invitation/NotAuthScreen";
 import UnprotectedPage from "@/HOC/Unprotected";
 
 export const getServerSideProps = async ({ req, query, params }) => {
+  const { token: verificationToken } = params;
   try {
-    const { token: verificationToken } = params;
+    console.log(verificationToken);
+
     const res = await axios.get(`/invite/fetch/${verificationToken}`);
     return { props: { invitationData: res.data?.data } };
   } catch (error) {
@@ -19,16 +21,19 @@ export const getServerSideProps = async ({ req, query, params }) => {
       props: {
         invitationData: null,
         error: error?.response?.data?.message || error?.message,
+        verificationToken,
       },
     };
   }
 };
 
-const Invitation = ({ invitationData, error }) => {
+const Invitation = ({ invitationData, error, verificationToken }) => {
   const { status, data: sessionData } = useSession();
   const router = useRouter();
 
-  console.log(invitationData);
+  console.log("This is the verification token", verificationToken);
+
+  console.log("This is the invitation data", invitationData);
 
   const isAuthenticated = status === "authenticated";
   const isInvitee =
@@ -44,7 +49,7 @@ const Invitation = ({ invitationData, error }) => {
     refetchOnWindowFocus: false,
   });
 
-  console.log(error);
+  console.log("This is the error", error);
 
   useEffect(() => {
     if (isAuthenticated && invitationData && invitationData.invitation) {
