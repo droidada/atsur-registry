@@ -30,6 +30,7 @@ const nextConfig = {
       "admin.atsur.art",
       "registry.atsur.art",
       "images.unsplash.com",
+      "via.placeholder.com",
     ],
   },
 };

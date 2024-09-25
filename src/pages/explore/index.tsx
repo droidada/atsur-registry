@@ -4,14 +4,17 @@ import { Stack } from "@mui/material";
 
 import UnprotectedPage from "@/HOC/Unprotected";
 import ArtPieceTab from "@/components/ExplorePage/Tabs/ArtPieceTab";
+import ArtistTab from "@/components/ExplorePage/Tabs/ArtistTab";
+import SeriesTab from "@/components/ExplorePage/Tabs/SeriesTab";
+import CollectionTab from "@/components/ExplorePage/Tabs/CollectionTab";
 
 function Explore() {
   const tabs = ["Artworks", "Artists", "Series", "Collections"];
   const [currentTab, setCurrentTab] = useState(0);
 
   return (
-    <Stack spacing={4} className="">
-      <div className="flex gap-1 py-6 page-container ">
+    <Stack spacing={4} className="page-container">
+      <div className="flex gap-1 py-6  ">
         {tabs?.map((tab, index) => (
           <div
             onClick={() => setCurrentTab(index)}
@@ -25,8 +28,15 @@ function Explore() {
         ))}
       </div>
 
-      <div className="page-container">
-        {[<ArtPieceTab key={`Art-piece tab`} />][currentTab]}
+      <div className="">
+        {
+          [
+            <ArtPieceTab key={`Art-piece tab`} />,
+            <ArtistTab key={`Artist tab`} />,
+            <SeriesTab key={`Series tab`} />,
+            <CollectionTab key={`Collection tab`} />,
+          ][currentTab]
+        }
       </div>
     </Stack>
   );

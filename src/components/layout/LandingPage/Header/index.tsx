@@ -134,14 +134,14 @@ const LandindingPageHeader = () => {
                   Login
                 </Button>
               )}
-              <Button
-                onClick={() => setOpen(true)}
-                variant="text"
-                className="rotate-[180] hover:bg-gray-400 duration-500 lg:hidden block text-black text-[15px] leading-[16px]"
-              >
-                <BiMenuAltRight size={24} />
-              </Button>
             </div>
+            <Button
+              onClick={() => setOpen(true)}
+              variant="text"
+              className="rotate-[180]  place-items-center hover:bg-gray-400 duration-500 lg:hidden grid  text-black"
+            >
+              <BiMenuAltRight size={24} />
+            </Button>
           </Stack>
         </Stack>
         <SwipeableDrawer
