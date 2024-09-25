@@ -69,7 +69,7 @@ const Invitation = ({ invitationData, error, verificationToken }) => {
 
   if (error) {
     return (
-      <div className="page-container min-h-screen py-10">
+      <div className="page-container min-h-[450px] py-10">
         <div className="max-w-[1200px] p-4 rounded w-full mx-auto shadow-md border">
           <div
             className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4"
@@ -77,44 +77,6 @@ const Invitation = ({ invitationData, error, verificationToken }) => {
           >
             <p className="font-bold">Error</p>
             <p>Invitation is invalid. It's probably expired.</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (!invitationData) {
-    return (
-      <div className="page-container min-h-screen py-10">
-        <div className="max-w-[1200px] p-4 rounded w-full mx-auto shadow-md border">
-          <div
-            className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4"
-            role="alert"
-          >
-            <p className="font-bold">Loading Error</p>
-            <p>
-              There was an error loading the invitation data. Please try again
-              later.
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (verificationError) {
-    return (
-      <div className="page-container min-h-screen py-10">
-        <div className="max-w-[1200px] p-4 rounded w-full mx-auto shadow-md border">
-          <div
-            className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4"
-            role="alert"
-          >
-            <p className="font-bold">Verification Error</p>
-            <p>
-              There was an error verifying the invitation data. Please try again
-              later.
-            </p>
           </div>
         </div>
       </div>
