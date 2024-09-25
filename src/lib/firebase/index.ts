@@ -7,10 +7,10 @@ import {
 } from "firebase/app";
 import { getMessaging } from "firebase/messaging";
 
-console.log(
-  "MESSAGE SENDER",
-  process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-);
+// console.log(
+//   "MESSAGE SENDER",
+//   process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+// );
 
 // Your web app's Firebase configuration
 const firebaseConfig: FirebaseOptions = {
