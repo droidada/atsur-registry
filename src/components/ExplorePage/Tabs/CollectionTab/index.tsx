@@ -19,6 +19,7 @@ import Link from "next/link";
 const CollectionTab = () => {
   const router = useRouter();
   const [search, setSearch] = useState("");
+  const [selectedArtist, setSelectedArtist] = useState(null);
   const [sort, setSort] = useState("newest");
   const debounce = useDebounce(search as string, 500);
   const [currentPage, setCurrentPage] = useState(1);
@@ -32,12 +33,12 @@ const CollectionTab = () => {
     isFetching,
     refetch,
   } = useQuery(
-    ["series", currentPage, filters, debounce, sort],
+    ["series", currentPage, selectedArtist?.id, debounce, sort],
     () =>
       axios.get(
-        `/collection/all?page=${currentPage}&filters=${JSON.stringify(
-          filters,
-        )}&search=${debounce}&sort=${sort}`,
+        `/collection/all?page=${currentPage}${
+          selectedArtist?.id ? `&artist=${selectedArtist?.id}` : ""
+        }&search=${debounce}&sort=${sort}`,
       ),
     { keepPreviousData: true, refetchOnWindowFocus: false },
   );
@@ -52,7 +53,10 @@ const CollectionTab = () => {
 
   return (
     <div className="flex md:flex-row flex-col  gap-12 pb-4">
-      <CollectionFilter />
+      <CollectionFilter
+        selectedArtist={selectedArtist}
+        setSelectedArtist={setSelectedArtist}
+      />
 
       <div className="flex-1 page-container flex flex-col gap-5 ">
         <div className="flex items-center justify-end gap-4">

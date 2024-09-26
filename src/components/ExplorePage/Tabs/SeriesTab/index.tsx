@@ -23,12 +23,6 @@ const SeriesTab = () => {
   const [sort, setSort] = useState("newest");
   const debounce = useDebounce(search as string, 500);
   const [currentPage, setCurrentPage] = useState(1);
-  const [filters, setFilters] = useState({
-    gender: "",
-    verificationStatus: "",
-  });
-
-  console.log(selectedArtist);
 
   const {
     data: series,
@@ -38,7 +32,9 @@ const SeriesTab = () => {
     ["series", currentPage, selectedArtist?.id, debounce, sort],
     () =>
       axios.get(
-        `/art-series/all?page=${currentPage}&artist=${selectedArtist?.id}&search=${debounce}&sort=${sort}`,
+        `/art-series/all?page=${currentPage}${
+          selectedArtist?.id ? `&artist=${selectedArtist?.id}` : ""
+        }&search=${debounce}&sort=${sort}`,
       ),
     { keepPreviousData: true, refetchOnWindowFocus: false },
   );
