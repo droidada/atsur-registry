@@ -2,6 +2,7 @@ import LoadingArtpieceCard from "@/components/LoadingArtpieceCard";
 import axios from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 interface Props {
@@ -13,8 +14,6 @@ const Series: React.FC<Props> = ({ artistId }) => {
     refetchOnWindowFocus: false,
   });
 
-  console.log(data);
-
   if (isLoading) {
     return (
       <div className="grid grid-cols-auto-fit gap-4">
@@ -24,8 +23,6 @@ const Series: React.FC<Props> = ({ artistId }) => {
       </div>
     );
   }
-
-  console.log(data?.data?.series[0]?.image);
 
   if (data?.data?.series?.length == 0) {
     return (
@@ -42,7 +39,7 @@ const Series: React.FC<Props> = ({ artistId }) => {
   }
 
   return (
-    <div className="grid grid-cols-auto-fit gap-4">
+    <div className="flex flex-wrap  gap-4">
       {data?.data?.series?.map((serie) => (
         <div
           key={serie?._id}
@@ -57,7 +54,7 @@ const Series: React.FC<Props> = ({ artistId }) => {
               alt={serie?.title}
             />
           </div>
-          <p>{serie?.title}</p>
+          <Link href={`/explore/series/${serie?._id}`}>{serie?.title}</Link>
         </div>
       ))}
     </div>

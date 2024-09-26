@@ -164,16 +164,18 @@ function ArtPieceTab() {
             </div>
           </div>
 
-          <div className="grid grid-cols-auto-fit items-stretch gap-2">
+          <div className="flex flex-wrap gap-4">
             {isFetching ? (
               <div
-                className="flex justify-center items-center h-[250px]"
+                className="flex justify-center items-center h-[250px] w-full"
                 data-aos="zoom-in" // Smooth zoom-in for loader
               >
                 <CircularProgress color="inherit" size={30} />
               </div>
             ) : artpieces?.data?.artPieces?.length === 0 ? (
-              <NoData text="No Art Pieces Found" />
+              <div className="flex justify-center w-full items-center">
+                <NoData text="No Art Pieces Found" />
+              </div>
             ) : (
               artpieces?.data?.artPieces?.map((artpiece) => (
                 <>

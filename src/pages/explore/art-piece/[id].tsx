@@ -49,12 +49,12 @@ function ArtPiece({ artPiece, relatedArtPieces }) {
   console.log(relatedArtPieces);
 
   return (
-    <>
+    <div className="page-container">
       <ExploreArtpieceDetailsPage
         relatedArtpieces={relatedArtPieces}
         artpiece={artPiece}
       />
-    </>
+    </div>
   );
 }
 

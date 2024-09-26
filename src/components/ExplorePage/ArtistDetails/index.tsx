@@ -48,7 +48,7 @@ const ArtistDetailsPage: React.FC<Props> = ({ artist }) => {
     mutationFn: () => {
       if (status === "unauthenticated") {
         toast("You need to login before you can follow a user");
-        return router.push(`/login?callbackUrl=${router.asPath}`);
+        return;
       } else {
         return artist?.isFollowing
           ? axiosAuth.post(`/user/unfollow/${artist?._id}`)
@@ -56,7 +56,6 @@ const ArtistDetailsPage: React.FC<Props> = ({ artist }) => {
       }
     },
     onSuccess: (data) => {
-      console.log(data);
       // toast.success(
       //   artist?.isFollowing
       //     ? "You have unfollowed this user"
@@ -65,6 +64,7 @@ const ArtistDetailsPage: React.FC<Props> = ({ artist }) => {
       router.replace(router.asPath);
     },
     onError: (error: any) => {
+      toast.error(error?.response?.data?.message || "Something went wrong");
       console.log(error?.response?.data);
     },
   });
@@ -76,7 +76,6 @@ const ArtistDetailsPage: React.FC<Props> = ({ artist }) => {
           participantId: artist?._id,
         }),
       onSuccess: (data) => {
-        console.log(data);
         router.push(`/dashboard/messages/${data?.data?.conversation?._id}`);
       },
     });
@@ -130,7 +129,7 @@ const ArtistDetailsPage: React.FC<Props> = ({ artist }) => {
         avatar={artist?.avatar}
         name={`${artist?.firstName} ${artist?.lastName}`}
       />
-      <div className="flex-col flex md:flex-row gap-12 justify-between ">
+      <div className="flex-col page-container pb-10 flex md:flex-row gap-12 justify-between ">
         <Stack
           direction={"column"}
           alignItems={"center"}

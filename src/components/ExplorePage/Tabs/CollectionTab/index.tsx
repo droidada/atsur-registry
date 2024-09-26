@@ -77,16 +77,18 @@ const CollectionTab = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-auto-fit items-stretch gap-2">
+        <div className="flex flex-wrap gap-4">
           {isFetching ? (
             <div
-              className="flex justify-center items-center h-[250px]"
+              className="flex justify-center items-center w-full h-[250px]"
               data-aos="zoom-in"
             >
               <CircularProgress color="inherit" size={30} />
             </div>
           ) : collections.data?.collections?.length === 0 ? (
-            <NoData text="No Art Series Found" />
+            <div className="flex justify-center w-full items-center">
+              <NoData text="No Art Series Found" />
+            </div>
           ) : (
             collections?.data?.collections?.map((item) => (
               <div
