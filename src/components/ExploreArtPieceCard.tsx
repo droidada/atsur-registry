@@ -53,7 +53,7 @@ const ExploreArtPieceCard: React.FC<Props> = ({
               <span className="font-semibold">{creator?.name}</span>
             </div>
 
-            <div className="h-[15px] flex items-center justify-center p-[4px] border-[1px] border-white rounded-[47px]">
+            {/* <div className="h-[15px] flex items-center justify-center p-[4px] border-[1px] border-white rounded-[47px]">
               <CustomRating
                 icon={<StarIcon fontSize="inherit" />}
                 name="read-only"
@@ -61,7 +61,7 @@ const ExploreArtPieceCard: React.FC<Props> = ({
                 value={rating}
                 readOnly
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

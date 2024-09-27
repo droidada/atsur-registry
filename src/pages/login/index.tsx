@@ -40,7 +40,8 @@ export const getServerSideProps = async ({ req, query, params }) => {
 
 function Login({ invitationData }) {
   const [invitee, setInvitee] = useState(
-    invitationData?.invitation?.invitee?.user,
+    invitationData?.invitation?.invitee?.user ||
+      invitationData?.invitation?.invitee,
   );
   const loginSchema = object({
     email: string().nonempty("Email is required").email("Email is invalid"),

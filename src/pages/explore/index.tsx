@@ -14,21 +14,26 @@ function Explore() {
 
   return (
     <Stack spacing={4} className="page-container">
-      <div className="flex gap-1 py-6  ">
+      {/* Tabs container */}
+      <div className="flex gap-8 py-4 border-b-[1px] border-gray-300">
         {tabs?.map((tab, index) => (
           <div
-            onClick={() => setCurrentTab(index)}
             key={`${tab}-${index}`}
-            className={` p-2 cursor-pointer border-r-[1px] text-3xl  ${
-              currentTab === index ? " font-bold" : ""
-            }`}
+            onClick={() => setCurrentTab(index)}
+            className={`cursor-pointer text-xl px-6 py-2 tracking-wide transition-all duration-300 ease-in-out
+              ${
+                currentTab === index
+                  ? "font-semibold text-black border-b-2 border-black"
+                  : "text-gray-500 hover:text-black hover:border-b-2 hover:border-gray-500"
+              }`}
           >
             {tab}
           </div>
         ))}
       </div>
 
-      <div className="">
+      {/* Tab content */}
+      <div className="pt-6">
         {
           [
             <ArtPieceTab key={`Art-piece tab`} />,

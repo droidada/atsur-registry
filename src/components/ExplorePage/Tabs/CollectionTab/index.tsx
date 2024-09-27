@@ -19,6 +19,7 @@ import Link from "next/link";
 const CollectionTab = () => {
   const router = useRouter();
   const [search, setSearch] = useState("");
+  const [selectedArtist, setSelectedArtist] = useState(null);
   const [sort, setSort] = useState("newest");
   const debounce = useDebounce(search as string, 500);
   const [currentPage, setCurrentPage] = useState(1);
@@ -32,12 +33,12 @@ const CollectionTab = () => {
     isFetching,
     refetch,
   } = useQuery(
-    ["series", currentPage, filters, debounce, sort],
+    ["series", currentPage, selectedArtist?.id, debounce, sort],
     () =>
       axios.get(
-        `/collection/all?page=${currentPage}&filters=${JSON.stringify(
-          filters,
-        )}&search=${debounce}&sort=${sort}`,
+        `/collection/all?page=${currentPage}${
+          selectedArtist?.id ? `&artist=${selectedArtist?.id}` : ""
+        }&search=${debounce}&sort=${sort}`,
       ),
     { keepPreviousData: true, refetchOnWindowFocus: false },
   );
@@ -52,7 +53,10 @@ const CollectionTab = () => {
 
   return (
     <div className="flex md:flex-row flex-col  gap-12 pb-4">
-      <CollectionFilter />
+      <CollectionFilter
+        selectedArtist={selectedArtist}
+        setSelectedArtist={setSelectedArtist}
+      />
 
       <div className="flex-1 page-container flex flex-col gap-5 ">
         <div className="flex items-center justify-end gap-4">
@@ -73,16 +77,18 @@ const CollectionTab = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-auto-fit items-stretch gap-2">
+        <div className="flex flex-wrap gap-4">
           {isFetching ? (
             <div
-              className="flex justify-center items-center h-[250px]"
+              className="flex justify-center items-center w-full h-[250px]"
               data-aos="zoom-in"
             >
               <CircularProgress color="inherit" size={30} />
             </div>
           ) : collections.data?.collections?.length === 0 ? (
-            <NoData text="No Art Series Found" />
+            <div className="flex justify-center w-full items-center">
+              <NoData text="No Art Series Found" />
+            </div>
           ) : (
             collections?.data?.collections?.map((item) => (
               <div

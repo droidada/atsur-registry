@@ -13,8 +13,10 @@ interface Props {
   setSelectedArtist: React.Dispatch<any>;
   selectedArtist: any;
 }
-const SeriesFilter: React.FC<Props> = ({ setSelectedArtist, selectedArtist }) => {
-
+const SeriesFilter: React.FC<Props> = ({
+  setSelectedArtist,
+  selectedArtist,
+}) => {
   const [search, setSearch] = useState("");
   const debounce = useDebounce(search as string, 500);
 
@@ -22,8 +24,10 @@ const SeriesFilter: React.FC<Props> = ({ setSelectedArtist, selectedArtist }) =>
     data: artists,
     isLoading,
     isError,
-  } = useQuery(["artists-search", debounce], () =>
-    axios.get(`/artist?search=${debounce}`),
+  } = useQuery(
+    ["artists-search", debounce],
+    () => axios.get(`/artist?search=${debounce}`),
+    { keepPreviousData: true, refetchOnWindowFocus: false },
   );
 
   console.log(artists?.data);

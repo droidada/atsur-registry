@@ -90,10 +90,11 @@ function SignUp({ invitationData, countries }) {
     },
   );
 
-  console.log(countries);
+  console.log(invitationData);
 
   const [invitee, setInvitee] = useState(
-    invitationData?.invitation?.invitee?.user,
+    invitationData?.invitation?.invitee?.user ||
+      invitationData?.invitation?.invitee,
   );
   const [loading, setLoading] = useState(false);
 

@@ -35,8 +35,6 @@ const Projects: React.FC<Props> = ({ artistId }) => {
     refetchOnWindowFocus: false,
   });
 
-  console.log(projectsData?.data);
-
   if (projectsLoading) {
     return (
       <div className="grid grid-cols-auto-fit gap-4">
@@ -62,7 +60,7 @@ const Projects: React.FC<Props> = ({ artistId }) => {
   }
   return (
     <div>
-      <div className="grid grid-cols-auto-fit gap-4 ">
+      <div className="flex flex-wrap gap-4 ">
         {projectsData?.data?.artPieces?.map((project) => (
           <SimpleArtpieceCard
             isBlack

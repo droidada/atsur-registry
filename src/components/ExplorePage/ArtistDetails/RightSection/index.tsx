@@ -53,7 +53,7 @@ const RightSection: React.FC<Props> = ({ artist }) => {
     setValue(newValue);
   };
   return (
-    <section className="mt-10 flex-1">
+    <section className="mt-10 flex-1 ">
       <div className="">
         <div className="flex justify-between items-center overflow-x-auto ">
           {tabs.map((tab, index) => (

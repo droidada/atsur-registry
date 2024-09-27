@@ -39,7 +39,10 @@ const BundleCard: React.FC<Props> = ({ bundle }) => {
 
     onSuccess: (data) => {
       console.log(data);
-      console.log('some more info ', data?.data?.transaction?.authorization_url);
+      console.log(
+        "some more info ",
+        data?.data?.transaction?.authorization_url,
+      );
 
       router.push(data?.data?.transaction?.authorization_url);
     },

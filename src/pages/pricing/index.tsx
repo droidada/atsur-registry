@@ -31,7 +31,8 @@ const PricingPage = ({ plans, bundles }) => {
             Pricing
           </h1>
           <p className="text-sm text-center max-w-[585px]" data-aos="fade-in">
-            Our due diligence serves are grouped into bundles. Grab one to secure your artworks today.
+            Our due diligence serves are grouped into bundles. Grab one to
+            secure your artworks today.
           </p>
         </section>
       }
