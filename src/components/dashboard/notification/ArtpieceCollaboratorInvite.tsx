@@ -21,7 +21,6 @@ const ArtpieceCollaboratorInvite: React.FC<Props> = ({
   const router = useRouter();
   const axiosAuth = useAxiosAuth();
   const toast = useToast();
-  console.log(notification);
 
   const { mutate: mutateMove, isLoading } = useMutation({
     mutationFn: () => axiosAuth.put(`/notifications/read/${notification?._id}`),

@@ -16,8 +16,6 @@ const WalletActivitiesSection: React.FC<Props> = ({ activities }) => {
     refetchOnWindowFocus: false,
   });
 
-  console.log(data);
-
   return (
     <Stack spacing={4}>
       <Stack

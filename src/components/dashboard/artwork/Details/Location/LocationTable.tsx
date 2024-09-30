@@ -43,7 +43,6 @@ const LocationTable: React.FC<Props> = ({
       setAnchorEl(null);
     };
 
-    console.log(location);
     const toast = useToast();
     const [openDelete, setOpenDelete] = useState(false);
     const axiosAuth = useAxiosAuth();

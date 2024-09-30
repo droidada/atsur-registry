@@ -73,7 +73,6 @@ const AssetsForm: React.FC<Props> = ({
   return (
     <CreateArtWorkFormContainer
       handleGoBack={() => {
-        console.log("hello");
         setActiveIndex((prev) => prev - 1);
       }}
       onSubmit={handleSubmit}

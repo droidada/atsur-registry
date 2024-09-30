@@ -21,9 +21,6 @@ const OrgInvite: React.FC<Props> = ({ notification, refetch }) => {
 
   const { data: session } = useSession();
 
-  console.log(session?.user?._id);
-  console.log(notification?.sender?.id);
-
   const { mutate, isLoading } = useMutation({
     mutationFn: () =>
       notification?.read

@@ -85,8 +85,6 @@ const CreateOrganizationDialog: React.FC<Props> = ({
           userResponse: "accepted",
           orgId: data?.data?.organization?._id,
         });
-
-        console.log(data);
       }
 
       toast.success("Organization created successfully");
@@ -103,7 +101,7 @@ const CreateOrganizationDialog: React.FC<Props> = ({
           );
     },
     onError: (error: any) => {
-      console.log(error);
+      // console.log(error);
       toast.error(
         error?.response?.data?.message ||
           error?.message ||
@@ -153,8 +151,6 @@ const CreateOrganizationDialog: React.FC<Props> = ({
   }, [organization]);
 
   const selectedCountry = watch("country");
-
-  console.log(selectedCountry);
 
   useEffect(() => {
     if (selectedCountry) {

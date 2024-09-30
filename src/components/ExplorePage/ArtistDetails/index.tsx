@@ -65,7 +65,6 @@ const ArtistDetailsPage: React.FC<Props> = ({ artist }) => {
     },
     onError: (error: any) => {
       toast.error(error?.response?.data?.message || "Something went wrong");
-      console.log(error?.response?.data);
     },
   });
 

@@ -43,7 +43,6 @@ const CompetitionTable: React.FC<Props> = ({
       setAnchorEl(null);
     };
 
-    console.log(competition);
     const toast = useToast();
     const [openDelete, setOpenDelete] = useState(false);
     const axiosAuth = useAxiosAuth();

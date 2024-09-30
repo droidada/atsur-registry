@@ -20,8 +20,6 @@ const VerificationPending: React.FC<Props> = ({ artPiece }) => {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
 
-  console.log(artPiece);
-
   const verificationType = artPiece?.custodian?.institution?.acquisition?.type
     ? "institution"
     : artPiece?.custodian?.collector?.acquisition?.type

@@ -82,7 +82,6 @@ const PricingForm: React.FC<Props> = ({
   const forSale = watch("salesType") === "for-sale";
 
   const onSubmit: SubmitHandler<PricingData> = (data) => {
-    console.log(data);
     setFormData({
       ...formData,
       illustration: {

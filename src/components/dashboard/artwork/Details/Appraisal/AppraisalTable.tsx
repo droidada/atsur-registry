@@ -43,7 +43,6 @@ const AppraisalTable: React.FC<Props> = ({
       setAnchorEl(null);
     };
 
-    console.log(appraisal);
     const toast = useToast();
     const [openDelete, setOpenDelete] = useState(false);
     const axiosAuth = useAxiosAuth();

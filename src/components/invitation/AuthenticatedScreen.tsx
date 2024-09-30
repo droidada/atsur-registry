@@ -58,7 +58,8 @@ const AuthenticatedScreen = ({
       if (!invitationData?.invitation?.object?.artPiece?.isAdminCreated) {
         if (
           type === "art-piece-artist" &&
-          currentUser?.data?.kycVerification?.verificationStatus !== "verified"
+          currentUser?.data?.user?.kycVerification?.verificationStatus !==
+            "verified"
         ) {
           toast.error(
             "You need to do your KYC verification before you can accept this",
@@ -66,6 +67,8 @@ const AuthenticatedScreen = ({
           return;
         }
       }
+
+      return;
 
       const inviteUrl =
         type === "org" && invitationData?.invitation?.object?.org

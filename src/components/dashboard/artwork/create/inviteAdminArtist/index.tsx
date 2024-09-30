@@ -17,7 +17,6 @@ const InviteAdminArtist: React.FC<Props> = ({
   const [user, setUser] = useState<any>(null);
 
   const handleSubmit = () => {
-    console.log("This is the user", user);
     setFormData({
       ...formData,
       illustration: {
@@ -32,8 +31,6 @@ const InviteAdminArtist: React.FC<Props> = ({
   return (
     <CreateArtWorkFormContainer
       handleGoBack={() => {
-        console.log("hello");
-
         setActiveIndex((prev) => prev - 1);
       }}
       onSubmit={handleSubmit}

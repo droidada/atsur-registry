@@ -84,7 +84,6 @@ const InstitutionInformation = ({
       const reader = new FileReader();
 
       reader.onload = (e) => {
-        console.log(e.target?.result);
         setFile({
           filename: fileDoc.name,
           fileUrl: e.target?.result,
@@ -121,7 +120,6 @@ const InstitutionInformation = ({
 
   useEffect(() => {
     if (defaultValues) {
-      console.log(defaultValues);
       setValue("date", defaultValues?.acquisition?.date);
       setValue("acquisitionType", defaultValues?.acquisition?.type);
       setValue("acquisitionPurpose", defaultValues?.acquisition?.purpose);
@@ -138,17 +136,13 @@ const InstitutionInformation = ({
       // setValue("methodOfPurchase", defaultValues?.methodOfPurchase);
 
       setMyOrganization(defaultValues?.organization);
-      console.log(
-        defaultValues?.acquisition?.acquiredFromOrganization?.orgInfo,
-      );
+
       setSelectedOrganization(
         defaultValues?.acquisition?.acquiredFromOrganization?.orgInfo,
       );
       setArtist(defaultValues?.artist?.artistInfo);
     }
   }, [defaultValues]);
-
-  console.log(selectedOrganization);
 
   const onSubmit: SubmitHandler<MetadataInput> = async (values, event) => {
     //@ts-ignore

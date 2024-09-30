@@ -41,8 +41,6 @@ const TokenizeCertificate: React.FC<Props> = ({
     walletAddress: string(),
   });
 
-  console.log(artPiece?.custodian?.role);
-
   type TokenInput = TypeOf<typeof tokenSchema>;
 
   const {
@@ -178,7 +176,7 @@ const TokenizeCertificate: React.FC<Props> = ({
           });
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       } finally {
         setLoading(false);
       }
@@ -196,9 +194,6 @@ const TokenizeCertificate: React.FC<Props> = ({
       toast.error("Failed to copy to clipboard");
     }
   };
-
-  console.log(artPiece?.artPiece?.existingCOA);
-  console.log(coaImg);
 
   return (
     <div className="flex gap-6 flex-col  ">

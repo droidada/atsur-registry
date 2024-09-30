@@ -18,8 +18,6 @@ const ArtpieceArtistInvite: React.FC<NotificationCardProps> = ({
   const router = useRouter();
   const toast = useToast();
 
-  console.log(notification);
-
   const { mutate: mutateMove, isLoading } = useMutation({
     mutationFn: () => axiosAuth.put(`/notifications/read/${notification?._id}`),
     onSuccess: () => {

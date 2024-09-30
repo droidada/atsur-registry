@@ -104,7 +104,6 @@ const EditOrganization: React.FC<Props> = ({
       //   });
       setPreviewImg(reader.result);
     }.bind(this);
-    console.log(url); // Would see a path?
 
     // this.setState({
     //   mainState: "uploaded",
@@ -113,8 +112,6 @@ const EditOrganization: React.FC<Props> = ({
     // });
     // setPreviewImg(event.target.files[0]);
   };
-
-  console.log(organization);
 
   return (
     <Dialog open={open} onClose={handleClose}>

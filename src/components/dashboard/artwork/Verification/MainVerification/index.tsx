@@ -42,8 +42,6 @@ function MainVerification({ artPiece }: Props) {
     [artPiece?.custodian?.role, artPiece?.custodian?.artist?.sellerType],
   );
 
-  console.log(artPiece);
-
   useEffect(() => {
     if (!isArtistBroker) {
       handleRemoveDealerStep();

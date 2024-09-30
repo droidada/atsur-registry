@@ -107,7 +107,6 @@ const InviteArtist = ({
         : setOptions(data && data?.length > 0 ? data : []);
       setLoading(false);
     } catch (error) {
-      console.error(error);
       setLoading(false);
     }
   };

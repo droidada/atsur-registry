@@ -37,8 +37,6 @@ const ArtPiecePublications: React.FC<Props> = ({
     notes: string(),
   });
 
-  console.log(currentPublication);
-
   type publicationInput = TypeOf<typeof publicationSchema>;
   const {
     register,
@@ -89,9 +87,7 @@ const ArtPiecePublications: React.FC<Props> = ({
     reader.onloadend = function (e) {
       setPublicationDoc(reader.result);
       setDocName(file?.name);
-      console.log(file);
     }.bind(this);
-    console.log(url); // Would see a path?
   };
 
   const onSubmitHandler: SubmitHandler<publicationInput> = async (values) => {

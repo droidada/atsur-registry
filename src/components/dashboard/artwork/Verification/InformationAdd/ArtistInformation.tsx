@@ -73,10 +73,6 @@ const ArtistInformation: React.FC<Props> = ({
   const isSeries = watch("isSeries");
   const sellerType = watch("sellerType");
 
-  console.log(sellerType);
-
-  console.log(errors);
-
   const { mutate, isLoading } = useMutation({
     mutationFn: (data) =>
       axiosAuth.post(`/verify-artpiece/artist/${artpieceId}`, data),
@@ -182,7 +178,6 @@ const ArtistInformation: React.FC<Props> = ({
   };
 
   useEffect(() => {
-    console.log("defaultValues here is ", defaultValues);
     if (defaultValues?.artist) {
       setValue("story", defaultValues?.artist?.storyTelling);
       setValue("videoCaption", defaultValues?.artist?.videoCaption);

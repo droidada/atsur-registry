@@ -44,8 +44,6 @@ const MembersTable: React.FC<MembersTableProps> = ({
       ? ["", "Name", "Email", "Date Joined", "Action"]
       : ["", "Name", "Email", "Date Joined"];
 
-  console.log(members);
-
   const { mutate } = useMutation({
     mutationFn: () => axiosAuth.post(``),
   });

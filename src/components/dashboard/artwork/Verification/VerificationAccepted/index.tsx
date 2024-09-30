@@ -21,10 +21,6 @@ export const getCertificateText = ({ artPiece }) => {
     ? artPiece?.verification?.custodian?.organization?.name
     : `${artPiece?.artPiece?.custodian?.profile?.firstName} ${artPiece?.artPiece?.custodian?.profile?.lastName}`;
 
-  console.log(
-    `getCertificateText ----- role: ${role}   rarity: ${rarity}    custodianName: ${custodianName}`,
-  );
-
   switch (role) {
     case artRoles.ARTIST: {
       return (
@@ -92,7 +88,6 @@ const types = [
 ];
 
 const VerificationAccepted: React.FC<Props> = ({ artPiece }) => {
-  console.log(artPiece);
   const [coaType, setCoaType] = useState<"new" | "existing">(
     artPiece?.artPiece?.existingCOA ? "existing" : "new",
   );

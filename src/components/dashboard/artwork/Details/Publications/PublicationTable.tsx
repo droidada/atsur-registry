@@ -43,7 +43,6 @@ const PublicationTable: React.FC<Props> = ({
       setAnchorEl(null);
     };
 
-    console.log(publication);
     const toast = useToast();
     const [openDelete, setOpenDelete] = useState(false);
     const axiosAuth = useAxiosAuth();

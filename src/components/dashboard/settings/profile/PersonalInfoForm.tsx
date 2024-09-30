@@ -54,13 +54,11 @@ const PersonalInfoForm: React.FC<Props> = ({ setIsEdit }) => {
   const { mutate, isLoading } = useMutation({
     mutationFn: async (data) => axiosAuth.patch("/user/update", data),
     onSuccess: async (data) => {
-      console.log(data?.data?.data);
       await update({ ...session, ...data?.data?.data });
       setIsEdit(false);
       // toast.success("Profile updated successfully");
     },
     onError: (error: any) => {
-      console.log(error);
       toast.error(
         error?.response?.data?.message ||
           error.message ||
