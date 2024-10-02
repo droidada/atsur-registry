@@ -39,7 +39,6 @@ const resource = {
       title: "How Tos",
       link: "/",
     },
-
   ],
 };
 
@@ -58,7 +57,6 @@ const account = {
       title: "Artists",
       link: "/explore?type=artist",
     },
-
   ],
 };
 
@@ -80,6 +78,6 @@ const company = {
   ],
 };
 
-const footerNav = [ resource, account, company ];
+const footerNav = [resource, account, company];
 
 export default footerNav;
