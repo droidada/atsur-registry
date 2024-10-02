@@ -1,4 +1,5 @@
-export interface ICreateArtworkIllustration {
+export interface ICreateArtworkIllustration
+{
   price: {
     amount: number;
     currency?: string;
@@ -12,6 +13,7 @@ export interface ICreateArtworkIllustration {
   title: string;
   description: string;
   medium: string;
+  isDigital: boolean;
   subjectMatter: string;
   artistInvite?: {
     firstName: string;
@@ -28,7 +30,8 @@ export interface ICreateArtworkIllustration {
   withFrame?: boolean;
 }
 
-export interface ICreateArtworkAssets {
+export interface ICreateArtworkAssets
+{
   primaryViewLandscape: any;
   secondaryView: {
     primaryViewPortrait: any;
@@ -37,7 +40,8 @@ export interface ICreateArtworkAssets {
   };
 }
 
-export default interface ICreateArtworkFormData {
+export default interface ICreateArtworkFormData
+{
   illustration: ICreateArtworkIllustration;
   assets: ICreateArtworkAssets;
 }

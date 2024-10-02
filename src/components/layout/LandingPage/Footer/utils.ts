@@ -28,64 +28,58 @@ const resource = {
   title: "Resource",
   menus: [
     {
-      title: "Help center",
+      title: "White Paper",
       link: "/",
     },
     {
-      title: "Platform status",
+      title: "FAQs",
       link: "/",
     },
+    {
+      title: "How Tos",
+      link: "/",
+    },
+
+  ],
+};
+
+const account = {
+  title: "Registry",
+  menus: [
+    {
+      title: "Dashboard",
+      link: "/dashboard",
+    },
+    {
+      title: "Collections",
+      link: "/explore?type=collection",
+    },
+    {
+      title: "Artists",
+      link: "/explore?type=artist",
+    },
+
+  ],
+};
+
+const company = {
+  title: "Community",
+  menus: [
     {
       title: "Partners",
       link: "/",
     },
     {
-      title: "Discount community",
+      title: "Activism 1.0",
       link: "/",
     },
     {
-      title: "Live auctions",
-      link: "/",
-    },
-  ],
-};
-
-const account = {
-  title: "Account",
-  menus: [
-    {
-      title: "Authors",
-      link: "/",
-    },
-    {
-      title: "Author Profile",
-      link: "/",
-    },
-    {
-      title: "Goto dashboard",
-      link: "/dashboard",
-    },
-    {
-      title: "Collection",
-      link: "/collection",
-    },
-  ],
-};
-
-const company = {
-  title: "Company",
-  menus: [
-    {
-      title: "Help center",
-      link: "/",
-    },
-    {
-      title: "Platform status",
+      title: "Blog",
       link: "/",
     },
   ],
 };
 
-const footerNav = [firstGroup, resource, account, company];
+const footerNav = [ resource, account, company ];
 
 export default footerNav;

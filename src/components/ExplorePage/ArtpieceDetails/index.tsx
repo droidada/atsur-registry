@@ -19,7 +19,7 @@ const ExploreArtpieceDetailsPage: React.FC<Props> = ({
 }) => {
   console.log(artpiece?.competitions);
   return (
-    <>
+    <div className="pb-10">
       <HeroSection artpiece={artpiece} />
       <Stack direction="column" className="mt-8 lg:mt-[60px]" spacing={4}>
         {artpiece.publications.length > 0 && (
@@ -116,7 +116,7 @@ const ExploreArtpieceDetailsPage: React.FC<Props> = ({
           <RelatedArtpiece relatedArtpieces={relatedArtpieces} />
         </div>
       )}
-    </>
+    </div>
   );
 };
 
