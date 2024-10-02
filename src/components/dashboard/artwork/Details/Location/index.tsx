@@ -92,7 +92,6 @@ const ArtPieceLocation: React.FC<Props> = ({ locations, artpieceId }) => {
     });
   };
 
-  console.log(currentLocation);
   useEffect(() => {
     setValue("name", currentLocation?.name || "");
     setValue("address", currentLocation?.address || "");

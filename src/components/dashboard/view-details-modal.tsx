@@ -47,7 +47,6 @@ const ViewDetailsModal: React.FC<Props> = ({ onClose, viewProps }) => {
 export default ViewDetailsModal;
 
 const Exhibition = ({ exhibition }: { exhibition: any }) => {
-  console.log(exhibition);
   return (
     <Stack direction={"column"} spacing={2}>
       <Card className="p-3 rounded-xl bg-gray-200">
@@ -194,7 +193,6 @@ const Exhibition = ({ exhibition }: { exhibition: any }) => {
 };
 
 const Location = ({ location }: { location: any }) => {
-  console.log(location);
   return (
     <Card className="p-3 rounded-xl bg-gray-200">
       <CardContent>
@@ -237,7 +235,6 @@ const Location = ({ location }: { location: any }) => {
 };
 
 const Publication = ({ publication }: { publication: any }) => {
-  console.log(publication);
   return (
     <Card className="p-3 rounded-xl bg-gray-200">
       <CardMedia
@@ -282,7 +279,6 @@ const Publication = ({ publication }: { publication: any }) => {
 };
 
 const Appraisals = ({ appraisal }: { appraisal: any }) => {
-  console.log(appraisal);
   return (
     <Card className="p-3 rounded-xl bg-gray-200">
       <CardMedia

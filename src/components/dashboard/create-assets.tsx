@@ -43,7 +43,6 @@ export default function CreateAssets({ nextPage = (x) => {} }) {
       //  router.replace("/dashboard");
       return;
     } catch (error) {
-      console.error(error);
       setError(error.message);
       setLoading(false);
     }

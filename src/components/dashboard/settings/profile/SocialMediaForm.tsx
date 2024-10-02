@@ -69,7 +69,6 @@ const SocialMediaForm: React.FC<Props> = ({ socialLinks }) => {
   });
 
   const onSubmit: SubmitHandler<SocialInput> = (data) => {
-    console.log(data);
     mutate(data);
   };
 

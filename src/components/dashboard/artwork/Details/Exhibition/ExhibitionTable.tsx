@@ -43,7 +43,6 @@ const ExhibitionTable: React.FC<Props> = ({
       setAnchorEl(null);
     };
 
-    console.log(exhibition);
     const toast = useToast();
     const [openDelete, setOpenDelete] = useState(false);
     const axiosAuth = useAxiosAuth();

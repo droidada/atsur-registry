@@ -177,7 +177,7 @@ const TokenizeCertificate: React.FC<Props> = ({
           });
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     },
     // onAfterPrint: () => setLoading(true),
@@ -248,7 +248,7 @@ const TokenizeCertificate: React.FC<Props> = ({
           });
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     },
     // onAfterPrint: () => setLoading(true),

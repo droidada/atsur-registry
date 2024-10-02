@@ -10,7 +10,6 @@ import {
 import axios from "axios";
 import React, { useState } from "react";
 
-import { error } from "console";
 import { useRouter } from "next/router";
 import { useToast } from "@/providers/ToastProvider";
 import LoadingButton from "../Form/LoadingButton";

@@ -51,8 +51,6 @@ const CollectorInformation: React.FC<Props> = ({
     _id?: string;
   }>();
 
-  console.log(artist);
-
   const metadataSchema = object({
     date: string().nonempty("Date is required"),
     acquisitionType: string().nonempty("Acquisition type is required"),
@@ -78,7 +76,6 @@ const CollectorInformation: React.FC<Props> = ({
 
   useEffect(() => {
     if (defaultValues) {
-      console.log(defaultValues);
       setValue("date", defaultValues?.acquisition.date);
       setValue("acquisitionType", defaultValues?.acquisition.type);
       setValue("acquisitionPurpose", defaultValues?.acquisition.purpose);
@@ -367,33 +364,25 @@ const FileDropZone: React.FC<FileDropZoneProps> = ({
   const [fileName, setFileName] = useState("");
   const [fileExtension, setFileExtension] = useState("");
 
-  console.log(defaultFile);
-
   const handleChange = (currentFiles: any) => {
     if (currentFiles && currentFiles.length > 0) {
       const fileDoc = currentFiles[0];
       const reader = new FileReader();
 
-      console.log(fileDoc);
-
       reader.onload = (e) => {
-        console.log("E don reach here");
         setFile(e.target.result);
       };
 
       setFileName(fileDoc.name);
       setFileExtension(fileDoc.type);
 
-      console.log("see am", fileDoc);
-
       if (fileDoc.file instanceof Blob) {
-        console.log("Na here we de");
         reader.readAsDataURL(fileDoc.file);
       } else {
-        console.error("The selected file is not a valid Blob.");
+        // console.error("The selected file is not a valid Blob.");
       }
     } else {
-      console.error("No file selected.");
+      // console.error("No file selected.");
     }
   };
   return (

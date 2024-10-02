@@ -54,8 +54,6 @@ const SelectOrganization: React.FC<Props> = ({
     }
   }, [selectedOrg]);
 
-  console.log(selectedOrg);
-
   const { data, isLoading, isError } = useQuery(
     ["organization", debouncedQuery],
     () =>
@@ -70,8 +68,6 @@ const SelectOrganization: React.FC<Props> = ({
       // staleTime: 1000 * 60 * 60 * 24,
     },
   );
-
-  console.log(selectedOrg);
 
   return (
     <div className={`flex w-full flex-col text-base gap-2 ${className}`}>

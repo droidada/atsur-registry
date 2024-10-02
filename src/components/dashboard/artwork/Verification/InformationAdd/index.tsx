@@ -33,20 +33,12 @@ const ArtVerificationInformation: React.FC<Props> = ({
   handleAddDealerStep,
   handleRemoveDealerStep,
 }) => {
-  console.log("artPiece:", artPiece);
-
-  console.log(selectedInformationAdd);
-
-  console.log(activeIndex, position);
-
   useEffect(() => {
     if (activeIndex === 2 && position === 2) {
       setIsArtistBroker(true);
       setSelectedInformationAdd("broker");
     }
   }, [activeIndex, position, setIsArtistBroker]);
-
-  console.log(artPiece?.custodian?.artist);
 
   switch (selectedInformationAdd) {
     case "artist":

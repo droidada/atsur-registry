@@ -106,10 +106,7 @@ const ArtPieceAppraisal: React.FC<Props> = ({ appraisals, artpieceId }) => {
     reader.onloadend = function (e) {
       setAppraisalImg(reader.result);
     }.bind(this);
-    console.log(url); // Would see a path?
   };
-
-  console.log(currentAppraisal);
 
   useEffect(() => {
     setValue("appraiser", currentAppraisal?.appraiser || "");

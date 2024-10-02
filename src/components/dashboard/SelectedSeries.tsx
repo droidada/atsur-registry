@@ -59,8 +59,6 @@ const SelectedSeries: React.FC<Props> = ({
     },
   );
 
-  console.log(series);
-
   return (
     <div className={`flex w-full flex-col text-base gap-2 ${className}`}>
       {label && (
@@ -77,12 +75,10 @@ const SelectedSeries: React.FC<Props> = ({
         loadingText={<CircularProgress color="inherit" size={20} />}
         value={selectedSeries}
         onChange={(event, value) => {
-          console.log("selected seried here ", value);
           setSelectedSeries(value?._id);
         }}
         options={series?.data?.data || []}
         getOptionLabel={(option) => {
-          console.log(option);
           return option?.title || "";
         }}
         loading={isLoading}
@@ -163,7 +159,6 @@ const CreateNewSeries: React.FC<CreateNewSeriesProps> = ({
   const { mutate, isLoading } = useMutation({
     mutationFn: async (data) => axiosAuth.post("/art-series/", data),
     onSuccess: (data) => {
-      console.log("This is the data", data);
       setSelectedSeries({
         ...data?.data,
       });
@@ -201,7 +196,6 @@ const CreateNewSeries: React.FC<CreateNewSeriesProps> = ({
     };
   };
 
-  console.log(file);
   return (
     <Dialog
       PaperComponent={Paper}

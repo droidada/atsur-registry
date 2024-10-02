@@ -55,7 +55,7 @@ export default function CreateMetadata({ nextPage = (x) => {} }) {
       }
 
       setLoading(true);
-      console.log(values);
+
       const formData = new FormData();
       formData.append("file", previewImg);
       formData.append("title", values.title);
@@ -70,14 +70,12 @@ export default function CreateMetadata({ nextPage = (x) => {} }) {
 
       const result = await axiosAuth.post("/art-piece/add", formData);
       //setPreviewImg(result.data.imageName)
-      console.log("result here is ", result.data);
 
       setLoading(false);
       nextPage(12);
       //  router.replace("/dashboard");
       return;
     } catch (error) {
-      console.error(error);
       setError(error.message);
       setLoading(false);
     }
@@ -94,7 +92,6 @@ export default function CreateMetadata({ nextPage = (x) => {} }) {
       //   });
       setPreviewImg(reader.result);
     }.bind(this);
-    console.log(url); // Would see a path?
 
     // this.setState({
     //   mainState: "uploaded",

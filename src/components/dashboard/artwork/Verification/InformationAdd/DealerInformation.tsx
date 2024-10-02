@@ -31,10 +31,8 @@ const DealerInformation = ({
   const axiosAuth = useAxiosAuth();
   const router = useRouter();
 
-  console.log(isArtistBroker);
-
   const [selectedOrganization, setSelectedOrganization] = useState<any>(null);
-  console.log(selectedOrganization);
+
   const [percentages, setPercentages] = useState<
     {
       userInfo: {
@@ -73,7 +71,6 @@ const DealerInformation = ({
   });
 
   useEffect(() => {
-    console.log(defaultValues);
     if (defaultValues) {
       setValue("notes", defaultValues?.notes);
       setSelectedOrganization(defaultValues?.organization);
@@ -145,8 +142,6 @@ const DealerInformation = ({
 
     setCurrentSubmitType(buttonClicked);
 
-    console.log(defaultValues?.agreementAttachment);
-
     if (!agreementDocument?.file && !defaultValues?.agreementAttachment) {
       toast.error("Agreement document is required");
       return;
@@ -163,7 +158,6 @@ const DealerInformation = ({
     if (!selectedOrganization._id) {
       return toast.error("Please select an organization");
     }
-    console.log("This is the organization", selectedOrganization);
 
     const formData = new FormData();
     !defaultValues?.agreementAttachment &&

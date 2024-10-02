@@ -89,8 +89,6 @@ const FinalPreview: React.FC<Props> = ({
     },
   });
 
-  console.log(artPiece?.artPiece?.qrCode);
-
   return (
     <Stack>
       {/* <div className=" flex flex-col items-center  certificate" ref={ref}> */}

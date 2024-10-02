@@ -134,9 +134,6 @@ const SignCertificate: React.FC<Props> = ({
             }
             const pdfBlob = new Blob([ab], { type: mimeString });
 
-            // Use the Blob (e.g., upload to server, display, etc.)
-            console.log(pdfBlob);
-
             const reader = new FileReader();
 
             reader.onload = function (e) {
@@ -159,7 +156,7 @@ const SignCertificate: React.FC<Props> = ({
           });
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       } finally {
         setLoading(false);
       }

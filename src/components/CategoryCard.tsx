@@ -15,7 +15,6 @@ const CategoryCard: React.FC<Props> = ({
   dataAos,
   dataAosDelay,
 }) => {
-  console.log(category);
   return (
     <Link
       data-aos={dataAos}

@@ -160,7 +160,7 @@ const SignCertificate: React.FC<Props> = ({
           });
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       } finally {
         setLoading(false);
       }

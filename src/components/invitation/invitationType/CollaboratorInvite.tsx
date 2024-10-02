@@ -31,14 +31,17 @@ const CollaboratorInvite: React.FC<Props> = ({
   const router = useRouter();
   const { data: session, status } = useSession();
 
-  console.log(verificationData);
+  console.log("This is the verification Data", verificationData);
+
+  const agreementDocument =
+    verificationData?.custodian?.artist?.brokerInfo?.agreementAttachment ||
+    verificationData?.custodian?.broker?.agreementAttachment;
+  console.log(agreementDocument);
 
   const collaborators =
     verificationData?.custodian?.artist?.brokerInfo?.collaborators.length > 0
       ? verificationData?.custodian?.artist?.brokerInfo?.collaborators
       : verificationData?.custodian?.broker?.collaborators;
-
-  console.log(signatureImage);
 
   const currentUser = collaborators?.find(
     (collaborator) => collaborator?.userInfo?.email === session?.user?.email,
@@ -129,7 +132,13 @@ const CollaboratorInvite: React.FC<Props> = ({
           </div>
           {status === "authenticated" && (
             <div className="w-full flex-col flex px-4 gap-7">
-              {" "}
+              <Link
+                target="__blank"
+                className="text-sm text-center hover:underline"
+                href={agreementDocument}
+              >
+                View Contract Document
+              </Link>{" "}
               <div className="flex flex-col items-center gap-4">
                 <label className="font-[300] text-lg " htmlFor="">
                   Commission

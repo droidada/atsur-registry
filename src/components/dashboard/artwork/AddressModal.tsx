@@ -69,7 +69,6 @@ const AddressModal: React.FC<Props> = ({ open, onClose, setAddress }) => {
     mutationFn: (values: typeof addressSchema) =>
       axiosAuth.post("/shipping-address", { ...values }),
     onSuccess: (data) => {
-      console.log(data);
       setAddress(data?.data?.data);
       reset();
       onClose();

@@ -25,7 +25,6 @@ const CreateArtworkPreview: React.FC<Props> = ({
   artworkId,
   isAdminCreated,
 }) => {
-  console.log(isAdminCreated);
   const toast = useToast();
   const axiosFetch = useAxiosAuth();
   const router = useRouter();
@@ -54,7 +53,6 @@ const CreateArtworkPreview: React.FC<Props> = ({
         const { data: response1 } = isUpdate
           ? await axiosFetch.put(`/art-piece/${artworkId}`, firstFormData)
           : await axiosFetch.post(`/art-piece`, firstFormData);
-        console.log(response1);
 
         if (
           artworkData?.assets?.secondaryView?.primaryViewPortrait ||
@@ -76,7 +74,7 @@ const CreateArtworkPreview: React.FC<Props> = ({
             "fileMounted",
             artworkData?.assets?.secondaryView?.mountedView,
           );
-          console.log(isAdminCreated ? "hello" : "no");
+
           isAdminCreated &&
             formData.append("isAdminCreated", JSON.stringify(true));
           const { data: response2 } = isUpdate
@@ -94,7 +92,6 @@ const CreateArtworkPreview: React.FC<Props> = ({
         router.push(`/dashboard/artworks/${artworkId}`);
       },
       onError: (error: any) => {
-        console.log(error);
         const errorMessage =
           error?.response?.data?.message ||
           error?.message ||
@@ -112,8 +109,6 @@ const CreateArtworkPreview: React.FC<Props> = ({
   return (
     <CreateArtWorkFormContainer
       handleGoBack={() => {
-        console.log("hello");
-
         setActiveIndex((prev) => prev - 1);
       }}
       isLast
