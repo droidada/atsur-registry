@@ -28,64 +28,56 @@ const resource = {
   title: "Resource",
   menus: [
     {
-      title: "Help center",
+      title: "White Paper",
       link: "/",
     },
     {
-      title: "Platform status",
+      title: "FAQs",
       link: "/",
     },
     {
-      title: "Partners",
-      link: "/",
-    },
-    {
-      title: "Discount community",
-      link: "/",
-    },
-    {
-      title: "Live auctions",
+      title: "How Tos",
       link: "/",
     },
   ],
 };
 
 const account = {
-  title: "Account",
+  title: "Registry",
   menus: [
     {
-      title: "Authors",
-      link: "/",
-    },
-    {
-      title: "Author Profile",
-      link: "/",
-    },
-    {
-      title: "Goto dashboard",
+      title: "Dashboard",
       link: "/dashboard",
     },
     {
-      title: "Collection",
-      link: "/collection",
+      title: "Collections",
+      link: "/explore?type=collection",
+    },
+    {
+      title: "Artists",
+      link: "/explore?type=artist",
     },
   ],
 };
 
 const company = {
-  title: "Company",
+  title: "Community",
   menus: [
     {
-      title: "Help center",
+      title: "Partners",
       link: "/",
     },
     {
-      title: "Platform status",
+      title: "Activism 1.0",
+      link: "/",
+    },
+    {
+      title: "Blog",
       link: "/",
     },
   ],
 };
 
-const footerNav = [firstGroup, resource, account, company];
+const footerNav = [resource, account, company];
 
 export default footerNav;

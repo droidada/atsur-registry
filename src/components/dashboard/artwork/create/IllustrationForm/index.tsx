@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import CreateArtWorkFormContainer from "../FormContainer";
-import { object, string, number, TypeOf, boolean } from "zod";
+import { object, string, number, TypeOf, boolean, ZodIssueCode } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
@@ -13,6 +13,7 @@ import { MenuItem, Stack } from "@mui/material";
 import SelectField from "@/components/Form/SelectField";
 import SwitchInput from "@/components/Form/SwitchInput";
 import Image from "next/image";
+import { DataObjectOutlined } from "@mui/icons-material";
 
 interface Props {
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
@@ -29,29 +30,38 @@ const IllustrationForm: React.FC<Props> = ({
   const metadataSchema = object({
     title: string().nonempty("Title is required"),
     description: string().nonempty("Description is required"),
-    height: string()
-      .nonempty("Height is required")
-      .refine(
-        (data) => !isNaN(parseFloat(data)) && parseFloat(data) > 0,
-        "Height must be a number greater than 0",
-      ),
-    width: string()
-      .nonempty("Width is required")
-      .refine(
-        (data) => !isNaN(parseFloat(data)) && parseFloat(data) > 0,
-        "Width must be a number greater than 0",
-      ),
+    isDigital: string().nonempty("Is this a digital art?"),
+    height: string(),
+    width: string(),
     depth: string(),
-    // .nonempty("Depth is required")
-    // .refine(
-    //   (data) => !isNaN(parseFloat(data)) && parseFloat(data) > 0,
-    //   "Depth must be a number greater than 0",
-    // ),
     medium: string().nonempty("Medium is required"),
     subjectMatter: string().nonempty("Subject matter is required"),
     rarity: string().nonempty("Rarity is required"),
     withFrame: boolean().default(false),
-    // type: string().nonempty("Type is required"),
+  }).superRefine((data, ctx) => {
+    if (data.isDigital === "no") {
+      const dimensions = ["height", "width", "depth"] as const;
+      dimensions.forEach((dim) => {
+        const value = data[dim];
+        if (!value || value.trim() === "") {
+          ctx.addIssue({
+            code: ZodIssueCode.custom,
+            message: `${
+              dim.charAt(0).toUpperCase() + dim.slice(1)
+            } is required when artwork is not digital`,
+            path: [dim],
+          });
+        } else if (isNaN(parseFloat(value)) || parseFloat(value) <= 0) {
+          ctx.addIssue({
+            code: ZodIssueCode.custom,
+            message: `${
+              dim.charAt(0).toUpperCase() + dim.slice(1)
+            } must be a number greater than 0`,
+            path: [dim],
+          });
+        }
+      });
+    }
   });
 
   type MetadataInput = TypeOf<typeof metadataSchema>;
@@ -88,9 +98,16 @@ const IllustrationForm: React.FC<Props> = ({
     control,
     setValue,
     handleSubmit,
+    watch,
   } = useForm<MetadataInput>({
     resolver: zodResolver(metadataSchema),
   });
+
+  console.log(errors);
+
+  const digitalArt = watch("isDigital");
+
+  console.log(digitalArt);
 
   const { isLoading, mutate: handleNext } = useMutation(
     (data: ICreateArtworkIllustration) => {
@@ -106,8 +123,18 @@ const IllustrationForm: React.FC<Props> = ({
   );
 
   const onSubmitHandler: SubmitHandler<MetadataInput> = async (values) => {
+    console.log(values);
+    const data = {
+      ...values,
+      isDigital: values.isDigital == "yes" ? true : false,
+      width: values?.width !== "undefined" ? values.width : 0,
+      height: values?.height !== "undefined" ? values.height : 0,
+      depth: values?.depth ? values.depth : 0,
+    };
+
+    console.log("This is the data", data);
     //  @ts-ignore
-    handleNext(values);
+    handleNext(data);
   };
 
   useEffect(() => {
@@ -120,6 +147,7 @@ const IllustrationForm: React.FC<Props> = ({
     setValue("medium", formData?.illustration?.medium);
     setValue("subjectMatter", formData?.illustration?.subjectMatter);
     setValue("withFrame", formData?.illustration?.withFrame);
+    setValue("isDigital", formData?.illustration?.isDigital ? "yes" : "no");
     // setValue("type", formData?.illustration?.type);
   }, [formData]);
 
@@ -166,18 +194,6 @@ const IllustrationForm: React.FC<Props> = ({
         />
         <div className="flex gap-4  items-start">
           <InputField
-            // tooltipProps={{
-            //   children: (
-            //     <div className="bg-white">
-            //       <Image
-            //         src="/artsur-logo.png"
-            //         alt="Logo"
-            //         width={100}
-            //         height={100}
-            //       />
-            //     </div>
-            //   ),
-            // }}
             hasInfo
             info="Subject matter of the artpiece"
             label="Subject Matter"
@@ -207,8 +223,6 @@ const IllustrationForm: React.FC<Props> = ({
                 border: "none",
                 color: "black",
               },
-
-              // borderColor: "black",
             }}
             control={control}
             fullWidth
@@ -227,59 +241,86 @@ const IllustrationForm: React.FC<Props> = ({
           </SelectField>
         </div>
 
-        <div className="flex gap-4 items-center">
-          <InputField
-            hasInfo
-            info="1 inches = 2.54cm. 1 inches = 25.4mm"
-            label="Height [in inches]"
-            id="height"
-            type="number"
-            placeholder=""
-            name="height"
-            className="w-full"
-            inputClassName="bg-secondary"
-            tabIndex={2}
-            fullWidth
-            aria-required="true"
-            error={!!errors["height"]}
-            helperText={errors["height"] ? errors["height"].message : ""}
+        <div className="flex gap-4  items-start">
+          <SelectField
+            label="Is this a digital art?"
+            name="isDigital"
+            // @ts-ignore
+            sx={{
+              "& fieldset": {
+                background: "#DCDCDC",
+                border: "none",
+                color: "black",
+              },
+            }}
             control={control}
-          />
-          <InputField
-            hasInfo
-            info="1 inches = 2.54cm. 1 inches = 25.4mm"
-            label="Width [in inches]"
-            id="width"
-            type="number"
-            placeholder=""
-            name="width"
-            className="w-full"
-            inputClassName="bg-secondary"
-            tabIndex={2}
-            aria-required="true"
             fullWidth
-            error={!!errors["width"]}
-            helperText={errors["width"] ? errors["width"].message : ""}
-            control={control}
-          />
-          <InputField
-            label="Depth [in inches]"
-            hasInfo
-            info="1 inches = 2.54cm. 1 inches = 25.4mm"
-            id="depth"
-            type="number"
-            placeholder=""
-            inputClassName="bg-secondary"
-            name="depth"
-            tabIndex={2}
-            className="w-full"
-            aria-required="false"
-            fullWidth
-            error={!!errors["depth"]}
-            helperText={errors["depth"] ? errors["depth"].message : ""}
-            control={control}
-          />
+            helperText={errors["isDigital"] ? errors["isDigital"].message : ""}
+            error={!!errors["isDigital"]}
+          >
+            {["yes", "no"].map((item) => (
+              <MenuItem key={item} value={item} className="text-xm capitalize">
+                {item}
+              </MenuItem>
+            ))}
+          </SelectField>
         </div>
+
+        {digitalArt == "no" && (
+          <div className="flex gap-4 items-center">
+            <InputField
+              hasInfo
+              info="1 inches = 2.54cm. 1 inches = 25.4mm"
+              label="Height [in inches]"
+              id="height"
+              type="number"
+              placeholder=""
+              name="height"
+              className="w-full"
+              inputClassName="bg-secondary"
+              tabIndex={2}
+              fullWidth
+              aria-required="true"
+              error={!!errors["height"]}
+              helperText={errors["height"] ? errors["height"].message : ""}
+              control={control}
+            />
+            <InputField
+              hasInfo
+              info="1 inches = 2.54cm. 1 inches = 25.4mm"
+              label="Width [in inches]"
+              id="width"
+              type="number"
+              placeholder=""
+              name="width"
+              className="w-full"
+              inputClassName="bg-secondary"
+              tabIndex={2}
+              aria-required="true"
+              fullWidth
+              error={!!errors["width"]}
+              helperText={errors["width"] ? errors["width"].message : ""}
+              control={control}
+            />
+            <InputField
+              label="Depth [in inches]"
+              hasInfo
+              info="1 inches = 2.54cm. 1 inches = 25.4mm"
+              id="depth"
+              type="number"
+              placeholder=""
+              inputClassName="bg-secondary"
+              name="depth"
+              tabIndex={2}
+              className="w-full"
+              aria-required="false"
+              fullWidth
+              error={!!errors["depth"]}
+              helperText={errors["depth"] ? errors["depth"].message : ""}
+              control={control}
+            />
+          </div>
+        )}
         <div className="flex gap-4 items-center">
           <SelectField
             label="Rarity"
@@ -319,25 +360,6 @@ const IllustrationForm: React.FC<Props> = ({
               }
             />
           </div>
-          {/* <SelectField
-            label="Type"
-            name="type"
-            selectClassName="bg-secondary"
-            control={control}
-            fullWidth
-            helperText={errors["type"] ? errors["type"].message : ""}
-            error={!!errors["type"]}
-          >
-            {["artifact", "art-piece"].map((item) => (
-              <MenuItem
-                key={item}
-                value={item}
-                className="text-xm capitalize bg-secondary"
-              >
-                {item}
-              </MenuItem>
-            ))}
-          </SelectField> */}
         </div>
       </Stack>
     </CreateArtWorkFormContainer>

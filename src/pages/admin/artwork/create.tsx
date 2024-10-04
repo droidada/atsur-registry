@@ -22,6 +22,8 @@ function Dashboard() {
       description: "",
       salesType: "",
       medium: "",
+      isDigital: false,
+      withFrame: false,
       subjectMatter: "",
       dimensions: {
         height: 0,

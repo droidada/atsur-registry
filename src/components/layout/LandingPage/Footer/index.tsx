@@ -9,27 +9,23 @@ import { FaTwitter } from "react-icons/fa6";
 import { FaYoutube } from "react-icons/fa6";
 import { FaTiktok } from "react-icons/fa6";
 import { FaTwitch } from "react-icons/fa6";
+import { FaInstagram, FaLinkedinIn } from "react-icons/fa";
 
 const socialLinks = [
   {
-    name: "Facebook",
-    link: "https://www.facebook.com",
-    icon: <FaFacebookF />,
-  },
-  {
     name: "Twitter",
-    link: "https://www.twitter.com",
+    link: "https://www.twitter.com/atsur_art",
     icon: <FaTwitter />,
   },
   {
-    name: "Youtube",
-    link: "https://www.youtube.com",
-    icon: <FaYoutube />,
+    name: "Facebook",
+    link: "https://www.instagram.com/atsur.art",
+    icon: <FaInstagram />,
   },
   {
-    name: "Tiktok",
-    link: "https://www.tiktok.com",
-    icon: <FaTiktok />,
+    name: "Youtube",
+    link: "https://www.linkedin.com/company/atsur",
+    icon: <FaLinkedinIn />,
   },
 ];
 
@@ -39,7 +35,7 @@ const LandingPageFooter = () => {
       <Stack
         direction={{ xs: "column", md: "row" }}
         className="page-container "
-        alignItems={{ xs: "center" }}
+        alignItems={{ xs: "start" }}
         justifyContent={"space-between"}
         spacing={4}
       >
@@ -77,11 +73,11 @@ const LandingPageFooter = () => {
             </Stack>
           ))}
         </Stack>
-        <div>
-          <h4 className=" text-secondary h-[46px] text-lg font-[600]">
+        <div className="flex flex-col justify-center items-center gap-4">
+          <h4 className=" text-primary px-2 grid place-items-center bg-secondary h-[46px] text-lg font-[600]">
             Join the Community
           </h4>
-          <ul className="flex gap-2 items-center ">
+          <ul className="flex gap-2 items-center justify-center ">
             {socialLinks.map((link) => (
               <li key={link.name}>
                 <Link

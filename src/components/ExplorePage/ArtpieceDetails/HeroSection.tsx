@@ -5,6 +5,9 @@ import {
   AccordionSummary,
   Avatar,
   Button,
+  Dialog,
+  DialogContent,
+  IconButton,
   Rating,
   Stack,
 } from "@mui/material";
@@ -13,7 +16,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { MdOutlineExpandMore } from "react-icons/md";
+import {
+  MdArrowBack,
+  MdArrowForward,
+  MdClose,
+  MdOutlineExpandMore,
+} from "react-icons/md";
 
 interface Props {
   artpiece: IArtPieceDetails;
@@ -24,12 +32,29 @@ const HeroSection: React.FC<Props> = ({ artpiece }) => {
   const [currentAsset, setCurrentAsset] = useState(0);
   const { data: session, status } = useSession();
   const router = useRouter();
+  const [modalOpen, setModalOpen] = useState(false);
 
   const checkUser = artpiece.custodian?.profile?.id == session?.user?._id;
 
   useEffect(() => {
     setAssets(artpiece?.assets);
   }, [artpiece]);
+
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
+  const handlePrevImage = () => {
+    setCurrentAsset((prev) => (prev === 0 ? assets.length - 1 : prev - 1));
+  };
+
+  const handleNextImage = () => {
+    setCurrentAsset((prev) => (prev === assets.length - 1 ? 0 : prev + 1));
+  };
 
   return (
     <Stack spacing={2}>
@@ -40,9 +65,13 @@ const HeroSection: React.FC<Props> = ({ artpiece }) => {
       >
         <Stack
           spacing={2}
-          className=" w-full max-w-[590px]"
+          className=" w-full max-w-[590px] relative cursor-pointer group"
           direction={"column"}
+          onClick={handleOpenModal}
         >
+          <div className="w-full absolute top-0 left-0 z-10 text-white hidden   h-full bg-black/50 group-hover:grid place-items-center">
+            View
+          </div>
           <Image
             src={assets[currentAsset]?.url}
             alt={artpiece.title}
@@ -190,6 +219,47 @@ const HeroSection: React.FC<Props> = ({ artpiece }) => {
           ))}
         </Stack>
       )}
+
+      <Dialog
+        open={modalOpen}
+        onClose={handleCloseModal}
+        maxWidth="sm"
+        PaperProps={{
+          className: "py-8 max-w-[550px] w-full px-6 relative",
+        }}
+      >
+        <DialogContent className="relative">
+          <IconButton
+            onClick={handleCloseModal}
+            className="absolute top-0 grid place-items-center rounded-full bg-white  right-2 z-[30]"
+          >
+            <MdClose />
+          </IconButton>
+          <IconButton
+            onClick={handlePrevImage}
+            className={`absolute top-1/2 left-0 ${
+              assets.length === 1 ? "hidden" : ""
+            } transform  grid place-items-center rounded-full bg-white z-10 -translate-y-1/2`}
+          >
+            <MdArrowBack />
+          </IconButton>
+          <div className="relative">
+            <Image
+              src={assets[currentAsset]?.url}
+              alt={artpiece.title}
+              width={450}
+              height={800}
+              className="w-full h-auto"
+            />
+          </div>
+        </DialogContent>
+        <IconButton
+          onClick={handleNextImage}
+          className="absolute top-1/2 right-2 grid place-items-center rounded-full bg-white z-10  transform -translate-y-1/2"
+        >
+          <MdArrowForward />
+        </IconButton>
+      </Dialog>
     </Stack>
   );
 };

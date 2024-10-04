@@ -15,12 +15,21 @@ import {
   FormControlLabel,
   Button,
   CircularProgress,
+  Dialog,
+  DialogContent,
+  IconButton,
 } from "@mui/material";
 
 import { useRouter } from "next/router";
 import ProtectedPage from "@/HOC/Protected";
 import { FaCircle } from "react-icons/fa";
-import { MdOutlineChevronRight, MdOutlineExpandMore } from "react-icons/md";
+import {
+  MdArrowBack,
+  MdArrowForward,
+  MdClose,
+  MdOutlineChevronRight,
+  MdOutlineExpandMore,
+} from "react-icons/md";
 import { GiAlarmClock } from "react-icons/gi";
 import moment from "moment";
 import ArtPieceExhibition from "@/components/dashboard/artwork/Details/Exhibition";
@@ -82,6 +91,12 @@ function ArtPiece({ artPiece }) {
   const axiosFetch = useAxiosAuth();
   const toast = useToast();
   const [publish, setPublish] = useState<boolean>(artPiece?.published);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [assets, setAssets] = useState(artPiece?.assets);
+
+  useEffect(() => {
+    setAssets(artPiece?.assets);
+  }, [artPiece]);
 
   const { mutate, isLoading } = useMutation({
     mutationFn: () => axiosFetch.delete(`/art-piece/${artPiece?._id}`),
@@ -112,6 +127,22 @@ function ArtPiece({ artPiece }) {
   useEffect(() => {
     setPublish(artPiece?.published);
   }, [artPiece?.published]);
+
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
+  const handlePrevImage = () => {
+    setCurrentAsset((prev) => (prev === 0 ? assets.length - 1 : prev - 1));
+  };
+
+  const handleNextImage = () => {
+    setCurrentAsset((prev) => (prev === assets.length - 1 ? 0 : prev + 1));
+  };
 
   return (
     <Stack
@@ -228,7 +259,13 @@ function ArtPiece({ artPiece }) {
               <span>{moment(artPiece?.createdAt).format("DD/MM/YYYY")}</span>
             </div>
           </Stack>
-          <div className="w-full">
+          <div
+            onClick={handleOpenModal}
+            className="w-full cursor-pointer relative group"
+          >
+            <div className="w-full absolute top-0 left-0 z-10 text-white hidden   h-full bg-black/50 group-hover:grid place-items-center">
+              View
+            </div>
             <Image
               src={artPiece?.assets[currentAsset]?.url}
               alt="art piece image"
@@ -298,8 +335,49 @@ function ArtPiece({ artPiece }) {
         handleClose={() => setOpenDeleteDialog(false)}
         title={"Artpiece"}
         handleDelete={() => mutate()}
-        body="Are you sure you want to delete this artpiece? This action cannot be undone."
+        body="Are you sure you want to delete this artwork? This action cannot be undone."
       />
+
+      <Dialog
+        open={modalOpen}
+        onClose={handleCloseModal}
+        maxWidth="sm"
+        PaperProps={{
+          className: "py-8 max-w-[550px] w-full px-6 relative",
+        }}
+      >
+        <DialogContent className="relative">
+          <IconButton
+            onClick={handleCloseModal}
+            className="absolute top-0 grid place-items-center rounded-full bg-white  right-2 z-[30]"
+          >
+            <MdClose />
+          </IconButton>
+          <IconButton
+            onClick={handlePrevImage}
+            className={`absolute top-1/2 left-0 ${
+              assets.length === 1 ? "hidden" : ""
+            } transform  grid place-items-center rounded-full bg-white z-10 -translate-y-1/2`}
+          >
+            <MdArrowBack />
+          </IconButton>
+          <div className="relative">
+            <Image
+              src={assets[currentAsset]?.url}
+              alt={artPiece.title}
+              width={450}
+              height={800}
+              className="w-full h-auto"
+            />
+          </div>
+        </DialogContent>
+        <IconButton
+          onClick={handleNextImage}
+          className="absolute top-1/2 right-2 grid place-items-center rounded-full bg-white z-10  transform -translate-y-1/2"
+        >
+          <MdArrowForward />
+        </IconButton>
+      </Dialog>
     </Stack>
   );
 }

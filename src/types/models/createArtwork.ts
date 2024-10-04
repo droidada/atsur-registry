@@ -12,6 +12,7 @@ export interface ICreateArtworkIllustration {
   title: string;
   description: string;
   medium: string;
+  isDigital: boolean;
   subjectMatter: string;
   artistInvite?: {
     firstName: string;
