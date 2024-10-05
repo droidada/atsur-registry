@@ -1,13 +1,23 @@
 import ICreateArtworkFormData from "@/types/models/createArtwork";
-import React from "react";
+import React, { useState } from "react";
 import CreateArtWorkFormContainer from "../FormContainer";
-import { Stack } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControlLabel,
+  Stack,
+} from "@mui/material";
 import Image from "next/image";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/providers/ToastProvider";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import { FourGMobiledataOutlined } from "@mui/icons-material";
 import { useRouter } from "next/router";
+import TermsOfService from "@/components/term_and_condition/TermsOfService";
 
 interface Props {
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
@@ -28,6 +38,9 @@ const CreateArtworkPreview: React.FC<Props> = ({
   const toast = useToast();
   const axiosFetch = useAxiosAuth();
   const router = useRouter();
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [openTermsModal, setOpenTermsModal] = useState(false);
+
   const { mutate, isLoading } = useMutation(
     async (artworkData: ICreateArtworkFormData) => {
       try {
@@ -101,8 +114,25 @@ const CreateArtworkPreview: React.FC<Props> = ({
     },
   );
 
+  const handleOpenTermsModal = () => {
+    setOpenTermsModal(true);
+  };
+
+  const handleCloseTermsModal = () => {
+    setOpenTermsModal(false);
+  };
+
+  const handleAcceptTerms = () => {
+    setTermsAccepted(true);
+    handleCloseTermsModal();
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!termsAccepted) {
+      toast.error("Please accept the terms and conditions before submitting.");
+      return;
+    }
     mutate(formData);
   };
 
@@ -295,7 +325,42 @@ const CreateArtworkPreview: React.FC<Props> = ({
             </div>
           )}
         </div>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={termsAccepted}
+              onChange={(e) => setTermsAccepted(e.target.checked)}
+              color="primary"
+            />
+          }
+          label="I accept the terms of service"
+        />
+        <Button variant="outlined" onClick={handleOpenTermsModal}>
+          Read Terms
+        </Button>
       </Stack>
+
+      <Dialog
+        open={openTermsModal}
+        onClose={handleCloseTermsModal}
+        maxWidth="md"
+        fullWidth
+      >
+        <DialogTitle>Terms of Service</DialogTitle>
+        <DialogContent>
+          <TermsOfService />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseTermsModal}>Close</Button>
+          <Button
+            onClick={handleAcceptTerms}
+            variant="contained"
+            color="primary"
+          >
+            Accept
+          </Button>
+        </DialogActions>
+      </Dialog>
     </CreateArtWorkFormContainer>
   );
 };
