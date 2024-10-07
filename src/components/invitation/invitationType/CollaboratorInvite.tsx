@@ -1,8 +1,15 @@
 import LoadingButton from "@/components/Form/LoadingButton";
 import { SignatureDialog } from "@/components/dashboard/artwork/Verification/VerificationAccepted/NewCoaSteps/sign-certificate";
+import TermsOfService from "@/pages/terms-and-condition/terms-of-service";
 import { useToast } from "@/providers/ToastProvider";
 import { InviteTypeProps } from "@/types/models/invitationType";
-import { Avatar } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+} from "@mui/material";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -55,6 +62,7 @@ const CollaboratorInvite: React.FC<Props> = ({
   // const [signatureImage, setSignatureImage] = useState("");
   const [acceptTermsAndCondition, setAcceptTermsAndCondition] = useState(false);
   const [termAndConditionError, setTermsAndConditionError] = useState(false);
+  const [openTermsModal, setOpenTermsModal] = useState(false);
 
   const handleAcceptArtpiece = () => {
     if (currentUser?.userInfo?.role === "main artist") {
@@ -182,9 +190,12 @@ const CollaboratorInvite: React.FC<Props> = ({
                       />
                       <label className="text-sm" htmlFor="confirm">
                         By signing this, I agree with the{" "}
-                        <Link href={"#"} className="underline">
+                        <span
+                          onClick={() => setOpenTermsModal(true)}
+                          className="underline"
+                        >
                           Terms and Conditions
-                        </Link>
+                        </span>
                       </label>
                     </div>
                     {termAndConditionError && (
@@ -243,6 +254,30 @@ const CollaboratorInvite: React.FC<Props> = ({
         handleClose={() => setOpenSignature(false)}
         setSignatureImage={setSignatureImage}
       />
+
+      <Dialog
+        open={openTermsModal}
+        onClose={() => setOpenTermsModal(false)}
+        maxWidth="md"
+        fullWidth
+      >
+        <DialogContent>
+          <TermsOfService />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenTermsModal(false)}>Close</Button>
+          <Button
+            onClick={() => {
+              setAcceptTermsAndCondition(true);
+              setOpenTermsModal(false);
+            }}
+            variant="contained"
+            color="primary"
+          >
+            Accept
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

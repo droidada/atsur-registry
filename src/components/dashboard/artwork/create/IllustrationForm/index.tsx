@@ -34,7 +34,7 @@ const IllustrationForm: React.FC<Props> = ({
     height: string(),
     width: string(),
     depth: string(),
-    medium: string().nonempty("Medium is required"),
+    medium: string(),
     subjectMatter: string().nonempty("Subject matter is required"),
     rarity: string().nonempty("Rarity is required"),
     withFrame: boolean().default(false),
@@ -61,6 +61,14 @@ const IllustrationForm: React.FC<Props> = ({
           });
         }
       });
+
+      if (!data.medium || data.medium.trim() === "") {
+        ctx.addIssue({
+          code: ZodIssueCode.custom,
+          message: "Medium is required",
+          path: ["medium"],
+        });
+      }
     }
   });
 
@@ -211,37 +219,7 @@ const IllustrationForm: React.FC<Props> = ({
             }
             control={control}
           />
-          <SelectField
-            label="Medium"
-            name="medium"
-            hasInfo
-            info="Medium used in the artwork"
-            // @ts-ignore
-            sx={{
-              "& fieldset": {
-                background: "#DCDCDC",
-                border: "none",
-                color: "black",
-              },
-            }}
-            control={control}
-            fullWidth
-            helperText={errors["medium"] ? errors["medium"].message : ""}
-            error={!!errors["medium"]}
-          >
-            {mediums.map((medium) => (
-              <MenuItem
-                key={medium}
-                value={medium}
-                className="text-xm capitalize"
-              >
-                {medium}
-              </MenuItem>
-            ))}
-          </SelectField>
-        </div>
 
-        <div className="flex gap-4  items-start">
           <SelectField
             label="Is this a digital art?"
             name="isDigital"
@@ -267,59 +245,91 @@ const IllustrationForm: React.FC<Props> = ({
         </div>
 
         {digitalArt == "no" && (
-          <div className="flex gap-4 items-center">
-            <InputField
-              hasInfo
-              info="1 inches = 2.54cm. 1 inches = 25.4mm"
-              label="Height [in inches]"
-              id="height"
-              type="number"
-              placeholder=""
-              name="height"
-              className="w-full"
-              inputClassName="bg-secondary"
-              tabIndex={2}
-              fullWidth
-              aria-required="true"
-              error={!!errors["height"]}
-              helperText={errors["height"] ? errors["height"].message : ""}
-              control={control}
-            />
-            <InputField
-              hasInfo
-              info="1 inches = 2.54cm. 1 inches = 25.4mm"
-              label="Width [in inches]"
-              id="width"
-              type="number"
-              placeholder=""
-              name="width"
-              className="w-full"
-              inputClassName="bg-secondary"
-              tabIndex={2}
-              aria-required="true"
-              fullWidth
-              error={!!errors["width"]}
-              helperText={errors["width"] ? errors["width"].message : ""}
-              control={control}
-            />
-            <InputField
-              label="Depth [in inches]"
-              hasInfo
-              info="1 inches = 2.54cm. 1 inches = 25.4mm"
-              id="depth"
-              type="number"
-              placeholder=""
-              inputClassName="bg-secondary"
-              name="depth"
-              tabIndex={2}
-              className="w-full"
-              aria-required="false"
-              fullWidth
-              error={!!errors["depth"]}
-              helperText={errors["depth"] ? errors["depth"].message : ""}
-              control={control}
-            />
-          </div>
+          <>
+            <div className="flex gap-4  items-start">
+              <SelectField
+                label="Medium"
+                name="medium"
+                hasInfo
+                info="Medium used in the artwork"
+                // @ts-ignore
+                sx={{
+                  "& fieldset": {
+                    background: "#DCDCDC",
+                    border: "none",
+                    color: "black",
+                  },
+                }}
+                control={control}
+                fullWidth
+                helperText={errors["medium"] ? errors["medium"].message : ""}
+                error={!!errors["medium"]}
+              >
+                {mediums.map((medium) => (
+                  <MenuItem
+                    key={medium}
+                    value={medium}
+                    className="text-xm capitalize"
+                  >
+                    {medium}
+                  </MenuItem>
+                ))}
+              </SelectField>
+            </div>
+            <div className="flex gap-4 items-center">
+              <InputField
+                hasInfo
+                info="1 inches = 2.54cm. 1 inches = 25.4mm"
+                label="Height [in inches]"
+                id="height"
+                type="number"
+                placeholder=""
+                name="height"
+                className="w-full"
+                inputClassName="bg-secondary"
+                tabIndex={2}
+                fullWidth
+                aria-required="true"
+                error={!!errors["height"]}
+                helperText={errors["height"] ? errors["height"].message : ""}
+                control={control}
+              />
+              <InputField
+                hasInfo
+                info="1 inches = 2.54cm. 1 inches = 25.4mm"
+                label="Width [in inches]"
+                id="width"
+                type="number"
+                placeholder=""
+                name="width"
+                className="w-full"
+                inputClassName="bg-secondary"
+                tabIndex={2}
+                aria-required="true"
+                fullWidth
+                error={!!errors["width"]}
+                helperText={errors["width"] ? errors["width"].message : ""}
+                control={control}
+              />
+              <InputField
+                label="Depth [in inches]"
+                hasInfo
+                info="1 inches = 2.54cm. 1 inches = 25.4mm"
+                id="depth"
+                type="number"
+                placeholder=""
+                inputClassName="bg-secondary"
+                name="depth"
+                tabIndex={2}
+                className="w-full"
+                aria-required="false"
+                fullWidth
+                error={!!errors["depth"]}
+                helperText={errors["depth"] ? errors["depth"].message : ""}
+                control={control}
+              />
+            </div>
+          </>
         )}
         <div className="flex gap-4 items-center">
           <SelectField
