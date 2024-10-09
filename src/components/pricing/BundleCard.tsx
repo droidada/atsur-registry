@@ -27,8 +27,6 @@ const BundleCard: React.FC<Props> = ({ bundle }) => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
-  console.log(bundle);
-
   const total = bundle.details?.reduce((total, item) => {
     return (total += item.item.unitPrice * item.quantity);
   }, 0);
@@ -70,7 +68,7 @@ const BundleCard: React.FC<Props> = ({ bundle }) => {
 
         <div className="flex place-items-baseline">
           <h4 className="font-bold text-2xl lg:text-[40px] lg:leading-[45px]">
-            $ {numeral(total).format("0,0")}
+            $ {numeral(bundle.unitPrice).format("0,0")}
           </h4>
           <span className="text-[11px] capitalize leading-[14px] tracking-[5%]">
             / Bundle
