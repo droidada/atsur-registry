@@ -10,6 +10,8 @@ import ProtectedPage from "@/HOC/Protected";
 import Image from "next/image";
 import { Button } from "@mui/material";
 import LoadingButton from "@/components/Form/LoadingButton";
+import { useMutation } from "@tanstack/react-query";
+import { useToast } from "@/providers/ToastProvider";
 export const getServerSideProps = async ({ req, query }) => {
   try {
     const token: any = await getToken({
@@ -31,18 +33,22 @@ export const getServerSideProps = async ({ req, query }) => {
 const Status = ({ status }) => {
   const router = useRouter();
   const axiosAuth = useAxiosAuth();
-  const [loading, setLoading] = useState(false);
+
+  const toast = useToast();
+
+  const { mutate, isLoading } = useMutation({
+    mutationFn: () => axiosAuth.post("/smile-verification/re-enrol"),
+    onSuccess: () =>
+      router.push(`/dashboard/settings/security/kyc-verification`),
+    onError: (error: any) => {
+      toast.error(
+        error.response.data.message || error.message || "Something went wrong",
+      );
+    },
+  });
 
   const handleReenroll = async () => {
-    try {
-      setLoading(true);
-      const { data } = await axiosAuth.post("/smile-verification/re-enrol");
-      router.replace("/dashboard/settings/security/kyc-verification");
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
+    mutate();
   };
 
   return (
@@ -86,7 +92,7 @@ Please rest assured that we are working diligently to complete the verification 
         </Button>
         {status?.verificationStatus !== "accepted" && (
           <LoadingButton
-            loading={loading}
+            loading={isLoading}
             variant="outlined"
             className="px-4 h-[46px]  font-semibold "
             onClick={handleReenroll}

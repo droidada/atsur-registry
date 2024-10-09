@@ -27,6 +27,8 @@ export const getServerSideProps = async ({ req, query }) => {
 
     console.log(res.data?.data);
 
+    console.log("This is the data", res?.data?.data);
+
     if (res.data && res.data?.data?.verificationStatus !== "not-verified") {
       return {
         redirect: {
