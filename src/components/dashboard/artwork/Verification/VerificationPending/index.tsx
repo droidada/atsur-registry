@@ -30,6 +30,8 @@ const VerificationPending: React.FC<Props> = ({ artPiece }) => {
     ? "artist-broker"
     : null;
 
+  const role = artPiece?.custodian.role;
+
   const collaborators =
     artPiece?.custodian?.artist?.brokerInfo?.collaborators.length > 0
       ? artPiece?.custodian?.artist?.brokerInfo?.collaborators
@@ -103,8 +105,12 @@ const VerificationPending: React.FC<Props> = ({ artPiece }) => {
       artPiece?.custodian?.institution?.organization?.status ||
       artPiece?.custodian?.collector?.organization?.kybVerification?.status;
 
-    if (kycStatus !== "verified") {
+    console.log(kycStatus);
+    console.log(verificationType);
+    if (kycStatus !== "approved") {
       setCurrentStep(0);
+    } else if (role === "artist" && !verificationType) {
+      setCurrentStep(1);
     } else if (verificationType && collaborators.length > 0) {
       const allCollaboratorsAccepted = collaborators.every(
         (collab) => collab.invitation?.accepted === true,
@@ -114,7 +120,7 @@ const VerificationPending: React.FC<Props> = ({ artPiece }) => {
       } else {
         setCurrentStep(2);
       }
-    } else if (verificationType && kybStatus === "verified") {
+    } else if (verificationType && kybStatus === "approved") {
       setCurrentStep(3);
     }
   }, [artPiece, verificationType, collaborators]);
@@ -127,7 +133,7 @@ const VerificationPending: React.FC<Props> = ({ artPiece }) => {
   };
 
   return (
-    <div className="flex lg:flex-nowrap justify-center items-center mt-6 flex-wrap md:gap-8">
+    <div className="flex lg:flex-nowrap justify-center items-center mt-6 gap-5 flex-wrap-reverse md:gap-8">
       <div
         style={{ aspectRatio: "1/1" }}
         className="relative md:w-[230px] w-[250px] bg-secondary rounded-full overflow-hidden"
@@ -141,7 +147,7 @@ const VerificationPending: React.FC<Props> = ({ artPiece }) => {
       </div>
 
       <div className="flex max-w-[266px] w-full flex-col gap-4">
-        <h2 className="text-3xl text-[#4C4C4C] md:text-[57px] font-bold">
+        <h2 className="text-3xl text-center lg:text-left text-[#4C4C4C] md:text-[57px] font-bold">
           Pending
         </h2>
         {verificationType && collaborators.length > 0 && currentStep === 1 ? (

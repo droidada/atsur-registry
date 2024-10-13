@@ -68,14 +68,14 @@ const Status = ({ status }) => {
         alt="verification status"
       />
       <h2 className="font-[500] text-2xl text-center">
-        {status?.verificationStatus === "accepted"
+        {status?.verificationStatus === "approved"
           ? "Great! Your credentials have been successfully verified"
           : status?.verificationStatus === "pending"
           ? "Great! Your credentials are being processed for verification"
           : "Sorry! Your verification has been rejected"}
       </h2>
       <p className="text-center text-xs max-w-[594px] w-full">
-        {status?.verificationStatus === "accepted"
+        {status?.verificationStatus === "approved"
           ? "We are pleased to inform you that your Know Your Customer (KYC) verification has been successfully completed. You can now continue using our system without any interruptions."
           : status?.verificationStatus === "pending"
           ? `We wanted to inform you that your Know Your Customer (KYC) verification is currently pending as our team is in the process of reviewing your submitted credentials.
@@ -90,7 +90,7 @@ Please rest assured that we are working diligently to complete the verification 
         >
           Explore Artworks
         </Button>
-        {status?.verificationStatus !== "accepted" && (
+        {status?.verificationStatus !== "approved" && (
           <LoadingButton
             loading={isLoading}
             variant="outlined"
