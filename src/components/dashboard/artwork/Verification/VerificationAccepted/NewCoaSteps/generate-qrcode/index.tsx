@@ -35,7 +35,7 @@ const GenerateQRCode: React.FC<Props> = ({
   coaType,
 }) => {
   const [url, setUrl] = useState("");
-  const [pattern, setPattern] = useState<"squares" | "dots" | "fluid">("fluid");
+  const [pattern, setPattern] = useState<"squares">("squares");
   const [logo, setLogo] = useState("/default-logo.png"); // Path to default logo
   const [urls, setUrls] = useState([]);
   const [qrValue, setQrValue] = useState("");
@@ -47,46 +47,6 @@ const GenerateQRCode: React.FC<Props> = ({
   const qrRef = useRef<QRCode>(null);
 
   const [active, setActive] = useState(0);
-
-  // const urlSchema = object({
-  //   urls: array(string().url()),
-  // });
-
-  // type UrlInput = TypeOf<typeof urlSchema>;
-
-  // const {
-  //   register,
-  //   formState: { errors, isSubmitSuccessful },
-  //   reset,
-  //   control,
-  //   handleSubmit,
-  //   setValue,
-  //   watch,
-  // } = useForm<UrlInput>({
-  //   resolver: zodResolver(urlSchema),
-  //   defaultValues: {
-  //     urls: ["https://"],
-  //   },
-  // });
-
-  // const onSubmit: SubmitHandler<UrlInput> = (data) => {
-  //   const qrCanvas: any = document.getElementById("react-qrcode-logo");
-  //   if (qrCanvas) {
-  //     const pngUrl = qrCanvas.toDataURL("image/png");
-
-  //     // Send to server
-  //     console.log(pngUrl);
-  //     setActiveIndex((prev) => prev + 1);
-  //   }
-  // };
-
-  // const qrUrls = watch("urls");
-  // console.log(qrUrls);
-
-  // useEffect(() => {
-  //   console.log(qrUrls);
-  //   setQrValue(qrUrls.join("\n"));
-  // }, [JSON.stringify(qrUrls)]);
 
   const handleSave = () => {
     const qrCanvas: any = document.getElementById("react-qrcode-logo");
@@ -251,7 +211,7 @@ const Style: React.FC<StyleProps> = ({ setPattern, pattern }) => {
           onChange={() => setPattern("squares")}
         />
       </div>
-      <div className="flex gap-2 flex-col">
+      {/* <div className="flex gap-2 flex-col">
         <label
           htmlFor="dots"
           className={`text-xs ${
@@ -305,7 +265,7 @@ const Style: React.FC<StyleProps> = ({ setPattern, pattern }) => {
           checked={pattern === "fluid"}
           onChange={() => setPattern("fluid")}
         />
-      </div>
+      </div> */}
     </div>
   );
 };

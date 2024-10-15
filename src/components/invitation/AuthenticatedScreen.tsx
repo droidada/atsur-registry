@@ -68,8 +68,6 @@ const AuthenticatedScreen = ({
         }
       }
 
-      return;
-
       const inviteUrl =
         type === "org" && invitationData?.invitation?.object?.org
           ? `/dashboard/organizations/${invitationData.invitation.object.org._id}`

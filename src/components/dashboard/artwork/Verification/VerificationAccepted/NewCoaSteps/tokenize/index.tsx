@@ -1,5 +1,12 @@
 import ArtPieceCertificate from "@/components/Certificate";
-import { Button, MenuItem, Stack } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  MenuItem,
+  Stack,
+} from "@mui/material";
 import React, { useRef, useState } from "react";
 import { object, string, TypeOf, boolean, ZodVoidDef, array } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,6 +23,7 @@ import Link from "next/link";
 import { getCertificateText } from "../..";
 import NotEnoughCredits from "../../NotEnoughCredits";
 import ExistingPdfCertificate from "@/components/Certificate/existing-pdf-certificate";
+import CheckoutModal from "@/components/dashboard/CheckoutModal";
 
 interface Props {
   artPiece: any;
@@ -43,6 +51,8 @@ const TokenizeCertificate: React.FC<Props> = ({
     walletAddress: string(),
   });
 
+  console.log(artPiece?.artPiece?.artist);
+
   type TokenInput = TypeOf<typeof tokenSchema>;
 
   const {
@@ -57,19 +67,18 @@ const TokenizeCertificate: React.FC<Props> = ({
     resolver: zodResolver(tokenSchema),
   });
   const certificateRef = useRef<HTMLDivElement>(null);
+  const certificateSkipRef = useRef<HTMLDivElement>(null);
   const axiosAuth = useAxiosAuth();
   const toast = useToast();
   const role = artPiece?.custodian.role;
   const [openNotEnoughDialog, setOpenNotEnoughDialog] = useState(false);
   const [isloadingSkip, setIsLoadingSkip] = useState(false);
   const [isLoadingTokenize, setIsLoadingTokenize] = useState(false);
+  const [openReadyToSign, setOpenReadyToSign] = useState(false);
 
   const { mutate, isLoading } = useMutation({
     mutationFn: async (data: any) =>
-      axiosAuth.post(
-        `/art-piece/tokenize-coa/${artPiece?.artPiece?._id}`,
-        data,
-      ),
+      axiosAuth.post(`/art-piece/tokenize/${artPiece?.artPiece?._id}`, data),
     onSuccess: (data) => {
       setActiveIndex((prev) => prev + 1);
       // TODO refetch artpiecedata
@@ -170,6 +179,8 @@ const TokenizeCertificate: React.FC<Props> = ({
               if (e.target.result) {
                 mutate({
                   draftCOA: e.target?.result,
+                  qrCode: qrImage,
+                  existingCOA: coaImg?.url,
                 });
               }
             };
@@ -184,7 +195,7 @@ const TokenizeCertificate: React.FC<Props> = ({
   });
 
   const handleSkip = useReactToPrint({
-    content: () => certificateRef.current,
+    content: () => certificateSkipRef.current,
     documentTitle: `Certificate - ${artPiece?.artPiece?.title}.pdf`,
     copyStyles: true,
     onBeforePrint: () => setIsLoadingSkip(true),
@@ -244,7 +255,6 @@ const TokenizeCertificate: React.FC<Props> = ({
                 });
               }
             };
-            reader.readAsDataURL(pdfBlob);
           });
         }
       } catch (error) {
@@ -271,15 +281,22 @@ const TokenizeCertificate: React.FC<Props> = ({
         <div className="">
           <ArtPieceCertificate
             verification={artPiece}
-            signatureImage={signatureImage}
+            signatureImage={signatureImage || artPiece?.artPiece?.signature}
             qrImage={qrImage}
           />
           <PdfCertificate
             ref={certificateRef}
             verification={artPiece}
-            signatureImage={signatureImage}
+            signatureImage={signatureImage || artPiece?.artPiece?.signature}
             qrImage={qrImage}
             tokenized={true}
+          />
+          <PdfCertificate
+            ref={certificateSkipRef}
+            verification={artPiece}
+            signatureImage={signatureImage || artPiece?.artPiece?.signature}
+            qrImage={qrImage}
+            tokenized={false}
           />
         </div>
       ) : (
@@ -301,20 +318,6 @@ const TokenizeCertificate: React.FC<Props> = ({
           />
         </div>
       )}
-      {/* <div className=" overflow-x-auto ">
-        <ArtPieceCertificate
-          verification={artPiece}
-          signatureImage={signatureImage || artPiece?.artPiece?.signature}
-          qrImage={qrImage || artPiece?.artPiece?.qrCode}
-        />
-      </div>
-      <PdfCertificate
-        ref={certificateRef}
-        verification={artPiece}
-        signatureImage={signatureImage || artPiece?.artPiece?.signature}
-        qrImage={qrImage || artPiece?.artPiece?.qrCode}
-        tokenized={true}
-      /> */}
 
       <div className="flex flex-col  gap-5  ">
         <div className="flex flex-col gap-2">
@@ -406,7 +409,7 @@ const TokenizeCertificate: React.FC<Props> = ({
             Skip
           </LoadingButton>
           <LoadingButton
-            onClick={handleTokenize}
+            onClick={() => setOpenReadyToSign(true)}
             loading={isLoadingTokenize}
             variant="contained"
             className="bg-primary-green text-primary max-w-[146px] h-[46px] w-full"
@@ -416,10 +419,28 @@ const TokenizeCertificate: React.FC<Props> = ({
         </div>
       </div>
 
-      <NotEnoughCredits
+      <CheckoutModal
         open={openNotEnoughDialog}
         onClose={() => setOpenNotEnoughDialog(false)}
       />
+
+      <Dialog open={openReadyToSign} onClose={() => setOpenReadyToSign(false)}>
+        <DialogContent>
+          1 tokenization credit will be deducted for this process.
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenReadyToSign(false)} variant="outlined">
+            Not Now
+          </Button>
+          <LoadingButton
+            loading={isLoadingTokenize}
+            onClick={handleTokenize}
+            className="bg-primary text-white"
+          >
+            Continue
+          </LoadingButton>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

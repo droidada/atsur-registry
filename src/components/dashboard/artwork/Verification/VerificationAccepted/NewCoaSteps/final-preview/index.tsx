@@ -89,6 +89,8 @@ const FinalPreview: React.FC<Props> = ({
     },
   });
 
+  console.log(artPiece);
+
   return (
     <Stack>
       {/* <div className=" flex flex-col items-center  certificate" ref={ref}> */}
@@ -145,7 +147,7 @@ const FinalPreview: React.FC<Props> = ({
         >
           Download
         </Button>
-        <Button
+        {/* <Button
           onClick={() => {
             setViewPdf(true);
           }}
@@ -157,7 +159,7 @@ const FinalPreview: React.FC<Props> = ({
           startIcon={<IoEyeOutline />}
         >
           View Certificate
-        </Button>
+        </Button> */}
         {(artPiece?.artPiece?.signedCOA || data?.data?.artPiece?.signedCOA) && (
           <Button
             onClick={() => {

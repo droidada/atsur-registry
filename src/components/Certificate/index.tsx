@@ -104,8 +104,10 @@ const ArtPieceCertificate: React.FC<Props> = ({
               )}
             </div>
             <p className="text-center pt-2 px-4 text-sm border-t-[1px] font-[700] uppercase border-golden">
-              {verification?.artPiece?.custodian?.profile?.firstName}{" "}
-              {verification?.artPiece?.custodian?.profile?.lastName}
+              {verification?.artist?.firstName ||
+                verification?.artPiece?.custodian?.profile?.firstName}{" "}
+              {verification?.artist?.lasttName ||
+                verification?.artPiece?.custodian?.profile?.lastName}
             </p>
           </div>
           {/* <div className="flex items-center justify-center mt-0"> */}
