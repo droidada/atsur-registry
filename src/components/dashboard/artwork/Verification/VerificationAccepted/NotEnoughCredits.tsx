@@ -11,8 +11,13 @@ import React from "react";
 interface Props {
   open: boolean;
   onClose: () => void;
+  setOpenBuyMoreCredits?: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const NotEnoughCredits: React.FC<Props> = ({ onClose, open }) => {
+const NotEnoughCredits: React.FC<Props> = ({
+  onClose,
+  open,
+  setOpenBuyMoreCredits,
+}) => {
   const router = useRouter();
   return (
     <Dialog open={open} onClose={onClose}>
@@ -24,7 +29,14 @@ const NotEnoughCredits: React.FC<Props> = ({ onClose, open }) => {
           Not Now
         </Button>
         <Button
-          onClick={() => router.push("/pricing")}
+          onClick={() => {
+            if (setOpenBuyMoreCredits) {
+              setOpenBuyMoreCredits(true);
+            } else {
+              router.push("/pricing");
+            }
+            onClose();
+          }}
           className="bg-primary text-white"
         >
           Buy more credits

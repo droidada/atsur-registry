@@ -1,9 +1,14 @@
-import { Button } from "@mui/material";
+import { Button, IconButton, Menu, MenuItem } from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import { GrCheckmark } from "react-icons/gr";
+import { useMutation } from "@tanstack/react-query";
+import useAxiosAuth from "@/hooks/useAxiosAuth";
+import { useToast } from "@/providers/ToastProvider";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 interface Props {
   artPiece: any;
@@ -19,6 +24,36 @@ interface Step {
 const VerificationPending: React.FC<Props> = ({ artPiece }) => {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const axiosAuth = useAxiosAuth();
+  const toast = useToast();
+
+  const handleMoreClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const { mutate, isLoading } = useMutation({
+    mutationFn: (id: string) => axiosAuth.post(`/invite/resend/${id}`),
+    onSuccess: () => {
+      toast.success("Invitation resent successfully");
+      handleClose();
+    },
+    onError: (error) => {
+      toast.error("Failed to resend invitation");
+    },
+  });
+
+  const handleResendInvite = (collaborator: any) => {
+    mutate(collaborator);
+    // setAnchorEl(null)
+
+    // handleClose();
+  };
 
   const verificationType = artPiece?.custodian?.institution?.acquisition?.type
     ? "institution"
@@ -105,22 +140,22 @@ const VerificationPending: React.FC<Props> = ({ artPiece }) => {
       artPiece?.custodian?.institution?.organization?.status ||
       artPiece?.custodian?.collector?.organization?.kybVerification?.status;
 
-    console.log(kycStatus);
-    console.log(verificationType);
-    if (kycStatus !== "approved") {
-      setCurrentStep(0);
-    } else if (role === "artist" && !verificationType) {
+    if (kycStatus == "approved") {
       setCurrentStep(1);
-    } else if (verificationType && collaborators.length > 0) {
+    }
+    if (verificationType && collaborators.length > 0) {
+      console.log(collaborators);
       const allCollaboratorsAccepted = collaborators.every(
-        (collab) => collab.invitation?.accepted === true,
+        (collab) => collab.invitation?.status === "accepted",
       );
+
       if (!allCollaboratorsAccepted) {
         setCurrentStep(1);
       } else {
         setCurrentStep(2);
       }
-    } else if (verificationType && kybStatus === "approved") {
+    }
+    if (verificationType && kybStatus === "approved") {
       setCurrentStep(3);
     }
   }, [artPiece, verificationType, collaborators]);
@@ -157,7 +192,8 @@ const VerificationPending: React.FC<Props> = ({ artPiece }) => {
                 <tr className="text-xs p-2 border-[.5px]">
                   <th className="px-[4px]">Username</th>
                   <th className="px-[4px]">Accepted</th>
-                  <th className="px-[4px]">Responded</th>
+
+                  <th className="px-[4px]">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -171,16 +207,35 @@ const VerificationPending: React.FC<Props> = ({ artPiece }) => {
                       {collaborator?.userInfo?.lastName[0]}.
                     </td>
                     <td className="text-center">
-                      {collaborator?.invitation?.accepted &&
-                      collaborator?.invitation?.responded
+                      {collaborator?.invitation?.status == "accepted"
                         ? "Yes"
-                        : !collaborator?.invitation?.accepted &&
-                          collaborator?.invitation?.responded
+                        : collaborator?.invitation?.status !== "accepted"
                         ? "No"
                         : "Not Yet"}
                     </td>
+
                     <td className="text-center">
-                      {collaborator?.invitation?.responded ? "Yes" : "No"}
+                      <IconButton aria-label="more" onClick={handleMoreClick}>
+                        <MoreVertIcon />
+                      </IconButton>
+                      <Menu
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                      >
+                        <MenuItem
+                          onClick={() =>
+                            handleResendInvite(collaborator?.invitation?._id)
+                          }
+                        >
+                          {isLoading ? (
+                            <AiOutlineLoading3Quarters className="animate-spin" />
+                          ) : (
+                            ""
+                          )}{" "}
+                          Resend Invite
+                        </MenuItem>
+                      </Menu>
                     </td>
                   </tr>
                 ))}

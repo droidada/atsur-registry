@@ -70,7 +70,7 @@ const PdfCertificate = forwardRef(
                 </div>
               </div>
             </div>
-            <div className="flex flex-row justify-between items-center px-8 pt-2 ">
+            <div className="flex flex-row justify-between items-center px-8 pt-2 mt-0 ">
               <div className="flex  flex-col ">
                 <div className="w-[154px] h-[150px] relative">
                   {qrImage && (
@@ -82,11 +82,11 @@ const PdfCertificate = forwardRef(
                     />
                   )}
                 </div>
-                <div className="flex gap-[4px] w-full">
+                <div className="gap-[4px] w-[154px]">
                   {tokenized && (
                     <>
-                      <Image
-                        className="flex-1"
+                      <img
+                        className=" object-contain w-full"
                         src={"/block-chain-registered.png"}
                         width={56.57}
                         height={27.37}
@@ -111,11 +111,13 @@ const PdfCertificate = forwardRef(
                 <p className="text-center pt-2 px-4 flex gap-2 text-sm border-t-[1px] font-[700] uppercase border-golden">
                   <span>
                     {" "}
-                    {verification?.artPiece?.custodian?.profile?.firstName}
+                    {verification?.artist?.firstName ||
+                      verification?.artPiece?.custodian?.profile?.firstName}
                   </span>
                   <span>
                     {" "}
-                    {verification?.artPiece?.custodian?.profile?.lastName}
+                    {verification?.artist?.lastName ||
+                      verification?.artPiece?.custodian?.profile?.lastName}
                   </span>
                 </p>
               </div>

@@ -23,6 +23,7 @@ import { getCertificateText } from "../..";
 import { artRoles } from "@/types/index";
 import NotEnoughCredits from "../../NotEnoughCredits";
 import ExistingPdfCertificate from "@/components/Certificate/existing-pdf-certificate";
+import CheckoutModal from "@/components/dashboard/CheckoutModal";
 
 interface Props {
   artPiece: any;
@@ -59,6 +60,8 @@ const SignCertificate: React.FC<Props> = ({
       : true;
   const [loading, setLoading] = useState(false);
   const [openNotEnoughDialog, setOpenNotEnoughDialog] = useState(false);
+  const [openBuyMoreCredits, setOpenBuyMoreCredits] = useState(false);
+  const [openReadyToSign, setOpenReadyToSign] = useState(false);
 
   const { mutate, isLoading } = useMutation({
     mutationFn: async (data: {
@@ -91,10 +94,15 @@ const SignCertificate: React.FC<Props> = ({
     content: () => certificateRef.current,
     documentTitle: `Certificate - ${artPiece?.artPiece?.title}.pdf`,
     copyStyles: true,
+    onBeforePrint: () => {
+      setLoading(true);
+    },
+    onAfterPrint: () => {
+      setLoading(false);
+    },
 
     print: async (printIframe: HTMLIFrameElement) => {
       try {
-        setLoading(true);
         const document = printIframe.contentDocument;
 
         if (document) {
@@ -214,10 +222,11 @@ const SignCertificate: React.FC<Props> = ({
         </div>
       )}
 
-      <NotEnoughCredits
-        open={openNotEnoughDialog}
+      <CheckoutModal
         onClose={() => setOpenNotEnoughDialog(false)}
+        open={openNotEnoughDialog}
       />
+
       <Stack direction={"row"} className="my-4" spacing={2}>
         {!cannotSign && (
           <Button
@@ -232,8 +241,8 @@ const SignCertificate: React.FC<Props> = ({
         )}
 
         <LoadingButton
-          loading={loading}
-          onClick={handlePublish}
+          loading={false}
+          onClick={() => setOpenReadyToSign(true)}
           disabled={!signatureImage && !artPiece?.artPiece?.signature}
           className={`w-full max-w-[246px] h-[46px] text-xs font-[600] ${
             !signatureImage && !artPiece?.artPiece?.signature
@@ -253,6 +262,25 @@ const SignCertificate: React.FC<Props> = ({
           setSignatureImage={setSignatureImage}
         />
       )}
+
+      <Dialog open={openReadyToSign} onClose={() => setOpenReadyToSign(false)}>
+        <DialogContent>
+          1 digital certificate of authenticity credit will be deducted for this
+          process.
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenReadyToSign(false)} variant="outlined">
+            Not Now
+          </Button>
+          <LoadingButton
+            loading={loading || isLoading}
+            onClick={handlePublish}
+            className="bg-primary text-white"
+          >
+            Continue
+          </LoadingButton>
+        </DialogActions>
+      </Dialog>
     </Stack>
   );
 };
