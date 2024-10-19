@@ -161,7 +161,8 @@ const Billing = ({ paymentDetails, credits, invoice }) => {
                 Atsur Credit
               </h2>
               <p className="text-xs leading-[16px]  ">
-                You have {credits?.length || 0} Atsur Credits
+                You have {credits?.reduce((a, b) => a + b.quantity, 0) || 0}{" "}
+                Atsur Credits
               </p>
             </div>
             <div>
@@ -169,7 +170,9 @@ const Billing = ({ paymentDetails, credits, invoice }) => {
                 COA credits
               </h2>
               <p className="text-xs leading-[16px]  ">
-                You have {credits?.filter((c) => c.type === "coa")?.length || 0}{" "}
+                You have{" "}
+                {credits?.find((c) => c?.item?.sku === "digi-coa")?.quantity ||
+                  0}{" "}
                 Certificate of Authencity Credits
               </p>
             </div>
@@ -179,17 +182,17 @@ const Billing = ({ paymentDetails, credits, invoice }) => {
               </h2>
               <p className="text-xs leading-[16px]  ">
                 You have{" "}
-                {credits?.filter((c) => c.type === "rfid")?.length || 0} RFID
-                Credits
+                {credits?.find((c) => c.item?.sku === "phy-coa")?.quantity || 0}{" "}
+                RFID Credits
               </p>
             </div>
             <div>
               <h2 className="text-[15px] leading-[16px] font-semibold">
-                QR Code credits
+                Tokenization Credits credits
               </h2>
               <p className="text-xs leading-[16px]  ">
                 You have{" "}
-                {credits?.filter((c) => c.type === "qr-code")?.length || 0} QR
+                {credits?.find((c) => c?.item?.sku === "tkn")?.quantity || 0} QR
                 Code Credits
               </p>
             </div>

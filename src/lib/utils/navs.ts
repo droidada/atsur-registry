@@ -1,6 +1,7 @@
 import { BsFillCollectionFill } from "react-icons/bs";
 import { CiImageOn } from "react-icons/ci";
 import { FiUsers } from "react-icons/fi";
+import { LiaShippingFastSolid } from "react-icons/lia";
 import { MdOutlineFeaturedPlayList } from "react-icons/md";
 import { TbCategory } from "react-icons/tb";
 
@@ -143,6 +144,11 @@ export const adminDashboardSidebarMenu = [
         title: "Users",
         icon: "/images/dashboard-icons/artwork-icon.png",
         link: "/admin",
+      },
+      {
+        title: "Orders",
+        icon: LiaShippingFastSolid,
+        link: "/admin/orders",
       },
     ],
   },
