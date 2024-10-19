@@ -7,6 +7,8 @@ interface DashboardContextProps {
   setNotifications: React.Dispatch<React.SetStateAction<any>>;
   credits: any;
   setCredits: React.Dispatch<React.SetStateAction<any>>;
+  refetchCredits: () => void;
+  refetchNotifications: () => void;
 }
 
 export const dashboardContext = createContext<DashboardContextProps>({
@@ -14,6 +16,8 @@ export const dashboardContext = createContext<DashboardContextProps>({
   setNotifications: () => {},
   credits: [],
   setCredits: () => {},
+  refetchCredits: () => {},
+  refetchNotifications: () => {},
 });
 
 type Props = {
@@ -26,26 +30,31 @@ const DashboardContextProvider = ({ children }: Props) => {
 
   const axiosAuth = useAxiosAuth();
 
-  const { data: getCredits } = useQuery({
+  const { data: getCredits, refetch: refetchCredits } = useQuery({
     queryKey: ["credits"],
     queryFn: async () => {
       const { data: response } = await axiosAuth.get("/user/credits");
-      console.log(response?.data?.credits);
-      return response?.data?.credits;
+      console.log(response);
+      return response?.data;
     },
     refetchOnWindowFocus: false,
   });
 
-  const { data: getNotifications, isFetched: isFetchedNotifications } =
-    useQuery({
-      queryFn: async () => {
-        const { data: response } = await axiosAuth.get("/notifications/unread");
-        // console.log("This is the response", response.data);
-        return response.data?.notifications;
-      },
-      queryKey: ["notifications"],
-      refetchOnWindowFocus: false,
-    });
+  console.log("This is the credits", getCredits);
+
+  const {
+    data: getNotifications,
+    isFetched: isFetchedNotifications,
+    refetch: refetchNotifications,
+  } = useQuery({
+    queryFn: async () => {
+      const { data: response } = await axiosAuth.get("/notifications/unread");
+      // console.log("This is the response", response.data);
+      return response.data?.notifications;
+    },
+    queryKey: ["notifications"],
+    refetchOnWindowFocus: false,
+  });
 
   useEffect(() => {
     if (getCredits) {
@@ -63,7 +72,14 @@ const DashboardContextProvider = ({ children }: Props) => {
 
   return (
     <dashboardContext.Provider
-      value={{ notifications, setNotifications, credits, setCredits }}
+      value={{
+        notifications,
+        setNotifications,
+        credits,
+        setCredits,
+        refetchCredits,
+        refetchNotifications,
+      }}
     >
       {children}
     </dashboardContext.Provider>

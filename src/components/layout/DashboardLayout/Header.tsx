@@ -55,6 +55,8 @@ const Header: React.FC<Props> = ({ setHideSidebar }) => {
     }, 200);
   };
 
+  console.log(credits);
+
   return (
     <div className="sticky z-[1000] border-b-[1px]  bg-white top-0 px-4  flex flex-col justify-center h-[86px]">
       <Stack
