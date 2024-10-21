@@ -81,6 +81,7 @@ const SignCertificate: React.FC<Props> = ({
       if (error?.response?.data?.message === "You don't have enough credits") {
         setOpenNotEnoughDialog(true);
       } else {
+        setLoading(false);
         toast.error(
           error.response.data.message ||
             error.message ||
@@ -88,6 +89,8 @@ const SignCertificate: React.FC<Props> = ({
         );
       }
     },
+
+    onSettled: () => setLoading(false),
   });
 
   const handlePublish = useReactToPrint({

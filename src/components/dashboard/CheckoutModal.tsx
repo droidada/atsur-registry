@@ -77,6 +77,7 @@ const CheckoutModal = ({ open, onClose }) => {
     );
     console.log(paystack);
     const paystackInstance = new paystack();
+    console.log("live key", process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY);
     paystackInstance.newTransaction({
       key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
       email: session?.user?.email,
