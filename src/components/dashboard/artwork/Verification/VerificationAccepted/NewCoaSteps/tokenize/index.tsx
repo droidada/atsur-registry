@@ -75,6 +75,7 @@ const TokenizeCertificate: React.FC<Props> = ({
   const [isloadingSkip, setIsLoadingSkip] = useState(false);
   const [isLoadingTokenize, setIsLoadingTokenize] = useState(false);
   const [openReadyToSign, setOpenReadyToSign] = useState(false);
+  const [openSkipToSign, setOpenSkipToSign] = useState(false);
 
   const { mutate, isLoading } = useMutation({
     mutationFn: async (data: any) =>
@@ -398,7 +399,7 @@ const TokenizeCertificate: React.FC<Props> = ({
             loading={isloadingSkip}
             onClick={() => {
               if (role !== "artist") {
-                handleSkip();
+                setOpenSkipToSign(true);
               } else {
                 setActiveIndex((prev) => prev + 1);
               }
@@ -435,6 +436,24 @@ const TokenizeCertificate: React.FC<Props> = ({
           <LoadingButton
             loading={isLoadingTokenize}
             onClick={handleTokenize}
+            className="bg-primary text-white"
+          >
+            Continue
+          </LoadingButton>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={openSkipToSign} onClose={() => setOpenSkipToSign(false)}>
+        <DialogContent>
+          1 digital certificate of authenticity credit will be deducted for this
+          process.
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenSkipToSign(false)} variant="outlined">
+            Not Now
+          </Button>
+          <LoadingButton
+            loading={isLoadingDraftCOA}
+            onClick={handleSkip}
             className="bg-primary text-white"
           >
             Continue
