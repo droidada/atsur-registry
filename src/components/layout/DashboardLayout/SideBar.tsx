@@ -7,7 +7,7 @@ import {
   Stack,
 } from "@mui/material";
 import Image from "next/image";
-import React, { use, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 
 import { useRouter } from "next/router";
 import { FaRegPlusSquare } from "react-icons/fa";
@@ -20,12 +20,15 @@ import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { MdDashboard } from "react-icons/md";
 
+import { driver } from "driver.js";
+
 interface Props {
   hideSidebar?: boolean;
   isMobile?: boolean;
   isAdmin?: boolean;
   isWallet?: boolean;
 }
+
 const SideBar: React.FC<Props> = ({
   hideSidebar,
   isMobile,
@@ -35,6 +38,76 @@ const SideBar: React.FC<Props> = ({
   const pathname = useRouter().pathname;
   const router = useRouter();
   const [openLogoutModal, setOpenLogoutModal] = useState(false);
+  const [hasSeenTour, setHasSeenTour] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("dashboardTourComplete") === "true";
+    }
+    return false;
+  });
+
+  const driverObj = driver({
+    showProgress: true,
+    allowClose: true,
+    nextBtnText: "Next",
+    prevBtnText: "Previous",
+    steps: [
+      {
+        element: "#dashboard-logo",
+        popover: {
+          title: "Welcome to Your Dashboard",
+          description:
+            "This is your central hub for managing all your activities.",
+          side: "right",
+          align: "start",
+        },
+      },
+      {
+        element: "#createButton",
+        popover: {
+          title: "Create New Artwork",
+          description: "Click here to start creating your new artwork piece.",
+          side: "right",
+          align: "center",
+        },
+      },
+      {
+        element: "#navigation-menu",
+        popover: {
+          title: "Navigation Menu",
+          description: "Access different sections of your dashboard from here.",
+          side: "right",
+          align: "start",
+        },
+      },
+
+      {
+        element: "#user-logout",
+        popover: {
+          title: "Logout",
+          description: "Click here when you're ready to end your session.",
+          side: "right",
+          align: "end",
+        },
+      },
+    ],
+  });
+
+  useEffect(() => {
+    // Only show the tour if user hasn't seen it and we're on the dashboard page
+    if (!hasSeenTour && pathname === "/dashboard") {
+      const timer = setTimeout(() => {
+        driverObj.drive();
+        localStorage.setItem("dashboardTourComplete", "true");
+        setHasSeenTour(true);
+      }, 1000); // Slight delay to ensure components are mounted
+
+      return () => clearTimeout(timer);
+    }
+  }, [hasSeenTour, pathname]);
+
+  const startTour = () => {
+    driverObj.drive();
+  };
 
   return (
     <div
@@ -46,6 +119,7 @@ const SideBar: React.FC<Props> = ({
     >
       <div className="border-b-2 sticky top-0 bg-secondary-white z-[200]">
         <Image
+          id="dashboard-logo"
           src="/atsur-dashboar-logo.png"
           alt="atsur"
           width={299}
@@ -63,6 +137,7 @@ const SideBar: React.FC<Props> = ({
             <h3 className="text-[20px] font-[600] text-center">Wallet</h3>
           ) : (
             <Button
+              id="createButton"
               onClick={() => router.push("/dashboard/artworks/create")}
               className="flex gap-3 w-[152px] h-[39.5px] text-[15px] leading-[16px] hover:scale-95 duration-700 items-center p-0 divide-white bg-primary text-white"
             >
@@ -77,6 +152,7 @@ const SideBar: React.FC<Props> = ({
         {isAdmin
           ? adminDashboardSidebarMenu.map((item) => (
               <div
+                id="navigation-menu"
                 key={`dashboard-menu-${item?.title}`}
                 className="flex flex-col  gap-6"
               >
@@ -132,6 +208,7 @@ const SideBar: React.FC<Props> = ({
           : isWallet
           ? walletDashboardSideMenu.map((item) => (
               <div
+                id="navigation-menu"
                 key={`dashboard-menu-${item?.title}`}
                 className="flex flex-col  gap-6"
               >
@@ -178,6 +255,7 @@ const SideBar: React.FC<Props> = ({
             ))
           : dashboardSidebarMenu.map((item) => (
               <div
+                id="navigation-menu"
                 key={`dashboard-menu-${item?.title}`}
                 className="flex flex-col  gap-6"
               >
@@ -187,6 +265,7 @@ const SideBar: React.FC<Props> = ({
                 {item.menus?.map((menu) =>
                   menu?.isButton ? (
                     <h4
+                      id="user-logout"
                       onClick={() => setOpenLogoutModal(true)}
                       className="text-[17px] cursor-pointer leading-[16px] flex gap-3 items-center "
                       key={`button-${menu.title}`}

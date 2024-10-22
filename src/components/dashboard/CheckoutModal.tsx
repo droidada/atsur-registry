@@ -59,6 +59,7 @@ const CheckoutModal = ({ open, onClose }) => {
         sku,
         quantity,
         item: data.data.data.find((item) => item.sku === sku)?._id,
+        unitPrice: data.data.data.find((item) => item.sku === sku)?.unitPrice,
       }));
 
     const { data: rateData } = await axios.get(

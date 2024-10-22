@@ -13,6 +13,7 @@ import SEO from "../../next-seo.config";
 import { useState, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import "driver.js/dist/driver.css";
 
 import "@/styles/globals.css";
 
