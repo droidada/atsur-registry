@@ -160,6 +160,8 @@ const LandindingPageHeader = () => {
 export default LandindingPageHeader;
 
 const MobileMenuContent = () => {
+  const { status, data: session } = useSession();
+  const router = useRouter();
   const socialIcons = [
     {
       title: "facebook",
@@ -180,7 +182,7 @@ const MobileMenuContent = () => {
 
   return (
     <Box sx={{ p: 2 }} role="presentation">
-      <form className="flex bg-secondary h-[46px]">
+      {/* <form className="flex bg-secondary h-[46px]">
         <input
           type="text"
           className="flex-1 h-full bg-transparent border-none focus:outline-none px-4"
@@ -189,11 +191,30 @@ const MobileMenuContent = () => {
         <IconButton type="submit" aria-label="search">
           <IoSearchCircleOutline />
         </IconButton>
-      </form>
+      </form> */}
 
-      {/* <div className=" lg:block hidden mt-4">
-        <h2>Categories</h2>
-      </div> */}
+      <div className="flex justify-between items-center mt-4">
+        {status == "authenticated" ? (
+          <>
+            <Button
+              onClick={() => router.push("/dashboard")}
+              variant="contained"
+              className="h-[29px] hover:scale-95 duration-500 bg-black text-white text-[15px] leading-[16px]"
+            >
+              Dashboard
+            </Button>
+            <ProfileButton user={session?.user} />
+          </>
+        ) : (
+          <Button
+            onClick={() => router.push("/login")}
+            variant="contained"
+            className="h-[29px] hover:scale-95 duration-500 bg-black text-white text-[15px] leading-[16px]"
+          >
+            Login
+          </Button>
+        )}
+      </div>
 
       <div className=" lg:hidden block mt-4 bg-secondary p-2">
         <List>

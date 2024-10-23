@@ -38,7 +38,7 @@ const ProfileButton: React.FC<ProfileButtonProps> = ({ user }) => {
     credits?.find((credit: any) => credit.item.sku === "digi-coa")?.quantity ||
     0;
   const tokenizationCredits =
-    credits?.find((credit: any) => credit.item.sku === "tkn")?.quantity || 0;
+    credits?.find((credit: any) => credit.item.sku === "lazy-tkn")?.quantity || 0;
   const totalCredits =
     credits?.reduce((acc: number, credit: any) => acc + credit.quantity, 0) ||
     0;

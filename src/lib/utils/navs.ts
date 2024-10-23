@@ -1,5 +1,6 @@
 import { BsFillCollectionFill } from "react-icons/bs";
 import { CiImageOn } from "react-icons/ci";
+import { FaShippingFast } from "react-icons/fa";
 import { FiUsers } from "react-icons/fi";
 import { LiaShippingFastSolid } from "react-icons/lia";
 import { MdOutlineFeaturedPlayList } from "react-icons/md";
@@ -83,6 +84,7 @@ export const dashboardSidebarMenu = [
         icon: "/images/dashboard-icons/collection-icon.png",
         link: "/dashboard/series",
       },
+
       // {
       //   title: "Wishlist",
       //   icon: "/images/dashboard-icons/wishlist.png",
@@ -103,11 +105,11 @@ export const dashboardSidebarMenu = [
         icon: "/images/dashboard-icons/collection-icon.png",
         link: "/dashboard/collections",
       },
-      // {
-      //   title: "Deals",
-      //   icon: "/images/dashboard-icons/deal-icon.png",
-      //   link: "/dashboard/Deals",
-      // },
+      {
+        title: "My Orders",
+        icon: FaShippingFast,
+        link: "/dashboard/orders",
+      },
     ],
   },
   {

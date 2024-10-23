@@ -34,9 +34,7 @@ export const getServerSideProps = async ({ req, query }) => {
       headers: { authorization: `Bearer ${token?.accessToken}` },
     });
 
-    console.log(res.data);
-
-    const { data: orderRes } = await axios.get(`/order/${id}`, {
+    const { data: orderRes } = await axios.get(`/order/art-piece/${id}`, {
       headers: { authorization: `Bearer ${token?.accessToken}` },
     });
 
@@ -55,6 +53,7 @@ export const getServerSideProps = async ({ req, query }) => {
       },
     };
   } catch (error) {
+    console.log(error);
     if (error?.response?.status === 404) {
       return {
         notFound: true,

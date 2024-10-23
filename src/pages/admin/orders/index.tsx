@@ -46,7 +46,7 @@ export const getServerSideProps = async ({ req, query, param }) => {
 
 const Orders = ({ orders, meta }) => {
   const tableHeading = ["Order ID", "User", "Email", "Art Piece", "Status"];
-  console.log(orders);
+
   const { totalDocs, totalPages, page, limit } = meta;
   const router = useRouter();
 
