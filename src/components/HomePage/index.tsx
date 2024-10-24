@@ -12,7 +12,7 @@ interface Props {
 }
 const HomePage: React.FC<Props> = ({ heroImages }) => {
   return (
-    <div className=" py-12">
+    <div className=" py-12 ">
       <HeroSection heroImages={heroImages} />
       <CategorySection />
       <TopArtists />

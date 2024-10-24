@@ -17,12 +17,13 @@ const HeroSection: React.FC<Props> = ({ heroImages }) => {
   const router = useRouter();
   const { status } = useSession();
   const [query, setQuery] = useState("");
+  const [type, setType] = useState("artworks");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (query) {
-      router.push(`/explore/?search=${query}`);
+      router.push(`/explore/?search=${query}?type=${type}`);
     }
   };
 
@@ -43,28 +44,35 @@ const HeroSection: React.FC<Props> = ({ heroImages }) => {
         data-aos="fade-right"
       >
         <Typography
-          className="text-2xl md:text-3xl max-w-[764px] lg:text-6xl lg:leading-[65px] font-[400]  "
+          className="text-2xl md:text-3xl max-w-[764px] lg:text-6xl lg:leading-[65px] font-[400]"
           variant="h1"
-          data-aos="zoom-in" // Zoom-in for a dynamic entrance
+          data-aos="zoom-in"
         >
           Find verified information on African art and artifacts
         </Typography>
-        <form
-          onSubmit={handleSubmit}
-          data-aos="fade-up"
-          data-aos-delay="200"
-          className="max-w-[505px] items-center p-2  h-[50px] border border-primary flex gap-2"
-        >
-          <input
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search Artworks, Collections ..."
-            type="text"
-            className="flex-1 h-full border-none outline-none hover:outline-none focus:ring-0 focus:outline-none"
-          />
-          <Button className="text-white bg-primary" startIcon={<IoIosSearch />}>
-            {" "}
-            Search
-          </Button>
+
+        <form onSubmit={handleSubmit} data-aos="fade-up" data-aos-delay="200">
+          <div className="max-w-[505px] w-full  items-center py-2 pr-1  justify-between   border border-primary flex gap-2">
+            <select
+              className="w-[10px] lg:w-fit px-4  md:px-6  md:w- ml-2 "
+              id="category"
+              name="category"
+            >
+              <option value="artworks">Artworks</option>
+              <option value="collections">Collections</option>
+              <option value="artists">Artists</option>
+            </select>
+            <input
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search Artworks, Collections ..."
+              type="text"
+              className=" flex-1 flex-shrink bg  h-full border-none outline-none hover:outline-none focus:ring-0 focus:outline-none"
+            />
+            <button className="text-white p-1 md:p-2 shadow-sm hover:bg-primary-dark transition-all duration-300 h-[40px]  flex items-center  gap-2 bg-primary">
+              {" "}
+              <IoIosSearch /> <span className="hidden md:block">Search</span>
+            </button>
+          </div>
         </form>
       </Stack>
       <div className="relative hidden md:flex" data-aos="fade-left">

@@ -34,12 +34,10 @@ export const getServerSideProps = async ({ req, params }) => {
       secret: process.env.NEXTAUTH_SECRET,
     });
 
-    console.log(token);
     const res = await axios.get(`/payment/user-payment`, {
       headers: { authorization: `Bearer ${token?.accessToken}` },
     });
 
-    console.log(res.data);
 
     return {
       props: {
@@ -87,7 +85,7 @@ const Billing = ({ paymentDetails, credits, invoice }) => {
             code: paymentDetails?.subscription_code,
           }),
     onSuccess: (data) => {
-      // TODO
+
       router.push(router.asPath);
     },
     onError: (error: any) => {
@@ -192,7 +190,7 @@ const Billing = ({ paymentDetails, credits, invoice }) => {
               </h2>
               <p className="text-xs leading-[16px]  ">
                 You have{" "}
-                {credits?.find((c) => c?.item?.sku === "tkn")?.quantity || 0} QR
+                {credits?.find((c) => c?.item?.sku === "lazy-tkn")?.quantity || 0} QR
                 Code Credits
               </p>
             </div>
