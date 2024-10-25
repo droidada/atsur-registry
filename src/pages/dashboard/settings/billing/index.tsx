@@ -38,7 +38,6 @@ export const getServerSideProps = async ({ req, params }) => {
       headers: { authorization: `Bearer ${token?.accessToken}` },
     });
 
-
     return {
       props: {
         paymentDetails: res.data?.payment,
@@ -85,7 +84,6 @@ const Billing = ({ paymentDetails, credits, invoice }) => {
             code: paymentDetails?.subscription_code,
           }),
     onSuccess: (data) => {
-
       router.push(router.asPath);
     },
     onError: (error: any) => {
@@ -190,8 +188,9 @@ const Billing = ({ paymentDetails, credits, invoice }) => {
               </h2>
               <p className="text-xs leading-[16px]  ">
                 You have{" "}
-                {credits?.find((c) => c?.item?.sku === "lazy-tkn")?.quantity || 0} QR
-                Code Credits
+                {credits?.find((c) => c?.item?.sku === "lazy-tkn")?.quantity ||
+                  0}{" "}
+                QR Code Credits
               </p>
             </div>
           </Stack>
