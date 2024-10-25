@@ -76,7 +76,7 @@ const OrdersPage = ({ orders, meta }) => {
             <Table stickyHeader>
               <TableHead>
                 <TableRow>
-                  {tableHeading.map((col) => (
+                  {tableHeading?.map((col) => (
                     <TableCell
                       key={`table-head-${col}`}
                       className="bg-primary text-white text-md font-[600]"
@@ -87,7 +87,7 @@ const OrdersPage = ({ orders, meta }) => {
                 </TableRow>
               </TableHead>
               <TableBody className="bg-white text-black border-[1px] border-primary ">
-                {orders.map((order) => (
+                {orders?.map((order) => (
                   <TableRow
                     key={order._id}
                     className=" transition-colors bg-white text-black cursor-pointer   px-3 hover:bg-secondary"
