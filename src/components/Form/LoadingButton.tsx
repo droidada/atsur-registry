@@ -17,6 +17,7 @@ interface Props {
   name?: string;
   sx?: any;
   fullWidth?: any;
+  id?: string;
 }
 
 const LoadingButton: React.FC<Props> = ({
@@ -32,9 +33,11 @@ const LoadingButton: React.FC<Props> = ({
   title,
   name,
   type,
+  id,
 }) => {
   return (
     <Button
+      id={id}
       name={name}
       type={type}
       startIcon={loading ? null : startIcon}

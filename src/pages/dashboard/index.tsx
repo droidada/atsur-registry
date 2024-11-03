@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAxiosAuth from "@/hooks/useAxiosAuth";
 import ProtectedPage from "@/HOC/Protected";
 import SearchBar from "@/components/layout/DashboardLayout/SearchBar";
@@ -10,12 +10,15 @@ import ListView from "@/components/dashboard/artwork/ListView";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import useFCM from "@/hooks/useFCM";
+import { driver } from "driver.js";
 
 function Artworks() {
   const router = useRouter();
   const axiosAuth = useAxiosAuth();
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
+  const [driverObj, setDriverObj] = useState(null);
+  const [shouldStartTour, setShouldStartTour] = useState(false);
   const { messages, fcmToken } = useFCM();
 
   const [view, setView] = useState<"list" | "grid">("grid");
@@ -40,13 +43,15 @@ function Artworks() {
         handleCreate={() => router.push("/dashboard/artworks/create")}
         handleExplore={() => router.push("/explore")}
       />
-      <FilterLine
-        handleCreate={() => router.push("/dashboard/artworks/create")}
-        view={view}
-        setView={setView}
-        title="My Artworks"
-      />
-      <div className="mt-4">
+      <div id="artwork-filters">
+        <FilterLine
+          handleCreate={() => router.push("/dashboard/artworks/create")}
+          view={view}
+          setView={setView}
+          title="My Artworks"
+        />
+      </div>
+      <div id="artwork-list" className="mt-4">
         {view == "grid" ? (
           <GridView
             artworks={artworks?.data?.artPieces}

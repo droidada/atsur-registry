@@ -20,8 +20,6 @@ import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { MdDashboard } from "react-icons/md";
 
-import { driver } from "driver.js";
-
 interface Props {
   hideSidebar?: boolean;
   isMobile?: boolean;
@@ -38,76 +36,6 @@ const SideBar: React.FC<Props> = ({
   const pathname = useRouter().pathname;
   const router = useRouter();
   const [openLogoutModal, setOpenLogoutModal] = useState(false);
-  const [hasSeenTour, setHasSeenTour] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("dashboardTourComplete") === "true";
-    }
-    return false;
-  });
-
-  const driverObj = driver({
-    showProgress: true,
-    allowClose: true,
-    nextBtnText: "Next",
-    prevBtnText: "Previous",
-    steps: [
-      {
-        element: "#dashboard-logo",
-        popover: {
-          title: "Welcome to Your Dashboard",
-          description:
-            "This is your central hub for managing all your activities.",
-          side: "right",
-          align: "start",
-        },
-      },
-      {
-        element: "#createButton",
-        popover: {
-          title: "Create New Artwork",
-          description: "Click here to start creating your new artwork piece.",
-          side: "right",
-          align: "center",
-        },
-      },
-      {
-        element: "#navigation-menu",
-        popover: {
-          title: "Navigation Menu",
-          description: "Access different sections of your dashboard from here.",
-          side: "right",
-          align: "start",
-        },
-      },
-
-      {
-        element: "#user-logout",
-        popover: {
-          title: "Logout",
-          description: "Click here when you're ready to end your session.",
-          side: "right",
-          align: "end",
-        },
-      },
-    ],
-  });
-
-  useEffect(() => {
-    // Only show the tour if user hasn't seen it and we're on the dashboard page
-    if (!hasSeenTour && pathname === "/dashboard") {
-      const timer = setTimeout(() => {
-        driverObj.drive();
-        localStorage.setItem("dashboardTourComplete", "true");
-        setHasSeenTour(true);
-      }, 1000); // Slight delay to ensure components are mounted
-
-      return () => clearTimeout(timer);
-    }
-  }, [hasSeenTour, pathname]);
-
-  const startTour = () => {
-    driverObj.drive();
-  };
 
   return (
     <div
@@ -117,14 +45,11 @@ const SideBar: React.FC<Props> = ({
           : "hidden lg:flex sticky top-0 w-fit border-r-2  h-screen"
       }`}
     >
-      <div className="border-b-2 sticky top-0 bg-secondary-white z-[200]">
-        <Image
-          id="dashboard-logo"
-          src="/atsur-dashboar-logo.png"
-          alt="atsur"
-          width={299}
-          height={76}
-        />
+      <div
+        id="dashboard-logo"
+        className="border-b-2 sticky flex justify-center items-center top-0 bg-secondary-white z-[200]"
+      >
+        <Image src="/artsur-logo.png" alt="atsur" width={50} height={50} />
       </div>
 
       <Stack direction={"column"} className="gap-14 px-8 pb-10">
@@ -149,165 +74,165 @@ const SideBar: React.FC<Props> = ({
           )}
         </div>
 
-        {isAdmin
-          ? adminDashboardSidebarMenu.map((item) => (
-              <div
-                id="navigation-menu"
-                key={`dashboard-menu-${item?.title}`}
-                className="flex flex-col  gap-6"
-              >
-                <h2 className="py-5 border-b-[1px] w-full font-[600] tracking-[50%] text-[17px] leading-[16px] text-justify">
-                  {item.title}
-                </h2>
-                {item.menus?.map((menu) =>
-                  //@ts-ignore
-                  menu?.isButton ? (
-                    <h4
-                      onClick={() => signOut()}
-                      className="text-[17px] cursor-pointer leading-[16px] flex gap-3 items-center "
-                      key={`button-${menu.title}`}
-                    >
-                      {typeof menu.icon === "string" ? (
+        <div id="navigation-menu ">
+          {isAdmin
+            ? adminDashboardSidebarMenu.map((item) => (
+                <div
+                  key={`dashboard-menu-${item?.title}`}
+                  className="flex flex-col mt-6  gap-6"
+                >
+                  <h2 className="py-5 border-b-[1px] w-full font-[600] tracking-[50%] text-[17px] leading-[16px] text-justify">
+                    {item.title}
+                  </h2>
+                  {item.menus?.map((menu) =>
+                    //@ts-ignore
+                    menu?.isButton ? (
+                      <h4
+                        onClick={() => signOut()}
+                        className="text-[17px] cursor-pointer leading-[16px] flex gap-3 items-center "
+                        key={`button-${menu.title}`}
+                      >
+                        {typeof menu.icon === "string" ? (
+                          <Image
+                            src={menu?.icon}
+                            alt={menu?.title}
+                            width={18}
+                            height={18}
+                          />
+                        ) : (
+                          <menu.icon size={18} />
+                        )}
+                        <span>{menu?.title}</span>
+                      </h4>
+                    ) : (
+                      <Link
+                        key={`submenu-${menu.title}`}
+                        href={menu?.link}
+                        className={`text-[17px] leading-[16px] no-underline  flex gap-3 items-center ${
+                          pathname.includes(menu.title?.toLowerCase())
+                            ? "font-[600]"
+                            : "font-[300]"
+                        }`}
+                      >
+                        {typeof menu.icon === "string" ? (
+                          <Image
+                            src={menu?.icon}
+                            alt={menu?.title}
+                            width={18}
+                            height={18}
+                          />
+                        ) : (
+                          <menu.icon size={18} />
+                        )}
+                        {menu?.title}
+                      </Link>
+                    ),
+                  )}
+                </div>
+              ))
+            : isWallet
+            ? walletDashboardSideMenu.map((item) => (
+                <div
+                  key={`dashboard-menu-${item?.title}`}
+                  className="flex flex-col  gap-6"
+                >
+                  <h2 className="py-5 border-b-[1px] w-full font-[600] tracking-[50%] text-[17px] leading-[16px] text-justify">
+                    {item.title}
+                  </h2>
+                  {/* @ts-ignore */}
+                  {item?.menus?.map((menu) =>
+                    menu?.isButton ? (
+                      <h4
+                        onClick={() => setOpenLogoutModal(true)}
+                        className="text-[17px] cursor-pointer leading-[16px] flex gap-3 items-center "
+                        key={`button-${menu.title}`}
+                      >
                         <Image
                           src={menu?.icon}
                           alt={menu?.title}
                           width={18}
                           height={18}
                         />
-                      ) : (
-                        <menu.icon size={18} />
-                      )}
-                      <span>{menu?.title}</span>
-                    </h4>
-                  ) : (
-                    <Link
-                      key={`submenu-${menu.title}`}
-                      href={menu?.link}
-                      className={`text-[17px] leading-[16px] no-underline  flex gap-3 items-center ${
-                        pathname.includes(menu.title?.toLowerCase())
-                          ? "font-[600]"
-                          : "font-[300]"
-                      }`}
-                    >
-                      {typeof menu.icon === "string" ? (
+                        <span>{menu?.title}</span>
+                      </h4>
+                    ) : (
+                      <Link
+                        key={`submenu-${menu.title}`}
+                        href={menu?.link}
+                        className={`text-[17px] leading-[16px] no-underline  flex gap-3 items-center ${
+                          pathname.includes(menu.title?.toLowerCase())
+                            ? "font-[600]"
+                            : "font-[300]"
+                        }`}
+                      >
                         <Image
                           src={menu?.icon}
                           alt={menu?.title}
                           width={18}
                           height={18}
                         />
-                      ) : (
-                        <menu.icon size={18} />
-                      )}
-                      {menu?.title}
-                    </Link>
-                  ),
-                )}
-              </div>
-            ))
-          : isWallet
-          ? walletDashboardSideMenu.map((item) => (
-              <div
-                id="navigation-menu"
-                key={`dashboard-menu-${item?.title}`}
-                className="flex flex-col  gap-6"
-              >
-                <h2 className="py-5 border-b-[1px] w-full font-[600] tracking-[50%] text-[17px] leading-[16px] text-justify">
-                  {item.title}
-                </h2>
-                {/* @ts-ignore */}
-                {item?.menus?.map((menu) =>
-                  menu?.isButton ? (
-                    <h4
-                      onClick={() => setOpenLogoutModal(true)}
-                      className="text-[17px] cursor-pointer leading-[16px] flex gap-3 items-center "
-                      key={`button-${menu.title}`}
-                    >
-                      <Image
-                        src={menu?.icon}
-                        alt={menu?.title}
-                        width={18}
-                        height={18}
-                      />
-                      <span>{menu?.title}</span>
-                    </h4>
-                  ) : (
-                    <Link
-                      key={`submenu-${menu.title}`}
-                      href={menu?.link}
-                      className={`text-[17px] leading-[16px] no-underline  flex gap-3 items-center ${
-                        pathname.includes(menu.title?.toLowerCase())
-                          ? "font-[600]"
-                          : "font-[300]"
-                      }`}
-                    >
-                      <Image
-                        src={menu?.icon}
-                        alt={menu?.title}
-                        width={18}
-                        height={18}
-                      />
-                      {menu?.title}
-                    </Link>
-                  ),
-                )}
-              </div>
-            ))
-          : dashboardSidebarMenu.map((item) => (
-              <div
-                id="navigation-menu"
-                key={`dashboard-menu-${item?.title}`}
-                className="flex flex-col  gap-6"
-              >
-                <h2 className="py-5 border-b-[1px] w-full font-[600] tracking-[50%] text-[17px] leading-[16px] text-justify">
-                  {item.title}
-                </h2>
-                {item.menus?.map((menu) =>
-                  menu?.isButton ? (
-                    <h4
-                      id="user-logout"
-                      onClick={() => setOpenLogoutModal(true)}
-                      className="text-[17px] cursor-pointer leading-[16px] flex gap-3 items-center "
-                      key={`button-${menu.title}`}
-                    >
-                      {typeof menu.icon === "string" ? (
-                        <Image
-                          src={menu?.icon}
-                          alt={menu?.title}
-                          width={18}
-                          height={18}
-                        />
-                      ) : (
-                        <menu.icon size={18} />
-                      )}
-                      <span>{menu?.title}</span>
-                    </h4>
-                  ) : (
-                    <Link
-                      key={`submenu-${menu.title}`}
-                      href={menu?.link}
-                      className={`text-[17px] leading-[16px] no-underline  flex gap-3 items-center ${
-                        pathname.includes(menu.title?.toLowerCase())
-                          ? "font-[600]"
-                          : "font-[300]"
-                      }`}
-                    >
-                      {typeof menu.icon === "string" ? (
-                        <Image
-                          src={menu?.icon}
-                          alt={menu?.title}
-                          width={18}
-                          height={18}
-                        />
-                      ) : (
-                        <menu.icon size={18} />
-                      )}
-                      {menu?.title}
-                    </Link>
-                  ),
-                )}
-              </div>
-            ))}
+                        {menu?.title}
+                      </Link>
+                    ),
+                  )}
+                </div>
+              ))
+            : dashboardSidebarMenu.map((item) => (
+                <div
+                  key={`dashboard-menu-${item?.title}`}
+                  className="flex flex-col  gap-6"
+                >
+                  <h2 className="py-5 border-b-[1px] w-full font-[600] tracking-[50%] text-[17px] leading-[16px] text-justify">
+                    {item.title}
+                  </h2>
+                  {item.menus?.map((menu) =>
+                    menu?.isButton ? (
+                      <h4
+                        id="user-logout"
+                        onClick={() => setOpenLogoutModal(true)}
+                        className="text-[17px] cursor-pointer leading-[16px] flex gap-3 items-center "
+                        key={`button-${menu.title}`}
+                      >
+                        {typeof menu.icon === "string" ? (
+                          <Image
+                            src={menu?.icon}
+                            alt={menu?.title}
+                            width={18}
+                            height={18}
+                          />
+                        ) : (
+                          <menu.icon size={18} />
+                        )}
+                        <span>{menu?.title}</span>
+                      </h4>
+                    ) : (
+                      <Link
+                        id={menu.id}
+                        key={`submenu-${menu.title}`}
+                        href={menu?.link}
+                        className={`text-[17px] leading-[16px] no-underline  flex gap-3 items-center ${
+                          pathname.includes(menu.title?.toLowerCase())
+                            ? "font-[600]"
+                            : "font-[300]"
+                        }`}
+                      >
+                        {typeof menu.icon === "string" ? (
+                          <Image
+                            src={menu?.icon}
+                            alt={menu?.title}
+                            width={18}
+                            height={18}
+                          />
+                        ) : (
+                          <menu.icon size={18} />
+                        )}
+                        {menu?.title}
+                      </Link>
+                    ),
+                  )}
+                </div>
+              ))}
+        </div>
         {isAdmin && (
           <Link
             href={"/dashboard"}

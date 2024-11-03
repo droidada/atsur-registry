@@ -14,10 +14,16 @@ export interface ICreateArtworkIllustration {
   medium: string;
   isDigital: boolean;
   subjectMatter: string;
+  inviteType?: "artist" | "org";
   artistInvite?: {
     firstName: string;
     lastName: string;
     email: string;
+  };
+  orgInvite?: {
+    name: string;
+    email: string;
+    _id: string;
   };
   dimensions: {
     height: number;

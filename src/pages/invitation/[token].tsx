@@ -11,8 +11,6 @@ import UnprotectedPage from "@/HOC/Unprotected";
 export const getServerSideProps = async ({ req, query, params }) => {
   const { token: verificationToken } = params;
   try {
-    console.log(verificationToken);
-
     const res = await axios.get(`/invite/fetch/${verificationToken}`);
     return { props: { invitationData: res.data?.data } };
   } catch (error) {
@@ -31,16 +29,14 @@ const Invitation = ({ invitationData, error, verificationToken }) => {
   const { status, data: sessionData } = useSession();
   const router = useRouter();
 
-  console.log("This is the verification token", verificationToken);
+  console.log("This is the verification token", sessionData);
 
-  console.log("This is the invitation data", invitationData);
+  console.log(
+    "This is the invitation data",
+    invitationData?.invitation?.invitee,
+  );
 
   const isAuthenticated = status === "authenticated";
-  const isInvitee =
-    invitationData?.invitation.invitee?.user?.email ===
-      sessionData?.user?.email ||
-    // @ts-ignore
-    invitationData?.invitation.invitee?.user?.email === sessionData?.email;
 
   const { data: verification, error: verificationError } = useQuery({
     queryKey: ["verification"],
@@ -51,19 +47,33 @@ const Invitation = ({ invitationData, error, verificationToken }) => {
     refetchOnWindowFocus: false,
   });
 
-  console.log("This is the error", error);
-
   useEffect(() => {
-    if (isAuthenticated && invitationData && invitationData.invitation) {
+    const isInvitee =
+      invitationData?.invitation.invitee?.email == sessionData?.user?.email;
+    if (
+      isAuthenticated &&
+      invitationData &&
+      invitationData.invitation &&
+      status
+    ) {
+      console.log("hello");
+
       const { type, invitee } = invitationData.invitation;
       if (type === "org") {
+        console.log(isInvitee);
         const isOrgCreator =
           invitee?.org?.creator?.email === sessionData?.user?.email;
-        if (!isOrgCreator && !isInvitee) {
+        if (!isInvitee) {
+          console.log("logout -----");
           signOut();
         }
       } else if (!isInvitee) {
         console.log("logout ");
+        signOut();
+      }
+    } else {
+      if (status === "authenticated") {
+        console.log("herree");
         signOut();
       }
     }

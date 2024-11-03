@@ -164,7 +164,7 @@ const IllustrationForm: React.FC<Props> = ({
       isFirst
       onSubmit={handleSubmit(onSubmitHandler)}
     >
-      <Stack spacing={4}>
+      <Stack id="illustration-form" spacing={4}>
         <InputField
           label="Title"
           hasInfo

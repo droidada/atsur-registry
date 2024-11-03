@@ -27,7 +27,10 @@ const FilterLine: React.FC<Props> = ({
       spacing={4}
       className="pb-4 border-b-[1px] overflow-x-auto  border-primary"
     >
-      <h2 className="capitalize whitespace-nowrap lg:text-[30px] lg:leading-[70px] text-primary text-[20px] leading-[30px] ">
+      <h2
+        id="title"
+        className="capitalize whitespace-nowrap lg:text-[30px] lg:leading-[70px] text-primary text-[20px] leading-[30px] "
+      >
         {title}
       </h2>
       <Stack direction="row" spacing={2} alignContent="center">
@@ -38,7 +41,7 @@ const FilterLine: React.FC<Props> = ({
           <MenuItem>Artpiece</MenuItem>
           <MenuItem>Artifact</MenuItem>
         </CustomMenu>
-        <CustomMenu Icon={TbLayoutList} title="View">
+        <CustomMenu id="view-toggle" Icon={TbLayoutList} title="View">
           <MenuItem onClick={() => setView("list")} selected={view === "list"}>
             List
           </MenuItem>
@@ -47,6 +50,7 @@ const FilterLine: React.FC<Props> = ({
           </MenuItem>
         </CustomMenu>
         <Button
+          id="new-artwork"
           aria-haspopup="true"
           onClick={handleCreate}
           startIcon={<FaPlus />}
@@ -66,9 +70,15 @@ interface CustomMenuProps {
   Icon: IconType;
   title: string;
   children: React.ReactNode;
+  id?: string;
 }
 
-const CustomMenu: React.FC<CustomMenuProps> = ({ Icon, title, children }) => {
+const CustomMenu: React.FC<CustomMenuProps> = ({
+  Icon,
+  title,
+  children,
+  id,
+}) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -78,7 +88,7 @@ const CustomMenu: React.FC<CustomMenuProps> = ({ Icon, title, children }) => {
     setAnchorEl(null);
   };
   return (
-    <div>
+    <div id={id}>
       <Button
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"

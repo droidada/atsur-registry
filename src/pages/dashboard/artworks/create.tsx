@@ -81,7 +81,7 @@ function CreateArtworks() {
         ))}
       </Stack>
 
-      <div>
+      <div id="form-container">
         {
           [
             <IllustrationForm

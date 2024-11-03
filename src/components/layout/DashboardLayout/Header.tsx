@@ -127,6 +127,7 @@ const Header: React.FC<Props> = ({ setHideSidebar }) => {
 
         <Stack direction="row" alignItems="center" spacing={1}>
           <IconButton
+            id="messages"
             aria-label="messages"
             onClick={() => setOpenMesageModal(true)}
             className="w-[24px] h-[24px] relative hover:scale-95 cursor-pointer rounded-full bg-primary text-secondary grid place-items-center"
@@ -134,6 +135,7 @@ const Header: React.FC<Props> = ({ setHideSidebar }) => {
             <MdOutlineMessage size={10} />
           </IconButton>
           <Link
+            id="notifications"
             href="/dashboard/notifications
             "
             aria-label="notifications"

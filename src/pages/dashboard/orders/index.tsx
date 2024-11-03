@@ -101,16 +101,6 @@ const OrdersPage = ({ orders, meta }) => {
                       <OrderStatusChip status={order.status} />
                     </TableCell>
                     <TableCell>{formatDate(order.updatedAt)}</TableCell>
-                    {/* <TableCell align="right">
-                      <Tooltip title="View Details">
-                        <IconButton
-                          size="small"
-                          className="text-gray-600 hover:text-blue-600"
-                        >
-                          <LuEye size={18} />
-                        </IconButton>
-                      </Tooltip>
-                    </TableCell> */}
                   </TableRow>
                 ))}
               </TableBody>

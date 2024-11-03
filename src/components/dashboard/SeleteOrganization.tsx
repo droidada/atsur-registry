@@ -29,6 +29,7 @@ interface Props {
   label?: string;
   labelClassName?: string;
   placeholder?: string;
+  noInvite?: boolean;
 }
 
 const SelectOrganization: React.FC<Props> = ({
@@ -39,6 +40,7 @@ const SelectOrganization: React.FC<Props> = ({
   sx,
   label,
   labelClassName,
+  noInvite,
   placeholder = "Type to search for organization",
 }) => {
   const axiosFetch = useAxiosAuth();
@@ -108,7 +110,7 @@ const SelectOrganization: React.FC<Props> = ({
         noOptionsText={
           <div>
             <p className="text-xs text-gray-400">No Organization Found</p>
-            {!isUserOrg && (
+            {!isUserOrg && !noInvite && (
               <Button
                 onClick={() => setInviteOrg(true)}
                 className="bg-primary text-xs font-[400] text-white"

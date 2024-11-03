@@ -35,11 +35,12 @@ const CreateArtWorkFormContainer: React.FC<Props> = ({
           </Button>
         )}
         <LoadingButton
+          id={`${isLast ? "submit" : "next"}`}
           type="submit"
           className="max-w-[204px] font-[400] text-[19px] md:leading-[16px] w-full h-[44px] bg-primary text-white"
           loading={isLoading}
         >
-          {isLast ? "Submit" : "Save & Continue"}
+          {isLast ? "Submit" : "Next"}
         </LoadingButton>
       </div>
     </form>
