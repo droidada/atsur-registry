@@ -51,7 +51,7 @@ const ListView: React.FC<Props> = ({
       <Table sx={{ minWidth: 550 }}>
         <TableHead>
           <TableRow>
-            {["Artwork", "Type", "Date", "Attachment"].map((col) => (
+            {["Artwork", "Medium", "Date", "Attachment"].map((col) => (
               <TableCell
                 key={`table-head-${col}`}
                 className="bg-primary text-white text-md font-[600]"
@@ -72,19 +72,18 @@ const ListView: React.FC<Props> = ({
                 {artwork?.title}
               </TableCell>
               <TableCell className="py-2 text-base capitalize font-[300] border-b-[1px] border-primary">
-                {artwork?.artType.replace("-", "")}
+                {artwork?.medium?.replace("-", "")}
               </TableCell>
               <TableCell className="py-2 text-base font-[300] border-b-[1px] border-primary">
                 {moment(artwork?.createdAt).format("Do MMM, YYYY")}
               </TableCell>
               <TableCell className=" text-base font-[300] border-b-[1px] border-primary">
-                <span className="p-2 bg-secondary">
-                  {
-                    artwork?.assets[0]?.url?.split("/")[
-                      artwork?.assets[0]?.url?.split("/").length - 1
-                    ]
-                  }
-                </span>
+                <Image
+                  alt=""
+                  src={artwork?.assets[0]?.url}
+                  width={100}
+                  height={100}
+                />
               </TableCell>
             </TableRow>
           ))}

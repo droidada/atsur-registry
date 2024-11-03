@@ -20,7 +20,7 @@ const ExistingPdfCertificate = forwardRef(
       <>
         <div
           ref={ref}
-          className={`min-w-[685px] max-w-[1005px] relative certificate ${className}`}
+          className={`w-[750px]  h-fit   certificate  relative certificate ${className}`}
         >
           <Image
             alt=""
@@ -28,17 +28,17 @@ const ExistingPdfCertificate = forwardRef(
             fill
             className="w-full z-0 h-full object-cover"
           />
-          <div className="relative z-10">
+          <div className="relative z-10 pb-5">
             <div
               className=" w-full flex flex-col justify-between h-fit mb-5 border-x-[1px]"
               style={{
-                minWidth: "685px",
-                minHeight: "200px",
-                maxWidth: "750px",
+                // minWidth: "685px",
+                minHeight: "290px",
+                // maxWidth: "750px",
                 maxHeight: "250px",
               }}
             ></div>
-            <div className="flex flex-col justify-end   items-end px-8 py-2 ">
+            <div className="flex flex-col justify-end mb-4   items-end px-8 py-2 ">
               <div className="w-fit h-fit bg-white/60 p-4 relative">
                 <div className="flex flex-col w-full items-center p-2 border-[1px] ">
                   <div className="flex flex-col ">
@@ -55,7 +55,7 @@ const ExistingPdfCertificate = forwardRef(
                   </div>
                   <div className="flex flex-col justify-center items-center w-[150.66px] mt-0">
                     {/* <h4 className="text-sm">Signed By</h4> */}
-                    <div className="h-[60px] border-golden border-b-[1px]  w-full relative">
+                    <div className="h-[60px] border-black border-b-[1px]  w-full relative">
                       {signatureImage && (
                         <Image
                           fill

@@ -4,6 +4,7 @@ import { FaShippingFast } from "react-icons/fa";
 import { FiUsers } from "react-icons/fi";
 import { LiaShippingFastSolid } from "react-icons/lia";
 import { MdOutlineFeaturedPlayList } from "react-icons/md";
+import { SlOrganization } from "react-icons/sl";
 import { TbCategory } from "react-icons/tb";
 
 const HOME_WEBSITE = "https://www.atsur.art";
@@ -78,11 +79,13 @@ export const dashboardSidebarMenu = [
         title: "Art Pieces",
         icon: "/images/dashboard-icons/artwork-icon.png",
         link: "/dashboard",
+        id: "artwork-nav",
       },
       {
         title: "Series",
         icon: "/images/dashboard-icons/collection-icon.png",
         link: "/dashboard/series",
+        id: "series-nav",
       },
 
       // {
@@ -99,16 +102,19 @@ export const dashboardSidebarMenu = [
         title: "Organizations",
         icon: "/images/dashboard-icons/organization-icon.png",
         link: "/dashboard/organizations",
+        id: "organization-nav",
       },
       {
         title: "Collections",
         icon: "/images/dashboard-icons/collection-icon.png",
         link: "/dashboard/collections",
+        id: "collection-nav",
       },
       {
         title: "My Orders",
         icon: FaShippingFast,
         link: "/dashboard/orders",
+        id: "order-nav",
       },
     ],
   },
@@ -119,21 +125,26 @@ export const dashboardSidebarMenu = [
         title: "Activities",
         icon: "/images/dashboard-icons/activity-icon.png",
         link: "/dashboard/activities",
+        id: "activity-nav",
       },
       {
         title: "Wallet",
         icon: "/images/dashboard-icons/security-icon.png",
         link: "/dashboard/wallet",
+        id: "wallet-nav",
       },
       {
         title: "Settings",
         icon: "/images/dashboard-icons/setting.png",
         link: "/dashboard/settings",
+        id: "setting-nav",
       },
       {
         title: "Logout",
         icon: "/images/dashboard-icons/logout-icon.png",
+
         isButton: true,
+        id: "logout-nav",
       },
     ],
   },
@@ -201,6 +212,16 @@ export const adminDashboardSidebarMenu = [
         title: "All Artworks",
         icon: "/images/dashboard-icons/activity-icon.png",
         link: "/admin/artwork",
+      },
+    ],
+  },
+  {
+    title: "Organizations",
+    menus: [
+      {
+        title: "All organizations",
+        icon: SlOrganization,
+        link: "/admin/organization",
       },
     ],
   },

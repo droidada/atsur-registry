@@ -42,7 +42,7 @@ const Series = () => {
         setView={setView}
         title="My Series"
       />
-      <div className="mt-4">
+      <div id="series-list" className="mt-4">
         {view == "grid" ? (
           <div>
             {isFetching ? (

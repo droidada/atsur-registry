@@ -50,6 +50,7 @@ const ProfileButton: React.FC<ProfileButtonProps> = ({ user }) => {
   return (
     <div>
       <Button
+        id="profileButton"
         aria-controls={open ? "menu-appbar" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}

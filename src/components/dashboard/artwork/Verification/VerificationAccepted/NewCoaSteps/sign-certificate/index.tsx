@@ -100,9 +100,6 @@ const SignCertificate: React.FC<Props> = ({
     onBeforePrint: () => {
       setLoading(true);
     },
-    onAfterPrint: () => {
-      setLoading(false);
-    },
 
     print: async (printIframe: HTMLIFrameElement) => {
       try {
@@ -114,9 +111,13 @@ const SignCertificate: React.FC<Props> = ({
           html.classList.remove("hidden");
           const rect = html.getBoundingClientRect();
 
+          console.log(rect.height, "withd:", rect.width);
           // Calculate dimensions in mm (assuming 96 DPI)
           const mmWidth = (rect.width * 25.4) / 96;
           const mmHeight = (rect.height * 25.4) / 96;
+
+          console.log("min-width", mmWidth);
+          console.log("min-height", mmHeight);
 
           const html2pdf = (await import("html2pdf.js")).default;
           const option = {
@@ -276,7 +277,7 @@ const SignCertificate: React.FC<Props> = ({
             Not Now
           </Button>
           <LoadingButton
-            loading={loading || isLoading}
+            loading={loading}
             onClick={handlePublish}
             className="bg-primary text-white"
           >

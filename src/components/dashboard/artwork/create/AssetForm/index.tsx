@@ -77,7 +77,7 @@ const AssetsForm: React.FC<Props> = ({
       }}
       onSubmit={handleSubmit}
     >
-      <Stack spacing={4}>
+      <Stack id="assets-form" spacing={4}>
         <div className="flex flex-col gap-4">
           <h2 className="text-[17px] leading-[16px] ">
             Primary View [Landscape] *
