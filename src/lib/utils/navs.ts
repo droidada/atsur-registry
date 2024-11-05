@@ -4,6 +4,7 @@ import { FaShippingFast } from "react-icons/fa";
 import { FiUsers } from "react-icons/fi";
 import { LiaShippingFastSolid } from "react-icons/lia";
 import { MdOutlineFeaturedPlayList } from "react-icons/md";
+import { RiCoupon2Line } from "react-icons/ri";
 import { SlOrganization } from "react-icons/sl";
 import { TbCategory } from "react-icons/tb";
 
@@ -162,6 +163,11 @@ export const adminDashboardSidebarMenu = [
         title: "Orders",
         icon: LiaShippingFastSolid,
         link: "/admin/orders",
+      },
+      {
+        title: "Coupon",
+        icon: RiCoupon2Line,
+        link: "/admin/coupon",
       },
     ],
   },
