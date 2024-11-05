@@ -10,7 +10,7 @@ import ListView from "@/components/dashboard/artwork/ListView";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import useFCM from "@/hooks/useFCM";
-import { driver } from "driver.js";
+import { pageTours } from "@/lib/helpers/driverObj";
 
 function Artworks() {
   const router = useRouter();
@@ -37,7 +37,7 @@ function Artworks() {
   );
 
   return (
-    <Stack spacing={2}>
+    <Stack className="beginning" spacing={2}>
       <HeroHeader
         type="artworks"
         handleCreate={() => router.push("/dashboard/artworks/create")}
