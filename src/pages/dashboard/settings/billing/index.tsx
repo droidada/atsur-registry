@@ -26,6 +26,8 @@ import { useRouter } from "next/router";
 // import { LoadingButton } from "@mui/lab";
 import numeral from "numeral";
 import LoadingButton from "@/components/Form/LoadingButton";
+import InputField from "@/components/Form/InputField";
+import CouponCodeForm from "@/components/dashboard/settings/billing/CouponCodeForm";
 
 export const getServerSideProps = async ({ req, params }) => {
   try {
@@ -174,23 +176,23 @@ const Billing = ({ paymentDetails, credits, invoice }) => {
             </div>
             <div>
               <h2 className="text-[15px] leading-[16px] font-semibold">
-                RFID credits
+                Physical COA credits
               </h2>
               <p className="text-xs leading-[16px]  ">
                 You have{" "}
                 {credits?.find((c) => c.item?.sku === "phy-coa")?.quantity || 0}{" "}
-                RFID Credits
+                Physical Certificate of Authencity Credits
               </p>
             </div>
             <div>
               <h2 className="text-[15px] leading-[16px] font-semibold">
-                Tokenization Credits credits
+                Tokenization Credits
               </h2>
               <p className="text-xs leading-[16px]  ">
                 You have{" "}
                 {credits?.find((c) => c?.item?.sku === "lazy-tkn")?.quantity ||
                   0}{" "}
-                QR Code Credits
+                Tokenization Credits
               </p>
             </div>
           </Stack>
@@ -199,6 +201,10 @@ const Billing = ({ paymentDetails, credits, invoice }) => {
             atsur credits
           </p>
         </Stack>
+        <div className="p-2 py-4 grid ">
+          <h2 className="text-[15px] leading-[16px] font-semibold">Coupons</h2>
+          <CouponCodeForm />
+        </div>
         <div className="p-2 py-4 grid grid-cols-3 gap-8">
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">

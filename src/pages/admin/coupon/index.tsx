@@ -55,6 +55,8 @@ const CouponAdminDashboard = () => {
     refetchOnWindowFocus: false,
   });
 
+  console.log(couponsdata?.data?.data);
+
   const { mutate: deactivationMutation, isLoading: deactivateloading } =
     useMutation({
       mutationFn: (id: string) => axiosAuth.patch(`/coupon/${id}/deactivate`),
@@ -76,6 +78,7 @@ const CouponAdminDashboard = () => {
     "Discount",
     "Expiry Date",
     "Type",
+    "No of usage",
     "Status",
     "Actions",
   ];
@@ -134,14 +137,15 @@ const CouponAdminDashboard = () => {
                   <TableRow key={coupon._id}>
                     <TableCell>{coupon.code}</TableCell>
                     <TableCell>
-                      {coupon.discountType === "PERCENTAGE"
-                        ? `${coupon.discountAmount}%`
-                        : `$${coupon.discountAmount}`}
+                      {coupon.type === "checkout"
+                        ? `${coupon.discountPercentage}%`
+                        : `${coupon.numberOfItems} ${coupon?.item?.name} `}
                     </TableCell>
                     <TableCell>
                       {moment(coupon.expiryDate).format("DD/MM/YYYY")}
                     </TableCell>
                     <TableCell>{coupon.type}</TableCell>
+                    <TableCell>{coupon?.usedCount}</TableCell>
                     <TableCell>
                       <Chip
                         label={coupon.isActive ? "Active" : "Inactive"}
@@ -195,17 +199,26 @@ const NewCouponModal: React.FC<NewCouponModalProps> = ({
 }) => {
   const axiosAuth = useAxiosAuth();
 
-  const createCouponSchema = z.object({
-    discountAmount: z.string().min(0, "Discount amount must be at least 0"),
-    discountType: z.enum(["PERCENTAGE", "FIXED"], {
-      required_error: "Please select a discount type",
-    }),
-    expiryDate: z.string(),
-    type: z.enum(["SaleBundle", "SaleItem"], {
-      required_error: "Please select a coupon type",
-    }),
-    object: z.string().min(1, "Please select an associated object"),
-  });
+  const createCouponSchema = z
+    .object({
+      type: z.enum(["item", "checkout"], {
+        required_error: "Please select a coupon type",
+      }),
+      expiryDate: z.string().nonempty("Expiry date is required"),
+      item: z.string().optional(),
+      numberOfItems: z.string().optional(),
+      discountPercentage: z.string().optional(),
+    })
+    .refine(
+      (data) =>
+        (data.type === "item" && data.numberOfItems) ||
+        (data.type === "checkout" && data.discountPercentage),
+      {
+        message:
+          "Discount amount is required for item type; discount percentage is required for checkout type.",
+        path: ["discountAmount", "discountPercentage"], // Apply the message to both fields
+      },
+    );
 
   const {
     control,
@@ -220,34 +233,34 @@ const NewCouponModal: React.FC<NewCouponModalProps> = ({
   const type = watch("type");
   const toast = useToast();
 
-  console.log(errors);
-
   const { data } = useQuery({
-    queryFn: () =>
-      type === "SaleBundle"
-        ? axiosAuth.get(`/bundles/`)
-        : axiosAuth.get(`/bundles/sales-items`),
-    queryKey: ["", type],
+    queryFn: () => axiosAuth.get(`/bundles/sales-items`),
+    queryKey: [""],
   });
 
   const { mutate, isLoading } = useMutation({
     mutationFn: (data: any) => axiosAuth.post(`/coupon`, data),
     onSuccess(data) {
       toast.success("Coupon created successfully");
+      reset();
       onClose();
       refetch();
     },
     onError(error: any) {
+      console.log(error.response.data.message);
       toast.error(error.response.data.message || "Something went wrong");
     },
   });
 
-  console.log(data);
-
   const handleCreateCoupon = (data: z.infer<typeof createCouponSchema>) => {
-    console.log("This is data", data);
+    data = {
+      ...data,
+      expiryDate: moment(data?.expiryDate).format("YYYY-MM-DD"),
+    };
     mutate(data);
   };
+
+  console.log(errors);
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
@@ -260,23 +273,6 @@ const NewCouponModal: React.FC<NewCouponModalProps> = ({
             Fill in the details to create a new coupon.
           </DialogContentText> */}
 
-          <InputField
-            label="Discount Amount"
-            id="discountAmount"
-            name="discountAmount"
-            placeholder=""
-            aria-required="true"
-            type={"number"}
-            fullWidth
-            error={!!errors["discountAmount"]}
-            helperText={
-              errors["discountAmount"]
-                ? (errors["discountAmount"].message as string)
-                : ""
-            }
-            control={control}
-            inputClassName="bg-secondary"
-          />
           <SelectField
             label="Type"
             name="type"
@@ -296,8 +292,8 @@ const NewCouponModal: React.FC<NewCouponModalProps> = ({
             error={!!errors["type"]}
           >
             {[
-              { title: "Sales Item", id: "SaleItem" },
-              { title: "Sales Bundle", id: "SaleBundle" },
+              { title: "Item", id: "item" },
+              { title: "Checkout", id: "checkout" },
             ].map((item) => (
               <MenuItem
                 key={item.title}
@@ -308,32 +304,7 @@ const NewCouponModal: React.FC<NewCouponModalProps> = ({
               </MenuItem>
             ))}
           </SelectField>
-          <SelectField
-            label="Discount Type"
-            name="discountType"
-            // @ts-ignore
-            sx={{
-              "& fieldset": {
-                background: "#DCDCDC",
-                border: "none",
-                color: "black",
-              },
-            }}
-            control={control}
-            fullWidth
-            helperText={
-              errors["discountType"]
-                ? (errors["discountType"].message as string)
-                : ""
-            }
-            error={!!errors["discountType"]}
-          >
-            {["PERCENTAGE", "FIXED"].map((item) => (
-              <MenuItem key={item} value={item} className="text-xm capitalize">
-                {item}
-              </MenuItem>
-            ))}
-          </SelectField>
+
           <DateInput
             id="expiryDate"
             label="Expiry Date"
@@ -346,36 +317,79 @@ const NewCouponModal: React.FC<NewCouponModalProps> = ({
             }
             error={!!errors["expiryDate"]}
           />
-          <div className="col-span-2">
-            <SelectField
-              label="Item"
-              name="object"
-              // @ts-ignore
-              sx={{
-                "& fieldset": {
-                  background: "#DCDCDC",
-                  border: "none",
-                  color: "black",
-                },
-              }}
-              control={control}
-              fullWidth
-              helperText={
-                errors["object"] ? (errors["object"].message as string) : ""
-              }
-              error={!!errors["object"]}
-            >
-              {data?.data?.data?.map((item) => (
-                <MenuItem
-                  key={item?.name}
-                  value={item?._id}
-                  className="text-xm capitalize"
-                >
-                  {item?.name}
-                </MenuItem>
-              ))}
-            </SelectField>
-          </div>
+
+          {type === "item" ? (
+            <>
+              <SelectField
+                label="Item"
+                name="item"
+                // @ts-ignore
+                sx={{
+                  "& fieldset": {
+                    background: "#DCDCDC",
+                    border: "none",
+                    color: "black",
+                  },
+                }}
+                control={control}
+                fullWidth
+                helperText={
+                  errors["item"] ? (errors["item"].message as string) : ""
+                }
+                error={!!errors["item"]}
+              >
+                {data?.data?.data?.map((item) => (
+                  <MenuItem
+                    key={item?.name}
+                    value={item?._id}
+                    className="text-xm capitalize"
+                  >
+                    {item?.name}
+                  </MenuItem>
+                ))}
+              </SelectField>
+
+              <InputField
+                label="Number of Items"
+                id="numberOfItems"
+                name="numberOfItems"
+                placeholder=""
+                aria-required="true"
+                type={"number"}
+                fullWidth
+                error={!!errors["numberOfItems"]}
+                helperText={
+                  errors["numberOfItems"]
+                    ? (errors["numberOfItems"].message as string)
+                    : ""
+                }
+                control={control}
+                inputClassName="bg-secondary"
+              />
+            </>
+          ) : (
+            type == "checkout" && (
+              <div className="col-span-2">
+                <InputField
+                  label="Discount Percentage"
+                  id="discountPercentage"
+                  name="discountPercentage"
+                  placeholder=""
+                  aria-required="true"
+                  type={"number"}
+                  fullWidth
+                  error={!!errors["discountPercentage"]}
+                  helperText={
+                    errors["discountPercentage"]
+                      ? (errors["discountPercentage"].message as string)
+                      : ""
+                  }
+                  control={control}
+                  inputClassName="bg-secondary"
+                />
+              </div>
+            )
+          )}
         </DialogContent>
         <DialogActions>
           <Button className="bg-secondary" onClick={onClose}>
